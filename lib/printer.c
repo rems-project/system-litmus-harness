@@ -6,8 +6,7 @@ void putc(char c) {
 	writeb(c, UART0_BASE);
 }
 
-void puts(const char *s)
-{
+void puts(const char *s) {
 	while (*s)
 		putc(*s++);
 }
@@ -26,18 +25,21 @@ char __get_hexchar(uint64_t n) {
 
 void puthex(uint64_t n) {
 	puts("0x");
-	char _hex[100];
+	char _hex[64];
 	int i = 0;
+	if (n == 0) {
+		_hex[0] = '0';
+	}
 	while (n > 0) {
 		uint64_t mod = n % 16;
 		n -= mod;
 		n /= 16;
 
-		_hex[i]  = __get_hexchar(mod);
+		_hex[i] = __get_hexchar(mod);
 		i++;
 	}
 
-	for (; i >= 0; i--) {
+	for (i--; i >= 0; i--) {
 		putc(_hex[i]);
 	}
 }

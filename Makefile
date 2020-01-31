@@ -8,13 +8,13 @@ RUN_CMD = 	\
 		-nodefaults -machine virt,accel=tcg -cpu cortex-a57 \
 		-device virtio-serial-device -device virtconsole,chardev=ctd \
 		-chardev testdev,id=ctd -device pci-testdev -display none -serial stdio \
-		-kernel ./main.bin -smp 1 # -initrd /tmp/tmp.UUenc9WRhz
+		-kernel ./main.bin -smp 4 # -initrd /tmp/tmp.UUenc9WRhz
 
 
 LIB = inc/
-LIB_FILES = lib/asm_wrappers.c lib/printer.c lib/abort.c lib/psci.c
-CFLAGS = -O0 -I $(LIB)
-LDFLAGS = -nostdlib
+LIB_FILES = lib/asm_wrappers.c lib/printer.c lib/abort.c lib/psci.c lib/cpu_boot.c
+CFLAGS = -O0 -I $(LIB) -ffreestanding 
+LDFLAGS = -nostdlib -n -pie
 
 .PHONY: all
 all: main.bin
@@ -30,7 +30,7 @@ main.o: main.c
 
 main.elf: cpu_entry.o main.o $(LIB_FILES:.c=.o)
 	$(LD) $(LDFLAGS) -o main.elf -T bin.lds main.o cpu_entry.o $(LIB_FILES:.c=.o)
-	$(OBJDUMP) -D main.elf > main.elf.S
+	$(OBJDUMP) -D -r main.elf > main.elf.S
 
 
 main.bin: main.elf
