@@ -55,6 +55,7 @@ debug:
 clean:
 	rm -f *.o
 	rm -f lib/*.o
+	rm -f litmus/*.o
 	rm -f *.elf*
 	rm -f *.bin*
 	rm -f .debug.pid
