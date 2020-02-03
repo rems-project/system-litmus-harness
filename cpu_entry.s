@@ -56,14 +56,14 @@ start:
 
 .globl init_cpus
 init_cpus:
-	str x30, [sp, #8]!
+	str x30, [sp, #-8]!
 	mov x0, #1
 	bl cpu_boot
 	mov x0, #2
 	bl cpu_boot
 	mov x0, #3
 	bl cpu_boot
-	ldr x30, [sp], #-8
+	ldr x30, [sp], #8
 	ret
 
 .globl cpu_entry
