@@ -3,18 +3,20 @@
 
 #include <stdint.h>
 
+#include "device.h"
 #include "valloc.h"
 #include "sync.h" 
 #include "asm.h" 
 #include "vmm.h"
 #include "exceptions.h"
+#include "rand.h"
+#include "litmus_test.h"
 
 #define NULL (void*)0
 
 
 /* QEMU memory mapped addresses */
 #define UART0_BASE 0x09000000
-
 
 /* PSCI Mandatory Functions */
 #define PSCI_SYSTEM_OFF 0x84000008UL
@@ -47,6 +49,9 @@ void putc(char c);
 void puts(const char *s);
 void puthex(uint64_t n);
 void putdec(uint64_t n);
+
+void printf(const char* fmt, ...);
+void trace(const char* fmt, ...);
 
 /* bitwise operations */
 #define BIT(x, i) ((x >> i) & 0x1)

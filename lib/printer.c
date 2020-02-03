@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <stdarg.h>
 
 #include "lib.h"
 
@@ -45,7 +46,6 @@ void putdec(uint64_t n) {
 }
 
 void puthex(uint64_t n) {
-	puts("0x");
 	char _hex[64];
 	int i = 0;
 	if (n == 0) {
@@ -64,4 +64,62 @@ void puthex(uint64_t n) {
 	for (i--; i >= 0; i--) {
 		putc(_hex[i]);
 	}
+}
+
+static volatile int __PR_LOCK = 0;
+static void vprintf(const char* fmt, va_list ap) {
+	lock(&__PR_LOCK);
+	char* p = (char*)fmt;
+	while (*p) {
+		char c = *p;
+		if (c != '%') {
+			putc(c);
+		} else {
+			c = *++p;
+			if (c == 'd') {
+				if (*(p+1) == 'x') {
+					puthex(va_arg(ap, int));
+					p++;
+				} else {
+					putdec(va_arg(ap, int));
+				}
+			} else if (c == 'l') {
+				if (*(p+1) == 'x') {
+					puthex(va_arg(ap, long));
+					p++;
+				} else {
+					putdec(va_arg(ap, long));
+				}
+			} else if (c == 's') {
+				puts(va_arg(ap, const char*));
+			} else if (c == 'p') {
+				puts("0x");
+				puthex(va_arg(ap, long));
+			} else {
+				puts("!! printf: unknown symbol: ");
+				putc(c);
+				puts("\n");
+				abort();
+			}
+		}
+		
+		p++;
+	}
+	unlock(&__PR_LOCK);
+}
+
+void printf(const char* fmt, ...) {
+	va_list ap;
+	va_start(ap, fmt);
+	vprintf(fmt, ap);
+	va_end(ap);
+}
+
+void trace(const char* fmt, ...) {
+#ifdef TRACE
+	va_list ap;
+	va_start(ap, fmt);
+	vprintf(fmt, ap);
+	va_end(ap);
+#endif
 }

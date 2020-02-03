@@ -2,6 +2,15 @@
 
 #include "lib.h"
 
+void init_valloc(void) {
+    mem = (valloc_mempool) {
+        .end_of_mem = TOP_OF_MEM,
+        .top = TOP_OF_MEM,
+        .space_free = TOTAL_HEAP,
+        .freelist = 0,
+    };
+}
+
 char* __free_check(uint64_t size) {
     valloc_alloc** last = &mem.freelist;
     valloc_alloc* free = mem.freelist;
@@ -18,7 +27,7 @@ char* __free_check(uint64_t size) {
     return 0;
 }
 
-char* __alloc_with_alignment(uint64_t size, uint64_t pow2_alignment) {
+void* alloc_with_alignment(uint64_t size, uint64_t pow2_alignment) {
     /* first: check if there space in freelist */
     char* p = __free_check(size);
     if (p)
@@ -27,15 +36,21 @@ char* __alloc_with_alignment(uint64_t size, uint64_t pow2_alignment) {
     uint64_t new_top = ALIGN_POW2(mem.top - size, pow2_alignment);
     mem.top = new_top;
     mem.space_free = mem.space_free - size;
-    return (char*)new_top;
+
+    if (new_top < BOT_OF_HEAP) {
+        puts("!! alloc_with_alignment: no free space\n");
+        abort();
+    }
+
+    return (void*)new_top;
 }
 
-char* alloc(uint64_t size) {
-    return __alloc_with_alignment(size, 1);
+void* alloc(uint64_t size) {
+    return alloc_with_alignment(size, 1);
 }
 
-char* alloc_aligned(uint64_t pow2_size) {
-    return __alloc_with_alignment(pow2_size, pow2_size);
+void* alloc_aligned(uint64_t pow2_size) {
+    return alloc_with_alignment(pow2_size, pow2_size);
 }
 
 void free(char* p, uint64_t size) {
@@ -49,7 +64,7 @@ void free(char* p, uint64_t size) {
 void free_all(void) {
     mem.freelist = 0;
     mem.top = mem.end_of_mem;
-    mem.space_free = TOTAL_MEM;
+    mem.space_free = TOTAL_HEAP;
 }
 
 void valloc_memset(char* p, uint64_t value, uint64_t size) {

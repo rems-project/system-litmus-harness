@@ -39,6 +39,11 @@ start:
 	add x0, x0, :lo12:el1_exception_vector_table
 	bl set_vector_table
 
+	/* enable FP/ASIMD */
+	mov	x4, #(3 << 20)
+	msr	cpacr_el1, x4
+
+
 	adrp x0, stackptr
 	add x0, x0, :lo12:stackptr
 	bl setup_stack
@@ -80,6 +85,10 @@ cpu_entry:
 	adrp x0, el1_exception_vector_table
 	add x0, x0, :lo12:el1_exception_vector_table
 	bl set_vector_table
+
+	/* enable FP/ASIMD */
+	mov	x4, #(3 << 20)
+	msr	cpacr_el1, x4
 
 	mov x0, x9
 	bl secondary_init

@@ -3,7 +3,7 @@
  */
 SECTIONS
 {
-    .text : { *(.init) *(.text) *(.text.*) }
+    .text : { *(.init) *(.text) *(.text.*) *(.exc_table) }
     . = ALIGN(64K);
     PROVIDE(text_end = .);
 
@@ -28,6 +28,7 @@ SECTIONS
      * sp must be 16 byte aligned for arm64, and 8 byte aligned for arm
      * sp must always be strictly less than the true stacktop
      */
+    . += 64K;
     . = ALIGN(64K);
     PROVIDE(stackptr = . - 16);
     PROVIDE(stacktop = .);

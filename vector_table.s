@@ -1,3 +1,5 @@
+.section .exc_table
+
 .macro save_all_registers
     msr spsel,  #0  /* use SP_EL0 always */
     dsb nsh

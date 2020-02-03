@@ -2,18 +2,15 @@
 
 #include "lib.h"
 
-static volatile int LOCK = 0; // to ensure the "smart" functions are atomic
+static volatile int LOCK = 0;  // to ensure the "smart" functions are atomic
 
-uint64_t* alloc_page_aligned(void) {
-   return (uint64_t*)alloc_aligned(4096);
-}
+uint64_t* alloc_page_aligned(void) { return (uint64_t*)alloc_aligned(4096); }
 
 static void ptable_set_or_ensure_block_or_page_4k(uint64_t* root_ptable,
                                                   uint64_t vaddr, uint64_t pa,
                                                   uint64_t prot,
                                                   uint64_t desired_level,
                                                   int ensure);
-
 
 uint64_t translate4k(uint64_t* root, uint64_t vaddr) {
     uint64_t level, desc;
@@ -98,7 +95,7 @@ static void ptable_set_or_ensure_block_or_page_4k(uint64_t* root_ptable,
     if (!valid) {
         uint64_t* new_lvl1_table = alloc_page_aligned();
         valloc_memset((char*)new_lvl1_table, 0,
-                sizeof(uint64_t) * 512); /* make all entries invalid */
+                      sizeof(uint64_t) * 512); /* make all entries invalid */
         uint64_t new_desc =
             (uint64_t)new_lvl1_table | 0x3; /* no prot on table */
         root_ptable[offs0] = new_desc;
@@ -128,7 +125,7 @@ static void ptable_set_or_ensure_block_or_page_4k(uint64_t* root_ptable,
         // alloc new level 2 table, initialised to 0.
         uint64_t* new_lvl2_table = alloc_page_aligned();
         valloc_memset((char*)new_lvl2_table, 0,
-                sizeof(uint64_t) * 512); /* make all entries invalid */
+                      sizeof(uint64_t) * 512); /* make all entries invalid */
         uint64_t new_desc =
             (uint64_t)new_lvl2_table | 0x3; /* no prot on table */
         uint64_t old_desc = desc;
@@ -169,7 +166,7 @@ static void ptable_set_or_ensure_block_or_page_4k(uint64_t* root_ptable,
     if (!table) {
         uint64_t* new_lvl3_table = alloc_page_aligned();
         valloc_memset((char*)new_lvl3_table, 0,
-                sizeof(uint64_t) * 512); /* make all entries invalid */
+                      sizeof(uint64_t) * 512); /* make all entries invalid */
         uint64_t new_desc =
             (uint64_t)new_lvl3_table | 0x3; /* no prot on table */
         uint64_t old_desc = desc;
@@ -297,9 +294,6 @@ void ptable_set_idrange_4k_smart(uint64_t* root, uint64_t va_start,
     ptable_set_range_4k_smart(root, va_start, va_end, va_start, prot);
 }
 
-
-
-
 /* test page table management */
 
 #define BIT(x, i) ((x >> i) & 0x1)
@@ -307,36 +301,47 @@ void ptable_set_idrange_4k_smart(uint64_t* root, uint64_t va_start,
 #define IS_ALIGNED(v, bits) ((v & ((1UL << bits) - 1)) == 0)
 #define ALIGN_TO(v, bits) (v & ~((1UL << bits) - 1))
 
-extern unsigned long text_end; /* end of .text section (see bin.lds) */
-extern unsigned long data_end; /* end of .bss and .rodata section (see bin.lds) */
 uint64_t* alloc_new_idmap_4k(void) {
     uint64_t* root_ptable = alloc_page_aligned();
-    uint64_t code_end = (uint64_t)&text_end;
-    uint64_t bss_end = (uint64_t)&data_end;
 
     /* set ranges according to kvm-unit-tests/lib/arm/mmu.c */
-    uint64_t phys_offs = (1UL << 30);
-    uint64_t phys_end  = (3UL << 30);
+    uint64_t phys_offs = (1UL << 30); /* first 1 GiB region */
+    uint64_t phys_end = (3UL << 30);  /* up to 3GiB */
 
-    /* first 3 are I/O regions mapped by QEMU */
-    ptable_set_idrange_4k_smart(root_ptable, 0x00000000UL, 0x40000000UL, 0x44);
-    ptable_set_idrange_4k_smart(root_ptable, 0x4000000000UL, 0x4020000000UL,
-                                0x44);
-    ptable_set_idrange_4k_smart(root_ptable, 0x8000000000UL, 0x10000000000UL,
-                                0x44);
+    /* QEMU Memory Mapped I/O
+     * 0x00000000 -> 0x08000000  == Boot ROM
+     * 0x08000000 -> 0x09000000  == GIC
+     * 0x09000000 -> 0x09001000  == UART
+     * ....       -> 0x40000000  == MMIO/PCIE/etc
+     *
+     * see https://github.com/qemu/qemu/blob/master/hw/arm/virt.c
+     *
+     * Actual RAM is from
+     * 0x40000000 -> RAM_END
+     *  where RAM_END is defined by the dtb (but is < 3GiB)
+     */
+    ptable_set_idrange_4k_smart(root_ptable, 0, phys_offs, 0x44);
 
-    ptable_set_idrange_4k_smart(root_ptable, phys_offs, code_end,
-                                0xd0);  // code
-    ptable_set_idrange_4k_smart(root_ptable, code_end, bss_end,
+    /* .text segment (code) */
+    ptable_set_idrange_4k_smart(root_ptable, phys_offs, TOP_OF_TEXT, 0xd0);
+
+    /* bss and other data segments */
+    ptable_set_idrange_4k_smart(root_ptable, TOP_OF_TEXT, TOP_OF_DATA, 0x50);
+
+    /* stack */
+    ptable_set_idrange_4k_smart(root_ptable, BOT_OF_STACK, TOP_OF_STACK,
                                 0x50);
-    ptable_set_idrange_4k_smart(root_ptable, code_end, phys_end,
-                                0x50);  // stack + heap
+
+    /* heap */
+    ptable_set_idrange_4k_smart(root_ptable, BOT_OF_HEAP, phys_end,
+                                0x50);
+
 
     return root_ptable;
 }
 
 static void set_new_ttable(uint64_t ttbr, uint64_t tcr) {
-    asm volatile (
+    asm volatile(
         /* turn off MMU */
         "mrs x18, SCTLR_EL1\n"
         "mov x19, #0\n"
@@ -363,10 +368,9 @@ static void set_new_ttable(uint64_t ttbr, uint64_t tcr) {
         "msr SCTLR_EL1, x18\n"
         "dsb ish\n"
         "isb\n"
-    :
-    : [ttbr] "r" (ttbr), [tcr] "r" (tcr)
-    : "x18", "x19", "memory"
-    );
+        :
+        : [ttbr] "r"(ttbr), [tcr] "r"(tcr)
+        : "x18", "x19", "memory");
 }
 
 void vmm_set_new_id_translation(uint64_t* pgtable) {
@@ -391,18 +395,17 @@ void vmm_restore_old_id_translation(uint64_t ttbr, uint64_t tcr) {
     set_new_ttable(ttbr, tcr);
 }
 
-
 void vmm_flush_tlb_vaddr(uint64_t va) {
-    asm volatile("tlbi vae1is, %[va]\n" : : [va] "r" (va));
+    asm volatile("tlbi vae1is, %[va]\n" : : [va] "r"(va));
     dsb();
     isb();
 }
 
 void vmm_flush_tlb(void) {
-    dsb(); // wait for memory actions to complete
-    asm volatile ("tlbi vmalle1is\n" ::: "memory"); // clear TLB
-    dsb(); // wait for TLB invalidate to complete
-    isb(); // synchronize this hardware thread's translations.
+    dsb();  // wait for memory actions to complete
+    asm volatile("tlbi vmalle1is\n" ::: "memory");  // clear TLB
+    dsb();  // wait for TLB invalidate to complete
+    isb();  // synchronize this hardware thread's translations.
 }
 
 static void ensure_pte(uint64_t* root, uint64_t vaddr) {
@@ -412,14 +415,16 @@ static void ensure_pte(uint64_t* root, uint64_t vaddr) {
 uint64_t* vmm_pte(uint64_t* root, uint64_t vaddr) {
     ensure_pte(root, vaddr);
 
-    uint64_t* lvl1 = (uint64_t*)(root[BIT_SLICE(vaddr, 39, 48)] & ~((1UL << 12) - 1));
-    uint64_t* lvl2 = (uint64_t*)(lvl1[BIT_SLICE(vaddr, 30, 38)] & ~((1UL << 12) - 1));
-    uint64_t* lvl3 = (uint64_t*)(lvl2[BIT_SLICE(vaddr, 21, 29)] & ~((1UL << 12) - 1));
+    uint64_t* lvl1 =
+        (uint64_t*)(root[BIT_SLICE(vaddr, 39, 48)] & ~((1UL << 12) - 1));
+    uint64_t* lvl2 =
+        (uint64_t*)(lvl1[BIT_SLICE(vaddr, 30, 38)] & ~((1UL << 12) - 1));
+    uint64_t* lvl3 =
+        (uint64_t*)(lvl2[BIT_SLICE(vaddr, 21, 29)] & ~((1UL << 12) - 1));
     uint64_t* pte = &lvl3[BIT_SLICE(vaddr, 12, 20)];
 
     return pte;
 }
-
 
 uint64_t* vmm_pa(uint64_t* root, uint64_t vaddr) {
     return (uint64_t*)translate4k(root, vaddr);

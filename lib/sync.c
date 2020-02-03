@@ -3,10 +3,10 @@
 void lock(volatile int* lock) {
   asm volatile (
     "0:\n"
-    "ldxr x0, [%[lock]]\n"
-    "cbnz x0, 0b\n"
-    "mov x0, #1\n"
-    "stxr w1, x0, [%[lock]]\n"
+    "ldxr w0, [%[lock]]\n"
+    "cbnz w0, 0b\n"
+    "mov w0, #1\n"
+    "stxr w1, w0, [%[lock]]\n"
     "cbnz w1, 0b\n"
   :
   : [lock] "r" (lock)
@@ -20,12 +20,12 @@ void unlock(volatile int* lock) {
   *lock = 0;
 }
 
-void bwait(int cpu, int i, uint64_t* barrier, int sz) {
+void bwait(int cpu, int i, volatile int* barrier, int sz) {
   asm volatile (
     "0:\n"
-    "ldxr x0, [%[bar]]\n"
-    "add x0, x0, #1\n"
-    "stxr w1, x0, [%[bar]]\n"
+    "ldxr w0, [%[bar]]\n"
+    "add w0, w0, #1\n"
+    "stxr w1, w0, [%[bar]]\n"
     "cbnz w1, 0b\n"
   :
   : [bar] "r" (barrier)

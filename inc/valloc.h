@@ -16,19 +16,14 @@ typedef struct {
     valloc_alloc* freelist;
 } valloc_mempool;
 
-#define TOP_OF_MEM 0x40080000
-#define TOTAL_MEM 4096*20
-
 /* global memory pool to allocate from */
-static valloc_mempool mem = {
-    .end_of_mem = TOP_OF_MEM,
-    .top = TOP_OF_MEM,
-    .space_free = TOTAL_MEM,
-    .freelist = 0,
-};
+valloc_mempool mem;
 
-char* alloc(uint64_t size);
-char* alloc_aligned(uint64_t pow2_size);
+void init_valloc(void);
+
+void* alloc_with_alignment(uint64_t size, uint64_t alignment);
+void* alloc(uint64_t size);
+void* alloc_aligned(uint64_t pow2_size);
 void free(char* p, uint64_t size);
 void free_all(void);
 

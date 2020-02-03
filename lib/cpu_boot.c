@@ -16,6 +16,13 @@ void cpu_boot(uint64_t cpu) {
 void run_on_cpu(uint64_t cpu, async_fn_t* fn, void* arg) {
     while (!cpu_data[cpu].started);
 
+    uint64_t cur_cpu = get_cpu();
+
+    if (cur_cpu == cpu) {
+        fn(cpu, arg);
+        return;
+    }
+
     lock(&cpu_data[cpu].lock);
     cpu_data[cpu].arg = arg;
     dmb();
