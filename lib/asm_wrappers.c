@@ -14,10 +14,19 @@ void dmb(void) {
     asm volatile ("dmb sy\n\t");
 }
 
+void isb(void) {
+    asm volatile("isb\n\t");
+}
+
 void writeb(uint8_t byte, uint64_t addr) {
     asm volatile (
         "strb %w[byte], [%[addr]]\n\t"
     :
     : [byte] "r" (byte), [addr] "r" (addr)
     );
+}
+
+uint64_t get_cpu(void) {
+    uint64_t mpidr = read_sysreg(mpidr_el1);
+    return mpidr & 0xff;
 }

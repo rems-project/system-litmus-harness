@@ -12,8 +12,8 @@ RUN_CMD = 	\
 
 
 LIB = inc/
-LIB_FILES = lib/asm_wrappers.c lib/printer.c lib/abort.c lib/psci.c lib/cpu_boot.c
-CFLAGS = -O0 -I $(LIB) -ffreestanding 
+LIB_FILES = $(wildcard lib/*.c)
+CFLAGS = -O0 -I $(LIB) -ffreestanding -fomit-frame-pointer -fno-pie -fno-pic
 LDFLAGS = -nostdlib -n -pie
 
 .PHONY: all
@@ -25,11 +25,14 @@ lib/%.o: lib/%.c
 cpu_entry.o:  cpu_entry.S
 	$(CC) $(CFLAGS) -c -nostdlib -o cpu_entry.o cpu_entry.S
 
+vector_table.o:  vector_table.S
+	$(CC) $(CFLAGS) -c -nostdlib -o vector_table.o vector_table.S
+
 main.o: main.c
 	$(CC) $(CFLAGS) -c -nostdlib -o main.o main.c
 
-main.elf: cpu_entry.o main.o $(LIB_FILES:.c=.o)
-	$(LD) $(LDFLAGS) -o main.elf -T bin.lds main.o cpu_entry.o $(LIB_FILES:.c=.o)
+main.elf: vector_table.o cpu_entry.o main.o $(LIB_FILES:.c=.o)
+	$(LD) $(LDFLAGS) -o main.elf -T bin.lds main.o cpu_entry.o vector_table.o $(LIB_FILES:.c=.o)
 	$(OBJDUMP) -D -r main.elf > main.elf.S
 
 
@@ -51,3 +54,4 @@ clean:
 	rm -f lib/*.o
 	rm -f *.elf*
 	rm -f *.bin*
+	rm -f .debug.pid

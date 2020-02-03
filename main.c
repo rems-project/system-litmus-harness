@@ -1,8 +1,4 @@
-#include <lib.h>
-
-void setup(void) {
-    cpu_data[0].started = 1;
-}
+#include "lib.h"
 
 int main(void) {
     puts("Hello, World!\n");

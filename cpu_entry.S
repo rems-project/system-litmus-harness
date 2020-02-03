@@ -3,8 +3,8 @@
 .globl start
 start:
 	/* get address this was loaded at */
-	adrp	x4, start
-	add     x4, x4, :lo12:start
+	adrp	x9, start
+	add     x9, x9, :lo12:start
 
 	/*
 	 * Update all R_AARCH64_RELATIVE relocations using the table
@@ -19,22 +19,26 @@ start:
 	 *
 	 * See https://docs.oracle.com/cd/E19683-01/816-1386/chapter6-54839/index.html
 	 */
-	adrp	x5, reloc_start
-	add     x5, x5, :lo12:reloc_start
-	adrp	x6, reloc_end
-	add     x6, x6, :lo12:reloc_end
+	adrp	x10, reloc_start
+	add     x10, x10, :lo12:reloc_start
+	adrp	x11, reloc_end
+	add     x11, x11, :lo12:reloc_end
 1:
-	sub x7, x6, x5
-	cbz x7, 1f
-	ldr x7, [x5]      // r_offset
-	ldr x8, [x5, #16] // r_addend
-	add x8, x8, x4    // base + r_addend
-	str x8, [x4, x7]  // Mem[base + r_offset] <- base + r_addend
-	add x5, x5, #24
+	sub x12, x11, x10
+	cbz x12, 1f
+	ldr x12, [x10]      // r_offset
+	ldr x13, [x10, #16] // r_addend
+	add x13, x13, x9    // base + r_addend
+	str x13, [x9, x12]  // Mem[base + r_offset] <- base + r_addend
+	add x10, x10, #24
 	b 1b
 
 
 1:
+	adrp x0, el1_exception_vector_table
+	add x0, x0, :lo12:el1_exception_vector_table
+	bl set_vector_table
+
 	adrp x0, stackptr
 	add x0, x0, :lo12:stackptr
 	bl setup_stack
@@ -61,18 +65,23 @@ init_cpus:
 cpu_entry:
 	/* each thread has page desginated for stack space
 	 * located at stackptr + 4096*cpuid */
-	mrs x1, mpidr_el1
-	and x1, x1, #0xff
+	mrs x9, mpidr_el1
+	and x9, x9, #0xff
 
-	mov x2, #4096
-	mul x2, x1, x2
-	adrp x3, stackptr
-	add x3, x3, :lo12:stackptr
-	add x3, x2, x3
-	mov x0, x3
+	mov x10, #4096
+	mul x10, x9, x10
+	adrp x11, stackptr
+	add x11, x11, :lo12:stackptr
+	add x11, x10, x11
+
+	mov x0, x11
 	bl setup_stack
 
-	mov x0, x1
+	adrp x0, el1_exception_vector_table
+	add x0, x0, :lo12:el1_exception_vector_table
+	bl set_vector_table
+
+	mov x0, x9
 	bl secondary_init
 	bl secondary_idle_loop
 	b halt

@@ -9,12 +9,12 @@ int __psci_invoke(uint64_t func, uint64_t x1, uint64_t x2, uint64_t x3) {
 	asm volatile(
 		"hvc #0"
 	: "+r" (func)
-	: "r" (x1), "r" (x2), "r" (x3));
+	: "r" ((void*)x1), "r" ((void*)x2), "r" ((void*)x3));
 	return func;  /* return x0 */
 }
 
 void psci_cpu_on(uint64_t cpu) {
-	int _ = __psci_invoke(PSCI_CPU_ON, cpu, cpu_entry, 0);
+	int _ = __psci_invoke(PSCI_CPU_ON, cpu, (uint64_t)cpu_entry, 0);
 }
 
 void psci_system_off(void) {
