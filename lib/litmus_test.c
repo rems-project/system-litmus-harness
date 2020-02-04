@@ -388,7 +388,8 @@ void start_of_test(test_ctx_t* ctx, const char* name, int no_threads,
                    th_f** funcs, int no_heap_vars, int no_regs, int no_runs) {
     trace("====== %s ======\n", name);
     init_test_ctx(ctx, name, no_threads, funcs, no_heap_vars, no_regs, no_runs);
-    ctx->ptable = alloc_new_idmap_4k();
+    ctx->ptable = vmm_pgt_idmap; /* TODO: use same pagetable everywhere?
+                                    or create per-test? */
 }
 
 void end_of_test(test_ctx_t* ctx, const char** out_reg_names,
