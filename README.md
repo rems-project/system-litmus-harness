@@ -13,6 +13,13 @@ Run
 
 The Makefile will build the ARMv8-A executable `main.bin` which can be copied to an ARMv8-A device (such as the Raspberry Pi) with KVM installed,  or can be ran locally under QEMU emulation.
 
+Requirements
+------------
+
+To compile locally you need an `AArch64` compiler, such as `aarch64-linux-gnu-gcc`,  usually installable directly with your package manager.
+
+For debugging you need `gdb-multiarch`,  again you should be able to just install it with your package manager.
+
 
 Debugging
 ---------
@@ -75,3 +82,9 @@ will start a local session in QEMU and attach gdb to it,  you can then navigate 
     0x0000000040080148 in ?? ()   ; PC = in <setup> after str to    vmm_pgt_idmap
 
 Note: QEMU loads the binary to location `0x40080000` by default. Exact addresses will vary.
+
+
+How it works
+------------
+
+TODO.
