@@ -98,3 +98,19 @@ void drop_to_el0(void);
 void raise_to_el1(void);
 
 extern uint64_t set_vector_table(uint64_t);
+
+/**
+ * hot swapping
+ *
+ * during a litmus test we will want to replace the vector table entry with
+ * some literal assembly without synchronization
+ *
+ * uint32_t* old = hotswap_exception(0x200, (uint32_t){ ... }) will replace
+ *  VBAR+0x200[0:31] with the contents of the ... array
+ * and return a pointer to an array storing the old contents of VBAR+0x200
+ *
+ * restore_hotswapped_exception(0x200, old) will then restore the vector table back
+ * to its original state.
+ */
+uint32_t* hotswap_exception(uint64_t vector_slot, uint32_t data[32]);
+void restore_hotswapped_exception(uint64_t vector_slot, uint32_t* ptr);

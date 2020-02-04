@@ -323,7 +323,8 @@ uint64_t* alloc_new_idmap_4k(void) {
     ptable_set_idrange_4k_smart(root_ptable, 0, phys_offs, 0x44);
 
     /* .text segment (code) */
-    ptable_set_idrange_4k_smart(root_ptable, phys_offs, TOP_OF_TEXT, 0xd0);
+    /* AArch64 requires that code executable at EL1 is not writable at EL0 */
+    ptable_set_idrange_4k_smart(root_ptable, phys_offs, TOP_OF_TEXT, 0x00);
 
     /* bss and other data segments */
     ptable_set_idrange_4k_smart(root_ptable, TOP_OF_TEXT, TOP_OF_DATA, 0x50);

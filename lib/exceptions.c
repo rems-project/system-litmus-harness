@@ -172,3 +172,34 @@ void reset_pgfault_handler(uint64_t va) {
     int cpu = get_cpu();
     table_pgfault[cpu][va % 127] = NULL;
 }
+
+uint32_t* hotswap_exception(uint64_t vector_slot, uint32_t data[32]) {
+    uint32_t* p = alloc(sizeof(uint32_t) * 32);
+    uint32_t* vbar = (uint32_t*)read_sysreg(VBAR_EL1);
+    for (int i = 0; i < 32; i++) {
+        p[i] = *(vbar + i);
+        *(vbar + i) = data[i];
+    }
+
+    asm volatile (
+        "dc cvau, %[vbar]\n\t"
+        "dsb ish\n\t"
+        "ic ivau, %[vbar]\n\t"
+        "dsb ish\n\t"
+        "isb\n\t"
+    :
+    : [vbar] "r" (vbar)
+    : "memory"
+    );
+
+    return p;
+}
+
+void restore_hotswapped_exception(uint64_t vector_slot, uint32_t* ptr) {
+    uint32_t* vbar = (uint32_t*)read_sysreg(VBAR_EL1);
+    for (int i = 0; i < 32; i++) {
+        *(vbar + i) = ptr[i];
+    }
+
+    free(ptr, sizeof(uint32_t) * 32);
+}
