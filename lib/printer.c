@@ -69,6 +69,8 @@ void puthex(uint64_t n) {
 static volatile int __PR_LOCK = 0;
 static void vprintf(const char* fmt, va_list ap) {
 	lock(&__PR_LOCK);
+        for (int i = 0; i < get_cpu(); i++)
+          puts("\t\t\t");
 	char* p = (char*)fmt;
 	while (*p) {
 		char c = *p;

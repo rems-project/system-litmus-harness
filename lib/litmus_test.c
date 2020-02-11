@@ -44,6 +44,10 @@ void run_test(const char* name, int no_threads, th_f** funcs, int no_heap_vars,
 
   /* run it */
   trace("%s\n", "Running Tests ...");
+  for(int i = 0; i < 4; i++) {
+    printf("P%d\t\t\t", i);
+  }
+  printf("\n");
   run_on_cpus((async_fn_t*)go_cpus, (void*)&ctx);
 
   /* clean up and display results */
