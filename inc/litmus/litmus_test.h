@@ -22,7 +22,7 @@ typedef void th_f(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
 
 struct test_ctx {
   uint64_t no_threads;
-  th_f** thread_fns;             /* pointer to each thread function */
+  th_f*** thread_fns;             /* array of { pPre, pFunc, pPost } */
   uint64_t** heap_vars;         /* set of heap variables: x, y, z etc */
   const char** heap_var_names;
   uint64_t no_heap_vars;
@@ -57,6 +57,8 @@ typedef struct {
 
 /* passed as argument to run_test() to configure extra options */
 typedef struct {
+  const char* name;
+  int no_threads;
   uint64_t* interesting_result;   /* interesting (relaxed) result to highlight */
   int* thread_ELs;                /* EL for each thread to start at */
 
@@ -66,12 +68,12 @@ typedef struct {
 
 /* entry point for tests */
 void run_test(const char* name, 
-              int no_threads, th_f** funcs, 
+              int no_threads, th_f*** funcs, 
               int no_heap_vars, const char** heap_var_names,
               int no_regs, const char** reg_names,
               test_config_t cfg);
 
-void init_test_ctx(test_ctx_t* ctx, const char* test_name, int no_threads, th_f** funcs, int no_heap_vars, int no_out_regs, int no_runs);
+void init_test_ctx(test_ctx_t* ctx, const char* test_name, int no_threads, th_f*** funcs, int no_heap_vars, int no_out_regs, int no_runs);
 void free_test_ctx(test_ctx_t* ctx);
 
 /* helper functions */

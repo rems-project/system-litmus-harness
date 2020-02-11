@@ -17,7 +17,7 @@ static uint64_t* PTE(test_ctx_t* ctx, uint64_t va) {
 }
 
 /* entry point */
-void run_test(const char* name, int no_threads, th_f** funcs, int no_heap_vars,
+void run_test(const char* name, int no_threads, th_f*** funcs, int no_heap_vars,
               const char** heap_var_names, int no_regs, const char** reg_names,
               test_config_t cfg) {
   /* create test context obj */
@@ -132,7 +132,9 @@ static void _check_ptes(test_ctx_t* ctx, uint64_t n, uint64_t** vas,
 }
 
 static void run_thread(test_ctx_t* ctx, int cpu) {
-  th_f* func = ctx->thread_fns[cpu];
+  th_f* pre = ctx->thread_fns[cpu][0];
+  th_f* func = ctx->thread_fns[cpu][1];
+  th_f* post = ctx->thread_fns[cpu][2];
   volatile int* start_bars = ctx->start_barriers;
   volatile int* end_bars = ctx->end_barriers;
 
@@ -156,11 +158,18 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     for (int r = 0; r < ctx->no_out_regs; r++) {
       regs[r] = &ctx->out_regs[r][i];
     }
+
+    if (pre != NULL)
+      pre(ctx, i, (uint64_t**)heaps, (uint64_t**)ptes, (uint64_t*)pas, (uint64_t**)regs);
     start_of_run(ctx, cpu, i);
 
     func(ctx, i, (uint64_t**)heaps, (uint64_t**)ptes, (uint64_t*)pas,
          (uint64_t**)regs);
+
     end_of_run(ctx, cpu, i);
+    if (post != NULL)
+      post(ctx, i, (uint64_t**)heaps, (uint64_t**)ptes, (uint64_t*)pas, (uint64_t**)regs);
+
     _check_ptes(ctx, ctx->no_heap_vars, heaps, ptes, saved_ptes);
     bwait(cpu, i % ctx->no_threads, &ctx->cleanup_barriers[i], ctx->no_threads);
   }
@@ -174,7 +183,7 @@ uint64_t read_clk(void) {
 }
 
 void init_test_ctx(test_ctx_t* ctx, const char* test_name, int no_threads,
-                   th_f** funcs, int no_heap_vars, int no_out_regs,
+                   th_f*** funcs, int no_heap_vars, int no_out_regs,
                    int no_runs) {
   uint64_t** heap_vars = alloc(sizeof(uint64_t*) * no_heap_vars);
   uint64_t** out_regs = alloc(sizeof(uint64_t*) * no_out_regs);
