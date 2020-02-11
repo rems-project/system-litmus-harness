@@ -45,10 +45,10 @@ main.elf: vector_table.o cpu_entry.o main.o $(LIB_FILES:.c=.o) $(LITMUS_FILES:.c
 main.bin: main.elf
 	$(OBJCOPY) -O binary $^ $@
 
-run:
+run: main.bin
 	$(RUN_CMD)
 
-debug:
+debug: main.bin
 	{ $(RUN_CMD) -s -S & echo $$! > .debug.pid; }
 	gdb-multiarch  --eval-command "set arch aarch64" --eval-command "target remote localhost:1234"
 	{ cat .debug.pid | xargs kill $$pid ; rm .debug.pid; }
