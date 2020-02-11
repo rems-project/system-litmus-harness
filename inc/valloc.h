@@ -6,8 +6,6 @@ typedef struct __alloc {
 } valloc_alloc;
 
 typedef struct {
-    uint64_t end_of_mem;
-
     uint64_t top;
 
     /* artificially bound to catch errors */

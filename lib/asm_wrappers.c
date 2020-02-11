@@ -10,6 +10,10 @@ void wfe(void) {
     asm volatile ("wfe\n\t");
 }
 
+void sev(void) {
+    asm volatile ("sev\n\t");
+}
+
 void dmb(void) {
     asm volatile ("dmb sy\n\t");
 }

@@ -2,6 +2,7 @@
 
 /* barriers and wrappers */
 void wfe(void);
+void sev(void);
 void dsb(void);
 void dmb(void);
 void isb(void);

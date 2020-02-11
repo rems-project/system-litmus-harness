@@ -35,6 +35,7 @@ typedef struct {
     async_fn_t* to_execute;
     void* arg;
     uint64_t started;
+    int count;
     volatile int lock;
 } cpu_data_t;
 
@@ -43,6 +44,7 @@ cpu_data_t cpu_data[4];
 void cpu_data_init(void);
 void cpu_boot(uint64_t cpu);
 void run_on_cpu(uint64_t cpu, async_fn_t* fn, void* arg);
+void run_on_cpus(async_fn_t* fn, void* arg);
 
 /* printf support */
 void putc(char c);

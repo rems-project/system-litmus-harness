@@ -15,7 +15,7 @@ RUN_CMD = 	\
 
 LIB_FILES = $(wildcard lib/*.c)
 LITMUS_FILES = $(wildcard litmus/*.c)
-CFLAGS = -O0 -nostdlib -I inc/ -I inc/litmus -ffreestanding -fomit-frame-pointer -fno-pie -fno-pic # -DTRACE
+CFLAGS = -O0 -nostdlib -I inc/ -I inc/litmus -ffreestanding -fomit-frame-pointer -fno-pie -fno-pic -DTRACE
 LDFLAGS = -nostdlib -n -pie
 SSHFLAGS = -K
 
