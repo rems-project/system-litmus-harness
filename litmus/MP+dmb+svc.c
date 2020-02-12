@@ -33,8 +33,8 @@ static void svc_handler(uint64_t esr, regvals_t* regs) {
 
 __attribute__((inline)) static void INLINED_svc_handler(void) {
   asm volatile(
-      /* x0 = X */
-      "ldr x2, [x0]\n\t"
+      /* x3 = X */
+      "ldr x2, [x3]\n\t"
       "eret\n\t");
 }
 
@@ -51,16 +51,19 @@ static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
   uint64_t* x2 = out_regs[1];
 
   asm volatile(
-      /* arguments passed to SVC through x0,x1..x7 */
-      "mov x0, %[x2]\n\t" /* pointer to x */
+      /* load variables into machine registers */
+      "mov x1, %[x1]\n\t"
+      "mov x3, %[x3]\n\t"
 
-      "ldr %[x0], [%[x1]]\n\t"
+      "ldr x0, [x1]\n\t"
       "svc #0\n\t"
 
-      /* extract value */
-      "str x2, [%[x3]]\n\t"
-      : [x0] "=&r"(*x0)
-      : [x1] "r"(y), [x2] "r"(x), [x3] "r"(x2)
+      /* extract values */
+      "str x0, [%[x0]]\n\t"
+      "str x2, [%[x2]]\n\t"
+      "dmb st\n\t"
+      :
+      : [x1] "r"(y), [x3] "r"(x), [x0] "r" (x0), [x2] "r"(x2)
       : "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x5", "x6",
         "x7" /* dont touch parameter registers */
   );
