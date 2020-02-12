@@ -1,7 +1,6 @@
 #include <stdint.h>
 
-/* global configuration */
-uint64_t NUMBER_OF_RUNS;
+#include "config.h"
 
 /* test data */
 typedef struct {

@@ -151,9 +151,11 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     for (int v = 0; v < ctx->no_heap_vars; v++) {
       uint64_t* p = &ctx->heap_vars[v][i];
       heaps[v] = p;
-      ptes[v] = PTE(ctx, (uint64_t)p);
-      saved_ptes[v] = *ptes[v];
-      pas[v] = PA(ctx, (uint64_t)p);
+      if (ENABLE_PGTABLE) {
+        ptes[v] = PTE(ctx, (uint64_t)p);
+        saved_ptes[v] = *ptes[v];
+        pas[v] = PA(ctx, (uint64_t)p);
+      }
     }
     for (int r = 0; r < ctx->no_out_regs; r++) {
       regs[r] = &ctx->out_regs[r][i];
@@ -170,7 +172,9 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     if (post != NULL)
       post(ctx, i, (uint64_t**)heaps, (uint64_t**)ptes, (uint64_t*)pas, (uint64_t**)regs);
 
-    _check_ptes(ctx, ctx->no_heap_vars, heaps, ptes, saved_ptes);
+    if (ENABLE_PGTABLE)
+      _check_ptes(ctx, ctx->no_heap_vars, heaps, ptes, saved_ptes);
+
     bwait(cpu, i % ctx->no_threads, &ctx->cleanup_barriers[i], ctx->no_threads);
   }
 }
@@ -385,7 +389,8 @@ void end_of_run(test_ctx_t* ctx, int thread, int i) {
 void start_of_thread(test_ctx_t* ctx, int cpu) {
   /* turn on MMU and switch to new pagetable */
   printf("[start_of_thread] %d\n", cpu);
-  vmm_set_new_id_translation(ctx->ptable);
+  if (ENABLE_PGTABLE)
+      vmm_set_new_id_translation(ctx->ptable);
   printf("[start_of_thread] <done> %d\n", cpu);
 
   /* before can drop to EL0, ensure EL0 has a valid mapped stack space
@@ -405,7 +410,8 @@ void start_of_test(test_ctx_t* ctx, const char* name, int no_threads,
                    th_f** funcs, int no_heap_vars, int no_regs, int no_runs) {
   trace("====== %s ======\n", name);
   init_test_ctx(ctx, name, no_threads, funcs, no_heap_vars, no_regs, no_runs);
-  ctx->ptable = alloc_new_idmap_4k();
+  if (ENABLE_PGTABLE)
+      ctx->ptable = alloc_new_idmap_4k();
 }
 
 void end_of_test(test_ctx_t* ctx, const char** out_reg_names,
