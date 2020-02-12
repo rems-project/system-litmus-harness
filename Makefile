@@ -67,7 +67,6 @@ debug: bin/main.bin
 	gdb-multiarch  --eval-command "set arch aarch64" --eval-command "target remote localhost:1234"
 	{ cat bin/.debug.pid | xargs kill $$pid ; rm bin/.debug.pid; }
 
-.PHONY: bin/litmus.exe
 bin/litmus.exe: OUT_NAME=$$tmp
 bin/litmus.exe: ACCEL=kvm
 bin/litmus.exe:
