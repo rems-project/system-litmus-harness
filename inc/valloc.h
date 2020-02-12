@@ -22,7 +22,7 @@ void init_valloc(void);
 void* alloc_with_alignment(uint64_t size, uint64_t alignment);
 void* alloc(uint64_t size);
 void* alloc_aligned(uint64_t pow2_size);
-void free(char* p, uint64_t size);
+void free(void* p, uint64_t size);
 void free_all(void);
 
-void valloc_memset(char* p, uint64_t value, uint64_t size);
+void valloc_memset(void* p, uint64_t value, uint64_t size);

@@ -135,8 +135,6 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
   th_f* pre = ctx->thread_fns[cpu][0];
   th_f* func = ctx->thread_fns[cpu][1];
   th_f* post = ctx->thread_fns[cpu][2];
-  volatile int* start_bars = ctx->start_barriers;
-  volatile int* end_bars = ctx->end_barriers;
 
   printf("[run_thread] cpu%d\n", cpu);
 
@@ -407,7 +405,7 @@ void end_of_thread(test_ctx_t* ctx, int cpu) {
 }
 
 void start_of_test(test_ctx_t* ctx, const char* name, int no_threads,
-                   th_f** funcs, int no_heap_vars, int no_regs, int no_runs) {
+                   th_f*** funcs, int no_heap_vars, int no_regs, int no_runs) {
   trace("====== %s ======\n", name);
   init_test_ctx(ctx, name, no_threads, funcs, no_heap_vars, no_regs, no_runs);
   if (ENABLE_PGTABLE)

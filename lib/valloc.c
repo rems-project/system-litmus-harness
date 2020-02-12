@@ -48,7 +48,7 @@ void* alloc_aligned(uint64_t pow2_size) {
   return alloc_with_alignment(pow2_size, pow2_size);
 }
 
-void free(char* p, uint64_t size) {
+void free(void* p, uint64_t size) {
   *(valloc_alloc*)p = (valloc_alloc){
       .size = size,
       .next = mem.freelist,
@@ -60,9 +60,10 @@ void free_all(void) {
   init_valloc(); /* can just re-init the mem struct to get back all memory */
 }
 
-void valloc_memset(char* p, uint64_t value, uint64_t size) {
-  uint64_t end = (uint64_t)p + size;
-  for (; (uint64_t)p < end; p++) {
-    *p = value;
+void valloc_memset(void* p, uint64_t value, uint64_t size) {
+  char* ptr = p;
+  uint64_t end = (uint64_t)ptr + size;
+  for (; (uint64_t)ptr < end; ptr++) {
+    *ptr = value;
   }
 }

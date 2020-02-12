@@ -31,7 +31,7 @@ static void svc_handler(uint64_t esr, regvals_t* regs) {
                : "memory");
 }
 
-__attribute__((inline)) static void INLINED_svc_handler(void) {
+static void INLINED_svc_handler(void) {
   asm volatile(
       /* x3 = X */
       "ldr x2, [x3]\n\t"
@@ -40,7 +40,7 @@ __attribute__((inline)) static void INLINED_svc_handler(void) {
 
 static uint32_t* old_vtentry;
 static void P1_pre(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, uint64_t* pas, uint64_t** out_regs) {
-  old_vtentry = hotswap_exception(0x200, &INLINED_svc_handler);
+  old_vtentry = hotswap_exception(0x200, (uint32_t*)&INLINED_svc_handler);
 }
 
 static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
