@@ -358,8 +358,8 @@ static void resetsp(void) {
 void start_of_run(test_ctx_t* ctx, int thread, int i) {
   /* do not prefetch anymore .. not safe! */
   /* prefetch(ctx, i); */
-  bwait(thread, i % ctx->no_threads, &ctx->start_barriers[i], ctx->no_threads);
   if (ctx->start_els[thread] == 0) drop_to_el0();
+  bwait(thread, i % ctx->no_threads, &ctx->start_barriers[i], ctx->no_threads);
 }
 
 void end_of_run(test_ctx_t* ctx, int thread, int i) {
