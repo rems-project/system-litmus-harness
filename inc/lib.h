@@ -2,6 +2,7 @@
 #define __LIB__
 
 #include <stdint.h>
+#include <stdarg.h>
 
 #include "device.h"
 #include "valloc.h"
