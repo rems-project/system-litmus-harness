@@ -70,7 +70,10 @@ debug: bin/main.bin
 bin/litmus.exe: OUT_NAME=$$tmp
 bin/litmus.exe: ACCEL=kvm
 bin/litmus.exe:
-	echo 'tmp=`mktemp`' > bin/litmus.exe
+	echo 'echo Starting litmus.exe' > bin/litmus.exe
+	echo 'echo tmp=`mktemp`' >> bin/litmus.exe 
+	echo 'tmp=`mktemp`' >> bin/litmus.exe
+	echo 'echo base64 -d \<\< BIN_EOF \| zcat \> $$tmp \|\| exit 2' >> bin/litmus.exe
 	echo 'base64 -d << BIN_EOF | zcat > $$tmp || exit 2' >> bin/litmus.exe
 	gzip -c bin/main.bin | base64 >> bin/litmus.exe
 	echo "BIN_EOF" >> bin/litmus.exe
