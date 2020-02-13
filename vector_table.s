@@ -71,36 +71,22 @@
     add sp, sp, #288
 .endm
 
-.macro synchandler, name, vec
-\name:
-    save_all_registers
-
-    mov x0, #\vec
-    mrs x1, ESR_EL1
-    mov x2, sp
-    bl handle_exception
-
-    /* dont restore x0..x7 for sync exceptions */
-    restore_all_registers
-    eret
-.endm
-
-synchandler el1_sp0_sync,       0
+handler el1_sp0_sync,           0
 handler el1_sp0_irq,            1
 handler el1_sp0_fiq,            2
 handler el1_sp0_serror,         3
 
-synchandler el1_spx_sync,       4
+handler el1_spx_sync,           4
 handler el1_spx_irq,            5
 handler el1_spx_fiq,            6
 handler el1_spx_serror,         7
 
-synchandler el0_64_sync,        8
+handler el0_64_sync,            8
 handler el0_64_irq,             9
 handler el0_64_fiq,            10
 handler el0_64_serror,         11
 
-synchandler el0_32_sync,       12
+handler el0_32_sync,           12
 handler el0_32_irq,            13
 handler el0_32_fiq,            14
 handler el0_32_serror,         15
