@@ -5,12 +5,15 @@ OBJCOPY = aarch64-linux-gnu-objcopy
 OBJDUMP = aarch64-linux-gnu-objdump
 OUT_NAME = bin/main.bin
 SSH_NAME = pi@rems-rpi4b
-ACCEL = tcg
-THREADED = multi  # make "single" for serializable executions with TCG accel.
-RUN_CMD = 	\
+RUN_CMD_HOST = 	\
+	$(QEMU) \
+		-nodefaults -machine virt,accel=kvm,gic-version=host -cpu host \
+		-device virtio-serial-device -device virtconsole,chardev=ctd \
+		-chardev testdev,id=ctd -device pci-testdev -display none -serial stdio \
+		-kernel $(OUT_NAME) -smp 4 # -initrd /tmp/tmp.UUenc9WRhz
+RUN_CMD_LOCAL = 	\
 	$(QEMU) \
 		-nodefaults -machine virt -cpu cortex-a57 \
-		--accel $(ACCEL),thread=$(THREADED) \
 		-device virtio-serial-device -device virtconsole,chardev=ctd \
 		-chardev testdev,id=ctd -device pci-testdev -display none -serial stdio \
 		-kernel $(OUT_NAME) -smp 4 # -initrd /tmp/tmp.UUenc9WRhz
@@ -60,15 +63,14 @@ bin/main.bin: bindir bin/main.elf
 	$(OBJCOPY) -O binary bin/main.elf bin/main.bin
 
 run: bin/main.bin
-	$(RUN_CMD)
+	$(RUN_CMD_LOCAL)
 
 debug: bin/main.bin
-	{ $(RUN_CMD) -s -S & echo $$! > bin/.debug.pid; }
+	{ $(RUN_CMD_LOCAL) -s -S & echo $$! > bin/.debug.pid; }
 	gdb-multiarch  --eval-command "set arch aarch64" --eval-command "target remote localhost:1234"
 	{ cat bin/.debug.pid | xargs kill $$pid ; rm bin/.debug.pid; }
 
 bin/litmus.exe: OUT_NAME=$$tmp
-bin/litmus.exe: ACCEL=kvm
 bin/litmus.exe:
 	echo 'echo Starting litmus.exe' > bin/litmus.exe
 	echo 'echo tmp=`mktemp`' >> bin/litmus.exe 
@@ -77,7 +79,7 @@ bin/litmus.exe:
 	echo 'base64 -d << BIN_EOF | zcat > $$tmp || exit 2' >> bin/litmus.exe
 	gzip -c bin/main.bin | base64 >> bin/litmus.exe
 	echo "BIN_EOF" >> bin/litmus.exe
-	echo '$(RUN_CMD)' >> bin/litmus.exe
+	echo '$(RUN_CMD_HOST)' >> bin/litmus.exe
 	chmod +x bin/litmus.exe
 
 ssh: bin/litmus.exe
