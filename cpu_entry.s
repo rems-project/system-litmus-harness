@@ -1,5 +1,11 @@
 .section .init
 
+.macro debug_letter_overwrites_x0_x1 , char
+        movz    x0, #0x900, lsl #16
+        mov     x1, #\char
+        str     x1, [x0]
+.endm        
+        
 .globl start
 start:
 	/* get address this was loaded at */
