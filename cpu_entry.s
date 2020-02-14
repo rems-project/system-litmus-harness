@@ -1,5 +1,7 @@
 .section .init
 
+.global debug_letter_overites_x0_x1
+        
 .macro debug_letter_overwrites_x0_x1 , char
         movz    x0, #0x900, lsl #16
         mov     x1, #\char
