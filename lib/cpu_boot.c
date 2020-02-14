@@ -4,7 +4,7 @@ void cpu_data_init(void) {
   for (int i = 0; i < 4; i++) {
     cpu_data[i].started = 0;
     cpu_data[i].to_execute = 0;
-    cpu_data[i].lock = 1;
+    //cpu_data[i].lock = 1;
   }
 }
 
@@ -16,7 +16,7 @@ void cpu_boot(uint64_t cpu) {
 void run_on_cpu_async(uint64_t cpu, async_fn_t* fn, void* arg) {
   while (!cpu_data[cpu].started) wfe();
 
-  lock(&cpu_data[cpu].lock);
+  //lock(&cpu_data[cpu].lock);
   cpu_data[cpu].arg = arg;
   dmb();
   cpu_data[cpu].to_execute = fn;
@@ -60,7 +60,7 @@ int secondary_init(int cpu) {
   cpu_data[cpu].to_execute = 0;
   dmb();
   cpu_data[cpu].started = 1;
-  unlock(&cpu_data[cpu].lock);
+  //unlock(&cpu_data[cpu].lock);
 
   return cpu;
 }
@@ -72,7 +72,7 @@ void secondary_idle_loop(int cpu) {
       cpu_data[cpu].to_execute = 0;
       fn(cpu, cpu_data[cpu].arg);
       cpu_data[cpu].count++;
-      unlock(&cpu_data[cpu].lock);
+      //unlock(&cpu_data[cpu].lock);
     } else {
       wfe();
     }

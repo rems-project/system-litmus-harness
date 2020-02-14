@@ -37,7 +37,7 @@ typedef struct {
     void* arg;
     uint64_t started;
     int count;
-    volatile int lock;
+    volatile lock_t lock;
 } cpu_data_t;
 
 cpu_data_t cpu_data[4];
