@@ -22,8 +22,8 @@ static void P0(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
 
 static void svc_handler(void) {
   asm volatile(
-      /* x3 = X */
-      "ldr x2, [x3]\n\t"
+      /* x1 = Y */
+      "ldr x0, [x1]\n\t"
       "eret\n\t");
 }
 
@@ -44,8 +44,8 @@ static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
       "mov x1, %[x1]\n\t"
       "mov x3, %[x3]\n\t"
 
-      "ldr x0, [x1]\n\t"
       "svc #0\n\t"
+      "ldr x2, [x3]\n\t"
 
       /* extract values */
       "str x0, [%[x0]]\n\t"
@@ -62,8 +62,8 @@ static void P1_post(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** pte
   restore_hotswapped_exception(0x200, old_vtentry);
 }
 
-void MP_dmb_svc(void) {
-  run_test("MP+dmb+svc",
+void MP_dmb_eret(void) {
+  run_test("MP+dmb+eret",
     2, (th_f** []){
       (th_f* []) {NULL, P0, NULL},
       (th_f* []) {P1_pre, P1, P1_post},

@@ -32,7 +32,7 @@ static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, ui
   );
 }
 
-void MyMP_pos(void) {
+void MP_pos(void) {
   run_test(
     "MP+pos",
     2, (th_f**[]){
