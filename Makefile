@@ -71,7 +71,7 @@ debug: bin/main.bin
 	{ cat bin/.debug.pid | xargs kill $$pid ; rm bin/.debug.pid; }
 
 bin/litmus.exe: OUT_NAME=$$tmp
-bin/litmus.exe:
+bin/litmus.exe: bin/main.bin
 	echo 'echo Starting litmus.exe' > bin/litmus.exe
 	echo 'echo tmp=`mktemp`' >> bin/litmus.exe 
 	echo 'tmp=`mktemp`' >> bin/litmus.exe
@@ -83,7 +83,6 @@ bin/litmus.exe:
 	chmod +x bin/litmus.exe
 
 ssh: bin/litmus.exe
-	scp ./bin/main.bin $(SSH_NAME):litmus.bin
 	scp bin/litmus.exe $(SSH_NAME):litmus.exe
 	ssh $(SSHFLAGS) $(SSH_NAME) "./litmus.exe"
 
