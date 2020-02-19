@@ -29,7 +29,7 @@ static void svc_handler(void) {
 
 static uint32_t* old_vtentry;
 static void P1_pre(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, uint64_t* pas, uint64_t** out_regs) {
-  old_vtentry = hotswap_exception(0x200, (uint32_t*)&svc_handler);
+  old_vtentry = hotswap_exception(0x400, (uint32_t*)&svc_handler);
 }
 
 static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
@@ -59,7 +59,7 @@ static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
 }
 
 static void P1_post(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, uint64_t* pas, uint64_t** out_regs) {
-  restore_hotswapped_exception(0x200, old_vtentry);
+  restore_hotswapped_exception(0x400, old_vtentry);
 }
 
 void MP_dmb_svc(void) {

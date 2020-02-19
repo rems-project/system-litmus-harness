@@ -166,9 +166,9 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     func(ctx, i, (uint64_t**)heaps, (uint64_t**)ptes, (uint64_t*)pas,
          (uint64_t**)regs);
 
-    end_of_run(ctx, cpu, i);
     if (post != NULL)
       post(ctx, i, (uint64_t**)heaps, (uint64_t**)ptes, (uint64_t*)pas, (uint64_t**)regs);
+    end_of_run(ctx, cpu, i);
 
     if (ENABLE_PGTABLE)
       _check_ptes(ctx, ctx->no_heap_vars, heaps, ptes, saved_ptes);
@@ -358,12 +358,12 @@ static void resetsp(void) {
 void start_of_run(test_ctx_t* ctx, int thread, int i) {
   /* do not prefetch anymore .. not safe! */
   /* prefetch(ctx, i); */
-  if (ctx->start_els[thread] == 0) drop_to_el0();
+  drop_to_el0();
   bwait(thread, i % ctx->no_threads, &ctx->start_barriers[i], ctx->no_threads);
 }
 
 void end_of_run(test_ctx_t* ctx, int thread, int i) {
-  if (ctx->start_els[thread] == 0) raise_to_el1();
+  raise_to_el1();
 
   bwait(thread, i % ctx->no_threads, &ctx->end_barriers[i], ctx->no_threads);
 

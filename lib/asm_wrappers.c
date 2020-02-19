@@ -31,6 +31,5 @@ void writeb(uint8_t byte, uint64_t addr) {
 }
 
 uint64_t get_cpu(void) {
-    uint64_t mpidr = read_sysreg(mpidr_el1);
-    return mpidr & 0xff;
+    return read_sysreg(tpidr_el0) & 0xff;
 }

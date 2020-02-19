@@ -51,6 +51,11 @@ start:
 	mov	x4, #(3 << 20)
 	msr	cpacr_el1, x4
 
+	/* write current CPU number to tpidr_el0
+	 */
+	mrs x4, mpidr_el1
+	msr tpidr_el0, x4
+
 
 	adrp x0, stackptr
 	add x0, x0, :lo12:stackptr
@@ -79,6 +84,7 @@ cpu_entry:
 	/* each thread has page desginated for stack space
 	 * located at stackptr + 4096*cpuid */
 	mrs x9, mpidr_el1
+	msr tpidr_el0, x9
 	and x9, x9, #0xff
 
 	mov x10, #4096
