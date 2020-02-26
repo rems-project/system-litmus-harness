@@ -4,7 +4,7 @@
 
 static volatile int LOCK = 0;  // to ensure the "smart" functions are atomic
 
-uint64_t* alloc_page_aligned(void) { return (uint64_t*)alloc_aligned(4096); }
+uint64_t* alloc_page_aligned(void) { return (uint64_t*)alloc(4096); }
 
 static void ptable_set_or_ensure_block_or_page_4k(uint64_t* root_ptable,
                                                   uint64_t vaddr, uint64_t pa,

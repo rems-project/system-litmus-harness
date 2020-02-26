@@ -1,5 +1,8 @@
 #include <stdint.h>
 
+/* global pagetable */
+uint64_t* vmm_pgtable;
+
 /* translation functions */
 
 /* given a VA return a pointer to the last-level pagetable (descriptor) entry

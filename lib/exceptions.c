@@ -200,5 +200,5 @@ void restore_hotswapped_exception(uint64_t vector_slot, uint32_t* ptr) {
     *(vbar + i) = ptr[i];
   }
 
-  free(ptr, sizeof(uint32_t) * 32);
+  free(ptr);
 }

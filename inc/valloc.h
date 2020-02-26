@@ -6,6 +6,10 @@ typedef struct __alloc {
 } valloc_alloc;
 
 typedef struct {
+    uint64_t size;
+} valloc_block;
+
+typedef struct {
     uint64_t top;
 
     /* artificially bound to catch errors */
@@ -15,14 +19,12 @@ typedef struct {
 } valloc_mempool;
 
 /* global memory pool to allocate from */
-valloc_mempool mem;
+volatile valloc_mempool mem;
 
 void init_valloc(void);
 
 void* alloc_with_alignment(uint64_t size, uint64_t alignment);
 void* alloc(uint64_t size);
-void* alloc_aligned(uint64_t pow2_size);
-void free(void* p, uint64_t size);
-void free_all(void);
 
+void free(void* p);
 void valloc_memset(void* p, uint64_t value, uint64_t size);

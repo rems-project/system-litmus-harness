@@ -256,6 +256,33 @@ void init_test_ctx(test_ctx_t* ctx, const char* test_name, int no_threads,
   ctx->privileged_harness = 0;
 }
 
+
+void free_test_ctx(test_ctx_t* ctx) {
+  for (int v = 0; v < ctx->no_heap_vars; v++) {
+    // ensure each heap var allloc'd into its own page...
+    free(ctx->heap_vars[v]);
+  }
+
+  for (int r = 0; r < ctx->no_out_regs; r++) {
+    free(ctx->out_regs[r]);
+  }
+
+  for (int t = 0; t < ctx->hist->limit; t++) {
+    free(ctx->hist->results[t]);
+  }
+
+  free(ctx->hist->lut);
+  free(ctx->hist);
+
+  free(ctx->heap_vars);
+  free(ctx->out_regs);
+  free((uint64_t*)ctx->start_barriers);
+  free((uint64_t*)ctx->end_barriers);
+  free((uint64_t*)ctx->cleanup_barriers);
+  free((uint64_t*)ctx->final_barrier);
+  free(ctx->shuffled_ixs);
+}
+
 static int matches(test_result_t* result, test_ctx_t* ctx, int run) {
   for (int reg = 0; reg < ctx->no_out_regs; reg++) {
     if (result->values[reg] != ctx->out_regs[reg][run]) {
@@ -399,7 +426,10 @@ void start_of_thread(test_ctx_t* ctx, int cpu) {
 }
 
 void end_of_thread(test_ctx_t* ctx, int cpu) {
-  vmm_mmu_off();
+  /* restore old pgtable */
+  if (ENABLE_PGTABLE)
+    vmm_set_new_id_translation(vmm_pgtable);
+
   bwait(cpu, 0, ctx->final_barrier, 4);
   trace("CPU%d: end of test\n", cpu);
 }
@@ -417,7 +447,7 @@ void end_of_test(test_ctx_t* ctx, const char** out_reg_names,
   trace("%s\n", "Printing Results...");
   print_results(ctx->hist, ctx, out_reg_names, interesting_result);
   trace("Finished test %s\n", ctx->test_name);
-  free_all(); /* allow next test to re-use same va space */
+  free_test_ctx(ctx);
 }
 
 void print_results(test_hist_t* res, test_ctx_t* ctx,
