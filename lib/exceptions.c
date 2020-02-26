@@ -2,7 +2,7 @@
 
 #include "lib.h"
 
-static int _EXC_PRINT_LOCK = 0;
+static lock_t _EXC_PRINT_LOCK;
 void* default_handler(uint64_t vec, uint64_t esr) {
   uint64_t ec = esr >> 26;
   uint64_t cpu = get_cpu();

@@ -2,7 +2,7 @@
 
 #include "lib.h"
 
-static volatile int LOCK = 0;  // to ensure the "smart" functions are atomic
+static volatile lock_t LOCK;  // to ensure the "smart" functions are atomic
 
 uint64_t* alloc_page_aligned(void) { return (uint64_t*)alloc(4096); }
 
