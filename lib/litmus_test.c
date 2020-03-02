@@ -159,9 +159,10 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
       regs[r] = &ctx->out_regs[r][i];
     }
 
+
+    start_of_run(ctx, cpu, i);
     if (pre != NULL)
       pre(ctx, i, (uint64_t**)heaps, (uint64_t**)ptes, (uint64_t*)pas, (uint64_t**)regs);
-    start_of_run(ctx, cpu, i);
 
     func(ctx, i, (uint64_t**)heaps, (uint64_t**)ptes, (uint64_t*)pas,
          (uint64_t**)regs);
@@ -385,8 +386,8 @@ static void resetsp(void) {
 void start_of_run(test_ctx_t* ctx, int thread, int i) {
   /* do not prefetch anymore .. not safe! */
   /* prefetch(ctx, i); */
-  drop_to_el0();
   bwait(thread, i % ctx->no_threads, &ctx->start_barriers[i], ctx->no_threads);
+  drop_to_el0();
 }
 
 void end_of_run(test_ctx_t* ctx, int thread, int i) {

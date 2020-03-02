@@ -131,7 +131,6 @@ asmputhex:
 .macro handler, name, vec
 \name:
     save_all_registers
-
     mov x0, #\vec
     mrs x1, ESR_EL1
     mov x2, sp
@@ -182,9 +181,10 @@ handler el0_32_serror,         15
 b \name
 .endm
 
-.global el1_exception_vector_table
+.macro vector_table, name
+.global \name
 .align 11
-el1_exception_vector_table:
+\name:
     vectorjmp el1_sp0_sync
     vectorjmp el1_sp0_irq
     vectorjmp el1_sp0_fiq
@@ -204,6 +204,13 @@ el1_exception_vector_table:
     vectorjmp el0_32_irq
     vectorjmp el0_32_fiq
     vectorjmp el0_32_serror
+.endm
+
+/* Each PE has its own table */
+vector_table el1_exception_vector_table_p0
+vector_table el1_exception_vector_table_p1
+vector_table el1_exception_vector_table_p2
+vector_table el1_exception_vector_table_p3
 
 /* set the vector table and return a pointer to the old one */
 .global set_vector_table

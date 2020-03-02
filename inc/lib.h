@@ -15,6 +15,7 @@
 
 #define NULL (void*)0
 
+uint64_t vector_base_addr;
 
 /* QEMU memory mapped addresses */
 #define UART0_BASE 0x09000000

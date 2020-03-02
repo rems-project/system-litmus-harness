@@ -1,3 +1,6 @@
+#define __ASSEMBLY__
+#include "asm.h"
+
 .section .init
 
 .global debug_letter_overites_x0_x1
@@ -43,23 +46,7 @@ start:
 
 
 1:
-	adrp x0, el1_exception_vector_table
-	add x0, x0, :lo12:el1_exception_vector_table
-	bl set_vector_table
-
-	/* enable FP/ASIMD */
-	mov	x4, #(3 << 20)
-	msr	cpacr_el1, x4
-
-	/* write current CPU number to tpidr_el0
-	 */
-	mrs x4, mpidr_el1
-	msr tpidr_el0, x4
-
-
-	adrp x0, stackptr
-	add x0, x0, :lo12:stackptr
-	bl setup_stack
+	bl init_cpu
 	bl setup
 	bl init_cpus
 
@@ -81,11 +68,20 @@ init_cpus:
 
 .globl cpu_entry
 cpu_entry:
+	bl init_cpu
+
+	mov x0, x9
+	bl secondary_init
+	bl secondary_idle_loop
+	b halt
+
+.globl init_cpu
+init_cpu:
 	/* each thread has page desginated for stack space
 	 * located at stackptr + 4096*cpuid */
 	mrs x9, mpidr_el1
-	msr tpidr_el0, x9
 	and x9, x9, #0xff
+	msr tpidr_el0, x9
 
 	mov x10, #4096
 	mul x10, x9, x10
@@ -93,28 +89,32 @@ cpu_entry:
 	add x11, x11, :lo12:stackptr
 	add x11, x10, x11
 
-	mov x0, x11
-	bl setup_stack
+	mov x12, #SCTLR_HI
+	lsl x12, x12, 16
+	add x12, x12, #SCTLR_LO
+	msr sctlr_el1, x12
 
-	adrp x0, el1_exception_vector_table
-	add x0, x0, :lo12:el1_exception_vector_table
-	bl set_vector_table
 
-	/* enable FP/ASIMD */
-	mov	x4, #(3 << 20)
-	msr	cpacr_el1, x4
-
-	mov x0, x9
-	bl secondary_init
-	bl secondary_idle_loop
-	b halt
-
-.globl setup_stack
-setup_stack:
+	/* setup stack */
 	mov	x4, #0  /* use SP_EL0 everywhere */
 	msr	spsel, x4
 	isb
-	mov sp, x0
+	mov sp, x11
+
+	/* enable FP/ASIMD (for printf/varargs) */
+	mov	x4, #(3 << 20)
+	msr	cpacr_el1, x4
+
+	/* set VBAR */
+	adrp x0, el1_exception_vector_table_p0
+	add x0, x0, :lo12:el1_exception_vector_table_p0
+	mov x13, #2048
+	mul x13, x13, x9
+	add x0, x0, x13
+	str x30, [sp, #-16]!
+	bl set_vector_table
+	ldr x30, [sp], #16
+
 	ret
 
 .globl halt

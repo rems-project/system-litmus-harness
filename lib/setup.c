@@ -6,6 +6,8 @@ void setup(void) {
     init_device();
     init_valloc();
 
+    vector_base_addr = (uint64_t)&el1_exception_vector_table_p0;
+
     /* create pgtable */
     if (ENABLE_PGTABLE) {
         vmm_pgtable = alloc_new_idmap_4k();

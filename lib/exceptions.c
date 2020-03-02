@@ -8,6 +8,7 @@ void* default_handler(uint64_t vec, uint64_t esr) {
   uint64_t cpu = get_cpu();
   lock(&_EXC_PRINT_LOCK);
   printf("Unhandled Exception (CPU%d): \n", cpu);
+  printf("  [VBAR: 0x%lx]\n", read_sysreg(VBAR_EL1));
   printf("  [Vector: 0x%lx (%s)]\n", vec, vec_names[vec]);
   printf("  [EC: 0x%lx (%s)]\n", ec, ec_names[ec]);
   printf("  [ESR_EL1: 0x%lx]\n", esr);
@@ -175,7 +176,7 @@ void reset_pgfault_handler(uint64_t va) {
 
 uint32_t* hotswap_exception(uint64_t vector_slot, uint32_t data[32]) {
   uint32_t* p = alloc(sizeof(uint32_t) * 32);
-  uint32_t* vbar = (uint32_t*)read_sysreg(VBAR_EL1);
+  uint32_t* vbar = (uint32_t*)(vector_base_addr + (2048*read_sysreg(tpidr_el0)) + vector_slot);
   for (int i = 0; i < 32; i++) {
     p[i] = *(vbar + i);
     *(vbar + i) = data[i];
@@ -186,7 +187,7 @@ uint32_t* hotswap_exception(uint64_t vector_slot, uint32_t data[32]) {
       "dsb ish\n\t"
       "ic ivau, %[vbar]\n\t"
       "dsb ish\n\t"
-      "isb\n\t"
+      "isb\n\t"  /* not required if SCTLR_EL1.EIS is set (or if in v8.4 or earlier) */
       :
       : [vbar] "r"(vbar)
       : "memory");
@@ -195,10 +196,21 @@ uint32_t* hotswap_exception(uint64_t vector_slot, uint32_t data[32]) {
 }
 
 void restore_hotswapped_exception(uint64_t vector_slot, uint32_t* ptr) {
-  uint32_t* vbar = (uint32_t*)read_sysreg(VBAR_EL1);
+  uint32_t* vbar = (uint32_t*)(vector_base_addr + 2048*read_sysreg(tpidr_el0) + vector_slot);
+
   for (int i = 0; i < 32; i++) {
     *(vbar + i) = ptr[i];
   }
+
+  asm volatile(
+      "dc cvau, %[vbar]\n\t"
+      "dsb ish\n\t"
+      "ic ivau, %[vbar]\n\t"
+      "dsb ish\n\t"
+      "isb\n\t"  /* not required if SCTLR_EL1.EIS is set (or if in v8.4 or earlier) */
+      :
+      : [vbar] "r"(vbar)
+      : "memory");
 
   free(ptr);
 }

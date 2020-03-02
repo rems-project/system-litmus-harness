@@ -1,6 +1,6 @@
 
 /* defined in vector_table.S */
-extern uint64_t el1_exception_vector_table;
+extern uint64_t el1_exception_vector_table_p0;
 
 /* Enum of vector table entries
  * Stored in order, aligned at 0x20 boundries

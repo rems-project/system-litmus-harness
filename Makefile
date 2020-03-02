@@ -25,12 +25,12 @@ SSHFLAGS = -K
 LIB_FILES = $(wildcard lib/*.c)
 LITMUS_FILES = $(wildcard litmus/*.c)
 
-TOP_ASM_FILES = $(wildcard *.s)
+TOP_ASM_FILES = $(wildcard *.S)
 TOP_C_FILES = $(wildcard *.c)
 
 ASM_FILES = $(TOP_ASM_FILES)
 C_FILES = $(LIB_FILES) $(LITMUS_FILES) $(TOP_C_FILES)
-BIN_FILES = $(addprefix bin/,$(C_FILES:.c=.o) $(ASM_FILES:.s=.o))
+BIN_FILES = $(addprefix bin/,$(C_FILES:.c=.o) $(ASM_FILES:.S=.o))
 
 
 .PHONY: all
@@ -46,18 +46,18 @@ bin/lib/%.o: lib/%.c
 bin/litmus/%.o: litmus/%.c
 	$(CC) $(CFLAGS) -c -o $@ $^
 
-bin/cpu_entry.o:  cpu_entry.s
-	$(CC) $(CFLAGS) -c -o bin/cpu_entry.o cpu_entry.s
+bin/cpu_entry.o:  cpu_entry.S
+	$(CC) $(CFLAGS) -c -o bin/cpu_entry.o cpu_entry.S
 
-bin/vector_table.o:  vector_table.s
-	$(CC) $(CFLAGS) -c -o bin/vector_table.o vector_table.s
+bin/vector_table.o:  vector_table.S
+	$(CC) $(CFLAGS) -c -o bin/vector_table.o vector_table.S
 
 bin/main.o: main.c
 	$(CC) $(CFLAGS) -c -o bin/main.o main.c
 
 bin/main.elf: $(BIN_FILES)
 	$(LD) $(LDFLAGS) -o bin/main.elf -T bin.lds $(BIN_FILES)
-	$(OBJDUMP) -D -r bin/main.elf > bin/main.elf.s
+	$(OBJDUMP) -D -r bin/main.elf > bin/main.elf.S
 
 bin/main.bin: bindir bin/main.elf
 	$(OBJCOPY) -O binary bin/main.elf bin/main.bin
