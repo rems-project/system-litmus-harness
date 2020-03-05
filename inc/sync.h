@@ -1,3 +1,5 @@
+#ifndef SYNC_H
+#define SYNC_H
 #define num_of_threads 4
 
 typedef struct {
@@ -11,3 +13,5 @@ void unlock(volatile lock_t* lock);
 
 /* barrier */
 void bwait(int cpu, int i, volatile int* barrier, int sz);
+
+#endif /* SYNC_H */

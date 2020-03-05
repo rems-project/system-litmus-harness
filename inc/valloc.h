@@ -1,3 +1,5 @@
+#ifndef VALLOC_H
+#define VALLOC_H
 #include <stdint.h>
 
 typedef struct __alloc {
@@ -28,3 +30,4 @@ void* alloc(uint64_t size);
 
 void free(void* p);
 void valloc_memset(void* p, uint64_t value, uint64_t size);
+#endif /* VALLOC_H */

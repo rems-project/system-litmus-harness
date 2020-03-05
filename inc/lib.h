@@ -1,9 +1,10 @@
-#ifndef __LIB__
-#define __LIB__
+#ifndef LIB_H
+#define LIB_H
 
 #include <stdint.h>
 #include <stdarg.h>
 
+#include "bitwise.h"
 #include "device.h"
 #include "valloc.h"
 #include "sync.h" 
@@ -57,12 +58,4 @@ void putdec(uint64_t n);
 void printf(const char* fmt, ...);
 void trace(const char* fmt, ...);
 
-/* bitwise operations */
-#define BIT(x, i) ((x >> i) & 0x1)
-#define BIT_SLICE(x, i, j) ((x >> i) & ((1 << (1 + j - i)) - 1))
-#define IS_ALIGNED(v, bits) ((v & ((1UL << bits) - 1)) == 0)
-#define ALIGN_POW2(v, to) (v & ~(to - 1))
-#define ALIGN_TO(v, bits) (v & ~((1UL << bits) - 1))
-#define ALIGN_UP(v, bits) ((v + ((1UL << bits) - 1)) & ~((1UL << bits) - 1))
-
-#endif
+#endif /* LIB_H */

@@ -1,3 +1,5 @@
+#ifndef ASM_H
+#define ASM_H
 #define SCTLR_NOTRAP_CACHE_MAINTENANCE (1 << 26)
 #define SCTLR_LITTLE_ENDIAN (0 << 26)  /* bits [25:24] are 0 for little endian */
 #define SCTLR_PAN (1 << 23)  /* Privileged Access Never */
@@ -18,18 +20,18 @@
 #define SCTLR_HI ((SCTLR_NOTRAP_CACHE_MAINTENANCE | SCTLR_LITTLE_ENDIAN | SCTLR_PAN | SCTLR_EXCEPTION_ISB | SCTLR_NOIESB | SCTLR_NOWXR | SCTLR_NOTRAP_WFE | SCTLR_NOTRAP_WFI | SCTLR_NOTRAP_CTR | SCTLR_I) >> 16)
 #define SCTLR_LO (SCTLR_ERET_ISB | SCTLR_SP_ALIGN | SCTLR_C | SCTLR_NOALIGN_CHECK | SCTLR_MMU_OFF)
 
-#define SCTLR ((SCTLR_HI << 16) | SCTLR_LO)
+#define SCTLR ((SCTLR_HI << 16) | SCTLR_LO)P
 
 #ifndef __ASSEMBLY__
 #include <stdint.h>
 
 
 /* barriers and wrappers */
-void wfe(void);
-void sev(void);
-void dsb(void);
-void dmb(void);
-void isb(void);
+#define wfe() do { asm volatile ("wfe"); } while (0)
+#define sev() do { asm volatile ("sev"); } while (0)
+#define dsb() do { asm volatile ("dsb sy"); } while (0)
+#define dmb() do { asm volatile ("dmb sy"); } while (0)
+#define isb() do { asm volatile ("isb"); } while (0)
 
 /* stores and loads */
 void writeb(uint8_t byte, uint64_t addr);
@@ -48,3 +50,4 @@ void writeb(uint8_t byte, uint64_t addr);
 
 uint64_t get_cpu(void);
 #endif
+#endif /* ASM_H */

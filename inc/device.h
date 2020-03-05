@@ -1,3 +1,5 @@
+#ifndef DEVICE_H
+#define DEVICE_H
 #include <stdint.h>
 
 void init_device(void);
@@ -26,3 +28,4 @@ extern unsigned long stacktop; /* end of .bss and .rodata section */
 
 uint64_t TOP_OF_TEXT;
 uint64_t TOP_OF_DATA;
+#endif /* DEVICE_H */

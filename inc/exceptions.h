@@ -1,3 +1,5 @@
+#ifndef EXCEPTIONS_H
+#define EXCEPTIONS_H
 
 /* defined in vector_table.S */
 extern uint64_t el1_exception_vector_table_p0;
@@ -114,3 +116,4 @@ extern uint64_t set_vector_table(uint64_t);
  */
 uint32_t* hotswap_exception(uint64_t vector_slot, uint32_t data[32]);
 void restore_hotswapped_exception(uint64_t vector_slot, uint32_t* ptr);
+#endif /* EXCEPTIONS_H */
