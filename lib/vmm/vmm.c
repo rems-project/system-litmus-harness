@@ -24,7 +24,7 @@ void vmm_ensure_level(uint64_t* root, int desired_level, uint64_t va) {
         case Invalid:
           pg[i] = write_desc(desc);
           break;
-        
+
         case Block:
           if (block_desc.level == 0)
             block_desc = desc;
@@ -35,6 +35,9 @@ void vmm_ensure_level(uint64_t* root, int desired_level, uint64_t va) {
           new_desc.attrs = block_desc.attrs;
           pg[i] = write_desc(new_desc);
           break;
+
+        default:
+          unreachable();
       }
     }
 

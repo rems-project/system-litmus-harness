@@ -172,7 +172,7 @@ void* handle_exception(uint64_t vec, uint64_t esr, regvals_t* regs) {
     return fn(esr, regs);
   } else if (ec == 0x15) {
     return default_svc_handler(vec, esr, regs);
-  } else if (ec | 1 == 0x23) {
+  } else if ((ec | 1) == 0x23) {
     return default_pgfault_handler(vec, esr, regs);
   } else {
     return default_handler(vec, esr);

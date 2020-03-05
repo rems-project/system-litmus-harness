@@ -80,6 +80,7 @@ uint64_t idx_from_varname(test_ctx_t* ctx, const char* varname) {
 
   printf("! err: no such variable \"%s\".\n", varname);
   abort();
+  return 0;
 }
 
 void set_init_pte(test_ctx_t* ctx, const char* varname, uint64_t desc) {

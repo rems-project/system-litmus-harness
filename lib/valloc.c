@@ -64,7 +64,6 @@ static int is_pow2(uint64_t i) {
 }
 
 static uint64_t nearest_pow2(uint64_t i) {
-  uint64_t inp = i;
   int hi=0;
   while (i > 0) {
     hi++;
