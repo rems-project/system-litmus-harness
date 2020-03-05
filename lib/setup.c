@@ -10,8 +10,8 @@ void setup(void) {
 
     /* create pgtable */
     if (ENABLE_PGTABLE) {
-        vmm_pgtable = alloc_new_idmap_4k();
-        vmm_set_new_id_translation(vmm_pgtable);
+        vmm_pgtable = vmm_alloc_new_idmap_4k();
+        vmm_set_id_translation(vmm_pgtable);
     }
 
     cpu_data_init();

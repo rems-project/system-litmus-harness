@@ -136,8 +136,6 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
   th_f* func = ctx->thread_fns[cpu][1];
   th_f* post = ctx->thread_fns[cpu][2];
 
-  printf("[run_thread] cpu%d\n", cpu);
-
   for (int j = 0; j < ctx->no_runs; j++) {
     int i = ctx->shuffled_ixs[j];
     uint64_t* heaps[ctx->no_heap_vars];
@@ -164,6 +162,8 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     if (pre != NULL)
       pre(ctx, i, (uint64_t**)heaps, (uint64_t**)ptes, (uint64_t*)pas, (uint64_t**)regs);
 
+    /* this barrier must be last thing before running function */
+    bwait(cpu, i % ctx->no_threads, &ctx->start_barriers[i], ctx->no_threads);
     func(ctx, i, (uint64_t**)heaps, (uint64_t**)ptes, (uint64_t*)pas,
          (uint64_t**)regs);
 
@@ -354,7 +354,8 @@ static void add_results(test_hist_t* res, test_ctx_t* ctx, int run) {
 
 void prefetch(test_ctx_t* ctx, int i) {
   for (int v = 0; v < ctx->no_heap_vars; v++) {
-    if (randn() % 2 && ctx->heap_vars[v][i] != 0) {
+    /* TODO: read initial state */
+    if (randn() % 2 && vmm_pte_valid(ctx->ptable, &ctx->heap_vars[v][i]) && ctx->heap_vars[v][i] != 0) {
       raise_to_el1(); /* can abort only at EL1 */
       printf(
           "! fatal: initial state for heap var %d on run %d was %d not "
@@ -385,14 +386,12 @@ static void resetsp(void) {
 
 void start_of_run(test_ctx_t* ctx, int thread, int i) {
   /* do not prefetch anymore .. not safe! */
-  /* prefetch(ctx, i); */
-  bwait(thread, i % ctx->no_threads, &ctx->start_barriers[i], ctx->no_threads);
+  prefetch(ctx, i);
   drop_to_el0();
 }
 
 void end_of_run(test_ctx_t* ctx, int thread, int i) {
   raise_to_el1();
-
   bwait(thread, i % ctx->no_threads, &ctx->end_barriers[i], ctx->no_threads);
 
   /* only 1 thread should collect the results, else they will be duplicated */
@@ -414,10 +413,8 @@ void end_of_run(test_ctx_t* ctx, int thread, int i) {
 
 void start_of_thread(test_ctx_t* ctx, int cpu) {
   /* turn on MMU and switch to new pagetable */
-  printf("[start_of_thread] %d\n", cpu);
   if (ENABLE_PGTABLE)
-      vmm_set_new_id_translation(ctx->ptable);
-  printf("[start_of_thread] <done> %d\n", cpu);
+      vmm_set_id_translation(ctx->ptable);
 
   /* before can drop to EL0, ensure EL0 has a valid mapped stack space
    */
@@ -429,7 +426,7 @@ void start_of_thread(test_ctx_t* ctx, int cpu) {
 void end_of_thread(test_ctx_t* ctx, int cpu) {
   /* restore old pgtable */
   if (ENABLE_PGTABLE)
-    vmm_set_new_id_translation(vmm_pgtable);
+    vmm_set_id_translation(vmm_pgtable);
 
   bwait(cpu, 0, ctx->final_barrier, 4);
   trace("CPU%d: end of test\n", cpu);
@@ -440,7 +437,7 @@ void start_of_test(test_ctx_t* ctx, const char* name, int no_threads,
   trace("====== %s ======\n", name);
   init_test_ctx(ctx, name, no_threads, funcs, no_heap_vars, no_regs, no_runs);
   if (ENABLE_PGTABLE)
-      ctx->ptable = alloc_new_idmap_4k();
+      ctx->ptable = vmm_alloc_new_idmap_4k();
 }
 
 void end_of_test(test_ctx_t* ctx, const char** out_reg_names,

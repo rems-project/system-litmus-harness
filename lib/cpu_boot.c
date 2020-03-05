@@ -60,7 +60,7 @@ void run_on_cpus(async_fn_t* fn, void* arg) {
 
 int secondary_init(int cpu) {
   if (ENABLE_PGTABLE)
-    vmm_set_new_id_translation(vmm_pgtable);
+    vmm_set_id_translation(vmm_pgtable);
 
   cpu_data[cpu].to_execute = 0;
   dmb();

@@ -1,3 +1,5 @@
+#ifndef LITMUS_TEST_H
+#define LITMUS_TEST_H
 #include <stdint.h>
 
 #include "config.h"
@@ -95,3 +97,5 @@ void end_of_thread(test_ctx_t* ctx, int cpu);
 /* call at the beginning and end of each test */
 void start_of_test(test_ctx_t* ctx, const char* name, int no_threads, th_f*** funcs, int no_heap_vars, int no_regs, int no_runs);
 void end_of_test(test_ctx_t* ctx, const char** out_reg_names, uint64_t* interesting_result);
+
+#endif /* LITMUS_TEST_H */

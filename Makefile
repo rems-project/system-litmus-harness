@@ -18,11 +18,11 @@ RUN_CMD_LOCAL = 	\
 		-chardev testdev,id=ctd -device pci-testdev -display none -serial stdio \
 		-kernel $(OUT_NAME) -smp 4 # -initrd /tmp/tmp.UUenc9WRhz
 
-CFLAGS = -O0 -nostdlib -I inc/ -I inc/litmus -ffreestanding -fomit-frame-pointer -fno-pie -fno-pic -DTRACE
+CFLAGS = -O0 -nostdlib -I inc/ -I inc/litmus -I inc/vmm -ffreestanding -fomit-frame-pointer -fno-pie -fno-pic -DTRACE
 LDFLAGS = -nostdlib -n -pie
 SSHFLAGS = -K
 
-LIB_FILES = $(wildcard lib/*.c)
+LIB_FILES = $(wildcard lib/*.c) $(wildcard lib/vmm/*.c)
 LITMUS_FILES = $(wildcard litmus/*.c)
 
 TOP_ASM_FILES = $(wildcard *.S)
@@ -39,6 +39,7 @@ all: bin/main.bin bin/litmus.exe
 bindir:
 	mkdir -p bin/lib/
 	mkdir -p bin/litmus/
+	mkdir -p bin/lib/vmm/
 
 bin/lib/%.o: lib/%.c
 	$(CC) $(CFLAGS) -c -o $@ $^

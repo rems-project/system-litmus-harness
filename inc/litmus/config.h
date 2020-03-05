@@ -1,3 +1,6 @@
+#ifndef CONFIG_H
+#define CONFIG_H
 /* global configuration */
-uint64_t NUMBER_OF_RUNS;
-uint8_t ENABLE_PGTABLE;
+extern uint64_t NUMBER_OF_RUNS;
+extern uint8_t ENABLE_PGTABLE;
+#endif /* CONFIG_H */
