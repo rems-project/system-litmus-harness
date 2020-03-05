@@ -26,25 +26,6 @@ enum vec_entries {
   VEC_EL0_ERROR_32,
 };
 
-static const char* vec_names[16] = {
-  "VEC_EL1T_SYNC",
-  "VEC_EL1T_IRQ",
-  "VEC_EL1T_FIQ",
-  "VEC_EL1T_ERROR",
-  "VEC_EL1H_SYNC",
-  "VEC_EL1H_IRQ",
-  "VEC_EL1H_FIQ",
-  "VEC_EL1H_ERROR",
-  "VEC_EL0_SYNC_64",
-  "VEC_EL0_IRQ_64",
-  "VEC_EL0_FIQ_64",
-  "VEC_EL0_ERROR_64",
-  "VEC_EL0_SYNC_32",
-  "VEC_EL0_IRQ_32",
-  "VEC_EL0_FIQ_32",
-  "VEC_EL0_ERROR_32",
-};
-
 /* useful ECs */
 #define EC_SVC64     0x15  /* SVC from AArch64 */
 #define EC_IABT_EL0  0x20  /* Instruction Abort */
@@ -52,16 +33,6 @@ static const char* vec_names[16] = {
 #define EC_PC_ALIGN  0x22  /* PC Alignment Fault */
 #define EC_DABT_EL0  0x24  /* Data Abort */
 #define EC_DABT_EL1  0x25  /* Data Abort */
-
-static const char* ec_names[0x26] = {
-  [0x15] = "EC_SVC64",
-  [0x18] = "EC_MRS_TRAP",
-  [0x20] = "EC_IABT_EL0",
-  [0x21] = "EC_IABT_EL1",
-  [0x22] = "EC_PC_ALIGN",
-  [0x24] = "EC_DABT_EL0",
-  [0x25] = "EC_DABT_EL1",
-};
 
 typedef struct {
     uint64_t x0, x1, x2, x3, x4, x5, x6, x7;

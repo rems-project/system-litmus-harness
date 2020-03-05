@@ -3,6 +3,38 @@
 #include "lib.h"
 
 static lock_t _EXC_PRINT_LOCK;
+
+static const char* vec_names[16] = {
+  "VEC_EL1T_SYNC",
+  "VEC_EL1T_IRQ",
+  "VEC_EL1T_FIQ",
+  "VEC_EL1T_ERROR",
+  "VEC_EL1H_SYNC",
+  "VEC_EL1H_IRQ",
+  "VEC_EL1H_FIQ",
+  "VEC_EL1H_ERROR",
+  "VEC_EL0_SYNC_64",
+  "VEC_EL0_IRQ_64",
+  "VEC_EL0_FIQ_64",
+  "VEC_EL0_ERROR_64",
+  "VEC_EL0_SYNC_32",
+  "VEC_EL0_IRQ_32",
+  "VEC_EL0_FIQ_32",
+  "VEC_EL0_ERROR_32",
+};
+
+
+static const char* ec_names[0x26] = {
+  [0x15] = "EC_SVC64",
+  [0x18] = "EC_MRS_TRAP",
+  [0x20] = "EC_IABT_EL0",
+  [0x21] = "EC_IABT_EL1",
+  [0x22] = "EC_PC_ALIGN",
+  [0x24] = "EC_DABT_EL0",
+  [0x25] = "EC_DABT_EL1",
+};
+
+
 void* default_handler(uint64_t vec, uint64_t esr) {
   uint64_t ec = esr >> 26;
   uint64_t cpu = get_cpu();
