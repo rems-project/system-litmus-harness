@@ -1,26 +1,6 @@
-#include <lib.h>
-
 #include <stdint.h>
 
-void dsb(void) {
-    asm volatile ("dsb sy\n\t");
-}
-
-void wfe(void) {
-    asm volatile ("wfe\n\t");
-}
-
-void sev(void) {
-    asm volatile ("sev\n\t");
-}
-
-void dmb(void) {
-    asm volatile ("dmb sy\n\t");
-}
-
-void isb(void) {
-    asm volatile("isb\n\t");
-}
+#include "lib.h"
 
 void writeb(uint8_t byte, uint64_t addr) {
     asm volatile (
