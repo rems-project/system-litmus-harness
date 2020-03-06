@@ -42,10 +42,9 @@ unittests_BIN_FILES = $(addprefix bin/,$(UNITTESTS_FILES:.c=.o))
 all: bin/litmus.exe bin/unittests.exe
 
 bindir:
-	mkdir -p bin/lib/
-	mkdir -p bin/litmus/
-	mkdir -p bin/lib/vmm/
-	mkdir -p bin/unittests/ bin/unittests/tests/vmm/
+	mkdir -p $(dir $(COMMON_BIN_FILES))
+	mkdir -p $(dir $(unittests_BIN_FILES))
+	mkdir -p $(dir $(litmus_BIN_FILES))
 
 bin/lib/%.o: lib/%.c
 	$(CC) $(CFLAGS) -c -o $@ $^
