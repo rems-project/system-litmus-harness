@@ -18,22 +18,25 @@ RUN_CMD_LOCAL = 	\
 		-chardev testdev,id=ctd -device pci-testdev -display none -serial stdio \
 		-kernel $(OUT_NAME) -smp 4 # -initrd /tmp/tmp.UUenc9WRhz
 
-CCERRORS = return-type parentheses
+CCERRORS = return-type parentheses misleading-indentation null-dereference sequence-point
 CCNOWARN = unused-variable
-CFLAGS = -O0 -nostdlib -I inc/ -I inc/litmus -I inc/vmm -ffreestanding -fomit-frame-pointer -fno-pie -fno-pic -Wall $(addprefix -Wno-,$(CCNOWARN)) $(addprefix -Werror=,$(CCERRORS)) -DTRACE
+OTHER_INCLUDES =
+CFLAGS = -O0 -nostdlib -I inc/ -I inc/litmus $(OTHER_INCLUDES) -I inc/vmm -ffreestanding -fomit-frame-pointer -fno-pie -fno-pic -Wall $(addprefix -Wno-,$(CCNOWARN)) $(addprefix -Werror=,$(CCERRORS)) -DTRACE
 LDFLAGS = -nostdlib -n -pie
 SSHFLAGS = -K
 
 LIB_FILES = $(wildcard lib/*.c) $(wildcard lib/vmm/*.c)
 LITMUS_FILES = $(wildcard litmus/*.c)
+UNITTESTS_FILES = $(wildcard unittests/*.c) $(wildcard unittests/testlib/*.c) $(wildcard unittests/tests/**/*.c)
 
 TOP_ASM_FILES = $(wildcard *.S)
 TOP_C_FILES = $(wildcard *.c)
 
 ASM_FILES = $(TOP_ASM_FILES)
-C_FILES = $(LIB_FILES) $(LITMUS_FILES) $(TOP_C_FILES)
-BIN_FILES = $(addprefix bin/,$(C_FILES:.c=.o) $(ASM_FILES:.S=.o))
-
+C_FILES = $(LIB_FILES) $(TOP_C_FILES)
+COMMON_BIN_FILES = $(addprefix bin/,$(C_FILES:.c=.o) $(ASM_FILES:.S=.o))
+main_BIN_FILES = $(addprefix bin/,$(LITMUS_FILES:.c=.o))
+unittests_BIN_FILES = $(addprefix bin/,$(UNITTESTS_FILES:.c=.o))
 
 .PHONY: all
 all: bin/main.bin bin/litmus.exe
@@ -42,8 +45,13 @@ bindir:
 	mkdir -p bin/lib/
 	mkdir -p bin/litmus/
 	mkdir -p bin/lib/vmm/
+	mkdir -p bin/unittests/ bin/unittests/tests/vmm/
 
 bin/lib/%.o: lib/%.c
+	$(CC) $(CFLAGS) -c -o $@ $^
+
+.PHONY: unittests/runner.c
+bin/unittests/%.o: unittests/%.c
 	$(CC) $(CFLAGS) -c -o $@ $^
 
 bin/litmus/%.o: litmus/%.c
@@ -58,12 +66,19 @@ bin/vector_table.o:  vector_table.S
 bin/main.o: main.c
 	$(CC) $(CFLAGS) -c -o bin/main.o main.c
 
-bin/main.elf: $(BIN_FILES)
-	$(LD) $(LDFLAGS) -o bin/main.elf -T bin.lds $(BIN_FILES)
-	$(OBJDUMP) -D -r bin/main.elf > bin/main.elf.S
+bin/main.elf: $(COMMON_BIN_FILES) $(main_BIN_FILES)
+	$(LD) $(LDFLAGS) -o $@ -T bin.lds $(COMMON_BIN_FILES) $(main_BIN_FILES)
+	$(OBJDUMP) -D -r $@ > $@.S
+
+bin/unittests.elf: $(COMMON_BIN_FILES) $(unittests_BIN_FILES)
+	$(LD) $(LDFLAGS) -o $@ -T bin.lds $(COMMON_BIN_FILES) $(unittests_BIN_FILES)
+	$(OBJDUMP) -D -r $@ > $@.S
 
 bin/main.bin: bindir bin/main.elf
 	$(OBJCOPY) -O binary bin/main.elf bin/main.bin
+
+bin/unittests.bin: bindir bin/unittests.elf
+	$(OBJCOPY) -O binary bin/unittests.elf bin/unittests.bin
 
 run: bin/main.bin
 	$(RUN_CMD_LOCAL)
@@ -72,6 +87,15 @@ debug: bin/main.bin
 	{ $(RUN_CMD_LOCAL) -s -S & echo $$! > bin/.debug.pid; }
 	gdb-multiarch  --eval-command "set arch aarch64" --eval-command "target remote localhost:1234"
 	{ cat bin/.debug.pid | xargs kill $$pid ; rm bin/.debug.pid; }
+
+
+unittests: CFLAGS+=-DNO_TEST_FILES=$(shell ./unittests/getunittests.sh)
+unittests: OUT_NAME=bin/unittests.bin
+unittests: OTHER_INCLUDES=-I unittests/include
+unittests: bin/unittests.bin
+	$(RUN_CMD_LOCAL)
+	rm -f unittests/tests.lst
+	rm -f unittests/tests.cstruct
 
 bin/litmus.exe: OUT_NAME=$$tmp
 bin/litmus.exe: bin/main.bin
