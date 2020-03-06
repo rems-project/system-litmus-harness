@@ -15,6 +15,8 @@ attrs_t read_attrs(uint64_t desc) {
 desc_t read_desc(uint64_t entry, int level) {
   desc_t desc;
 
+  desc.level = level;
+
   if (BIT(entry, 0) == 0) {
     desc.type = Invalid;
     return desc;
