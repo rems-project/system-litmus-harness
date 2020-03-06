@@ -3,7 +3,7 @@ LD = aarch64-linux-gnu-ld
 QEMU = qemu-system-aarch64
 OBJCOPY = aarch64-linux-gnu-objcopy
 OBJDUMP = aarch64-linux-gnu-objdump
-OUT_NAME = bin/main.bin
+OUT_NAME = bin/litmus.bin
 SSH_NAME = pi@rems-rpi4b
 RUN_CMD_HOST = 	\
 	$(QEMU) \
@@ -35,11 +35,11 @@ TOP_C_FILES = $(wildcard *.c)
 ASM_FILES = $(TOP_ASM_FILES)
 C_FILES = $(LIB_FILES) $(TOP_C_FILES)
 COMMON_BIN_FILES = $(addprefix bin/,$(C_FILES:.c=.o) $(ASM_FILES:.S=.o))
-main_BIN_FILES = $(addprefix bin/,$(LITMUS_FILES:.c=.o))
+litmus_BIN_FILES = $(addprefix bin/,$(LITMUS_FILES:.c=.o))
 unittests_BIN_FILES = $(addprefix bin/,$(UNITTESTS_FILES:.c=.o))
 
 .PHONY: all
-all: bin/main.bin bin/litmus.exe
+all: bin/litmus.exe bin/unittests.exe
 
 bindir:
 	mkdir -p bin/lib/
@@ -50,7 +50,9 @@ bindir:
 bin/lib/%.o: lib/%.c
 	$(CC) $(CFLAGS) -c -o $@ $^
 
-.PHONY: unittests/runner.c
+.PHONY: unittests/main.c
+bin/unittests/%.o: CFLAGS+=-DNO_TEST_FILES=$(shell ./unittests/getunittests.sh)
+bin/unittests/%.o: OTHER_INCLUDES=-I unittests/include
 bin/unittests/%.o: unittests/%.c
 	$(CC) $(CFLAGS) -c -o $@ $^
 
@@ -63,51 +65,46 @@ bin/cpu_entry.o:  cpu_entry.S
 bin/vector_table.o:  vector_table.S
 	$(CC) $(CFLAGS) -c -o bin/vector_table.o vector_table.S
 
-bin/main.o: main.c
-	$(CC) $(CFLAGS) -c -o bin/main.o main.c
+bin/litmus.o: litmus_tests/main.c
+	$(CC) $(CFLAGS) -c -o bin/litmus.o litmus_tests/main.c
 
-bin/main.elf: $(COMMON_BIN_FILES) $(main_BIN_FILES)
-	$(LD) $(LDFLAGS) -o $@ -T bin.lds $(COMMON_BIN_FILES) $(main_BIN_FILES)
+bin/litmus.elf: $(COMMON_BIN_FILES) $(litmus_BIN_FILES)
+	$(LD) $(LDFLAGS) -o $@ -T bin.lds $(COMMON_BIN_FILES) $(litmus_BIN_FILES)
 	$(OBJDUMP) -D -r $@ > $@.S
 
 bin/unittests.elf: $(COMMON_BIN_FILES) $(unittests_BIN_FILES)
 	$(LD) $(LDFLAGS) -o $@ -T bin.lds $(COMMON_BIN_FILES) $(unittests_BIN_FILES)
 	$(OBJDUMP) -D -r $@ > $@.S
 
-bin/main.bin: bindir bin/main.elf
-	$(OBJCOPY) -O binary bin/main.elf bin/main.bin
+bin/litmus.bin: bindir bin/litmus.elf
+	$(OBJCOPY) -O binary bin/litmus.elf bin/litmus.bin
 
 bin/unittests.bin: bindir bin/unittests.elf
 	$(OBJCOPY) -O binary bin/unittests.elf bin/unittests.bin
 
-run: bin/main.bin
+run: bin/litmus.bin
 	$(RUN_CMD_LOCAL)
 
-debug: bin/main.bin
+unittests: OUT_NAME=bin/unittests.bin
+unittests: bin/unittests.bin
+	$(RUN_CMD_LOCAL)
+
+debug: bin/litmus.bin
 	{ $(RUN_CMD_LOCAL) -s -S & echo $$! > bin/.debug.pid; }
 	gdb-multiarch  --eval-command "set arch aarch64" --eval-command "target remote localhost:1234"
 	{ cat bin/.debug.pid | xargs kill $$pid ; rm bin/.debug.pid; }
 
-
-unittests: CFLAGS+=-DNO_TEST_FILES=$(shell ./unittests/getunittests.sh)
-unittests: OUT_NAME=bin/unittests.bin
-unittests: OTHER_INCLUDES=-I unittests/include
-unittests: bin/unittests.bin
-	$(RUN_CMD_LOCAL)
-	rm -f unittests/tests.lst
-	rm -f unittests/tests.cstruct
-
-bin/litmus.exe: OUT_NAME=$$tmp
-bin/litmus.exe: bin/main.bin
-	echo 'echo Starting litmus.exe' > bin/litmus.exe
-	echo 'echo tmp=`mktemp`' >> bin/litmus.exe 
-	echo 'tmp=`mktemp`' >> bin/litmus.exe
-	echo 'echo base64 -d \<\< BIN_EOF \| zcat \> $$tmp \|\| exit 2' >> bin/litmus.exe
-	echo 'base64 -d << BIN_EOF | zcat > $$tmp || exit 2' >> bin/litmus.exe
-	gzip -c bin/main.bin | base64 >> bin/litmus.exe
-	echo "BIN_EOF" >> bin/litmus.exe
-	echo '$(RUN_CMD_HOST)' >> bin/litmus.exe
-	chmod +x bin/litmus.exe
+bin/%.exe: OUT_NAME=$$tmp
+bin/%.exe: bin/%.bin
+	echo 'echo Starting $@' > $^
+	echo 'echo tmp=`mktemp`' >> $^
+	echo 'tmp=`mktemp`' >> $^
+	echo 'echo base64 -d \<\< BIN_EOF \| zcat \> $$tmp \|\| exit 2' >> $^
+	echo 'base64 -d << BIN_EOF | zcat > $$tmp || exit 2' >> $^
+	gzip -c $@ | base64 >> $^
+	echo "BIN_EOF" >> $^
+	echo '$(RUN_CMD_HOST)' >> $^
+	chmod +x $^
 
 ssh: bin/litmus.exe
 	scp bin/litmus.exe $(SSH_NAME):litmus.exe

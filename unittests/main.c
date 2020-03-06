@@ -1,7 +1,7 @@
 #include "lib.h"
 #include "testlib.h"
 
-#include "tests.lst"
+#include "tests.externs"
 
 test_file_t* tests;
 
@@ -9,7 +9,6 @@ test_file_t* tests;
 void main(void) {
   unsigned int total_count;
   unsigned int total_failure;
-
 
   tests = (test_file_t[]){
       #include "tests.cstruct"

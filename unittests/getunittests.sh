@@ -14,6 +14,6 @@ find unittests/ -name '*.c'  | while read f; do
     fi
 done > unittests/tests.cstruct
 
-grep -r unittests/tests -h -e "^UNIT_TEST([a-Z0-9\_]*)$" | sed 's/UNIT_TEST(\([a-Z0-9\_]*\))/extern unit_test_fn \1;/' > unittests/tests.lst
+grep -r unittests/tests -h -e "^UNIT_TEST([a-Z0-9\_]*)$" | sed 's/UNIT_TEST(\([a-Z0-9\_]*\))/extern unit_test_fn \1;/' > unittests/tests.externs
 
 grep -l -e "^UNIT_TEST([a-Z0-9\_]*)$" -r unittests/tests -h | wc -l
