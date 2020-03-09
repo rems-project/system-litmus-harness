@@ -5,6 +5,7 @@ OBJCOPY = aarch64-linux-gnu-objcopy
 OBJDUMP = aarch64-linux-gnu-objdump
 OUT_NAME = bin/litmus.bin
 SSH_NAME = pi@rems-rpi4b
+TESTS = .
 RUN_CMD_HOST = 	\
 	$(QEMU) \
 		-nodefaults -machine virt,accel=kvm,gic-version=host -cpu host \
@@ -50,7 +51,8 @@ bin/lib/%.o: lib/%.c
 	$(CC) $(CFLAGS) -c -o $@ $^
 
 .PHONY: unittests/main.c
-bin/unittests/%.o: CFLAGS+=-DNO_TEST_FILES=$(shell ./unittests/getunittests.sh)
+bin/unittests/main.o: CFLAGS+=-DNO_TEST_FILES=$(shell ./unittests/getunittests.sh $(TESTS))
+
 bin/unittests/%.o: OTHER_INCLUDES=-I unittests/include
 bin/unittests/%.o: unittests/%.c
 	$(CC) $(CFLAGS) -c -o $@ $^

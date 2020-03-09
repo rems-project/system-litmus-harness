@@ -130,3 +130,18 @@ void vmm_set_id_translation(uint64_t* pgtable) {
 
   set_new_ttable(ttbr, tcr);
 }
+
+void __vmm_free_pgtable(uint64_t* pgtable, int level) {
+  for (int i = 0; i < 512; i++) {
+    desc_t d = read_desc(pgtable + i, level);
+    if (d.type == Table) {
+      __vmm_free_pgtable((uint64_t*)d.table_addr, level+1);
+    }
+  }
+
+  free(pgtable);
+}
+
+void vmm_free_pgtable(uint64_t* pgtable) {
+  __vmm_free_pgtable(pgtable, 0);
+}

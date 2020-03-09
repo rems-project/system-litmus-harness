@@ -14,7 +14,6 @@ void main(void) {
       #include "tests.cstruct"
   };
 
-
   for (int fidx = 0; fidx < NO_TEST_FILES; fidx++) {
     test_file_t* f = &tests[fidx];
     printf("--- %s ---\n", f->name);
@@ -22,6 +21,8 @@ void main(void) {
     for (int tidx = 0; tidx < f->no_tests; tidx++) {
       unit_test_t* fn = &f->fns[tidx];
       current_test = fn;
+      init_valloc();
+      init_device();
       fn->fn();
       total_count++;
       if (fn->result) {

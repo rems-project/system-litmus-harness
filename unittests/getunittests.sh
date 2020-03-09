@@ -1,19 +1,35 @@
+filtertests=$*
 test_files=0
-find unittests/ -name '*.c'  | while read f; do
-    #grep $f -e "^UNIT_TEST([a-Z0-9\_]*)$"
+
+testpairs=`find unittests/ -name '*.c'  | while read f; do
     tests=$(grep $f -e "^UNIT_TEST([a-Z0-9\_]*)$" | sed 's/UNIT_TEST(\([a-Z0-9\_]*\))/\1/')
-    NO_TESTS=$(echo $tests | wc -w)
-    if [ ! -z "$tests" ]
-    then
-        printf "(test_file_t){.name = \"$f\"\n,.no_tests=$NO_TESTS\n,.fns = (unit_test_t[]) {";
-        for t in $tests
-        do
-            printf "(unit_test_t){.name=\"$t\",.fn=$t,.result=0},\n"
-        done;
-        printf "}},";
+    echo $f $tests
+done`
+
+echo "$testpairs" | while read line; do
+    for t in `echo $line | awk '{$1=""; print $0}'`; do
+        echo $t | sed 's/\([a-Z0-9\_]*\)/extern unit_test_fn \1;/'
+    done
+done > unittests/tests.externs
+
+filter=$(echo $filtertests | sed 's/ /\|/g')
+filteredtestpairs=`find unittests/ -name '*.c'  | while read f; do
+    tests="$(grep $f -e '^UNIT_TEST([a-Z0-9\_]*)$' | grep -e "$filter" | sed 's/UNIT_TEST(\([a-Z0-9\_]*\))/\1/')"
+    if [ ! -z "$tests" ]; then
+        echo $f $tests
     fi
+done`
+
+echo "$filteredtestpairs" | while read line; do
+    tests=$(echo $line | awk '{$1=""; print $0}')
+    fname=$(echo $line | awk '{print $1}')
+    no_tests=$(echo $tests | wc -w)
+    printf "(test_file_t){.name = \"$fname\"\n,.no_tests=$no_tests\n,.fns = (unit_test_t[]) {";
+    for t in $tests
+    do
+        printf "(unit_test_t){.name=\"$t\",.fn=$t,.result=0},\n"
+    done;
+    printf "}},";
 done > unittests/tests.cstruct
 
-grep -r unittests/tests -h -e "^UNIT_TEST([a-Z0-9\_]*)$" | sed 's/UNIT_TEST(\([a-Z0-9\_]*\))/extern unit_test_fn \1;/' > unittests/tests.externs
-
-grep -l -e "^UNIT_TEST([a-Z0-9\_]*)$" -r unittests/tests -h | wc -l
+echo "$filteredtestpairs" | wc -l

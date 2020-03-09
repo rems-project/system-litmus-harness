@@ -32,6 +32,7 @@ uint64_t* vmm_block(uint64_t* root, uint64_t va);
 int vmm_level(uint64_t* root, uint64_t va);
 
 uint64_t* vmm_alloc_new_idmap_4k(void);
+void vmm_free_pgtable(uint64_t* root);
 void vmm_mmu_off(void);
 void vmm_mmu_on(void);
 

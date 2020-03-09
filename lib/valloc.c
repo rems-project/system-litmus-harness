@@ -6,7 +6,7 @@ void init_valloc(void) {
   mem = (valloc_mempool){
       .top = TOP_OF_MEM,
       .space_free = TOTAL_HEAP,
-      .freelist = 0,
+      .freelist = NULL,
   };
 }
 
@@ -81,9 +81,82 @@ void* alloc(uint64_t size) {
   }
 }
 
+void __find_and_remove_from_freelist(char* p) {
+  uint64_t va = (uint64_t)p;
+
+  valloc_alloc* fblk = mem.freelist;
+  valloc_alloc** prev = &mem.freelist;
+
+  while (fblk != NULL) {
+    if ((uint64_t)fblk == va) {
+      *prev = fblk->next;
+      return;
+    }
+    prev = &fblk->next;
+    fblk = fblk->next;
+  }
+}
+
+int __compact_unallocated(uint64_t va_start, uint64_t va_end) {
+  valloc_alloc* fblk = mem.freelist;
+
+  while (fblk != NULL) {
+    uint64_t f_start = (uint64_t)fblk;
+    uint64_t f_end = f_start + fblk->size;
+    fblk = fblk->next;
+
+    if ((uint64_t)fblk < va_start)
+      continue;
+
+    if (va_end < f_start)
+      continue;
+
+    if ((uint64_t)fblk < va_end) {
+      return 0;
+    }
+  }
+
+  return 1;
+}
+
+void __compact_node(valloc_alloc* node) {
+  uint64_t begin = (uint64_t)node;
+
+  /**
+   *  find fblk such that fblk end == node start
+   * 
+   *  n1 -> node -> n2 -> ...
+   *  n3 -> fblk -> n4 -> ...
+   * 
+   * refactor into:
+   *  n1 -> fblk+node -> n2
+   *  n3 -> n4
+   */
+
+  valloc_alloc* fblk = mem.freelist;
+  while (fblk != NULL) {
+    uint64_t fblk_end = (uint64_t)fblk + fblk->size;
+    if (fblk_end < begin && __compact_unallocated(fblk_end+1, begin-1)) {
+      node->size = ((uint64_t)fblk + fblk->size) - (uint64_t)node;
+      __find_and_remove_from_freelist(fblk);
+      return;
+    }
+    fblk = fblk->next;
+  }
+}
+
+void compact(void) {
+  valloc_alloc* fblk = mem.freelist;
+
+  while (fblk != NULL) {
+    __compact_node(fblk);
+    fblk = fblk->next;
+  }
+}
+
 
 void free(void* p) {
-  valloc_block* blk = (valloc_block*)((uint64_t)p) - sizeof(valloc_block);
+  valloc_block* blk = (valloc_block*)((uint64_t)p - sizeof(valloc_block));
   uint64_t size = blk->size;
 
   *(valloc_alloc*)p = (valloc_alloc){
@@ -92,6 +165,7 @@ void free(void* p) {
   };
 
   mem.freelist = (valloc_alloc*)p;
+  compact();
 }
 
 void free_all(void) {
@@ -104,4 +178,22 @@ void valloc_memset(void* p, uint64_t value, uint64_t size) {
   for (; (uint64_t)ptr < end; ptr++) {
     *ptr = value;
   }
+}
+
+int valloc_is_free(void* p) {
+  uint64_t va = (uint64_t)p;
+
+  if (va < mem.top) {
+    return 1;
+  }
+
+  valloc_alloc* fblk = mem.freelist;
+  while (fblk != NULL) {
+    if ((uint64_t)fblk < va && va < ((uint64_t)fblk) + fblk->size) {
+      return 1;
+    }
+    fblk = fblk->next;
+  }
+
+  return 0;
 }
