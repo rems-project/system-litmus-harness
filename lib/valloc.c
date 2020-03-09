@@ -27,16 +27,19 @@ char* __free_check(uint64_t size) {
 
 void* alloc_with_alignment(uint64_t size, uint64_t pow2_alignment) {
   /* first: check if there space in freelist */
+  if (size < sizeof(valloc_alloc)) {
+    size = sizeof(valloc_alloc);
+  }
   char* p = __free_check(size);
   if (p) return p;
 
   uint64_t allocated_space_vaddr = ALIGN_POW2(mem.top - size, pow2_alignment);
+  uint64_t allocated_space = mem.top - allocated_space_vaddr;
   uint64_t blk_addr = (allocated_space_vaddr - sizeof(valloc_block));
   *(valloc_block*)blk_addr = (valloc_block){
-    .size = size,
+    .size = allocated_space,
   };
 
-  uint64_t allocated_space = mem.top - allocated_space_vaddr;
   uint64_t used_space = allocated_space + sizeof(valloc_block);
 
   mem.space_free = mem.space_free - used_space;
@@ -97,28 +100,6 @@ void __find_and_remove_from_freelist(valloc_alloc* p) {
   }
 }
 
-int __compact_unallocated(uint64_t va_start, uint64_t va_end) {
-  valloc_alloc* fblk = mem.freelist;
-
-  while (fblk != NULL) {
-    uint64_t f_start = (uint64_t)fblk;
-    uint64_t f_end = f_start + fblk->size;
-    fblk = fblk->next;
-
-    if ((uint64_t)fblk < va_start)
-      continue;
-
-    if (va_end < f_start)
-      continue;
-
-    if ((uint64_t)fblk < va_end) {
-      return 0;
-    }
-  }
-
-  return 1;
-}
-
 void __compact_node(valloc_alloc* node) {
   uint64_t begin = (uint64_t)node;
 
@@ -136,12 +117,21 @@ void __compact_node(valloc_alloc* node) {
   valloc_alloc* fblk = mem.freelist;
   while (fblk != NULL) {
     uint64_t fblk_end = (uint64_t)fblk + fblk->size;
-    if (fblk_end < begin && __compact_unallocated(fblk_end+1, begin-1)) {
-      node->size = ((uint64_t)fblk + fblk->size) - (uint64_t)node;
+    if (fblk_end == (begin - sizeof(valloc_block))) {
+      node->size = fblk->size + node->size + sizeof(valloc_block);
       __find_and_remove_from_freelist(fblk);
       return;
     }
     fblk = fblk->next;
+  }
+
+  /**
+   * if no such other node exists,  then maybe this is a chunk with no free space between the top of memory and here.
+   */
+  if (mem.top == begin-1) {
+    uint64_t new_top = (uint64_t)node + node->size;
+    __find_and_remove_from_freelist(node);
+    mem.top = new_top;
   }
 }
 
@@ -196,4 +186,16 @@ int valloc_is_free(void* p) {
   }
 
   return 0;
+}
+
+uint64_t valloc_free_size(void) {
+  uint64_t top = mem.top;
+
+  uint64_t freelist_space = 0;
+  valloc_alloc* fblk = mem.freelist;
+  while (fblk != NULL) {
+    freelist_space += sizeof(valloc_block) + fblk->size;
+    fblk = fblk->next;
+  }
+  return (top - BOT_OF_HEAP) + freelist_space;
 }

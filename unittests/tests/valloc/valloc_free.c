@@ -24,7 +24,9 @@ UNIT_TEST(test_valloc_freelist)
 void test_valloc_freelist(void) {
   ASSERT(mem.freelist == NULL, "free not NULL");
   char* p = alloc(64);
+  char* q = alloc(64);
   free(p);
+  /* intentionally no free q */
   ASSERT(mem.freelist != NULL, "free still NULL");
   ASSERT(mem.freelist->size >= 64, "free size too small");
 }
@@ -40,10 +42,18 @@ void test_valloc_free_compact(void) {
   ASSERT((uint64_t)p == (uint64_t)z);
 }
 
+UNIT_TEST(test_valloc_free_compact_all)
+void test_valloc_free_compact_all(void) {
+  uint64_t space = valloc_free_size();
+  char* p = alloc(64);
+  free(p);
+  ASSERT(space == valloc_free_size());
+}
+
 UNIT_TEST(test_valloc_free_pgtable)
 void test_valloc_free_pgtable(void) {
+  uint64_t space = valloc_free_size();
   uint64_t* p = vmm_alloc_new_idmap_4k();
   vmm_free_pgtable(p);
-  uint64_t* q = alloc(64);
-  ASSERT((uint64_t)p == (uint64_t)q);
+  ASSERT(space == valloc_free_size());
 }

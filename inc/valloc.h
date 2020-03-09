@@ -31,5 +31,7 @@ void* alloc(uint64_t size);
 void free(void* p);
 void valloc_memset(void* p, uint64_t value, uint64_t size);
 
+uint64_t valloc_free_size(void);
+
 int valloc_is_free(void* p);
 #endif /* VALLOC_H */
