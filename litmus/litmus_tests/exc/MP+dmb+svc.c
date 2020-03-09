@@ -45,7 +45,7 @@ static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
       "mov x3, %[x3]\n\t"
 
       "ldr x0, [x1]\n\t"
-      "svc #0\n\t"
+      //"svc #0\n\t"
 
       /* extract values */
       "str x0, [%[x0]]\n\t"

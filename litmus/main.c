@@ -11,8 +11,9 @@ int main(void) {
   /** warning:
    * ensure ENABLE_PGTABLE is set to 0 for exceptions tests
    */
-  MP_pos();
+  //MP_pos();
   MP_dmb_svc();
+  
   MP_dmb_eret();
   return 0;
 }

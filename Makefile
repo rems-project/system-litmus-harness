@@ -27,7 +27,7 @@ LDFLAGS = -nostdlib -n -pie
 SSHFLAGS = -K
 
 LIB_FILES = $(wildcard lib/*.c) $(wildcard lib/vmm/*.c)
-LITMUS_FILES = $(wildcard litmus/*.c)
+LITMUS_FILES = $(wildcard litmus/*.c) $(wildcard litmus/litmus_tests/**/*.c)
 UNITTESTS_FILES = $(wildcard unittests/*.c) $(wildcard unittests/testlib/*.c) $(wildcard unittests/tests/**/*.c)
 
 TOP_ASM_FILES = $(wildcard *.S)
