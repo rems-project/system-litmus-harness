@@ -81,11 +81,11 @@ void* alloc(uint64_t size) {
   }
 }
 
-void __find_and_remove_from_freelist(char* p) {
+void __find_and_remove_from_freelist(valloc_alloc* p) {
   uint64_t va = (uint64_t)p;
 
   valloc_alloc* fblk = mem.freelist;
-  valloc_alloc** prev = &mem.freelist;
+  valloc_alloc* volatile* prev = &mem.freelist;
 
   while (fblk != NULL) {
     if ((uint64_t)fblk == va) {

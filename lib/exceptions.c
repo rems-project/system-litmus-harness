@@ -228,7 +228,7 @@ uint32_t* hotswap_exception(uint64_t vector_slot, uint32_t data[32]) {
 }
 
 void restore_hotswapped_exception(uint64_t vector_slot, uint32_t* ptr) {
-  uint32_t* vbar = (uint32_t*)(vector_base_addr + 2048*read_sysreg(tpidr_el0) + vector_slot);
+  uint32_t* vbar = (uint32_t*)(vector_base_addr + (2048*read_sysreg(tpidr_el0)) + vector_slot);
 
   for (int i = 0; i < 32; i++) {
     *(vbar + i) = ptr[i];
