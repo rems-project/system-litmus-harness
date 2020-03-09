@@ -39,3 +39,11 @@ void test_valloc_free_compact(void) {
   free(z);
   ASSERT((uint64_t)p == (uint64_t)z);
 }
+
+UNIT_TEST(test_valloc_free_pgtable)
+void test_valloc_free_pgtable(void) {
+  char* p = vmm_alloc_new_idmap_4k();
+  vmm_free_pgtable(p);
+  char* q = alloc(64);
+  ASSERT((uint64_t)p == (uint64_t)q);
+}
