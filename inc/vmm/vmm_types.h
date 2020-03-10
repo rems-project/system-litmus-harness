@@ -25,6 +25,11 @@ typedef struct {
     uint64_t table_addr;
   };
 
+  union {
+    uint64_t* src;
+    uint64_t* dest;
+  };
+
   enum DescType type;
   int level;
   attrs_t attrs;

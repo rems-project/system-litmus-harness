@@ -3,16 +3,16 @@
 static void set_block_or_page(uint64_t* root, uint64_t va, uint64_t prot, uint64_t desired_level) {
   vmm_ensure_level(root, desired_level, va);
 
-  uint64_t* block = vmm_block(root, va);
-  int level = vmm_level(root, va);
+  desc_t desc = vmm_translation_walk(root, va);
+
   desc_t final;
   final.type = Block;
   final.oa = va;
-  final.level = level;
+  final.level = desc.level;
   final.attrs = read_attrs(prot);
   final.attrs.AF = 1;
   final.attrs.SH = 3;
-  *block = write_desc(final);
+  *desc.src = write_desc(final);
 }
 
 

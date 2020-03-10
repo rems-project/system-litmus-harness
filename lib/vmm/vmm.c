@@ -55,43 +55,35 @@ desc_t read_descptr(uint64_t* desc, int level) {
   return read_desc(*desc, level);
 }
 
-uint64_t* vmm_block(uint64_t* root, uint64_t va) {
+desc_t vmm_translation_walk(uint64_t* root, uint64_t va) {
   lock(&vmm_lock);
-  uint64_t* ret;
+  desc_t ret;
 
   for (int level = 0; level <= 3; level++) {
     uint64_t* p = root + OFFS(va, level);
     desc_t desc = read_desc(*p, level);
     if (desc.type == Invalid || desc.type == Block) {
-      ret = p;
-      goto vmm_block_end;
+      ret = desc;
+      ret.src = p;
+      goto vmm_translation_walk_end;
     }
 
     root = (uint64_t*)desc.table_addr;
   }
 
-vmm_block_end:
+vmm_translation_walk_end:
   unlock(&vmm_lock);
   return ret;
 }
 
+uint64_t* vmm_block(uint64_t* root, uint64_t va) {
+  desc_t desc = vmm_translation_walk(root, va);
+  return desc.src;
+}
+
 int vmm_level(uint64_t* root, uint64_t va) {
-  lock(&vmm_lock);
-  int level;
-
-  for (level = 0; level <= 3; level++) {
-    uint64_t* p = root + OFFS(va, level);
-    desc_t desc = read_desc(*p, level);
-    if (desc.type == Invalid || desc.type == Block) {
-      goto vmm_level_end;
-    }
-
-    root = (uint64_t*)desc.table_addr;
-  }
-
-vmm_level_end:
-  unlock(&vmm_lock);
-  return level;
+  desc_t desc = vmm_translation_walk(root, va);
+  return desc.level;
 }
 
 uint64_t* vmm_pte(uint64_t* root, uint64_t va) {
@@ -101,32 +93,19 @@ uint64_t* vmm_pte(uint64_t* root, uint64_t va) {
 
 uint64_t* vmm_pa(uint64_t* root, uint64_t va) {
   uint64_t* ret;
-  lock(&vmm_lock);
-  for (int level = 0; level <= 3; level++) {
-    desc_t desc = read_descptr((uint64_t*)root + OFFS(va, level), level);
-    switch (desc.type) {
-      case Invalid:
-        ret = (uint64_t*)0;
-        goto vmm_pa_end;
-      
-      case Block:
-        ret = (uint64_t*)(desc.oa + BIT_SLICE(va, OFFSBOT(level) - 1, 0));
-        goto vmm_pa_end;
+  desc_t desc = vmm_translation_walk(root, va);
+  switch (desc.type) {
+    case Invalid:
+      return NULL;
 
-      case Table:
-        root = (uint64_t*)desc.table_addr;
-        break;
-    }
+    case Block:
+      return (uint64_t*)(desc.oa | BIT_SLICE(va, OFFSBOT(desc.level), 0));
+
+    case Table:
+      unreachable();
   }
 
-  /* unreachable ? */
-  raise_to_el1();
-  printf("! error: vmm_pa reached unreachable\n");
-  abort();
-
-vmm_pa_end:
-  unlock(&vmm_lock);
-  return ret;
+  return NULL;
 }
 
 int vmm_pte_valid(uint64_t* root, uint64_t* addr) {
