@@ -18,7 +18,7 @@ void vmm_ensure_level(uint64_t* root, int desired_level, uint64_t va) {
     }
 
     uint64_t* pg = alloc(4096);
-    valloc_memset(pg, 0, 512);
+    valloc_memset(pg, 0, 4096);
     for (int i = 0; i < 512; i++) {
       switch (desc.type) {
         case Invalid:

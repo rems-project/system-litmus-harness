@@ -69,7 +69,7 @@ void ptable_set_idrange(uint64_t* root,
 
 uint64_t* vmm_alloc_new_idmap_4k(void) {
   uint64_t* root_ptable = alloc(4096);
-  valloc_memset(root_ptable, 0, 512);
+  valloc_memset(root_ptable, 0, 4096);
 
   /* set ranges according to kvm-unit-tests/lib/arm/mmu.c */
   uint64_t phys_offs = (1UL << 30); /* first 1 GiB region */
