@@ -4,6 +4,7 @@ extern void MP_pos(void);
 extern void MP_dmb_svc(void);
 extern void MP_dmb_eret(void);
 extern void W_AT(void);
+extern void W_AT_dsb(void);
 
 uint64_t NUMBER_OF_RUNS = 1000UL;
 uint8_t ENABLE_PGTABLE = 1;
@@ -16,6 +17,7 @@ int main(void) {
 
   if (ENABLE_PGTABLE) {
     W_AT();
+    W_AT_dsb();
   }
 
   if (! ENABLE_PGTABLE) {
