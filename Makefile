@@ -24,7 +24,7 @@ CCNOWARN = unused-variable
 OTHER_INCLUDES =
 CFLAGS = -O0 -nostdlib -I inc/ -I inc/litmus $(OTHER_INCLUDES) -I inc/vmm -ffreestanding -fomit-frame-pointer -fno-pie -fno-pic -Wall $(addprefix -Wno-,$(CCNOWARN)) $(addprefix -Werror=,$(CCERRORS)) -DTRACE
 LDFLAGS = -nostdlib -n -pie
-SSHFLAGS = -K
+SSHFLAGS =
 
 LIB_FILES = $(wildcard lib/*.c) $(wildcard lib/vmm/*.c)
 LITMUS_FILES = $(wildcard litmus/*.c) $(wildcard litmus/litmus_tests/**/*.c)
