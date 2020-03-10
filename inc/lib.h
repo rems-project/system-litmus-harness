@@ -14,6 +14,8 @@
 #include "rand.h"
 #include "litmus_test.h"
 
+#include "debug.h"
+
 #define NULL (void*)0
 
 uint64_t vector_base_addr;

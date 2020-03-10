@@ -37,9 +37,9 @@ void test_valloc_free_compact(void) {
   char* q = alloc(64);
   free(p);
   free(q);
-  char* z = alloc(128);
-  free(z);
-  ASSERT((uint64_t)p == (uint64_t)z);
+
+  ASSERT(mem.freelist == NULL, "non-null freelist");
+  ASSERT(mem.top == TOP_OF_MEM, "mem reset");
 }
 
 UNIT_TEST(test_valloc_free_compact_all)

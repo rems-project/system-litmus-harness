@@ -260,21 +260,21 @@ void init_test_ctx(test_ctx_t* ctx, const char* test_name, int no_threads,
 
 
 void free_test_ctx(test_ctx_t* ctx) {
-  for (int v = 0; v < ctx->no_heap_vars; v++) {
-    // ensure each heap var allloc'd into its own page...
-    free(ctx->heap_vars[v]);
-  }
-
-  for (int r = 0; r < ctx->no_out_regs; r++) {
-    free(ctx->out_regs[r]);
-  }
-
   for (int t = 0; t < ctx->hist->limit; t++) {
     free(ctx->hist->results[t]);
   }
 
   free(ctx->hist->lut);
   free(ctx->hist);
+
+  for (int r = 0; r < ctx->no_out_regs; r++) {
+    free(ctx->out_regs[r]);
+  }
+
+  for (int v = 0; v < ctx->no_heap_vars; v++) {
+    // ensure each heap var allloc'd into its own page...
+    free(ctx->heap_vars[v]);
+  }
 
   free(ctx->heap_vars);
   free(ctx->out_regs);

@@ -100,27 +100,27 @@ void __find_and_remove_from_freelist(valloc_alloc* p) {
   }
 }
 
-void __compact_node(valloc_alloc* node) {
-  uint64_t begin = (uint64_t)node;
+int __compact_node(valloc_alloc* node) {
+  uint64_t end = (uint64_t)node + node->size;
 
   /**
-   *  find fblk such that fblk end == node start
+   *  find fblk such that fblk start == node end
    * 
    *  n1 -> node -> n2 -> ...
    *  n3 -> fblk -> n4 -> ...
    * 
    * refactor into:
-   *  n1 -> fblk+node -> n2
+   *  n1 -> node+fblk -> n2
    *  n3 -> n4
    */
 
   valloc_alloc* fblk = mem.freelist;
   while (fblk != NULL) {
     uint64_t fblk_end = (uint64_t)fblk + fblk->size;
-    if (fblk_end == (begin - sizeof(valloc_block))) {
-      node->size = fblk->size + node->size + sizeof(valloc_block);
+    if ((uint64_t)fblk == (end + sizeof(valloc_block))) {
+      node->size += fblk->size + sizeof(valloc_block);
       __find_and_remove_from_freelist(fblk);
-      return;
+      return 1;
     }
     fblk = fblk->next;
   }
@@ -128,19 +128,34 @@ void __compact_node(valloc_alloc* node) {
   /**
    * if no such other node exists,  then maybe this is a chunk with no free space between the top of memory and here.
    */
-  if (mem.top == begin-1) {
-    uint64_t new_top = (uint64_t)node + node->size;
+  if (mem.top == ((uint64_t)node - sizeof(valloc_block))) {
     __find_and_remove_from_freelist(node);
-    mem.top = new_top;
+
+    fblk = mem.freelist;
+    while (fblk != NULL) {
+      if ((uint64_t)fblk < end) {
+        printf("! err: was going to squash over freelist ?\n");
+        abort();
+      }
+      fblk = fblk->next;
+    }
+
+    mem.top = end;
+    return 1;
   }
+
+  return 0;
 }
 
 void compact(void) {
-  valloc_alloc* fblk = mem.freelist;
-
-  while (fblk != NULL) {
-    __compact_node(fblk);
-    fblk = fblk->next;
+  int c = 1;
+  while (c) {
+    valloc_alloc* fblk = mem.freelist;
+    c = 0;
+    while (fblk != NULL) {
+      c |= __compact_node(fblk);
+      fblk = fblk->next;
+    }
   }
 }
 
@@ -179,7 +194,9 @@ int valloc_is_free(void* p) {
 
   valloc_alloc* fblk = mem.freelist;
   while (fblk != NULL) {
-    if ((uint64_t)fblk < va && va < ((uint64_t)fblk) + fblk->size) {
+    uint64_t fblk_start = (uint64_t)fblk - sizeof(valloc_block);
+    uint64_t fblk_end = (uint64_t)fblk + fblk->size;
+    if (fblk_start <= va && va <= fblk_end) {
       return 1;
     }
     fblk = fblk->next;
