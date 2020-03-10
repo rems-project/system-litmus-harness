@@ -33,6 +33,7 @@ static void P0(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
 
       /* test */
       "str x0, [x1]\n\t"
+      "dsb sy\n\t"
       "ldr x2, [x3]\n\t"
       :
       : [ydesc] "r" (*ypte), [xpte] "r" (xpte), [x] "r" (x), [x4] "r" (x4)
@@ -41,8 +42,8 @@ static void P0(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
   reset_pgfault_handler((uint64_t)x);
 }
 
-void W_AT(void) {
-  run_test("W+AT",
+void CoWTinv_dsb(void) {
+  run_test("CoWT.inv+dsb",
     1, (th_f** []){
       (th_f* []) {NULL, P0, NULL},
     },

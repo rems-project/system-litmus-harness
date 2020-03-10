@@ -3,8 +3,10 @@
 extern void MP_pos(void);
 extern void MP_dmb_svc(void);
 extern void MP_dmb_eret(void);
-extern void W_AT(void);
-extern void W_AT_dsb(void);
+extern void CoWT(void);
+extern void CoWT_dsb(void);
+extern void CoWTinv(void);
+extern void CoWTinv_dsb(void);
 
 uint64_t NUMBER_OF_RUNS = 1000UL;
 uint8_t ENABLE_PGTABLE = 1;
@@ -16,8 +18,10 @@ int main(void) {
   MP_pos();
 
   if (ENABLE_PGTABLE) {
-    W_AT();
-    W_AT_dsb();
+    CoWT();
+    CoWT_dsb();
+    CoWTinv();
+    CoWTinv_dsb();
   }
 
   if (! ENABLE_PGTABLE) {
