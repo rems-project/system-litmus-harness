@@ -132,8 +132,8 @@ vmm_pa_end:
 int vmm_pte_valid(uint64_t* root, uint64_t* addr) {
   uint64_t* pte = vmm_pte(root, (uint64_t)addr);
   if ((*pte & 1) == 0) {
-    return 1;
+    return 0;
   }
 
-  return 0;
+  return 1;
 }
