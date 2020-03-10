@@ -28,6 +28,7 @@ void run_test(const char* name, int no_threads, th_f*** funcs, int no_heap_vars,
   ctx.start_els = cfg.thread_ELs;
   ctx.heap_var_names = heap_var_names;
   ctx.out_reg_names = reg_names;
+  ctx.cfg = cfg;
 
   for (int i = 0; i < cfg.no_init_states; i++) {
     init_varstate_t var = cfg.init_states[i];
@@ -83,6 +84,17 @@ uint64_t idx_from_varname(test_ctx_t* ctx, const char* varname) {
   return 0;
 }
 
+const char* varname_from_idx(test_ctx_t* ctx, uint64_t idx) {
+  for (int i = 0; i < ctx->no_heap_vars; i++) {
+    if (idx == i)
+      return ctx->heap_var_names[i];
+  }
+
+  printf("! err: no such variable with index %ld.\n", idx);
+  abort();
+  return 0;
+}
+
 void set_init_pte(test_ctx_t* ctx, const char* varname, uint64_t desc) {
   uint64_t idx = idx_from_varname(ctx, varname);
 
@@ -103,6 +115,20 @@ void set_init_heap(test_ctx_t* ctx, const char* varname, uint64_t value) {
   }
 }
 
+uint64_t ctx_initial_heap_value(test_ctx_t* ctx, uint64_t idx) {
+  for (int i = 0; i < ctx->cfg.no_init_states; i++) {
+    init_varstate_t var = ctx->cfg.init_states[i];
+    const char* varname = var.varname;
+    uint64_t var_idx = idx_from_varname(ctx, varname);
+    if (var_idx == idx && var.type == TYPE_HEAP) {
+      return var.value;
+    }
+  }
+
+  /* default: assume 0 */
+  return 0;
+}
+
 static void go_cpus(int cpu, void* a) {
   test_ctx_t* ctx = (test_ctx_t*)a;
   start_of_thread(ctx, cpu);
@@ -118,6 +144,7 @@ static void go_cpus(int cpu, void* a) {
 static void _check_ptes(test_ctx_t* ctx, uint64_t n, uint64_t** vas,
                         uint64_t** ptes, uint64_t* original) {
   int reset = 0;
+
 
   for (int i = 0; i < n; i++) {
     if (*ptes[i] != original[i]) {
@@ -358,12 +385,11 @@ static void add_results(test_hist_t* res, test_ctx_t* ctx, int run) {
 void prefetch(test_ctx_t* ctx, int i) {
   for (int v = 0; v < ctx->no_heap_vars; v++) {
     /* TODO: read initial state */
-    if (randn() % 2 && vmm_pte_valid(ctx->ptable, &ctx->heap_vars[v][i]) && ctx->heap_vars[v][i] != 0) {
+    if (randn() % 2 && vmm_pte_valid(ctx->ptable, &ctx->heap_vars[v][i]) && ctx->heap_vars[v][i] != ctx_initial_heap_value(ctx, v)) {
       raise_to_el1(); /* can abort only at EL1 */
       printf(
-          "! fatal: initial state for heap var %d on run %d was %d not "
-          "0\n",
-          v, i, ctx->heap_vars[v][i]);
+          "! fatal: initial state for heap var \"%s\" on run %d was %d not %d",
+          varname_from_idx(ctx, v), i, ctx->heap_vars[v][i], ctx_initial_heap_value(ctx, v));
       abort();
     }
   }

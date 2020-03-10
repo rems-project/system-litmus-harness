@@ -4,6 +4,29 @@
 
 #include "config.h"
 
+/* test configuration */
+typedef enum {
+  TYPE_HEAP,
+  TYPE_PTE,
+} init_type_t;
+
+typedef struct {
+  const char* varname;
+  init_type_t type;
+  uint64_t value;
+} init_varstate_t;
+
+/* passed as argument to run_test() to configure extra options */
+typedef struct {
+  const char* name;
+  int no_threads;
+  uint64_t* interesting_result;   /* interesting (relaxed) result to highlight */
+  int* thread_ELs;                /* EL for each thread to start at */
+
+  int no_init_states;
+  init_varstate_t* init_states;   /* initial state array */
+} test_config_t;
+
 /* test data */
 typedef struct {
     uint64_t counter;
@@ -43,29 +66,8 @@ struct test_ctx {
   int* start_els;
   uint64_t current_EL;
   uint64_t privileged_harness;  /* require harness to run at EL1 between runs ? */
+  test_config_t cfg;
 };
-
-typedef enum {
-  TYPE_HEAP,
-  TYPE_PTE,
-} init_type_t;
-
-typedef struct {
-  const char* varname;
-  init_type_t type;
-  uint64_t value;
-} init_varstate_t;
-
-/* passed as argument to run_test() to configure extra options */
-typedef struct {
-  const char* name;
-  int no_threads;
-  uint64_t* interesting_result;   /* interesting (relaxed) result to highlight */
-  int* thread_ELs;                /* EL for each thread to start at */
-
-  int no_init_states;
-  init_varstate_t* init_states;   /* initial state array */
-} test_config_t;
 
 /* entry point for tests */
 void run_test(const char* name, 
