@@ -14,8 +14,6 @@ void test_free_test_ctx(void) {
 
   valloc_alloc* fblk = mem.freelist;
   while (fblk != NULL) {
-    printf("[test_ctx] freelist chunk @ %p -> %p\n", (uint64_t)fblk - sizeof(valloc_block), (uint64_t)fblk + fblk->size);
-    printf("[test_ctx] mem.top = %p\n", mem.top);
     fblk = fblk->next;
   }
 
