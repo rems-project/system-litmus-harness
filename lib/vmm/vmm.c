@@ -101,7 +101,7 @@ uint64_t* vmm_pte(uint64_t* root, uint64_t va) {
 
 uint64_t* vmm_pa(uint64_t* root, uint64_t va) {
   uint64_t* ret;
-  unlock(&vmm_lock);
+  lock(&vmm_lock);
   for (int level = 0; level <= 3; level++) {
     desc_t desc = read_descptr((uint64_t*)root + OFFS(va, level), level);
     switch (desc.type) {
