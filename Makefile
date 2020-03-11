@@ -97,15 +97,14 @@ debug: bin/litmus.bin
 
 bin/%.exe: OUT_NAME=$$tmp
 bin/%.exe: bin/%.bin
-	echo 'echo Starting $@' > $^
-	echo 'echo tmp=`mktemp`' >> $^
-	echo 'tmp=`mktemp`' >> $^
-	echo 'echo base64 -d \<\< BIN_EOF \| zcat \> $$tmp \|\| exit 2' >> $^
-	echo 'base64 -d << BIN_EOF | zcat > $$tmp || exit 2' >> $^
-	gzip -c $@ | base64 >> $^
-	echo "BIN_EOF" >> $^
-	echo '$(RUN_CMD_HOST)' >> $^
-	chmod +x $^
+	echo 'set -o xtrace' > $@
+	echo 'echo Starting $@' >> $@
+	echo 'tmp=`mktemp`' >> $@
+	echo 'base64 -d << BIN_EOF | zcat > $$tmp || exit 2' >> $@
+	gzip -c $^ | base64 >> $@
+	echo "BIN_EOF" >> $@
+	echo '$(RUN_CMD_HOST)' >> $@
+	chmod +x $@
 
 ssh: bin/litmus.exe
 	scp bin/litmus.exe $(SSH_NAME):litmus.exe
