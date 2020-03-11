@@ -6,6 +6,8 @@ OBJDUMP = aarch64-linux-gnu-objdump
 OUT_NAME = bin/litmus.bin
 SSH_NAME = pi@rems-rpi4b
 TESTS = .
+TRACE = 0
+DEBUG = 0
 RUN_CMD_HOST = 	\
 	$(QEMU) \
 		-nodefaults -machine virt,accel=kvm,gic-version=host -cpu host \
@@ -22,7 +24,13 @@ RUN_CMD_LOCAL = 	\
 CCERRORS = return-type parentheses misleading-indentation null-dereference sequence-point
 CCNOWARN = unused-variable
 OTHER_INCLUDES =
-CFLAGS = -O0 -nostdlib -I inc/ -I inc/litmus $(OTHER_INCLUDES) -I inc/vmm -ffreestanding -fomit-frame-pointer -fno-pie -fno-pic -Wall $(addprefix -Wno-,$(CCNOWARN)) $(addprefix -Werror=,$(CCERRORS)) -DTRACE
+CFLAGS = -O0 -nostdlib -I inc/ -I inc/litmus $(OTHER_INCLUDES) -I inc/vmm -ffreestanding -fomit-frame-pointer -fno-pie -fno-pic -Wall $(addprefix -Wno-,$(CCNOWARN)) $(addprefix -Werror=,$(CCERRORS))
+ifeq ($(TRACE),1)
+CFLAGS += -DTRACE
+endif
+ifeq ($(DEBUG),1)
+CFLAGS += -DDEBUG
+endif
 LDFLAGS = -nostdlib -n -pie
 SSHFLAGS =
 

@@ -125,3 +125,12 @@ void trace(const char* fmt, ...) {
 	va_end(ap);
 #endif
 }
+
+void debug(const char* fmt, ...) {
+#ifdef DEBUG
+	va_list ap;
+	va_start(ap, fmt);
+	vprintf(fmt, ap);
+	va_end(ap);
+#endif
+}
