@@ -3,7 +3,9 @@
 #include "lib.h"
 
 void vmm_flush_tlb_vaddr(uint64_t va) {
-  asm volatile("tlbi vae1is, %[va]\n" : : [va] "r"(va));
+  uint64_t page = va >>= 12;
+  dsb();
+  asm volatile("tlbi vaae1is, %[va]\n" : : [va] "r"(page));
   dsb();
   isb();
 }
