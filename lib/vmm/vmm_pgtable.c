@@ -22,6 +22,8 @@ void ptable_set_idrange(uint64_t* root,
                         uint64_t prot) {
   uint64_t level1 = 30, level2 = 21, level3 = 12;
 
+  debug("[ptable_set_id_range] %p -> %p\n", va_start, va_end);
+
   if (!IS_ALIGNED(va_start, level3)) {
     puts("! error: ptable_set_idrange: got unaligned va_start\n");
     abort();
@@ -36,11 +38,15 @@ void ptable_set_idrange(uint64_t* root,
 
   uint64_t va = va_start; /* see above: must be aligned on a page */
 
+
   for (; !IS_ALIGNED(va, level2) && va < va_end;
        va += (1UL << level3))
     set_block_or_page(
         root, va, prot,
         3);  // allocate 4k regions up to the first 2M region
+
+
+  debug("[ptable_set_idrange] allocated lvl3 up to %p\n", va);
 
   for (; !IS_ALIGNED(va, level1) && va < va_end;
        va += (1UL << level2))
@@ -48,10 +54,14 @@ void ptable_set_idrange(uint64_t* root,
         root, va, prot,
         2);  // allocate 2M regions up to the first 1G region
 
+  debug("[ptable_set_idrange] allocated lvl2 up to %p\n", va);
+
   for (; va < ALIGN_TO(va_end, level1);
        va += (1UL << level1))
     set_block_or_page(root, va, prot,
                                 1);  // Alloc as many 1G regions as possible
+
+  debug("[ptable_set_idrange] allocated lvl1 up to %p\n", va);
 
   for (; va < ALIGN_TO(va_end, level2);
        va += (1UL << level2))
@@ -59,9 +69,13 @@ void ptable_set_idrange(uint64_t* root,
         root, va, prot,
         2);  // allocate as much of what's left as 2MB regions
 
+  debug("[ptable_set_idrange] allocated lvl2 up to %p\n", va);
+
   for (; va < va_end; va += (1UL << level3))
     set_block_or_page(root, va, prot,
                                 3);  // allocate whatever remains as 4k pages.
+
+  debug("[ptable_set_idrange] allocated lvl3 up to %p\n", va);
 
   unlock(&vmm_lock);
 }
@@ -115,6 +129,11 @@ static void set_new_ttable(uint64_t ttbr, uint64_t tcr) {
 }
 
 void vmm_set_id_translation(uint64_t* pgtable) {
+  if (pgtable == NULL) {
+    vmm_mmu_off();
+    return;
+  }
+
   /* now set the new TTBR and TCR */
   uint64_t ttbr = (uint64_t)pgtable;
   uint64_t tcr = (0L << 39) | /* HA, software access flag */

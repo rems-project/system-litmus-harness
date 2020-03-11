@@ -216,3 +216,11 @@ uint64_t valloc_free_size(void) {
   }
   return (top - BOT_OF_HEAP) + freelist_space;
 }
+
+void valloc_memcpy(void* dest, void* src, uint64_t size) {
+  char* p = (char*)src;
+  char* q = (char*)dest;
+  for (uint64_t i = 0; i < size; i++) {
+    *(q + i) = *(p + i);
+  }
+}

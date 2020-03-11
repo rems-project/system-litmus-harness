@@ -36,7 +36,7 @@ void vmm_ensure_level(uint64_t* root, int desired_level, uint64_t va) {
           pg[i] = write_desc(new_desc);
           break;
 
-        default:
+        case Table:
           unreachable();
       }
     }
@@ -57,23 +57,31 @@ desc_t read_descptr(uint64_t* desc, int level) {
 
 desc_t vmm_translation_walk(uint64_t* root, uint64_t va) {
   lock(&vmm_lock);
-  desc_t ret;
+  desc_t desc;
+
+  uint64_t* parent = NULL;
 
   for (int level = 0; level <= 3; level++) {
     uint64_t* p = root + OFFS(va, level);
-    desc_t desc = read_desc(*p, level);
-    if (desc.type == Invalid || desc.type == Block) {
-      ret = desc;
-      ret.src = p;
+    uint64_t* parents[4];
+    valloc_memcpy(parents, desc.parents, 4*sizeof(uint64_t*));
+
+    desc = read_desc(*p, level);
+    desc.src = p;
+    valloc_memcpy(desc.parents, parents, 4*sizeof(uint64_t*));
+    desc.parents[level] = parent;
+
+    if ((desc.type == Invalid) || (desc.type == Block)) {
       goto vmm_translation_walk_end;
     }
 
     root = (uint64_t*)desc.table_addr;
+    parent = p;
   }
 
 vmm_translation_walk_end:
   unlock(&vmm_lock);
-  return ret;
+  return desc;
 }
 
 uint64_t* vmm_block(uint64_t* root, uint64_t va) {
@@ -94,6 +102,7 @@ uint64_t* vmm_pte(uint64_t* root, uint64_t va) {
 uint64_t* vmm_pa(uint64_t* root, uint64_t va) {
   uint64_t* ret;
   desc_t desc = vmm_translation_walk(root, va);
+
   switch (desc.type) {
     case Invalid:
       return NULL;
