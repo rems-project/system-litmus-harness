@@ -27,8 +27,8 @@ static void P0(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
 
       /* output back to C vars */
       "str x2, [%[x2]]\n\t"
-      : [x2] "=r" (*x2)
-      : [ydesc] "r" (*ypte), [xpte] "r" (xpte), [x] "r" (x)
+      :
+      : [ydesc] "r" (*ypte), [xpte] "r" (xpte), [x] "r" (x), [x2] "r" (x2)
       : "cc", "memory", "x0", "x1", "x2", "x3");
 }
 
