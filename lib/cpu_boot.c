@@ -42,12 +42,10 @@ void run_on_cpus(async_fn_t* fn, void* arg) {
   for (int i = 0; i < 4; i++) {
     counts[i] = cpu_data[i].count;
     if (i != cur_cpu) {
-      printf("[run_on_cpus] on %d\n", i);
       run_on_cpu_async(i, fn, arg);
     }
   }
 
-  printf("[run_on_cpus] on %d\n", cur_cpu);
   fn(cur_cpu, arg);
   cpu_data[cur_cpu].count++;
   sev();
@@ -55,7 +53,6 @@ void run_on_cpus(async_fn_t* fn, void* arg) {
   for (int i = 0; i < 4; i++) {
     while (cpu_data[i].count == counts[i]) wfe();
   }
-  printf("[run_on_cpus] done.\n");
 }
 
 int secondary_init(int cpu) {
