@@ -8,10 +8,10 @@ extern void CoWT_dsb(void);
 extern void CoWTinv(void);
 extern void CoWTinv_dsb(void);
 
-uint64_t NUMBER_OF_RUNS = 1000UL;
-uint8_t ENABLE_PGTABLE = 1;
+int main(int argc, char** argv) {
+  read_args(argc, argv);
+  debug("foo");
 
-int main(void) {
   /** warning:
    * ensure ENABLE_PGTABLE is set to 0 for exceptions tests
    */

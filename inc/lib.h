@@ -1,9 +1,12 @@
 #ifndef LIB_H
 #define LIB_H
 
+#include <stddef.h>
 #include <stdint.h>
 #include <stdarg.h>
+#include <string.h>
 
+#include "argc.h"
 #include "bitwise.h"
 #include "device.h"
 #include "valloc.h"
@@ -13,10 +16,8 @@
 #include "exceptions.h"
 #include "rand.h"
 #include "litmus_test.h"
-
 #include "debug.h"
-
-#define NULL (void*)0
+#include "config.h"
 
 uint64_t vector_base_addr;
 

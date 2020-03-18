@@ -8,6 +8,9 @@ void setup(char* fdtloc) {
     init_device();
     init_valloc();
 
+    /* read passed args */
+    init_args();
+
     vector_base_addr = (uint64_t)&el1_exception_vector_table_p0;
 
     /* create pgtable */

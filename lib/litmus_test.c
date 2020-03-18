@@ -55,26 +55,9 @@ void run_test(const char* name, int no_threads, th_f*** funcs, int no_heap_vars,
   end_of_test(&ctx, reg_names, cfg.interesting_result);
 }
 
-int scmp(const char* a, const char* b) {
-  int i = 0;
-  while (1) {
-    char ac = a[i];
-    char bc = b[i];
-
-    if (ac != bc) return 0;
-
-    if (ac == '\0' && bc == '\0') break;
-
-    if (ac == '\0' || bc == '\0') return 0;
-
-    i += 1;
-  }
-  return 1;
-}
-
 uint64_t idx_from_varname(test_ctx_t* ctx, const char* varname) {
   for (int i = 0; i < ctx->no_heap_vars; i++) {
-    if (scmp(ctx->heap_var_names[i], varname)) {
+    if (strcmp(ctx->heap_var_names[i], varname)) {
       return i;
     }
   }

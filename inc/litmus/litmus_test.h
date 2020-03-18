@@ -2,8 +2,6 @@
 #define LITMUS_TEST_H
 #include <stdint.h>
 
-#include "config.h"
-
 /* test configuration */
 typedef enum {
   TYPE_HEAP,

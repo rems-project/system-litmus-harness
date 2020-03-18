@@ -92,8 +92,10 @@ static void vprintf(const char* fmt, va_list ap) {
 				} else {
 					putdec(va_arg(ap, long));
 				}
+			} else if (c == 'c') {
+				putc(va_arg(ap, int));
 			} else if (c == 's') {
-				puts(va_arg(ap, const char*));
+				puts(va_arg(ap, char*));
 			} else if (c == 'p') {
 				puts("0x");
 				puthex(va_arg(ap, long));
@@ -118,19 +120,19 @@ void printf(const char* fmt, ...) {
 }
 
 void trace(const char* fmt, ...) {
-#ifdef TRACE
-	va_list ap;
-	va_start(ap, fmt);
-	vprintf(fmt, ap);
-	va_end(ap);
-#endif
+	if (TRACE) {
+		va_list ap;
+		va_start(ap, fmt);
+		vprintf(fmt, ap);
+		va_end(ap);
+	}
 }
 
 void debug(const char* fmt, ...) {
-#ifdef DEBUG
-	va_list ap;
-	va_start(ap, fmt);
-	vprintf(fmt, ap);
-	va_end(ap);
-#endif
+	if (DEBUG) {
+		va_list ap;
+		va_start(ap, fmt);
+		vprintf(fmt, ap);
+		va_end(ap);
+	}
 }
