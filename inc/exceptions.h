@@ -70,8 +70,6 @@ void reset_pgfault_handler(uint64_t va);
 void drop_to_el0(void);
 void raise_to_el1(void);
 
-extern uint64_t set_vector_table(uint64_t);
-
 /**
  * hot swapping
  *

@@ -211,12 +211,3 @@ vector_table el1_exception_vector_table_p0
 vector_table el1_exception_vector_table_p1
 vector_table el1_exception_vector_table_p2
 vector_table el1_exception_vector_table_p3
-
-/* set the vector table and return a pointer to the old one */
-.global set_vector_table
-set_vector_table:
-    mov x1, x0
-    mrs x0, vbar_el1
-    msr vbar_el1, x1
-    isb
-    ret

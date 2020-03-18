@@ -2,7 +2,9 @@
 
 #include "vmm.h"
 
-void setup(void) {
+void setup(char* fdtloc) {
+    fdt = fdtloc;
+
     init_device();
     init_valloc();
 

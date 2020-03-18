@@ -5,6 +5,7 @@ OBJCOPY = aarch64-linux-gnu-objcopy
 OBJDUMP = aarch64-linux-gnu-objdump
 OUT_NAME = bin/litmus.bin
 SSH_NAME = pi@rems-rpi4b
+BIN_ARGS =
 TESTS = .
 TRACE = 0
 DEBUG = 0
@@ -13,13 +14,13 @@ RUN_CMD_HOST = 	\
 		-nodefaults -machine virt,accel=kvm,gic-version=host -cpu host \
 		-device virtio-serial-device -device virtconsole,chardev=ctd \
 		-chardev testdev,id=ctd -device pci-testdev -display none -serial stdio \
-		-kernel $(OUT_NAME) -smp 4 # -initrd /tmp/tmp.UUenc9WRhz
+		-kernel $(OUT_NAME) -smp 4 -append '$(BIN_ARGS)' # -initrd /tmp/tmp.UUenc9WRhz
 RUN_CMD_LOCAL = 	\
 	$(QEMU) \
 		-nodefaults -machine virt -cpu cortex-a57 \
 		-device virtio-serial-device -device virtconsole,chardev=ctd \
 		-chardev testdev,id=ctd -device pci-testdev -display none -serial stdio \
-		-kernel $(OUT_NAME) -smp 4 # -initrd /tmp/tmp.UUenc9WRhz
+		-kernel $(OUT_NAME) -smp 4 -append '$(BIN_ARGS)' # -initrd /tmp/tmp.UUenc9WRhz
 
 CCERRORS = return-type parentheses misleading-indentation null-dereference sequence-point
 CCNOWARN = unused-variable

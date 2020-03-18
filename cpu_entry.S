@@ -106,15 +106,12 @@ init_cpu:
 	msr	cpacr_el1, x4
 
 	/* set VBAR */
-	adrp x0, el1_exception_vector_table_p0
-	add x0, x0, :lo12:el1_exception_vector_table_p0
+	adrp x14, el1_exception_vector_table_p0
+	add x14, x14, :lo12:el1_exception_vector_table_p0
 	mov x13, #2048
 	mul x13, x13, x9
-	add x0, x0, x13
-	str x30, [sp, #-16]!
-	bl set_vector_table
-	ldr x30, [sp], #16
-
+	add x14, x14, x13
+    msr vbar_el1, x14
 	ret
 
 .globl halt
