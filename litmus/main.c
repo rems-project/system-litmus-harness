@@ -1,6 +1,7 @@
 #include "lib.h"
 
 extern void MP_pos(void);
+extern void MP_dmbs(void);
 extern void MP_dmb_svc(void);
 extern void MP_dmb_eret(void);
 extern void CoWT(void);
@@ -8,14 +9,10 @@ extern void CoWT_dsb(void);
 extern void CoWTinv(void);
 extern void CoWTinv_dsb(void);
 
-int main(int argc, char** argv) {
-  read_args(argc, argv);
-  debug("foo");
-
-  /** warning:
-   * ensure ENABLE_PGTABLE is set to 0 for exceptions tests
-   */
+int main(void) {
   MP_pos();
+  return 0;
+  MP_dmbs();
 
   if (ENABLE_PGTABLE) {
     CoWT();

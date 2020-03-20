@@ -6,6 +6,7 @@
 #include <stdarg.h>
 #include <string.h>
 
+#include "thread_info.h"
 #include "argc.h"
 #include "bitwise.h"
 #include "device.h"
@@ -43,7 +44,6 @@ typedef struct {
     void* arg;
     uint64_t started;
     int count;
-    volatile lock_t lock;
 } cpu_data_t;
 
 cpu_data_t cpu_data[4];

@@ -47,7 +47,5 @@ void writeb(uint8_t byte, uint64_t addr);
     asm volatile("msr " #r ", %[reg]" : : [reg] "rZ" (v));  \
 } while (0)
 
-
-uint64_t get_cpu(void);
 #endif
 #endif /* ASM_H */

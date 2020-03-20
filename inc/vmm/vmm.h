@@ -9,8 +9,6 @@
 /* global pagetable */
 extern uint64_t* vmm_pgtable;
 
-lock_t vmm_lock;
-
 /* translation functions */
 
 /* given a VA return a pointer to the last-level pagetable (descriptor) entry
@@ -39,6 +37,7 @@ void vmm_mmu_off(void);
 void vmm_mmu_on(void);
 
 void vmm_set_id_translation(uint64_t* pgtable);
+void vmm_switch_ttable(uint64_t* new_table);
 
 void vmm_flush_tlb_vaddr(uint64_t va);
 void vmm_flush_tlb(void);

@@ -3,8 +3,6 @@
 uint64_t* vmm_pgtable;
 
 void vmm_ensure_level(uint64_t* root, int desired_level, uint64_t va) {
-  lock(&vmm_lock);
-
   desc_t block_desc = { .level = 0 };
 
   for (int level = 0; level <= desired_level - 1; level++) {
@@ -48,7 +46,6 @@ void vmm_ensure_level(uint64_t* root, int desired_level, uint64_t va) {
     *p = write_desc(new_desc);
     root = pg;
   }
-  unlock(&vmm_lock);
 }
 
 desc_t read_descptr(uint64_t* desc, int level) {
@@ -56,7 +53,6 @@ desc_t read_descptr(uint64_t* desc, int level) {
 }
 
 desc_t vmm_translation_walk(uint64_t* root, uint64_t va) {
-  lock(&vmm_lock);
   desc_t desc;
 
   uint64_t* parent = NULL;
@@ -80,7 +76,6 @@ desc_t vmm_translation_walk(uint64_t* root, uint64_t va) {
   }
 
 vmm_translation_walk_end:
-  unlock(&vmm_lock);
   return desc;
 }
 

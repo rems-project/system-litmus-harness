@@ -1,3 +1,5 @@
+#include "lib.h"
+
 void vmm_mmu_off(void) {
   asm volatile(
       "mrs x18, SCTLR_EL1\n"
@@ -9,6 +11,9 @@ void vmm_mmu_off(void) {
       :
       :
       : "x18", "x19", "memory");
+
+  thread_infos[get_cpu()].mmu_enabled = 0;
+  thread_infos[get_cpu()].printer_lock_enabled = 0;
 }
 
 void vmm_mmu_on(void) {
@@ -21,4 +26,7 @@ void vmm_mmu_on(void) {
       :
       :
       : "x18", "x19", "memory");
+
+  thread_infos[get_cpu()].mmu_enabled = 1;
+  thread_infos[get_cpu()].printer_lock_enabled = 1;
 }

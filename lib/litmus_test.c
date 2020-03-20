@@ -168,7 +168,6 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
       regs[r] = &ctx->out_regs[r][i];
     }
 
-
     start_of_run(ctx, cpu, i);
     if (pre != NULL)
       pre(ctx, i, (uint64_t**)heaps, (uint64_t**)ptes, (uint64_t*)pas, (uint64_t**)regs);
@@ -180,6 +179,7 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
 
     if (post != NULL)
       post(ctx, i, (uint64_t**)heaps, (uint64_t**)ptes, (uint64_t*)pas, (uint64_t**)regs);
+
     end_of_run(ctx, cpu, i);
 
     if (ENABLE_PGTABLE)
@@ -426,7 +426,7 @@ void end_of_run(test_ctx_t* ctx, int thread, int i) {
 void start_of_thread(test_ctx_t* ctx, int cpu) {
   /* turn on MMU and switch to new pagetable */
   if (ENABLE_PGTABLE)
-      vmm_set_id_translation(ctx->ptable);
+      vmm_switch_ttable(ctx->ptable);
 
   /* before can drop to EL0, ensure EL0 has a valid mapped stack space
    */
@@ -437,8 +437,9 @@ void start_of_thread(test_ctx_t* ctx, int cpu) {
 
 void end_of_thread(test_ctx_t* ctx, int cpu) {
   /* restore old pgtable */
-  if (ENABLE_PGTABLE)
-    vmm_set_id_translation(vmm_pgtable);
+  if (ENABLE_PGTABLE) {
+    vmm_switch_ttable(vmm_pgtable);
+  }
 
   bwait(cpu, 0, ctx->final_barrier, 4);
   trace("CPU%d: end of test\n", cpu);

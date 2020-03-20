@@ -34,8 +34,6 @@ void ptable_set_idrange(uint64_t* root,
     abort();
   }
 
-  lock(&vmm_lock);
-
   uint64_t va = va_start; /* see above: must be aligned on a page */
 
 
@@ -76,8 +74,6 @@ void ptable_set_idrange(uint64_t* root,
                                 3);  // allocate whatever remains as 4k pages.
 
   debug("[ptable_set_idrange] allocated lvl3 up to %p\n", va);
-
-  unlock(&vmm_lock);
 }
 
 
@@ -120,7 +116,11 @@ uint64_t* vmm_alloc_new_idmap_4k(void) {
 }
 
 static void set_new_ttable(uint64_t ttbr, uint64_t tcr) {
-  vmm_mmu_off();
+  /* no printf happens here, so need to worry about disabling locking during them */
+  if ((read_sysreg(sctlr_el1) & 1) == 1) {
+    printf("! err: set_new_ttable:  MMU already on!\n");
+    abort();
+  }
   write_sysreg(ttbr, ttbr0_el1);
   write_sysreg(tcr, tcr_el1);
   dsb();
@@ -148,6 +148,12 @@ void vmm_set_id_translation(uint64_t* pgtable) {
                  0;
 
   set_new_ttable(ttbr, tcr);
+}
+
+void vmm_switch_ttable(uint64_t* new_table) {
+  write_sysreg((uint64_t)new_table, ttbr0_el1);
+  dsb();
+  isb();
 }
 
 void __vmm_free_pgtable(uint64_t* pgtable, int level) {
