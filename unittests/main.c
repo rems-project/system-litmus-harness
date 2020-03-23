@@ -7,8 +7,8 @@ test_file_t* tests;
 
 
 void main(void) {
-  unsigned int total_count;
-  unsigned int total_failure;
+  unsigned int total_count = 0;
+  unsigned int total_failure = 0;
 
   tests = (test_file_t[]){
       #include "tests.cstruct"
