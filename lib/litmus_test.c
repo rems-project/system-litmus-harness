@@ -282,7 +282,6 @@ void free_test_ctx(test_ctx_t* ctx) {
   }
 
   for (int v = 0; v < ctx->no_heap_vars; v++) {
-    // ensure each heap var allloc'd into its own page...
     free(ctx->heap_vars[v]);
   }
 
