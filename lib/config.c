@@ -6,7 +6,7 @@
 
 
 /* global configuration options + default values */
-uint64_t NUMBER_OF_RUNS = 100UL;
+uint64_t NUMBER_OF_RUNS = 10000UL;
 uint8_t ENABLE_PGTABLE = 0;
 
 uint8_t DEBUG = 0;
