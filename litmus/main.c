@@ -11,7 +11,6 @@ extern void CoWTinv_dsb(void);
 
 int main(void) {
   MP_pos();
-  return 0;
   MP_dmbs();
 
   if (ENABLE_PGTABLE) {
