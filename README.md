@@ -7,7 +7,6 @@ Build & Run
 
 Run locally:
 ```
-> make
 > make run
 ```
 
