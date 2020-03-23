@@ -5,26 +5,44 @@ ARMv8-A System Litmus Runner
 Build & Run
 -----------
 
-Run
+Run locally:
 ```
 > make
 > make run
 ```
 
-The Makefile will build the ARMv8-A executable `main.bin` which can be copied to an ARMv8-A device (such as the Raspberry Pi) with KVM installed,  or can be ran locally under QEMU emulation.
+Run remotely:
+```
+> make
+```
+
+The Makefile will build the ARMv8-A executable `bin/litmus.exe` which can be copied to an ARMv8-A device (such as the Raspberry Pi) with KVM installed
+and ran directly.
+
+```
+> $ scp bin/litmus.exe pi:
+> $ ssh pi './litmus.exe -h'
+> Usage: litmus.exe [-h] [-p] [-t] [-d] [-nX]
+> -h:      display this help text and quit.
+> -d:      enable debug output.
+> -t:      enable trace output.
+> -p:      switch to pagetable tests.
+> -nX:     set number of runs to X (default: 10000)
+```
 
 Requirements
 ------------
 
 To compile locally you need an `AArch64` compiler, such as `aarch64-linux-gnu-gcc`,  usually installable directly with your package manager.
+This should come with `AArch64` compatible `-objdump`, `-objcopy`  and `-ld`, if not, they will need to be installed.
 
-For debugging you need `gdb-multiarch`,  again you should be able to just install it with your package manager.
+For debugging locally you need `gdb-multiarch`,  again you should be able to just install it with your package manager.
 
 
 Debugging
 ---------
 
-For debugging the Makefile generates a `main.elf.s` file.
+For debugging the Makefile generates a `bin/litmus.elf.S` file.
 This file contains an objdump of the binary.
 
 Running

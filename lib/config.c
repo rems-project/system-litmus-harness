@@ -38,6 +38,10 @@ static void read_arg(char* w) {
           NUMBER_OF_RUNS = atoi(word);
           return;
 
+        case 'h':
+          display_help_and_quit();
+          return;
+
         default:
           goto read_arg_fail;
       }
