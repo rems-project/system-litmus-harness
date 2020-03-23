@@ -91,8 +91,9 @@ static void vprintf(const char* fmt, va_list ap) {
 				if (*(p+1) == 'x') {
 					puthex(va_arg(ap, long));
 					p++;
-				} else {
+				} else if (*(p+1) == 'd') {
 					putdec(va_arg(ap, long));
+					p++;
 				}
 			} else if (c == 'c') {
 				putc(va_arg(ap, int));
