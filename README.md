@@ -20,14 +20,14 @@ The Makefile will build the ARMv8-A executable `bin/litmus.exe` which can be cop
 and ran directly.
 
 ```
-> $ scp bin/litmus.exe pi:
-> $ ssh pi './litmus.exe -h'
-> Usage: litmus.exe [-h] [-p] [-t] [-d] [-nX]
-> -h:      display this help text and quit.
-> -d:      enable debug output.
-> -t:      enable trace output.
-> -p:      switch to pagetable tests.
-> -nX:     set number of runs to X (default: 10000)
+> scp bin/litmus.exe pi:
+> ssh pi './litmus.exe -h'
+Usage: litmus.exe [-h] [-p] [-t] [-d] [-nX]
+-h:      display this help text and quit.
+-d:      enable debug output.
+-t:      enable trace output.
+-p:      switch to pagetable tests.
+-nX:     set number of runs to X (default: 10000)
 ```
 
 Requirements
