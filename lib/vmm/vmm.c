@@ -113,6 +113,9 @@ uint64_t* vmm_pa(uint64_t* root, uint64_t va) {
 }
 
 int vmm_pte_valid(uint64_t* root, uint64_t* addr) {
+  if (root == NULL)
+    return 1;
+
   uint64_t* pte = vmm_pte(root, (uint64_t)addr);
   if ((*pte & 1) == 0) {
     return 0;
