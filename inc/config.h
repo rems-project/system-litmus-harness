@@ -4,6 +4,11 @@
 /* global configuration */
 extern uint64_t NUMBER_OF_RUNS;
 extern uint8_t ENABLE_PGTABLE;
+extern uint8_t ENABLE_PERF_COUNTS;
+
+/** disable collecting results histogram
+ * and (if -t) print results direct to serial */
+extern uint8_t DISABLE_RESULTS_HIST;
 
 extern uint8_t DEBUG;
 extern uint8_t TRACE;

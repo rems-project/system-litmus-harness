@@ -36,6 +36,11 @@ void psci_system_off(void);
 void abort(void);
 #define unreachable() do {printf("! unreachable: [%s] %s %d\n", __FILE__, __FUNCTION__, __LINE__); raise_to_el1(); abort();} while (1);
 
+
+/** one-time setup */
+void setup(char* fdt);
+void per_cpu_setup(int cpu);
+
 /* secondary entry data */
 typedef void async_fn_t(int cpu, void* arg);
 

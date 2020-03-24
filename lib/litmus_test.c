@@ -401,6 +401,15 @@ void start_of_run(test_ctx_t* ctx, int thread, int i) {
   drop_to_el0();
 }
 
+static void print_single_result(test_ctx_t* ctx, int i) {
+  printf("* ");
+  for (int r = 0; r < ctx->no_out_regs; r++) {
+    printf(" %s=%d", ctx->out_reg_names[r], ctx->out_regs[r][i]);
+  }
+
+  printf(" : 1\n");
+}
+
 void end_of_run(test_ctx_t* ctx, int thread, int i) {
   raise_to_el1();
   bwait(thread, i % ctx->no_threads, &ctx->end_barriers[i], ctx->no_threads);
@@ -409,8 +418,12 @@ void end_of_run(test_ctx_t* ctx, int thread, int i) {
   if (thread == 0) {
     uint64_t r = ctx->current_run++;
 
-    test_hist_t* res = ctx->hist;
-    add_results(res, ctx, i);
+    if (! DISABLE_RESULTS_HIST) {
+      test_hist_t* res = ctx->hist;
+      add_results(res, ctx, i);
+    } else {
+      print_single_result(ctx, r);
+    }
 
     /* progress indicator */
     uint64_t step = (ctx->no_runs / 10);
@@ -454,8 +467,10 @@ void start_of_test(test_ctx_t* ctx, const char* name, int no_threads,
 
 void end_of_test(test_ctx_t* ctx, const char** out_reg_names,
                  uint64_t* interesting_result) {
-  trace("%s\n", "Printing Results...");
-  print_results(ctx->hist, ctx, out_reg_names, interesting_result);
+  if (! DISABLE_RESULTS_HIST) {
+    trace("%s\n", "Printing Results...");
+    print_results(ctx->hist, ctx, out_reg_names, interesting_result);
+  }
   trace("Finished test %s\n", ctx->test_name);
   free_test_ctx(ctx);
 }

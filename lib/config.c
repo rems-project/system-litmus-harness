@@ -8,6 +8,9 @@
 /* global configuration options + default values */
 uint64_t NUMBER_OF_RUNS = 10000UL;
 uint8_t ENABLE_PGTABLE = 0;
+uint8_t ENABLE_PERF_COUNTS = 0;
+
+uint8_t DISABLE_RESULTS_HIST = 0;
 
 uint8_t DEBUG = 0;
 uint8_t TRACE = 0;
@@ -41,6 +44,20 @@ static void read_arg(char* w) {
         case 'h':
           display_help_and_quit();
           return;
+
+        case '-':
+          word = w+2;
+          if (strcmp(word, "help")) {
+            display_help_and_quit();
+            return;
+          } else if (strcmp(word, "perf")) {
+            ENABLE_PERF_COUNTS = 1;
+            return;
+          } else if (strcmp(word, "no-hist")) {
+            DISABLE_RESULTS_HIST = 1;
+            return;
+          }
+          break;
 
         default:
           goto read_arg_fail;

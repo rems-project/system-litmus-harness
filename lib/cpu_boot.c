@@ -60,16 +60,7 @@ void run_on_cpus(async_fn_t* fn, void* arg) {
 }
 
 int secondary_init(int cpu) {
-  if (ENABLE_PGTABLE) {
-    vmm_set_id_translation(vmm_pgtable);
-  }
-
-  current_thread_info()->printer_lock_enabled = 1;
-
-  cpu_data[cpu].to_execute = 0;
-  dmb();
-  cpu_data[cpu].started = 1;
-
+  per_cpu_setup(cpu);
   return cpu;
 }
 
