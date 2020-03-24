@@ -28,7 +28,7 @@ int __free_idx(uint64_t va) {
 }
 
 
-void __print_heap(void) {
+void __print_heap_flat(void) {
   for (uint64_t i = mem.top; i < TOP_OF_MEM; i++) {
     if (valloc_is_free((void*)i)) {
       int idx = __free_idx((uint64_t)i);
@@ -38,6 +38,45 @@ void __print_heap(void) {
     }
   }
   printf("\n");
+}
+
+void __print_heap_page(uint64_t pg) {
+  uint64_t was_free = 1;
+  uint64_t chunk = 0;
+  uint64_t total_alloc = 0;
+  printf("%p: ");
+  for (uint64_t i = 0; i < 4096; i++) {
+    if (pg+i > TOP_OF_MEM)
+      break;
+
+    uint64_t is_free = valloc_is_free((void*)(pg+i));
+    if (! is_free) {
+      total_alloc++;
+    }
+
+    if (is_free != was_free) {
+      if (! was_free) {
+        printf("[%p: %ld]", pg+i-chunk, chunk);
+      }
+
+      chunk = 0;
+    }
+
+    chunk++;
+    was_free = is_free;
+  }
+
+  if (chunk != 0) {
+    printf("[%p: %ld]", pg+1024-chunk, chunk);
+  }
+
+  printf(" (%ld B) \n", total_alloc);
+}
+
+void __print_heap_pages(void) {
+  for (uint64_t i = ALIGN_TO(mem.top, 12); i < TOP_OF_MEM; i += 4096UL) {
+    __print_heap_page(i);
+  }
 }
 
 void __print_freelist(void) {
@@ -52,7 +91,7 @@ void __print_freelist(void) {
 
 void debug_show_valloc_mem(void)  {
   printf("* HEAP:\n");
-  __print_heap();
+  __print_heap_pages();
   printf("**FREELIST: ");
   __print_freelist();
 }
