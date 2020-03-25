@@ -23,6 +23,8 @@ static const litmus_test_t TESTS[] = {
 };
 
 void display_test_help(void) {
+  printf("If none supplied, selects all enabled tests.\n");
+  printf("Otherwise, runs all tests supplied in args that are one of:\n");
   for (int i = 0; i < sizeof(TESTS)/sizeof(litmus_test_t); i++) {
     litmus_test_t const* t = &TESTS[i];
     printf(" %s", t->fn_name);
@@ -39,39 +41,61 @@ void display_test_help(void) {
   }
 }
 
-static void run_test_fn(const litmus_test_t tst) {
+static void run_test_fn(const litmus_test_t tst, uint8_t report_skip) {
   if (tst.requires_perf && (! ENABLE_PERF_COUNTS)) {
-    printf("! skipping \"%s\":  requires --perf\n", tst.fn_name);
+    if (report_skip)
+      printf("! skipping \"%s\":  requires --perf\n", tst.fn_name);
     return;
   }
 
   if (tst.requires_pgtable && (! ENABLE_PGTABLE)) {
-    printf("! skipping \"%s\": requires --pgtable\n", tst.fn_name);
+    if (report_skip)
+      printf("! skipping \"%s\": requires --pgtable\n", tst.fn_name);
     return;
   }
 
   tst.fn();
 }
 
+
+#define LOWER(c) (((c) < 90 && (c) > 65 ? (c)+32 : (c)))
 /** estimate a numeric difference between two strings
  * horribly inefficient but who cares
+ * 
+ * This is optimized for litmus test names, which are often the same jumble of letters but in slightly different orders
  */
 static int strdiff(char* w1, char* w2) {
-  char c = *w1;
-  char d = *w2;
-  if (c == d && c == '\0') {
-    return 0;
-  } else if (c == d) {
-    return strdiff(w1+1, w2+1);
-  } else if (c == '\0' || d =='\0') {
-    return MAX(strlen(w1), strlen(w2)) - MIN(strlen(w1), strlen(w2));
-  } else {
-    int cd = MAX(c,d) - MIN(c,d);
-    int diff0 = strdiff(w1+1, w2+1)+1;
-    int diff1 = strdiff(w1+1, w2)+2;
-    int diff2 = strdiff(w1, w2+1)+2;
-    return MIN(diff0, MIN(diff1, diff2)) + cd;
+  int sw1 = strlen(w1);
+  int sw2 = strlen(w2);
+  int diff = 0;
+  for (int i = 0; i < sw1; i++) {
+    char c, d, e;
+
+    if (w2[i] == '\0') {
+      return diff + 10*(sw1 - sw2);
+    }
+
+    c = d  = e = w2[i];
+    if (0 < (i - 1) && (i - 1) < sw2) {
+      c = w2[i - 1];
+    }
+
+    if ((i + 1) < sw2) {
+      e = w2[i + 1];
+    }
+
+    #define CMPCHR(a,b) \
+        (a==b ? 0 : \
+          (LOWER(a)==LOWER(b) ? 1 : \
+            ((a == '+' || b == '+') ? 2 : \
+              (MAX(LOWER(a),LOWER(b))-MIN(LOWER(a),LOWER(b))))))
+
+    d = w2[i];
+    char x = w1[i];
+    diff += MIN(CMPCHR(x,d), MIN(1+CMPCHR(x,c), 1+CMPCHR(x,e)));
   }
+
+  return diff + sw2 - sw1;
 }
 
 /** if a test cannnot be found
@@ -79,7 +103,7 @@ static int strdiff(char* w1, char* w2) {
  */
 static void __find_closest(char* arg) {
   char const* smallest = NULL;
-  int small_diff;
+  int small_diff = 0;
   for (int i = 0; i < sizeof(TESTS)/sizeof(litmus_test_t); i++) {
     int diff = strdiff(arg, (char*)TESTS[i].fn_name);
     if (0 < diff) {
@@ -100,7 +124,7 @@ static void match_and_run(char* arg) {
 
   for (int i = 0; i < sizeof(TESTS)/sizeof(litmus_test_t); i++) {
     if (strcmp(arg, "*") || strcmp(arg, TESTS[i].fn_name)) {
-      run_test_fn(TESTS[i]);
+      run_test_fn(TESTS[i], !strcmp(arg, "*"));
       found = 1;
     }
   }
