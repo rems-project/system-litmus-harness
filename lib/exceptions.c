@@ -156,8 +156,7 @@ static void* default_svc_handler(uint64_t vec, uint64_t esr, regvals_t* regs) {
 
 static void* default_pgfault_handler(uint64_t vec, uint64_t esr,
                                      regvals_t* regs) {
-  uint64_t far;
-  asm volatile("mrs %[far], FAR_EL1\n" : [far] "=r"(far));
+  uint64_t far = read_sysreg(far_el1);
   int cpu = get_cpu();
   uint64_t imm = far % 127;
   if (table_pgfault[cpu][imm] == NULL)
@@ -174,7 +173,7 @@ void* handle_exception(uint64_t vec, uint64_t esr, regvals_t* regs) {
     return fn(esr, regs);
   } else if (ec == 0x15) {
     return default_svc_handler(vec, esr, regs);
-  } else if ((ec | 1) == 0x23) {
+  } else if ((ec | 1) == 0x25) {
     return default_pgfault_handler(vec, esr, regs);
   } else {
     return default_handler(vec, esr);
@@ -195,7 +194,7 @@ void set_pgfault_handler(uint64_t va, exception_vector_fn* fn) {
   int cpu = get_cpu();
   int idx = va % 127;
   if (table_pgfault[cpu][idx] != NULL) {
-    puts("! err: cannot set pagefault handler for same address twice.\n");
+    puts("! err: cannot set pagefault handler for same page twice.\n");
     abort();
   }
 
