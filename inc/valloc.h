@@ -2,6 +2,8 @@
 #define VALLOC_H
 #include <stdint.h>
 
+extern uint8_t valloc_lock_enable;
+
 typedef struct __alloc {
     uint64_t size;
     struct __alloc* next;

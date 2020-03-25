@@ -2,6 +2,7 @@
 
 #include "lib.h"
 
+uint8_t valloc_lock_enable = 0;
 lock_t __valloc_lock;
 
 void init_valloc(void) {
@@ -28,7 +29,8 @@ char* __free_check(uint64_t size) {
 }
 
 void* alloc_with_alignment(uint64_t size, uint64_t pow2_alignment) {
-  lock(&__valloc_lock);
+  if (valloc_lock_enable)
+    lock(&__valloc_lock);
   /* first: check if there space in freelist */
   if (size < sizeof(valloc_alloc)) {
     size = sizeof(valloc_alloc);
@@ -54,7 +56,8 @@ void* alloc_with_alignment(uint64_t size, uint64_t pow2_alignment) {
   }
 
   mem.top = new_top;
-  unlock(&__valloc_lock);
+  if (valloc_lock_enable)
+    unlock(&__valloc_lock);
   return (void*)allocated_space_vaddr;
 }
 

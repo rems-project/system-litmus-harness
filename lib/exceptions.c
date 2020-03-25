@@ -124,7 +124,6 @@ static void* default_svc_raise_el1(uint64_t vec, uint64_t esr,
       :
       :
       : "memory", "x18");
-
   return NULL;
 }
 
@@ -221,7 +220,7 @@ uint32_t* hotswap_exception(uint64_t vector_slot, uint32_t data[32]) {
   uint64_t iline = 1 << BIT_SLICE(read_sysreg(ctr_el0), 3, 0);
   uint64_t dline = 1 << BIT_SLICE(read_sysreg(ctr_el0), 19, 16);
   uint64_t line = MIN(iline, dline);
-  for (uint64_t vbar_va = vbar_start; vbar_va < vbar_start+1024; vbar_va += line) {
+  for (uint64_t vbar_va = vbar_start; vbar_va < vbar_start+2048; vbar_va += line) {
     asm volatile(
         "dc cvau, %[vbar]\n\t"
         "dsb ish\n\t"
@@ -248,7 +247,7 @@ void restore_hotswapped_exception(uint64_t vector_slot, uint32_t* ptr) {
   uint64_t iline = 1 << BIT_SLICE(read_sysreg(ctr_el0), 3, 0);
   uint64_t dline = 1 << BIT_SLICE(read_sysreg(ctr_el0), 19, 16);
   uint64_t line = MIN(iline, dline);
-  for (uint64_t vbar_va = vbar_start; vbar_va < vbar_start+1024; vbar_va += line) {
+  for (uint64_t vbar_va = vbar_start; vbar_va < vbar_start+2048; vbar_va += line) {
     asm volatile(
         "dc cvau, %[vbar]\n\t"
         "dsb ish\n\t"

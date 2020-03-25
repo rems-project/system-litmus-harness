@@ -33,9 +33,16 @@ void setup(char* fdtloc) {
   }
 
   cpu_data_init();
-  per_cpu_setup(0);
-}
 
+  debug("setup cpu\n");
+  per_cpu_setup(0);
+
+  cpu_boot(1);
+  cpu_boot(2);
+  cpu_boot(3);
+
+  valloc_lock_enable = 1;
+}
 
 void per_cpu_setup(int cpu) {
   current_thread_info()->mmu_enabled = 0;

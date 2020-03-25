@@ -50,9 +50,6 @@ start:
 	bl init_cpu
 	bl setup
 
-	/* start remaining CPUs */
-	bl init_cpus
-
 	/* call main */
 	adrp	x0, __argc
 	ldr	x0, [x0, :lo12:__argc]
@@ -63,18 +60,6 @@ start:
 	/* exit */
 	bl abort
 	b halt
-
-.globl init_cpus
-init_cpus:
-	str x30, [sp, #-16]!
-	mov x0, #1
-	bl cpu_boot
-	mov x0, #2
-	bl cpu_boot
-	mov x0, #3
-	bl cpu_boot
-	ldr x30, [sp], #16
-	ret
 
 .globl cpu_entry
 cpu_entry:
