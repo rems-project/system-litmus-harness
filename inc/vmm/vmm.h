@@ -37,6 +37,7 @@ void vmm_mmu_off(void);
 void vmm_mmu_on(void);
 
 void vmm_set_id_translation(uint64_t* pgtable);
+void vmm_update_mapping(uint64_t* pgtable, uint64_t va, uint64_t pa, uint64_t prot);
 void vmm_switch_ttable(uint64_t* new_table);
 
 void vmm_flush_tlb_vaddr(uint64_t va);

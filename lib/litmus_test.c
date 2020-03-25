@@ -469,8 +469,13 @@ void start_of_test(test_ctx_t* ctx, const char* name, int no_threads,
                    th_f*** funcs, int no_heap_vars, int no_regs, int no_runs) {
   trace("====== %s ======\n", name);
   init_test_ctx(ctx, name, no_threads, funcs, no_heap_vars, no_regs, no_runs);
-  if (ENABLE_PGTABLE)
-      ctx->ptable = vmm_alloc_new_idmap_4k();
+  if (ENABLE_PGTABLE) {
+    ctx->ptable = vmm_alloc_new_idmap_4k();
+    printf("vmm update map %p %p %p\n", vector_base_addr_rw, vector_base_pa, 0x1 << 6);
+    for (int i = 0; i < 4; i++) {
+      vmm_update_mapping(ctx->ptable, vector_base_addr_rw+i*2048, vector_base_pa+i*2048, 0x1 << 6);
+    }
+  }
 }
 
 void end_of_test(test_ctx_t* ctx, const char** out_reg_names,

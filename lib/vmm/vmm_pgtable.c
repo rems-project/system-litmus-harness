@@ -1,18 +1,22 @@
 #include "lib.h"
 
-static void set_block_or_page(uint64_t* root, uint64_t va, uint64_t prot, uint64_t desired_level) {
+static void set_block_or_page(uint64_t* root, uint64_t va, uint64_t pa, uint64_t prot, uint64_t desired_level) {
   vmm_ensure_level(root, desired_level, va);
 
   desc_t desc = vmm_translation_walk(root, va);
 
   desc_t final;
   final.type = Block;
-  final.oa = va;
+  final.oa = pa;
   final.level = desc.level;
   final.attrs = read_attrs(prot);
   final.attrs.AF = 1;
   final.attrs.SH = 3;
   *desc.src = write_desc(final);
+}
+
+void vmm_update_mapping(uint64_t* pgtable, uint64_t va, uint64_t pa, uint64_t prot) {
+  set_block_or_page(pgtable, va, pa, prot, 3);
 }
 
 
@@ -38,7 +42,7 @@ void ptable_set_idrange(uint64_t* root,
   for (; !IS_ALIGNED(va, level2) && va < va_end;
        va += (1UL << level3))
     set_block_or_page(
-        root, va, prot,
+        root, va, va, prot,
         3);  // allocate 4k regions up to the first 2M region
 
 
@@ -47,14 +51,14 @@ void ptable_set_idrange(uint64_t* root,
   for (; !IS_ALIGNED(va, level1) && va < va_end;
        va += (1UL << level2))
     set_block_or_page(
-        root, va, prot,
+        root, va, va, prot,
         2);  // allocate 2M regions up to the first 1G region
 
   debug("[ptable_set_idrange] allocated lvl2 up to %p\n", va);
 
   for (; va < ALIGN_TO(va_end, level1);
        va += (1UL << level1))
-    set_block_or_page(root, va, prot,
+    set_block_or_page(root, va, va, prot,
                                 1);  // Alloc as many 1G regions as possible
 
   debug("[ptable_set_idrange] allocated lvl1 up to %p\n", va);
@@ -62,13 +66,13 @@ void ptable_set_idrange(uint64_t* root,
   for (; va < ALIGN_TO(va_end, level2);
        va += (1UL << level2))
     set_block_or_page(
-        root, va, prot,
+        root, va, va, prot,
         2);  // allocate as much of what's left as 2MB regions
 
   debug("[ptable_set_idrange] allocated lvl2 up to %p\n", va);
 
   for (; va < va_end; va += (1UL << level3))
-    set_block_or_page(root, va, prot,
+    set_block_or_page(root, va, va, prot,
                                 3);  // allocate whatever remains as 4k pages.
 
   debug("[ptable_set_idrange] allocated lvl3 up to %p\n", va);
@@ -99,7 +103,7 @@ uint64_t* vmm_alloc_new_idmap_4k(void) {
 
   /* .text segment (code) */
   /* AArch64 requires that code executable at EL1 is not writable at EL0 */
-  ptable_set_idrange(root_ptable, phys_offs, TOP_OF_TEXT, 0x00);
+  ptable_set_idrange(root_ptable, phys_offs, TOP_OF_TEXT, 0x03 << 6);
 
   /* bss and other data segments */
   ptable_set_idrange(root_ptable, TOP_OF_TEXT, TOP_OF_DATA, 0x50);

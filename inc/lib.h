@@ -20,7 +20,8 @@
 #include "debug.h"
 #include "config.h"
 
-uint64_t vector_base_addr;
+uint64_t vector_base_pa;
+uint64_t vector_base_addr_rw;
 
 /* QEMU memory mapped addresses */
 #define UART0_BASE 0x09000000

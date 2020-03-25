@@ -18,14 +18,20 @@ void setup(char* fdtloc) {
   init_args(); 
   read_args(__argc, __argv);
   
-  vector_base_addr = (uint64_t)&el1_exception_vector_table_p0;
+  vector_base_pa = (uint64_t)&el1_exception_vector_table_p0;
+  vector_base_addr_rw = vector_base_pa;
   
   /* create pgtable */
   if (ENABLE_PGTABLE) {
     vmm_pgtable = vmm_alloc_new_idmap_4k();
-    vmm_set_id_translation(vmm_pgtable);
+    /* re-map vector_base_addr to some non-executable mapping of the vector table
+    */
+    vector_base_addr_rw = (uint64_t)alloc(2048*4);
+    for (int i = 0; i < 4; i++) {
+      vmm_update_mapping(vmm_pgtable, vector_base_addr_rw+i*2048, vector_base_pa+i*2048, 0x1 << 6);
+    }
   }
-  
+
   cpu_data_init();
   per_cpu_setup(0);
 }

@@ -211,41 +211,55 @@ void reset_pgfault_handler(uint64_t va) {
 
 uint32_t* hotswap_exception(uint64_t vector_slot, uint32_t data[32]) {
   uint32_t* p = alloc(sizeof(uint32_t) * 32);
-  uint32_t* vbar = (uint32_t*)(vector_base_addr + (2048*read_sysreg(tpidr_el0)) + vector_slot);
+  uint32_t* vbar = (uint32_t*)(vector_base_addr_rw + (2048*read_sysreg(tpidr_el0)) + vector_slot);
   for (int i = 0; i < 32; i++) {
     p[i] = *(vbar + i);
     *(vbar + i) = data[i];
   }
 
-  asm volatile(
-      "dc cvau, %[vbar]\n\t"
-      "dsb ish\n\t"
-      "ic ivau, %[vbar]\n\t"
-      "dsb ish\n\t"
-      "isb\n\t"  /* not required if SCTLR_EL1.EIS is set (or if in v8.4 or earlier) */
-      :
-      : [vbar] "r"(vbar)
-      : "memory");
+  uint64_t vbar_start = vector_base_addr_rw + (2048*read_sysreg(tpidr_el0));
+  uint64_t iline = 1 << BIT_SLICE(read_sysreg(ctr_el0), 3, 0);
+  uint64_t dline = 1 << BIT_SLICE(read_sysreg(ctr_el0), 19, 16);
+  uint64_t line = MIN(iline, dline);
+  for (uint64_t vbar_va = vbar_start; vbar_va < vbar_start+1024; vbar_va += line) {
+    asm volatile(
+        "dc cvau, %[vbar]\n\t"
+        "dsb ish\n\t"
+        "ic ivau, %[vbar]\n\t"
+        "dsb ish\n\t"
+        "isb\n\t"  /* not required if SCTLR_EL1.EIS is set (or if in v8.4 or earlier) */
+        /** TODO: BS: ^ is the above True?  Does EIS require ISB-like sync before vector itself is fetched ?*/
+        :
+        : [vbar] "r"(vbar_va)
+        : "memory");
+  }
 
   return p;
 }
 
 void restore_hotswapped_exception(uint64_t vector_slot, uint32_t* ptr) {
-  uint32_t* vbar = (uint32_t*)(vector_base_addr + (2048*read_sysreg(tpidr_el0)) + vector_slot);
+  uint32_t* vbar = (uint32_t*)(vector_base_addr_rw + (2048*read_sysreg(tpidr_el0)) + vector_slot);
 
   for (int i = 0; i < 32; i++) {
     *(vbar + i) = ptr[i];
   }
 
-  asm volatile(
-      "dc cvau, %[vbar]\n\t"
-      "dsb ish\n\t"
-      "ic ivau, %[vbar]\n\t"
-      "dsb ish\n\t"
-      "isb\n\t"  /* not required if SCTLR_EL1.EIS is set (or if in v8.4 or earlier) */
-      :
-      : [vbar] "r"(vbar)
-      : "memory");
+  uint64_t vbar_start = vector_base_addr_rw + (2048*read_sysreg(tpidr_el0));
+  uint64_t iline = 1 << BIT_SLICE(read_sysreg(ctr_el0), 3, 0);
+  uint64_t dline = 1 << BIT_SLICE(read_sysreg(ctr_el0), 19, 16);
+  uint64_t line = MIN(iline, dline);
+  for (uint64_t vbar_va = vbar_start; vbar_va < vbar_start+1024; vbar_va += line) {
+    asm volatile(
+        "dc cvau, %[vbar]\n\t"
+        "dsb ish\n\t"
+        "ic ivau, %[vbar]\n\t"
+        "dsb ish\n\t"
+        "isb\n\t"  /* not required if SCTLR_EL1.EIS is set (or if in v8.4 or earlier) */
+        /** TODO: BS: ^ is the above True?  Does EIS require ISB-like sync before vector itself is fetched ?*/
+        :
+        : [vbar] "r"(vbar_va)
+        : "memory");
+  }
 
   free(ptr);
 }
