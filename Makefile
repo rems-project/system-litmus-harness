@@ -12,8 +12,8 @@ DEBUG = 0
 RUN_CMD_HOST = 	\
 	$(QEMU) \
 		-nodefaults -machine virt,accel=kvm,gic-version=host -cpu host \
-		-device virtio-serial-device -device virtconsole,chardev=ctd \
-		-chardev testdev,id=ctd -device pci-testdev -display none -serial stdio \
+		-device virtio-serial-device -device virtconsole \
+		-display none -serial stdio \
 		-kernel $(OUT_NAME) -smp 4 -append "$$*" # -initrd /tmp/tmp.UUenc9WRhz
 RUN_CMD_LOCAL = 	\
 	$(QEMU) \
