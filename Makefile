@@ -22,7 +22,7 @@ RUN_CMD_LOCAL = 	\
 		-chardev testdev,id=ctd -device pci-testdev -display none -serial stdio \
 		-kernel $(OUT_NAME) -smp 4 -append '$(BIN_ARGS)' # -initrd /tmp/tmp.UUenc9WRhz
 
-CCERRORS = return-type parentheses misleading-indentation null-dereference sequence-point
+CCERRORS = return-type parentheses misleading-indentation null-dereference sequence-point uninitialized maybe-uninitialized
 CCNOWARN = unused-variable
 OTHER_INCLUDES =
 CFLAGS = -O0 -nostdlib -I inc/ -I inc/litmus $(OTHER_INCLUDES) -I inc/vmm -ffreestanding -fomit-frame-pointer -fno-pie -fno-pic -Wall $(addprefix -Wno-,$(CCNOWARN)) $(addprefix -Werror=,$(CCERRORS))
