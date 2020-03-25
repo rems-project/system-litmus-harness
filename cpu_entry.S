@@ -54,6 +54,10 @@ start:
 	bl init_cpus
 
 	/* call main */
+	adrp	x0, __argc
+	ldr	x0, [x0, :lo12:__argc]
+	adrp	x1, __argv
+	add	x1, x1, :lo12:__argv
 	bl main
 
 	/* exit */

@@ -15,6 +15,9 @@ uint8_t DISABLE_RESULTS_HIST = 0;
 uint8_t DEBUG = 0;
 uint8_t TRACE = 0;
 
+char* collected_tests[100];
+int   collected_tests_count;
+
 static void read_arg(char* w) {
   char* word = w;
 
@@ -56,6 +59,15 @@ static void read_arg(char* w) {
           } else if (strcmp(word, "no-hist")) {
             DISABLE_RESULTS_HIST = 1;
             return;
+          } else if (strcmp(word, "trace")) {
+            TRACE = 1;
+            return;
+          } else if (strcmp(word, "debug")) {
+            DEBUG = 1;
+            return;
+          } else if (strcmp(word, "pgtable")) {
+            ENABLE_PGTABLE = 1;
+            return;
           }
           break;
 
@@ -65,7 +77,8 @@ static void read_arg(char* w) {
       break;
 
     default:
-      goto read_arg_fail;
+      collected_tests[collected_tests_count++] = w;
+      return;
   }
 
 read_arg_fail:

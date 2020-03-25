@@ -1,5 +1,9 @@
 #ifndef BITWISE_H
 #define BITWISE_H
+
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+#define MAX(a, b) ((a) < (b) ? (b) : (a))
+
 /* bitwise operations */
 #define BIT(x, i) (((x) >> (i)) & 0x1)
 #define BIT_SLICE(x, top, bot) ((x >> (bot)) & ((1UL << (1UL + (top) - (bot))) - 1UL))

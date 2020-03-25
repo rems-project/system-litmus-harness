@@ -13,7 +13,11 @@ extern uint8_t DISABLE_RESULTS_HIST;
 extern uint8_t DEBUG;
 extern uint8_t TRACE;
 
+extern char*  collected_tests[100];
+extern int    collected_tests_count;
+
 void display_help_and_quit(void);
+void display_test_help(void);
 void read_args(int argc, char** argv);
 
 #endif /* CONFIG_H */
