@@ -22,8 +22,6 @@ void ptable_set_idrange(uint64_t* root,
                         uint64_t prot) {
   uint64_t level1 = 30, level2 = 21, level3 = 12;
 
-  debug("[ptable_set_id_range] %p -> %p\n", va_start, va_end);
-
   if (!IS_ALIGNED(va_start, level3)) {
     puts("! error: ptable_set_idrange: got unaligned va_start\n");
     abort();

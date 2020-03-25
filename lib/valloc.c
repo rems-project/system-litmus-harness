@@ -2,6 +2,8 @@
 
 #include "lib.h"
 
+lock_t __valloc_lock;
+
 void init_valloc(void) {
   mem = (valloc_mempool){
       .top = TOP_OF_MEM,
@@ -26,6 +28,7 @@ char* __free_check(uint64_t size) {
 }
 
 void* alloc_with_alignment(uint64_t size, uint64_t pow2_alignment) {
+  lock(&__valloc_lock);
   /* first: check if there space in freelist */
   if (size < sizeof(valloc_alloc)) {
     size = sizeof(valloc_alloc);
@@ -51,6 +54,7 @@ void* alloc_with_alignment(uint64_t size, uint64_t pow2_alignment) {
   }
 
   mem.top = new_top;
+  unlock(&__valloc_lock);
   return (void*)allocated_space_vaddr;
 }
 
@@ -161,6 +165,7 @@ void compact(void) {
 
 
 void free(void* p) {
+  lock(&__valloc_lock);
   valloc_block* blk = (valloc_block*)((uint64_t)p - sizeof(valloc_block));
   uint64_t size = blk->size;
 
@@ -171,6 +176,7 @@ void free(void* p) {
 
   mem.freelist = (valloc_alloc*)p;
   compact();
+  unlock(&__valloc_lock);
 }
 
 void free_all(void) {

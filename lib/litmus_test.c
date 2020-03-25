@@ -2,6 +2,11 @@
 
 #include "lib.h"
 
+/** lock for critical sections inside harness
+ * during litmus test execution
+ */
+static lock_t __harness_lock;
+
 static void go_cpus(int cpu, void* a);
 static void run_thread(test_ctx_t* ctx, int cpu);
 
@@ -367,7 +372,10 @@ static void add_results(test_hist_t* res, test_ctx_t* ctx, int run) {
 void prefetch(test_ctx_t* ctx, int i) {
   for (int v = 0; v < ctx->no_heap_vars; v++) {
     /* TODO: read initial state */
-    if (randn() % 2 && vmm_pte_valid(ctx->ptable, &ctx->heap_vars[v][i]) && ctx->heap_vars[v][i] != ctx_initial_heap_value(ctx, v)) {
+    lock(&__harness_lock);
+    uint64_t is_valid = vmm_pte_valid(ctx->ptable, &ctx->heap_vars[v][i]);
+    unlock(&__harness_lock);
+    if (randn() % 2 && is_valid && ctx->heap_vars[v][i] != ctx_initial_heap_value(ctx, v)) {
       raise_to_el1(); /* can abort only at EL1 */
       printf(
           "! fatal: initial state for heap var \"%s\" on run %d was %d not %d",
