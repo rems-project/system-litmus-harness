@@ -6,7 +6,7 @@
 typedef struct {
     uint64_t cpu_no;
     uint8_t mmu_enabled;
-    uint8_t printer_lock_enabled;
+    uint8_t locking_enabled;
 } thread_info_t;
 
 extern thread_info_t thread_infos[4];

@@ -9,7 +9,7 @@ void setup(char* fdtloc) {
   fdt = fdtloc;
 
   current_thread_info()->mmu_enabled = 0;
-  current_thread_info()->printer_lock_enabled = 0;
+  current_thread_info()->locking_enabled = 0;
   
   init_device();
   init_valloc();
@@ -33,8 +33,6 @@ void setup(char* fdtloc) {
   }
 
   cpu_data_init();
-
-  debug("setup cpu\n");
   per_cpu_setup(0);
 
   cpu_boot(1);
@@ -57,7 +55,7 @@ void per_cpu_setup(int cpu) {
     write_sysreg(enable, pmuserenr_el0);
   }
   
-  current_thread_info()->printer_lock_enabled = 1;
+  current_thread_info()->locking_enabled = 1;
   
   cpu_data[cpu].to_execute = 0;
   dmb();

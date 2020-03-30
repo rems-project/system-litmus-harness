@@ -39,9 +39,11 @@ void lock(volatile lock_t* lock);
 void unlock(volatile lock_t* lock);
 
 /* barrier */
-void bwait(int cpu, int i, volatile int* barrier, int sz);
+typedef struct {
+  volatile uint64_t counter;
+  uint64_t released;
+  uint8_t release_flags[4];
+} bar_t;
 
-
-extern int __printer_lock_enable;
-
+void bwait(int cpu, int i, bar_t* barrier, int sz);
 #endif /* SYNC_H */

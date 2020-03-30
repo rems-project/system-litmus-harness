@@ -51,10 +51,10 @@ struct test_ctx {
   uint64_t** out_regs;          /* set of output register values: P1:x1,  P2:x3 etc */
   const char** out_reg_names;
   uint64_t no_out_regs;
-  int volatile* start_barriers;
-  int volatile* end_barriers;
-  int volatile* cleanup_barriers;
-  int volatile* final_barrier;
+  bar_t* start_barriers;
+  bar_t* end_barriers;
+  bar_t* cleanup_barriers;
+  bar_t* final_barrier;
   uint64_t* shuffled_ixs;
   uint64_t no_runs;
   const char* test_name;

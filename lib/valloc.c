@@ -29,7 +29,7 @@ char* __free_check(uint64_t size) {
 }
 
 void* alloc_with_alignment(uint64_t size, uint64_t pow2_alignment) {
-  if (valloc_lock_enable)
+  if (current_thread_info()->locking_enabled)
     lock(&__valloc_lock);
   /* first: check if there space in freelist */
   if (size < sizeof(valloc_alloc)) {
@@ -56,7 +56,7 @@ void* alloc_with_alignment(uint64_t size, uint64_t pow2_alignment) {
   }
 
   mem.top = new_top;
-  if (valloc_lock_enable)
+  if (current_thread_info()->locking_enabled)
     unlock(&__valloc_lock);
   return (void*)allocated_space_vaddr;
 }

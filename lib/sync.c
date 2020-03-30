@@ -76,26 +76,25 @@ void unlock(volatile lock_t* lock) {
 
 lock_t bwait_lock;
 
-void bwait(int cpu, int i, volatile int* barrier, int sz) {
+void bwait(int cpu, int i, bar_t* bar, int sz) {
+  /* slow acquire */
   lock(&bwait_lock);
-  *barrier += 1;
-  unlock(&bwait_lock);
-  
-  if (i == cpu) {
-    while (*barrier != sz) wfe();
-    *barrier = 0;
-    dmb();
-    sev();
-    wfe();
-  } else {
-    while (*barrier != 0) {
-      wfe();
-    }
+  bar->counter++;
+  if (bar->counter == sz) {
+    bar->released = 1;
+    dsb();
     sev();
   }
+  unlock(&bwait_lock);
+
+  while (! bar->released) wfe();
+  bar->release_flags[get_cpu()] = 1;
+  dsb();
+  
+  for (int i = 0; i < sz; i++) {
+    while (! bar->release_flags[i]) dmb();
+  }
 }
-
-
 
 void mmu_lock(volatile lock_t* lock) {
   asm volatile(
@@ -103,7 +102,8 @@ void mmu_lock(volatile lock_t* lock) {
     "ldxr w0, [%[lock]]\n"
     "cbnz w0, 0b\n"
     "mov w0, #1\n"
-    "stxr w1, w0, [%[lock]]\n"
+    "stxr w1, w0, [%[lock]]\n\t"
+    "dsb nsh\n\t"
     "cbnz w1, 0b\n"
     :
     : [lock] "r"(lock)
