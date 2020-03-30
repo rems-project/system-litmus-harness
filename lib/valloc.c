@@ -13,11 +13,11 @@ void init_valloc(void) {
   };
 }
 
-char* __free_check(uint64_t size) {
+char* __free_check(uint64_t size, uint64_t pow2_alignment) {
   valloc_alloc** last = (valloc_alloc**)&mem.freelist;
   valloc_alloc* free = mem.freelist;
   while (free) {
-    if (free->size >= size) {
+    if (free->size >= size && IS_ALIGNED((uint64_t)free, pow2_alignment)) {
       *last = free->next;
       return (char*)free;
     }
@@ -35,7 +35,7 @@ void* alloc_with_alignment(uint64_t size, uint64_t pow2_alignment) {
   if (size < sizeof(valloc_alloc)) {
     size = sizeof(valloc_alloc);
   }
-  char* p = __free_check(size);
+  char* p = __free_check(size, pow2_alignment);
   if (p) return p;
 
   uint64_t allocated_space_vaddr = ALIGN_POW2(mem.top - size, pow2_alignment);
