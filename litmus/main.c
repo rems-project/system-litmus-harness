@@ -1,5 +1,7 @@
 #include "lib.h"
 
+extern void SB_pos(void);
+extern void SB_dmbs(void);
 extern void MP_pos(void);
 extern void MP_dmbs(void);
 extern void MP_dmb_svc(void);
@@ -9,8 +11,11 @@ extern void CoWT_dsb(void);
 extern void CoWTinv(void);
 extern void CoWTinv_dsb(void);
 extern void MPtimes_pos(void);
+extern void WRCat_ctrl_dsb(void);
 
 static const litmus_test_t TESTS[] = {
+  {"SB+pos", SB_pos},
+  {"SB+dmbs", SB_dmbs},
   {"MP+pos", MP_pos},
   {"MP+dmbs", MP_dmbs},
   {"MP+dmb+svc", MP_dmb_svc},
@@ -20,6 +25,7 @@ static const litmus_test_t TESTS[] = {
   {"CoWT+dsb", CoWT_dsb, .requires_pgtable=1},
   {"CoWT.inv", CoWTinv, .requires_pgtable=1},
   {"CoWT.inv+dsb", CoWTinv_dsb, .requires_pgtable=1},
+  {"WRC.AT+ctrl+dsb", WRCat_ctrl_dsb, .requires_pgtable=1},
 };
 
 void display_test_help(void) {
