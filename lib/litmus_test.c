@@ -472,7 +472,7 @@ void start_of_test(test_ctx_t* ctx, const char* name, int no_threads,
   if (ENABLE_PGTABLE) {
     ctx->ptable = vmm_alloc_new_idmap_4k();
     for (int i = 0; i < 4; i++) {
-      vmm_update_mapping(ctx->ptable, vector_base_addr_rw+i*2048, vector_base_pa+i*2048, 0x1 << 6);
+      vmm_update_mapping(ctx->ptable, vector_base_addr_rw+i*4096, vector_base_pa+i*4096, 0x1 << 6);
     }
   }
 }

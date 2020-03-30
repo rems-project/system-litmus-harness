@@ -209,17 +209,17 @@ void reset_pgfault_handler(uint64_t va) {
 
 uint32_t* hotswap_exception(uint64_t vector_slot, uint32_t data[32]) {
   uint32_t* p = alloc(sizeof(uint32_t) * 32);
-  uint32_t* vbar = (uint32_t*)(vector_base_addr_rw + (2048*read_sysreg(tpidr_el0)) + vector_slot);
+  uint32_t* vbar = (uint32_t*)(vector_base_addr_rw + (4096*get_cpu()) + vector_slot);
   for (int i = 0; i < 32; i++) {
     p[i] = *(vbar + i);
     *(vbar + i) = data[i];
   }
 
-  uint64_t vbar_start = vector_base_addr_rw + (2048*read_sysreg(tpidr_el0));
+  uint64_t vbar_start = vector_base_addr_rw + (4096*get_cpu());
   uint64_t iline = 1 << BIT_SLICE(read_sysreg(ctr_el0), 3, 0);
   uint64_t dline = 1 << BIT_SLICE(read_sysreg(ctr_el0), 19, 16);
   uint64_t line = MIN(iline, dline);
-  for (uint64_t vbar_va = vbar_start; vbar_va < vbar_start+2048; vbar_va += line) {
+  for (uint64_t vbar_va = vbar_start; vbar_va < vbar_start+4096; vbar_va += line) {
     asm volatile(
         "dc cvau, %[vbar]\n\t"
         "dsb ish\n\t"
@@ -236,17 +236,17 @@ uint32_t* hotswap_exception(uint64_t vector_slot, uint32_t data[32]) {
 }
 
 void restore_hotswapped_exception(uint64_t vector_slot, uint32_t* ptr) {
-  uint32_t* vbar = (uint32_t*)(vector_base_addr_rw + (2048*read_sysreg(tpidr_el0)) + vector_slot);
+  uint32_t* vbar = (uint32_t*)(vector_base_addr_rw + (4096*read_sysreg(tpidr_el0)) + vector_slot);
 
   for (int i = 0; i < 32; i++) {
     *(vbar + i) = ptr[i];
   }
 
-  uint64_t vbar_start = vector_base_addr_rw + (2048*read_sysreg(tpidr_el0));
+  uint64_t vbar_start = vector_base_addr_rw + (4096*read_sysreg(tpidr_el0));
   uint64_t iline = 1 << BIT_SLICE(read_sysreg(ctr_el0), 3, 0);
   uint64_t dline = 1 << BIT_SLICE(read_sysreg(ctr_el0), 19, 16);
   uint64_t line = MIN(iline, dline);
-  for (uint64_t vbar_va = vbar_start; vbar_va < vbar_start+2048; vbar_va += line) {
+  for (uint64_t vbar_va = vbar_start; vbar_va < vbar_start+4096; vbar_va += line) {
     asm volatile(
         "dc cvau, %[vbar]\n\t"
         "dsb ish\n\t"

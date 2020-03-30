@@ -103,7 +103,7 @@ init_cpu:
 	/* set VBAR */
 	adrp x14, el1_exception_vector_table_p0
 	add x14, x14, :lo12:el1_exception_vector_table_p0
-	mov x13, #2048
+	mov x13, #4096
 	mul x13, x13, x9
 	add x14, x14, x13
     msr vbar_el1, x14

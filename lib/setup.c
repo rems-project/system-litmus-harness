@@ -26,9 +26,9 @@ void setup(char* fdtloc) {
     vmm_pgtable = vmm_alloc_new_idmap_4k();
     /* re-map vector_base_addr to some non-executable mapping of the vector table
     */
-    vector_base_addr_rw = (uint64_t)alloc(2048*4);
+    vector_base_addr_rw = (uint64_t)alloc(4096*4);
     for (int i = 0; i < 4; i++) {
-      vmm_update_mapping(vmm_pgtable, vector_base_addr_rw+i*2048, vector_base_pa+i*2048, 0x1 << 6);
+      vmm_update_mapping(vmm_pgtable, vector_base_addr_rw+i*4096, vector_base_pa+i*4096, 0x1 << 6);
     }
   }
 

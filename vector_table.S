@@ -183,7 +183,7 @@ b \name
 
 .macro vector_table, name
 .global \name
-.align 11
+.align 12  /* align to a page so that we can do pagetable trickery later */
 \name:
     vectorjmp el1_sp0_sync
     vectorjmp el1_sp0_irq
