@@ -16,6 +16,7 @@ static void set_block_or_page(uint64_t* root, uint64_t va, uint64_t pa, uint64_t
 }
 
 void vmm_update_mapping(uint64_t* pgtable, uint64_t va, uint64_t pa, uint64_t prot) {
+  debug("[vmm_update_mapping] for VA=%p => PA=%p, prot=%p\n", va, pa, prot);
   set_block_or_page(pgtable, va, pa, prot, 3);
 }
 
