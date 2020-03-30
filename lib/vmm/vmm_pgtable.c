@@ -156,6 +156,7 @@ void vmm_switch_ttable(uint64_t* new_table) {
   write_sysreg((uint64_t)new_table, ttbr0_el1);
   dsb();
   isb();
+  vmm_flush_tlb();
 }
 
 void __vmm_free_pgtable(uint64_t* pgtable, int level) {
