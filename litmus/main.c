@@ -8,6 +8,8 @@ extern void MP_dmb_svc(void);
 extern void MP_dmb_eret(void);
 extern void CoWT(void);
 extern void CoWT_dsb(void);
+extern void CoWT_dsbisb(void);
+extern void CoWT_dsbsvctlbidsb(void);
 extern void CoWTinv(void);
 extern void CoWTinv_dsb(void);
 extern void MPtimes_pos(void);
@@ -23,6 +25,8 @@ static const litmus_test_t TESTS[] = {
   {"MP.times+pos", MPtimes_pos, .requires_perf=1},
   {"CoWT", CoWT, .requires_pgtable=1},
   {"CoWT+dsb", CoWT_dsb, .requires_pgtable=1},
+  {"CoWT+dsb-isb", CoWT_dsbisb, .requires_pgtable=1},
+  {"CoWT+dsb-svc-tlbi-dsb", CoWT_dsbsvctlbidsb, .requires_pgtable=1},
   {"CoWT.inv", CoWTinv, .requires_pgtable=1},
   {"CoWT.inv+dsb", CoWTinv_dsb, .requires_pgtable=1},
   {"WRC.AT+ctrl+dsb", WRCat_ctrl_dsb, .requires_pgtable=1},
