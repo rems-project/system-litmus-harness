@@ -57,6 +57,7 @@ void mutex_lock(volatile mutex_t* m) {
 
 void mutex_unlock(volatile mutex_t* m) {
   m->m = 0;
+  dmb();
 }
 
 void lock(volatile lock_t* lock) {
