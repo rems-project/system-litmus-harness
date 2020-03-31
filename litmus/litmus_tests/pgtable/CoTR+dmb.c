@@ -49,6 +49,7 @@ static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
 
     /* test payload */
     "ldr x0, [x1]\n\t"
+    "dmb sy\n\t"
     "ldr x2, [x3]\n\t"
     "eor x2, x2, x4\n\t"
     "cbz x2, .after\n\t"
@@ -64,8 +65,8 @@ static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
     : "cc", "memory", "x0", "x1", "x2", "x3", "x4");
 }
 
-litmus_test_t CoTR = {
-  "CoTR",
+litmus_test_t CoTR_dmb = {
+  "CoTR+dmb",
   2, (th_f** []){
     (th_f* []) {NULL, P0, NULL},
     (th_f* []) {NULL, P1, NULL},

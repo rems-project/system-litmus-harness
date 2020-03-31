@@ -21,6 +21,11 @@ extern litmus_test_t MP_dmb_svc;
 extern litmus_test_t WRCtrt_dmbs;
 extern litmus_test_t WRC1trt_dsbtlbiisdsb_dmb;
 extern litmus_test_t CoTR;
+extern litmus_test_t CoTR_dmb;
+extern litmus_test_t CoTR_dsb;
+extern litmus_test_t CoTR_dsbisb;
+extern litmus_test_t CoWinvT;
+extern litmus_test_t CoWinvT_dsbtlbidsb;
 
 
 static const litmus_test_t* TESTS[] = {
@@ -37,8 +42,13 @@ static const litmus_test_t* TESTS[] = {
   &CoWT_dsb,
   &CoWT,
   &CoWTinv,
+  &CoWinvT,
+  &CoWinvT_dsbtlbidsb,
   &CoWT_dsbisb,
   &CoTR,
+  &CoTR_dmb,
+  &CoTR_dsb,
+  &CoTR_dsbisb,
   &MPRT_svcdsbtlbidsb_dsbisb,
   &MPRT1_dsbtlbidsb_dsbisb,
   &MP_dmb_eret,
