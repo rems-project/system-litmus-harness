@@ -4,7 +4,7 @@
 
 static void svc_handler(void) {
   asm volatile (
-    "tlbi vaae1is, x4\n\t"
+    "tlbi vae1, x4\n\t"
     "dsb sy\n\t"
     "ldr x2, [x3]\n\t"
     "eret\n\t"
@@ -53,21 +53,20 @@ static void P0_post(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** pte
   restore_hotswapped_exception(0x400, old_vtentry);
 }
 
-void CoWT_dsbsvctlbidsb(void) {
-  run_test("CoWT+dsb-svc-tlbi-dsb",
-    1, (th_f** []){
-      (th_f* []) {P0_pre, P0, P0_post},
-    },
-    2, (const char* []){"x", "y"},
-    1, (const char* []){"p0:x2",},
-    (test_config_t){
-        .interesting_result = (uint64_t[]){
-            /* p0:x2 =*/1,
-        },
-        .no_init_states=2,
-        .init_states=(init_varstate_t[]){
-          (init_varstate_t){"x", TYPE_HEAP, 1},
-          (init_varstate_t){"y", TYPE_HEAP, 2},
-        }
-    });
-}
+litmus_test_t CoWT_dsbsvctlbidsb = {
+  "CoWT+dsb-svc-tlbi-dsb",
+  1, (th_f** []){
+    (th_f* []) {P0_pre, P0, P0_post},
+  },
+  2, (const char* []){"x", "y"},
+  1, (const char* []){"p0:x2",},
+  .interesting_result = (uint64_t[]){
+      /* p0:x2 =*/1,
+  },
+  .no_init_states=2,
+  .init_states=(init_varstate_t*[]){
+    &(init_varstate_t){"x", TYPE_HEAP, 1},
+    &(init_varstate_t){"y", TYPE_HEAP, 2},
+  },
+  .requires_pgtable=1,
+};

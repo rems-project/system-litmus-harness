@@ -34,20 +34,23 @@ static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, ui
   );
 }
 
-void MP_dmbs(void) {
-  run_test(
-    "MP+dmbs",
-    2, (th_f**[]){
-      (th_f* []){NULL, P0, NULL},
-      (th_f* []){NULL, P1, NULL},
+litmus_test_t MP_dmbs = {
+  .name="MP+dmbs",
+  .no_threads=2,
+  .threads=(th_f**[]){
+    (th_f* []){NULL, P0, NULL},
+    (th_f* []){NULL, P1, NULL},
+  },
+
+  .no_heap_vars=2, 
+  .heap_var_names=(const char*[]){"x", "y"}, 
+
+  .no_regs=2,
+  .reg_names=(const char*[]){"p1:x0", "p1:x2"},
+
+  .interesting_result =
+    (uint64_t[]){
+      /* p1:x0 =*/ 1,
+      /* p1:x2 =*/ 0,
     },
-    2, (const char*[]){"x", "y"}, 
-    2, (const char*[]){"p1:x0", "p1:x2"}, 
-    (test_config_t){
-      .interesting_result =
-        (uint64_t[]){
-          /* p1:x0 =*/ 1,
-          /* p1:x2 =*/ 0,
-        },
-    });
-}
+};

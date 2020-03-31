@@ -45,15 +45,6 @@ void per_cpu_setup(int cpu);
 /* secondary entry data */
 typedef void async_fn_t(int cpu, void* arg);
 
-typedef void litmus_test_fn_t (void);
-typedef struct {
-    const char* fn_name;
-    litmus_test_fn_t* fn;
-
-    uint8_t requires_pgtable;
-    uint8_t requires_perf;
-} litmus_test_t;
-
 typedef struct {
     async_fn_t* to_execute;
     void* arg;

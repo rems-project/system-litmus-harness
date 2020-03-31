@@ -86,26 +86,24 @@ static void P2(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, ui
 }
 
 
-void WRCat_ctrl_dsb(void) {
-  run_test(
-    "WRC.AT+ctrl+dsb",
-    3, (th_f**[]){
-      (th_f* []){NULL, P0, NULL},
-      (th_f* []){NULL, P1, NULL},
-      (th_f* []){NULL, P2, NULL},
+litmus_test_t WRCat_ctrl_dsb = {
+  "WRC.AT+ctrl+dsb",
+  3, (th_f**[]){
+    (th_f* []){NULL, P0, NULL},
+    (th_f* []){NULL, P1, NULL},
+    (th_f* []){NULL, P2, NULL},
+  },
+  3, (const char*[]){"x", "y", "z"}, 
+  3, (const char*[]){"p1:x2", "p2:x0", "p2:x2"}, 
+  .no_init_states=1,
+  .init_states=(init_varstate_t*[]){
+      &(init_varstate_t){"z", TYPE_HEAP, 1},
     },
-    3, (const char*[]){"x", "y", "z"}, 
-    3, (const char*[]){"p1:x2", "p2:x0", "p2:x2"}, 
-    (test_config_t){
-      .no_init_states=1,
-      .init_states=(init_varstate_t[]){
-          (init_varstate_t){"z", TYPE_HEAP, 1},
-        },
-      .interesting_result =
-        (uint64_t[]){
-          /* p1:x2 =*/ 0,
-          /* p2:x0 =*/ 1,
-          /* p2:x2 =*/ 0,
-        },
-    });
-}
+  .interesting_result =
+    (uint64_t[]){
+      /* p1:x2 =*/ 0,
+      /* p2:x0 =*/ 1,
+      /* p2:x2 =*/ 0,
+    },
+  .requires_pgtable=1,
+};

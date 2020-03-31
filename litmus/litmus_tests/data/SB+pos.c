@@ -46,20 +46,17 @@ static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, ui
   );
 }
 
-void SB_pos(void) {
-  run_test(
-    "SB+pos",
-    2, (th_f**[]){
-      (th_f* []){NULL, P0, NULL},
-      (th_f* []){NULL, P1, NULL},
+litmus_test_t SB_pos = {
+  "SB+pos",
+  2, (th_f**[]){
+    (th_f* []){NULL, P0, NULL},
+    (th_f* []){NULL, P1, NULL},
+  },
+  2, (const char*[]){"x", "y"}, 
+  2, (const char*[]){"p0:x2", "p1:x2"}, 
+  .interesting_result =
+    (uint64_t[]){
+      /* p1:x0 =*/ 0,
+      /* p1:x2 =*/ 0,
     },
-    2, (const char*[]){"x", "y"}, 
-    2, (const char*[]){"p0:x2", "p1:x2"}, 
-    (test_config_t){
-      .interesting_result =
-        (uint64_t[]){
-          /* p1:x0 =*/ 0,
-          /* p1:x2 =*/ 0,
-        },
-    });
-}
+};

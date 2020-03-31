@@ -62,18 +62,16 @@ static void P1_post(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** pte
   restore_hotswapped_exception(0x400, old_vtentry);
 }
 
-void MP_dmb_eret(void) {
-  run_test("MP+dmb+eret",
-    2, (th_f** []){
-      (th_f* []) {NULL, P0, NULL},
-      (th_f* []) {P1_pre, P1, P1_post},
-    },
-    2, (const char* []){"x", "y"},
-    2, (const char* []){"p1:x0", "p1:x2"},
-    (test_config_t){
-        .interesting_result = (uint64_t[]){
-            /* p1:x0 =*/1,
-            /* p1:x2 =*/0,
-        },
-    });
-}
+litmus_test_t MP_dmb_eret = {
+  "MP+dmb+eret",
+  2, (th_f** []){
+    (th_f* []) {NULL, P0, NULL},
+    (th_f* []) {P1_pre, P1, P1_post},
+  },
+  2, (const char* []){"x", "y"},
+  2, (const char* []){"p1:x0", "p1:x2"},
+  .interesting_result = (uint64_t[]){
+      /* p1:x0 =*/1,
+      /* p1:x2 =*/0,
+  },
+};

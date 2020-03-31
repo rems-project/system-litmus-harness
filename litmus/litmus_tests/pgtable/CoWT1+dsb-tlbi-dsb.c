@@ -2,6 +2,22 @@
 
 #include "lib.h"
 
+static void svc_handler(void) {
+  asm volatile (
+    "str x0, [x1]\n\t"
+    "dsb sy\n\t"
+    "tlbi vae1, x4\n\t"
+    "dsb sy\n\t"
+    "ldr x2, [x3]\n\t"
+    "eret\n\t"
+  );
+}
+
+static uint32_t* old_vtentry;
+static void P0_pre(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, uint64_t* pas, uint64_t** out_regs) {
+  old_vtentry = hotswap_exception(0x400, (uint32_t*)&svc_handler);
+}
+
 static void P0(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
                uint64_t* pas, uint64_t** out_regs) {
 
@@ -20,22 +36,27 @@ static void P0(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
       "mov x0, %[ydesc]\n\t"
       "mov x1, %[xpte]\n\t"
       "mov x3, %[x]\n\t"
+      "mov x4, x3\n\t"
+      "lsr x4, x4, #12\n\t"
 
       /* test */
-      "str x0, [x1]\n\t"
-      "ldr x2, [x3]\n\t"
+      "svc #0\n\t"
 
       /* output back to C vars */
       "str x2, [%[x2]]\n\t"
       :
       : [ydesc] "r" (*ypte), [xpte] "r" (xpte), [x] "r" (x), [x2] "r" (x2)
-      : "cc", "memory", "x0", "x1", "x2", "x3");
+      : "cc", "memory", "x0", "x1", "x2", "x3", "x4");
 }
 
-litmus_test_t CoWT = {
-  "CoWT",
+static void P0_post(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, uint64_t* pas, uint64_t** out_regs) {
+  restore_hotswapped_exception(0x400, old_vtentry);
+}
+
+litmus_test_t CoWT1_dsbtlbidsb = {
+  "CoWT1+dsb-tlbi-dsb",
   1, (th_f** []){
-    (th_f* []) {NULL, P0, NULL},
+    (th_f* []) {P0_pre, P0, P0_post},
   },
   2, (const char* []){"x", "y"},
   1, (const char* []){"p0:x2",},
@@ -47,5 +68,5 @@ litmus_test_t CoWT = {
     &(init_varstate_t){"x", TYPE_HEAP, 1},
     &(init_varstate_t){"y", TYPE_HEAP, 2},
   },
-  .requires_pgtable = 1,
+  .requires_pgtable=1,
 };

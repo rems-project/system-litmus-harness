@@ -14,16 +14,31 @@ typedef struct {
   uint64_t value;
 } init_varstate_t;
 
-/* passed as argument to run_test() to configure extra options */
+/* Each thread is a functon that takes pointers to a slice of heap variables and output registers */
+typedef struct test_ctx test_ctx_t;
+typedef void th_f(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, uint64_t* pas, uint64_t** out_regs);
+
+/**
+ * definition of a litmus test
+ */
 typedef struct {
   const char* name;
   int no_threads;
+  th_f*** threads;
+  int no_heap_vars;
+  const char** heap_var_names;
+  int no_regs;
+  const char** reg_names;
+
   uint64_t* interesting_result;   /* interesting (relaxed) result to highlight */
-  int* thread_ELs;                /* EL for each thread to start at */
 
   int no_init_states;
-  init_varstate_t* init_states;   /* initial state array */
-} test_config_t;
+  init_varstate_t** init_states;   /* initial state array */
+
+  /** whether the test requires any special options to be enabled */
+  uint8_t requires_pgtable;  /* requires --pgtable */
+  uint8_t requires_perf;     /* requires --perf */
+} litmus_test_t;
 
 /* test data */
 typedef struct {
@@ -37,10 +52,6 @@ typedef struct {
     test_result_t** lut;
     test_result_t* results[];
 } test_hist_t;
-
-/* Each thread is a functon that takes pointers to a slice of heap variables and output registers */
-typedef struct test_ctx test_ctx_t;
-typedef void th_f(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, uint64_t* pas, uint64_t** out_regs);
 
 struct test_ctx {
   uint64_t no_threads;
@@ -61,18 +72,13 @@ struct test_ctx {
   test_hist_t* hist;
   uint64_t* ptable;
   uint64_t current_run;
-  int* start_els;
   uint64_t current_EL;
   uint64_t privileged_harness;  /* require harness to run at EL1 between runs ? */
-  test_config_t cfg;
+  litmus_test_t* cfg;
 };
 
 /* entry point for tests */
-void run_test(const char* name, 
-              int no_threads, th_f*** funcs, 
-              int no_heap_vars, const char** heap_var_names,
-              int no_regs, const char** reg_names,
-              test_config_t cfg);
+void run_test(litmus_test_t* cfg);
 
 void init_test_ctx(test_ctx_t* ctx, const char* test_name, int no_threads, th_f*** funcs, int no_heap_vars, int no_out_regs, int no_runs);
 void free_test_ctx(test_ctx_t* ctx);

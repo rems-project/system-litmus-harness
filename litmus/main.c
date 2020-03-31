@@ -1,43 +1,48 @@
 #include "lib.h"
 
-extern void SB_pos(void);
-extern void SB_dmbs(void);
-extern void MP_pos(void);
-extern void MP_dmbs(void);
-extern void MP_dmb_svc(void);
-extern void MP_dmb_eret(void);
-extern void CoWT(void);
-extern void CoWT_dsb(void);
-extern void CoWT_dsbisb(void);
-extern void CoWT_dsbsvctlbidsb(void);
-extern void CoWTinv(void);
-extern void CoWTinv_dsb(void);
-extern void MPtimes_pos(void);
-extern void WRCat_ctrl_dsb(void);
+extern litmus_test_t SB_pos;
+extern litmus_test_t SB_dmbs;
+extern litmus_test_t MP_dmbs;
+extern litmus_test_t MP_pos;
+extern litmus_test_t WRCat_ctrl_dsb;
+extern litmus_test_t CoWT1_dsbtlbidsb;
+extern litmus_test_t CoWT_dsbsvctlbidsb;
+extern litmus_test_t MPRT1_dsbtlbiisdsb_dsbisb;
+extern litmus_test_t CoWTinv_dsb;
+extern litmus_test_t CoWT_dsb;
+extern litmus_test_t CoWT;
+extern litmus_test_t CoWTinv;
+extern litmus_test_t CoWT_dsbisb;
+extern litmus_test_t MPRT1_dsbtlbidsb_dsbisb;
+extern litmus_test_t MP_dmb_eret;
+extern litmus_test_t MP_dmb_svc;
 
-static const litmus_test_t TESTS[] = {
-  {"SB+pos", SB_pos},
-  {"SB+dmbs", SB_dmbs},
-  {"MP+pos", MP_pos},
-  {"MP+dmbs", MP_dmbs},
-  {"MP+dmb+svc", MP_dmb_svc},
-  {"MP+dmb+eret", MP_dmb_eret},
-  {"MP.times+pos", MPtimes_pos, .requires_perf=1},
-  {"CoWT", CoWT, .requires_pgtable=1},
-  {"CoWT+dsb", CoWT_dsb, .requires_pgtable=1},
-  {"CoWT+dsb-isb", CoWT_dsbisb, .requires_pgtable=1},
-  {"CoWT+dsb-svc-tlbi-dsb", CoWT_dsbsvctlbidsb, .requires_pgtable=1},
-  {"CoWT.inv", CoWTinv, .requires_pgtable=1},
-  {"CoWT.inv+dsb", CoWTinv_dsb, .requires_pgtable=1},
-  {"WRC.AT+ctrl+dsb", WRCat_ctrl_dsb, .requires_pgtable=1},
+
+static const litmus_test_t* TESTS[] = {
+  &SB_pos,
+  &SB_dmbs,
+  &MP_dmbs,
+  &MP_pos,
+  &WRCat_ctrl_dsb,
+  &CoWT1_dsbtlbidsb,
+  &CoWT_dsbsvctlbidsb,
+  &MPRT1_dsbtlbiisdsb_dsbisb,
+  &CoWTinv_dsb,
+  &CoWT_dsb,
+  &CoWT,
+  &CoWTinv,
+  &CoWT_dsbisb,
+  &MPRT1_dsbtlbidsb_dsbisb,
+  &MP_dmb_eret,
+  &MP_dmb_svc,
 };
 
 void display_test_help(void) {
   printf("If none supplied, selects all enabled tests.\n");
   printf("Otherwise, runs all tests supplied in args that are one of:\n");
-  for (int i = 0; i < sizeof(TESTS)/sizeof(litmus_test_t); i++) {
-    litmus_test_t const* t = &TESTS[i];
-    printf(" %s", t->fn_name);
+  for (int i = 0; i < sizeof(TESTS)/sizeof(litmus_test_t*); i++) {
+    litmus_test_t const* t = TESTS[i];
+    printf(" %s", t->name);
 
     if (t->requires_perf) {
       printf(" (requires --perf)");
@@ -51,20 +56,20 @@ void display_test_help(void) {
   }
 }
 
-static void run_test_fn(const litmus_test_t tst, uint8_t report_skip) {
-  if (tst.requires_perf && (! ENABLE_PERF_COUNTS)) {
+static void run_test_fn(const litmus_test_t* tst, uint8_t report_skip) {
+  if (tst->requires_perf && (! ENABLE_PERF_COUNTS)) {
     if (report_skip)
-      printf("! skipping \"%s\":  requires --perf\n", tst.fn_name);
+      printf("! skipping \"%s\":  requires --perf\n", tst->name);
     return;
   }
 
-  if (tst.requires_pgtable && (! ENABLE_PGTABLE)) {
+  if (tst->requires_pgtable && (! ENABLE_PGTABLE)) {
     if (report_skip)
-      printf("! skipping \"%s\": requires --pgtable\n", tst.fn_name);
+      printf("! skipping \"%s\": requires --pgtable\n", tst->name);
     return;
   }
 
-  tst.fn();
+  run_test(tst);
 }
 
 
@@ -114,11 +119,12 @@ static int strdiff(char* w1, char* w2) {
 static void __find_closest(char* arg) {
   char const* smallest = NULL;
   int small_diff = 0;
-  for (int i = 0; i < sizeof(TESTS)/sizeof(litmus_test_t); i++) {
-    int diff = strdiff(arg, (char*)TESTS[i].fn_name);
+  for (int i = 0; i < sizeof(TESTS)/sizeof(litmus_test_t*); i++) {
+    char* name = (char*)TESTS[i]->name;
+    int diff = strdiff(arg, name);
     if (0 < diff) {
       if (smallest == NULL || diff < small_diff) {
-        smallest = TESTS[i].fn_name;
+        smallest = name;
         small_diff = diff;
       }
     }
@@ -132,8 +138,8 @@ static void __find_closest(char* arg) {
 static void match_and_run(char* arg) {
   uint8_t found = 0;
 
-  for (int i = 0; i < sizeof(TESTS)/sizeof(litmus_test_t); i++) {
-    if (strcmp(arg, "*") || strcmp(arg, TESTS[i].fn_name)) {
+  for (int i = 0; i < sizeof(TESTS)/sizeof(litmus_test_t*); i++) {
+    if (strcmp(arg, "*") || strcmp(arg, TESTS[i]->name)) {
       run_test_fn(TESTS[i], !strcmp(arg, "*"));
       found = 1;
     }

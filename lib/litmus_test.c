@@ -22,28 +22,25 @@ static uint64_t* PTE(test_ctx_t* ctx, uint64_t va) {
 }
 
 /* entry point */
-void run_test(const char* name, int no_threads, th_f*** funcs, int no_heap_vars,
-              const char** heap_var_names, int no_regs, const char** reg_names,
-              test_config_t cfg) {
+void run_test(litmus_test_t* cfg) {
   /* create test context obj */
   test_ctx_t ctx;
 
-  start_of_test(&ctx, name, no_threads, funcs, no_heap_vars, no_regs,
+  start_of_test(&ctx, cfg->name, cfg->no_threads, cfg->threads, cfg->no_heap_vars, cfg->no_regs,
                 NUMBER_OF_RUNS);
-  ctx.start_els = cfg.thread_ELs;
-  ctx.heap_var_names = heap_var_names;
-  ctx.out_reg_names = reg_names;
+  ctx.heap_var_names = cfg->heap_var_names;
+  ctx.out_reg_names = cfg->reg_names;
   ctx.cfg = cfg;
 
-  for (int i = 0; i < cfg.no_init_states; i++) {
-    init_varstate_t var = cfg.init_states[i];
-    const char* name = var.varname;
-    switch (var.type) {
+  for (int i = 0; i < cfg->no_init_states; i++) {
+    init_varstate_t* var = cfg->init_states[i];
+    const char* name = var->varname;
+    switch (var->type) {
       case (TYPE_HEAP):
-        set_init_heap(&ctx, name, var.value);
+        set_init_heap(&ctx, name, var->value);
         break;
       case (TYPE_PTE):
-        set_init_pte(&ctx, name, var.value);
+        set_init_pte(&ctx, name, var->value);
         break;
     }
   }
@@ -57,7 +54,7 @@ void run_test(const char* name, int no_threads, th_f*** funcs, int no_heap_vars,
   run_on_cpus((async_fn_t*)go_cpus, (void*)&ctx);
 
   /* clean up and display results */
-  end_of_test(&ctx, reg_names, cfg.interesting_result);
+  end_of_test(&ctx, cfg->reg_names, cfg->interesting_result);
 }
 
 uint64_t idx_from_varname(test_ctx_t* ctx, const char* varname) {
@@ -104,12 +101,12 @@ void set_init_heap(test_ctx_t* ctx, const char* varname, uint64_t value) {
 }
 
 uint64_t ctx_initial_heap_value(test_ctx_t* ctx, uint64_t idx) {
-  for (int i = 0; i < ctx->cfg.no_init_states; i++) {
-    init_varstate_t var = ctx->cfg.init_states[i];
-    const char* varname = var.varname;
+  for (int i = 0; i < ctx->cfg->no_init_states; i++) {
+    init_varstate_t* var = ctx->cfg->init_states[i];
+    const char* varname = var->varname;
     uint64_t var_idx = idx_from_varname(ctx, varname);
-    if (var_idx == idx && var.type == TYPE_HEAP) {
-      return var.value;
+    if (var_idx == idx && var->type == TYPE_HEAP) {
+      return var->value;
     }
   }
 
@@ -492,7 +489,6 @@ void print_results(test_hist_t* res, test_ctx_t* ctx,
   printf("\n");
   printf("Test %s:\n", ctx->test_name);
   int marked = 0;
-  // printf("(printing %d results)\n", res->allocated);
   for (int r = 0; r < res->allocated; r++) {
     int was_interesting = (interesting_results == NULL) ? 0 : 1;
     for (int reg = 0; reg < ctx->no_out_regs; reg++) {

@@ -41,20 +41,19 @@ static void P0(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
   reset_pgfault_handler((uint64_t)x);
 }
 
-void CoWTinv(void) {
-  run_test("CoWT.inv",
-    1, (th_f** []){
-      (th_f* []) {NULL, P0, NULL},
-    },
-    2, (const char* []){"x", "y"},
-    1, (const char* []){"p0:x4",},
-    (test_config_t){
-        .interesting_result = (uint64_t[]){
-            /* p0:x4 =*/1,
-        },
-        .no_init_states=1,
-        .init_states=(init_varstate_t[]){
-          (init_varstate_t){"x", TYPE_PTE, 0},
-        }
-    });
-}
+litmus_test_t CoWTinv = {
+  "CoWT.inv",
+  1, (th_f** []){
+    (th_f* []) {NULL, P0, NULL},
+  },
+  2, (const char* []){"x", "y"},
+  1, (const char* []){"p0:x4",},
+  .interesting_result = (uint64_t[]){
+      /* p0:x4 =*/1,
+  },
+  .no_init_states=1,
+  .init_states=(init_varstate_t*[]){
+    &(init_varstate_t){"x", TYPE_PTE, 0},
+  },
+  .requires_pgtable = 1,
+};
