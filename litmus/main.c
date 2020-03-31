@@ -7,15 +7,20 @@ extern litmus_test_t MP_pos;
 extern litmus_test_t WRCat_ctrl_dsb;
 extern litmus_test_t CoWT1_dsbtlbidsb;
 extern litmus_test_t CoWT_dsbsvctlbidsb;
+extern litmus_test_t MPRT_svcdsbtlbiisdsb_dsbisb;
 extern litmus_test_t MPRT1_dsbtlbiisdsb_dsbisb;
 extern litmus_test_t CoWTinv_dsb;
 extern litmus_test_t CoWT_dsb;
 extern litmus_test_t CoWT;
 extern litmus_test_t CoWTinv;
 extern litmus_test_t CoWT_dsbisb;
+extern litmus_test_t MPRT_svcdsbtlbidsb_dsbisb;
 extern litmus_test_t MPRT1_dsbtlbidsb_dsbisb;
 extern litmus_test_t MP_dmb_eret;
 extern litmus_test_t MP_dmb_svc;
+extern litmus_test_t WRCtrt_dmbs;
+extern litmus_test_t WRC1trt_dsbtlbiisdsb_dmb;
+extern litmus_test_t CoTR;
 
 
 static const litmus_test_t* TESTS[] = {
@@ -26,15 +31,20 @@ static const litmus_test_t* TESTS[] = {
   &WRCat_ctrl_dsb,
   &CoWT1_dsbtlbidsb,
   &CoWT_dsbsvctlbidsb,
+  &MPRT_svcdsbtlbiisdsb_dsbisb,
   &MPRT1_dsbtlbiisdsb_dsbisb,
   &CoWTinv_dsb,
   &CoWT_dsb,
   &CoWT,
   &CoWTinv,
   &CoWT_dsbisb,
+  &CoTR,
+  &MPRT_svcdsbtlbidsb_dsbisb,
   &MPRT1_dsbtlbidsb_dsbisb,
   &MP_dmb_eret,
   &MP_dmb_svc,
+  &WRCtrt_dmbs,
+  &WRC1trt_dsbtlbiisdsb_dmb,
 };
 
 void display_test_help(void) {

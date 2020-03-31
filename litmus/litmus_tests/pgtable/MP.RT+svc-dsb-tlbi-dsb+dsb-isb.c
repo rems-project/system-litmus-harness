@@ -2,6 +2,24 @@
 
 #include "lib.h"
 
+static void svc_handler(void) {
+  asm volatile (
+    "str x0,[x1]\n\t"
+    "dsb sy\n\t"
+    "tlbi vae1,x2\n\t"
+    "dsb sy\n\t"
+    "str x3,[x4]\n\t"
+
+    "eret\n\t"
+  );
+}
+
+static uint32_t* old_vtentry;
+static void P0_pre(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, uint64_t* pas, uint64_t** out_regs) {
+  old_vtentry = hotswap_exception(0x400, (uint32_t*)&svc_handler);
+}
+
+
 static void P0(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
                uint64_t* pas, uint64_t** out_regs) {
 
@@ -23,16 +41,16 @@ static void P0(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
     "mov x4, %[y]\n\t"
 
     /* test payload */
-    "str x0,[x1]\n\t"
-    "dsb sy\n\t"
-    "tlbi vae1is,x2\n\t"
-    "dsb sy\n\t"
-    "str x3,[x4]\n\t"
+    "svc #0\n\t"
 
   :
   : [zdesc] "r" (zdesc), [xpte] "r" (xpte), [xpage] "r" (xpage), [y] "r" (y)
   : "memory", "x0", "x1", "x2", "x3", "x4"
   );
+}
+
+static void P0_post(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, uint64_t* pas, uint64_t** out_regs) {
+  restore_hotswapped_exception(0x400, old_vtentry);
 }
 
 static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
@@ -65,10 +83,10 @@ static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
       : "cc", "memory", "x0", "x1", "x2", "x3", "x4");
 }
 
-litmus_test_t MPRT1_dsbtlbiisdsb_dsbisb = {
-  "MP.RT1+dsb-tlbiis-dsb+dsb-isb",
+litmus_test_t MPRT_svcdsbtlbidsb_dsbisb = {
+  "MP.RT+svc-dsb-tlbi-dsb+dsb-isb",
   2, (th_f** []){
-    (th_f* []) {NULL, P0, NULL},
+    (th_f* []) {P0_pre, P0, P0_post},
     (th_f* []) {NULL, P1, NULL},
   },
   3, (const char* []){"x", "y", "z"},
@@ -77,7 +95,6 @@ litmus_test_t MPRT1_dsbtlbiisdsb_dsbisb = {
       /* p1:x0 =*/1,
       /* p1:x2 =*/0,
   },
-  .start_els=(int[]){1,0},
   .no_init_states=1,
   .init_states=(init_varstate_t*[]){
     &(init_varstate_t){"z", TYPE_HEAP, 1},
