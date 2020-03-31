@@ -88,9 +88,14 @@ void bwait(int cpu, int i, bar_t* bar, int sz) {
   unlock(&bwait_lock);
 
   while (! bar->released) wfe();
+  /** a slow bwait acquire section
+   * this is to try reduce overhead and get all threads spinning at once
+   * before releasing
+   * N.B.  context switching kills this, it really needs a dedicated CPU.
+   */
   bar->release_flags[get_cpu()] = 1;
   dsb();
-  
+
   for (int i = 0; i < sz; i++) {
     while (! bar->release_flags[i]) dmb();
   }
