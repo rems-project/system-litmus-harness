@@ -22,7 +22,7 @@ static uint64_t* PTE(test_ctx_t* ctx, uint64_t va) {
 }
 
 /* entry point */
-void run_test(litmus_test_t* cfg) {
+void run_test(const litmus_test_t* cfg) {
   /* create test context obj */
   test_ctx_t ctx;
 

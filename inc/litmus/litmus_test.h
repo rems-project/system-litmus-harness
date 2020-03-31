@@ -74,11 +74,11 @@ struct test_ctx {
   uint64_t current_run;
   uint64_t current_EL;
   uint64_t privileged_harness;  /* require harness to run at EL1 between runs ? */
-  litmus_test_t* cfg;
+  const litmus_test_t* cfg;
 };
 
 /* entry point for tests */
-void run_test(litmus_test_t* cfg);
+void run_test(const litmus_test_t* cfg);
 
 void init_test_ctx(test_ctx_t* ctx, const char* test_name, int no_threads, th_f*** funcs, int no_heap_vars, int no_out_regs, int no_runs);
 void free_test_ctx(test_ctx_t* ctx);
