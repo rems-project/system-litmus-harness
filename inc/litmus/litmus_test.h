@@ -35,6 +35,8 @@ typedef struct {
   int no_init_states;
   init_varstate_t** init_states;   /* initial state array */
 
+  int* start_els;
+
   /** whether the test requires any special options to be enabled */
   uint8_t requires_pgtable;  /* requires --pgtable */
   uint8_t requires_perf;     /* requires --perf */

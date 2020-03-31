@@ -403,7 +403,8 @@ static void resetsp(void) {
 void start_of_run(test_ctx_t* ctx, int thread, int i) {
   /* do not prefetch anymore .. not safe! */
   prefetch(ctx, i);
-  drop_to_el0();
+  if (! ctx->cfg->start_els || ctx->cfg->start_els[thread] == 0)
+    drop_to_el0();
 }
 
 static void print_single_result(test_ctx_t* ctx, int i) {
@@ -416,7 +417,8 @@ static void print_single_result(test_ctx_t* ctx, int i) {
 }
 
 void end_of_run(test_ctx_t* ctx, int thread, int i) {
-  raise_to_el1();
+  if (! ctx->cfg->start_els || ctx->cfg->start_els[thread] == 0)
+    raise_to_el1();
   bwait(thread, i % ctx->no_threads, &ctx->end_barriers[i], ctx->no_threads);
 
   /* only 1 thread should collect the results, else they will be duplicated */
