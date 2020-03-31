@@ -10,12 +10,7 @@ void test_free_test_ctx(void) {
 
   init_test_ctx(&ctx, "<test>", 0, NULL, 0, 0, 0);
   free_test_ctx(&ctx);
+
   ASSERT(valloc_free_size() == space, "did not free all space");
-
-  valloc_alloc* fblk = mem.freelist;
-  while (fblk != NULL) {
-    fblk = fblk->next;
-  }
-
   ASSERT(mem.freelist == NULL, "non-null freelist");
 }
