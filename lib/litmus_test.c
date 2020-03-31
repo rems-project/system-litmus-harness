@@ -212,7 +212,7 @@ void init_test_ctx(test_ctx_t* ctx, const char* test_name, int no_threads,
   for (int v = 0; v < no_heap_vars; v++) {
     // ensure each heap var allloc'd into its own page...
     uint64_t* heap_var =
-        alloc_with_alignment(sizeof(uint64_t) * no_runs, 4096UL);
+        alloc_with_alignment(ALIGN_UP(sizeof(uint64_t) * no_runs, 12), 4096UL);
     heap_vars[v] = heap_var;
   }
 
