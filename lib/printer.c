@@ -3,13 +3,17 @@
 
 #include "lib.h"
 
-void putc(char c) {
-	writeb(c, UART0_BASE);
+char* sputc(char* out, const char c) {
+	*out = c;
+	return out+1;
 }
 
-void puts(const char *s) {
-	while (*s)
-		putc(*s++);
+char* sputs(char* out, const char* s) {
+	while (*s) {
+		out = sputc(out, *s++);
+	}
+
+	return out;
 }
 
 char __get_hexchar(uint64_t n) {
@@ -24,13 +28,14 @@ char __get_hexchar(uint64_t n) {
 	return 0;
 }
 
-void putdec(uint64_t n) {
+char* sputdec(char* out, uint64_t n) {
 	char digits[64];
 	int i = 0;
 	if (n == 0) {
 		digits[0] = '0';
 		i++;
 	}
+
 	while (n > 0) {
 		uint64_t mod = n % 10;
 		n -= mod;
@@ -41,11 +46,13 @@ void putdec(uint64_t n) {
 	}
 
 	for (i--; i >= 0; i--) {
-		putc(digits[i]);
+		out = sputc(out, digits[i]);
 	}
+
+	return out;
 }
 
-void puthex(uint64_t n) {
+char* sputhex(char* out, uint64_t n) {
 	char _hex[64];
 	int i = 0;
 	if (n == 0) {
@@ -62,46 +69,71 @@ void puthex(uint64_t n) {
 	}
 
 	for (i--; i >= 0; i--) {
-		putc(_hex[i]);
+		out = sputc(out, _hex[i]);
 	}
+
+	return out;
+}
+
+
+void putc(char c) {
+	writeb(c, UART0_BASE);
+}
+
+void puts(const char *s) {
+	while (*s)
+		putc(*s++);
+}
+
+void puthex(uint64_t n) {
+	char s[100];
+	char* q = s;
+	q = sputhex(q, n);
+	q = sputc(q, '\0');
+	puts(s);
+}
+
+void putdec(uint64_t n) {
+	char s[100];
+	char* q = s;
+	q = sputdec(q, n);
+	q = sputc(q, '\0');
+	puts(s);
 }
 
 static volatile lock_t __PR_LOCK;
-static void vprintf(const char* fmt, va_list ap) {
-	if (current_thread_info()->locking_enabled)
-		lock(&__PR_LOCK);
-
+static void vsprintf(char* out, const char* fmt, va_list ap) {
 	for (int i = 0; i < get_cpu(); i++)
-		puts("\t\t\t");
+		out = sputs(out, "\t\t\t");
 	char* p = (char*)fmt;
 	while (*p) {
 		char c = *p;
 		if (c != '%') {
-			putc(c);
-		} else {
+			out = sputc(out, c);
+		} else if (c == '%') {
 			c = *++p;
 			if (c == 'd') {
 				if (*(p+1) == 'x') {
-					puthex(va_arg(ap, int));
+					out = sputhex(out, va_arg(ap, int));
 					p++;
 				} else {
-					putdec(va_arg(ap, int));
+					out = sputdec(out, va_arg(ap, int));
 				}
 			} else if (c == 'l') {
 				if (*(p+1) == 'x') {
-					puthex(va_arg(ap, long));
+					out = sputhex(out, va_arg(ap, long));
 					p++;
 				} else if (*(p+1) == 'd') {
-					putdec(va_arg(ap, long));
+					out = sputdec(out, va_arg(ap, long));
 					p++;
 				}
 			} else if (c == 'c') {
-				putc(va_arg(ap, int));
+				out = sputc(out, va_arg(ap, int));
 			} else if (c == 's') {
-				puts(va_arg(ap, char*));
+				out = sputs(out, va_arg(ap, char*));
 			} else if (c == 'p') {
-				puts("0x");
-				puthex(va_arg(ap, long));
+				out = sputs(out, "0x");
+				out = sputhex(out, va_arg(ap, long));
 			} else {
 				puts("!! printf: unknown symbol: ");
 				putc(c);
@@ -112,9 +144,22 @@ static void vprintf(const char* fmt, va_list ap) {
 		
 		p++;
 	}
+	sputc(out, '\0');
+}
 
-	if (current_thread_info()->locking_enabled)
-		unlock(&__PR_LOCK);
+void vprintf(const char* fmt, va_list ap) {
+	char s[512];
+	vsprintf(s, fmt, ap);
+	lock(&__PR_LOCK);
+	puts(s);
+	unlock(&__PR_LOCK);
+}
+
+void sprintf(char* out, const char* fmt, ...) {
+	va_list ap;
+	va_start(ap, fmt);
+	vsprintf(out, fmt, ap);
+	va_end(ap);
 }
 
 void printf(const char* fmt, ...) {
@@ -133,11 +178,14 @@ void trace(const char* fmt, ...) {
 	}
 }
 
-void debug(const char* fmt, ...) {
+void _debug(const char* filename, const int line, const char* func, const char* fmt, ...) {
 	if (DEBUG) {
+		char new_fmt[100];
+		sprintf(new_fmt, "[%s:%d %s] %s", filename, line, func, fmt);
+
 		va_list ap;
 		va_start(ap, fmt);
-		vprintf(fmt, ap);
+		vprintf(new_fmt, ap);
 		va_end(ap);
 	}
 }

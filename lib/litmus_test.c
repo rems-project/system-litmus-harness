@@ -35,6 +35,7 @@ void run_test(const litmus_test_t* cfg) {
   for (int i = 0; i < cfg->no_init_states; i++) {
     init_varstate_t* var = cfg->init_states[i];
     const char* name = var->varname;
+    debug("init var '%s'\n", name);
     switch (var->type) {
       case (TYPE_HEAP):
         set_init_heap(&ctx, name, var->value);
@@ -44,6 +45,8 @@ void run_test(const litmus_test_t* cfg) {
         break;
     }
   }
+
+  debug("loaded init states\n");
 
   /* run it */
   trace("%s\n", "Running Tests ...");
@@ -484,12 +487,17 @@ void start_of_test(test_ctx_t* ctx, const char* name, int no_threads,
                    th_f*** funcs, int no_heap_vars, int no_regs, int no_runs) {
   trace("====== %s ======\n", name);
   init_test_ctx(ctx, name, no_threads, funcs, no_heap_vars, no_regs, no_runs);
+  debug("initialised test\n");
   if (ENABLE_PGTABLE) {
     ctx->ptable = vmm_alloc_new_idmap_4k();
+    debug("allocated new pagetable\n");
     for (int i = 0; i < 4; i++) {
       vmm_update_mapping(ctx->ptable, vector_base_addr_rw+i*4096, vector_base_pa+i*4096, 0x1 << 6);
     }
+    debug("updated pagetable for vbar\n");
   }
+
+  debug("ready to start test\n");
 }
 
 void end_of_test(test_ctx_t* ctx, const char** out_reg_names,

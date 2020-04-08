@@ -16,7 +16,7 @@ static void set_block_or_page(uint64_t* root, uint64_t va, uint64_t pa, uint64_t
 }
 
 void vmm_update_mapping(uint64_t* pgtable, uint64_t va, uint64_t pa, uint64_t prot) {
-  debug("[vmm_update_mapping] for VA=%p => PA=%p, prot=%p\n", va, pa, prot);
+  debug("for VA=%p => PA=%p, prot=%p\n", va, pa, prot);
   set_block_or_page(pgtable, va, pa, prot, 3);
 }
 
@@ -47,7 +47,7 @@ void ptable_set_idrange(uint64_t* root,
         3);  // allocate 4k regions up to the first 2M region
 
 
-  debug("[ptable_set_idrange] allocated lvl3 up to %p\n", va);
+  debug("allocated lvl3 up to %p\n", va);
 
   for (; !IS_ALIGNED(va, level1) && va < va_end;
        va += (1UL << level2))
@@ -55,14 +55,14 @@ void ptable_set_idrange(uint64_t* root,
         root, va, va, prot,
         2);  // allocate 2M regions up to the first 1G region
 
-  debug("[ptable_set_idrange] allocated lvl2 up to %p\n", va);
+  debug("allocated lvl2 up to %p\n", va);
 
   for (; va < ALIGN_TO(va_end, level1);
        va += (1UL << level1))
     set_block_or_page(root, va, va, prot,
                                 1);  // Alloc as many 1G regions as possible
 
-  debug("[ptable_set_idrange] allocated lvl1 up to %p\n", va);
+  debug("allocated lvl1 up to %p\n", va);
 
   for (; va < ALIGN_TO(va_end, level2);
        va += (1UL << level2))
@@ -70,13 +70,13 @@ void ptable_set_idrange(uint64_t* root,
         root, va, va, prot,
         2);  // allocate as much of what's left as 2MB regions
 
-  debug("[ptable_set_idrange] allocated lvl2 up to %p\n", va);
+  debug("allocated lvl2 up to %p\n", va);
 
   for (; va < va_end; va += (1UL << level3))
     set_block_or_page(root, va, va, prot,
                                 3);  // allocate whatever remains as 4k pages.
 
-  debug("[ptable_set_idrange] allocated lvl3 up to %p\n", va);
+  debug("allocated lvl3 up to %p\n", va);
 }
 
 

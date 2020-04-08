@@ -65,6 +65,7 @@ void puts(const char *s);
 void puthex(uint64_t n);
 void putdec(uint64_t n);
 
+void sprintf(char* out, const char* fmt, ...);
 void printf(const char* fmt, ...);
 void trace(const char* fmt, ...);
 
