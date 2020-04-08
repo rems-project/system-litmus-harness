@@ -47,5 +47,15 @@ void writeb(uint8_t byte, uint64_t addr);
     asm volatile("msr " #r ", %[reg]" : : [reg] "rZ" (v));  \
 } while (0)
 
+#define read_reg(r) ({  \
+    uint64_t reg;  \
+    asm volatile("mov %[reg], " #r : [reg] "=r" (reg));  \
+    reg;  \
+})
+
+#define write_reg(v, r) do {  \
+    asm volatile("mov " #r ", %[reg]" : : [reg] "rZ" (v));  \
+} while (0)
+
 #endif
 #endif /* ASM_H */
