@@ -170,14 +170,30 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
       regs[r] = &ctx->out_regs[r][i];
     }
 
+    uint32_t* old_sync_handler_el0;
+    uint32_t* old_sync_handler_el1;
+
     start_of_run(ctx, cpu, i);
     if (pre != NULL)
       pre(ctx, i, (uint64_t**)heaps, (uint64_t**)ptes, (uint64_t*)pas, (uint64_t**)regs);
+
+    if (ctx->cfg->thread_sync_handlers) {
+      if (ctx->cfg->thread_sync_handlers[cpu][0] != NULL)
+        old_sync_handler_el0 = hotswap_exception(0x400, (uint32_t*)ctx->cfg->thread_sync_handlers[cpu][0]);
+      if (ctx->cfg->thread_sync_handlers[cpu][1] != NULL)
+        old_sync_handler_el1 = hotswap_exception(0x000, (uint32_t*)ctx->cfg->thread_sync_handlers[cpu][1]);
+    }
 
     /* this barrier must be last thing before running function */
     bwait(cpu, i % ctx->no_threads, &ctx->start_barriers[i], ctx->no_threads);
     func(ctx, i, (uint64_t**)heaps, (uint64_t**)ptes, (uint64_t*)pas,
          (uint64_t**)regs);
+    if (ctx->cfg->thread_sync_handlers) {
+      if (ctx->cfg->thread_sync_handlers[cpu][0] != NULL)
+        restore_hotswapped_exception(0x400, old_sync_handler_el0);
+      if (ctx->cfg->thread_sync_handlers[cpu][1] != NULL)
+        restore_hotswapped_exception(0x000, old_sync_handler_el1);
+    }
 
     if (post != NULL)
       post(ctx, i, (uint64_t**)heaps, (uint64_t**)ptes, (uint64_t*)pas, (uint64_t**)regs);
