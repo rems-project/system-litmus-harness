@@ -61,6 +61,9 @@ void mutex_unlock(volatile mutex_t* m) {
 }
 
 void lock(volatile lock_t* lock) {
+  if (! current_thread_info()->locking_enabled)
+    return;
+
   if (ENABLE_PGTABLE)
     mutex_lock(&lock->m);
   else
@@ -68,6 +71,9 @@ void lock(volatile lock_t* lock) {
 }
 
 void unlock(volatile lock_t* lock) {
+  if (! current_thread_info()->locking_enabled)
+    return;
+
   if (ENABLE_PGTABLE)
     mutex_unlock(&lock->m);
   else

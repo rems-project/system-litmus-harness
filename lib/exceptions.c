@@ -38,8 +38,7 @@ static const char* ec_names[0x26] = {
 void* default_handler(uint64_t vec, uint64_t esr) {
   uint64_t ec = esr >> 26;
   uint64_t cpu = get_cpu();
-  if (current_thread_info()->locking_enabled)
-    lock(&_EXC_PRINT_LOCK);
+  lock(&_EXC_PRINT_LOCK);
 
   printf("Unhandled Exception (CPU%d): \n", cpu);
   printf("  [VBAR: 0x%lx]\n", read_sysreg(VBAR_EL1));
@@ -50,8 +49,7 @@ void* default_handler(uint64_t vec, uint64_t esr) {
   printf("  [ELR_EL1: 0x%lx]\n", read_sysreg(elr_el1));
   printf("  \n");
 
-  if (current_thread_info()->locking_enabled)
-    unlock(&_EXC_PRINT_LOCK);
+  unlock(&_EXC_PRINT_LOCK);
   abort();
 
   /* unreachable */
