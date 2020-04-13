@@ -38,8 +38,6 @@ void setup(char* fdtloc) {
   cpu_boot(1);
   cpu_boot(2);
   cpu_boot(3);
-
-  valloc_lock_enable = 1;
 }
 
 void per_cpu_setup(int cpu) {

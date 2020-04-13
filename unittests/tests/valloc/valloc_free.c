@@ -3,14 +3,6 @@
 #include "lib.h"
 #include "testlib.h"
 
-UNIT_TEST(test_valloc_free_save)
-void test_valloc_free_save(void) {
-  char* p = alloc(64);
-  uint64_t sz = *(p - 8);
-  free(p);
-  ASSERT(sz >= 64);
-}
-
 UNIT_TEST(test_valloc_free_reuse)
 void test_valloc_free_reuse(void) {
   char* p = alloc(64);
@@ -31,8 +23,8 @@ void test_valloc_freelist(void) {
   ASSERT(mem.freelist->size >= 64, "free size too small");
 }
 
-UNIT_TEST(test_valloc_free_compact)
-void test_valloc_free_compact(void) {
+UNIT_TEST(test_valloc_free_compact_reuse)
+void test_valloc_free_compact_reuse(void) {
   char* p = alloc(64);
   char* q = alloc(64);
   free(p);

@@ -6,6 +6,34 @@
 
 /* valloc debug */
 
+uint64_t __count_free_chunks(void) {
+  uint64_t s = 0;
+  valloc_free_chunk* next = mem.freelist;
+  while (next != NULL) {
+    s++;
+    next = next->next;
+  }
+  return s;
+}
+
+uint64_t __total_free(void) {
+  uint64_t s = 0;
+  valloc_free_chunk* next = mem.freelist;
+  while (next != NULL) {
+    s += next->size;
+    next = next->next;
+  }
+  return s;
+}
+
+void debug_valloc_status(void) {
+  if (DEBUG) {
+    uint64_t free_chunks = __count_free_chunks();
+    uint64_t free_mem = __total_free();
+    printf("(valloc)  top=0x%lx,  #free_chunks=0x%lx (with %p B)\n", mem.top, free_chunks, free_mem);
+  }
+}
+
 int __free_idx(uint64_t va) {
   int idx = 0;
 
@@ -13,10 +41,10 @@ int __free_idx(uint64_t va) {
     return -1;
   }
 
-  valloc_alloc* fblk = mem.freelist;
+  valloc_free_chunk* fblk = mem.freelist;
   while (fblk != NULL) {
-    uint64_t fblk_start = (uint64_t)fblk - sizeof(valloc_block);
-    uint64_t fblk_end = (uint64_t)fblk + fblk->size;
+    uint64_t fblk_start = (uint64_t)fblk;
+    uint64_t fblk_end = fblk_start + fblk->size;
     if (fblk_start <= va && va <= fblk_end) {
       return idx;
     }
@@ -80,9 +108,9 @@ void __print_heap_pages(void) {
 }
 
 void __print_freelist(void) {
-  valloc_alloc* fblk = mem.freelist;
+  valloc_free_chunk* fblk = mem.freelist;
   while (fblk != NULL) {
-    printf("[%p -> %p] -> ", (uint64_t)fblk-sizeof(valloc_block), (uint64_t)fblk+fblk->size);
+    printf("[%p -> %p] -> ", (uint64_t)fblk, (uint64_t)fblk+fblk->size);
     fblk = fblk->next;
   }
   printf("\n");
