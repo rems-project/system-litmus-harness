@@ -1,31 +1,44 @@
 #include "lib.h"
 
-extern litmus_test_t SB_pos;
-extern litmus_test_t SB_dmbs;
-extern litmus_test_t MP_dmbs;
-extern litmus_test_t MP_pos;
-extern litmus_test_t WRCat_ctrl_dsb;
-extern litmus_test_t CoWT1_dsbtlbidsb;
-extern litmus_test_t CoWT_dsbsvctlbidsb;
-extern litmus_test_t MPRT_svcdsbtlbiisdsb_dsbisb;
-extern litmus_test_t MPRT1_dsbtlbiisdsb_dsbisb;
-extern litmus_test_t CoWTinv_dsb;
-extern litmus_test_t CoWT_dsb;
-extern litmus_test_t CoWT;
-extern litmus_test_t CoWTinv;
-extern litmus_test_t CoWT_dsbisb;
-extern litmus_test_t MPRT_svcdsbtlbidsb_dsbisb;
-extern litmus_test_t MPRT1_dsbtlbidsb_dsbisb;
-extern litmus_test_t MP_dmb_eret;
-extern litmus_test_t MP_dmb_svc;
-extern litmus_test_t WRCtrt_dmbs;
-extern litmus_test_t WRC1trt_dsbtlbiisdsb_dmb;
-extern litmus_test_t CoTR;
-extern litmus_test_t CoTR_dmb;
-extern litmus_test_t CoTR_dsb;
-extern litmus_test_t CoTR_dsbisb;
-extern litmus_test_t CoWinvT;
-extern litmus_test_t CoWinvT_dsbtlbidsb;
+extern litmus_test_t 
+    SB_pos,
+    SB_dmbs,
+    MP_dmbs,
+    MP_pos,
+    MPtimes_pos,
+    WRCat_ctrl_dsb,
+    CoWT1_dsbtlbidsb,
+    CoWT_dsbsvctlbidsb,
+    MPRT_svcdsbtlbiisdsb_dsbisb,
+    MPRT1_dsbtlbiisdsb_dsbisb,
+    CoWTinv_dsb,
+    CoWT_dsb,
+    CoWT,
+    CoWTinv,
+    CoWT_dsbisb,
+    MPRT_svcdsbtlbidsb_dsbisb,
+    MPRT1_dsbtlbidsb_dsbisb,
+    MP_dmb_eret,
+    MP_dmb_svc,
+    MPRTinv_dmb_addr,
+    WRCtrr_addr_dmb,
+    WRCtrt_addr_dmb,
+    WRCtrt_dmbs,
+    WRCtrt_dsbisbs,
+    WRCtrtinv_dsbisbs,
+    WRCtrtinv_po_dmb,
+    WRCtrtinv_po_addr,
+    WRC1trt_dsbtlbiisdsb_dmb,
+    CoTR,
+    CoTRinv,
+    CoTRinv_dsbisb,
+    CoTR_dmb,
+    CoTR_dsb,
+    CoTR_dsbisb,
+    CoTR1tlbi_dsbdsbisb,
+    CoWinvT,
+    CoWinvT_dsbtlbidsb,
+    ISA2trr_dmb_po_dmb;
 
 
 static const litmus_test_t* TESTS[] = {
@@ -33,6 +46,7 @@ static const litmus_test_t* TESTS[] = {
   &SB_dmbs,
   &MP_dmbs,
   &MP_pos,
+  &MPtimes_pos,
   &WRCat_ctrl_dsb,
   &CoWT1_dsbtlbidsb,
   &CoWT_dsbsvctlbidsb,
@@ -46,15 +60,26 @@ static const litmus_test_t* TESTS[] = {
   &CoWinvT_dsbtlbidsb,
   &CoWT_dsbisb,
   &CoTR,
+  &CoTRinv,
+  &CoTRinv_dsbisb,
   &CoTR_dmb,
   &CoTR_dsb,
   &CoTR_dsbisb,
+  &CoTR1tlbi_dsbdsbisb,
   &MPRT_svcdsbtlbidsb_dsbisb,
   &MPRT1_dsbtlbidsb_dsbisb,
   &MP_dmb_eret,
   &MP_dmb_svc,
+  &MPRTinv_dmb_addr,
+  &WRCtrt_addr_dmb,
   &WRCtrt_dmbs,
+  &WRCtrt_dsbisbs,
+  &WRCtrtinv_dsbisbs,
   &WRC1trt_dsbtlbiisdsb_dmb,
+  &WRCtrtinv_po_dmb,
+  &WRCtrtinv_po_addr,
+  &ISA2trr_dmb_po_dmb,
+  &WRCtrr_addr_dmb,
 };
 
 void display_test_help(void) {

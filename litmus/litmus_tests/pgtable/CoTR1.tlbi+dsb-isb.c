@@ -41,14 +41,21 @@ static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
   uint64_t* outp1r0 = out_regs[0];
   uint64_t* outp1r2 = out_regs[1];
 
+  uint64_t  xpage = (uint64_t)x >> 12;
+
   asm volatile (
     /* move from C vars into machine regs */
     "mov x1, %[x]\n\t"
     "mov x3, %[xpte]\n\t"
     "mov x4, %[ydesc]\n\t"
 
+    "tlbi vae1is, %[xpage]\n\t"
+    "dsb sy\n\t"
+
     /* test payload */
     "ldr x0, [x1]\n\t"
+    "dsb sy\n\t"
+    "isb\n\t"
     "ldr x2, [x3]\n\t"
     "eor x2, x2, x4\n\t"
     "cbz x2, .after\n\t"
@@ -60,12 +67,12 @@ static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
     "str x0, [%[outp1r0]]\n\t"
     "str x2, [%[outp1r2]]\n\t"
     :
-    : [x] "r" (x), [xpte] "r" (xpte), [ydesc] "r" (ydesc), [outp1r0] "r" (outp1r0), [outp1r2] "r" (outp1r2)
+    : [x] "r" (x), [xpte] "r" (xpte), [ydesc] "r" (ydesc), [xpage] "r" (xpage), [outp1r0] "r" (outp1r0), [outp1r2] "r" (outp1r2)
     : "cc", "memory", "x0", "x1", "x2", "x3", "x4");
 }
 
-litmus_test_t CoRT = {
-  "CoRT",
+litmus_test_t CoTR1tlbi_dsbdsbisb = {
+  "CoTR1.tlbi+dsb-isb",
   2, (th_f** []){
     (th_f* []) {NULL, P0, NULL},
     (th_f* []) {NULL, P1, NULL},
@@ -76,6 +83,7 @@ litmus_test_t CoRT = {
       /* p0:x0 =*/1,
       /* p0:x2 =*/0,
   },
+  .start_els=(int[]){0,1},
   .no_init_states=1,
   .init_states=(init_varstate_t*[]){
     &(init_varstate_t){"y", TYPE_HEAP, 1},
