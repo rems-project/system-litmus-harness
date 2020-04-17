@@ -25,17 +25,11 @@ static uint64_t* PTE(test_ctx_t* ctx, uint64_t va) {
 void run_test(const litmus_test_t* cfg) {
   /* create test context obj */
   test_ctx_t ctx;
-
-  start_of_test(&ctx, cfg->name, cfg->no_threads, cfg->threads, cfg->no_heap_vars, cfg->no_regs,
-                NUMBER_OF_RUNS);
-  ctx.heap_var_names = cfg->heap_var_names;
-  ctx.out_reg_names = cfg->reg_names;
-  ctx.cfg = cfg;
+  start_of_test(&ctx, cfg, NUMBER_OF_RUNS);
 
   for (int i = 0; i < cfg->no_init_states; i++) {
     init_varstate_t* var = cfg->init_states[i];
     const char* name = var->varname;
-    debug("init var '%s'\n", name);
     switch (var->type) {
       case (TYPE_HEAP):
         set_init_heap(&ctx, name, var->value);
@@ -45,8 +39,6 @@ void run_test(const litmus_test_t* cfg) {
         break;
     }
   }
-
-  debug("loaded init states\n");
 
   /* run it */
   trace("%s\n", "Running Tests ...");
@@ -61,8 +53,8 @@ void run_test(const litmus_test_t* cfg) {
 }
 
 uint64_t idx_from_varname(test_ctx_t* ctx, const char* varname) {
-  for (int i = 0; i < ctx->no_heap_vars; i++) {
-    if (strcmp(ctx->heap_var_names[i], varname)) {
+  for (int i = 0; i < ctx->cfg->no_heap_vars; i++) {
+    if (strcmp(ctx->cfg->heap_var_names[i], varname)) {
       return i;
     }
   }
@@ -73,9 +65,9 @@ uint64_t idx_from_varname(test_ctx_t* ctx, const char* varname) {
 }
 
 const char* varname_from_idx(test_ctx_t* ctx, uint64_t idx) {
-  for (int i = 0; i < ctx->no_heap_vars; i++) {
+  for (int i = 0; i < ctx->cfg->no_heap_vars; i++) {
     if (idx == i)
-      return ctx->heap_var_names[i];
+      return ctx->cfg->heap_var_names[i];
   }
 
   printf("! err: no such variable with index %ld.\n", idx);
@@ -121,7 +113,7 @@ static void go_cpus(int cpu, void* a) {
   test_ctx_t* ctx = (test_ctx_t*)a;
   start_of_thread(ctx, cpu);
 
-  if (cpu < ctx->no_threads) {
+  if (cpu < ctx->cfg->no_threads) {
     run_thread(ctx, cpu);
   }
 
@@ -148,19 +140,19 @@ static void _check_ptes(test_ctx_t* ctx, uint64_t n, uint64_t** vas,
 }
 
 static void run_thread(test_ctx_t* ctx, int cpu) {
-  th_f* pre = ctx->thread_fns[cpu][0];
-  th_f* func = ctx->thread_fns[cpu][1];
-  th_f* post = ctx->thread_fns[cpu][2];
+  th_f* pre = ctx->cfg->setup_fns == NULL ? NULL : ctx->cfg->setup_fns[cpu];
+  th_f* func = ctx->cfg->threads[cpu];
+  th_f* post = ctx->cfg->teardown_fns == NULL ? NULL : ctx->cfg->teardown_fns[cpu];
 
   for (int j = 0; j < ctx->no_runs; j++) {
     int i = ctx->shuffled_ixs[j];
-    uint64_t* heaps[ctx->no_heap_vars];
-    uint64_t* ptes[ctx->no_heap_vars];
-    uint64_t pas[ctx->no_heap_vars];
-    uint64_t* regs[ctx->no_out_regs];
-    uint64_t saved_ptes[ctx->no_heap_vars];
+    uint64_t* heaps[ctx->cfg->no_heap_vars];
+    uint64_t* ptes[ctx->cfg->no_heap_vars];
+    uint64_t pas[ctx->cfg->no_heap_vars];
+    uint64_t* regs[ctx->cfg->no_regs];
+    uint64_t saved_ptes[ctx->cfg->no_heap_vars];
 
-    for (int v = 0; v < ctx->no_heap_vars; v++) {
+    for (int v = 0; v < ctx->cfg->no_heap_vars; v++) {
       uint64_t* p = &ctx->heap_vars[v][i];
       heaps[v] = p;
       if (ENABLE_PGTABLE) {
@@ -169,7 +161,7 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
         pas[v] = PA(ctx, (uint64_t)p);
       }
     }
-    for (int r = 0; r < ctx->no_out_regs; r++) {
+    for (int r = 0; r < ctx->cfg->no_regs; r++) {
       regs[r] = &ctx->out_regs[r][i];
     }
 
@@ -188,7 +180,7 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     }
 
     /* this barrier must be last thing before running function */
-    bwait(cpu, i % ctx->no_threads, &ctx->start_barriers[i], ctx->no_threads);
+    bwait(cpu, i % ctx->cfg->no_threads, &ctx->start_barriers[i], ctx->cfg->no_threads);
     func(ctx, i, (uint64_t**)heaps, (uint64_t**)ptes, (uint64_t*)pas,
          (uint64_t**)regs);
     if (ctx->cfg->thread_sync_handlers) {
@@ -204,9 +196,9 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     end_of_run(ctx, cpu, i);
 
     if (ENABLE_PGTABLE)
-      _check_ptes(ctx, ctx->no_heap_vars, heaps, ptes, saved_ptes);
+      _check_ptes(ctx, ctx->cfg->no_heap_vars, heaps, ptes, saved_ptes);
 
-    bwait(cpu, i % ctx->no_threads, &ctx->cleanup_barriers[i], ctx->no_threads);
+    bwait(cpu, i % ctx->cfg->no_threads, &ctx->cleanup_barriers[i], ctx->cfg->no_threads);
   }
 }
 
@@ -217,34 +209,32 @@ uint64_t read_clk(void) {
   return clk;
 }
 
-void init_test_ctx(test_ctx_t* ctx, const char* test_name, int no_threads,
-                   th_f*** funcs, int no_heap_vars, int no_out_regs,
-                   int no_runs) {
-  uint64_t** heap_vars = alloc(sizeof(uint64_t*) * no_heap_vars);
-  uint64_t** out_regs = alloc(sizeof(uint64_t*) * no_out_regs);
+void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
+  uint64_t** heap_vars = alloc(sizeof(uint64_t*) * cfg->no_heap_vars);
+  uint64_t** out_regs = alloc(sizeof(uint64_t*) * cfg->no_regs);
   bar_t* bars = alloc(sizeof(bar_t) * no_runs);
   bar_t* end_bars = alloc(sizeof(bar_t) * no_runs);
   bar_t* clean_bars = alloc(sizeof(bar_t) * no_runs);
   bar_t* final_barrier = alloc(sizeof(bar_t));
   uint64_t* shuffled = alloc(sizeof(uint64_t) * no_runs);
 
-  for (int v = 0; v < no_heap_vars; v++) {
+  for (int v = 0; v < cfg->no_heap_vars; v++) {
     // ensure each heap var allloc'd into its own page...
     uint64_t* heap_var =
         alloc_with_alignment(ALIGN_UP(sizeof(uint64_t) * no_runs, 12), 4096UL);
     heap_vars[v] = heap_var;
   }
 
-  for (int r = 0; r < no_out_regs; r++) {
+  for (int r = 0; r < cfg->no_regs; r++) {
     uint64_t* out_reg = alloc(sizeof(uint64_t) * no_runs);
     out_regs[r] = out_reg;
   }
 
   for (int i = 0; i < no_runs; i++) {
     /* one time init so column major doesnt matter */
-    for (int v = 0; v < no_heap_vars; v++) heap_vars[v][i] = 0;
+    for (int v = 0; v < cfg->no_heap_vars; v++) heap_vars[v][i] = 0;
 
-    for (int r = 0; r < no_out_regs; r++) out_regs[r][i] = 0;
+    for (int r = 0; r < cfg->no_regs; r++) out_regs[r][i] = 0;
 
     bars[i] = (bar_t){0};
     end_bars[i] = (bar_t){0};
@@ -265,30 +255,25 @@ void init_test_ctx(test_ctx_t* ctx, const char* test_name, int no_threads,
 
   for (int t = 0; t < hist->limit; t++) {
     test_result_t* new_res =
-        alloc(sizeof(test_result_t) + sizeof(uint64_t) * no_out_regs);
+        alloc(sizeof(test_result_t) + sizeof(uint64_t) * cfg->no_regs);
     hist->results[t] = new_res;
     lut[t] = NULL;
   }
 
-  ctx->no_threads = no_threads;
+  ctx->no_runs = no_runs;
   ctx->heap_vars = heap_vars;
-  ctx->thread_fns = funcs;
-  ctx->no_heap_vars = no_heap_vars;
   ctx->out_regs = out_regs;
-  ctx->no_out_regs = no_out_regs;
   ctx->start_barriers = bars;
   ctx->end_barriers = end_bars;
   ctx->cleanup_barriers = clean_bars;
   ctx->final_barrier = final_barrier;
   ctx->shuffled_ixs = shuffled;
-  ctx->no_runs = no_runs;
   ctx->hist = hist;
-  ctx->test_name = test_name;
   ctx->ptable = NULL;
   ctx->current_run = 0;
   ctx->privileged_harness = 0;
+  ctx->cfg = cfg;
 }
-
 
 void free_test_ctx(test_ctx_t* ctx) {
   for (int t = 0; t < ctx->hist->limit; t++) {
@@ -298,11 +283,11 @@ void free_test_ctx(test_ctx_t* ctx) {
   free(ctx->hist->lut);
   free(ctx->hist);
 
-  for (int r = 0; r < ctx->no_out_regs; r++) {
+  for (int r = 0; r < ctx->cfg->no_regs; r++) {
     free(ctx->out_regs[r]);
   }
 
-  for (int v = 0; v < ctx->no_heap_vars; v++) {
+  for (int v = 0; v < ctx->cfg->no_heap_vars; v++) {
     free(ctx->heap_vars[v]);
   }
 
@@ -318,7 +303,7 @@ void free_test_ctx(test_ctx_t* ctx) {
 }
 
 static int matches(test_result_t* result, test_ctx_t* ctx, int run) {
-  for (int reg = 0; reg < ctx->no_out_regs; reg++) {
+  for (int reg = 0; reg < ctx->cfg->no_regs; reg++) {
     if (result->values[reg] != ctx->out_regs[reg][run]) {
       return 0;
     }
@@ -328,7 +313,7 @@ static int matches(test_result_t* result, test_ctx_t* ctx, int run) {
 
 static int ix_from_values(test_ctx_t* ctx, int run) {
   int val = 0;
-  for (int reg = 0; reg < ctx->no_out_regs; reg++) {
+  for (int reg = 0; reg < ctx->cfg->no_regs; reg++) {
     uint64_t v = ctx->out_regs[reg][run];
     if (v < 4) {
       val *= 4;
@@ -372,7 +357,7 @@ static void add_results(test_hist_t* res, test_ctx_t* ctx, int run) {
       abort();
     }
     test_result_t* new_res = res->results[res->allocated];
-    for (int reg = 0; reg < ctx->no_out_regs; reg++) {
+    for (int reg = 0; reg < ctx->cfg->no_regs; reg++) {
       new_res->values[reg] = ctx->out_regs[reg][run];
     }
     new_res->counter = 1;
@@ -386,7 +371,7 @@ static void add_results(test_hist_t* res, test_ctx_t* ctx, int run) {
 }
 
 void prefetch(test_ctx_t* ctx, int i) {
-  for (int v = 0; v < ctx->no_heap_vars; v++) {
+  for (int v = 0; v < ctx->cfg->no_heap_vars; v++) {
     /* TODO: read initial state */
     lock(&__harness_lock);
     uint64_t is_valid = vmm_pte_valid(ctx->ptable, &ctx->heap_vars[v][i]);
@@ -428,8 +413,8 @@ void start_of_run(test_ctx_t* ctx, int thread, int i) {
 
 static void print_single_result(test_ctx_t* ctx, int i) {
   printf("* ");
-  for (int r = 0; r < ctx->no_out_regs; r++) {
-    printf(" %s=%d", ctx->out_reg_names[r], ctx->out_regs[r][i]);
+  for (int r = 0; r < ctx->cfg->no_regs; r++) {
+    printf(" %s=%d", ctx->cfg->reg_names[r], ctx->out_regs[r][i]);
   }
 
   printf(" : 1\n");
@@ -438,7 +423,7 @@ static void print_single_result(test_ctx_t* ctx, int i) {
 void end_of_run(test_ctx_t* ctx, int thread, int i) {
   if (! ctx->cfg->start_els || ctx->cfg->start_els[thread] == 0)
     raise_to_el1();
-  bwait(thread, i % ctx->no_threads, &ctx->end_barriers[i], ctx->no_threads);
+  bwait(thread, i % ctx->cfg->no_threads, &ctx->end_barriers[i], ctx->cfg->no_threads);
 
   /* only 1 thread should collect the results, else they will be duplicated */
   if (thread == 0) {
@@ -463,8 +448,9 @@ void end_of_run(test_ctx_t* ctx, int thread, int i) {
 
 void start_of_thread(test_ctx_t* ctx, int cpu) {
   /* turn on MMU and switch to new pagetable */
-  if (ENABLE_PGTABLE)
+  if (ENABLE_PGTABLE) {
       vmm_switch_ttable(ctx->ptable);
+  }
 
   /* before can drop to EL0, ensure EL0 has a valid mapped stack space
    */
@@ -474,8 +460,8 @@ void start_of_thread(test_ctx_t* ctx, int cpu) {
 }
 
 void end_of_thread(test_ctx_t* ctx, int cpu) {
-  /* restore old pgtable */
   if (ENABLE_PGTABLE) {
+    /* restore global non-test pgtable */
     vmm_switch_ttable(vmm_pgtable);
   }
 
@@ -483,21 +469,20 @@ void end_of_thread(test_ctx_t* ctx, int cpu) {
   trace("CPU%d: end of test\n", cpu);
 }
 
-void start_of_test(test_ctx_t* ctx, const char* name, int no_threads,
-                   th_f*** funcs, int no_heap_vars, int no_regs, int no_runs) {
-  trace("====== %s ======\n", name);
-  init_test_ctx(ctx, name, no_threads, funcs, no_heap_vars, no_regs, no_runs);
-  debug("initialised test\n");
+void start_of_test(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
+  trace("====== %s ======\n", cfg->name);
+
+  /* create the dynamic configuration (context) from the static information (cfg) */
+  init_test_ctx(ctx, cfg, no_runs);
+
   if (ENABLE_PGTABLE) {
     ctx->ptable = vmm_alloc_new_idmap_4k();
-    debug("allocated new pagetable\n");
+
+    /* need to add read/write mappings to the exception vector table */
     for (int i = 0; i < 4; i++) {
       vmm_update_mapping(ctx->ptable, vector_base_addr_rw+i*4096, vector_base_pa+i*4096, 0x1 << 6);
     }
-    debug("updated pagetable for vbar\n");
   }
-
-  debug("ready to start test\n");
 }
 
 void end_of_test(test_ctx_t* ctx, const char** out_reg_names,
@@ -506,18 +491,18 @@ void end_of_test(test_ctx_t* ctx, const char** out_reg_names,
     trace("%s\n", "Printing Results...");
     print_results(ctx->hist, ctx, out_reg_names, interesting_result);
   }
-  trace("Finished test %s\n", ctx->test_name);
+  trace("Finished test %s\n", ctx->cfg->name);
   free_test_ctx(ctx);
 }
 
 void print_results(test_hist_t* res, test_ctx_t* ctx,
                    const char** out_reg_names, uint64_t* interesting_results) {
   printf("\n");
-  printf("Test %s:\n", ctx->test_name);
+  printf("Test %s:\n", ctx->cfg->name);
   int marked = 0;
   for (int r = 0; r < res->allocated; r++) {
     int was_interesting = (interesting_results == NULL) ? 0 : 1;
-    for (int reg = 0; reg < ctx->no_out_regs; reg++) {
+    for (int reg = 0; reg < ctx->cfg->no_regs; reg++) {
       printf(" %s=%d ", out_reg_names[reg], res->results[r]->values[reg]);
 
       if (interesting_results != NULL)
@@ -532,5 +517,5 @@ void print_results(test_hist_t* res, test_ctx_t* ctx,
       printf(" : %d\n", res->results[r]->counter);
     }
   }
-  printf("Observation %s: %d (of %d)\n", ctx->test_name, marked, ctx->no_runs);
+  printf("Observation %s: %d (of %d)\n", ctx->cfg->name, marked, ctx->no_runs);
 }

@@ -20,17 +20,21 @@ typedef void th_f(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
 
 /**
  * definition of a litmus test
+ * 
+ * aka the static configuration that defines a litmus test
  */
 typedef struct {
   const char* name;
   int no_threads;
-  th_f*** threads;
+  th_f** threads;
   int no_heap_vars;
   const char** heap_var_names;
   int no_regs;
   const char** reg_names;
 
   uint64_t* interesting_result;   /* interesting (relaxed) result to highlight */
+  th_f** setup_fns;
+  th_f** teardown_fns;
 
   int no_init_states;
   init_varstate_t** init_states;   /* initial state array */
@@ -41,6 +45,7 @@ typedef struct {
   /** whether the test requires any special options to be enabled */
   uint8_t requires_pgtable;  /* requires --pgtable */
   uint8_t requires_perf;     /* requires --perf */
+  uint8_t requires_debug;    /* requires -d */
 } litmus_test_t;
 
 /* test data */
@@ -56,22 +61,21 @@ typedef struct {
     test_result_t* results[];
 } test_hist_t;
 
+/**
+ * the test_ctx_t type is the dynamic configuration generated at runtime
+ * it holds live pointers to the actual blocks of memory for variables and registers and the 
+ * collected output histogram that the test is actually using
+ * as well as a reference to the static test configuration (the litmus_test_t)
+ */
 struct test_ctx {
-  uint64_t no_threads;
-  th_f*** thread_fns;             /* array of { pPre, pFunc, pPost } */
+  uint64_t no_runs;
   uint64_t** heap_vars;         /* set of heap variables: x, y, z etc */
-  const char** heap_var_names;
-  uint64_t no_heap_vars;
   uint64_t** out_regs;          /* set of output register values: P1:x1,  P2:x3 etc */
-  const char** out_reg_names;
-  uint64_t no_out_regs;
   bar_t* start_barriers;
   bar_t* end_barriers;
   bar_t* cleanup_barriers;
   bar_t* final_barrier;
   uint64_t* shuffled_ixs;
-  uint64_t no_runs;
-  const char* test_name;
   test_hist_t* hist;
   uint64_t* ptable;
   uint64_t current_run;
@@ -83,7 +87,7 @@ struct test_ctx {
 /* entry point for tests */
 void run_test(const litmus_test_t* cfg);
 
-void init_test_ctx(test_ctx_t* ctx, const char* test_name, int no_threads, th_f*** funcs, int no_heap_vars, int no_out_regs, int no_runs);
+void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs);
 void free_test_ctx(test_ctx_t* ctx);
 
 /* helper functions */
@@ -104,7 +108,7 @@ void start_of_thread(test_ctx_t* ctx, int cpu);
 void end_of_thread(test_ctx_t* ctx, int cpu);
 
 /* call at the beginning and end of each test */
-void start_of_test(test_ctx_t* ctx, const char* name, int no_threads, th_f*** funcs, int no_heap_vars, int no_regs, int no_runs);
+void start_of_test(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs);
 void end_of_test(test_ctx_t* ctx, const char** out_reg_names, uint64_t* interesting_result);
 
 #endif /* LITMUS_TEST_H */
