@@ -14,12 +14,6 @@ static void svc_handler(void) {
   );
 }
 
-static uint32_t* old_vtentry;
-static void P0_pre(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, uint64_t* pas, uint64_t** out_regs) {
-  old_vtentry = hotswap_exception(0x400, (uint32_t*)&svc_handler);
-}
-
-
 static void P0(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
                uint64_t* pas, uint64_t** out_regs) {
 
@@ -47,10 +41,6 @@ static void P0(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
   : [zdesc] "r" (zdesc), [xpte] "r" (xpte), [xpage] "r" (xpage), [y] "r" (y)
   : "memory", "x0", "x1", "x2", "x3", "x4"
   );
-}
-
-static void P0_post(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, uint64_t* pas, uint64_t** out_regs) {
-  restore_hotswapped_exception(0x400, old_vtentry);
 }
 
 static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
@@ -83,17 +73,24 @@ static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
       : "cc", "memory", "x0", "x1", "x2", "x3", "x4");
 }
 
+
+
 litmus_test_t MPRT_svcdsbtlbiisdsb_dsbisb = {
   "MP.RT+svc-dsb-tlbiis-dsb+dsb-isb",
-  2, (th_f** []){
-    (th_f* []) {P0_pre, P0, P0_post},
-    (th_f* []) {NULL, P1, NULL},
+  2,(th_f*[]){
+    (th_f*)P0,
+    (th_f*)P1
   },
-  3, (const char* []){"x", "y", "z"},
-  2, (const char* []){"p1:x0", "p1:x2"},
+  3,(const char*[]){"x", "y", "z"},
+  2,(const char*[]){"p1:x0", "p1:x2"},
   .interesting_result = (uint64_t[]){
       /* p1:x0 =*/1,
       /* p1:x2 =*/0,
+  },
+  .thread_sync_handlers =
+    (uint32_t**[]){
+     (uint32_t*[]){(uint32_t*)svc_handler, NULL},
+     (uint32_t*[]){NULL, NULL},
   },
   .no_init_states=1,
   .init_states=(init_varstate_t*[]){

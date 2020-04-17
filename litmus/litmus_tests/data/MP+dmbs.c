@@ -36,10 +36,10 @@ static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, ui
 
 litmus_test_t MP_dmbs = {
   .name="MP+dmbs",
-  .no_threads=2,
-  .threads=(th_f**[]){
-    (th_f* []){NULL, P0, NULL},
-    (th_f* []){NULL, P1, NULL},
+  .no_threads=2, 
+  .threads=(th_f*[]){
+    (th_f*)P0,
+    (th_f*)P1
   },
 
   .no_heap_vars=2, 

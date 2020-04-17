@@ -80,20 +80,21 @@ static void P2(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, ui
     "str x2, [%[p2r2]]\n\t"
   :
   : [y] "r" (y), [xpte] "r" (xpte), [zdesc] "r" (zdesc), [p2r0] "r" (p2r0), [p2r2] "r" (p2r2)
-  : "cc", "memory", "x0", "x1", "x2", "x3"
+  : "cc", "memory", "x0", "x1", "x2", "x3", "x4"
   );
 }
 
 
+
 litmus_test_t WRCtrr_addr_dmb = {
   "WRC.TRR+addr+dmb",
-  3, (th_f**[]){
-    (th_f* []){NULL, P0, NULL},
-    (th_f* []){NULL, P1, NULL},
-    (th_f* []){NULL, P2, NULL},
+  3,(th_f*[]){
+    (th_f*)P0,
+    (th_f*)P1,
+    (th_f*)P2
   },
-  3, (const char*[]){"x", "y", "z"}, 
-  3, (const char*[]){"p1:x0", "p2:x0", "p2:x2"}, 
+  3,(const char*[]){"x", "y", "z"},
+  3,(const char*[]){"p1:x0", "p2:x0", "p2:x2"},
   .no_init_states=1,
   .init_states=(init_varstate_t*[]){
       &(init_varstate_t){"z", TYPE_HEAP, 1},

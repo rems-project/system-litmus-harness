@@ -85,15 +85,16 @@ static void sync_handler(void) {
   );
 }
 
+
 litmus_test_t WRCtrtinv_dsbisbs = {
   "WRC.TRT.inv+dsb-isbs",
-  3, (th_f**[]){ 
-    (th_f* []){NULL, P0, NULL},
-    (th_f* []){NULL, P1, NULL},
-    (th_f* []){NULL, P2, NULL},
+  3,(th_f*[]){
+    (th_f*)P0,
+    (th_f*)P1,
+    (th_f*)P2
   },
-  3, (const char*[]){"x", "y", "z"}, 
-  3, (const char*[]){"p1:x0", "p2:x0", "p2:x2"}, 
+  3,(const char*[]){"x", "y", "z"},
+  3,(const char*[]){"p1:x0", "p2:x0", "p2:x2"},
   .no_init_states=2,
   .init_states=(init_varstate_t*[]){
       &(init_varstate_t){"x", TYPE_PTE, 0},

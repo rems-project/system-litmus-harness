@@ -48,14 +48,15 @@ static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, ui
   );
 }
 
+
 litmus_test_t SB_dmbs = {
   "SB+dmbs",
-  2, (th_f**[]){
-    (th_f* []){NULL, P0, NULL},
-    (th_f* []){NULL, P1, NULL},
+  2,(th_f*[]){
+    (th_f*)P0,
+    (th_f*)P1
   },
-  2, (const char*[]){"x", "y"}, 
-  2, (const char*[]){"p0:x2", "p1:x2"}, 
+  2,(const char*[]){"x", "y"},
+  2,(const char*[]){"p0:x2", "p1:x2"},
   .interesting_result =
     (uint64_t[]){
       /* p1:x0 =*/ 0,

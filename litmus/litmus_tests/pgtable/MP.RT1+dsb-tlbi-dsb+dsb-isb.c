@@ -65,14 +65,15 @@ static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
       : "cc", "memory", "x0", "x1", "x2", "x3", "x4");
 }
 
+
 litmus_test_t MPRT1_dsbtlbidsb_dsbisb = {
   "MP.RT1+dsb-tlbi-dsb+dsb-isb",
-  2, (th_f** []){
-    (th_f* []) {NULL, P0, NULL},
-    (th_f* []) {NULL, P1, NULL},
+  2,(th_f*[]){
+    (th_f*)P0,
+    (th_f*)P1
   },
-  3, (const char* []){"x", "y", "z"},
-  2, (const char* []){"p1:x0", "p1:x2"},
+  3,(const char*[]){"x", "y", "z"},
+  2,(const char*[]){"p1:x0", "p1:x2"},
   .interesting_result = (uint64_t[]){
       /* p1:x0 =*/1,
       /* p1:x2 =*/0,

@@ -27,11 +27,6 @@ static void svc_handler(void) {
       "eret\n\t");
 }
 
-static uint32_t* old_vtentry;
-static void P1_pre(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, uint64_t* pas, uint64_t** out_regs) {
-  old_vtentry = hotswap_exception(0x400, (uint32_t*)&svc_handler);
-}
-
 static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
                uint64_t* pas, uint64_t** out_regs) {
   uint64_t* x = heap_vars[0];
@@ -58,18 +53,20 @@ static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
   );
 }
 
-static void P1_post(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, uint64_t* pas, uint64_t** out_regs) {
-  restore_hotswapped_exception(0x400, old_vtentry);
-}
 
 litmus_test_t MP_dmb_svc = {
   "MP+dmb+svc",
-  2, (th_f** []){
-    (th_f* []) {NULL, P0, NULL},
-    (th_f* []) {P1_pre, P1, P1_post},
+  2,(th_f*[]){
+    (th_f*)P0,
+    (th_f*)P1
   },
-  2, (const char* []){"x", "y"},
-  2, (const char* []){"p1:x0", "p1:x2"},
+  2,(const char*[]){"x", "y"},
+  2,(const char*[]){"p1:x0", "p1:x2"},
+  .thread_sync_handlers =
+    (uint32_t**[]){
+     (uint32_t*[]){NULL, NULL},
+     (uint32_t*[]){(uint32_t*)svc_handler, NULL},
+    },
   .interesting_result = (uint64_t[]){
       /* p1:x0 =*/1,
       /* p1:x2 =*/0,

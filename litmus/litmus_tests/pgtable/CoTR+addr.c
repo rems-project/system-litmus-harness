@@ -49,9 +49,9 @@ static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
 
     /* test payload */
     "ldr x0, [x1]\n\t"
-    "dsb sy\n\t"
-    "isb\n\t"
-    "ldr x2, [x3]\n\t"
+    "eor x5,x0,x0\n\t"
+    "add x5,x5,x3\n\t"
+    "ldr x2, [x5]\n\t"
     "eor x2, x2, x4\n\t"
     "cbz x2, .after\n\t"
     "mov x2, #1\n\t"
@@ -63,12 +63,12 @@ static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
     "str x2, [%[outp1r2]]\n\t"
     :
     : [x] "r" (x), [xpte] "r" (xpte), [ydesc] "r" (ydesc), [outp1r0] "r" (outp1r0), [outp1r2] "r" (outp1r2)
-    : "cc", "memory", "x0", "x1", "x2", "x3", "x4");
+    : "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x5");
 }
 
 
-litmus_test_t CoTR_dsbisb = {
-  "CoTR+dsb-isb",
+litmus_test_t CoTR_addr = {
+  "CoTR+addr",
   2,(th_f*[]){
     (th_f*)P0,
     (th_f*)P1

@@ -41,13 +41,14 @@ static void P0(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
   reset_pgfault_handler((uint64_t)x);
 }
 
+
 litmus_test_t CoWTinv = {
   "CoWT.inv",
-  1, (th_f** []){
-    (th_f* []) {NULL, P0, NULL},
+  1,(th_f*[]){
+    (th_f*)P0
   },
-  2, (const char* []){"x", "y"},
-  1, (const char* []){"p0:x4",},
+  2,(const char*[]){"x", "y"},
+  1,(const char*[]){"p0:x4",},
   .interesting_result = (uint64_t[]){
       /* p0:x4 =*/1,
   },

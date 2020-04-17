@@ -13,11 +13,6 @@ static void svc_handler(void) {
   );
 }
 
-static uint32_t* old_vtentry;
-static void P0_pre(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, uint64_t* pas, uint64_t** out_regs) {
-  old_vtentry = hotswap_exception(0x400, (uint32_t*)&svc_handler);
-}
-
 static void P0(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
                uint64_t* pas, uint64_t** out_regs) {
 
@@ -49,20 +44,22 @@ static void P0(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
       : "cc", "memory", "x0", "x1", "x2", "x3", "x4");
 }
 
-static void P0_post(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, uint64_t* pas, uint64_t** out_regs) {
-  restore_hotswapped_exception(0x400, old_vtentry);
-}
+
 
 litmus_test_t CoWT1_dsbtlbidsb = {
   "CoWT1+dsb-tlbi-dsb",
-  1, (th_f** []){
-    (th_f* []) {P0_pre, P0, P0_post},
+  1,(th_f*[]){
+    (th_f*)P0
   },
-  2, (const char* []){"x", "y"},
-  1, (const char* []){"p0:x2",},
+  2,(const char*[]){"x", "y"},
+  1,(const char*[]){"p0:x2",},
   .interesting_result = (uint64_t[]){
       /* p0:x2 =*/1,
   },
+  .thread_sync_handlers =
+    (uint32_t**[]){
+     (uint32_t*[]){(uint32_t*)svc_handler, NULL},
+    },
   .no_init_states=2,
   .init_states=(init_varstate_t*[]){
     &(init_varstate_t){"x", TYPE_HEAP, 1},

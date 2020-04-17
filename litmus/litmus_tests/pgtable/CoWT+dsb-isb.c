@@ -34,13 +34,14 @@ static void P0(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
       : "cc", "memory", "x0", "x1", "x2", "x3");
 }
 
+
 litmus_test_t CoWT_dsbisb = {
   "CoWT+dsb-isb",
-  1, (th_f** []){
-    (th_f* []) {NULL, P0, NULL},
+  1,(th_f*[]){
+    (th_f*)P0
   },
-  2, (const char* []){"x", "y"},
-  1, (const char* []){"p0:x2",},
+  2,(const char*[]){"x", "y"},
+  1,(const char*[]){"p0:x2",},
   .interesting_result = (uint64_t[]){
       /* p0:x2 =*/1,
   },

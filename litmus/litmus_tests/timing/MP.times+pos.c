@@ -58,14 +58,15 @@ static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, ui
   );
 }
 
+
 litmus_test_t MPtimes_pos = {
   "MP.times+pos",
-  2, (th_f**[]){
-    (th_f* []){NULL, P0, NULL},
-    (th_f* []){NULL, P1, NULL},
+  2,(th_f*[]){
+    (th_f*)P0,
+    (th_f*)P1
   },
-  2, (const char*[]){"x", "y"}, 
-  6, (const char*[]){"p1:x0", "p1:x2", "time_str0", "time_str1", "time_ldr0", "time_ldr1"}, 
+  2,(const char*[]){"x", "y"},
+  6,(const char*[]){"p1:x0", "p1:x2", "time_str0", "time_str1", "time_ldr0", "time_ldr1"},
   .interesting_result = NULL,
   .requires_perf = 1,
 };

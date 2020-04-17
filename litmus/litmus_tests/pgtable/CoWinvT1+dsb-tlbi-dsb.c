@@ -47,13 +47,14 @@ static void P0(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
   reset_pgfault_handler((uint64_t)x);
 }
 
-litmus_test_t CoWinvT_dsbtlbidsb = {
-  "CoWinvT+dsb-tlbi-dsb",
-  1, (th_f** []){
-    (th_f* []) {NULL, P0, NULL},
+
+litmus_test_t CoWinvT1_dsbtlbidsb = {
+  "CoWinvT1+dsb-tlbi-dsb",
+  1,(th_f*[]){
+    (th_f*)P0
   },
-  1, (const char* []){"x"},
-  1, (const char* []){"p0:x4",},
+  1,(const char*[]){"x"},
+  1,(const char*[]){"p0:x4",},
   .start_els=(int[]){1,},
   .interesting_result = (uint64_t[]){
       /* p0:x4 =*/0,

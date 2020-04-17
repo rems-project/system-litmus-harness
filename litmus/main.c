@@ -22,6 +22,7 @@ extern litmus_test_t
     MP_dmb_svc,
     MPRTinv_dmb_addr,
     WRCtrr_addr_dmb,
+    WRCtrrinv_addrs,
     WRCtrt_addr_dmb,
     WRCtrt_dmbs,
     WRCtrt_dsbisbs,
@@ -32,12 +33,13 @@ extern litmus_test_t
     CoTR,
     CoTRinv,
     CoTRinv_dsbisb,
+    CoTR_addr,
     CoTR_dmb,
     CoTR_dsb,
     CoTR_dsbisb,
     CoTR1tlbi_dsbdsbisb,
     CoWinvT,
-    CoWinvT_dsbtlbidsb,
+    CoWinvT1_dsbtlbidsb,
     ISA2trr_dmb_po_dmb;
 
 
@@ -57,11 +59,12 @@ static const litmus_test_t* TESTS[] = {
   &CoWT,
   &CoWTinv,
   &CoWinvT,
-  &CoWinvT_dsbtlbidsb,
+  &CoWinvT1_dsbtlbidsb,
   &CoWT_dsbisb,
   &CoTR,
   &CoTRinv,
   &CoTRinv_dsbisb,
+  &CoTR_addr,
   &CoTR_dmb,
   &CoTR_dsb,
   &CoTR_dsbisb,
@@ -71,6 +74,8 @@ static const litmus_test_t* TESTS[] = {
   &MP_dmb_eret,
   &MP_dmb_svc,
   &MPRTinv_dmb_addr,
+  &WRCtrr_addr_dmb,
+  &WRCtrrinv_addrs,
   &WRCtrt_addr_dmb,
   &WRCtrt_dmbs,
   &WRCtrt_dsbisbs,
@@ -79,7 +84,6 @@ static const litmus_test_t* TESTS[] = {
   &WRCtrtinv_po_dmb,
   &WRCtrtinv_po_addr,
   &ISA2trr_dmb_po_dmb,
-  &WRCtrr_addr_dmb,
 };
 
 void display_test_help(void) {
@@ -97,6 +101,10 @@ void display_test_help(void) {
       printf(" (requires --pgtable)");
     }
 
+    if (t->requires_debug) {
+      printf(" (requires -d)");
+    }
+
     printf("\n");
   }
 }
@@ -111,6 +119,12 @@ static void run_test_fn(const litmus_test_t* tst, uint8_t report_skip) {
   if (tst->requires_pgtable && (! ENABLE_PGTABLE)) {
     if (report_skip)
       printf("! skipping \"%s\": requires --pgtable\n", tst->name);
+    return;
+  }
+
+  if (tst->requires_debug && (! DEBUG)) {
+    if (report_skip)
+      printf("! skipping \"%s\": requires -d\n", tst->name);
     return;
   }
 
