@@ -5,6 +5,7 @@ extern litmus_test_t
     SB_dmbs,
     MP_dmbs,
     MP_pos,
+    WRC_pos,
     MPtimes_pos,
     WRCat_ctrl_dsb,
     CoWT1_dsbtlbidsb,
@@ -43,54 +44,121 @@ extern litmus_test_t
     ISA2trr_dmb_po_dmb;
 
 
-static const litmus_test_t* TESTS[] = {
-  &SB_pos,
-  &SB_dmbs,
-  &MP_dmbs,
-  &MP_pos,
-  &MPtimes_pos,
-  &WRCat_ctrl_dsb,
-  &CoWT1_dsbtlbidsb,
-  &CoWT_dsbsvctlbidsb,
-  &MPRT_svcdsbtlbiisdsb_dsbisb,
-  &MPRT1_dsbtlbiisdsb_dsbisb,
-  &CoWTinv_dsb,
-  &CoWT_dsb,
-  &CoWT,
-  &CoWTinv,
-  &CoWinvT,
-  &CoWinvT1_dsbtlbidsb,
-  &CoWT_dsbisb,
-  &CoTR,
-  &CoTRinv,
-  &CoTRinv_dsbisb,
-  &CoTR_addr,
-  &CoTR_dmb,
-  &CoTR_dsb,
-  &CoTR_dsbisb,
-  &CoTR1tlbi_dsbdsbisb,
-  &MPRT_svcdsbtlbidsb_dsbisb,
-  &MPRT1_dsbtlbidsb_dsbisb,
-  &MP_dmb_eret,
-  &MP_dmb_svc,
-  &MPRTinv_dmb_addr,
-  &WRCtrr_addr_dmb,
-  &WRCtrrinv_addrs,
-  &WRCtrt_addr_dmb,
-  &WRCtrt_dmbs,
-  &WRCtrt_dsbisbs,
-  &WRCtrtinv_dsbisbs,
-  &WRC1trt_dsbtlbiisdsb_dmb,
-  &WRCtrtinv_po_dmb,
-  &WRCtrtinv_po_addr,
-  &ISA2trr_dmb_po_dmb,
+const litmus_test_group data_group = {
+  .name="@data",
+  .tests = (const litmus_test_t*[]){
+    &MP_pos,
+    &MP_dmbs,
+    &SB_pos,
+    &SB_dmbs,
+    &WRC_pos,
+    NULL,
+  }
 };
 
-void display_test_help(void) {
-  printf("If none supplied, selects all enabled tests.\n");
-  printf("Otherwise, runs all tests supplied in args that are one of:\n");
-  for (int i = 0; i < sizeof(TESTS)/sizeof(litmus_test_t*); i++) {
-    litmus_test_t const* t = TESTS[i];
+const litmus_test_group timing_group = {
+  .name="@timing",
+  .tests = (const litmus_test_t*[]){
+    &MPtimes_pos,
+  }
+};
+
+const litmus_test_group exc_group = {
+  .name = "@exc",
+  .tests = (const litmus_test_t*[]){
+    &MP_dmb_svc,
+    &MP_dmb_eret,
+    NULL,
+  }
+};
+
+const litmus_test_group pgtable_group = {
+  .name = "@pgtable",
+  .tests = (const litmus_test_t*[]){
+    &WRCat_ctrl_dsb,
+    &CoWT1_dsbtlbidsb,
+    &CoWT_dsbsvctlbidsb,
+    &MPRT_svcdsbtlbiisdsb_dsbisb,
+    &MPRT1_dsbtlbiisdsb_dsbisb,
+    &CoWTinv_dsb,
+    &CoWT_dsb,
+    &CoWT,
+    &CoWTinv,
+    &CoWinvT,
+    &CoWinvT1_dsbtlbidsb,
+    &CoWT_dsbisb,
+    &CoTR,
+    &CoTRinv,
+    &CoTRinv_dsbisb,
+    &CoTR_addr,
+    &CoTR_dmb,
+    &CoTR_dsb,
+    &CoTR_dsbisb,
+    &CoTR1tlbi_dsbdsbisb,
+    &MPRT_svcdsbtlbidsb_dsbisb,
+    &MPRT1_dsbtlbidsb_dsbisb,
+    &MP_dmb_eret,
+    &MP_dmb_svc,
+    &MPRTinv_dmb_addr,
+    &WRCtrr_addr_dmb,
+    &WRCtrrinv_addrs,
+    &WRCtrt_addr_dmb,
+    &WRCtrt_dmbs,
+    &WRCtrt_dsbisbs,
+    &WRCtrtinv_dsbisbs,
+    &WRC1trt_dsbtlbiisdsb_dmb,
+    &WRCtrtinv_po_dmb,
+    &WRCtrtinv_po_addr,
+    &ISA2trr_dmb_po_dmb,
+    NULL,
+  }
+};
+
+const litmus_test_group all = {
+  .name="@all",
+  .groups = (const litmus_test_group*[]){
+    &data_group,
+    &timing_group,
+    &exc_group,
+    &pgtable_group,
+    NULL,
+  }
+};
+
+uint64_t grp_num_tests(const litmus_test_group* grp) {
+  uint64_t i = 0;
+  if (grp->tests != NULL) {
+    for (;;i++) {
+      if (grp->tests[i] == NULL)
+        break;
+    }
+  }
+  return i;
+}
+
+uint64_t grp_num_groups(const litmus_test_group* grp) {
+  uint64_t i = 0;
+  if (grp->groups != NULL) {
+    for (;;i++) {
+      if (grp->groups[i] == NULL)
+        break;
+    }
+  }
+  return i;
+}
+
+uint64_t grp_num_total(const litmus_test_group* grp) {
+  uint64_t tot = grp_num_tests(grp);
+  for (int i = 0; i < grp_num_groups(grp); i++) {
+    tot += grp_num_total(grp->groups[i]);
+  }
+  return tot;
+}
+
+void display_help_for_grp(const litmus_test_group* grp) {
+  printf("%s:\n", grp->name);
+  for (int i = 0; i < grp_num_tests(grp); i++) {
+    const litmus_test_t* t = grp->tests[i];
     printf(" %s", t->name);
 
     if (t->requires_perf) {
@@ -107,6 +175,16 @@ void display_test_help(void) {
 
     printf("\n");
   }
+
+  for (int i = 0; i < grp_num_groups(grp); i++) {
+    display_help_for_grp(grp->groups[i]);
+  }
+}
+
+void display_test_help(void) {
+  printf("If none supplied, selects all enabled tests.\n");
+  printf("Otherwise, runs all tests supplied in args that are one of:\n");
+  display_help_for_grp(&all);
 }
 
 static void run_test_fn(const litmus_test_t* tst, uint8_t report_skip) {
@@ -175,11 +253,11 @@ static int strdiff(char* w1, char* w2) {
 /** if a test cannnot be found
  * find a nearby one and say that instead
  */
-static void __find_closest(char* arg) {
+static const char* __find_closest_str(const litmus_test_group* grp, char* arg) {
   char const* smallest = NULL;
   int small_diff = 0;
-  for (int i = 0; i < sizeof(TESTS)/sizeof(litmus_test_t*); i++) {
-    char* name = (char*)TESTS[i]->name;
+  for (int i = 0; i < grp_num_tests(grp); i++) {
+    char* name = (char*)grp->tests[i]->name;
     int diff = strdiff(arg, name);
     if (0 < diff) {
       if (smallest == NULL || diff < small_diff) {
@@ -189,34 +267,92 @@ static void __find_closest(char* arg) {
     }
   }
 
+  for (int i = 0; i < grp_num_groups(grp); i++) {
+    const char* _sub_smallest = __find_closest_str(grp->groups[i], arg);
+    int diff = strdiff(arg, (char*)_sub_smallest);
+    if (0 < diff) {
+      if (smallest == NULL || diff < small_diff) {
+        smallest = _sub_smallest;
+        small_diff = diff;
+      }
+    }
+  }
+
+  return smallest;
+}
+
+static void __find_closest(const litmus_test_group* grp, char* arg) {
+  const char* smallest = __find_closest_str(grp, arg);
+
   if (smallest != NULL) {
     printf("Did you mean \"%s\" ?\n", smallest);
   }
 }
 
-static void match_and_run(char* arg) {
+static void run_all_group(const litmus_test_group* grp) {
+  for (uint64_t i = 0; i < grp_num_tests(grp); i++) {
+    run_test_fn(grp->tests[i], 1);
+  }
+
+  for (uint64_t i = 0; i < grp_num_groups(grp); i++) {
+    run_all_group(grp->groups[i]);
+  }
+}
+
+static uint8_t __match_and_run_group(const litmus_test_group* grp, char* arg) {
+  if (strcmp(arg, grp->name)) {
+    run_all_group(grp);
+    return 1;
+  }
+
+  for (uint64_t i = 0; i < grp_num_groups(grp); i++) {
+    if (__match_and_run_group(grp->groups[i], arg)) {
+      return 1;
+    }
+  }
+
+  return 0;
+}
+
+static uint8_t __match_and_run_test(const litmus_test_group* grp, char* arg) {
+  for (uint64_t i = 0; i < grp_num_tests(grp); i++) {
+    if (strcmp(arg, grp->tests[i]->name)) {
+      run_test_fn(grp->tests[i], 0);
+      return 1;
+    }
+  }
+
+  for (uint64_t i = 0; i < grp_num_groups(grp); i++) {
+    if (__match_and_run_test(grp->groups[i], arg)) {
+      return 1;
+    }
+  }
+
+  return 0;
+}
+
+static void match_and_run(const litmus_test_group* grp, char* arg) {
   uint8_t found = 0;
 
-  for (int i = 0; i < sizeof(TESTS)/sizeof(litmus_test_t*); i++) {
-    if (strcmp(arg, "*") || strcmp(arg, TESTS[i]->name)) {
-      run_test_fn(TESTS[i], !strcmp(arg, "*"));
-      found = 1;
-    }
+  if (*arg == '@') {
+    found = __match_and_run_group(grp, arg);
+  } else {
+    found = __match_and_run_test(grp, arg);
   }
 
   if (! found) {
     printf("! err: unknown test: \"%s\"\n", arg);
-    __find_closest(arg);
+    __find_closest(grp, arg);
     abort();
   }
 }
 
 int main(int argc, char** argv) {
   if (collected_tests_count == 0) {
-    match_and_run("*");
+    match_and_run(&all, "@all");
   } else {
     for (int i = 0; i < collected_tests_count; i++) {
-      match_and_run(collected_tests[i]);
+      match_and_run(&all, collected_tests[i]);
     }
   }
   return 0;

@@ -40,6 +40,13 @@ void error(const char* fmt, ...);
 #define unreachable() do {printf("! unreachable: [%s] %s %d\n", __FILE__, __FUNCTION__, __LINE__); raise_to_el1(); abort();} while (1);
 
 
+/** for configuration in main.c */
+typedef struct grp {
+    const char* name;
+    const litmus_test_t** tests;
+    const struct grp** groups;
+} litmus_test_group;
+
 /** one-time setup */
 void setup(char* fdt);
 void per_cpu_setup(int cpu);
