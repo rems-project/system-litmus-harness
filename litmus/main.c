@@ -6,7 +6,7 @@ extern litmus_test_t
     MP_dmbs,
     MP_pos,
     WRC_pos,
-    MPtimes_pos,
+    WRC_addrs,
     WRCat_ctrl_dsb,
     CoWT1_dsbtlbidsb,
     CoWT_dsbsvctlbidsb,
@@ -52,14 +52,8 @@ const litmus_test_group data_group = {
     &SB_pos,
     &SB_dmbs,
     &WRC_pos,
+    &WRC_addrs,
     NULL,
-  }
-};
-
-const litmus_test_group timing_group = {
-  .name="@timing",
-  .tests = (const litmus_test_t*[]){
-    &MPtimes_pos,
   }
 };
 
@@ -118,11 +112,37 @@ const litmus_test_group all = {
   .name="@all",
   .groups = (const litmus_test_group*[]){
     &data_group,
-    &timing_group,
     &exc_group,
     &pgtable_group,
     NULL,
   }
+};
+
+litmus_test_t check1, check2, MPtimes_pos;
+const litmus_test_group timing_group = {
+  .name="@timing",
+  .tests = (const litmus_test_t*[]){
+    &MPtimes_pos,
+  }
+};
+
+const litmus_test_group checks = {
+  .name="@checks",
+  .tests = (const litmus_test_t*[]){
+    &check1,
+    &check2,
+    NULL,
+  }
+};
+
+const litmus_test_group _real_all = {
+  .name=NULL,
+  .groups = (const litmus_test_group*[]){
+    &all,
+    &checks,
+    &timing_group,
+    NULL,
+  },
 };
 
 uint64_t grp_num_tests(const litmus_test_group* grp) {
@@ -156,7 +176,9 @@ uint64_t grp_num_total(const litmus_test_group* grp) {
 }
 
 void display_help_for_grp(const litmus_test_group* grp) {
-  printf("%s:\n", grp->name);
+  if (grp->name)
+    printf("%s:\n", grp->name);
+
   for (int i = 0; i < grp_num_tests(grp); i++) {
     const litmus_test_t* t = grp->tests[i];
     printf(" %s", t->name);
@@ -256,12 +278,23 @@ static int strdiff(char* w1, char* w2) {
 static const char* __find_closest_str(const litmus_test_group* grp, char* arg) {
   char const* smallest = NULL;
   int small_diff = 0;
+  
   for (int i = 0; i < grp_num_tests(grp); i++) {
     char* name = (char*)grp->tests[i]->name;
     int diff = strdiff(arg, name);
     if (0 < diff) {
       if (smallest == NULL || diff < small_diff) {
         smallest = name;
+        small_diff = diff;
+      }
+    }
+  }
+
+  if (grp->name) {
+    int diff = strdiff(arg, (char*)grp->name);
+    if (0 < diff) {
+      if (smallest == NULL || diff < small_diff) {
+        smallest = grp->name;
         small_diff = diff;
       }
     }
@@ -349,10 +382,12 @@ static void match_and_run(const litmus_test_group* grp, char* arg) {
 
 int main(int argc, char** argv) {
   if (collected_tests_count == 0) {
-    match_and_run(&all, "@all");
+    match_and_run(&all, "@all");  /* default to @all */
   } else {
     for (int i = 0; i < collected_tests_count; i++) {
-      match_and_run(&all, collected_tests[i]);
+      /* @_real_all is a phony group and contains things that should not be run when using @all
+       * but can be specifcally selected */
+      match_and_run(&_real_all, collected_tests[i]);
     }
   }
   return 0;
