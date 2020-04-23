@@ -144,13 +144,14 @@ int valloc_is_free(void* p) {
 uint64_t valloc_free_size(void) {
   uint64_t top = mem.top;
 
-  uint64_t freelist_space = 0;
-  valloc_free_chunk* fblk = mem.freelist;
-  while (fblk != NULL) {
-    freelist_space += fblk->size;
-    fblk = fblk->next;
+  uint64_t used_space = 0;
+  valloc_alloc_chunk* chk = chunk_alloc_list;
+  while (chk != NULL) {
+    used_space += chk->size;
+    chk = chk->next;
   }
-  return (top - BOT_OF_HEAP) + freelist_space;
+
+  return (top - BOT_OF_HEAP) - used_space;
 }
 
 void valloc_memcpy(void* dest, void* src, uint64_t size) {
