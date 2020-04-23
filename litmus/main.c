@@ -19,6 +19,8 @@ extern litmus_test_t
     CoWT_dsbisb,
     MPRT_svcdsbtlbidsb_dsbisb,
     MPRT1_dsbtlbidsb_dsbisb,
+    MPRT1_dsbtlbialldsb_dsbisb,
+    MPRT1_dsbtlbiisdsbtlbiisdsb_dsbisb,
     MP_dmb_eret,
     MP_dmb_svc,
     MPRTinv_dmb_addr,
@@ -74,6 +76,8 @@ const litmus_test_group pgtable_group = {
     &CoWT_dsbsvctlbidsb,
     &MPRT_svcdsbtlbiisdsb_dsbisb,
     &MPRT1_dsbtlbiisdsb_dsbisb,
+    &MPRT1_dsbtlbialldsb_dsbisb,
+    &MPRT1_dsbtlbiisdsbtlbiisdsb_dsbisb,
     &CoWTinv_dsb,
     &CoWT_dsb,
     &CoWT,
@@ -118,11 +122,12 @@ const litmus_test_group all = {
   }
 };
 
-litmus_test_t check1, check2, MPtimes_pos;
+litmus_test_t check1, check2, check3, MPtimes_pos;
 const litmus_test_group timing_group = {
   .name="@timing",
   .tests = (const litmus_test_t*[]){
     &MPtimes_pos,
+    NULL,
   }
 };
 
@@ -131,6 +136,7 @@ const litmus_test_group checks = {
   .tests = (const litmus_test_t*[]){
     &check1,
     &check2,
+    &check3,
     NULL,
   }
 };
@@ -209,6 +215,9 @@ void display_test_help(void) {
   display_help_for_grp(&all);
 }
 
+/** if 1 then don't run just check */
+static uint8_t dry_run = 0;
+
 static void run_test_fn(const litmus_test_t* tst, uint8_t report_skip) {
   if (tst->requires_perf && (! ENABLE_PERF_COUNTS)) {
     if (report_skip)
@@ -228,7 +237,9 @@ static void run_test_fn(const litmus_test_t* tst, uint8_t report_skip) {
     return;
   }
 
-  run_test(tst);
+  if (! dry_run) {
+    run_test(tst);
+  }
 }
 
 
@@ -324,7 +335,7 @@ static void __find_closest(const litmus_test_group* grp, char* arg) {
 
 static void run_all_group(const litmus_test_group* grp) {
   for (uint64_t i = 0; i < grp_num_tests(grp); i++) {
-    run_test_fn(grp->tests[i], 1);
+    run_test_fn(grp->tests[i], dry_run);
   }
 
   for (uint64_t i = 0; i < grp_num_groups(grp); i++) {
@@ -384,10 +395,16 @@ int main(int argc, char** argv) {
   if (collected_tests_count == 0) {
     match_and_run(&all, "@all");  /* default to @all */
   } else {
-    for (int i = 0; i < collected_tests_count; i++) {
-      /* @_real_all is a phony group and contains things that should not be run when using @all
-       * but can be specifcally selected */
-      match_and_run(&_real_all, collected_tests[i]);
+    /* first do a dry run, without actually running the functions
+      * just to validate the arguments */
+    for (uint8_t r = 0; r <= 1; r++) {
+      dry_run = 1 - r;
+
+      for (int i = 0; i < collected_tests_count; i++) {
+        /* @_real_all is a phony group and contains things that should not be run when using @all
+        * but can be specifcally selected */
+        match_and_run(&_real_all, collected_tests[i]);
+      }
     }
   }
   return 0;

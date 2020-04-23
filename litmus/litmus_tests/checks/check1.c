@@ -92,6 +92,7 @@ litmus_test_t check1 = {
   },
   2,(const char*[]){"x", "y"},
   3,(const char*[]){"p1:x0", "p2:x0", "p2:x2"},
+  .start_els=(int[]){1,1},
   .setup_fns = (th_f*[]){
     (th_f*)p0_setup,
     NULL,

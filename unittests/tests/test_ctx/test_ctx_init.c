@@ -3,14 +3,14 @@
 #include "lib.h"
 #include "testlib.h"
 
-litmus_test_t small_test = {
+static litmus_test_t small_test = {
   "small test",
   0,NULL,
   0,NULL,
   0,NULL,
 };
 
-litmus_test_t big_test = {
+static litmus_test_t big_test = {
   "big test",
   0,NULL,
   3,(const char*[]){"x","y","z"},

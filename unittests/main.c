@@ -19,11 +19,16 @@ void main(void) {
     printf("--- %s ---\n", f->name);
 
     for (int tidx = 0; tidx < f->no_tests; tidx++) {
+      /* horrible hack to "reset" memory allocations back to where it was before
+       */
+      valloc_mempool pool = mem;
       unit_test_t* fn = &f->fns[tidx];
       current_test = fn;
-      init_valloc();
-      init_device();
       fn->fn();
+      if (ENABLE_PGTABLE) {
+        vmm_switch_ttable(vmm_pgtable);
+      }
+      mem = pool;
       total_count++;
       if (fn->result) {
         printf(".");

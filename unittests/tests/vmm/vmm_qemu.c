@@ -11,7 +11,11 @@ void test_vmm_qemu_uart(void) {
 UNIT_TEST(test_vmm_qemu_uart_translated)
 void test_vmm_qemu_uart_translated(void) {
   uint64_t* pgtable = vmm_alloc_new_idmap_4k();
-  vmm_set_id_translation(pgtable);
+  if (ENABLE_PGTABLE) {
+    vmm_switch_ttable(pgtable);
+  } else {
+    vmm_set_id_translation(pgtable);
+  }
   writeb('\0', UART0_BASE);
   vmm_set_id_translation(NULL);
   ASSERT(1);  /* assert it *reaches* end of test */

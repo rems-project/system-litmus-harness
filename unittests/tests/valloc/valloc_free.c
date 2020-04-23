@@ -14,24 +14,29 @@ void test_valloc_free_reuse(void) {
 
 UNIT_TEST(test_valloc_freelist)
 void test_valloc_freelist(void) {
-  ASSERT(mem.freelist == NULL, "free not NULL");
+  valloc_mempool pool = mem;
+
   char* p = alloc(64);
   char* q = alloc(64);
   free(p);
   /* intentionally no free q */
+
   ASSERT(mem.freelist != NULL, "free still NULL");
   ASSERT(mem.freelist->size >= 64, "free size too small");
 }
 
 UNIT_TEST(test_valloc_free_compact_reuse)
 void test_valloc_free_compact_reuse(void) {
+  int h = valloc_freelist_hash(mem.freelist);
+  int t = mem.top;
+
   char* p = alloc(64);
   char* q = alloc(64);
   free(p);
   free(q);
 
-  ASSERT(mem.freelist == NULL, "non-null freelist");
-  ASSERT(mem.top == TOP_OF_MEM, "mem reset");
+  ASSERT(valloc_freelist_hash(mem.freelist) == h, "changed freelist");
+  ASSERT(mem.top == t, "mem reset");
 }
 
 UNIT_TEST(test_valloc_free_compact_all)
