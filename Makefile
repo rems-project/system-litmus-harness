@@ -1,8 +1,9 @@
-CC = aarch64-linux-gnu-gcc
-LD = aarch64-linux-gnu-ld
+PREFIX=aarch64-linux-gnu
+CC = $(PREFIX)gcc
+LD = $(PREFIX)ld
+OBJCOPY = $(PREFIX)objcopy
+OBJDUMP = $(PREFIX)objdump
 QEMU = qemu-system-aarch64
-OBJCOPY = aarch64-linux-gnu-objcopy
-OBJDUMP = aarch64-linux-gnu-objdump
 OUT_NAME = bin/litmus.bin
 SSH_NAME = pi@rems-rpi4b
 BIN_ARGS =

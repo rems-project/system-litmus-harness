@@ -11,11 +11,11 @@
         str     x1, [x0]
 .endm        
         
-.globl start
-start:
+.globl _start
+_start:
 	/* get address this was loaded at */
-	adrp	x9, start
-	add     x9, x9, :lo12:start
+	adrp	x9, _start
+	add     x9, x9, :lo12:_start
 
 	/*
 	 * Update all R_AARCH64_RELATIVE relocations using the table

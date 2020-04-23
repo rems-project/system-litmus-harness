@@ -42,4 +42,4 @@ SECTIONS
     }
 }
 
-ENTRY(start)
+ENTRY(_start)

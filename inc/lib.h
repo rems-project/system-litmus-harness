@@ -4,7 +4,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdarg.h>
-#include <string.h>
+#include <str.h>
 
 #include "thread_info.h"
 #include "argc.h"
