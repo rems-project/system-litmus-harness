@@ -298,8 +298,6 @@ void free_test_ctx(test_ctx_t* ctx) {
   free((bar_t*)ctx->cleanup_barriers);
   free((bar_t*)ctx->final_barrier);
   free(ctx->shuffled_ixs);
-  if (ENABLE_PGTABLE)
-    vmm_free_pgtable(ctx->ptable);
 }
 
 static int matches(test_result_t* result, test_ctx_t* ctx, int run) {
@@ -493,6 +491,7 @@ void end_of_test(test_ctx_t* ctx, const char** out_reg_names,
   }
   trace("Finished test %s\n", ctx->cfg->name);
   free_test_ctx(ctx);
+  vmm_free_pgtable(ctx->ptable);
 }
 
 void print_results(test_hist_t* res, test_ctx_t* ctx,
