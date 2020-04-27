@@ -44,8 +44,6 @@ static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
   uint64_t* outp1r0 = out_regs[0];
   uint64_t* outp1r2 = out_regs[1];
 
-  /* assuming x, y initialised to 1, 2 */
-
   asm volatile (
       /* move from C vars into machine regs */
       "mov x1, %[y]\n\t"
