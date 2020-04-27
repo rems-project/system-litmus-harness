@@ -491,7 +491,9 @@ void end_of_test(test_ctx_t* ctx, const char** out_reg_names,
   }
   trace("Finished test %s\n", ctx->cfg->name);
   free_test_ctx(ctx);
-  vmm_free_pgtable(ctx->ptable);
+
+  if (ENABLE_PGTABLE)
+    vmm_free_pgtable(ctx->ptable);
 }
 
 void print_results(test_hist_t* res, test_ctx_t* ctx,

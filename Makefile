@@ -108,6 +108,7 @@ bin/%.exe: bin/%.bin
 	echo '$(RUN_CMD_HOST)' >> $@
 	chmod +x $@
 
+bin/qemu_%.exe: BIN_ARGS='$$*'
 bin/qemu_%.exe: OUT_NAME=$$tmp
 bin/qemu_%.exe: bin/%.bin
 	echo 'set -o xtrace' > $@
@@ -120,7 +121,7 @@ bin/qemu_%.exe: bin/%.bin
 	chmod +x $@
 
 run: bin/qemu_litmus.exe
-	./bin/qemu_litmus.exe
+	./bin/qemu_litmus.exe $(BIN_ARGS)
 
 unittests: OUT_NAME=bin/unittests.bin
 unittests: bin/unittests.bin
