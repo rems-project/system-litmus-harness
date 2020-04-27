@@ -6,10 +6,10 @@ static void P0(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, ui
   uint64_t* x = heap_vars[0];
   uint64_t* y = heap_vars[1];
   uint64_t* z = heap_vars[2];
-  
+
   uint64_t* xpte = ptes[0];
   uint64_t* zpte = ptes[2];
-  
+
   uint64_t zdesc = *zpte;
 
   asm volatile (
@@ -57,7 +57,7 @@ static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, ui
 static void P2(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, uint64_t* pas, uint64_t** out_regs) {
   uint64_t* x = heap_vars[0];
   uint64_t* y = heap_vars[1];
-  
+
   uint64_t* p2r0 = out_regs[1];
   uint64_t* p2r2 = out_regs[2];
 
@@ -78,7 +78,7 @@ static void P2(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, ui
 }
 
 
-litmus_test_t WRC1trt_dsbtlbiisdsb_dmb = {
+litmus_test_t WRCtrt1_dsbtlbiisdsb_dmb = {
   "WRC.TRT1+dsb-tlbiis-dsb+dmb",
   3,(th_f*[]){
     (th_f*)P0,

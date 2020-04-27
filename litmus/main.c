@@ -1,6 +1,6 @@
 #include "lib.h"
 
-extern litmus_test_t 
+extern litmus_test_t
     SB_pos,
     SB_dmbs,
     MP_dmbs,
@@ -21,6 +21,7 @@ extern litmus_test_t
     MPRT1_dsbtlbidsb_dsbisb,
     MPRT1_dsbtlbialldsb_dsbisb,
     MPRT1_dsbtlbiisdsbtlbiisdsb_dsbisb,
+    MPRT1_dcdsbtlbialldsb_dsbisb,
     MP_dmb_eret,
     MP_dmb_svc,
     MPRTinv_dmb_addr,
@@ -32,7 +33,7 @@ extern litmus_test_t
     WRCtrtinv_dsbisbs,
     WRCtrtinv_po_dmb,
     WRCtrtinv_po_addr,
-    WRC1trt_dsbtlbiisdsb_dmb,
+    WRCtrt1_dsbtlbiisdsb_dmb,
     CoTR,
     CoTRinv,
     CoTRinv_dsbisb,
@@ -95,6 +96,7 @@ const litmus_test_group pgtable_group = {
     &CoTR1tlbi_dsbdsbisb,
     &MPRT_svcdsbtlbidsb_dsbisb,
     &MPRT1_dsbtlbidsb_dsbisb,
+    &MPRT1_dcdsbtlbialldsb_dsbisb,
     &MP_dmb_eret,
     &MP_dmb_svc,
     &MPRTinv_dmb_addr,
@@ -104,7 +106,7 @@ const litmus_test_group pgtable_group = {
     &WRCtrt_dmbs,
     &WRCtrt_dsbisbs,
     &WRCtrtinv_dsbisbs,
-    &WRC1trt_dsbtlbiisdsb_dmb,
+    &WRCtrt1_dsbtlbiisdsb_dmb,
     &WRCtrtinv_po_dmb,
     &WRCtrtinv_po_addr,
     &ISA2trr_dmb_po_dmb,
@@ -246,7 +248,7 @@ static void run_test_fn(const litmus_test_t* tst, uint8_t report_skip) {
 #define LOWER(c) (((c) < 90 && (c) > 65 ? (c)+32 : (c)))
 /** estimate a numeric difference between two strings
  * horribly inefficient but who cares
- * 
+ *
  * This is optimized for litmus test names, which are often the same jumble of letters but in slightly different orders
  */
 static int strdiff(char* w1, char* w2) {
@@ -289,7 +291,7 @@ static int strdiff(char* w1, char* w2) {
 static const char* __find_closest_str(const litmus_test_group* grp, char* arg) {
   char const* smallest = NULL;
   int small_diff = 0;
-  
+
   for (int i = 0; i < grp_num_tests(grp); i++) {
     char* name = (char*)grp->tests[i]->name;
     int diff = strdiff(arg, name);
