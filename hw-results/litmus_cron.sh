@@ -3,11 +3,13 @@
 # Runs ./litmus.exe in a background loop
 # example usage:  `nohup ./litmus_cron.sh &``
 #
+# since not all systems support 'cron' this script can be used
+# as a replacment, to run the litmus tests every night.
 # While litmus_cron.sh is running:
 #   every night at 23:00 local it will
 #       UNTIL 6am Mon-Fri
 #           run ./litmus.exe
-#           append output to overnights/YYYY-overnight-ddd.txt
+#           append output to overnights/YYYY-overnight-ddd.log
 #           append time it took
 #
 # This script requires bash.
@@ -30,7 +32,7 @@ while true; do
         ddd="$(date +%j)" ;
         cp ./litmus.exe ./litmus.$YYYY-$ddd.exe ;
 
-        fname="overnights/$YYYY-overnight-$ddd.txt";
+        fname="overnights/$YYYY-overnight-$ddd.log";
         run_litmus &>$fname ;
 
         # it's expected that a run of 500k could take an hour or two
