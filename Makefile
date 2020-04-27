@@ -15,13 +15,13 @@ RUN_CMD_HOST = 	\
 		-nodefaults -machine virt,accel=kvm,gic-version=host -cpu host \
 		-device virtio-serial-device -device virtconsole \
 		-display none -serial stdio \
-		-kernel $(OUT_NAME) -smp 4 -append "$$*" # -initrd /tmp/tmp.UUenc9WRhz
+		-kernel $(OUT_NAME) -smp 4 -append "$$*"
 RUN_CMD_LOCAL = 	\
 	$(QEMU) \
 		-nodefaults -machine virt -cpu cortex-a57 \
 		-device virtio-serial-device -device virtconsole,chardev=ctd \
 		-chardev testdev,id=ctd -device pci-testdev -display none -serial stdio \
-		-kernel $(OUT_NAME) -smp 4 -append '$(BIN_ARGS)' # -initrd /tmp/tmp.UUenc9WRhz
+		-kernel $(OUT_NAME) -smp 4 -append "$$*"
 
 CCERRORS = return-type parentheses misleading-indentation null-dereference sequence-point uninitialized maybe-uninitialized
 CCNOWARN = unused-variable
@@ -108,7 +108,6 @@ bin/%.exe: bin/%.bin
 	echo '$(RUN_CMD_HOST)' >> $@
 	chmod +x $@
 
-bin/qemu_%.exe: BIN_ARGS='$$*'
 bin/qemu_%.exe: OUT_NAME=$$tmp
 bin/qemu_%.exe: bin/%.bin
 	echo 'set -o xtrace' > $@
