@@ -23,7 +23,8 @@ static void P0(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
 
     :
     : [ydesc] "r" (ydesc), [xpte] "r" (xpte)
-    : "cc", "memory", "x0", "x1");
+    : "cc", "memory", "x0", "x1"
+  );
 }
 
 

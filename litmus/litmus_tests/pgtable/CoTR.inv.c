@@ -23,7 +23,8 @@ static void P0(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
 
     :
     : [ydesc] "r" (ydesc), [xpte] "r" (xpte)
-    : "cc", "memory", "x0", "x1");
+    : "cc", "memory", "x0", "x1"
+  );
 }
 
 static void sync_handler(void) {
@@ -60,16 +61,17 @@ static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
     /* test payload */
     "ldr x0, [x1]\n\t"
     "ldr x2, [x3]\n\t"
-    "cbz x2, .after\n\t"
-    "mov x2,#1\n\t"
-    ".after:\n\t"
 
     /* save results */
     "str x0, [%[outp1r0]]\n\t"
+    "cbz x2, .after\n\t"
+    "mov x2,#1\n\t"
+    ".after:\n\t"
     "str x2, [%[outp1r2]]\n\t"
     :
     : [x] "r" (x), [xpte] "r" (xpte), [ydesc] "r" (ydesc), [outp1r0] "r" (outp1r0), [outp1r2] "r" (outp1r2)
-    : "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x10", "x11");
+    : "cc", "memory", "x0", "x1", "x2", "x3", "x10"
+  );
 }
 
 
