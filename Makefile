@@ -49,7 +49,7 @@ litmus_BIN_FILES = $(addprefix bin/,$(LITMUS_FILES:.c=.o))
 unittests_BIN_FILES = $(addprefix bin/,$(UNITTESTS_FILES:.c=.o))
 
 .PHONY: all
-all: bin/litmus.exe bin/unittests.exe
+all: bin/litmus.exe bin/unittests.exe bin/qemu_litmus.exe bin/qemu_unittests.exe
 
 bindir:
 	mkdir -p $(dir $(COMMON_BIN_FILES))
@@ -92,13 +92,6 @@ bin/litmus.bin: bindir bin/litmus.elf
 bin/unittests.bin: bindir bin/unittests.elf
 	$(OBJCOPY) -O binary bin/unittests.elf bin/unittests.bin
 
-run: bin/litmus.bin
-	$(RUN_CMD_LOCAL)
-
-unittests: OUT_NAME=bin/unittests.bin
-unittests: bin/unittests.bin
-	$(RUN_CMD_LOCAL)
-
 debug: bin/litmus.bin
 	{ $(RUN_CMD_LOCAL) -s -S & echo $$! > bin/.debug.pid; }
 	gdb-multiarch  --eval-command "set arch aarch64" --eval-command "target remote localhost:1234"
@@ -114,6 +107,24 @@ bin/%.exe: bin/%.bin
 	echo "BIN_EOF" >> $@
 	echo '$(RUN_CMD_HOST)' >> $@
 	chmod +x $@
+
+bin/qemu_%.exe: OUT_NAME=$$tmp
+bin/qemu_%.exe: bin/%.bin
+	echo 'set -o xtrace' > $@
+	echo 'echo Starting $@' >> $@
+	echo 'tmp=`mktemp`' >> $@
+	echo 'base64 -d << BIN_EOF | zcat > $$tmp || exit 2' >> $@
+	gzip -c $^ | base64 >> $@
+	echo "BIN_EOF" >> $@
+	echo '$(RUN_CMD_LOCAL)' >> $@
+	chmod +x $@
+
+run: bin/qemu_litmus.exe
+	./bin/qemu_litmus.exe
+
+unittests: OUT_NAME=bin/unittests.bin
+unittests: bin/unittests.bin
+	./bin/qemu_unittests.exe
 
 ssh: bin/litmus.exe
 	scp bin/litmus.exe $(SSH_NAME):litmus.exe
