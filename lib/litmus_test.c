@@ -150,6 +150,7 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     uint64_t* ptes[ctx->cfg->no_heap_vars];
     uint64_t pas[ctx->cfg->no_heap_vars];
     uint64_t* regs[ctx->cfg->no_regs];
+    uint64_t descs[ctx->cfg->no_heap_vars];
     uint64_t saved_ptes[ctx->cfg->no_heap_vars];
 
     for (int v = 0; v < ctx->cfg->no_heap_vars; v++) {
@@ -159,6 +160,7 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
         ptes[v] = PTE(ctx, (uint64_t)p);
         saved_ptes[v] = *ptes[v];
         pas[v] = PA(ctx, (uint64_t)p);
+        descs[v] = *pas[v];
       }
     }
     for (int r = 0; r < ctx->cfg->no_regs; r++) {
@@ -168,9 +170,19 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     uint32_t* old_sync_handler_el0;
     uint32_t* old_sync_handler_el1;
 
+    litmus_test_run run = {
+      .ctx = ctx,
+      .i = i,
+      .var = heaps,
+      .PTE = ptes,
+      .PA = pas,
+      .out_reg = regs,
+      .DESC = descs,
+    };
+
     start_of_run(ctx, cpu, i);
     if (pre != NULL)
-      pre(ctx, i, (uint64_t**)heaps, (uint64_t**)ptes, (uint64_t*)pas, (uint64_t**)regs);
+      pre(&run);
 
     if (ctx->cfg->thread_sync_handlers) {
       if (ctx->cfg->thread_sync_handlers[cpu][0] != NULL)
@@ -181,8 +193,7 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
 
     /* this barrier must be last thing before running function */
     bwait(cpu, i % ctx->cfg->no_threads, &ctx->start_barriers[i], ctx->cfg->no_threads);
-    func(ctx, i, (uint64_t**)heaps, (uint64_t**)ptes, (uint64_t*)pas,
-         (uint64_t**)regs);
+    func(&run);
     if (ctx->cfg->thread_sync_handlers) {
       if (ctx->cfg->thread_sync_handlers[cpu][0] != NULL)
         restore_hotswapped_exception(0x400, old_sync_handler_el0);
@@ -191,7 +202,7 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     }
 
     if (post != NULL)
-      post(ctx, i, (uint64_t**)heaps, (uint64_t**)ptes, (uint64_t*)pas, (uint64_t**)regs);
+      post(&run);
 
     end_of_run(ctx, cpu, i);
 

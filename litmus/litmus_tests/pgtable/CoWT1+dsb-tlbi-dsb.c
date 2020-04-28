@@ -13,19 +13,10 @@ static void svc_handler(void) {
   );
 }
 
-static void P0(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
-               uint64_t* pas, uint64_t** out_regs) {
-
-  uint64_t* x = heap_vars[0];
-  uint64_t* y = heap_vars[1];
-
-  uint64_t* x2 = out_regs[0];
-
-  uint64_t* xpte = ptes[0];
-  uint64_t* ypte = ptes[1];
-
+static void P0(litmus_test_run* data) {
+  uint64_t* y = data->var[1];
+  uint64_t* ypte = data->PTE[1];
   /* assuming x, y initialised to 1, 2 */
-
   asm volatile (
       /* move from C vars into machine regs */
       "mov x0, %[ydesc]\n\t"
@@ -33,14 +24,12 @@ static void P0(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
       "mov x3, %[x]\n\t"
       "mov x4, x3\n\t"
       "lsr x4, x4, #12\n\t"
-
       /* test */
       "svc #0\n\t"
-
       /* output back to C vars */
       "str x2, [%[x2]]\n\t"
       :
-      : [ydesc] "r" (*ypte), [xpte] "r" (xpte), [x] "r" (x), [x2] "r" (x2)
+      : [ydesc] "r" (data->DESC[1]), [xpte] "r" (data->PTE[0]), [x] "r" (data->var[0]), [x2] "r" (data->out_reg[0])
       : "cc", "memory", "x0", "x1", "x2", "x3", "x4");
 }
 

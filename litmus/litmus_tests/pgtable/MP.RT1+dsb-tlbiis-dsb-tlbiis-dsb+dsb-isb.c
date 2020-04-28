@@ -2,26 +2,16 @@
 
 #include "lib.h"
 
-static void P0(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
-               uint64_t* pas, uint64_t** out_regs) {
-
-  uint64_t* x = heap_vars[0];
-  uint64_t* y = heap_vars[1];
-  uint64_t* z = heap_vars[2];
-
-  uint64_t* xpte = ptes[0];
-  uint64_t* zpte = ptes[2];
-
-  uint64_t zdesc = *zpte;
-  uint64_t xpage = (uint64_t)x >> 12;
-
+static void P0(litmus_test_run* data) {
+  uint64_t* x = data->var[0];
+  uint64_t* z = data->var[2];
+  uint64_t* zpte = data->PTE[2];
   asm volatile (
     "mov x0, %[zdesc]\n\t"
     "mov x1, %[xpte]\n\t"
     "mov x2, %[xpage]\n\t"
     "mov x3, #1\n\t"
     "mov x4, %[y]\n\t"
-
     /* test payload */
     "str x0,[x1]\n\t"
     "dsb sy\n\t"
@@ -30,38 +20,27 @@ static void P0(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
     "tlbi vae1is,x2\n\t"
     "dsb sy\n\t"
     "str x3,[x4]\n\t"
-
   :
-  : [zdesc] "r" (zdesc), [xpte] "r" (xpte), [xpage] "r" (xpage), [y] "r" (y)
+  : [zdesc] "r" (data->DESC[2]), [xpte] "r" (data->PTE[0]), [xpage] "r" (PAGE(data->var[0])), [y] "r" (data->var[1])
   : "memory", "x0", "x1", "x2", "x3", "x4"
   );
 }
 
-static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
-               uint64_t* pas, uint64_t** out_regs) {
-
-  uint64_t* x = heap_vars[0];
-  uint64_t* y = heap_vars[1];
-
-  uint64_t* outp1r0 = out_regs[0];
-  uint64_t* outp1r2 = out_regs[1];
-
+static void P1(litmus_test_run* data) {
   asm volatile (
       /* move from C vars into machine regs */
       "mov x1, %[y]\n\t"
       "mov x3, %[x]\n\t"
-
       /* test */
       "ldr x0,[x1]\n\t"
       "dsb sy\n\t"
       "isb\n\t"
       "ldr x2,[x3]\n\t"
-
       /* output */
       "str x0, [%[outp1r0]]\n\t"
       "str x2, [%[outp1r2]]\n\t"
       :
-      : [y] "r" (y), [x] "r" (x), [outp1r0] "r" (outp1r0), [outp1r2] "r" (outp1r2)
+      : [y] "r" (data->var[1]), [x] "r" (data->var[0]), [outp1r0] "r" (data->out_reg[0]), [outp1r2] "r" (data->out_reg[1])
       : "cc", "memory", "x0", "x1", "x2", "x3", "x4");
 }
 

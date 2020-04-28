@@ -2,48 +2,36 @@
 
 #include "lib.h"
 
-static void P0(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, uint64_t* pas, uint64_t** out_regs) {
-  uint64_t* x = heap_vars[0];
-  uint64_t* y = heap_vars[1];
-  uint64_t* x2 = out_regs[0];
-
+static void P0(litmus_test_run* data) {
   asm volatile (
     /* load registers */
     "mov x1, %[x1]\n\t"
     "mov x3, %[x3]\n\t"
-
     "mov x0, #1\n\t"
     "str x0, [x1]\n\t"
     "dmb sy\n\t"
     "ldr x2, [x3]\n\t"
-
     /* collect results */
     "str x2, [%[x2]]\n\t"
   :
-  : [x1] "r" (x), [x3] "r" (y), [x2] "r" (x2)
+  : [x1] "r" (data->var[0]), [x3] "r" (data->var[1]), [x2] "r" (data->out_reg[0])
   : "cc", "memory", "x0", "x1", "x2", "x3"
   );
 }
 
-static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, uint64_t* pas, uint64_t** out_regs) {
-  uint64_t* x = heap_vars[0];
-  uint64_t* y = heap_vars[1];
-  uint64_t* x2 = out_regs[1];
-
+static void P1(litmus_test_run* data) {
   asm volatile (
     /* load registers */
     "mov x1, %[x1]\n\t"
     "mov x3, %[x3]\n\t"
-
     "mov x0, #1\n\t"
     "str x0, [x1]\n\t"
     "dmb sy\n\t"
     "ldr x2, [x3]\n\t"
-
     /* collect results */
     "str x2, [%[x2]]\n\t"
   :
-  : [x1] "r" (y), [x3] "r" (x), [x2] "r" (x2)
+  : [x1] "r" (data->var[1]), [x3] "r" (data->var[0]), [x2] "r" (data->out_reg[1])
   : "cc", "memory", "x0", "x1", "x2", "x3"
   );
 }

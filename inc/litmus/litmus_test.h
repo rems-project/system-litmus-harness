@@ -16,11 +16,22 @@ typedef struct {
 
 /* Each thread is a functon that takes pointers to a slice of heap variables and output registers */
 typedef struct test_ctx test_ctx_t;
-typedef void th_f(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, uint64_t* pas, uint64_t** out_regs);
+
+typedef struct {
+  test_ctx_t* ctx;
+  uint64_t i;
+  uint64_t** var;
+  uint64_t** out_reg;
+  uint64_t* PA;
+  uint64_t** PTE;
+  uint64_t* DESC;
+} litmus_test_run;
+
+typedef void th_f(litmus_test_run* data);
 
 /**
  * definition of a litmus test
- * 
+ *
  * aka the static configuration that defines a litmus test
  */
 typedef struct {
@@ -63,7 +74,7 @@ typedef struct {
 
 /**
  * the test_ctx_t type is the dynamic configuration generated at runtime
- * it holds live pointers to the actual blocks of memory for variables and registers and the 
+ * it holds live pointers to the actual blocks of memory for variables and registers and the
  * collected output histogram that the test is actually using
  * as well as a reference to the static test configuration (the litmus_test_t)
  */

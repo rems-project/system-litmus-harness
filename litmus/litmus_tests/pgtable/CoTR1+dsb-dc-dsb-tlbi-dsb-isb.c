@@ -2,54 +2,31 @@
 
 #include "lib.h"
 
-static void P0(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
-               uint64_t* pas, uint64_t** out_regs) {
-
-  uint64_t* x = heap_vars[0];
-  uint64_t* y = heap_vars[1];
-
-  uint64_t* xpte = ptes[0];
-  uint64_t* ypte = ptes[1];
-
-  uint64_t ydesc = *ypte;
-
+static void P0(litmus_test_run* data) {
+  uint64_t* x = data->var[0];
+  uint64_t* y = data->var[1];
+  uint64_t* ypte = data->PTE[1];
   asm volatile (
     /* move from C vars into machine regs */
     "mov x0, %[ydesc]\n\t"
     "mov x1, %[xpte]\n\t"
-
     /* test */
     "str x0, [x1]\n\t"
-
     :
-    : [ydesc] "r" (ydesc), [xpte] "r" (xpte)
+    : [ydesc] "r" (data->DESC[1]), [xpte] "r" (data->PTE[0])
     : "cc", "memory", "x0", "x1"
   );
 }
 
 
-static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
-               uint64_t* pas, uint64_t** out_regs) {
-
-  uint64_t* x = heap_vars[0];
-  uint64_t* y = heap_vars[1];
-
-  uint64_t* xpte = ptes[0];
-  uint64_t* ypte = ptes[1];
-
-  uint64_t ydesc = *ypte;
-
-  uint64_t* outp1r0 = out_regs[0];
-  uint64_t* outp1r2 = out_regs[1];
-
-  uint64_t  xpage = (uint64_t)x >> 12;
-
+static void P1(litmus_test_run* data) {
+  uint64_t* y = data->var[1];
+  uint64_t* ypte = data->PTE[1];
   asm volatile (
     /* move from C vars into machine regs */
     "mov x1, %[x]\n\t"
     "mov x3, %[xpte]\n\t"
     "mov x4, %[xpage]\n\t"
-
     /* test payload */
     "ldr x0, [x1]\n\t"
     "dsb sy\n\t"
@@ -59,7 +36,6 @@ static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
     "dsb sy\n\t"
     "isb\n\t"
     "ldr x2, [x3]\n\t"
-
     /* save results */
     "str x0, [%[outp1r0]]\n\t"
     "eor x2, x2, %[ydesc]\n\t"
@@ -69,7 +45,7 @@ static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
     "eor x2, x2, #1\n\t"
     "str x2, [%[outp1r2]]\n\t"
     :
-    : [x] "r" (x), [xpte] "r" (xpte), [ydesc] "r" (ydesc), [xpage] "r" (xpage), [outp1r0] "r" (outp1r0), [outp1r2] "r" (outp1r2)
+    : [x] "r" (data->var[0]), [xpte] "r" (data->PTE[0]), [ydesc] "r" (data->DESC[1]), [xpage] "r" (PAGE(data->var[0])), [outp1r0] "r" (data->out_reg[0]), [outp1r2] "r" (data->out_reg[1])
     : "cc", "memory", "x0", "x1", "x2", "x3", "x4"
   );
 }

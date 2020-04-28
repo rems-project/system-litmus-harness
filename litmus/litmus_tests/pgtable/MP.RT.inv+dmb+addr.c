@@ -2,56 +2,41 @@
 
 #include "lib.h"
 
-static void P0(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, uint64_t* pas, uint64_t** out_regs) {
-  uint64_t* x = heap_vars[0];
-  uint64_t* y = heap_vars[1];
-  uint64_t* z = heap_vars[2];
-  
-  uint64_t* xpte = ptes[0];
-  uint64_t* zpte = ptes[2];
-  
-  uint64_t zdesc = *zpte;
-
+static void P0(litmus_test_run* data) {
+  uint64_t* x = data->var[0];
+  uint64_t* z = data->var[2];
+  uint64_t* zpte = data->PTE[2];
   asm volatile (
     "mov x0, %[zdesc]\n\t"
     "mov x1, %[xpte]\n\t"
     "mov x2, #1\n\t"
     "mov x3, %[y]\n\t"
-
     /* test */
     "str x0, [x1]\n\t"
     "dmb sy\n\t"
     "str x2, [x3]\n\t"
   :
-  : [zdesc] "r" (zdesc), [xpte] "r" (xpte), [y] "r" (y)
+  : [zdesc] "r" (data->DESC[2]), [xpte] "r" (data->PTE[0]), [y] "r" (data->var[1])
   : "cc", "memory", "x0", "x1", "x2", "x3"
   );
 }
 
-static void P1(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes, uint64_t* pas, uint64_t** out_regs) {
-  uint64_t* x = heap_vars[0];
-  uint64_t* y = heap_vars[1];
-  uint64_t* z = heap_vars[2];
-
-  uint64_t* outp1r0 = out_regs[0];
-  uint64_t* outp1r2 = out_regs[1];
-
+static void P1(litmus_test_run* data) {
+  uint64_t* z = data->var[2];
   asm volatile (
     "mov x1, %[y]\n\t"
     "mov x3, %[x]\n\t"
     "mov x10, #1\n\t"
     "mov x11, %[outp1r2]\n\t"
-
     /* test */
     "ldr x0, [x1]\n\t"
     "eor x4, x0, x0\n\t"
     "add x4, x4, x3\n\t"
     "ldr x2, [x4]\n\t"
-
     /* collect */
     "str x0, [%[outp1r0]]\n\t"
   :
-  : [x] "r" (x), [y] "r" (y), [outp1r0] "r" (outp1r0), [outp1r2] "r" (outp1r2)
+  : [x] "r" (data->var[0]), [y] "r" (data->var[1]), [outp1r0] "r" (data->out_reg[0]), [outp1r2] "r" (data->out_reg[1])
   : "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x10", "x11"
   );
 }

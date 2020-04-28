@@ -11,36 +11,25 @@ static void* fault_handler(uint64_t esr, regvals_t* regs) {
 }
 
 
-static void P0(test_ctx_t* ctx, int i, uint64_t** heap_vars, uint64_t** ptes,
-               uint64_t* pas, uint64_t** out_regs) {
-
-  uint64_t* x = heap_vars[0];
-  uint64_t* y = heap_vars[1];
-
-  uint64_t* x4 = out_regs[0];
-
-  uint64_t* xpte = ptes[0];
-  uint64_t* ypte = ptes[1];
-
-  set_pgfault_handler((uint64_t)x, &fault_handler);
-
+static void P0(litmus_test_run* data) {
+  uint64_t* y = data->var[1];
+  uint64_t* ypte = data->PTE[1];
+  set_pgfault_handler((uint64_t)data->var[0], &fault_handler);
   asm volatile (
       /* move from C vars into machine regs */
       "mov x0, %[ydesc]\n\t"
       "mov x1, %[xpte]\n\t"
       "mov x3, %[x]\n\t"
       "mov x4, %[x4]\n\t"
-
       /* test */
       "str x0, [x1]\n\t"
       "dsb sy\n\t"
       "isb\n\t"
       "ldr x2, [x3]\n\t"
       :
-      : [ydesc] "r" (*ypte), [xpte] "r" (xpte), [x] "r" (x), [x4] "r" (x4)
+      : [ydesc] "r" (data->DESC[1]), [xpte] "r" (data->PTE[0]), [x] "r" (data->var[0]), [x4] "r" (data->out_reg[0])
       : "cc", "memory", "x0", "x1", "x2", "x3", "x4");
-
-  reset_pgfault_handler((uint64_t)x);
+  reset_pgfault_handler((uint64_t)data->var[0]);
 }
 
 
