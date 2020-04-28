@@ -8,6 +8,7 @@ static void svc_handler(void) {
     "dsb sy\n\t"
     "tlbi vae1, x4\n\t"
     "dsb sy\n\t"
+    "isb\n\t"
     "ldr x2, [x3]\n\t"
     "eret\n\t"
   );
@@ -27,14 +28,14 @@ static void P0(litmus_test_run* data) {
       "str x2, [%[x2]]\n\t"
       :
       : [ydesc] "r" (data->desc[1]), [xpte] "r" (data->pte[0]), [x] "r" (data->var[0]), [x2] "r" (data->out_reg[0]), [xpage] "r" (PAGE(data->var[0]))
-      :  "cc", "memory", "x0", "x1", "x2", "x3", "x4"
+      :  "cc", "memory", "x0", "x1", "x2", "x3"
   );
 }
 
 
 
-litmus_test_t CoWT1_dsbtlbidsb = {
-  "CoWT1+dsb-tlbi-dsb",
+litmus_test_t CoWT1_dsbtlbidsbisb = {
+  "CoWT1+dsb-tlbi-dsb-isb",
   1,(th_f*[]){
     (th_f*)P0
   },

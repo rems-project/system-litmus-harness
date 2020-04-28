@@ -9,6 +9,7 @@ extern litmus_test_t
     WRC_addrs,
     WRCat_ctrl_dsb,
     CoWT1_dsbtlbidsb,
+    CoWT1_dsbtlbidsbisb,
     CoWT_dsbsvctlbidsb,
     MPRT_svcdsbtlbiisdsb_dsbisb,
     MPRT1_dsbtlbiisdsb_dsbisb,
@@ -77,6 +78,7 @@ const litmus_test_group pgtable_group = {
   .tests = (const litmus_test_t*[]){
     &WRCat_ctrl_dsb,
     &CoWT1_dsbtlbidsb,
+    &CoWT1_dsbtlbidsbisb,
     &CoWT_dsbsvctlbidsb,
     &MPRT_svcdsbtlbiisdsb_dsbisb,
     &MPRT1_dsbtlbiisdsb_dsbisb,
