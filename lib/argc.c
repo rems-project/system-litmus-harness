@@ -2,10 +2,10 @@
 
 #include "lib.h"
 
-char __copy[100];
+char __copy[1024];
 
 /* these must be 64-bit aligned */
-char*  __argv[100];
+char*  __argv[1024];
 uint64_t    __argc;
 
 void init_args(void) {
@@ -18,7 +18,7 @@ void init_args(void) {
     char* word = bootargs;
     __argc = 0;
 
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 1024; i++) {
         /* no more words */
         if (*bootargs == '\0') {
           break;
