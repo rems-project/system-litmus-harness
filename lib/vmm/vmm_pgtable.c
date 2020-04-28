@@ -10,8 +10,10 @@ static void set_block_or_page(uint64_t* root, uint64_t va, uint64_t pa, uint64_t
   final.oa = pa;
   final.level = desc.level;
   final.attrs = read_attrs(prot);
-  final.attrs.AF = 1;
-  final.attrs.SH = 3;
+  final.attrs.nG = PROT_NG_NOT_GLOBAL,
+  final.attrs.AF = PROT_AF_ACCESS_FLAG_DISABLE,
+  final.attrs.SH = PROT_SH_ISH,
+  final.attrs.NS = PROT_NS_NON_SECURE,
   *desc.src = write_desc(final);
 }
 
@@ -99,25 +101,25 @@ uint64_t* vmm_alloc_new_idmap_4k(void) {
    * 0x40000000 -> RAM_END
    *  where RAM_END is defined by the dtb (but is < 3GiB)
    */
-  ptable_set_idrange(root_ptable, 0, phys_offs, 0x44);
+  ptable_set_idrange(root_ptable, 0, phys_offs, PROT_MEMTYPE_DEVICE | PROT_RW_RWX);
 
   /* .text segment (code) */
   /* AArch64 requires that code executable at EL1 is not writable at EL0 */
-  ptable_set_idrange(root_ptable, phys_offs, TOP_OF_TEXT, 0x03 << 6);
+  ptable_set_idrange(root_ptable, phys_offs, TOP_OF_TEXT, PROT_MEMTYPE_NORMAL | PROT_RX_RX);
 
   /* bss and other data segments */
-  ptable_set_idrange(root_ptable, TOP_OF_TEXT, TOP_OF_DATA, 0x50);
+  ptable_set_idrange(root_ptable, TOP_OF_TEXT, TOP_OF_DATA, PROT_MEMTYPE_NORMAL | PROT_RW_RWX);
 
   /* stack */
-  ptable_set_idrange(root_ptable, BOT_OF_STACK, TOP_OF_STACK, 0x50);
+  ptable_set_idrange(root_ptable, BOT_OF_STACK, TOP_OF_STACK, PROT_MEMTYPE_NORMAL | PROT_RW_RWX);
 
   /* heap */
-  ptable_set_idrange(root_ptable, BOT_OF_HEAP, TOP_OF_MEM, 0x50);
+  ptable_set_idrange(root_ptable, BOT_OF_HEAP, TOP_OF_MEM, PROT_MEMTYPE_NORMAL | PROT_RW_RWX);
 
   return root_ptable;
 }
 
-static void set_new_ttable(uint64_t ttbr, uint64_t tcr) {
+static void set_new_ttable(uint64_t ttbr, uint64_t tcr, uint64_t mair) {
   /* no printf happens here, so need to worry about disabling locking during them */
   if ((read_sysreg(sctlr_el1) & 1) == 1) {
     printf("! err: set_new_ttable:  MMU already on!\n");
@@ -125,6 +127,7 @@ static void set_new_ttable(uint64_t ttbr, uint64_t tcr) {
   }
   write_sysreg(ttbr, ttbr0_el1);
   write_sysreg(tcr, tcr_el1);
+  write_sysreg(mair, mair_el1);
   dsb();
   isb();
   vmm_mmu_on();
@@ -149,7 +152,15 @@ void vmm_set_id_translation(uint64_t* pgtable) {
                                  used for  translation starting at level 0. */
                  0;
 
-  set_new_ttable(ttbr, tcr);
+
+  #define MAIR_ATTR(idx, attr)  ((attr) << (idx*8))
+  uint64_t mair = MAIR_ATTR(PROT_ATTR_DEVICE_nGnRnE, MAIR_DEVICE_nGnRnE)  |
+                  MAIR_ATTR(PROT_ATTR_DEVICE_GRE, MAIR_DEVICE_GRE)        |
+                  MAIR_ATTR(PROT_ATTR_NORMAL_NC, MAIR_NORMAL_NC)          |
+                  MAIR_ATTR(PROT_ATTR_NORMAL_RA_WA, MAIR_NORMAL_RA_WA)    |
+                  0;
+
+  set_new_ttable(ttbr, tcr, mair);
 }
 
 void vmm_switch_ttable(uint64_t* new_table) {

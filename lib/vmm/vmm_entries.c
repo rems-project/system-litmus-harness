@@ -2,7 +2,7 @@
 #include "lib.h"
 
 /* stage 1 attrs */
-attrs_t read_attrs(uint64_t desc) { 
+attrs_t read_attrs(uint64_t desc) {
   attrs_t attr = { 0 };
   attr.AF = BIT(desc, 10);
   attr.SH = BIT_SLICE(desc, 9, 8);
@@ -70,7 +70,7 @@ uint64_t write_desc(desc_t desc) {
       break;
     case Block:
       out = desc.oa;
-      
+
       if (desc.level == 3) {
         out |= 2;
       }
@@ -93,7 +93,7 @@ void show_desc(desc_t desc) {
     case Invalid:
       printf(" type=Invalid\n");
       break;
-    
+
     case Block:
       printf(" type=Block\n");
       printf(" oa=%p\n", desc.oa);
