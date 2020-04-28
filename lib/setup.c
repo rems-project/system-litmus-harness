@@ -28,7 +28,7 @@ void setup(char* fdtloc) {
     */
     vector_base_addr_rw = (uint64_t)alloc(4096*4);
     for (int i = 0; i < 4; i++) {
-      vmm_update_mapping(vmm_pgtable, vector_base_addr_rw+i*4096, vector_base_pa+i*4096, 0x1 << 6);
+      vmm_update_mapping(vmm_pgtable, vector_base_addr_rw+i*4096, vector_base_pa+i*4096, PROT_PGTABLE);
     }
   }
 

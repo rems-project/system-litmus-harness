@@ -485,7 +485,7 @@ void start_of_test(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
 
     /* need to add read/write mappings to the exception vector table */
     for (int i = 0; i < 4; i++) {
-      vmm_update_mapping(ctx->ptable, vector_base_addr_rw+i*4096, vector_base_pa+i*4096, 0x1 << 6);
+      vmm_update_mapping(ctx->ptable, vector_base_addr_rw+i*4096, vector_base_pa+i*4096, PROT_PGTABLE);
     }
   }
 }
