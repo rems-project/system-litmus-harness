@@ -10,17 +10,17 @@ void setup(char* fdtloc) {
 
   current_thread_info()->mmu_enabled = 0;
   current_thread_info()->locking_enabled = 0;
-  
+
   init_device();
   init_valloc();
-  
+
   /* read passed args */
-  init_args(); 
+  init_args();
   read_args(__argc, __argv);
-  
+
   vector_base_pa = (uint64_t)&el1_exception_vector_table_p0;
   vector_base_addr_rw = vector_base_pa;
-  
+
   /* create pgtable */
   if (ENABLE_PGTABLE) {
     vmm_pgtable = vmm_alloc_new_idmap_4k();
@@ -52,9 +52,9 @@ void per_cpu_setup(int cpu) {
     enable ^= 1UL << 2;  /* Enable Counter aka PMCCNTR_EL0 */
     write_sysreg(enable, pmuserenr_el0);
   }
-  
+
   current_thread_info()->locking_enabled = 1;
-  
+
   cpu_data[cpu].to_execute = 0;
   dmb();
   cpu_data[cpu].started = 1;
