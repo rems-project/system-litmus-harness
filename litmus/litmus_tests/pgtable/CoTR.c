@@ -3,9 +3,6 @@
 #include "lib.h"
 
 static void P0(litmus_test_run* data) {
-  uint64_t* x = data->var[0];
-  uint64_t* y = data->var[1];
-  uint64_t* ypte = data->PTE[1];
   asm volatile (
     /* move from C vars into machine regs */
     "mov x0, %[ydesc]\n\t"
@@ -13,14 +10,13 @@ static void P0(litmus_test_run* data) {
     /* test */
     "str x0, [x1]\n\t"
     :
-    : [ydesc] "r" (data->DESC[1]), [xpte] "r" (data->PTE[0])
-    : "cc", "memory", "x0", "x1");
+    : [ydesc] "r" (data->desc[1]), [xpte] "r" (data->pte[0])
+    :  "cc", "memory", "x0", "x1"
+  );
 }
 
 
 static void P1(litmus_test_run* data) {
-  uint64_t* y = data->var[1];
-  uint64_t* ypte = data->PTE[1];
   asm volatile (
     /* move from C vars into machine regs */
     "mov x1, %[x]\n\t"
@@ -37,7 +33,7 @@ static void P1(litmus_test_run* data) {
     "eor x2, x2, #1\n\t"
     "str x2, [%[outp1r2]]\n\t"
     :
-    : [x] "r" (data->var[0]), [xpte] "r" (data->PTE[0]), [ydesc] "r" (data->DESC[1]), [outp1r0] "r" (data->out_reg[0]), [outp1r2] "r" (data->out_reg[1])
+    : [x] "r" (data->var[0]), [xpte] "r" (data->pte[0]), [ydesc] "r" (data->desc[1]), [outp1r0] "r" (data->out_reg[0]), [outp1r2] "r" (data->out_reg[1])
     : "cc", "memory", "x0", "x1", "x2", "x3"
   );
 }

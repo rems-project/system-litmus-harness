@@ -22,9 +22,9 @@ typedef struct {
   uint64_t i;
   uint64_t** var;
   uint64_t** out_reg;
-  uint64_t* PA;
-  uint64_t** PTE;
-  uint64_t* DESC;
+  uint64_t* pa;
+  uint64_t** pte;
+  uint64_t* desc;
 } litmus_test_run;
 
 typedef void th_f(litmus_test_run* data);

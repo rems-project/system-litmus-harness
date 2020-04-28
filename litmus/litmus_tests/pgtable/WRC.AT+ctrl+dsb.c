@@ -9,7 +9,7 @@ static void P0(litmus_test_run* data) {
     /* test */
     "str x0, [x1]\n\t"
   :
-  : [zdesc] "r" (data->DESC[2]), [xpte] "r" (data->PTE[0])
+  : [zdesc] "r" (data->desc[2]), [xpte] "r" (data->pte[0])
   : "cc", "memory", "x0", "x1"
   );
 }
@@ -22,7 +22,7 @@ static void P1(litmus_test_run* data) {
     "mov x4, %[zdesc]\n\t"
     /* test */
     "ldr x0, [x1]\n\t"
-    /* because the post state cannot read PTE(z) (yet)
+    /* because the post state cannot read pte(z) (yet)
      * have this hack to work out if they were equal here */
     "eor x0, x4, x0\n\t"
     "cbz x0, .after\n\t"
@@ -32,7 +32,7 @@ static void P1(litmus_test_run* data) {
     /* output */
     "str x0, [%[outp1r2]]\n\t"
   :
-  : [x] "r" (data->var[0]), [y] "r" (data->var[1]), [xpte] "r" (data->PTE[0]), [zdesc] "r" (data->DESC[2]), [outp1r2] "r" (data->out_reg[0])
+  : [x] "r" (data->var[0]), [y] "r" (data->var[1]), [xpte] "r" (data->pte[0]), [zdesc] "r" (data->desc[2]), [outp1r2] "r" (data->out_reg[0])
   : "cc", "memory", "x0", "x1", "x2", "x3", "x4"
   );
 }

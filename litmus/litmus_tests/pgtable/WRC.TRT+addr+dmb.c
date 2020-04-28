@@ -3,23 +3,18 @@
 #include "lib.h"
 
 static void P0(litmus_test_run* data) {
-  uint64_t* x = data->var[0];
-  uint64_t* y = data->var[1];
-  uint64_t* z = data->var[2];
-  uint64_t* zpte = data->PTE[2];
   asm volatile (
     "mov x0, %[zdesc]\n\t"
     "mov x1, %[xpte]\n\t"
     /* test */
     "str x0, [x1]\n\t"
   :
-  : [zdesc] "r" (data->DESC[2]), [xpte] "r" (data->PTE[0])
+  : [zdesc] "r" (data->desc[2]), [xpte] "r" (data->pte[0])
   : "cc", "memory", "x0", "x1"
   );
 }
 
 static void P1(litmus_test_run* data) {
-  uint64_t* z = data->var[2];
   asm volatile (
     "mov x1, %[x]\n\t"
     "mov x2, 1\n\t"

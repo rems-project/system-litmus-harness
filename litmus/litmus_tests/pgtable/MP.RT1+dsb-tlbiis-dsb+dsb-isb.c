@@ -3,9 +3,6 @@
 #include "lib.h"
 
 static void P0(litmus_test_run* data) {
-  uint64_t* x = data->var[0];
-  uint64_t* z = data->var[2];
-  uint64_t* zpte = data->PTE[2];
   asm volatile (
     "mov x0, %[zdesc]\n\t"
     "mov x1, %[xpte]\n\t"
@@ -19,7 +16,7 @@ static void P0(litmus_test_run* data) {
     "dsb sy\n\t"
     "str x3,[x4]\n\t"
   :
-  : [zdesc] "r" (data->DESC[2]), [xpte] "r" (data->PTE[0]), [xpage] "r" (PAGE(data->var[0])), [y] "r" (data->var[1])
+  : [zdesc] "r" (data->desc[2]), [xpte] "r" (data->pte[0]), [xpage] "r" (PAGE(data->var[0])), [y] "r" (data->var[1])
   : "memory", "x0", "x1", "x2", "x3", "x4"
   );
 }
@@ -39,7 +36,8 @@ static void P1(litmus_test_run* data) {
       "str x2, [%[outp1r2]]\n\t"
       :
       : [y] "r" (data->var[1]), [x] "r" (data->var[0]), [outp1r0] "r" (data->out_reg[0]), [outp1r2] "r" (data->out_reg[1])
-      : "cc", "memory", "x0", "x1", "x2", "x3", "x4");
+      :  "cc", "memory", "x0", "x1", "x2", "x3", "x4"
+  );
 }
 
 

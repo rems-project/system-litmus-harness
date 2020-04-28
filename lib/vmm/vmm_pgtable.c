@@ -22,7 +22,7 @@ void vmm_update_mapping(uint64_t* pgtable, uint64_t va, uint64_t pa, uint64_t pr
 
 
 // TODO: maybe this could be when va_start and pa_start aren't aligned.
-void ptable_set_idrange(uint64_t* root, 
+void ptable_set_idrange(uint64_t* root,
                         uint64_t va_start, uint64_t va_end,
                         uint64_t prot) {
   uint64_t level1 = 30, level2 = 21, level3 = 12;
@@ -86,7 +86,6 @@ uint64_t* vmm_alloc_new_idmap_4k(void) {
 
   /* set ranges according to kvm-unit-tests/lib/arm/mmu.c */
   uint64_t phys_offs = (1UL << 30); /* first 1 GiB region */
-  uint64_t phys_end = (3UL << 30);  /* up to 3GiB */
 
   /* QEMU Memory Mapped I/O
    * 0x00000000 -> 0x08000000  == Boot ROM

@@ -3,8 +3,6 @@
 #include "lib.h"
 
 static void P0(litmus_test_run* data) {
-  uint64_t* y = data->var[1];
-  uint64_t* ypte = data->PTE[1];
   /* assuming x, y initialised to 1, 2 */
   asm volatile (
       /* move from C vars into machine regs */
@@ -19,8 +17,9 @@ static void P0(litmus_test_run* data) {
       /* output back to C vars */
       "str x2, [%[x2]]\n\t"
       :
-      : [ydesc] "r" (data->DESC[1]), [xpte] "r" (data->PTE[0]), [x] "r" (data->var[0]), [x2] "r" (data->out_reg[0])
-      : "cc", "memory", "x0", "x1", "x2", "x3");
+      : [ydesc] "r" (data->desc[1]), [xpte] "r" (data->pte[0]), [x] "r" (data->var[0]), [x2] "r" (data->out_reg[0])
+      :  "cc", "memory", "x0", "x1", "x2", "x3"
+  );
 }
 
 

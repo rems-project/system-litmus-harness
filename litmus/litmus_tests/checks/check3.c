@@ -22,7 +22,7 @@ static void P1(litmus_test_run* data) {
     "str %[x2], [%[x3]]\n\t"
     ".after:\n\t"
   : [x0] "=&r" (*data->out_reg[0])
-  : [x1] "r" (data->var[1]), [x2] "r" (data->out_reg[0]), [x3] "r" (data->PTE[0])
+  : [x1] "r" (data->var[1]), [x2] "r" (data->out_reg[0]), [x3] "r" (data->pte[0])
   : "cc", "memory"
   );
 }

@@ -16,7 +16,7 @@ static uint64_t PA(test_ctx_t* ctx, uint64_t va) {
 }
 
 static uint64_t* PTE(test_ctx_t* ctx, uint64_t va) {
-  /* return the VA at which the PTE lives for the given va in a particular
+  /* return the VA at which the pte lives for the given va in a particular
    * iteration */
   return vmm_pte(ctx->ptable, va);
 }
@@ -89,7 +89,6 @@ void set_init_pte(test_ctx_t* ctx, const char* varname, uint64_t desc) {
 
 void set_init_heap(test_ctx_t* ctx, const char* varname, uint64_t value) {
   uint64_t idx = idx_from_varname(ctx, varname);
-  uint64_t va = (uint64_t)&ctx->heap_vars[idx][0];
   for (int i = 0; i < ctx->no_runs; i++) {
     ctx->heap_vars[idx][i] = value;
   }
@@ -123,9 +122,6 @@ static void go_cpus(int cpu, void* a) {
 /* detect a change in the pagetable and if so, fix it */
 static void _check_ptes(test_ctx_t* ctx, uint64_t n, uint64_t** vas,
                         uint64_t** ptes, uint64_t* original) {
-  int reset = 0;
-
-
   for (int i = 0; i < n; i++) {
     if (*ptes[i] != original[i]) {
       *ptes[i] = original[i];
@@ -160,7 +156,7 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
         ptes[v] = PTE(ctx, (uint64_t)p);
         saved_ptes[v] = *ptes[v];
         pas[v] = PA(ctx, (uint64_t)p);
-        descs[v] = *pas[v];
+        descs[v] = *ptes[v];
       }
     }
     for (int r = 0; r < ctx->cfg->no_regs; r++) {
@@ -174,10 +170,10 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
       .ctx = ctx,
       .i = i,
       .var = heaps,
-      .PTE = ptes,
-      .PA = pas,
+      .pte = ptes,
+      .pa = pas,
       .out_reg = regs,
-      .DESC = descs,
+      .desc = descs,
     };
 
     start_of_run(ctx, cpu, i);

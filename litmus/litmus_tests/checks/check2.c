@@ -39,7 +39,7 @@ static void p0_setup(litmus_test_run* data) {
 static void teardown(litmus_test_run* data) {
   bwait(get_cpu(), data->i % 2, bar, 2);
   if (get_cpu() == 0) {
-    *data->PTE[0] = 0;
+    *data->pte[0] = 0;
   }
 }
 

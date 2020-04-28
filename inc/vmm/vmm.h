@@ -6,6 +6,8 @@
 #include "vmm_tables.h"
 #include "sync.h"
 
+#define PAGE(va) ((uint64_t)(va)>>12)
+
 /* global pagetable */
 extern uint64_t* vmm_pgtable;
 

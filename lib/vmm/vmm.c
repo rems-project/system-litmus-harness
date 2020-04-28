@@ -95,7 +95,6 @@ uint64_t* vmm_pte(uint64_t* root, uint64_t va) {
 }
 
 uint64_t* vmm_pa(uint64_t* root, uint64_t va) {
-  uint64_t* ret;
   desc_t desc = vmm_translation_walk(root, va);
 
   switch (desc.type) {

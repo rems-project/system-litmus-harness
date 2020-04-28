@@ -3,8 +3,6 @@
 #include "lib.h"
 
 static void P0(litmus_test_run* data) {
-  uint64_t* x0 = data->out_reg[0];
-  uint64_t* x2 = data->out_reg[1];
   asm volatile(
       "mov x0, #1\n\t"
       "str x0, [%[x1]]\n\t"
@@ -13,7 +11,8 @@ static void P0(litmus_test_run* data) {
       "str x2, [%[x3]]\n\t"
       :
       : [x1] "r" (data->var[0]), [x3] "r" (data->var[1])
-      : "cc", "memory", "x0", "x2");
+      :  "cc", "memory", "x0", "x2"
+  );
 }
 
 static void svc_handler(void) {
