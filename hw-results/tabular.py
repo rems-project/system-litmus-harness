@@ -32,6 +32,7 @@ def collect_all(fnames):
     results = collections.defaultdict(lambda: (0,0))
     running = collections.defaultdict(list)
     for fname in fnames:
+        print(f'Collecting ... {fname}')
         with open(fname, "r") as f:
             for line in f:
                 line = line.strip()
