@@ -10,8 +10,6 @@ uint8_t dry_run = 0;
 int main(int argc, char** argv) {
   if (ONLY_SHOW_MATCHES) {
     for (int i = 0; i < collected_tests_count; i++) {
-      /* @_real_all is a phony group and contains things that should not be run when using @all
-      * but can be specifcally selected */
       re_t* re = re_compile(collected_tests[i]);
       show_matches_only(&grp_all, re);
       re_free(re);
