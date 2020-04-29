@@ -5,12 +5,8 @@
 #include "vmm_types.h"
 #include "vmm_tables.h"
 #include "vmm_prot.h"
+#include "vmm_va_macros.h"
 #include "sync.h"
-
-/**
- * Given a VA return a value usable as a register input to a TLBI that affects that address.
- */
-#define PAGE(va) ((uint64_t)(va)>>12)
 
 /* global pagetable */
 extern uint64_t* vmm_pgtable;

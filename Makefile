@@ -1,4 +1,6 @@
-PREFIX=aarch64-linux-gnu
+KNOWN_PREFIXES = aarch64-linux-gnu- aarch64-none-elf-
+PREFIX = $(word 1, $(foreach PRF,$(KNOWN_PREFIXES),$(if $(shell which $(PRF)gcc),$(PRF),)))
+
 CC = $(PREFIX)gcc
 LD = $(PREFIX)ld
 OBJCOPY = $(PREFIX)objcopy
@@ -8,8 +10,6 @@ OUT_NAME = bin/litmus.bin
 SSH_NAME = pi@rems-rpi4b
 BIN_ARGS =
 TESTS = .
-TRACE = 0
-DEBUG = 0
 RUN_CMD_HOST = 	\
 	$(QEMU) \
 		-nodefaults -machine virt,accel=kvm,gic-version=host -cpu host \
@@ -25,17 +25,19 @@ RUN_CMD_LOCAL = 	\
 
 CCERRORS = return-type parentheses misleading-indentation null-dereference sequence-point uninitialized maybe-uninitialized
 CCNOWARN =
-OTHER_INCLUDES =
-CFLAGS = -O0 -nostdlib -I inc/ -I inc/litmus $(OTHER_INCLUDES) -I inc/vmm -I inc/re -ffreestanding -fomit-frame-pointer -fno-pie -fno-pic -Wall $(addprefix -Wno-,$(CCNOWARN)) $(addprefix -Werror=,$(CCERRORS))
-ifeq ($(TRACE),1)
-CFLAGS += -DTRACE
-endif
-ifeq ($(DEBUG),1)
-CFLAGS += -DDEBUG
-endif
+INC_DIRS = inc/ inc/litmus/ inc/vmm/ inc/re/
+LIB_DIRS = lib/ lib/arch/ lib/vmm/ lib/valloc/ lib/re/
+OTHER_INCLUDES =  # set for unittests
+CFLAGS = -O0 -nostdlib \
+		$(foreach DIR,$(INC_DIRS),-I $(DIR)) \
+		$(foreach DIR,$(OTHER_INCLUDES),-I $(DIR)) \
+		-ffreestanding -fomit-frame-pointer -fno-pie -fno-pic \
+		-Wall $(addprefix -Wno-,$(CCNOWARN)) $(addprefix -Werror=,$(CCERRORS)) \
+
 LDFLAGS = -nostdlib -n -pie
 SSHFLAGS =
-LIB_FILES = $(wildcard lib/*.c) $(wildcard lib/vmm/*.c) $(wildcard lib/re/*.c)
+
+LIB_FILES = $(foreach DIR,$(LIB_DIRS), $(wildcard $(DIR)/*.c))
 LITMUS_FILES = $(wildcard litmus/*.c) $(wildcard litmus/litmus_tests/**/*.c)
 UNITTESTS_FILES = $(wildcard unittests/*.c) $(wildcard unittests/testlib/*.c) $(wildcard unittests/tests/**/*.c)
 
@@ -60,7 +62,7 @@ bin/lib/%.o: lib/%.c
 	$(CC) $(CFLAGS) -c -o $@ $^
 
 .PHONY: unittests/main.c
-bin/unittests/main.o: CFLAGS+=-DNO_TEST_FILES=$(shell ./unittests/getunittests.sh $(TESTS))
+bin/unittests/main.o: CFLAGS+=-DNO_TEST_FILES=$(strip $(shell ./unittests/getunittests.sh $(TESTS)))
 
 bin/unittests/%.o: OTHER_INCLUDES=-I unittests/include
 bin/unittests/%.o: unittests/%.c

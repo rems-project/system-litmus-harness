@@ -123,15 +123,9 @@ static void go_cpus(int cpu, void* a) {
 static void _check_ptes(test_ctx_t* ctx, uint64_t n, uint64_t** vas,
                         uint64_t** ptes, uint64_t* original) {
   for (int i = 0; i < n; i++) {
-    if (*ptes[i] != original[i]) {
-      *ptes[i] = original[i];
-    }
+    *ptes[i] = original[i];
   }
 
-  /* have to flush entire TLB pre v8.4
-   * ARMv8.4-TLBI adds range instructions
-   * that would allow flushing a whole page
-   */
   vmm_flush_tlb();
 }
 
@@ -154,9 +148,9 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
       heaps[v] = p;
       if (ENABLE_PGTABLE) {
         ptes[v] = PTE(ctx, (uint64_t)p);
-        saved_ptes[v] = *ptes[v];
-        pas[v] = PA(ctx, (uint64_t)p);
         descs[v] = *ptes[v];
+        saved_ptes[v] = descs[v];
+        pas[v] = PA(ctx, (uint64_t)p);
       }
     }
     for (int r = 0; r < ctx->cfg->no_regs; r++) {

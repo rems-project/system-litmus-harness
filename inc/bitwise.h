@@ -1,8 +1,13 @@
 #ifndef BITWISE_H
 #define BITWISE_H
 
+#include  <stdint.h>
+
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #define MAX(a, b) ((a) < (b) ? (b) : (a))
+
+/* masks */
+#define BITMASK(n) (((uint64_t)(1) << n) - 1)
 
 /* bitwise operations */
 #define BIT(x, i) (((x) >> (i)) & 0x1)

@@ -2,11 +2,6 @@
 #define VMM_TABLES_H
 #include "bitwise.h"
 
-/** build a value suitable for writing to TTBR
- * from the pagetable VA and the desired ASID.
- */
-#define TTBR0(pgtable, asid) (((uint64_t)(pgtable) & 0xfffffffffffe) | ((uint64_t)asid << 48))
-
 #define OFFS0(va) BIT_SLICE(va, 48, 39)
 #define OFFS1(va) BIT_SLICE(va, 38, 30)
 #define OFFS2(va) BIT_SLICE(va, 29, 21)
