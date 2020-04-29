@@ -13,6 +13,8 @@ uint8_t DISABLE_RESULTS_HIST = 0;
 uint8_t DEBUG = 0;
 uint8_t TRACE = 0;
 
+uint8_t ONLY_SHOW_MATCHES = 0;
+
 char* collected_tests[100];
 int   collected_tests_count;
 
@@ -40,6 +42,10 @@ static void read_arg(char* w) {
         case 'n':
           word += 2;
           NUMBER_OF_RUNS = atoi(word);
+          return;
+
+        case 'm':
+          ONLY_SHOW_MATCHES = 1;
           return;
 
         case 'h':

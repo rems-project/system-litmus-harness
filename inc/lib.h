@@ -12,14 +12,15 @@
 #include "device.h"
 #include "printer.h"
 #include "valloc.h"
-#include "sync.h" 
-#include "asm.h" 
+#include "sync.h"
+#include "asm.h"
 #include "vmm.h"
 #include "exceptions.h"
 #include "rand.h"
 #include "litmus_test.h"
 #include "debug.h"
 #include "config.h"
+#include "re.h"
 
 uint64_t vector_base_pa;
 uint64_t vector_base_addr_rw;

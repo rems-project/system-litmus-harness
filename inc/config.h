@@ -15,6 +15,8 @@ extern uint8_t TRACE;
 
 extern char*  collected_tests[100];
 extern int    collected_tests_count;
+extern uint8_t ONLY_SHOW_MATCHES;
+
 
 void display_help_and_quit(void);
 void display_test_help(void);

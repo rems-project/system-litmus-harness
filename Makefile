@@ -26,7 +26,7 @@ RUN_CMD_LOCAL = 	\
 CCERRORS = return-type parentheses misleading-indentation null-dereference sequence-point uninitialized maybe-uninitialized
 CCNOWARN =
 OTHER_INCLUDES =
-CFLAGS = -O0 -nostdlib -I inc/ -I inc/litmus $(OTHER_INCLUDES) -I inc/vmm -ffreestanding -fomit-frame-pointer -fno-pie -fno-pic -Wall $(addprefix -Wno-,$(CCNOWARN)) $(addprefix -Werror=,$(CCERRORS))
+CFLAGS = -O0 -nostdlib -I inc/ -I inc/litmus $(OTHER_INCLUDES) -I inc/vmm -I inc/re -ffreestanding -fomit-frame-pointer -fno-pie -fno-pic -Wall $(addprefix -Wno-,$(CCNOWARN)) $(addprefix -Werror=,$(CCERRORS))
 ifeq ($(TRACE),1)
 CFLAGS += -DTRACE
 endif
@@ -35,7 +35,7 @@ CFLAGS += -DDEBUG
 endif
 LDFLAGS = -nostdlib -n -pie
 SSHFLAGS =
-LIB_FILES = $(wildcard lib/*.c) $(wildcard lib/vmm/*.c)
+LIB_FILES = $(wildcard lib/*.c) $(wildcard lib/vmm/*.c) $(wildcard lib/re/*.c)
 LITMUS_FILES = $(wildcard litmus/*.c) $(wildcard litmus/litmus_tests/**/*.c)
 UNITTESTS_FILES = $(wildcard unittests/*.c) $(wildcard unittests/testlib/*.c) $(wildcard unittests/tests/**/*.c)
 
