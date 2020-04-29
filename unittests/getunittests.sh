@@ -2,19 +2,19 @@ filtertests=$*
 test_files=0
 
 testpairs=`find unittests/ -name '*.c'  | while read f; do
-    tests=$(grep $f -e "^UNIT_TEST([a-Z0-9\_]*)$" | sed 's/UNIT_TEST(\([a-Z0-9\_]*\))/\1/')
+    tests=$(grep $f -e "^UNIT_TEST([a-zA-Z0-9\_]*)$" | sed 's/UNIT_TEST(\([a-zA-Z0-9\_]*\))/\1/')
     echo $f $tests
 done`
 
 echo "$testpairs" | while read line; do
     for t in `echo $line | awk '{$1=""; print $0}'`; do
-        echo $t | sed 's/\([a-Z0-9\_]*\)/extern unit_test_fn \1;/'
+        echo $t | sed 's/\([a-zA-Z0-9\_]*\)/extern unit_test_fn \1;/'
     done
 done > unittests/tests.externs
 
 filter=$(echo $filtertests | sed 's/ /\|/g')
 filteredtestpairs=`find unittests/ -name '*.c'  | while read f; do
-    tests="$(grep $f -e '^UNIT_TEST([a-Z0-9\_]*)$' | grep -e "$filter" | sed 's/UNIT_TEST(\([a-Z0-9\_]*\))/\1/')"
+    tests="$(grep $f -e '^UNIT_TEST([a-zA-Z0-9\_]*)$' | grep -e "$filter" | sed 's/UNIT_TEST(\([a-zA-Z0-9\_]*\))/\1/')"
     if [ ! -z "$tests" ]; then
         echo $f $tests
     fi
