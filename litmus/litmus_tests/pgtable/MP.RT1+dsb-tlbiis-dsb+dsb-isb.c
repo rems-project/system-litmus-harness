@@ -31,6 +31,9 @@ static void P1(litmus_test_run* data) {
       "dsb sy\n\t"
       "isb\n\t"
       "ldr x2,[x3]\n\t"
+
+      "mov x4, #4\n\t"
+      "str x4, [x1]\n\t"
       /* output */
       "str x0, [%[outp1r0]]\n\t"
       "str x2, [%[outp1r2]]\n\t"

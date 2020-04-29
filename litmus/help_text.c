@@ -58,11 +58,11 @@ void display_help_for_grp(const litmus_test_group* grp) {
   }
 }
 
-/* main.c must define @all
+/* groups.c must define @all
 */
-extern litmus_test_group all;
+extern litmus_test_group grp_all;
 void display_test_help(void) {
   printf("If none supplied, selects all enabled tests.\n");
   printf("Otherwise, runs all tests supplied in args that are one of:\n");
-  display_help_for_grp(&all);
+  display_help_for_grp(&grp_all);
 }

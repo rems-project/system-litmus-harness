@@ -1,6 +1,6 @@
 KNOWN_PREFIXES = aarch64-linux-gnu- aarch64-none-elf-
 PREFIX = $(word 1, $(foreach PRF,$(KNOWN_PREFIXES),$(if $(shell which $(PRF)gcc),$(PRF),)))
-
+LITMUS_TESTS = @all  # which litmus tests to run
 CC = $(PREFIX)gcc
 LD = $(PREFIX)ld
 OBJCOPY = $(PREFIX)objcopy
@@ -51,7 +51,16 @@ litmus_BIN_FILES = $(addprefix bin/,$(LITMUS_FILES:.c=.o))
 unittests_BIN_FILES = $(addprefix bin/,$(UNITTESTS_FILES:.c=.o))
 
 .PHONY: all
-all: bin/litmus.exe bin/unittests.exe bin/qemu_litmus.exe bin/qemu_unittests.exe
+all: litmus_tests bin/litmus.exe bin/unittests.exe bin/qemu_litmus.exe bin/qemu_unittests.exe
+
+.PHONY: litmus_tests
+litmus_tests:
+	python3 litmus/makegroups.py $(LITMUS_TESTS) &> /tmp/suppressed || { \
+		cat /tmp/suppressed 1>&2 ; \
+		echo "Warning: failed to update groups.c. test listing may be out-of-sync." 1>&2 ; \
+		( which python3 &> /dev/null ) && echo "litmus_tests target requires python3." 1>&2 ; \
+	};
+	rm /tmp/suppressed
 
 bindir:
 	mkdir -p $(dir $(COMMON_BIN_FILES))
@@ -80,7 +89,7 @@ bin/vector_table.o:  vector_table.S
 bin/litmus.o: litmus_tests/main.c
 	$(CC) $(CFLAGS) -c -o bin/litmus.o litmus_tests/main.c
 
-bin/litmus.elf: $(COMMON_BIN_FILES) $(litmus_BIN_FILES)
+bin/litmus.elf: litmus_tests $(COMMON_BIN_FILES) $(litmus_BIN_FILES)
 	$(LD) $(LDFLAGS) -o $@ -T bin.lds $(COMMON_BIN_FILES) $(litmus_BIN_FILES)
 	$(OBJDUMP) -D -r $@ > $@.S
 
