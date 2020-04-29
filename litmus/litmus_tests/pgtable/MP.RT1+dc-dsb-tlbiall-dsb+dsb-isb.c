@@ -23,20 +23,20 @@ static void P0(litmus_test_run* data) {
 
 static void P1(litmus_test_run* data) {
   asm volatile (
-      /* move from C vars into machine regs */
-      "mov x1, %[y]\n\t"
-      "mov x3, %[x]\n\t"
-      /* test */
-      "ldr x0,[x1]\n\t"
-      "dsb sy\n\t"
-      "isb\n\t"
-      "ldr x2,[x3]\n\t"
-      /* output */
-      "str x0, [%[outp1r0]]\n\t"
-      "str x2, [%[outp1r2]]\n\t"
-      :
-      : [y] "r" (data->var[1]), [x] "r" (data->var[0]), [outp1r0] "r" (data->out_reg[0]), [outp1r2] "r" (data->out_reg[1])
-      :  "cc", "memory", "x0", "x1", "x2", "x3", "x4"
+    /* move from C vars into machine regs */
+    "mov x1, %[y]\n\t"
+    "mov x3, %[x]\n\t"
+    /* test */
+    "ldr x0,[x1]\n\t"
+    "dsb sy\n\t"
+    "isb\n\t"
+    "ldr x2,[x3]\n\t"
+    /* output */
+    "str x0, [%[outp1r0]]\n\t"
+    "str x2, [%[outp1r2]]\n\t"
+    :
+    : [y] "r" (data->var[1]), [x] "r" (data->var[0]), [outp1r0] "r" (data->out_reg[0]), [outp1r2] "r" (data->out_reg[1])
+    :  "cc", "memory", "x0", "x1", "x2", "x3", "x4"
   );
 }
 
