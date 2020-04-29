@@ -1484,3 +1484,1108 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=1  : 212761
 Observation CoTR+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
+
+Test CoTR.inv+dsb-isb:
+ p1:x0=0  p1:x2=0  : 2882
+ p1:x0=0  p1:x2=1  : 161898
+ p1:x0=1  p1:x2=1  : 335220
+Observation CoTR.inv+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR1+dsb-tlbi-dsb-isb:
+ p1:x0=1  p1:x2=1  : 207113
+ p1:x0=0  p1:x2=1  : 289158
+ p1:x0=0  p1:x2=0  : 3729
+Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
+ p1:x0=0  p1:x2=1  : 288149
+ p1:x0=1  p1:x2=1  : 206560
+ p1:x0=0  p1:x2=0  : 5291
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT.inv+dsb-isb:
+ p0:x4=0  : 500000
+Observation CoWT.inv+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT+dsb-isb:
+ p0:x2=2  : 247704
+ p0:x2=1  : 252296 *
+Observation CoWT+dsb-isb: 252296 (of 500000)
+32/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.7wUsMDqZBk
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.7wUsMDqZBk -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=0  p1:x2=0  : 145891
+ p1:x0=0  p1:x2=1  : 151135
+ p1:x0=1  p1:x2=1  : 202974
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR.inv+dsb-isb:
+ p1:x0=1  p1:x2=1  : 306316
+ p1:x0=0  p1:x2=1  : 190217
+ p1:x0=0  p1:x2=0  : 3467
+Observation CoTR.inv+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR1+dsb-tlbi-dsb-isb:
+ p1:x0=0  p1:x2=1  : 256538
+ p1:x0=1  p1:x2=1  : 238095
+ p1:x0=0  p1:x2=0  : 5367
+Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
+ p1:x0=0  p1:x2=0  : 5305
+ p1:x0=1  p1:x2=1  : 209520
+ p1:x0=0  p1:x2=1  : 285175
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT.inv+dsb-isb:
+ p0:x4=0  : 500000
+Observation CoWT.inv+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT+dsb-isb:
+ p0:x2=2  : 237115
+ p0:x2=1  : 262885 *
+Observation CoWT+dsb-isb: 262885 (of 500000)
+33/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.aDwD4SmdvJ
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.aDwD4SmdvJ -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=0  p1:x2=0  : 146587
+ p1:x0=0  p1:x2=1  : 142366
+ p1:x0=1  p1:x2=1  : 211047
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR.inv+dsb-isb:
+ p1:x0=0  p1:x2=0  : 3379
+ p1:x0=1  p1:x2=1  : 313004
+ p1:x0=0  p1:x2=1  : 183617
+Observation CoTR.inv+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR1+dsb-tlbi-dsb-isb:
+ p1:x0=0  p1:x2=0  : 6366
+ p1:x0=1  p1:x2=1  : 236922
+ p1:x0=0  p1:x2=1  : 256712
+Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
+ p1:x0=0  p1:x2=0  : 4634
+ p1:x0=0  p1:x2=1  : 291584
+ p1:x0=1  p1:x2=1  : 203782
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT.inv+dsb-isb:
+ p0:x4=0  : 500000
+Observation CoWT.inv+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT+dsb-isb:
+ p0:x2=2  : 236877
+ p0:x2=1  : 263123 *
+Observation CoWT+dsb-isb: 263123 (of 500000)
+34/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.mnsbJy074x
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.mnsbJy074x -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=0  p1:x2=0  : 144709
+ p1:x0=1  p1:x2=1  : 208797
+ p1:x0=0  p1:x2=1  : 146494
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR.inv+dsb-isb:
+ p1:x0=0  p1:x2=0  : 2574
+ p1:x0=1  p1:x2=1  : 326146
+ p1:x0=0  p1:x2=1  : 171280
+Observation CoTR.inv+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR1+dsb-tlbi-dsb-isb:
+ p1:x0=0  p1:x2=0  : 4585
+ p1:x0=1  p1:x2=1  : 207132
+ p1:x0=0  p1:x2=1  : 288283
+Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
+ p1:x0=1  p1:x2=1  : 199021
+ p1:x0=0  p1:x2=1  : 296281
+ p1:x0=0  p1:x2=0  : 4698
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT.inv+dsb-isb:
+ p0:x4=0  : 500000
+Observation CoWT.inv+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT+dsb-isb:
+ p0:x2=1  : 266707 *
+ p0:x2=2  : 233293
+Observation CoWT+dsb-isb: 266707 (of 500000)
+35/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.qNxTZDE0Hr
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.qNxTZDE0Hr -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=1  p1:x2=1  : 203067
+ p1:x0=0  p1:x2=1  : 149797
+ p1:x0=0  p1:x2=0  : 147136
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR.inv+dsb-isb:
+ p1:x0=0  p1:x2=0  : 3353
+ p1:x0=1  p1:x2=1  : 315494
+ p1:x0=0  p1:x2=1  : 181153
+Observation CoTR.inv+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR1+dsb-tlbi-dsb-isb:
+ p1:x0=1  p1:x2=1  : 193661
+ p1:x0=0  p1:x2=0  : 4672
+ p1:x0=0  p1:x2=1  : 301667
+Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
+ p1:x0=0  p1:x2=1  : 304796
+ p1:x0=1  p1:x2=1  : 190438
+ p1:x0=0  p1:x2=0  : 4766
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT.inv+dsb-isb:
+ p0:x4=0  : 500000
+Observation CoWT.inv+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT+dsb-isb:
+ p0:x2=2  : 230412
+ p0:x2=1  : 269588 *
+Observation CoWT+dsb-isb: 269588 (of 500000)
+36/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.2uIL8vULIg
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.2uIL8vULIg -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=0  p1:x2=0  : 137276
+ p1:x0=1  p1:x2=0  : 1 *
+ p1:x0=1  p1:x2=1  : 208326
+ p1:x0=0  p1:x2=1  : 154397
+Observation CoTR+dsb-isb: 1 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR.inv+dsb-isb:
+ p1:x0=0  p1:x2=1  : 145734
+ p1:x0=1  p1:x2=1  : 351133
+ p1:x0=0  p1:x2=0  : 3133
+Observation CoTR.inv+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR1+dsb-tlbi-dsb-isb:
+ p1:x0=0  p1:x2=1  : 284054
+ p1:x0=0  p1:x2=0  : 3157
+ p1:x0=1  p1:x2=1  : 212789
+Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
+ p1:x0=1  p1:x2=1  : 208701
+ p1:x0=1  p1:x2=0  : 1 *
+ p1:x0=0  p1:x2=1  : 286579
+ p1:x0=0  p1:x2=0  : 4719
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 1 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT.inv+dsb-isb:
+ p0:x4=0  : 500000
+Observation CoWT.inv+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT+dsb-isb:
+ p0:x2=2  : 235439
+ p0:x2=1  : 264561 *
+Observation CoWT+dsb-isb: 264561 (of 500000)
+37/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.mpLWyLDaGN
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.mpLWyLDaGN -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=1  p1:x2=1  : 204016
+ p1:x0=1  p1:x2=0  : 1 *
+ p1:x0=0  p1:x2=1  : 155362
+ p1:x0=0  p1:x2=0  : 140621
+Observation CoTR+dsb-isb: 1 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR.inv+dsb-isb:
+ p1:x0=0  p1:x2=0  : 3274
+ p1:x0=0  p1:x2=1  : 140056
+ p1:x0=1  p1:x2=1  : 356670
+Observation CoTR.inv+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR1+dsb-tlbi-dsb-isb:
+ p1:x0=1  p1:x2=1  : 214068
+ p1:x0=1  p1:x2=0  : 1 *
+ p1:x0=0  p1:x2=1  : 280183
+ p1:x0=0  p1:x2=0  : 5748
+Observation CoTR1+dsb-tlbi-dsb-isb: 1 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
+ p1:x0=1  p1:x2=0  : 1 *
+ p1:x0=0  p1:x2=1  : 284754
+ p1:x0=1  p1:x2=1  : 211778
+ p1:x0=0  p1:x2=0  : 3467
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 1 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT.inv+dsb-isb:
+ p0:x4=0  : 500000
+Observation CoWT.inv+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT+dsb-isb:
+ p0:x2=2  : 224860
+ p0:x2=1  : 275140 *
+Observation CoWT+dsb-isb: 275140 (of 500000)
+38/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.zsyAog4U30
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.zsyAog4U30 -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=0  p1:x2=0  : 149642
+ p1:x0=1  p1:x2=0  : 1 *
+ p1:x0=1  p1:x2=1  : 201009
+ p1:x0=0  p1:x2=1  : 149348
+Observation CoTR+dsb-isb: 1 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR.inv+dsb-isb:
+ p1:x0=0  p1:x2=1  : 150159
+ p1:x0=1  p1:x2=1  : 346998
+ p1:x0=0  p1:x2=0  : 2843
+Observation CoTR.inv+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR1+dsb-tlbi-dsb-isb:
+ p1:x0=1  p1:x2=0  : 1 *
+ p1:x0=0  p1:x2=1  : 289129
+ p1:x0=1  p1:x2=1  : 205272
+ p1:x0=0  p1:x2=0  : 5598
+Observation CoTR1+dsb-tlbi-dsb-isb: 1 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
+ p1:x0=0  p1:x2=1  : 256866
+ p1:x0=1  p1:x2=0  : 1 *
+ p1:x0=1  p1:x2=1  : 239928
+ p1:x0=0  p1:x2=0  : 3205
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 1 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT.inv+dsb-isb:
+ p0:x4=0  : 500000
+Observation CoWT.inv+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT+dsb-isb:
+ p0:x2=2  : 240942
+ p0:x2=1  : 259058 *
+Observation CoWT+dsb-isb: 259058 (of 500000)
+39/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.7kHrnrJRtz
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.7kHrnrJRtz -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=0  p1:x2=0  : 151328
+ p1:x0=1  p1:x2=0  : 1 *
+ p1:x0=1  p1:x2=1  : 215130
+ p1:x0=0  p1:x2=1  : 133541
+Observation CoTR+dsb-isb: 1 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR.inv+dsb-isb:
+ p1:x0=0  p1:x2=0  : 3343
+ p1:x0=0  p1:x2=1  : 182077
+ p1:x0=1  p1:x2=1  : 314580
+Observation CoTR.inv+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR1+dsb-tlbi-dsb-isb:
+ p1:x0=0  p1:x2=1  : 288816
+ p1:x0=0  p1:x2=0  : 6250
+ p1:x0=1  p1:x2=1  : 204934
+Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
+ p1:x0=0  p1:x2=0  : 5665
+ p1:x0=1  p1:x2=1  : 199675
+ p1:x0=0  p1:x2=1  : 294660
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT.inv+dsb-isb:
+ p0:x4=0  : 500000
+Observation CoWT.inv+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT+dsb-isb:
+ p0:x2=2  : 240078
+ p0:x2=1  : 259922 *
+Observation CoWT+dsb-isb: 259922 (of 500000)
+40/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.d3Pq3xqYRh
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.d3Pq3xqYRh -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=1  p1:x2=1  : 80259
+ p1:x0=0  p1:x2=1  : 323389
+ p1:x0=0  p1:x2=0  : 96352
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+			Unhandled Exception (CPU1): 
+			  [VBAR: 0x4008E000]
+			  [Vector: 0x8 (VEC_EL0_SYNC_64)]
+			  [EC: 0x24 (EC_DABT_EL0)]
+			  [ESR_EL1: 0x92000007]
+			  [FAR_EL1: 0x4704A650]
+			  [ELR_EL1: 0x400897EC]
+			  
+41/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.k38XriCiRw
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.k38XriCiRw -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=1  p1:x2=1  : 78657
+ p1:x0=0  p1:x2=1  : 315351
+ p1:x0=0  p1:x2=0  : 105992
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+			Unhandled Exception (CPU1): 
+			  [VBAR: 0x4008E000]
+			  [Vector: 0x8 (VEC_EL0_SYNC_64)]
+			  [EC: 0x24 (EC_DABT_EL0)]
+			  [ESR_EL1: 0x92000007]
+			  [FAR_EL1: 0x473B5C70]
+			  [ELR_EL1: 0x400897EC]
+			  
+42/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.vpE54o3Y2u
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.vpE54o3Y2u -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=0  p1:x2=0  : 97511
+ p1:x0=0  p1:x2=1  : 325121
+ p1:x0=1  p1:x2=1  : 77368
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR.inv+dsb-isb:
+ p1:x0=0  p1:x2=0  : 3074
+ p1:x0=1  p1:x2=1  : 460129
+ p1:x0=0  p1:x2=1  : 36797
+Observation CoTR.inv+dsb-isb: 0 (of 500000)
+			Unhandled Exception (CPU1): 
+			  [VBAR: 0x4008E000]
+			  [Vector: 0x0 (VEC_EL1T_SYNC)]
+			  [EC: 0x25 (EC_DABT_EL1)]
+			  [ESR_EL1: 0x96000047]
+			  [FAR_EL1: 0x400D0EA0]
+			  [ELR_EL1: 0x4008C190]
+			  
+43/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.OGFpf7qgMk
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.OGFpf7qgMk -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=0  p1:x2=0  : 103260
+ p1:x0=1  p1:x2=1  : 73304
+ p1:x0=0  p1:x2=1  : 323436
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+			Unhandled Exception (CPU1): 
+			  [VBAR: 0x4008E000]
+			  [Vector: 0x8 (VEC_EL0_SYNC_64)]
+			  [EC: 0x24 (EC_DABT_EL0)]
+			  [ESR_EL1: 0x92000007]
+			  [FAR_EL1: 0x473B6D70]
+			  [ELR_EL1: 0x400897EC]
+			  
+44/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.M1t5mNTg1m
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.M1t5mNTg1m -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=1  p1:x2=1  : 81824
+ p1:x0=0  p1:x2=0  : 105288
+ p1:x0=0  p1:x2=1  : 312888
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+			Unhandled Exception (CPU1): 
+			  [VBAR: 0x4008E000]
+			  [Vector: 0x8 (VEC_EL0_SYNC_64)]
+			  [EC: 0x24 (EC_DABT_EL0)]
+			  [ESR_EL1: 0x92000007]
+			  [FAR_EL1: 0x4704A078]
+			  [ELR_EL1: 0x400897EC]
+			  
+45/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.vMEvze44b4
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.vMEvze44b4 -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=0  p1:x2=1  : 327520
+ p1:x0=0  p1:x2=0  : 89067
+ p1:x0=1  p1:x2=1  : 83413
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+			Unhandled Exception (CPU1): 
+			  [VBAR: 0x4008E000]
+			  [Vector: 0x8 (VEC_EL0_SYNC_64)]
+			  [EC: 0x24 (EC_DABT_EL0)]
+			  [ESR_EL1: 0x92000007]
+			  [FAR_EL1: 0x4704B1C0]
+			  [ELR_EL1: 0x400897EC]
+			  
+46/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.tINSHl3T52
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.tINSHl3T52 -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=0  p1:x2=0  : 99130
+ p1:x0=0  p1:x2=1  : 325033
+ p1:x0=1  p1:x2=1  : 75837
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+			Unhandled Exception (CPU1): 
+			  [VBAR: 0x4008E000]
+			  [Vector: 0x8 (VEC_EL0_SYNC_64)]
+			  [EC: 0x24 (EC_DABT_EL0)]
+			  [ESR_EL1: 0x92000007]
+			  [FAR_EL1: 0x4704B650]
+			  [ELR_EL1: 0x400897EC]
+			  
+47/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.iCEvmFw6NQ
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.iCEvmFw6NQ -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=1  p1:x2=1  : 76316
+ p1:x0=0  p1:x2=0  : 97805
+ p1:x0=0  p1:x2=1  : 325879
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+			Unhandled Exception (CPU1): 
+			  [VBAR: 0x4008E000]
+			  [Vector: 0x8 (VEC_EL0_SYNC_64)]
+			  [EC: 0x24 (EC_DABT_EL0)]
+			  [ESR_EL1: 0x92000007]
+			  [FAR_EL1: 0x4704B650]
+			  [ELR_EL1: 0x400897EC]
+			  
+48/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.ryZNL7VBPn
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.ryZNL7VBPn -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=1  p1:x2=1  : 89199
+ p1:x0=0  p1:x2=1  : 316647
+ p1:x0=0  p1:x2=0  : 94154
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+			Unhandled Exception (CPU1): 
+			  [VBAR: 0x4008E000]
+			  [Vector: 0x8 (VEC_EL0_SYNC_64)]
+			  [EC: 0x24 (EC_DABT_EL0)]
+			  [ESR_EL1: 0x92000007]
+			  [FAR_EL1: 0x4704A150]
+			  [ELR_EL1: 0x400897EC]
+			  
+49/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.CWvDeq8u3k
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.CWvDeq8u3k -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=1  p1:x2=1  : 77720
+ p1:x0=0  p1:x2=1  : 322708
+ p1:x0=0  p1:x2=0  : 99572
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+			Unhandled Exception (CPU1): 
+			  [VBAR: 0x4008E000]
+			  [Vector: 0x8 (VEC_EL0_SYNC_64)]
+			  [EC: 0x24 (EC_DABT_EL0)]
+			  [ESR_EL1: 0x92000007]
+			  [FAR_EL1: 0x4704A010]
+			  [ELR_EL1: 0x400897EC]
+			  
+50/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.mO0n4RrZdq
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.mO0n4RrZdq -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=0  p1:x2=0  : 100297
+ p1:x0=0  p1:x2=1  : 320293
+ p1:x0=1  p1:x2=1  : 79410
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+			Unhandled Exception (CPU1): 
+			  [VBAR: 0x4008E000]
+			  [Vector: 0x8 (VEC_EL0_SYNC_64)]
+			  [EC: 0x24 (EC_DABT_EL0)]
+			  [ESR_EL1: 0x92000007]
+			  [FAR_EL1: 0x47233810]
+			  [ELR_EL1: 0x400897EC]
+			  
+51/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.g67EkqaBKi
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.g67EkqaBKi -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=1  p1:x2=1  : 80752
+ p1:x0=0  p1:x2=1  : 316824
+ p1:x0=0  p1:x2=0  : 102424
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+			Unhandled Exception (CPU1): 
+			  [VBAR: 0x4008E000]
+			  [Vector: 0x8 (VEC_EL0_SYNC_64)]
+			  [EC: 0x24 (EC_DABT_EL0)]
+			  [ESR_EL1: 0x92000007]
+			  [FAR_EL1: 0x473B71D8]
+			  [ELR_EL1: 0x400897EC]
+			  
+52/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.ucBbxCSqgQ
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.ucBbxCSqgQ -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=0  p1:x2=0  : 90569
+ p1:x0=1  p1:x2=1  : 77028
+ p1:x0=0  p1:x2=1  : 332403
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+			Unhandled Exception (CPU1): 
+			  [VBAR: 0x4008E000]
+			  [Vector: 0x8 (VEC_EL0_SYNC_64)]
+			  [EC: 0x24 (EC_DABT_EL0)]
+			  [ESR_EL1: 0x92000007]
+			  [FAR_EL1: 0x4704B130]
+			  [ELR_EL1: 0x400897EC]
+			  
+53/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.9TCBVTVcgx
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.9TCBVTVcgx -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=1  p1:x2=0  : 1 *
+ p1:x0=1  p1:x2=1  : 76374
+ p1:x0=0  p1:x2=1  : 326989
+ p1:x0=0  p1:x2=0  : 96636
+Observation CoTR+dsb-isb: 1 (of 500000)
+P0			P1			P2			P3			
+			Unhandled Exception (CPU1): 
+			  [VBAR: 0x4008E000]
+			  [Vector: 0x8 (VEC_EL0_SYNC_64)]
+			  [EC: 0x24 (EC_DABT_EL0)]
+			  [ESR_EL1: 0x92000007]
+			  [FAR_EL1: 0x4704B060]
+			  [ELR_EL1: 0x400897EC]
+			  
+54/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.IE8XMcYBh1
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.IE8XMcYBh1 -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=1  p1:x2=1  : 78733
+ p1:x0=0  p1:x2=0  : 104655
+ p1:x0=0  p1:x2=1  : 316612
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+			Unhandled Exception (CPU1): 
+			  [VBAR: 0x4008E000]
+			  [Vector: 0x8 (VEC_EL0_SYNC_64)]
+			  [EC: 0x24 (EC_DABT_EL0)]
+			  [ESR_EL1: 0x92000007]
+			  [FAR_EL1: 0x472F1E90]
+			  [ELR_EL1: 0x400897EC]
+			  
+55/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.vU68hZpgHu
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.vU68hZpgHu -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=1  p1:x2=1  : 80198
+ p1:x0=0  p1:x2=0  : 102929
+ p1:x0=0  p1:x2=1  : 316873
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+			Unhandled Exception (CPU1): 
+			  [VBAR: 0x4008E000]
+			  [Vector: 0x8 (VEC_EL0_SYNC_64)]
+			  [EC: 0x24 (EC_DABT_EL0)]
+			  [ESR_EL1: 0x92000007]
+			  [FAR_EL1: 0x473B6D70]
+			  [ELR_EL1: 0x400897EC]
+			  
+56/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.qv3gu2lcAl
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.qv3gu2lcAl -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=0  p1:x2=1  : 317475
+ p1:x0=0  p1:x2=0  : 99813
+ p1:x0=1  p1:x2=1  : 82712
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+			Unhandled Exception (CPU1): 
+			  [VBAR: 0x4008E000]
+			  [Vector: 0x8 (VEC_EL0_SYNC_64)]
+			  [EC: 0x24 (EC_DABT_EL0)]
+			  [ESR_EL1: 0x92000007]
+			  [FAR_EL1: 0x473B6C80]
+			  [ELR_EL1: 0x400897EC]
+			  
+57/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.rYMmrw44fL
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.rYMmrw44fL -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=0  p1:x2=0  : 104589
+ p1:x0=0  p1:x2=1  : 318614
+ p1:x0=1  p1:x2=1  : 76797
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+			Unhandled Exception (CPU1): 
+			  [VBAR: 0x4008E000]
+			  [Vector: 0x8 (VEC_EL0_SYNC_64)]
+			  [EC: 0x24 (EC_DABT_EL0)]
+			  [ESR_EL1: 0x92000007]
+			  [FAR_EL1: 0x4704B130]
+			  [ELR_EL1: 0x400897EC]
+			  
+58/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.7foLqlBSuM
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.7foLqlBSuM -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=0  p1:x2=0  : 108420
+ p1:x0=0  p1:x2=1  : 312811
+ p1:x0=1  p1:x2=1  : 78769
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+			Unhandled Exception (CPU1): 
+			  [VBAR: 0x4008E000]
+			  [Vector: 0x8 (VEC_EL0_SYNC_64)]
+			  [EC: 0x24 (EC_DABT_EL0)]
+			  [ESR_EL1: 0x92000007]
+			  [FAR_EL1: 0x47233570]
+			  [ELR_EL1: 0x400897EC]
+			  
+59/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.AFOwt2i8rA
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.AFOwt2i8rA -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=0  p1:x2=1  : 311629
+ p1:x0=0  p1:x2=0  : 110140
+ p1:x0=1  p1:x2=1  : 78231
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+			Unhandled Exception (CPU1): 
+			  [VBAR: 0x4008E000]
+			  [Vector: 0x8 (VEC_EL0_SYNC_64)]
+			  [EC: 0x24 (EC_DABT_EL0)]
+			  [ESR_EL1: 0x92000007]
+			  [FAR_EL1: 0x4715A0A0]
+			  [ELR_EL1: 0x400897EC]
+			  
+60/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.XCaNf9awVs
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.XCaNf9awVs -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=1  p1:x2=1  : 78833
+ p1:x0=0  p1:x2=0  : 98583
+ p1:x0=0  p1:x2=1  : 322584
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+			Unhandled Exception (CPU1): 
+			  [VBAR: 0x4008E000]
+			  [Vector: 0x8 (VEC_EL0_SYNC_64)]
+			  [EC: 0x24 (EC_DABT_EL0)]
+			  [ESR_EL1: 0x92000007]
+			  [FAR_EL1: 0x47265B50]
+			  [ELR_EL1: 0x400897EC]
+			  
+61/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.Mp1g4N4gao
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.Mp1g4N4gao -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=0  p1:x2=1  : 313152
+ p1:x0=0  p1:x2=0  : 103974
+ p1:x0=1  p1:x2=1  : 82874
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+			Unhandled Exception (CPU1): 
+			  [VBAR: 0x4008E000]
+			  [Vector: 0x8 (VEC_EL0_SYNC_64)]
+			  [EC: 0x24 (EC_DABT_EL0)]
+			  [ESR_EL1: 0x92000007]
+			  [FAR_EL1: 0x4704B010]
+			  [ELR_EL1: 0x400897EC]
+			  
+62/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.NmladwrW8M
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.NmladwrW8M -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=0  p1:x2=0  : 101677
+ p1:x0=0  p1:x2=1  : 317408
+ p1:x0=1  p1:x2=1  : 80915
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+			Unhandled Exception (CPU1): 
+			  [VBAR: 0x4008E000]
+			  [Vector: 0x8 (VEC_EL0_SYNC_64)]
+			  [EC: 0x24 (EC_DABT_EL0)]
+			  [ESR_EL1: 0x92000007]
+			  [FAR_EL1: 0x4704A430]
+			  [ELR_EL1: 0x400897EC]
+			  
+63/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.jBrfuy0ud2
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.jBrfuy0ud2 -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=1  p1:x2=1  : 78085
+ p1:x0=0  p1:x2=1  : 319345
+ p1:x0=0  p1:x2=0  : 102570
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+			Unhandled Exception (CPU1): 
+			  [VBAR: 0x4008E000]
+			  [Vector: 0x8 (VEC_EL0_SYNC_64)]
+			  [EC: 0x24 (EC_DABT_EL0)]
+			  [ESR_EL1: 0x92000007]
+			  [FAR_EL1: 0x473B7D60]
+			  [ELR_EL1: 0x400897EC]
+			  
+64/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.DNequnBLUH
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.DNequnBLUH -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=0  p1:x2=0  : 100114
+ p1:x0=0  p1:x2=1  : 320828
+ p1:x0=1  p1:x2=1  : 79058
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+			Unhandled Exception (CPU1): 
+			  [VBAR: 0x4008E000]
+			  [Vector: 0x8 (VEC_EL0_SYNC_64)]
+			  [EC: 0x24 (EC_DABT_EL0)]
+			  [ESR_EL1: 0x92000007]
+			  [FAR_EL1: 0x473B8E48]
+			  [ELR_EL1: 0x400897EC]
+			  
+65/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.LdXf5q0Obh
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.LdXf5q0Obh -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=0  p1:x2=0  : 89687
+ p1:x0=1  p1:x2=1  : 82400
+ p1:x0=0  p1:x2=1  : 327913
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+			Unhandled Exception (CPU1): 
+			  [VBAR: 0x4008E000]
+			  [Vector: 0x8 (VEC_EL0_SYNC_64)]
+			  [EC: 0x24 (EC_DABT_EL0)]
+			  [ESR_EL1: 0x92000007]
+			  [FAR_EL1: 0x471CEC30]
+			  [ELR_EL1: 0x400897EC]
+			  
+66/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.YUUwiuAn3f
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.YUUwiuAn3f -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=1  p1:x2=1  : 78557
+ p1:x0=0  p1:x2=0  : 104888
+ p1:x0=0  p1:x2=1  : 316555
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+			Unhandled Exception (CPU1): 
+			  [VBAR: 0x4008E000]
+			  [Vector: 0x8 (VEC_EL0_SYNC_64)]
+			  [EC: 0x24 (EC_DABT_EL0)]
+			  [ESR_EL1: 0x92000007]
+			  [FAR_EL1: 0x4704B250]
+			  [ELR_EL1: 0x400897EC]
+			  
+67/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.vzagBaf6Th
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.vzagBaf6Th -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=1  p1:x2=1  : 83654
+ p1:x0=0  p1:x2=1  : 311966
+ p1:x0=0  p1:x2=0  : 104380
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+			Unhandled Exception (CPU1): 
+			  [VBAR: 0x4008E000]
+			  [Vector: 0x8 (VEC_EL0_SYNC_64)]
+			  [EC: 0x24 (EC_DABT_EL0)]
+			  [ESR_EL1: 0x92000007]
+			  [FAR_EL1: 0x4704E480]
+			  [ELR_EL1: 0x400897EC]
+			  
+68/100
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.BJi12MrbHj
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.BJi12MrbHj -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+P0			P1			P2			P3			
+qemu-system-aarch64: terminating on signal 15 from pid 19895 (killall)
