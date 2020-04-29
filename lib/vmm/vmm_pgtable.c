@@ -140,7 +140,9 @@ void vmm_set_id_translation(uint64_t* pgtable) {
   }
 
   /* now set the new TTBR and TCR */
-  uint64_t ttbr = (uint64_t)pgtable;
+  uint64_t asid = 0;
+  uint64_t ttbr = TTBR0(pgtable, asid);
+
   uint64_t tcr = (0L << 39) | /* HA, software access flag */
                  (1L << 37) | /* TBI, top byte ignored. */
                  (5L << 32) | /* IPS, 48-bit (I)PA. */
@@ -164,7 +166,7 @@ void vmm_set_id_translation(uint64_t* pgtable) {
 }
 
 void vmm_switch_ttable(uint64_t* new_table) {
-  write_sysreg((uint64_t)new_table, ttbr0_el1);
+  write_sysreg(TTBR0(new_table, 0), ttbr0_el1);
   dsb();
   isb();
   vmm_flush_tlb();
