@@ -50,19 +50,19 @@ valloc_free_chunk* valloc_freelist_find_best(uint64_t size, uint64_t alignment) 
 
 /** given a chunk that is large enough for a `alignment` aligned allocation of size `size
  * try split in into 3.
- * 
+ *
  * e.g. if the chunk is |                                                      |
  * where                |                 |XXXXXXXXXXXXX|                      |
  *                          ^^^^^^^^^         ^^^^^          ^^^^^^^^^^^^
  *                          alignment         chunk          unused space
- * 
+ *
  * into                 |  chunk1         | chunk2       | chunk3              |
  * and return a pointer to chunk2
  */
 valloc_free_chunk* valloc_freelist_split_alignment(valloc_free_chunk* chunk, uint64_t size, uint64_t alignment) {
   uint64_t chunk_start = (uint64_t)chunk;
   uint64_t chunk_alignment = ALIGN_UP_TO(chunk_start, alignment) - chunk_start;
-  if (chunk->size < size + alignment) {
+  if (chunk->size < size + chunk_alignment) {
     error("! valloc_freelist_split_alignment: cannot split a chunk that is not big enough");
   }
 
