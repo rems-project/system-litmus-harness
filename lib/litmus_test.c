@@ -49,7 +49,7 @@ void run_test(const litmus_test_t* cfg) {
   run_on_cpus((async_fn_t*)go_cpus, (void*)&ctx);
 
   /* clean up and display results */
-  end_of_test(&ctx, cfg->reg_names, cfg->interesting_result);
+  end_of_test(&ctx);
 }
 
 uint64_t idx_from_varname(test_ctx_t* ctx, const char* varname) {
@@ -328,7 +328,6 @@ static int ix_from_values(test_ctx_t* ctx, int run) {
   return val;
 }
 
-static void print_single_result(test_ctx_t*, int i);
 static void add_results(test_hist_t* res, test_ctx_t* ctx, int run) {
   /* fast case: check lut */
   test_result_t** lut = res->lut;
@@ -489,11 +488,19 @@ void start_of_test(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
   }
 }
 
-void end_of_test(test_ctx_t* ctx, const char** out_reg_names,
-                 uint64_t* interesting_result) {
+void end_of_test(test_ctx_t* ctx) {
   if (! DISABLE_RESULTS_HIST) {
     trace("%s\n", "Printing Results...");
-    print_results(ctx->hist, ctx, out_reg_names, interesting_result);
+    uint64_t** relaxed = ctx->cfg->interesting_results;
+    uint64_t* _spare[1] = { ctx->cfg->interesting_result };
+    uint64_t no_relaxed = ctx->cfg->no_interesting_results;
+    if (relaxed == NULL) {
+      relaxed = &_spare[0];
+      if (ctx->cfg->interesting_result != NULL) {
+        no_relaxed = 1;
+      }
+    }
+    print_results(ctx->hist, ctx, no_relaxed, relaxed);
   }
   trace("Finished test %s\n", ctx->cfg->name);
   free_test_ctx(ctx);
@@ -502,23 +509,37 @@ void end_of_test(test_ctx_t* ctx, const char** out_reg_names,
     vmm_free_pgtable(ctx->ptable);
 }
 
+static int matches_interesting(test_hist_t* res, test_ctx_t* ctx, int r, uint64_t no_interesting, uint64_t** interesting_results) {
+  for (int i = 0; i < no_interesting; i++) {
+    uint64_t* regs = interesting_results[i];
+    int was_interesting = 1;
+
+     for (int reg = 0; reg < ctx->cfg->no_regs; reg++) {
+      if (interesting_results != NULL)
+        if (res->results[r]->values[reg] != regs[reg])
+          was_interesting = 0;
+    }
+
+    if (was_interesting)
+      return 1;
+  }
+
+  return 0;
+}
+
 void print_results(test_hist_t* res, test_ctx_t* ctx,
-                   const char** out_reg_names, uint64_t* interesting_results) {
+                   uint64_t no_interesting_results, uint64_t** interesting_results) {
   printf("\n");
   printf("Test %s:\n", ctx->cfg->name);
   int marked = 0;
   for (int r = 0; r < res->allocated; r++) {
-    int was_interesting = (interesting_results == NULL) ? 0 : 1;
+    int was_interesting = matches_interesting(res, ctx, r, no_interesting_results, interesting_results);
     for (int reg = 0; reg < ctx->cfg->no_regs; reg++) {
-      printf(" %s=%d ", out_reg_names[reg], res->results[r]->values[reg]);
-
-      if (interesting_results != NULL)
-        if (res->results[r]->values[reg] != interesting_results[reg])
-          was_interesting = 0;
+      printf(" %s=%d ", ctx->cfg->reg_names[reg], res->results[r]->values[reg]);
     }
 
     if (was_interesting) {
-      marked = res->results[r]->counter;
+      marked += res->results[r]->counter;
       printf(" : %d *\n", res->results[r]->counter);
     } else {
       printf(" : %d\n", res->results[r]->counter);

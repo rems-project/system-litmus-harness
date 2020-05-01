@@ -39,6 +39,7 @@ typedef void th_f(litmus_test_run* data);
  */
 typedef struct {
   const char* name;
+
   int no_threads;
   th_f** threads;
   int no_heap_vars;
@@ -46,7 +47,9 @@ typedef struct {
   int no_regs;
   const char** reg_names;
 
-  uint64_t* interesting_result;   /* interesting (relaxed) result to highlight */
+  uint64_t* interesting_result;    /* interesting (relaxed) result to highlight */
+  uint64_t no_interesting_results;
+  uint64_t** interesting_results;  /* same as above, but plural */
   th_f** setup_fns;
   th_f** teardown_fns;
 
@@ -111,7 +114,7 @@ void set_init_heap(test_ctx_t* ctx, const char* varname, uint64_t value);
 
 
 /* print the collected results out */
-void print_results(test_hist_t* results, test_ctx_t* ctx, const char** out_reg_names, uint64_t* interesting_results);
+void print_results(test_hist_t* results, test_ctx_t* ctx,uint64_t interesting_count, uint64_t** interesting_results);
 
 /* call at the start and end of each run  */
 void start_of_run(test_ctx_t* ctx, int thread, int i);
@@ -123,6 +126,6 @@ void end_of_thread(test_ctx_t* ctx, int cpu);
 
 /* call at the beginning and end of each test */
 void start_of_test(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs);
-void end_of_test(test_ctx_t* ctx, const char** out_reg_names, uint64_t* interesting_result);
+void end_of_test(test_ctx_t* ctx);
 
 #endif /* LITMUS_TEST_H */

@@ -28,7 +28,7 @@ static void P0(litmus_test_run* data) {
 
 static void sync_handler(void) {
   asm volatile(
-    "mov x2, #0\n\t"
+    "mov x2, #2\n\t"
 
     ERET_TO_NEXT(x10)
   );
@@ -62,9 +62,16 @@ litmus_test_t BBM1_dsbtlbiisdsbdsbisb_dsbisb = {
   },
   3,(const char*[]){"x", "y", "z"},
   2,(const char*[]){"p1:x0", "p1:x2"},
-  .interesting_result = (uint64_t[]){
+  .no_interesting_results=2,
+  .interesting_results = (uint64_t*[]){
+    (uint64_t[]){
       /* p1:x0 =*/1,
-      /* p1:x2 =*/0,
+      /* p1:x2 =*/0,  /* stale translation */
+    },
+    (uint64_t[]){
+      /* p1:x0 =*/1,
+      /* p1:x2 =*/2,  /* spurious abort */
+    },
   },
   .start_els=(int[]){1,0},
   .thread_sync_handlers =
