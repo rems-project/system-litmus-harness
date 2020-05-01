@@ -119,7 +119,8 @@ static void go_cpus(int cpu, void* a) {
   end_of_thread(ctx, cpu);
 }
 
-/* detect a change in the pagetable and if so, fix it */
+/** reset the pagtable back to the state it was before the test
+ */
 static void _check_ptes(test_ctx_t* ctx, uint64_t n, uint64_t** vas,
                         uint64_t** ptes, uint64_t* original) {
   for (int i = 0; i < n; i++) {
@@ -129,6 +130,8 @@ static void _check_ptes(test_ctx_t* ctx, uint64_t n, uint64_t** vas,
   vmm_flush_tlb();
 }
 
+/** run the tests in a loop
+ */
 static void run_thread(test_ctx_t* ctx, int cpu) {
   th_f* pre = ctx->cfg->setup_fns == NULL ? NULL : ctx->cfg->setup_fns[cpu];
   th_f* func = ctx->cfg->threads[cpu];
@@ -153,16 +156,17 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
         pas[v] = PA(ctx, (uint64_t)p);
       }
     }
+
     for (int r = 0; r < ctx->cfg->no_regs; r++) {
       regs[r] = &ctx->out_regs[r][i];
     }
 
-    uint32_t* old_sync_handler_el0;
-    uint32_t* old_sync_handler_el1;
+    uint32_t* old_sync_handler_el0 = NULL;
+    uint32_t* old_sync_handler_el1 = NULL;
 
     litmus_test_run run = {
       .ctx = ctx,
-      .i = i,
+      .i = (uint64_t)i,
       .var = heaps,
       .pte = ptes,
       .pa = pas,
@@ -185,9 +189,9 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     bwait(cpu, i % ctx->cfg->no_threads, &ctx->start_barriers[i], ctx->cfg->no_threads);
     func(&run);
     if (ctx->cfg->thread_sync_handlers) {
-      if (ctx->cfg->thread_sync_handlers[cpu][0] != NULL)
+      if (old_sync_handler_el0 != NULL)
         restore_hotswapped_exception(0x400, old_sync_handler_el0);
-      if (ctx->cfg->thread_sync_handlers[cpu][1] != NULL)
+      if (old_sync_handler_el1 != NULL)
         restore_hotswapped_exception(0x000, old_sync_handler_el1);
     }
 
@@ -220,7 +224,7 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
   uint64_t* shuffled = alloc(sizeof(uint64_t) * no_runs);
 
   for (int v = 0; v < cfg->no_heap_vars; v++) {
-    // ensure each heap var allloc'd into its own page...
+    // ensure each heap var alloc'd into its own page...
     uint64_t* heap_var =
         alloc_with_alignment(ALIGN_UP(sizeof(uint64_t) * no_runs, 12), 4096UL);
     heap_vars[v] = heap_var;
@@ -324,6 +328,7 @@ static int ix_from_values(test_ctx_t* ctx, int run) {
   return val;
 }
 
+static void print_single_result(test_ctx_t*, int i);
 static void add_results(test_hist_t* res, test_ctx_t* ctx, int run) {
   /* fast case: check lut */
   test_result_t** lut = res->lut;

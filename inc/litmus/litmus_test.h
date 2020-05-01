@@ -2,6 +2,9 @@
 #define LITMUS_TEST_H
 #include <stdint.h>
 
+/* litmus_macros to help the user define a litmus test */
+#include "litmus_macros.h"
+
 /* test configuration */
 typedef enum {
   TYPE_HEAP,
