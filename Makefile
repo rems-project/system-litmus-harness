@@ -39,8 +39,8 @@ SSHFLAGS =
 
 LIB_FILES = $(foreach DIR,$(LIB_DIRS), $(wildcard $(DIR)/*.c))
 LITMUS_FILES = $(wildcard litmus/*.c) $(if $(LITMUS_TESTS),\
-										$(shell python3 litmus/makegroups.py $(LITMUS_TESTS) | tee litmus/all.txt),\
-										$(shell cat litmus/all.txt))
+										$(shell python3 litmus/makegroups.py $(LITMUS_TESTS) | tee litmus/test_list.txt),\
+										$(shell cat litmus/test_list.txt))
 UNITTESTS_FILES = $(wildcard unittests/*.c) $(wildcard unittests/testlib/*.c) $(wildcard unittests/tests/**/*.c)
 
 TOP_ASM_FILES = $(wildcard *.S)
@@ -57,7 +57,7 @@ all: bin/litmus.exe bin/unittests.exe bin/qemu_litmus.exe bin/qemu_unittests.exe
 
 .PHONY: litmus_tests
 litmus_tests:
-	 python3 litmus/makegroups.py $(LITMUS_TESTS) > litmus/all.txt || { \
+	 python3 litmus/makegroups.py $(LITMUS_TESTS) > litmus/test_list.txt || { \
 		echo "Warning: failed to update groups.c. test listing may be out-of-sync." 1>&2 ; \
 		( which python3 &> /dev/null ) && echo "litmus_tests target requires python3." 1>&2 ; \
 	};
