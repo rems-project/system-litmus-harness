@@ -19,10 +19,7 @@ static void sync_handler(void) {
   asm volatile (
     "mov x0, #0\n\t"
 
-    "mrs x10, elr_el1\n\t"
-    "add x10,x10,#4\n\t"
-    "msr elr_el1, x10\n\t"
-    "eret\n\t"
+    ERET_TO_NEXT(x10)
   );
 }
 

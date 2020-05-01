@@ -4,18 +4,20 @@
 
 static void P0(litmus_test_run* data) {
   asm volatile (
+    "mov x10, %[exc]\n\t"
     "mov x0, #1\n\t"
     "mov x1, %[x]\n\t"
     /* test */
     "str x0, [x1]\n\t"
   :
-  : [x] "r" (data->var[0]), [y] "r" (data->var[1])
-  : "cc", "memory", "x0", "x1"
+  : [x] "r" (data->var[0]), [exc] "r" (data->out_reg[0])
+  : "cc", "memory", "x0", "x1", "x10", "x11"
   );
 }
 
 static void P1(litmus_test_run* data) {
   asm volatile (
+    "mov x10, %[exc]\n\t"
     "mov x1, %[x]\n\t"
     "mov x2, #1\n\t"
     "mov x3, %[y]\n\t"
@@ -24,15 +26,15 @@ static void P1(litmus_test_run* data) {
     "eor x4, x0, x0\n\t"
     "add x4, x4, x3\n\t"
     "str x2, [x4]\n\t"
-    "str x0, [%[outp1r0]]\n\t"
   :
-  : [x] "r" (data->var[0]), [y] "r" (data->var[1]), [outp1r0] "r" (data->out_reg[0])
-  : "cc", "memory", "x0", "x1", "x2", "x3", "x4"
+  : [x] "r" (data->var[0]), [y] "r" (data->var[1]), [exc] "r" (data->out_reg[0])
+  : "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x10", "x11"
   );
 }
 
 static void P2(litmus_test_run* data) {
   asm volatile (
+    "mov x10, %[exc]\n\t"
     "mov x1, %[y]\n\t"
     "mov x3, %[x]\n\t"
     /* test */
@@ -40,11 +42,18 @@ static void P2(litmus_test_run* data) {
     "eor x4, x0, x0\n\t"
     "add x4, x4, x3\n\t"
     "ldr x2, [x4]\n\t"
-    "str x0, [%[outp2r0]]\n\t"
-    "str x2, [%[outp2r2]]\n\t"
   :
-  : [x] "r" (data->var[0]), [y] "r" (data->var[1]), [outp2r0] "r" (data->out_reg[1]), [outp2r2] "r" (data->out_reg[2])
-  : "cc", "memory", "x0", "x1", "x2", "x3", "x4"
+  : [x] "r" (data->var[0]), [y] "r" (data->var[1]), [exc] "r" (data->out_reg[0])
+  : "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x10", "x11"
+  );
+}
+
+static void handler(void) {
+  asm volatile (
+    "mov x11,#1\n\t"
+    "str x11,[x10]\n\t"
+
+    ERET_TO_NEXT(x10)
   );
 }
 
@@ -72,8 +81,18 @@ litmus_test_t check1 = {
     (th_f*)P2
   },
   2,(const char*[]){"x", "y"},
-  3,(const char*[]){"p1:x0", "p2:x0", "p2:x2"},
-  .start_els=(int[]){1,1},
+  1,(const char*[]){"exc"},
+  .interesting_result =
+    (uint64_t[]){
+      /* exc=*/ 1,
+  },
+  .start_els=(int[]){1,1,1},
+  .thread_sync_handlers =
+    (uint32_t**[]){
+     (uint32_t*[]){NULL, (uint32_t*)handler},
+     (uint32_t*[]){NULL, (uint32_t*)handler},
+     (uint32_t*[]){NULL, (uint32_t*)handler},
+    },
   .setup_fns = (th_f*[]){
     (th_f*)p0_setup,
     NULL,

@@ -16,7 +16,7 @@ static void P0(litmus_test_run* data) {
     "dsb sy\n\t"
     "str x3,[x4]\n\t"
   :
-  : [zdesc] "r" (data->DESC[2]), [xpte] "r" (data->PTE[0]), [xpage] "r" (PAGE(data->var[0])), [y] "r" (data->var[1])
+  : [zdesc] "r" (data->desc[2]), [xpte] "r" (data->pte[0]), [xpage] "r" (PAGE(data->var[0])), [y] "r" (data->var[1])
   : "memory", "x0", "x1", "x2", "x3", "x4"
   );
 }
@@ -31,6 +31,7 @@ static void P1(litmus_test_run* data) {
       "dsb sy\n\t"
       "isb\n\t"
       "ldr x2,[x3]\n\t"
+
       /* output */
       "str x0, [%[outp1r0]]\n\t"
       "str x2, [%[outp1r2]]\n\t"

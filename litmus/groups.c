@@ -11,6 +11,7 @@
 #include "lib.h"
 
 extern litmus_test_t
+  BBM1_dsbisbtlbiisdsbisbdsbisb_dsbisb,
   BBM1_dsbtlbiisdsbdsb_dsb,
   BBM1_dsbtlbiisdsbdsb_dsbisb,
   BBM1_dsbtlbiisdsbdsbisb_dsb,
@@ -53,6 +54,8 @@ extern litmus_test_t
   MP_dmb_svc,
   MP_dmbs,
   MP_pos,
+  MPinvRT1_dsbtlbiisdsb_dsb,
+  MPinvRT1_dsbtlbiisdsb_dsbisb,
   MPtimes_pos,
   SB_dmbs,
   SB_pos,
@@ -70,7 +73,10 @@ extern litmus_test_t
   WRCtrtinv_po_dmb,
   check1,
   check2,
-  check3;
+  check3,
+  check4,
+  check5,
+  check6;
 
 
 const litmus_test_group grp_checks = {
@@ -79,6 +85,9 @@ const litmus_test_group grp_checks = {
     &check1,
     &check2,
     &check3,
+    &check4,
+    &check5,
+    &check6,
     NULL
   },
   .groups = (const litmus_test_group*[]){
@@ -89,6 +98,7 @@ const litmus_test_group grp_checks = {
 const litmus_test_group grp_pgtable = {
   .name="@pgtable",
   .tests = (const litmus_test_t*[]){
+    &BBM1_dsbisbtlbiisdsbisbdsbisb_dsbisb,
     &BBM1_dsbtlbiisdsbdsb_dsb,
     &BBM1_dsbtlbiisdsbdsb_dsbisb,
     &BBM1_dsbtlbiisdsbdsbisb_dsb,
@@ -126,6 +136,8 @@ const litmus_test_group grp_pgtable = {
     &MPRT_svcdsbtlbidsb_dsbisb,
     &MPRT_svcdsbtlbiisdsb_dsbisb,
     &MPRTinv_dmb_addr,
+    &MPinvRT1_dsbtlbiisdsb_dsb,
+    &MPinvRT1_dsbtlbiisdsb_dsbisb,
     &WRCat_ctrl_dsb,
     &WRCtrr_addr_dmb,
     &WRCtrrinv_addrs,

@@ -21,7 +21,7 @@ static void P0(litmus_test_run* data) {
     "str x5,[x6]\n\t"
   :
   : [zdesc] "r" (data->desc[2]), [xpte] "r" (data->pte[0]), [xpage] "r" (PAGE(data->var[0])), [y] "r" (data->var[1])
-  : "memory", "x0", "x1", "x2", "x3", "x4"
+  : "memory", "x0", "x1", "x2", "x3", "x4", "x5", "x6"
   );
 }
 
@@ -29,10 +29,7 @@ static void sync_handler(void) {
   asm volatile(
     "mov x2, #0\n\t"
 
-    "mrs x10, elr_el1\n\t"
-    "add x10, x10, #4\n\t"
-    "msr elr_el1, x10\n\t"
-    "eret\n\t"
+    ERET_TO_NEXT(x10)
   );
 }
 
@@ -51,7 +48,7 @@ static void P1(litmus_test_run* data) {
       "str x2, [%[outp1r2]]\n\t"
       :
       : [y] "r" (data->var[1]), [x] "r" (data->var[0]), [outp1r0] "r" (data->out_reg[0]), [outp1r2] "r" (data->out_reg[1])
-      :  "cc", "memory", "x0", "x1", "x2", "x3", "x4"
+      :  "cc", "memory", "x0", "x1", "x2", "x3", "x10"
   );
 }
 

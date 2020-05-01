@@ -7,6 +7,8 @@ def matches(name, includes):
     return name in includes or '@all' in includes
 
 def find_tests_in_file(path, includes):
+    matched = False
+
     with open(path, "r") as f:
         for line in f:
             if re.match(r'litmus_test_t .+\s*=\s*{\s*', line):
@@ -27,7 +29,12 @@ def find_tests_in_file(path, includes):
                 if not matches(testname, includes):
                     continue
 
+                matched = True
                 yield cname.strip()
+
+    if matched:
+        print(str(path))
+
 
 
 def get_tests(d, includes):
@@ -126,5 +133,3 @@ if __name__ == "__main__":
     code = build_code(root / 'litmus_tests/', includes=includes)
     with open(root / 'groups.c', 'w') as f:
         f.write(code)
-
-    print('Updated groups.c')

@@ -14,7 +14,6 @@ int main(int argc, char** argv) {
       show_matches_only(&grp_all, re);
       re_free(re);
     }
-
     return 0;
   }
 
