@@ -25,7 +25,7 @@ static void P1(litmus_test_run* data) {
     /* test payload */
     "ldr x0, [x1]\n\t"
     "dsb sy\n\t"
-    "tlbi vae1,x5\n\t"
+    "tlbi vae1,x4\n\t"
     "dsb sy\n\t"
     "isb\n\t"
     "ldr x2, [x3]\n\t"

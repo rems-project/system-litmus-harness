@@ -27,7 +27,7 @@ static void P1(litmus_test_run* data) {
     "str x2, [x3]\n\t"
     "str x0, [%[outp1r2]]\n\t"
   :
-  : [x] "r" (data->var[0]), [y] "r" (data->var[1]), [outp1r2] "r" (data->out_reg[0])
+  : [x] "r" (data->var[0]), [y] "r" (data->var[1]), [outp1r2] "r" (data->out_reg[1])
   : "cc", "memory", "x0", "x1", "x2", "x3"
   );
 }

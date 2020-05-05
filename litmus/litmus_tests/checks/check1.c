@@ -43,7 +43,7 @@ static void P2(litmus_test_run* data) {
     "add x4, x4, x3\n\t"
     "ldr x2, [x4]\n\t"
   :
-  : [x] "r" (data->var[0]), [y] "r" (data->var[1]), [exc] "r" (data->out_reg[0])
+  : [x] "r" (data->var[0]), [y] "r" (data->var[1]), [exc] "r" (data->out_reg[1])
   : "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x10", "x11"
   );
 }
