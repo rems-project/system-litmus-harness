@@ -8,6 +8,7 @@ OBJDUMP = $(PREFIX)objdump
 QEMU = qemu-system-aarch64
 OUT_NAME = bin/litmus.bin
 SSH_NAME = pi@rems-rpi4b
+GDB = gdb-multiarch  --eval-command "set arch aarch64"
 BIN_ARGS =
 TESTS = .
 RUN_CMD_HOST = 	\
@@ -53,7 +54,7 @@ litmus_BIN_FILES = $(addprefix bin/,$(LITMUS_FILES:.c=.o))
 unittests_BIN_FILES = $(addprefix bin/,$(UNITTESTS_FILES:.c=.o))
 
 .PHONY: all
-all: bin/litmus.exe bin/unittests.exe bin/qemu_litmus.exe bin/qemu_unittests.exe
+all: bin/host_litmus.exe bin/unittests.exe bin/qemu_litmus.exe bin/qemu_unittests.exe
 
 .PHONY: litmus_tests
 litmus_tests:
@@ -103,42 +104,50 @@ bin/litmus.bin: bindir bin/litmus.elf
 bin/unittests.bin: bindir bin/unittests.elf
 	$(OBJCOPY) -O binary bin/unittests.elf bin/unittests.bin
 
-debug: bin/litmus.bin
-	{ $(RUN_CMD_LOCAL) -s -S & echo $$! > bin/.debug.pid; }
-	gdb-multiarch  --eval-command "set arch aarch64" --eval-command "target remote localhost:1234"
-	{ cat bin/.debug.pid | xargs kill $$pid ; rm bin/.debug.pid; }
-
-bin/%.exe: OUT_NAME=$$tmp
-bin/%.exe: bin/%.bin
+bin/debug_litmus.exe: bin/litmus.bin
 	echo 'set -o xtrace' > $@
 	echo 'echo Starting $@' >> $@
 	echo 'tmp=`mktemp`' >> $@
 	echo 'base64 -d << BIN_EOF | zcat > $$tmp || exit 2' >> $@
-	gzip -c $^ | base64 >> $@
+	gzip -c bin/litmus.bin | base64 >> $@
 	echo "BIN_EOF" >> $@
-	echo '$(RUN_CMD_HOST)' >> $@
+	echo '$(RUN_CMD_LOCAL) -S -s' >> $@
 	chmod +x $@
 
-bin/qemu_%.exe: OUT_NAME=$$tmp
-bin/qemu_%.exe: bin/%.bin
+bin/qemu_litmus.exe: bin/litmus.bin
 	echo 'set -o xtrace' > $@
 	echo 'echo Starting $@' >> $@
 	echo 'tmp=`mktemp`' >> $@
 	echo 'base64 -d << BIN_EOF | zcat > $$tmp || exit 2' >> $@
-	gzip -c $^ | base64 >> $@
+	gzip -c bin/litmus.bin | base64 >> $@
 	echo "BIN_EOF" >> $@
 	echo '$(RUN_CMD_LOCAL)' >> $@
 	chmod +x $@
 
+bin/host_litmus.exe: bin/litmus.bin
+	echo 'set -o xtrace' > $@
+	echo 'echo Starting $@' >> $@
+	echo 'tmp=`mktemp`' >> $@
+	echo 'base64 -d << BIN_EOF | zcat > $$tmp || exit 2' >> $@
+	gzip -c bin/litmus.bin | base64 >> $@
+	echo "BIN_EOF" >> $@
+	echo '$(RUN_CMD_HOST)' >> $@
+	chmod +x $@
+
 run: bin/qemu_litmus.exe
 	./bin/qemu_litmus.exe $(BIN_ARGS)
+
+debug: bin/debug_litmus.exe
+	{ ./bin/debug_litmus.exe $(BIN_ARGS) & echo $$! > bin/.debug.pid; }
+	$(GDB) --eval-command "target remote localhost:1234"
+	{ cat bin/.debug.pid | xargs kill $$pid ; rm bin/.debug.pid; }
 
 unittests: OUT_NAME=bin/unittests.bin
 unittests: bin/unittests.bin
 	./bin/qemu_unittests.exe
 
 ssh: bin/litmus.exe
-	scp bin/litmus.exe $(SSH_NAME):litmus.exe
+	scp bin/host_litmus.exe $(SSH_NAME):litmus.exe
 	ssh $(SSHFLAGS) $(SSH_NAME) "./litmus.exe '$(BIN_ARGS)'"
 
 .PHONY: clean
