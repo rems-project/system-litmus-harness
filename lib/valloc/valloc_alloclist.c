@@ -4,6 +4,11 @@
 
 /** move a chunk from the dealloc list to the alloc list */
 static void swap(valloc_alloc_chunk* chunk, valloc_alloc_chunk** from, valloc_alloc_chunk** to) {
+  if (chunk == NULL) {
+    error("valloc_swap : null chunk");
+    return;
+  }
+
   if (chunk->prev) {
     chunk->prev->next = chunk->next;
     SET(chunk->next, prev, chunk->prev);

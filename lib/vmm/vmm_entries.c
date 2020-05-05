@@ -60,7 +60,7 @@ uint64_t write_attrs(attrs_t attrs) {
 }
 
 uint64_t write_desc(desc_t desc) {
-  uint64_t out;
+  uint64_t out = 0;
   switch (desc.type) {
     case Invalid:
       return 0;

@@ -65,7 +65,11 @@ fdt_structure_piece dtb_read_piece(char* p) {
 
         case FDT_END:
             piece.next = NULL;
-            break;
+            return piece;
+
+        default:
+            piece.next = NULL;
+            return piece;
     }
 
     piece.next = (char*)FDT_ALIGN((uint64_t)next);
@@ -81,7 +85,7 @@ char* dtb_read_str(char* fdt, uint32_t nameoff) {
 fdt_structure_property_header* fdt_read_prop(char* fdt, char* node_name, char* prop_name) {
     fdt_header* hd = (fdt_header*)fdt;
     char* struct_block = (char*)((uint64_t)fdt + read_be((char*)&hd->fdt_off_dt_struct));
-    char* current_node;
+    char* current_node = NULL;
     char* prop;
 
     char* namestack[100];  /* max-depth = 100 */
