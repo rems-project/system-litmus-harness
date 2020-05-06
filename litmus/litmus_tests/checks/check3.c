@@ -4,12 +4,13 @@
 
 static void P0(litmus_test_run* data) {
   asm volatile (
-    "mov x0, #1\n\t"
-    "str x0, [%[x]]\n\t"
+    "ldr %[x0], [%[x]]\n\t"
     "dmb sy\n\t"
     "mov x2, #1\n\t"
     "str x2, [%[y]]\n\t"
-  :
+    "dmb sy\n\t"
+    "str x2, [%[x]]\n\t"
+  : [x0] "=&r" (*data->out_reg[0])
   : [x] "r" (data->var[0]), [y] "r" (data->var[1])
   : "cc", "memory", "x0", "x2"
   );
@@ -18,12 +19,14 @@ static void P0(litmus_test_run* data) {
 static void P1(litmus_test_run* data) {
   asm volatile (
     "ldr %[x0], [%[y]]\n\t"
-    "cbz %[x0], .after\n\t"
-    "str %[x2], [%[x3]]\n\t"
-    ".after:\n\t"
-  : [x0] "=&r" (*data->out_reg[0])
-  : [y] "r" (data->var[1]), [x2] "r" (0), [x3] "r" (data->pte[1])
-  : "cc", "memory"
+    "dmb sy\n\t"
+    "mov x2, #1\n\t"
+    "str x2, [%[x]]\n\t"
+    "dmb sy\n\t"
+    "str x2, [%[y]]\n\t"
+  : [x0] "=&r" (*data->out_reg[1])
+  : [x] "r" (data->var[0]), [y] "r" (data->var[1])
+  : "cc", "memory", "x0", "x2"
   );
 }
 
@@ -38,8 +41,6 @@ litmus_test_t check3 = {
   .interesting_result =
     (uint64_t[]){
       /* p1:x0 =*/ 1,
-      /* p1:x2 =*/ 0,
-    },
-
-  .requires_pgtable = 1,
+      /* p1:x2 =*/ 1,
+  },
 };
