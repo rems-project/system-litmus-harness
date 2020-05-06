@@ -18,6 +18,8 @@ void setup(char* fdtloc) {
   init_args();
   read_args(__argc, __argv);
 
+  debug("setup\n");
+
   vector_base_pa = (uint64_t)&el1_exception_vector_table_p0;
   vector_base_addr_rw = vector_base_pa;
 
@@ -32,12 +34,16 @@ void setup(char* fdtloc) {
     }
   }
 
+  debug("setting up CPU0\n");
   cpu_data_init();
   per_cpu_setup(0);
 
+  debug("booting all CPUs ...\n");
   cpu_boot(1);
   cpu_boot(2);
   cpu_boot(3);
+
+  debug("booted.\n");
 }
 
 void per_cpu_setup(int cpu) {

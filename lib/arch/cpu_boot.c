@@ -16,8 +16,10 @@ void cpu_data_init(void) {
 }
 
 void cpu_boot(uint64_t cpu) {
+  debug("boot CPU%d ...\n", cpu);
   psci_cpu_on(cpu);
   while (!cpu_data[cpu].started) wfe();
+  debug("... booted.\n", cpu);
 }
 
 void run_on_cpu_async(uint64_t cpu, async_fn_t* fn, void* arg) {
@@ -38,7 +40,7 @@ void run_on_cpu(uint64_t cpu, async_fn_t* fn, void* arg) {
 
 void run_on_cpus(async_fn_t* fn, void* arg) {
   uint64_t cur_cpu = get_cpu();
-  
+
   for (int i = 0; i < 4; i++)
     while (!cpu_data[i].started) wfe();
 
@@ -60,6 +62,7 @@ void run_on_cpus(async_fn_t* fn, void* arg) {
 }
 
 int secondary_init(int cpu) {
+  debug("secondary init\n");
   per_cpu_setup(cpu);
   return cpu;
 }
