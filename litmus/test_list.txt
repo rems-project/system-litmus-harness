@@ -11,6 +11,7 @@ litmus/litmus_tests/pgtable/MP.RT+svc-dsb-tlbi-dsb+dsb-isb.c
 litmus/litmus_tests/pgtable/CoTR+dsb.c
 litmus/litmus_tests/pgtable/MP.RT1+dsb-tlbiallis-dsb+dsb-isb.c
 litmus/litmus_tests/pgtable/CoWinvT1+dsb-tlbi-dsb.c
+litmus/litmus_tests/pgtable/CoWinvWT1+dsb-tlbi-dsb-dsb-isb.c
 litmus/litmus_tests/pgtable/WRC.TRT+dsb-isbs.c
 litmus/litmus_tests/pgtable/BBM1+dsb-tlbiis-dsb-dsb-isb+dsb.c
 litmus/litmus_tests/pgtable/BBM1+dsb-tlbiis-dsb-dsb+dsb-isb.c

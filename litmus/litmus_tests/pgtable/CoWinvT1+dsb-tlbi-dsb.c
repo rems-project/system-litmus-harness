@@ -2,35 +2,36 @@
 
 #include "lib.h"
 
-static void* fault_handler(uint64_t esr, regvals_t* regs) {
-  *(uint64_t*)regs->x4 = 1;
+static void sync_handler(void) {
+  asm volatile (
+    "mov x2, #1\n\t"
 
-  /* return to next instruction in test */
-  write_sysreg(read_sysreg(elr_el1)+4, elr_el1);
-  return NULL;
+    ERET_TO_NEXT(x10)
+  );
 }
 
 
 static void P0(litmus_test_run* data) {
-  set_pgfault_handler((uint64_t)data->var[0], &fault_handler);
   asm volatile (
       /* move from C vars into machine regs */
       "mov x0, #0\n\t"
       "mov x1, %[xpte]\n\t"
       "mov x3, %[x]\n\t"
-      "mov x4, %[x4]\n\t"
-      "mov x5, %[xpage]\n\t"
+      "mov x4, %[xpage]\n\t"
+
       /* test */
       "str x0, [x1]\n\t"
       "dsb sy\n\t"
-      "tlbi vae1,x5\n\t"
+      "tlbi vae1,x4\n\t"
       "dsb sy\n\t"
       "ldr x2, [x3]\n\t"
+
+      /* output */
+      "str x2, [%[outp0r2]]\n\t"
       :
-      : [ydesc] "r" (data->desc[1]), [xpte] "r" (data->pte[0]), [x] "r" (data->var[0]), [x4] "r" (data->out_reg[0]), [xpage] "r" (PAGE(data->var[0]))
-      :  "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x5"
+      : [xpte] "r" (data->pte[0]), [x] "r" (data->var[0]), [xpage] "r" (PAGE(data->var[0])), [outp0r2] "r" (data->out_reg[0])
+      :  "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x10"
   );
-  reset_pgfault_handler((uint64_t)data->var[0]);
 }
 
 
@@ -39,11 +40,15 @@ litmus_test_t CoWinvT1_dsbtlbidsb = {
   1,(th_f*[]){
     (th_f*)P0
   },
-  1,(const char*[]){"x"},
-  1,(const char*[]){"p0:x4",},
+  1,(const char*[]){"x",},
+  1,(const char*[]){"p0:x2",},
   .start_els=(int[]){1,},
   .interesting_result = (uint64_t[]){
-      /* p0:x4 =*/0,
+      /* p0:x2 =*/0,
+  },
+  .thread_sync_handlers =
+    (uint32_t**[]){
+     (uint32_t*[]){NULL, (uint32_t*)sync_handler},
   },
   .requires_pgtable = 1,
 };
