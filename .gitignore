@@ -1,1 +1,3 @@
 bin/
+litmus/groups.c
+litmus/test_list.txt

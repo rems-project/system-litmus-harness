@@ -2,6 +2,9 @@ import re
 import sys
 import pathlib
 
+TEST_FILES = []
+UPDATED_FILES = []
+NO_PRINT = set()
 
 def matches(name, includes):
     return name in includes or '@all' in includes
@@ -31,10 +34,13 @@ def find_tests_in_file(path, includes):
 
                 matched = True
                 yield cname.strip()
+                break  # assume 1 per file
 
     if matched:
-        print(str(path))
-
+        if not quiet and str(path) not in NO_PRINT:
+            UPDATED_FILES.append(str(path))
+            sys.stderr.write('   (COLLECT) {}\n'.format(str(path)))
+        TEST_FILES.append(str(path))
 
 
 def get_tests(d, includes):
@@ -116,7 +122,7 @@ code_template="""\
 %s
 
 %s
-""".format(includes=' '.join(sys.argv[1:]))
+"""
 
 
 def build_code(root_dir, includes=['@all']):
@@ -124,12 +130,39 @@ def build_code(root_dir, includes=['@all']):
     splitted = split_tests(tests)
     extern_line = build_externs(splitted)
     litmus_group_defs = build_group_defs("all", splitted)
-    return code_template % (extern_line, '\n'.join(litmus_group_defs))
+    return code_template.format(includes=' '.join(includes)) % (extern_line, '\n'.join(litmus_group_defs))
 
+def read_previous_includes(root):
+    try:
+        with open(root / 'test_list.txt', 'r') as f:
+            header = set(f.readline().strip().split())
+            for line in f:
+                NO_PRINT.add(line.strip())
+            return header
+    except FileNotFoundError:
+        sys.stderr.write('Warning: LITMUS_TESTS not set, populating with @all\n')
+        return {'@all'}
 
 if __name__ == "__main__":
-    includes = set(sys.argv[1:])
     root = pathlib.Path(__file__).parent
+
+    quiet = sys.argv[1]
+    quiet, _, _separator = quiet.partition('=')
+    if _separator:
+        separator = _separator
+    quiet = int(quiet)
+
+    includes = set(sys.argv[2:])
+    if includes == set():
+        includes = read_previous_includes(root)
+
     code = build_code(root / 'litmus_tests/', includes=includes)
-    with open(root / 'groups.c', 'w') as f:
-        f.write(code)
+
+    if UPDATED_FILES:
+        # only update groups.c if we actually changed the file
+        with open(root / 'groups.c', 'w') as f:
+            f.write(code)
+
+    with open(root / 'test_list.txt', 'w') as f:
+        f.write(' '.join(includes) + '\n')
+        f.write('\n'.join(TEST_FILES))
