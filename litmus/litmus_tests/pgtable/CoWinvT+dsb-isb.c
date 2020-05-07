@@ -30,8 +30,8 @@ static void P0(litmus_test_run* data) {
 }
 
 
-litmus_test_t CoWinvT = {
-  "CoWinvT",
+litmus_test_t CoWinvT_dsbisb = {
+  "CoWinvT+dsb-isb",
   1,(th_f*[]){
     (th_f*)P0
   },

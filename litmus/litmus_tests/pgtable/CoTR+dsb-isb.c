@@ -15,7 +15,6 @@ static void P0(litmus_test_run* data) {
   );
 }
 
-
 static void P1(litmus_test_run* data) {
   asm volatile (
     /* move from C vars into machine regs */

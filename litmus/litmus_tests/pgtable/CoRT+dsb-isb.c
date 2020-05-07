@@ -24,6 +24,8 @@ static void P1(litmus_test_run* data) {
 
     /* test payload */
     "ldr x0, [x1]\n\t"
+    "dsb sy\n\t"
+    "isb\n\t"
     "ldr x2, [x3]\n\t"
 
     /* save results */
@@ -38,8 +40,8 @@ static void P1(litmus_test_run* data) {
 }
 
 
-litmus_test_t CoRT = {
-  "CoRT",
+litmus_test_t CoRT_dsbisb = {
+  "CoRT+dsb-isb",
   2,(th_f*[]){
     (th_f*)P0,
     (th_f*)P1
