@@ -1,5 +1,7 @@
 # for test discovery
 LITMUS_TESTS = # which litmus tests to collect
+TEST_DISCOVER = 1 # set to 0 to disable auto-test discovery
+# if auto test discovery is disabled, then the author must manage groups.c manually.
 MAKE_TEST_LIST_CMD = python3 litmus/makegroups.py
 
 # Compiler and tools options
@@ -57,11 +59,22 @@ CFLAGS = -O0 -nostdlib \
 LDFLAGS = -nostdlib -n -pie
 SSHFLAGS =
 
-_updated_files := $(shell $(MAKE_TEST_LIST_CMD) $(quiet) $(LITMUS_TESTS))
-litmus_test_list := $(shell tail -n +2 litmus/test_list.txt)
+# can pass LITMUS_FILES manually to supply a space-separated list of all the .c files to compile and link in the litmus/ directory
+# otherwise the Makefile will try auto-discover the litmus/*.c files and the litmus/litmus_tests/ files
+#	(according to either the supplied LITMUS_TESTS or checking against previous runs)
+# or if TEST_DISCOVER=0  then just try compile *all* .c files inside litmus/ and litmus/litmus_tests/**/
+# (but the user has to manually edit groups.py so the harness itself knows about them)
+ifeq ($(strip $(TEST_DISCOVER)),1)
+   ifndef LITMUS_FILES
+      _ := $(shell $(MAKE_TEST_LIST_CMD) $(quiet) $(LITMUS_TESTS))
+   endif
+   litmus_test_list = $(shell tail -n +2 litmus/test_list.txt)
+   LITMUS_FILES ?= $(wildcard litmus/*.c) $(litmus_test_list)
+else
+   LITMUS_FILES ?= $(wildcard litmus/*.c) $(wildcard litmus/litmus_tests/**/*.c)
+endif
 
 LIB_FILES := $(foreach DIR,$(LIB_DIRS), $(wildcard $(DIR)/*.c))
-LITMUS_FILES := $(wildcard litmus/*.c) $(litmus_test_list)
 UNITTESTS_FILES := $(wildcard unittests/*.c) $(wildcard unittests/testlib/*.c) $(wildcard unittests/tests/**/*.c)
 
 TOP_ASM_FILES := $(wildcard *.S)

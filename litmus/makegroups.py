@@ -146,11 +146,7 @@ def read_previous_includes(root):
 if __name__ == "__main__":
     root = pathlib.Path(__file__).parent
 
-    quiet = sys.argv[1]
-    quiet, _, _separator = quiet.partition('=')
-    if _separator:
-        separator = _separator
-    quiet = int(quiet)
+    quiet = int(sys.argv[1])
 
     includes = set(sys.argv[2:])
     if includes == set():
