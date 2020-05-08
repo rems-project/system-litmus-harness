@@ -3,6 +3,10 @@
 #include "lib.h"
 
 static void P0(litmus_test_run* data) {
+  if (data->pte[0] == data->pte[1] || data->pte[0] == data->pte[2] || data->pte[1] == data->pte[2]) {
+    error("! P0 PAGE(x) == PAGE(y) == PAGE(z) !\n");
+    abort();
+  }
   asm volatile (
     "mov x0, #0\n\t"
     "mov x1, %[xpte]\n\t"
@@ -86,4 +90,5 @@ litmus_test_t BBM1_dsbisbtlbiisdsbisbdsbisb_dsbisb = {
     &(init_varstate_t){"z", TYPE_HEAP, 1},
   },
   .requires_pgtable=1,
+  .no_sc_results = 4,
 };

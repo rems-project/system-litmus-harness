@@ -27,22 +27,17 @@ static void P1(litmus_test_run* data) {
 }
 
 litmus_test_t MP_dmbs = {
-  .name="MP+dmbs",
-  .no_threads=2,
-  .threads=(th_f*[]){
+  "MP+dmbs",
+  2,(th_f*[]){
     (th_f*)P0,
     (th_f*)P1
   },
-
-  .no_heap_vars=2,
-  .heap_var_names=(const char*[]){"x", "y"},
-
-  .no_regs=2,
-  .reg_names=(const char*[]){"p1:x0", "p1:x2"},
-
+  2,(const char*[]){"x", "y"},
+  2,(const char*[]){"p1:x0", "p1:x2"},
   .interesting_result =
     (uint64_t[]){
       /* p1:x0 =*/ 1,
       /* p1:x2 =*/ 0,
-    },
+  },
+  .no_sc_results = 3,
 };

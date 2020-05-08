@@ -45,4 +45,5 @@ litmus_test_t CoWinvT_dsbisb = {
      (uint32_t*[]){(uint32_t*)sync_handler, NULL},
   },
   .requires_pgtable = 1,
+  .no_sc_results = 1,
 };

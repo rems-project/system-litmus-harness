@@ -85,4 +85,5 @@ litmus_test_t WRCtrtinv_dsbisbs = {
       /* p2:x2 =*/ 1,
     },
   .requires_pgtable=1,
+  .no_sc_results = 7,
 };

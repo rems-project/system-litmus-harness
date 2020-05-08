@@ -71,4 +71,5 @@ litmus_test_t WRCtrt1_dsbtlbiisdsb_dmb = {
       /* p2:x2 =*/ 0,
     },
   .requires_pgtable=1,
+  .no_sc_results = 7,
 };

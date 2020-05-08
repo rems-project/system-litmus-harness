@@ -47,4 +47,5 @@ litmus_test_t CoWTinv_dsbisb = {
     &(init_varstate_t){"x", TYPE_PTE, 0},
   },
   .requires_pgtable=1,
+  .no_sc_results = 1,
 };

@@ -82,4 +82,5 @@ litmus_test_t BBM1_dsbtlbiisdsbdsb_dsb = {
     &(init_varstate_t){"z", TYPE_HEAP, 1},
   },
   .requires_pgtable=1,
+  .no_sc_results = 4,
 };

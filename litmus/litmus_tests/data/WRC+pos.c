@@ -59,5 +59,6 @@ litmus_test_t WRC_pos = {
       /* p1:x0 =*/ 1,
       /* p2:x0 =*/ 1,
       /* p2:x2 =*/ 0,
-    },
+  },
+  .no_sc_results = 7,
 };

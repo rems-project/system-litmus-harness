@@ -70,4 +70,5 @@ litmus_test_t MPinvRT1_dsbtlbiisdsb_dsb = {
      (uint32_t*[]){(uint32_t*)sync_handler, (uint32_t*)sync_handler},
     },
   .requires_pgtable=1,
+  .no_sc_results = 3,
 };

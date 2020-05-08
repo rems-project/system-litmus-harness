@@ -49,5 +49,6 @@ litmus_test_t SB_dmbs = {
     (uint64_t[]){
       /* p1:x0 =*/ 0,
       /* p1:x2 =*/ 0,
-    },
+  },
+  .no_sc_results = 3,
 };

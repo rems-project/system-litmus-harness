@@ -83,4 +83,5 @@ litmus_test_t WRCtrtinv_po_addr = {
       /* p2:x2 =*/ 1,
     },
   .requires_pgtable=1,
+  .no_sc_results = 7,
 };

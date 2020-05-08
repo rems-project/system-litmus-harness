@@ -91,4 +91,5 @@ litmus_test_t WRCtrrinv_addrs = {
       /* p2:x2 =*/ 0,
     },
   .requires_pgtable=1,
+  .no_sc_results = 7,
 };

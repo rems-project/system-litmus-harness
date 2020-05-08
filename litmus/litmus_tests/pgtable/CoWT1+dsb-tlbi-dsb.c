@@ -42,4 +42,5 @@ litmus_test_t CoWT1_dsbtlbidsb = {
     &(init_varstate_t){"y", TYPE_HEAP, 1},
   },
   .requires_pgtable=1,
+  .no_sc_results = 1,
 };

@@ -58,4 +58,5 @@ litmus_test_t MPRT1_dsbtlbialldsb_dsbisb = {
     &(init_varstate_t){"z", TYPE_HEAP, 1},
   },
   .requires_pgtable=1,
+  .no_sc_results = 3,
 };
