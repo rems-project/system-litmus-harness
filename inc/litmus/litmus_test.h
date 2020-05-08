@@ -50,6 +50,8 @@ typedef struct {
   uint64_t* interesting_result;    /* interesting (relaxed) result to highlight */
   uint64_t no_interesting_results;
   uint64_t** interesting_results;  /* same as above, but plural */
+
+  uint64_t no_sc_results;  /* a count of SC results, used in sanity-checking output */
   th_f** setup_fns;
   th_f** teardown_fns;
 
@@ -67,6 +69,7 @@ typedef struct {
 
 /* test data */
 typedef struct {
+    uint64_t is_relaxed;
     uint64_t counter;
     uint64_t values[];
 } test_result_t;
@@ -114,7 +117,7 @@ void set_init_heap(test_ctx_t* ctx, const char* varname, uint64_t value);
 
 
 /* print the collected results out */
-void print_results(test_hist_t* results, test_ctx_t* ctx,uint64_t interesting_count, uint64_t** interesting_results);
+void print_results(test_hist_t* results, test_ctx_t* ctx);
 
 /* call at the start and end of each run  */
 void start_of_run(test_ctx_t* ctx, int thread, int i);

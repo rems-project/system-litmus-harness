@@ -37,5 +37,6 @@ litmus_test_t MP_pos = {
     (uint64_t[]){
       /* p1:x0 =*/ 1,
       /* p1:x2 =*/ 0,
-    },
+  },
+  .no_sc_results = 3,
 };
