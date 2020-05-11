@@ -20,7 +20,7 @@ static void P0(litmus_test_run* data) {
       "svc #0\n\t"
       :
       : [x1] "r" (data->var[0]), [x3] "r" (data->var[1])
-      :  "cc", "memory", "x0", "x2"
+      :  "cc", "memory", "x0", "x1", "x2", "x3"
   );
 }
 
