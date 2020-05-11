@@ -69,11 +69,12 @@ ifeq ($(strip $(TEST_DISCOVER)),1)
       _ := $(shell $(MAKE_TEST_LIST_CMD) $(quiet) $(LITMUS_TESTS))
    endif
    litmus_test_list = $(shell tail -n +2 litmus/test_list.txt)
-   LITMUS_FILES ?= $(wildcard litmus/*.c) $(litmus_test_list)
+   LITMUS_TEST_FILES ?= $(litmus_test_list)
 else
-   LITMUS_FILES ?= $(wildcard litmus/*.c) $(wildcard litmus/litmus_tests/**/*.c)
+   LITMUS_TEST_FILES ?= $(wildcard litmus/litmus_tests/**/*.c)
 endif
 
+LITMUS_FILES := $(wildcard litmus/*.c) $(LITMUS_TEST_FILES)
 LIB_FILES := $(foreach DIR,$(LIB_DIRS), $(wildcard $(DIR)/*.c))
 UNITTESTS_FILES := $(wildcard unittests/*.c) $(wildcard unittests/testlib/*.c) $(wildcard unittests/tests/**/*.c)
 
@@ -85,6 +86,8 @@ C_FILES := $(LIB_FILES) $(TOP_C_FILES)
 COMMON_BIN_FILES := $(addprefix bin/,$(C_FILES:.c=.o) $(ASM_FILES:.S=.o))
 litmus_BIN_FILES := $(addprefix bin/,$(LITMUS_FILES:.c=.o))
 unittests_BIN_FILES := $(addprefix bin/,$(UNITTESTS_FILES:.c=.o))
+
+LINTER = python3 litmus/litmus_linter.py
 
 # defines a helper run_cmd
 # this helper displays nice text and handles VERBOSE/quiet modes gracefully
@@ -116,6 +119,10 @@ endef
 .PHONY: all
 all: bin/host_litmus.exe bin/qemu_litmus.exe
 
+.PHONY: lint
+lint:
+	@python3 litmus/litmus_linter.py $(LITMUS_TEST_FILES)
+
 .PHONY: litmus_tests
 litmus_tests:
 	$(call run_cmd,make,Collecting new tests,\
@@ -135,6 +142,9 @@ bin/unittests/%.o: unittests/%.c
 
 bin/litmus/%.o: litmus/%.c
 	$(run_cc)
+ifeq ($(quiet),0)
+	@$(LINTER) $<
+endif
 
 # this is ugly, should use the same system as above ...
 # so we don't have to re-build main.o each time.
