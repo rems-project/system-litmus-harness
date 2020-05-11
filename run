@@ -1,1 +1,1 @@
-make run BIN_ARGS="$*"
+make run -s BIN_ARGS="$*"

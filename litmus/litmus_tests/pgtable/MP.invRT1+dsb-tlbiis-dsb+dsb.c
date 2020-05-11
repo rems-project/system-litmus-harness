@@ -12,10 +12,8 @@ static void P0(litmus_test_run* data) {
     /* test payload */
     "str x0,[x1]\n\t"
     "dsb sy\n\t"
-    "isb\n\t"
     "tlbi vae1is,x2\n\t"
     "dsb sy\n\t"
-    "isb\n\t"
     "str x3,[x4]\n\t"
   :
   : [xpte] "r" (data->pte[0]), [xpage] "r" (PAGE(data->var[0])), [y] "r" (data->var[1])
@@ -50,8 +48,8 @@ static void P1(litmus_test_run* data) {
   );
 }
 
-litmus_test_t MPinvRT1_dsbtlbiisdsb_dsbisb = {
-  "MP.invRT1+dsb-tlbiis-dsb+dsb-isb",
+litmus_test_t MPinvRT1_dsbtlbiisdsb_dsb = {
+  "MP.invRT1+dsb-tlbiis-dsb+dsb",
   2,(th_f*[]){
     (th_f*)P0,
     (th_f*)P1
