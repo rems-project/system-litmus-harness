@@ -163,6 +163,7 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
 
     uint32_t* old_sync_handler_el0 = NULL;
     uint32_t* old_sync_handler_el1 = NULL;
+    uint32_t* old_sync_handler_el1_spx = NULL;
 
     litmus_test_run run = {
       .ctx = ctx,
@@ -180,9 +181,11 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
 
     if (ctx->cfg->thread_sync_handlers) {
       if (ctx->cfg->thread_sync_handlers[cpu][0] != NULL)
-        old_sync_handler_el0 = hotswap_exception(0x400, (uint32_t*)ctx->cfg->thread_sync_handlers[cpu][0]);
-      if (ctx->cfg->thread_sync_handlers[cpu][1] != NULL)
-        old_sync_handler_el1 = hotswap_exception(0x000, (uint32_t*)ctx->cfg->thread_sync_handlers[cpu][1]);
+        old_sync_handler_el0     = hotswap_exception(0x400, (uint32_t*)ctx->cfg->thread_sync_handlers[cpu][0]);
+      if (ctx->cfg->thread_sync_handlers[cpu][1] != NULL) {
+        old_sync_handler_el1     = hotswap_exception(0x000, (uint32_t*)ctx->cfg->thread_sync_handlers[cpu][1]);
+        old_sync_handler_el1_spx = hotswap_exception(0x200, (uint32_t*)ctx->cfg->thread_sync_handlers[cpu][1]);
+      }
     }
 
     /* this barrier must be last thing before running function */
@@ -191,8 +194,10 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     if (ctx->cfg->thread_sync_handlers) {
       if (old_sync_handler_el0 != NULL)
         restore_hotswapped_exception(0x400, old_sync_handler_el0);
-      if (old_sync_handler_el1 != NULL)
+      if (old_sync_handler_el1 != NULL) {
         restore_hotswapped_exception(0x000, old_sync_handler_el1);
+        restore_hotswapped_exception(0x200, old_sync_handler_el1_spx);
+      }
     }
 
     if (post != NULL)
