@@ -27,8 +27,8 @@ static void P1(litmus_test_run* data) {
       "mov x3, %[x3]\n\t"
       "ldr x0, [x1]\n\t"
       /* x3 = X */
-      "ldr x2, [x3]\n\t"
       "svc #0\n\t"
+      "ldr x2, [x3]\n\t"
       /* extract values */
       "str x0, [%[x0]]\n\t"
       "str x2, [%[x2]]\n\t"
