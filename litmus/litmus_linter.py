@@ -26,7 +26,7 @@ LITMUS_TEST_T_PAT = (
 
 ASM_BLOCK_PAT = (
     r"asm\s*(volatile)?\s*\("
-    r"\s*(?P<code>[^\)]+)"
+    r"\s*(?P<code>([^\(]+?.+\)?)*?)"
     r"(\s*:(?P<outreg>[\s\S]+?)"
     r"\s*:(?P<inreg>[\s\S]+?)"
     r"\s*:(?P<clobber>[\s\S]+?))?"
@@ -117,7 +117,9 @@ def check_thread_count(l):
 def check_clobber_registers(l):
     (count, threads) = l['threads']
     for i, thr, (el0, el1) in threads:
-        regs = get_reg_names(thr) + get_reg_names(l['handlers'][el0]) + get_reg_names(l['handlers'][el1])
+        el0_asm = l['handlers'][el0]
+        el1_asm = l['handlers'][el1]
+        regs = get_reg_names(thr) + get_reg_names(el0_asm) + get_reg_names(el1_asm)
         for r in regs:
             if thr['clobber'] and r not in thr['clobber']:
                 warn(l, 'clobber missing register {r} in Thread {i}'.format(r=r, i=i))
@@ -126,10 +128,19 @@ def check_clobber_registers(l):
 def check_register_use(l):
     (count, threads) = l['threads']
     for i, thr, (el0, el1) in threads:
-        regs = get_reg_names(thr) + get_reg_names(l['handlers'][el0]) + get_reg_names(l['handlers'][el1])
+        el0_asm = l['handlers'][el0]
+        el1_asm = l['handlers'][el1]
+        regs = get_reg_names(thr) + get_reg_names(el0_asm) + get_reg_names(el1_asm)
+
+        # ERET_TO_NEXT(xN)  then xN appears once but is not 'unused'
+        el0_ret_reg = re.search(r'ERET_TO_NEXT\((.+)\)', el0_asm['code']) if el0_asm else None
+        el1_ret_reg = re.search(r'ERET_TO_NEXT\((.+)\)', el1_asm['code']) if el1_asm else None
         counts = collections.Counter(regs)
         for r, c in counts.items():
             if c < 2:
+                if (el0_ret_reg and r == el0_ret_reg.group(1)
+                        or el1_ret_reg and r == el1_ret_reg.group(1)):
+                    continue
                 warn(l, 'register {r} in Thread {i} appears to be unused'.format(r=r, i=i))
 
 

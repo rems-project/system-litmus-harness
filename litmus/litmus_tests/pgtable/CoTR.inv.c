@@ -28,7 +28,6 @@ static void P1(litmus_test_run* data) {
     /* move from C vars into machine regs */
     "mov x1, %[x]\n\t"
     "mov x3, %[xpte]\n\t"
-    "mov x4, %[ydesc]\n\t"
     /* test payload */
     "ldr x0, [x1]\n\t"
     "ldr x2, [x3]\n\t"
@@ -54,14 +53,13 @@ litmus_test_t CoTRinv = {
   2,(const char*[]){"x", "y"},
   2,(const char*[]){"p1:x0","p1:x2"},
   .interesting_result = (uint64_t[]){
-      /* p0:x0 =*/1,
-      /* p0:x2 =*/0,
+    /* p0:x0 =*/1,
+    /* p0:x2 =*/0,
   },
-  .thread_sync_handlers =
-    (uint32_t**[]){
-     (uint32_t*[]){NULL, NULL},
-     (uint32_t*[]){(uint32_t*)sync_handler, NULL},
-    },
+  .thread_sync_handlers = (uint32_t**[]){
+    (uint32_t*[]){NULL, NULL},
+    (uint32_t*[]){(uint32_t*)sync_handler, NULL},
+  },
   .no_init_states=2,
   .init_states=(init_varstate_t*[]){
     &(init_varstate_t){"y", TYPE_HEAP, 1},

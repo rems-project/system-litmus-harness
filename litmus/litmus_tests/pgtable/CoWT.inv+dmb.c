@@ -17,6 +17,7 @@ static void P0(litmus_test_run* data) {
 
       /* test */
       "str x0, [x1]\n\t"
+      "dmb sy\n\t"
       "ldr x2, [x3]\n\t"
 
       /* output */
@@ -27,8 +28,8 @@ static void P0(litmus_test_run* data) {
   );
 }
 
-litmus_test_t CoWTinv = {
-  "CoWT.inv",
+litmus_test_t CoWTinv_dmb = {
+  "CoWT.inv+dmb",
   1,(th_f*[]){
     (th_f*)P0
   },

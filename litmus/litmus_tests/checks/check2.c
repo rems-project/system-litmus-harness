@@ -16,11 +16,13 @@ static void P0(litmus_test_run* data) {
 }
 
 static void P1(litmus_test_run* data) {
+  uint64_t _x0, _x2;
+
   asm volatile (
     "mov x10, %[exc_out]\n\t"
-    "ldr x0, [%[x1]]\n\t"
-    "ldr x2, [%[x3]]\n\t"
-  :
+    "ldr %[x0], [%[x1]]\n\t"
+    "ldr %[x2], [%[x3]]\n\t"
+  : [x0] "=&r" (_x0), [x2] "=&r" (_x2)
   : [x1] "r" (data->var[1]), [x3] "r" (data->var[0]), [exc_out] "r" (data->out_reg[0])
   : "cc", "memory", "x0", "x2", "x10", "x11"
   );

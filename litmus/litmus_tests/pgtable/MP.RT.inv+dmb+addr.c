@@ -22,15 +22,16 @@ static void P1(litmus_test_run* data) {
   asm volatile (
     "mov x1, %[y]\n\t"
     "mov x3, %[x]\n\t"
-    "mov x10, #1\n\t"
-    "mov x11, %[outp1r2]\n\t"
+
     /* test */
     "ldr x0, [x1]\n\t"
     "eor x4, x0, x0\n\t"
     "add x4, x4, x3\n\t"
     "ldr x2, [x4]\n\t"
+
     /* collect */
     "str x0, [%[outp1r0]]\n\t"
+    "str x2, [%[outp1r2]]\n\t"
   :
   : [x] "r" (data->var[0]), [y] "r" (data->var[1]), [outp1r0] "r" (data->out_reg[0]), [outp1r2] "r" (data->out_reg[1])
   : "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x10", "x11"
@@ -39,7 +40,7 @@ static void P1(litmus_test_run* data) {
 
 static void sync_handler(void) {
   asm volatile (
-    "str x10, [x11]\n\t"
+    "mov x2, #1\n\t"
 
     ERET_TO_NEXT(x10)
   );
