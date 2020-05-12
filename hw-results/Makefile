@@ -1,13 +1,23 @@
+INCLUDES =
+EXCLUDES =
+
+comma = ,
+spcae = " "
+include_args = $(subst $(space),$(comma),$(INCLUDES))
+exclude_args = $(subst $(space),$(comma),$(EXCLUDES))
+TABULAR_ARGS = -d rpi4b/ -d qemu/ $(if $(INCLUDES),--includes=$(include_args)) $(if $(EXCLUDES),--excludes=$(exclude_args))
+
 .PHONY: all
 all:  fetchrpi tabular top.pdf install clean
 
 .PHONY: fetchrpi
 fetchrpi:
-	scp 'rpi:overnights/2020-overnight-*.log' rpi4b/
+	scp 'rpi4:overnights/*.log' rpi4b/
 
 .PHONY: tabular
 tabular:
-	python3 tabular.py -d rpi4b/ -d qemu/ --standalone
+	python3 tabular.py $(TABULAR_ARGS)
+	python3 tabular.py $(TABULAR_ARGS) --standalone
 
 .PHONY: top.pdf
 top.pdf:
@@ -20,7 +30,6 @@ install:
 
 .PHONY: clean
 clean:
-	rm -f results-*.tex
 	rm -f top.tex
 	rm -f top.aux
 	rm -f top.log

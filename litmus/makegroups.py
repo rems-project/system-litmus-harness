@@ -1,10 +1,14 @@
 import re
 import sys
 import pathlib
+import collections
 
 TEST_FILES = []
 UPDATED_FILES = []
 NO_PRINT = set()
+
+Group = collections.namedtuple('Group', ['name', 'tests'])
+Test = collections.namedtuple('Test', ['ident', 'name'])
 
 def matches(name, includes):
     return name in includes or '@all' in includes
@@ -33,7 +37,7 @@ def find_tests_in_file(path, includes):
                     continue
 
                 matched = True
-                yield cname.strip()
+                yield Test(cname.strip(), testname)
                 break  # assume 1 per file
 
     if matched:
@@ -48,7 +52,7 @@ def get_tests(d, includes):
         if f.is_dir():
             subtests = list(get_tests(f, ['@all'] if matches('@'+f.name, includes) else includes))
             if subtests:
-                yield (f.name, subtests)
+                yield Group(f.name, subtests)
         elif f.suffix == '.c':
             yield from find_tests_in_file(f, includes)
 
@@ -58,10 +62,9 @@ def split_tests(tests_and_groups):
     groups = {}
 
     for t in tests_and_groups:
-        if isinstance(t, tuple):
-            (grp_name, sub_tests_and_groups) = t
-            groups[grp_name] = split_tests(sub_tests_and_groups)
-        else:
+        if isinstance(t, Group):
+            groups[t.name] = split_tests(t.tests)
+        elif isinstance(t, Test):
             tests.append(t)
 
     return (tests, groups)
@@ -86,24 +89,32 @@ def build_group_defs(name, split_groups):
     for grp_name, split_sub_group in subgroups.items():
         yield from build_group_defs(grp_name, split_sub_group)
 
-    test_refs = sorted('&{}'.format(tname) for tname in tests)
+    test_refs = sorted('&{}'.format(t.ident) for t in tests)
     grp_refs = sorted('&grp_{}'.format(gname) for gname in subgroups)
     test_refs.append('NULL')
     grp_refs.append('NULL')
     yield group_template % (name, name, ',\n    '.join(test_refs), ',\n    '.join(grp_refs))
 
 
-def all_tests(split_groups):
+def all_tests(split_groups, grp_so_far=()):
     (tests, sub) = split_groups
-    yield from tests
-    for grp in sub.values():
-        yield from all_tests(grp)
+
+    for test in tests:
+        yield (test, grp_so_far)
+
+    for grp_name, grp in sub.items():
+        yield from all_tests(grp, grp_so_far+(grp_name,))
 
 
 def build_externs(split_groups):
-    all = sorted(all_tests(split_groups))
+    all = sorted(t.ident for (t, _) in all_tests(split_groups))
     externs = ',\n  '.join(all)
     return 'extern litmus_test_t\n  {};'.format(externs)
+
+
+def build_test_grp_list(split_groups):
+    all = sorted(all_tests(split_groups), key=lambda t: (t[1], t[0]))
+    return '\n'.join('{} @all @{}'.format(t.name, ' @'.join(grps)) for (t, grps) in all)
 
 
 code_template="""\
@@ -125,9 +136,7 @@ code_template="""\
 """
 
 
-def build_code(root_dir, includes=['@all']):
-    tests = get_tests(root_dir, includes)
-    splitted = split_tests(tests)
+def build_code(splitted, includes=['@all']):
     extern_line = build_externs(splitted)
     litmus_group_defs = build_group_defs("all", splitted)
     return code_template.format(includes=' '.join(includes)) % (extern_line, '\n'.join(litmus_group_defs))
@@ -152,7 +161,9 @@ if __name__ == "__main__":
     if includes == set():
         includes = read_previous_includes(root)
 
-    code = build_code(root / 'litmus_tests/', includes=includes)
+    tests = get_tests(root / 'litmus_tests/', includes)
+    splitted = split_tests(tests)
+    code = build_code(splitted, includes=includes)
 
     if UPDATED_FILES:
         # only update groups.c if we actually changed the file
@@ -162,3 +173,6 @@ if __name__ == "__main__":
     with open(root / 'test_list.txt', 'w') as f:
         f.write(' '.join(includes) + '\n')
         f.write('\n'.join(TEST_FILES))
+
+    with open(root / 'group_list.txt', 'w') as f:
+        f.write(build_test_grp_list(splitted))
