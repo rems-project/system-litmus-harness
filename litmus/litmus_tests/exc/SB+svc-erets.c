@@ -44,7 +44,7 @@ static void P1(litmus_test_run* data) {
     /* extract values */
     "str x2, [%[outp1r2]]\n\t"
   :
-  : [y] "r" (data->var[1]), [x] "r" (data->var[1]), [outp1r2] "r" (data->out_reg[1])
+  : [y] "r" (data->var[1]), [x] "r" (data->var[0]), [outp1r2] "r" (data->out_reg[1])
   :  "cc", "memory", "x0", "x1", "x2", "x3"
   );
 }
@@ -66,4 +66,5 @@ litmus_test_t SB_svcerets = {
       /* p0:x2 =*/0,
       /* p1:x2 =*/0,
   },
+  .no_sc_results=3,
 };
