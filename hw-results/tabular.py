@@ -94,6 +94,7 @@ def write_one_table(grp_list, f, device, results, running, includes=[], excludes
             or (any(g in excludes for g in groups))
             or (test_name not in results)
         ):
+            print('Skip ! {}: {}'.format(device, test_name))
             continue
 
         total_observations, total_runs = results[test_name]
@@ -143,11 +144,11 @@ if __name__ == "__main__":
     elif args.file:
         devices["all"] = collect_all(args.file)
 
-    with open(root.parent / "litmus" / "group_list.txt", "r") as f:
+    with open(root.parent / "litmus" / "test_list.txt", "r") as f:
         group_list = []
         for line in f:
-            name, _, grps = line.partition(" ")
-            group_list.append((name, grps.split()))
+            include, file_path, last_modified_timestamp, test_ident, test_name, *groups = line.split()
+            group_list.append((test_name, groups))
 
     if args.standalone:
         with open(args.standalone_file, "w") as f:

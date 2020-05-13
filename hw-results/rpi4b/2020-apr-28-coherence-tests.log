@@ -4,7 +4,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.LFTGz20f4a
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.LFTGz20f4a -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.LFTGz20f4a -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -21,11 +21,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 219759
  p1:x0=0  p1:x2=0  : 34177
  p1:x0=0  p1:x2=1  : 246064
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -51,7 +51,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.RMDsebFGdj
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.RMDsebFGdj -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.RMDsebFGdj -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -68,11 +68,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 33142
  p1:x0=0  p1:x2=1  : 243114
  p1:x0=1  p1:x2=1  : 223744
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -98,7 +98,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.8s8NtUD7vi
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.8s8NtUD7vi -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.8s8NtUD7vi -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -115,11 +115,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 222315
  p1:x0=0  p1:x2=0  : 40549
  p1:x0=0  p1:x2=1  : 237136
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -145,7 +145,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.K4QZSYQsZ9
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.K4QZSYQsZ9 -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.K4QZSYQsZ9 -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -162,11 +162,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 31597
  p1:x0=1  p1:x2=1  : 224225
  p1:x0=0  p1:x2=1  : 244178
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -192,7 +192,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.MthIuWdVMc
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.MthIuWdVMc -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.MthIuWdVMc -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -209,11 +209,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 248814
  p1:x0=1  p1:x2=1  : 221435
  p1:x0=0  p1:x2=0  : 29751
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -239,7 +239,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.5bWPAH1XVi
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.5bWPAH1XVi -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.5bWPAH1XVi -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -256,12 +256,12 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 24547
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=1  p1:x2=1  : 217168
  p1:x0=0  p1:x2=1  : 258284
-Observation CoTR1+dsb-tlbi-dsb-isb: 1 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -287,7 +287,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.y9b3Ib7rTM
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.y9b3Ib7rTM -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.y9b3Ib7rTM -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -304,11 +304,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 222012
  p1:x0=0  p1:x2=1  : 254145
  p1:x0=0  p1:x2=0  : 23843
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -334,7 +334,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.24PXthTaRr
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.24PXthTaRr -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.24PXthTaRr -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -351,11 +351,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 221220
  p1:x0=0  p1:x2=1  : 255746
  p1:x0=0  p1:x2=0  : 23034
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -381,7 +381,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.qhdxnFRDl5
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.qhdxnFRDl5 -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.qhdxnFRDl5 -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -398,11 +398,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 257029
  p1:x0=1  p1:x2=1  : 219948
  p1:x0=0  p1:x2=0  : 23023
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -428,7 +428,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.Ya7t1RbMsR
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.Ya7t1RbMsR -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.Ya7t1RbMsR -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -446,11 +446,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 24302
  p1:x0=0  p1:x2=1  : 260313
  p1:x0=1  p1:x2=1  : 215385
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -476,7 +476,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.R2IzpkoMBQ
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.R2IzpkoMBQ -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.R2IzpkoMBQ -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -493,11 +493,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 219040
  p1:x0=0  p1:x2=0  : 23368
  p1:x0=0  p1:x2=1  : 257592
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -523,7 +523,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.kis6q7yHTu
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.kis6q7yHTu -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.kis6q7yHTu -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -540,11 +540,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 24666
  p1:x0=1  p1:x2=1  : 212689
  p1:x0=0  p1:x2=1  : 262645
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -570,7 +570,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.wt3wLxuFzB
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.wt3wLxuFzB -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.wt3wLxuFzB -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -587,11 +587,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 218196
  p1:x0=0  p1:x2=0  : 20483
  p1:x0=0  p1:x2=1  : 261321
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -617,7 +617,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.9UUduiQCab
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.9UUduiQCab -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.9UUduiQCab -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -634,11 +634,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 273099
  p1:x0=0  p1:x2=0  : 4010
  p1:x0=1  p1:x2=1  : 222891
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -664,7 +664,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.eZlwjen3ix
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.eZlwjen3ix -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.eZlwjen3ix -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -682,12 +682,12 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 213526
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=0  p1:x2=1  : 279708
  p1:x0=0  p1:x2=0  : 6765
-Observation CoTR1+dsb-tlbi-dsb-isb: 1 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -714,7 +714,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.qzJEFawG5X
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.qzJEFawG5X -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.qzJEFawG5X -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -731,11 +731,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 218574
  p1:x0=0  p1:x2=0  : 7588
  p1:x0=0  p1:x2=1  : 273838
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -761,7 +761,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.Dq5YVVwv0p
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.Dq5YVVwv0p -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.Dq5YVVwv0p -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -778,11 +778,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 267347
  p1:x0=0  p1:x2=0  : 4579
  p1:x0=1  p1:x2=1  : 228074
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -809,7 +809,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.VnSFNyPuW3
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.VnSFNyPuW3 -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.VnSFNyPuW3 -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -826,12 +826,12 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=0  p1:x2=1  : 273685
  p1:x0=1  p1:x2=1  : 220535
  p1:x0=0  p1:x2=0  : 5779
-Observation CoTR1+dsb-tlbi-dsb-isb: 1 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -858,7 +858,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.uJZYgCgXgo
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.uJZYgCgXgo -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.uJZYgCgXgo -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -875,11 +875,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 222131
  p1:x0=0  p1:x2=0  : 6443
  p1:x0=0  p1:x2=1  : 271426
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -906,7 +906,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.e9IR0NRyhX
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.e9IR0NRyhX -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.e9IR0NRyhX -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -923,11 +923,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 216592
  p1:x0=0  p1:x2=1  : 277441
  p1:x0=0  p1:x2=0  : 5967
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -953,7 +953,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.Ygb2CCup4p
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.Ygb2CCup4p -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.Ygb2CCup4p -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -971,11 +971,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 266704
  p1:x0=0  p1:x2=0  : 4421
  p1:x0=1  p1:x2=1  : 228875
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -1001,7 +1001,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.UZJHIPMUxQ
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.UZJHIPMUxQ -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.UZJHIPMUxQ -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -1018,11 +1018,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 269992
  p1:x0=0  p1:x2=0  : 5020
  p1:x0=1  p1:x2=1  : 224988
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -1048,7 +1048,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.2iSF0LqMQn
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.2iSF0LqMQn -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.2iSF0LqMQn -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -1065,12 +1065,12 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=0  p1:x2=0  : 5540
  p1:x0=0  p1:x2=1  : 272900
  p1:x0=1  p1:x2=1  : 221559
-Observation CoTR1+dsb-tlbi-dsb-isb: 1 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -1096,7 +1096,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.xC2XmwsxAo
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.xC2XmwsxAo -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.xC2XmwsxAo -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -1113,11 +1113,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 5352
  p1:x0=1  p1:x2=1  : 230644
  p1:x0=0  p1:x2=1  : 264004
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -1143,7 +1143,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.TikPWMCQtt
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.TikPWMCQtt -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.TikPWMCQtt -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -1161,12 +1161,12 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 269001
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=0  p1:x2=0  : 5969
  p1:x0=1  p1:x2=1  : 225029
-Observation CoTR1+dsb-tlbi-dsb-isb: 1 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -1192,7 +1192,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.t12DkYk2RB
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.t12DkYk2RB -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.t12DkYk2RB -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -1210,11 +1210,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 276801
  p1:x0=1  p1:x2=1  : 215902
  p1:x0=0  p1:x2=0  : 7297
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -1240,7 +1240,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.F2F8EJoIgF
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.F2F8EJoIgF -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.F2F8EJoIgF -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -1257,11 +1257,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 217754
  p1:x0=0  p1:x2=1  : 275810
  p1:x0=0  p1:x2=0  : 6436
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -1287,7 +1287,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.P55L1MGotR
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.P55L1MGotR -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.P55L1MGotR -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -1304,11 +1304,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 285871
  p1:x0=1  p1:x2=1  : 207735
  p1:x0=0  p1:x2=0  : 6394
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -1334,7 +1334,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.V0pAKpgQ4M
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.V0pAKpgQ4M -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.V0pAKpgQ4M -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -1351,11 +1351,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 209301
  p1:x0=0  p1:x2=0  : 7255
  p1:x0=0  p1:x2=1  : 283444
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -1381,7 +1381,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.geERbtR2jQ
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.geERbtR2jQ -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.geERbtR2jQ -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -1398,11 +1398,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 259163
  p1:x0=1  p1:x2=1  : 236946
  p1:x0=0  p1:x2=0  : 3891
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -1428,7 +1428,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.71CKDHOxva
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.71CKDHOxva -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.71CKDHOxva -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -1445,11 +1445,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 202424
  p1:x0=0  p1:x2=1  : 290244
  p1:x0=0  p1:x2=0  : 7332
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -1475,7 +1475,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.N8toqR746u
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.N8toqR746u -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.N8toqR746u -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -1492,11 +1492,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 207113
  p1:x0=0  p1:x2=1  : 289158
  p1:x0=0  p1:x2=0  : 3729
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -1522,7 +1522,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.7wUsMDqZBk
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.7wUsMDqZBk -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.7wUsMDqZBk -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -1539,11 +1539,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 256538
  p1:x0=1  p1:x2=1  : 238095
  p1:x0=0  p1:x2=0  : 5367
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -1569,7 +1569,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.aDwD4SmdvJ
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.aDwD4SmdvJ -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.aDwD4SmdvJ -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -1586,11 +1586,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 6366
  p1:x0=1  p1:x2=1  : 236922
  p1:x0=0  p1:x2=1  : 256712
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -1616,7 +1616,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.mnsbJy074x
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.mnsbJy074x -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.mnsbJy074x -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -1633,11 +1633,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 4585
  p1:x0=1  p1:x2=1  : 207132
  p1:x0=0  p1:x2=1  : 288283
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -1663,7 +1663,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.qNxTZDE0Hr
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.qNxTZDE0Hr -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.qNxTZDE0Hr -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -1680,11 +1680,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 193661
  p1:x0=0  p1:x2=0  : 4672
  p1:x0=0  p1:x2=1  : 301667
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -1710,7 +1710,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.2uIL8vULIg
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.2uIL8vULIg -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.2uIL8vULIg -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -1728,11 +1728,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 284054
  p1:x0=0  p1:x2=0  : 3157
  p1:x0=1  p1:x2=1  : 212789
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -1759,7 +1759,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.mpLWyLDaGN
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.mpLWyLDaGN -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.mpLWyLDaGN -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -1777,12 +1777,12 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 214068
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=0  p1:x2=1  : 280183
  p1:x0=0  p1:x2=0  : 5748
-Observation CoTR1+dsb-tlbi-dsb-isb: 1 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -1809,7 +1809,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.zsyAog4U30
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.zsyAog4U30 -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.zsyAog4U30 -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -1827,12 +1827,12 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=0  p1:x2=1  : 289129
  p1:x0=1  p1:x2=1  : 205272
  p1:x0=0  p1:x2=0  : 5598
-Observation CoTR1+dsb-tlbi-dsb-isb: 1 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -1859,7 +1859,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.7kHrnrJRtz
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.7kHrnrJRtz -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.7kHrnrJRtz -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -1877,11 +1877,11 @@ Test CoTR.inv+dsb-isb:
 Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 288816
  p1:x0=0  p1:x2=0  : 6250
  p1:x0=1  p1:x2=1  : 204934
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -1907,7 +1907,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.d3Pq3xqYRh
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.d3Pq3xqYRh -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.d3Pq3xqYRh -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -1931,7 +1931,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.k38XriCiRw
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.k38XriCiRw -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.k38XriCiRw -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -1955,7 +1955,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.vpE54o3Y2u
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.vpE54o3Y2u -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.vpE54o3Y2u -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -1985,7 +1985,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.OGFpf7qgMk
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.OGFpf7qgMk -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.OGFpf7qgMk -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -2009,7 +2009,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.M1t5mNTg1m
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.M1t5mNTg1m -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.M1t5mNTg1m -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -2033,7 +2033,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.vMEvze44b4
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.vMEvze44b4 -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.vMEvze44b4 -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -2057,7 +2057,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.tINSHl3T52
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.tINSHl3T52 -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.tINSHl3T52 -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -2081,7 +2081,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.iCEvmFw6NQ
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.iCEvmFw6NQ -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.iCEvmFw6NQ -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -2105,7 +2105,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.ryZNL7VBPn
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.ryZNL7VBPn -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.ryZNL7VBPn -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -2129,7 +2129,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.CWvDeq8u3k
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.CWvDeq8u3k -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.CWvDeq8u3k -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -2153,7 +2153,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.mO0n4RrZdq
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.mO0n4RrZdq -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.mO0n4RrZdq -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -2177,7 +2177,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.g67EkqaBKi
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.g67EkqaBKi -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.g67EkqaBKi -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -2201,7 +2201,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.ucBbxCSqgQ
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.ucBbxCSqgQ -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.ucBbxCSqgQ -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -2225,7 +2225,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.9TCBVTVcgx
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.9TCBVTVcgx -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.9TCBVTVcgx -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -2250,7 +2250,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.IE8XMcYBh1
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.IE8XMcYBh1 -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.IE8XMcYBh1 -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -2274,7 +2274,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.vU68hZpgHu
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.vU68hZpgHu -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.vU68hZpgHu -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -2298,7 +2298,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.qv3gu2lcAl
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.qv3gu2lcAl -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.qv3gu2lcAl -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -2322,7 +2322,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.rYMmrw44fL
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.rYMmrw44fL -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.rYMmrw44fL -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -2346,7 +2346,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.7foLqlBSuM
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.7foLqlBSuM -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.7foLqlBSuM -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -2370,7 +2370,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.AFOwt2i8rA
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.AFOwt2i8rA -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.AFOwt2i8rA -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -2394,7 +2394,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.XCaNf9awVs
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.XCaNf9awVs -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.XCaNf9awVs -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -2418,7 +2418,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.Mp1g4N4gao
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.Mp1g4N4gao -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.Mp1g4N4gao -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -2442,7 +2442,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.NmladwrW8M
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.NmladwrW8M -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.NmladwrW8M -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -2466,7 +2466,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.jBrfuy0ud2
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.jBrfuy0ud2 -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.jBrfuy0ud2 -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -2490,7 +2490,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.DNequnBLUH
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.DNequnBLUH -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.DNequnBLUH -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -2514,7 +2514,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.LdXf5q0Obh
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.LdXf5q0Obh -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.LdXf5q0Obh -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -2538,7 +2538,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.YUUwiuAn3f
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.YUUwiuAn3f -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.YUUwiuAn3f -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -2562,7 +2562,7 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.vzagBaf6Th
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.vzagBaf6Th -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.vzagBaf6Th -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
@@ -2586,6 +2586,6 @@ Starting bin/litmus.exe
 ++ tmp=/tmp/tmp.BJi12MrbHj
 ++ base64 -d
 ++ zcat
-++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.BJi12MrbHj -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.BJi12MrbHj -smp 4 -append '-p -n500000 CoTR+dsb-isb CoTR.inv+dsb-isb CoTR1.broken+dsb-tlbi-dsb-isb CoTR1+dsb-dc-dsb-tlbi-dsb-isb CoWT.inv+dsb-isb CoWT+dsb-isb'
 P0			P1			P2			P3			
 qemu-system-aarch64: terminating on signal 15 from pid 19895 (killall)

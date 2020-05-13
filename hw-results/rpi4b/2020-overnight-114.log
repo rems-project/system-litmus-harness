@@ -323,7 +323,7 @@ Test WRC.TRT.inv+dsb-isbs:
 Observation WRC.TRT.inv+dsb-isbs: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test WRC.TRT1+dsb-tlbiis-dsb+dmb:
+Test WRC.TRT1.broken+dsb-tlbiis-dsb+dmb:
  p1:x0=0  p2:x0=1  p2:x2=1  : 3638
  p1:x0=0  p2:x0=0  p2:x2=0  : 175960
  p1:x0=1  p2:x0=0  p2:x2=1  : 73641
@@ -331,7 +331,7 @@ Test WRC.TRT1+dsb-tlbiis-dsb+dmb:
  p1:x0=0  p2:x0=0  p2:x2=1  : 121397
  p1:x0=1  p2:x0=1  p2:x2=1  : 2785
  p1:x0=0  p2:x0=1  p2:x2=0  : 47
-Observation WRC.TRT1+dsb-tlbiis-dsb+dmb: 0 (of 500000)
+Observation WRC.TRT1.broken+dsb-tlbiis-dsb+dmb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+po+dmb:
@@ -691,7 +691,7 @@ Test WRC.TRT.inv+dsb-isbs:
 Observation WRC.TRT.inv+dsb-isbs: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test WRC.TRT1+dsb-tlbiis-dsb+dmb:
+Test WRC.TRT1.broken+dsb-tlbiis-dsb+dmb:
  p1:x0=0  p2:x0=0  p2:x2=1  : 92818
  p1:x0=1  p2:x0=0  p2:x2=0  : 140536
  p1:x0=0  p2:x0=0  p2:x2=0  : 207900
@@ -699,7 +699,7 @@ Test WRC.TRT1+dsb-tlbiis-dsb+dmb:
  p1:x0=0  p2:x0=1  p2:x2=1  : 3455
  p1:x0=1  p2:x0=1  p2:x2=1  : 2659
  p1:x0=0  p2:x0=1  p2:x2=0  : 33
-Observation WRC.TRT1+dsb-tlbiis-dsb+dmb: 0 (of 500000)
+Observation WRC.TRT1.broken+dsb-tlbiis-dsb+dmb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+po+dmb:
@@ -1060,7 +1060,7 @@ Test WRC.TRT.inv+dsb-isbs:
 Observation WRC.TRT.inv+dsb-isbs: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test WRC.TRT1+dsb-tlbiis-dsb+dmb:
+Test WRC.TRT1.broken+dsb-tlbiis-dsb+dmb:
  p1:x0=1  p2:x0=0  p2:x2=0  : 133604
  p1:x0=0  p2:x0=0  p2:x2=0  : 213560
  p1:x0=0  p2:x0=0  p2:x2=1  : 97204
@@ -1068,7 +1068,7 @@ Test WRC.TRT1+dsb-tlbiis-dsb+dmb:
  p1:x0=1  p2:x0=1  p2:x2=1  : 2597
  p1:x0=0  p2:x0=1  p2:x2=1  : 3521
  p1:x0=0  p2:x0=1  p2:x2=0  : 38
-Observation WRC.TRT1+dsb-tlbiis-dsb+dmb: 0 (of 500000)
+Observation WRC.TRT1.broken+dsb-tlbiis-dsb+dmb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+po+dmb:
@@ -1428,7 +1428,7 @@ Test WRC.TRT.inv+dsb-isbs:
 Observation WRC.TRT.inv+dsb-isbs: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test WRC.TRT1+dsb-tlbiis-dsb+dmb:
+Test WRC.TRT1.broken+dsb-tlbiis-dsb+dmb:
  p1:x0=1  p2:x0=0  p2:x2=0  : 134868
  p1:x0=0  p2:x0=0  p2:x2=0  : 214854
  p1:x0=1  p2:x0=1  p2:x2=1  : 2226
@@ -1436,7 +1436,7 @@ Test WRC.TRT1+dsb-tlbiis-dsb+dmb:
  p1:x0=0  p2:x0=0  p2:x2=1  : 96396
  p1:x0=0  p2:x0=1  p2:x2=1  : 2835
  p1:x0=0  p2:x0=1  p2:x2=0  : 49
-Observation WRC.TRT1+dsb-tlbiis-dsb+dmb: 0 (of 500000)
+Observation WRC.TRT1.broken+dsb-tlbiis-dsb+dmb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+po+dmb:
@@ -1794,7 +1794,7 @@ Test WRC.TRT.inv+dsb-isbs:
 Observation WRC.TRT.inv+dsb-isbs: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test WRC.TRT1+dsb-tlbiis-dsb+dmb:
+Test WRC.TRT1.broken+dsb-tlbiis-dsb+dmb:
  p1:x0=0  p2:x0=0  p2:x2=1  : 116206
  p1:x0=0  p2:x0=0  p2:x2=0  : 182031
  p1:x0=1  p2:x0=0  p2:x2=1  : 71034
@@ -1802,7 +1802,7 @@ Test WRC.TRT1+dsb-tlbiis-dsb+dmb:
  p1:x0=1  p2:x0=1  p2:x2=1  : 2873
  p1:x0=0  p2:x0=1  p2:x2=1  : 3499
  p1:x0=0  p2:x0=1  p2:x2=0  : 25
-Observation WRC.TRT1+dsb-tlbiis-dsb+dmb: 0 (of 500000)
+Observation WRC.TRT1.broken+dsb-tlbiis-dsb+dmb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+po+dmb:

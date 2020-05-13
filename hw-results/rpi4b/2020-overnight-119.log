@@ -227,11 +227,11 @@ Test CoTR+dsb-isb:
 Observation CoTR+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test CoTR1+dsb-tlbi-dsb-isb:
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 109748
  p1:x0=0  p1:x2=1  : 214245
  p1:x0=1  p1:x2=1  : 176007
-Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -354,7 +354,7 @@ Test WRC.TRT.inv+dsb-isbs:
 Observation WRC.TRT.inv+dsb-isbs: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test WRC.TRT1+dsb-tlbiis-dsb+dmb:
+Test WRC.TRT1.broken+dsb-tlbiis-dsb+dmb:
  p1:x0=0  p2:x0=0  p2:x2=0  : 150670
  p1:x0=1  p2:x0=0  p2:x2=1  : 82746
  p1:x0=0  p2:x0=0  p2:x2=1  : 128115
@@ -362,7 +362,7 @@ Test WRC.TRT1+dsb-tlbiis-dsb+dmb:
  p1:x0=0  p2:x0=1  p2:x2=1  : 13829
  p1:x0=0  p2:x0=1  p2:x2=0  : 4699
  p1:x0=1  p2:x0=1  p2:x2=1  : 11744
-Observation WRC.TRT1+dsb-tlbiis-dsb+dmb: 0 (of 500000)
+Observation WRC.TRT1.broken+dsb-tlbiis-dsb+dmb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+po+dmb:
@@ -375,3 +375,213 @@ Test WRC.TRT.inv+po+dmb:
  p1:x0=1  p2:x0=1  p2:x2=0  : 23139
 Observation WRC.TRT.inv+po+dmb: 0 (of 500000)
 P0			P1			P2			P3			
+
+Test WRC.TRT.inv+po+addr:
+ p1:x0=0  p2:x0=1  p2:x2=0  : 11712
+ p1:x0=0  p2:x0=0  p2:x2=0  : 423229
+ p1:x0=1  p2:x0=0  p2:x2=1  : 15157
+ p1:x0=1  p2:x0=1  p2:x2=1  : 1428
+ p1:x0=1  p2:x0=1  p2:x2=0  : 3744
+ p1:x0=1  p2:x0=0  p2:x2=0  : 39017
+ p1:x0=0  p2:x0=0  p2:x2=1  : 5713
+Observation WRC.TRT.inv+po+addr: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test ISA2.TRR+dmb+po+dmb:
+ p1:x0=0  p2:x0=0  p2:x2=1  : 195430
+ p1:x0=0  p2:x0=0  p2:x2=0  : 162697
+ p1:x0=0  p2:x0=1  p2:x2=1  : 119651
+ p1:x0=0  p2:x0=1  p2:x2=0  : 22222
+Observation ISA2.TRR+dmb+po+dmb: 0 (of 500000)
+real 46313.99
+user 69700.80
+sys 24757.24
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.ol6IbtgRqV
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.ol6IbtgRqV -smp 4 -append '@all -n500000 --pgtable'
+P0			P1			P2			P3			
+
+Test MP+pos:
+ p1:x0=1  p1:x2=1  : 135597
+ p1:x0=0  p1:x2=0  : 185860
+ p1:x0=0  p1:x2=1  : 135758
+ p1:x0=1  p1:x2=0  : 42785 *
+Observation MP+pos: 42785 (of 500000)
+P0			P1			P2			P3			
+
+Test MP+dmbs:
+ p1:x0=0  p1:x2=0  : 125056
+ p1:x0=1  p1:x2=1  : 179481
+ p1:x0=0  p1:x2=1  : 195463
+Observation MP+dmbs: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test SB+pos:
+ p0:x2=0  p1:x2=1  : 190464
+ p0:x2=1  p1:x2=1  : 85226
+ p0:x2=1  p1:x2=0  : 119699
+ p0:x2=0  p1:x2=0  : 104611 *
+Observation SB+pos: 104611 (of 500000)
+P0			P1			P2			P3			
+
+Test SB+dmbs:
+ p0:x2=1  p1:x2=1  : 150359
+ p0:x2=0  p1:x2=1  : 219336
+ p0:x2=1  p1:x2=0  : 130305
+Observation SB+dmbs: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test WRC+pos:
+ p1:x0=1  p2:x0=0  p2:x2=0  : 80789
+ p1:x0=0  p2:x0=1  p2:x2=1  : 55859
+ p1:x0=0  p2:x0=1  p2:x2=0  : 84008
+ p1:x0=1  p2:x0=0  p2:x2=1  : 66570
+ p1:x0=0  p2:x0=0  p2:x2=0  : 141414
+ p1:x0=0  p2:x0=0  p2:x2=1  : 33804
+ p1:x0=1  p2:x0=1  p2:x2=1  : 31734
+ p1:x0=1  p2:x0=1  p2:x2=0  : 5822 *
+Observation WRC+pos: 5822 (of 500000)
+P0			P1			P2			P3			
+
+Test WRC+addrs:
+ p1:x0=1  p2:x0=0  p2:x2=1  : 226148
+ p1:x0=0  p2:x0=0  p2:x2=1  : 66317
+ p1:x0=1  p2:x0=1  p2:x2=1  : 36719
+ p1:x0=0  p2:x0=1  p2:x2=1  : 74878
+ p1:x0=0  p2:x0=0  p2:x2=0  : 43613
+ p1:x0=1  p2:x0=0  p2:x2=0  : 47128
+ p1:x0=0  p2:x0=1  p2:x2=0  : 5197
+Observation WRC+addrs: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP+dmb+svc:
+ p1:x0=0  p1:x2=1  : 256869
+ p1:x0=0  p1:x2=0  : 189081
+ p1:x0=1  p1:x2=1  : 54050
+Observation MP+dmb+svc: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP+dmb+eret:
+ p1:x0=0  p1:x2=1  : 153458
+ p1:x0=1  p1:x2=1  : 148056
+ p1:x0=0  p1:x2=0  : 198486
+Observation MP+dmb+eret: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test WRC.AT+ctrl+dsb:
+ p1:x2=1  p2:x0=1  p2:x2=0  : 109686
+ p1:x2=1  p2:x0=0  p2:x2=0  : 121173
+ p1:x2=1  p2:x0=1  p2:x2=1  : 95460
+ p1:x2=1  p2:x0=0  p2:x2=1  : 63406
+ p1:x2=0  p2:x0=1  p2:x2=1  : 22019
+ p1:x2=0  p2:x0=1  p2:x2=0  : 13093 *
+ p1:x2=0  p2:x0=0  p2:x2=0  : 44037
+ p1:x2=0  p2:x0=0  p2:x2=1  : 31126
+Observation WRC.AT+ctrl+dsb: 13093 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT1+dsb-tlbi-dsb:
+ p0:x2=2  : 500000
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT1+dsb-tlbi-dsb-isb:
+ p0:x2=2  : 500000
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT+dsb-svc-tlbi-dsb:
+ p0:x2=2  : 500000
+Observation CoWT+dsb-svc-tlbi-dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP.RT+svc-dsb-tlbiis-dsb+dsb-isb:
+ p1:x0=1  p1:x2=1  : 59453
+ p1:x0=0  p1:x2=0  : 294898
+ p1:x0=0  p1:x2=1  : 145649
+Observation MP.RT+svc-dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP.RT1+dsb-tlbiis-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 269039
+ p1:x0=0  p1:x2=1  : 170415
+ p1:x0=1  p1:x2=1  : 60546
+Observation MP.RT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP.RT1+dsb-tlbiall-dsb+dsb-isb:
+ p1:x0=1  p1:x2=1  : 70656
+ p1:x0=1  p1:x2=0  : 1 *
+ p1:x0=0  p1:x2=0  : 251089
+ p1:x0=0  p1:x2=1  : 178254
+Observation MP.RT1+dsb-tlbiall-dsb+dsb-isb: 1 (of 500000)
+P0			P1			P2			P3			
+
+Test MP.RT1+dsb-tlbiis-dsb-tlbiis-dsb+dsb-isb:
+ p1:x0=1  p1:x2=0  : 2 *
+ p1:x0=1  p1:x2=1  : 53067
+ p1:x0=0  p1:x2=1  : 172150
+ p1:x0=0  p1:x2=0  : 274781
+Observation MP.RT1+dsb-tlbiis-dsb-tlbiis-dsb+dsb-isb: 2 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT.inv+dsb:
+ p0:x4=0  : 500000
+Observation CoWT.inv+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT.inv+dsb-isb:
+ p0:x4=0  : 500000
+Observation CoWT.inv+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT+dsb:
+ p0:x2=2  : 246028
+ p0:x2=1  : 253972 *
+Observation CoWT+dsb: 253972 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT:
+ p0:x2=2  : 239908
+ p0:x2=1  : 260092 *
+Observation CoWT: 260092 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT.inv:
+ p0:x4=0  : 499996
+ p0:x4=1  : 4 *
+Observation CoWT.inv: 4 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWinvT:
+ p0:x4=1  : 218621
+ p0:x4=0  : 281379 *
+Observation CoWinvT: 281379 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWinvT1+dsb-tlbi-dsb:
+ p0:x4=1  : 500000
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT+dsb-isb:
+ p0:x2=2  : 247666
+ p0:x2=1  : 252334 *
+Observation CoWT+dsb-isb: 252334 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR:
+ p1:x0=1  p1:x2=1  : 67052
+ p1:x0=0  p1:x2=0  : 309615
+ p1:x0=0  p1:x2=1  : 52118
+ p1:x0=1  p1:x2=0  : 71215 *
+Observation CoTR: 71215 (of 500000)
+P0			P1			P2			P3			
+./litmus.2020-119.exe: line 7: 26104 Killed                  qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel $tmp -smp 4 -append "$*"
+real 8278.01
+user 14412.39
+sys 6437.15
