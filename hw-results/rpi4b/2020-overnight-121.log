@@ -1,0 +1,1219 @@
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.bw7l7lBeL5
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.bw7l7lBeL5 -smp 4 -append '@all -n500000 --pgtable'
+! skipping "MP.times+pos":  requires --perf
+P0			P1			P2			P3			
+
+Test check1:
+ p1:x0=1  p2:x0=1  p2:x2=1  : 99070
+ p1:x0=1  p2:x0=0  p2:x2=1  : 196693
+ p1:x0=0  p2:x0=1  p2:x2=0  : 23858
+ p1:x0=1  p2:x0=0  p2:x2=0  : 39028
+ p1:x0=0  p2:x0=1  p2:x2=1  : 76869
+ p1:x0=0  p2:x0=0  p2:x2=0  : 52365
+ p1:x0=0  p2:x0=0  p2:x2=1  : 12117
+Observation check1: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test check2:
+ p1:x0=0  p1:x2=0  : 140073
+ p1:x0=1  p1:x2=0  : 4430
+ p1:x0=1  p1:x2=1  : 295310
+ p1:x0=0  p1:x2=1  : 60187
+Observation check2: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test check3:
+ p1:x0=0  p1:x2=0  : 344904
+ p1:x0=1  p1:x2=0  : 155096 *
+Observation check3: 155096 (of 500000)
+P0			P1			P2			P3			
+
+Test check4:
+ p0:x0=0  : 500000
+Observation check4: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test check5:
+ p0:x0=1  : 500000
+Observation check5: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test check6:
+ p0:x0=0  : 500000
+Observation check6: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test LB.broken+pos:
+ p0:x2=1  p1:x2=0  : 377421 *
+ p0:x2=0  p1:x2=0  : 122579
+Observation LB.broken+pos: 377421 (of 500000)
+P0			P1			P2			P3			
+
+Test MP+dmbs:
+ p1:x0=1  p1:x2=1  : 154419
+ p1:x0=0  p1:x2=1  : 81602
+ p1:x0=0  p1:x2=0  : 263979
+Observation MP+dmbs: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP+pos:
+ p1:x0=1  p1:x2=1  : 141053
+ p1:x0=0  p1:x2=1  : 56427
+ p1:x0=0  p1:x2=0  : 279862
+ p1:x0=1  p1:x2=0  : 22658 *
+Observation MP+pos: 22658 (of 500000)
+P0			P1			P2			P3			
+
+Test SB+dmbs:
+ p0:x2=1  p1:x2=0  : 265618
+ p0:x2=0  p1:x2=1  : 179836
+ p0:x2=1  p1:x2=1  : 54546
+Observation SB+dmbs: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test SB+pos:
+ p0:x2=1  p1:x2=0  : 257580
+ p0:x2=0  p1:x2=1  : 168919
+ p0:x2=0  p1:x2=0  : 38378 *
+ p0:x2=1  p1:x2=1  : 35123
+Observation SB+pos: 38378 (of 500000)
+P0			P1			P2			P3			
+
+Test WRC+addrs:
+ p1:x0=1  p2:x0=0  p2:x2=1  : 60877
+ p1:x0=0  p2:x0=0  p2:x2=0  : 179876
+ p1:x0=1  p2:x0=1  p2:x2=1  : 25856
+ p1:x0=0  p2:x0=1  p2:x2=1  : 119373
+ p1:x0=1  p2:x0=0  p2:x2=0  : 35475
+ p1:x0=0  p2:x0=1  p2:x2=0  : 38135
+ p1:x0=0  p2:x0=0  p2:x2=1  : 40408
+Observation WRC+addrs: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test WRC+pos:
+ p1:x0=1  p2:x0=1  p2:x2=1  : 30108
+ p1:x0=0  p2:x0=0  p2:x2=0  : 195617
+ p1:x0=0  p2:x0=1  p2:x2=0  : 122506
+ p1:x0=1  p2:x0=0  p2:x2=1  : 43081
+ p1:x0=1  p2:x0=0  p2:x2=0  : 55695
+ p1:x0=0  p2:x0=1  p2:x2=1  : 47300
+ p1:x0=0  p2:x0=0  p2:x2=1  : 4789
+ p1:x0=1  p2:x0=1  p2:x2=0  : 904 *
+Observation WRC+pos: 904 (of 500000)
+P0			P1			P2			P3			
+
+Test MP+dmb+eret:
+ p1:x0=0  p1:x2=0  : 243591
+ p1:x0=0  p1:x2=1  : 69075
+ p1:x0=1  p1:x2=1  : 187334
+Observation MP+dmb+eret: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP+dmb+svc:
+ p1:x0=1  p1:x2=1  : 117688
+ p1:x0=0  p1:x2=0  : 245882
+ p1:x0=0  p1:x2=1  : 136430
+Observation MP+dmb+svc: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=1  p1:x2=1  : 92950
+ p1:x0=0  p1:x2=0  : 403093
+ p1:x0=0  p1:x2=1  : 3957
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 401664
+ p1:x0=1  p1:x2=1  : 94961
+ p1:x0=0  p1:x2=1  : 3375
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb-isb:
+ p1:x0=1  p1:x2=1  : 91798
+ p1:x0=1  p1:x2=0  : 1 *
+ p1:x0=0  p1:x2=0  : 403259
+ p1:x0=0  p1:x2=1  : 4942
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb-isb: 1 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb-isb+dsb:
+ p1:x0=0  p1:x2=0  : 402999
+ p1:x0=1  p1:x2=1  : 94366
+ p1:x0=0  p1:x2=1  : 2635
+Observation BBM1+dsb-tlbiis-dsb-dsb-isb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 401037
+ p1:x0=1  p1:x2=1  : 93574
+ p1:x0=0  p1:x2=1  : 5389
+Observation BBM1+dsb-tlbiis-dsb-dsb-isb+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoRT:
+ p1:x0=0  p1:x2=1  : 41491
+ p1:x0=0  p1:x2=0  : 390760
+ p1:x0=1  p1:x2=0  : 56213 *
+ p1:x0=1  p1:x2=1  : 11536
+Observation CoRT: 56213 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR:
+ p1:x0=0  p1:x2=0  : 391870
+ p1:x0=1  p1:x2=0  : 52279 *
+ p1:x0=0  p1:x2=1  : 44495
+ p1:x0=1  p1:x2=1  : 11356
+Observation CoTR: 52279 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
+ p1:x0=0  p1:x2=1  : 428056
+ p1:x0=0  p1:x2=0  : 3875
+ p1:x0=1  p1:x2=1  : 68069
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
+ p1:x0=0  p1:x2=1  : 418302
+ p1:x0=0  p1:x2=0  : 9062
+ p1:x0=1  p1:x2=1  : 72636
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR1.tlbi+dsb-isb:
+ p1:x0=1  p1:x2=1  : 495558
+ p1:x0=0  p1:x2=0  : 4237
+ p1:x0=0  p1:x2=1  : 205
+Observation CoTR1.tlbi+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR+addr:
+ p1:x0=0  p1:x2=0  : 283823
+ p1:x0=1  p1:x2=1  : 66238
+ p1:x0=0  p1:x2=1  : 149939
+Observation CoTR+addr: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR+dmb:
+ p1:x0=0  p1:x2=0  : 301456
+ p1:x0=0  p1:x2=1  : 133122
+ p1:x0=1  p1:x2=1  : 65422
+Observation CoTR+dmb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR+dsb:
+ p1:x0=0  p1:x2=1  : 206302
+ p1:x0=0  p1:x2=0  : 231758
+ p1:x0=1  p1:x2=1  : 61940
+Observation CoTR+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=0  p1:x2=1  : 247079
+ p1:x0=0  p1:x2=0  : 188134
+ p1:x0=1  p1:x2=1  : 64787
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR.inv:
+ p1:x0=1  p1:x2=0  : 283339 *
+ p1:x0=0  p1:x2=1  : 139593
+ p1:x0=1  p1:x2=1  : 70951
+ p1:x0=0  p1:x2=0  : 6117
+Observation CoTR.inv: 283339 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR.inv+dsb-isb:
+ p1:x0=1  p1:x2=1  : 337603
+ p1:x0=0  p1:x2=1  : 156944
+ p1:x0=0  p1:x2=0  : 5453
+Observation CoTR.inv+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT:
+ p0:x2=2  : 87711
+ p0:x2=1  : 412289 *
+Observation CoWT: 412289 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT1+dsb-tlbi-dsb:
+ p0:x2=2  : 500000
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT1+dsb-tlbi-dsb-isb:
+ p0:x2=2  : 500000
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT+dsb:
+ p0:x2=2  : 88439
+ p0:x2=1  : 411561 *
+Observation CoWT+dsb: 411561 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT+dsb-isb:
+ p0:x2=2  : 101529
+ p0:x2=1  : 398471 *
+Observation CoWT+dsb-isb: 398471 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT+dsb-svc-tlbi-dsb:
+ p0:x2=2  : 500000
+Observation CoWT+dsb-svc-tlbi-dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT.inv:
+ p0:x4=0  : 499999
+ p0:x4=1  : 1 *
+Observation CoWT.inv: 1 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT.inv+dsb:
+ p0:x4=0  : 500000
+Observation CoWT.inv+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT.inv+dsb-isb:
+ p0:x4=0  : 500000
+Observation CoWT.inv+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWinvT:
+ p0:x4=1  : 124252
+ p0:x4=0  : 375748 *
+Observation CoWinvT: 375748 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWinvT1+dsb-tlbi-dsb:
+ p0:x4=1  : 500000
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test ISA2.TRR+dmb+po+dmb:
+ p1:x0=0  p2:x0=1  p2:x2=1  : 152475
+ p1:x0=0  p2:x0=0  p2:x2=0  : 206233
+ p1:x0=0  p2:x0=0  p2:x2=1  : 92138
+ p1:x0=0  p2:x0=1  p2:x2=0  : 49154
+Observation ISA2.TRR+dmb+po+dmb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP.RT1+dc-dsb-tlbiall-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 374165
+ p1:x0=0  p1:x2=1  : 122373
+ p1:x0=1  p1:x2=1  : 3462
+Observation MP.RT1+dc-dsb-tlbiall-dsb+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP.RT1+dsb-tlbiall-dsb+dsb-isb:
+ p1:x0=0  p1:x2=1  : 162829
+ p1:x0=0  p1:x2=0  : 330334
+ p1:x0=1  p1:x2=1  : 6837
+Observation MP.RT1+dsb-tlbiall-dsb+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP.RT1+dsb-tlbiallis-dsb+dsb-isb:
+ p1:x0=0  p1:x2=1  : 178523
+ p1:x0=0  p1:x2=0  : 311433
+ p1:x0=1  p1:x2=1  : 10044
+Observation MP.RT1+dsb-tlbiallis-dsb+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP.RT1+dsb-tlbi-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 399441
+ p1:x0=0  p1:x2=1  : 96554
+ p1:x0=1  p1:x2=1  : 4005
+Observation MP.RT1+dsb-tlbi-dsb+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP.RT1+dsb-tlbiis-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 394344
+ p1:x0=0  p1:x2=1  : 101633
+ p1:x0=1  p1:x2=1  : 4023
+Observation MP.RT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 394741
+ p1:x0=0  p1:x2=1  : 102035
+ p1:x0=1  p1:x2=1  : 3224
+Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP.RT1+dsb-tlbiis-dsb-tlbiis-dsb+dsb-isb:
+ p1:x0=0  p1:x2=1  : 113173
+ p1:x0=0  p1:x2=0  : 381883
+ p1:x0=1  p1:x2=1  : 4944
+Observation MP.RT1+dsb-tlbiis-dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP.RT+svc-dsb-tlbi-dsb+dsb-isb:
+ p1:x0=0  p1:x2=1  : 154870
+ p1:x0=0  p1:x2=0  : 340529
+ p1:x0=1  p1:x2=1  : 4601
+Observation MP.RT+svc-dsb-tlbi-dsb+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP.RT+svc-dsb-tlbiis-dsb+dsb-isb:
+ p1:x0=0  p1:x2=1  : 148869
+ p1:x0=0  p1:x2=0  : 346654
+ p1:x0=1  p1:x2=1  : 4477
+Observation MP.RT+svc-dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP.RT.inv+dmb+addr:
+ p1:x0=0  p1:x2=0  : 285627
+ p1:x0=0  p1:x2=1  : 164988
+ p1:x0=1  p1:x2=0  : 49385
+Observation MP.RT.inv+dmb+addr: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test WRC.AT+ctrl+dsb:
+ p1:x2=0  p2:x0=0  p2:x2=1  : 14566
+ p1:x2=1  p2:x0=0  p2:x2=0  : 179251
+ p1:x2=1  p2:x0=1  p2:x2=0  : 133502
+ p1:x2=0  p2:x0=0  p2:x2=0  : 90308
+ p1:x2=0  p2:x0=1  p2:x2=1  : 15869
+ p1:x2=0  p2:x0=1  p2:x2=0  : 20431 *
+ p1:x2=1  p2:x0=1  p2:x2=1  : 34200
+ p1:x2=1  p2:x0=0  p2:x2=1  : 11873
+Observation WRC.AT+ctrl+dsb: 20431 (of 500000)
+P0			P1			P2			P3			
+
+Test WRC.TRR+addr+dmb:
+ p1:x0=1  p2:x0=0  p2:x2=1  : 63819
+ p1:x0=0  p2:x0=0  p2:x2=1  : 259711
+ p1:x0=0  p2:x0=1  p2:x2=1  : 172852
+ p1:x0=1  p2:x0=1  p2:x2=1  : 3618
+Observation WRC.TRR+addr+dmb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test WRC.TRR.inv+addrs:
+ p1:x0=1  p2:x0=0  p2:x2=1  : 175560
+ p1:x0=0  p2:x0=0  p2:x2=1  : 234765
+ p1:x0=0  p2:x0=1  p2:x2=1  : 55251
+ p1:x0=1  p2:x0=1  p2:x2=1  : 34424
+Observation WRC.TRR.inv+addrs: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test WRC.TRT1.broken+dsb-tlbiis-dsb+dmb:
+ p1:x0=1  p2:x0=0  p2:x2=0  : 57693
+ p1:x0=0  p2:x0=0  p2:x2=0  : 253525
+ p1:x0=0  p2:x0=0  p2:x2=1  : 150270
+ p1:x0=1  p2:x0=0  p2:x2=1  : 18672
+ p1:x0=0  p2:x0=1  p2:x2=1  : 18866
+ p1:x0=0  p2:x0=1  p2:x2=0  : 168
+ p1:x0=1  p2:x0=1  p2:x2=1  : 806
+Observation WRC.TRT1.broken+dsb-tlbiis-dsb+dmb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test WRC.TRT+addr+dmb:
+ p1:x0=1  p2:x0=0  p2:x2=1  : 15372
+ p1:x0=0  p2:x0=1  p2:x2=0  : 117323
+ p1:x0=0  p2:x0=0  p2:x2=0  : 224470
+ p1:x0=0  p2:x0=0  p2:x2=1  : 37155
+ p1:x0=0  p2:x0=1  p2:x2=1  : 47168
+ p1:x0=1  p2:x0=0  p2:x2=0  : 54392
+ p1:x0=1  p2:x0=1  p2:x2=1  : 1938
+ p1:x0=1  p2:x0=1  p2:x2=0  : 2182 *
+Observation WRC.TRT+addr+dmb: 2182 (of 500000)
+P0			P1			P2			P3			
+
+Test WRC.TRT+dmbs:
+ p1:x0=0  p2:x0=1  p2:x2=1  : 58585
+ p1:x0=0  p2:x0=1  p2:x2=0  : 130638
+ p1:x0=1  p2:x0=1  p2:x2=1  : 8204
+ p1:x0=0  p2:x0=0  p2:x2=0  : 206023
+ p1:x0=1  p2:x0=0  p2:x2=0  : 62337
+ p1:x0=1  p2:x0=0  p2:x2=1  : 11067
+ p1:x0=0  p2:x0=0  p2:x2=1  : 19081
+ p1:x0=1  p2:x0=1  p2:x2=0  : 4065 *
+Observation WRC.TRT+dmbs: 4065 (of 500000)
+P0			P1			P2			P3			
+
+Test WRC.TRT+dsb-isbs:
+ p1:x0=1  p2:x0=0  p2:x2=0  : 58343
+ p1:x0=0  p2:x0=1  p2:x2=0  : 92709
+ p1:x0=0  p2:x0=0  p2:x2=0  : 261818
+ p1:x0=0  p2:x0=0  p2:x2=1  : 29828
+ p1:x0=1  p2:x0=0  p2:x2=1  : 14351
+ p1:x0=0  p2:x0=1  p2:x2=1  : 39514
+ p1:x0=1  p2:x0=1  p2:x2=1  : 1632
+ p1:x0=1  p2:x0=1  p2:x2=0  : 1805 *
+Observation WRC.TRT+dsb-isbs: 1805 (of 500000)
+P0			P1			P2			P3			
+
+Test WRC.TRT.inv+dsb-isbs:
+ p1:x0=1  p2:x0=0  p2:x2=0  : 183841
+ p1:x0=0  p2:x0=0  p2:x2=0  : 231206
+ p1:x0=0  p2:x0=1  p2:x2=0  : 7341
+ p1:x0=1  p2:x0=0  p2:x2=1  : 55690
+ p1:x0=0  p2:x0=0  p2:x2=1  : 20743
+ p1:x0=1  p2:x0=1  p2:x2=0  : 1140
+ p1:x0=1  p2:x0=1  p2:x2=1  : 39
+Observation WRC.TRT.inv+dsb-isbs: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test WRC.TRT.inv+po+addr:
+ p1:x0=1  p2:x0=0  p2:x2=0  : 117144
+ p1:x0=0  p2:x0=0  p2:x2=0  : 208568
+ p1:x0=0  p2:x0=1  p2:x2=0  : 14868
+ p1:x0=1  p2:x0=0  p2:x2=1  : 98864
+ p1:x0=0  p2:x0=0  p2:x2=1  : 58755
+ p1:x0=1  p2:x0=1  p2:x2=0  : 1649
+ p1:x0=1  p2:x0=1  p2:x2=1  : 152
+Observation WRC.TRT.inv+po+addr: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test WRC.TRT.inv+po+dmb:
+ p1:x0=0  p2:x0=0  p2:x2=0  : 257482
+ p1:x0=0  p2:x0=1  p2:x2=0  : 17109
+ p1:x0=1  p2:x0=0  p2:x2=1  : 63929
+ p1:x0=0  p2:x0=0  p2:x2=1  : 37767
+ p1:x0=1  p2:x0=0  p2:x2=0  : 122446
+ p1:x0=1  p2:x0=1  p2:x2=0  : 1184
+ p1:x0=1  p2:x0=1  p2:x2=1  : 83
+Observation WRC.TRT.inv+po+dmb: 0 (of 500000)
+real 27585.80
+user 55148.89
+sys 22199.91
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.EiydIJ2XFK
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.EiydIJ2XFK -smp 4 -append '@all -n500000 --pgtable'
+! skipping "MP.times+pos":  requires --perf
+P0			P1			P2			P3			
+
+Test check1:
+ p1:x0=0  p2:x0=1  p2:x2=0  : 16167
+ p1:x0=0  p2:x0=0  p2:x2=1  : 34038
+ p1:x0=0  p2:x0=0  p2:x2=0  : 62313
+ p1:x0=1  p2:x0=0  p2:x2=1  : 176166
+ p1:x0=1  p2:x0=0  p2:x2=0  : 49135
+ p1:x0=0  p2:x0=1  p2:x2=1  : 96446
+ p1:x0=1  p2:x0=1  p2:x2=1  : 65735
+Observation check1: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test check2:
+ p1:x0=1  p1:x2=0  : 18388
+ p1:x0=0  p1:x2=0  : 128714
+ p1:x0=0  p1:x2=1  : 82142
+ p1:x0=1  p1:x2=1  : 270756
+Observation check2: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test check3:
+ p1:x0=0  p1:x2=0  : 392137
+ p1:x0=1  p1:x2=0  : 107863 *
+Observation check3: 107863 (of 500000)
+P0			P1			P2			P3			
+
+Test check4:
+ p0:x0=0  : 500000
+Observation check4: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test check5:
+ p0:x0=1  : 500000
+Observation check5: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test check6:
+ p0:x0=0  : 500000
+Observation check6: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test LB.broken+pos:
+ p0:x2=1  p1:x2=0  : 297087 *
+ p0:x2=0  p1:x2=0  : 202913
+Observation LB.broken+pos: 297087 (of 500000)
+P0			P1			P2			P3			
+
+Test MP+dmbs:
+ p1:x0=0  p1:x2=1  : 131115
+ p1:x0=1  p1:x2=1  : 126846
+ p1:x0=0  p1:x2=0  : 242039
+Observation MP+dmbs: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP+pos:
+ p1:x0=1  p1:x2=1  : 94227
+ p1:x0=0  p1:x2=0  : 277161
+ p1:x0=1  p1:x2=0  : 45058 *
+ p1:x0=0  p1:x2=1  : 83554
+Observation MP+pos: 45058 (of 500000)
+P0			P1			P2			P3			
+
+Test SB+dmbs:
+ p0:x2=0  p1:x2=1  : 163991
+ p0:x2=1  p1:x2=1  : 88838
+ p0:x2=1  p1:x2=0  : 247171
+Observation SB+dmbs: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test SB+pos:
+ p0:x2=0  p1:x2=1  : 132867
+ p0:x2=1  p1:x2=0  : 211012
+ p0:x2=0  p1:x2=0  : 112988 *
+ p0:x2=1  p1:x2=1  : 43133
+Observation SB+pos: 112988 (of 500000)
+P0			P1			P2			P3			
+
+Test WRC+addrs:
+ p1:x0=0  p2:x0=1  p2:x2=0  : 23654
+ p1:x0=1  p2:x0=0  p2:x2=1  : 85895
+ p1:x0=0  p2:x0=0  p2:x2=0  : 145772
+ p1:x0=1  p2:x0=1  p2:x2=1  : 23064
+ p1:x0=0  p2:x0=1  p2:x2=1  : 115834
+ p1:x0=0  p2:x0=0  p2:x2=1  : 61190
+ p1:x0=1  p2:x0=0  p2:x2=0  : 44591
+Observation WRC+addrs: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test WRC+pos:
+ p1:x0=1  p2:x0=1  p2:x2=1  : 30123
+ p1:x0=1  p2:x0=0  p2:x2=1  : 52427
+ p1:x0=0  p2:x0=0  p2:x2=0  : 172725
+ p1:x0=0  p2:x0=1  p2:x2=1  : 53680
+ p1:x0=1  p2:x0=0  p2:x2=0  : 74580
+ p1:x0=1  p2:x0=1  p2:x2=0  : 3277 *
+ p1:x0=0  p2:x0=0  p2:x2=1  : 16854
+ p1:x0=0  p2:x0=1  p2:x2=0  : 96334
+Observation WRC+pos: 3277 (of 500000)
+P0			P1			P2			P3			
+
+Test MP+dmb+eret:
+ p1:x0=1  p1:x2=1  : 196109
+ p1:x0=0  p1:x2=0  : 213881
+ p1:x0=0  p1:x2=1  : 90010
+Observation MP+dmb+eret: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP+dmb+svc:
+ p1:x0=0  p1:x2=1  : 244102
+ p1:x0=0  p1:x2=0  : 217081
+ p1:x0=1  p1:x2=1  : 38817
+Observation MP+dmb+svc: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=1  p1:x2=1  : 3214
+ p1:x0=0  p1:x2=0  : 495732
+ p1:x0=0  p1:x2=1  : 1054
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 495790
+ p1:x0=0  p1:x2=1  : 1007
+ p1:x0=1  p1:x2=1  : 3203
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 495569
+ p1:x0=0  p1:x2=1  : 1093
+ p1:x0=1  p1:x2=1  : 3338
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb-isb+dsb:
+ p1:x0=0  p1:x2=0  : 496028
+ p1:x0=1  p1:x2=1  : 2839
+ p1:x0=0  p1:x2=1  : 1133
+Observation BBM1+dsb-tlbiis-dsb-dsb-isb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 495044
+ p1:x0=1  p1:x2=1  : 3767
+ p1:x0=0  p1:x2=1  : 1189
+Observation BBM1+dsb-tlbiis-dsb-dsb-isb+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoRT:
+ p1:x0=0  p1:x2=0  : 378653
+ p1:x0=1  p1:x2=0  : 52447 *
+ p1:x0=0  p1:x2=1  : 54819
+ p1:x0=1  p1:x2=1  : 14081
+Observation CoRT: 52447 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR:
+ p1:x0=0  p1:x2=0  : 373543
+ p1:x0=1  p1:x2=1  : 15060
+ p1:x0=0  p1:x2=1  : 46888
+ p1:x0=1  p1:x2=0  : 64509 *
+Observation CoTR: 64509 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
+ p1:x0=0  p1:x2=1  : 406230
+ p1:x0=0  p1:x2=0  : 5095
+ p1:x0=1  p1:x2=1  : 88675
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR1.broken+dsb-tlbi-dsb-isb:
+ p1:x0=0  p1:x2=1  : 413043
+ p1:x0=0  p1:x2=0  : 8106
+ p1:x0=1  p1:x2=1  : 78851
+Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR1.tlbi+dsb-isb:
+ p1:x0=1  p1:x2=1  : 494993
+ p1:x0=0  p1:x2=0  : 4858
+ p1:x0=0  p1:x2=1  : 149
+Observation CoTR1.tlbi+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR+addr:
+ p1:x0=1  p1:x2=1  : 84817
+ p1:x0=0  p1:x2=0  : 254734
+ p1:x0=0  p1:x2=1  : 160449
+Observation CoTR+addr: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR+dmb:
+ p1:x0=0  p1:x2=0  : 286676
+ p1:x0=0  p1:x2=1  : 134301
+ p1:x0=1  p1:x2=1  : 79023
+Observation CoTR+dmb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR+dsb:
+ p1:x0=1  p1:x2=1  : 63533
+ p1:x0=0  p1:x2=0  : 228241
+ p1:x0=0  p1:x2=1  : 208226
+Observation CoTR+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR+dsb-isb:
+ p1:x0=1  p1:x2=1  : 80993
+ p1:x0=0  p1:x2=0  : 178890
+ p1:x0=0  p1:x2=1  : 240117
+Observation CoTR+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR.inv:
+ p1:x0=0  p1:x2=1  : 147539
+ p1:x0=1  p1:x2=0  : 280998 *
+ p1:x0=1  p1:x2=1  : 65199
+ p1:x0=0  p1:x2=0  : 6264
+Observation CoTR.inv: 280998 (of 500000)
+P0			P1			P2			P3			
+
+Test CoTR.inv+dsb-isb:
+ p1:x0=1  p1:x2=1  : 348395
+ p1:x0=0  p1:x2=1  : 146257
+ p1:x0=0  p1:x2=0  : 5348
+Observation CoTR.inv+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT:
+ p0:x2=2  : 94010
+ p0:x2=1  : 405990 *
+Observation CoWT: 405990 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT1+dsb-tlbi-dsb:
+ p0:x2=2  : 500000
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT1+dsb-tlbi-dsb-isb:
+ p0:x2=2  : 500000
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT+dsb:
+ p0:x2=2  : 116629
+ p0:x2=1  : 383371 *
+Observation CoWT+dsb: 383371 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT+dsb-isb:
+ p0:x2=2  : 102400
+ p0:x2=1  : 397600 *
+Observation CoWT+dsb-isb: 397600 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT+dsb-svc-tlbi-dsb:
+ p0:x2=2  : 500000
+Observation CoWT+dsb-svc-tlbi-dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT.inv:
+ p0:x4=0  : 500000
+Observation CoWT.inv: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT.inv+dsb:
+ p0:x4=0  : 500000
+Observation CoWT.inv+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWT.inv+dsb-isb:
+ p0:x4=0  : 500000
+Observation CoWT.inv+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWinvT:
+ p0:x4=1  : 141155
+ p0:x4=0  : 358845 *
+Observation CoWinvT: 358845 (of 500000)
+P0			P1			P2			P3			
+
+Test CoWinvT1+dsb-tlbi-dsb:
+ p0:x4=1  : 500000
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test ISA2.TRR+dmb+po+dmb:
+ p1:x0=0  p2:x0=1  p2:x2=1  : 169988
+ p1:x0=0  p2:x0=0  p2:x2=1  : 105803
+ p1:x0=0  p2:x0=1  p2:x2=0  : 39894
+ p1:x0=0  p2:x0=0  p2:x2=0  : 184315
+Observation ISA2.TRR+dmb+po+dmb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP.RT1+dc-dsb-tlbiall-dsb+dsb-isb:
+ p1:x0=0  p1:x2=1  : 147935
+ p1:x0=0  p1:x2=0  : 347911
+ p1:x0=1  p1:x2=1  : 4154
+Observation MP.RT1+dc-dsb-tlbiall-dsb+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP.RT1+dsb-tlbiall-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 311244
+ p1:x0=1  p1:x2=1  : 6229
+ p1:x0=0  p1:x2=1  : 182527
+Observation MP.RT1+dsb-tlbiall-dsb+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP.RT1+dsb-tlbiallis-dsb+dsb-isb:
+ p1:x0=1  p1:x2=1  : 7516
+ p1:x0=0  p1:x2=0  : 311457
+ p1:x0=0  p1:x2=1  : 181027
+Observation MP.RT1+dsb-tlbiallis-dsb+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP.RT1+dsb-tlbi-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 390348
+ p1:x0=0  p1:x2=1  : 103727
+ p1:x0=1  p1:x2=1  : 5925
+Observation MP.RT1+dsb-tlbi-dsb+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP.RT1+dsb-tlbiis-dsb+dsb-isb:
+ p1:x0=0  p1:x2=1  : 111897
+ p1:x0=0  p1:x2=0  : 383399
+ p1:x0=1  p1:x2=1  : 4704
+Observation MP.RT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=1  : 117424
+ p1:x0=0  p1:x2=0  : 377960
+ p1:x0=1  p1:x2=1  : 4616
+Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP.RT1+dsb-tlbiis-dsb-tlbiis-dsb+dsb-isb:
+ p1:x0=0  p1:x2=1  : 136428
+ p1:x0=0  p1:x2=0  : 358367
+ p1:x0=1  p1:x2=1  : 5205
+Observation MP.RT1+dsb-tlbiis-dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP.RT+svc-dsb-tlbi-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 320399
+ p1:x0=0  p1:x2=1  : 173941
+ p1:x0=1  p1:x2=1  : 5660
+Observation MP.RT+svc-dsb-tlbi-dsb+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP.RT+svc-dsb-tlbiis-dsb+dsb-isb:
+ p1:x0=0  p1:x2=1  : 166778
+ p1:x0=0  p1:x2=0  : 327292
+ p1:x0=1  p1:x2=1  : 5930
+Observation MP.RT+svc-dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP.RT.inv+dmb+addr:
+ p1:x0=0  p1:x2=0  : 291827
+ p1:x0=0  p1:x2=1  : 155151
+ p1:x0=1  p1:x2=0  : 53022
+Observation MP.RT.inv+dmb+addr: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test WRC.AT+ctrl+dsb:
+ p1:x2=0  p2:x0=0  p2:x2=0  : 77076
+ p1:x2=1  p2:x0=0  p2:x2=0  : 169021
+ p1:x2=0  p2:x0=1  p2:x2=1  : 17576
+ p1:x2=1  p2:x0=1  p2:x2=0  : 137616
+ p1:x2=0  p2:x0=0  p2:x2=1  : 16495
+ p1:x2=0  p2:x0=1  p2:x2=0  : 19778 *
+ p1:x2=1  p2:x0=0  p2:x2=1  : 16604
+ p1:x2=1  p2:x0=1  p2:x2=1  : 45834
+Observation WRC.AT+ctrl+dsb: 19778 (of 500000)
+P0			P1			P2			P3			
+
+Test WRC.TRR+addr+dmb:
+ p1:x0=1  p2:x0=0  p2:x2=1  : 87284
+ p1:x0=0  p2:x0=0  p2:x2=1  : 251847
+ p1:x0=0  p2:x0=1  p2:x2=1  : 155521
+ p1:x0=1  p2:x0=1  p2:x2=1  : 5348
+Observation WRC.TRR+addr+dmb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test WRC.TRR.inv+addrs:
+ p1:x0=1  p2:x0=0  p2:x2=1  : 172057
+ p1:x0=0  p2:x0=0  p2:x2=1  : 239921
+ p1:x0=1  p2:x0=1  p2:x2=1  : 35250
+ p1:x0=0  p2:x0=1  p2:x2=1  : 52772
+Observation WRC.TRR.inv+addrs: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test WRC.TRT1.broken+dsb-tlbiis-dsb+dmb:
+ p1:x0=1  p2:x0=0  p2:x2=0  : 63487
+ p1:x0=0  p2:x0=0  p2:x2=0  : 213425
+ p1:x0=0  p2:x0=0  p2:x2=1  : 172174
+ p1:x0=0  p2:x0=1  p2:x2=1  : 20867
+ p1:x0=1  p2:x0=0  p2:x2=1  : 29058
+ p1:x0=1  p2:x0=1  p2:x2=1  : 800
+ p1:x0=0  p2:x0=1  p2:x2=0  : 189
+Observation WRC.TRT1.broken+dsb-tlbiis-dsb+dmb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test WRC.TRT+addr+dmb:
+ p1:x0=0  p2:x0=1  p2:x2=0  : 103505
+ p1:x0=0  p2:x0=0  p2:x2=0  : 207836
+ p1:x0=0  p2:x0=0  p2:x2=1  : 47045
+ p1:x0=1  p2:x0=0  p2:x2=0  : 58283
+ p1:x0=0  p2:x0=1  p2:x2=1  : 57572
+ p1:x0=1  p2:x0=1  p2:x2=1  : 2213
+ p1:x0=1  p2:x0=0  p2:x2=1  : 21024
+ p1:x0=1  p2:x0=1  p2:x2=0  : 2522 *
+Observation WRC.TRT+addr+dmb: 2522 (of 500000)
+P0			P1			P2			P3			
+
+Test WRC.TRT+dmbs:
+ p1:x0=1  p2:x0=1  p2:x2=1  : 12277
+ p1:x0=0  p2:x0=0  p2:x2=0  : 184164
+ p1:x0=0  p2:x0=1  p2:x2=1  : 67642
+ p1:x0=1  p2:x0=0  p2:x2=0  : 73879
+ p1:x0=0  p2:x0=1  p2:x2=0  : 115663
+ p1:x0=1  p2:x0=0  p2:x2=1  : 16705
+ p1:x0=0  p2:x0=0  p2:x2=1  : 23224
+ p1:x0=1  p2:x0=1  p2:x2=0  : 6446 *
+Observation WRC.TRT+dmbs: 6446 (of 500000)
+P0			P1			P2			P3			
+
+Test WRC.TRT+dsb-isbs:
+ p1:x0=0  p2:x0=1  p2:x2=1  : 54387
+ p1:x0=0  p2:x0=0  p2:x2=0  : 218142
+ p1:x0=0  p2:x0=1  p2:x2=0  : 88384
+ p1:x0=1  p2:x0=0  p2:x2=0  : 67960
+ p1:x0=1  p2:x0=0  p2:x2=1  : 24599
+ p1:x0=0  p2:x0=0  p2:x2=1  : 41349
+ p1:x0=1  p2:x0=1  p2:x2=1  : 2534
+ p1:x0=1  p2:x0=1  p2:x2=0  : 2645 *
+Observation WRC.TRT+dsb-isbs: 2645 (of 500000)
+P0			P1			P2			P3			
+
+Test WRC.TRT.inv+dsb-isbs:
+ p1:x0=0  p2:x0=0  p2:x2=0  : 236503
+ p1:x0=1  p2:x0=0  p2:x2=1  : 54163
+ p1:x0=1  p2:x0=0  p2:x2=0  : 182041
+ p1:x0=0  p2:x0=0  p2:x2=1  : 17902
+ p1:x0=0  p2:x0=1  p2:x2=0  : 8111
+ p1:x0=1  p2:x0=1  p2:x2=0  : 1240
+ p1:x0=1  p2:x0=1  p2:x2=1  : 40
+Observation WRC.TRT.inv+dsb-isbs: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test WRC.TRT.inv+po+addr:
+ p1:x0=1  p2:x0=0  p2:x2=1  : 84788
+ p1:x0=0  p2:x0=0  p2:x2=0  : 189905
+ p1:x0=0  p2:x0=1  p2:x2=0  : 36312
+ p1:x0=1  p2:x0=0  p2:x2=0  : 97986
+ p1:x0=1  p2:x0=1  p2:x2=0  : 23536
+ p1:x0=0  p2:x0=0  p2:x2=1  : 60632
+ p1:x0=1  p2:x0=1  p2:x2=1  : 6841
+Observation WRC.TRT.inv+po+addr: 0 (of 500000)
+P0			P1			P2			P3			
+qemu-system-aarch64: terminating on signal 15 from pid 5757 (killall)
+real 19003.17
+user 49311.31
+sys 19359.13
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.SVQGW6R5op
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.SVQGW6R5op -smp 4 -append '@all -n500000 --pgtable'
+! skipping "MP.times+pos":  requires --perf
+P0			P1			P2			P3			
+./litmus.2020-121.exe: line 7:  5773 Killed                  qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel $tmp -smp 4 -append "$*"
+real 13.47
+user 14.60
+sys 11.82
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.Ac5HHXDVrj
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.Ac5HHXDVrj -smp 4 -append '@all -n500000 --pgtable'
+! skipping "MP.times+pos":  requires --perf
+P0			P1			P2			P3			
+
+Test check1:
+ p1:x0=0  p2:x0=0  p2:x2=1  : 13800
+ p1:x0=1  p2:x0=0  p2:x2=1  : 194113
+ p1:x0=0  p2:x0=0  p2:x2=0  : 51099
+ p1:x0=1  p2:x0=1  p2:x2=1  : 97909
+ p1:x0=0  p2:x0=1  p2:x2=1  : 79755
+ p1:x0=1  p2:x0=0  p2:x2=0  : 38251
+ p1:x0=0  p2:x0=1  p2:x2=0  : 25073
+Observation check1: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test check2:
+ p1:x0=0  p1:x2=0  : 138051
+ p1:x0=1  p1:x2=1  : 295715
+ p1:x0=0  p1:x2=1  : 61646
+ p1:x0=1  p1:x2=0  : 4588
+Observation check2: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test check3:
+ p1:x0=0  p1:x2=0  : 348874
+ p1:x0=1  p1:x2=0  : 151126 *
+Observation check3: 151126 (of 500000)
+P0			P1			P2			P3			
+
+Test check4:
+ p0:x0=0  : 500000
+Observation check4: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test check5:
+ p0:x0=1  : 500000
+Observation check5: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test check6:
+ p0:x0=0  : 500000
+Observation check6: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test LB.broken+pos:
+ p0:x2=1  p1:x2=0  : 385324 *
+ p0:x2=0  p1:x2=0  : 114676
+Observation LB.broken+pos: 385324 (of 500000)
+P0			P1			P2			P3			
+
+Test MP+dmbs:
+ p1:x0=1  p1:x2=1  : 155713
+ p1:x0=0  p1:x2=0  : 258769
+ p1:x0=0  p1:x2=1  : 85518
+Observation MP+dmbs: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP+pos:
+ p1:x0=1  p1:x2=0  : 23580 *
+ p1:x0=0  p1:x2=0  : 269414
+ p1:x0=1  p1:x2=1  : 145133
+ p1:x0=0  p1:x2=1  : 61873
+Observation MP+pos: 23580 (of 500000)
+P0			P1			P2			P3			
+
+Test SB+dmbs:
+ p0:x2=1  p1:x2=0  : 263907
+ p0:x2=1  p1:x2=1  : 62637
+ p0:x2=0  p1:x2=1  : 173456
+Observation SB+dmbs: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test SB+pos:
+ p0:x2=0  p1:x2=0  : 40013 *
+ p0:x2=0  p1:x2=1  : 165774
+ p0:x2=1  p1:x2=0  : 256076
+ p0:x2=1  p1:x2=1  : 38137
+Observation SB+pos: 40013 (of 500000)
+P0			P1			P2			P3			
+
+Test WRC+addrs:
+ p1:x0=1  p2:x0=0  p2:x2=1  : 61046
+ p1:x0=0  p2:x0=0  p2:x2=1  : 43420
+ p1:x0=0  p2:x0=1  p2:x2=1  : 114351
+ p1:x0=1  p2:x0=1  p2:x2=1  : 24165
+ p1:x0=1  p2:x0=0  p2:x2=0  : 35966
+ p1:x0=0  p2:x0=0  p2:x2=0  : 182495
+ p1:x0=0  p2:x0=1  p2:x2=0  : 38557
+Observation WRC+addrs: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test WRC+pos:
+ p1:x0=0  p2:x0=0  p2:x2=0  : 196695
+ p1:x0=0  p2:x0=1  p2:x2=1  : 47096
+ p1:x0=0  p2:x0=1  p2:x2=0  : 126035
+ p1:x0=1  p2:x0=1  p2:x2=1  : 28699
+ p1:x0=1  p2:x0=0  p2:x2=0  : 53852
+ p1:x0=0  p2:x0=0  p2:x2=1  : 5329
+ p1:x0=1  p2:x0=0  p2:x2=1  : 41358
+ p1:x0=1  p2:x0=1  p2:x2=0  : 936 *
+Observation WRC+pos: 936 (of 500000)
+P0			P1			P2			P3			
+
+Test MP+dmb+eret:
+ p1:x0=1  p1:x2=1  : 195736
+ p1:x0=0  p1:x2=0  : 237900
+ p1:x0=0  p1:x2=1  : 66364
+Observation MP+dmb+eret: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test MP+dmb+svc:
+ p1:x0=1  p1:x2=1  : 122033
+ p1:x0=0  p1:x2=1  : 144777
+ p1:x0=0  p1:x2=0  : 233190
+Observation MP+dmb+svc: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=1  p1:x2=1  : 93727
+ p1:x0=0  p1:x2=0  : 402304
+ p1:x0=0  p1:x2=1  : 3969
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=1  p1:x2=1  : 94351
+ p1:x0=0  p1:x2=0  : 401665
+ p1:x0=0  p1:x2=1  : 3984
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 397707
+ p1:x0=0  p1:x2=1  : 5487
+ p1:x0=1  p1:x2=1  : 96806
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb-isb+dsb:
+ p1:x0=0  p1:x2=0  : 404504
+ p1:x0=1  p1:x2=1  : 92520
+ p1:x0=0  p1:x2=1  : 2976
+Observation BBM1+dsb-tlbiis-dsb-dsb-isb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 400167
+ p1:x0=1  p1:x2=1  : 94309
+ p1:x0=0  p1:x2=1  : 5524
+Observation BBM1+dsb-tlbiis-dsb-dsb-isb+dsb-isb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test CoRT:
+ p1:x0=0  p1:x2=1  : 65058
+ p1:x0=0  p1:x2=0  : 339162
+ p1:x0=1  p1:x2=1  : 53703
+ p1:x0=1  p1:x2=0  : 42077 *
+Observation CoRT: 42077 (of 500000)
+P0			P1			P2			P3			
+./litmus.2020-121.exe: line 7:  5811 Killed                  qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel $tmp -smp 4 -append "$*"
+real 17723.45
+user 24729.70
+sys 10307.73
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.hqCci5naLH
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.hqCci5naLH -smp 4 -append '@all -n500000 --pgtable'
+! skipping "MP.times+pos":  requires --perf
+P0			P1			P2			P3			
+qemu-system-aarch64: terminating on signal 15 from pid 7378 (killall)
+real 4.41
+user 10.80
+sys 5.01
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.BA9ADDbLqK
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.BA9ADDbLqK -smp 4 -append '@all -n500000 --pgtable'
+! skipping "MP.times+pos":  requires --perf
+P0			P1			P2			P3			
+./litmus.2020-121.exe: line 7:  7387 Killed                  qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel $tmp -smp 4 -append "$*"
+real 4.40
+user 10.85
+sys 5.13
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.3znTFvYCyg
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.3znTFvYCyg -smp 4 -append '@all -n500000 --pgtable'
+! skipping "MP.times+pos":  requires --perf
+P0			P1			P2			P3			
+./litmus.2020-121.exe: line 7:  7411 Killed                  qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel $tmp -smp 4 -append "$*"
+real 11.83
+user 32.62
+sys 13.16
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.aiFq12VYLY
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.aiFq12VYLY -smp 4 -append '@all -n500000 --pgtable'
+! skipping "MP.times+pos":  requires --perf
+P0			P1			P2			P3			
+./litmus_cron.sh: line 22:  7424 Killed                  ./litmus.$YYYY-$ddd.exe @all -n500000 --pgtable
+real 63.66
+user 0.01
+sys 0.02
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.PUqKJNiKKr
+++ zcat
+++ base64 -d
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.PUqKJNiKKr -smp 4 -append '@all -n500000 --pgtable'
+! skipping "MP.times+pos":  requires --perf
+P0			P1			P2			P3			
+./litmus_cron.sh: line 22:  7473 Killed                  ./litmus.$YYYY-$ddd.exe @all -n500000 --pgtable
+real 15.45
+user 0.01
+sys 0.03
+++ echo Starting bin/litmus.exe
+Starting bin/litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.AVq31psTNs
+++ zcat
+++ base64 -d
+++ qemu-system-aarch64 -nodefaults -machine virt,accel=kvm,gic-version=host -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.AVq31psTNs -smp 4 -append '@all -n500000 --pgtable'
+! skipping "MP.times+pos":  requires --perf
+P0			P1			P2			P3			
+qemu-system-aarch64: terminating on signal 15 from pid 7513 (killall)
+qemu-system-aarch64: terminating on signal 15 from pid 7513 ()
