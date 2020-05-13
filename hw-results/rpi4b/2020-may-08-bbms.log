@@ -1,0 +1,2406 @@
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.ZcJyspyE10
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.ZcJyspyE10 -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 336231
+ p1:x0=0  p1:x2=2  : 160128
+ p1:x0=0  p1:x2=1  : 540
+ p1:x0=1  p1:x2=1  : 3101
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 356516
+ p1:x0=0  p1:x2=2  : 139558
+ p1:x0=0  p1:x2=1  : 600
+ p1:x0=1  p1:x2=1  : 3326
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+1/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.xwVqZ8xXMr
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.xwVqZ8xXMr -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=1  : 776
+ p1:x0=0  p1:x2=0  : 331118
+ p1:x0=0  p1:x2=2  : 164497
+ p1:x0=1  p1:x2=1  : 3609
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 358056
+ p1:x0=0  p1:x2=2  : 137814
+ p1:x0=1  p1:x2=1  : 3334
+ p1:x0=0  p1:x2=1  : 796
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+2/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.FAGSnlE8y1
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.FAGSnlE8y1 -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 333059
+ p1:x0=0  p1:x2=2  : 162812
+ p1:x0=1  p1:x2=1  : 3431
+ p1:x0=0  p1:x2=1  : 698
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 354684
+ p1:x0=0  p1:x2=2  : 141302
+ p1:x0=0  p1:x2=1  : 764
+ p1:x0=1  p1:x2=1  : 3250
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+3/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.t7pDr7zQOr
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.t7pDr7zQOr -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=1  p1:x2=1  : 3393
+ p1:x0=1  p1:x2=0  : 1 *
+ p1:x0=0  p1:x2=0  : 335239
+ p1:x0=0  p1:x2=2  : 160811
+ p1:x0=0  p1:x2=1  : 556
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 1 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=1  : 733
+ p1:x0=0  p1:x2=0  : 361775
+ p1:x0=0  p1:x2=2  : 133803
+ p1:x0=1  p1:x2=1  : 3689
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+4/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.wjO8s7lno4
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.wjO8s7lno4 -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 335339
+ p1:x0=0  p1:x2=2  : 161150
+ p1:x0=1  p1:x2=1  : 2804
+ p1:x0=0  p1:x2=1  : 707
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 358257
+ p1:x0=0  p1:x2=2  : 137696
+ p1:x0=0  p1:x2=1  : 874
+ p1:x0=1  p1:x2=1  : 3173
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+5/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.hpKz2rOwCB
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.hpKz2rOwCB -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 337396
+ p1:x0=0  p1:x2=2  : 158749
+ p1:x0=0  p1:x2=1  : 750
+ p1:x0=1  p1:x2=1  : 3105
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 356299
+ p1:x0=0  p1:x2=2  : 139785
+ p1:x0=1  p1:x2=1  : 3144
+ p1:x0=0  p1:x2=1  : 772
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+6/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.wwejuNcLwB
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.wwejuNcLwB -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 334071
+ p1:x0=0  p1:x2=2  : 162397
+ p1:x0=0  p1:x2=1  : 613
+ p1:x0=1  p1:x2=1  : 2919
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 359097
+ p1:x0=0  p1:x2=2  : 136821
+ p1:x0=0  p1:x2=1  : 700
+ p1:x0=1  p1:x2=1  : 3382
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+7/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.ZxI90ARBT6
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.ZxI90ARBT6 -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 334681
+ p1:x0=0  p1:x2=2  : 162004
+ p1:x0=1  p1:x2=1  : 2655
+ p1:x0=0  p1:x2=1  : 660
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 358138
+ p1:x0=0  p1:x2=2  : 137755
+ p1:x0=0  p1:x2=1  : 839
+ p1:x0=1  p1:x2=1  : 3268
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+8/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.ynj8lgStpA
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.ynj8lgStpA -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 332013
+ p1:x0=0  p1:x2=2  : 164107
+ p1:x0=1  p1:x2=1  : 3202
+ p1:x0=0  p1:x2=1  : 678
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 355589
+ p1:x0=0  p1:x2=2  : 140263
+ p1:x0=1  p1:x2=1  : 3317
+ p1:x0=0  p1:x2=1  : 831
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+9/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.91dbK49bAf
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.91dbK49bAf -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 333203
+ p1:x0=0  p1:x2=2  : 162484
+ p1:x0=0  p1:x2=1  : 606
+ p1:x0=1  p1:x2=1  : 3707
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 363352
+ p1:x0=0  p1:x2=2  : 132811
+ p1:x0=1  p1:x2=1  : 3129
+ p1:x0=0  p1:x2=1  : 708
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+10/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.yG4o0hShLX
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.yG4o0hShLX -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 333269
+ p1:x0=0  p1:x2=2  : 163402
+ p1:x0=1  p1:x2=1  : 2762
+ p1:x0=0  p1:x2=1  : 567
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=1  : 626
+ p1:x0=0  p1:x2=0  : 365366
+ p1:x0=1  p1:x2=1  : 2892
+ p1:x0=0  p1:x2=2  : 131116
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+11/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.4IMSwqSexm
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.4IMSwqSexm -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 337289
+ p1:x0=0  p1:x2=1  : 557
+ p1:x0=0  p1:x2=2  : 158854
+ p1:x0=1  p1:x2=1  : 3300
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 362788
+ p1:x0=0  p1:x2=2  : 133570
+ p1:x0=1  p1:x2=1  : 2917
+ p1:x0=0  p1:x2=1  : 725
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+12/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.5xDOwdfyHn
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.5xDOwdfyHn -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=1  : 565
+ p1:x0=0  p1:x2=0  : 338969
+ p1:x0=0  p1:x2=2  : 157299
+ p1:x0=1  p1:x2=1  : 3167
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=1  : 623
+ p1:x0=0  p1:x2=0  : 357157
+ p1:x0=0  p1:x2=2  : 139076
+ p1:x0=1  p1:x2=1  : 3144
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+13/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.ENaziTPerf
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.ENaziTPerf -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 324850
+ p1:x0=0  p1:x2=2  : 171165
+ p1:x0=0  p1:x2=1  : 964
+ p1:x0=1  p1:x2=1  : 3021
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 356692
+ p1:x0=0  p1:x2=2  : 139178
+ p1:x0=0  p1:x2=1  : 1035
+ p1:x0=1  p1:x2=1  : 3095
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+14/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.90GS7MI6Ht
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.90GS7MI6Ht -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 336075
+ p1:x0=0  p1:x2=2  : 159992
+ p1:x0=0  p1:x2=1  : 729
+ p1:x0=1  p1:x2=1  : 3204
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 358986
+ p1:x0=0  p1:x2=2  : 137480
+ p1:x0=1  p1:x2=1  : 2771
+ p1:x0=0  p1:x2=1  : 763
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+15/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.0m6u4IQU9i
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.0m6u4IQU9i -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 339231
+ p1:x0=0  p1:x2=2  : 157323
+ p1:x0=0  p1:x2=1  : 584
+ p1:x0=1  p1:x2=1  : 2862
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 353760
+ p1:x0=0  p1:x2=2  : 142184
+ p1:x0=0  p1:x2=1  : 756
+ p1:x0=1  p1:x2=1  : 3300
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+16/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.h9rcgnPZmu
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.h9rcgnPZmu -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 338029
+ p1:x0=0  p1:x2=2  : 158661
+ p1:x0=1  p1:x2=1  : 2628
+ p1:x0=0  p1:x2=1  : 682
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 359967
+ p1:x0=0  p1:x2=2  : 135850
+ p1:x0=0  p1:x2=1  : 909
+ p1:x0=1  p1:x2=1  : 3274
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+17/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.l35eUU62VO
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.l35eUU62VO -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 343124
+ p1:x0=0  p1:x2=2  : 153148
+ p1:x0=0  p1:x2=1  : 682
+ p1:x0=1  p1:x2=1  : 3046
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 360889
+ p1:x0=0  p1:x2=2  : 134937
+ p1:x0=1  p1:x2=1  : 3388
+ p1:x0=0  p1:x2=1  : 786
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+18/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.aoAKFztj4k
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.aoAKFztj4k -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 334446
+ p1:x0=0  p1:x2=2  : 162126
+ p1:x0=0  p1:x2=1  : 583
+ p1:x0=1  p1:x2=1  : 2845
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 353939
+ p1:x0=0  p1:x2=2  : 142492
+ p1:x0=0  p1:x2=1  : 755
+ p1:x0=1  p1:x2=1  : 2814
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+19/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.o2NR8sW7mv
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.o2NR8sW7mv -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 334382
+ p1:x0=0  p1:x2=2  : 161589
+ p1:x0=0  p1:x2=1  : 871
+ p1:x0=1  p1:x2=1  : 3158
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 351684
+ p1:x0=0  p1:x2=2  : 144536
+ p1:x0=0  p1:x2=1  : 755
+ p1:x0=1  p1:x2=1  : 3025
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+20/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.fVRb5KeJd0
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.fVRb5KeJd0 -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 336082
+ p1:x0=0  p1:x2=2  : 160292
+ p1:x0=0  p1:x2=1  : 594
+ p1:x0=1  p1:x2=1  : 3032
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 363776
+ p1:x0=0  p1:x2=2  : 132397
+ p1:x0=1  p1:x2=1  : 3078
+ p1:x0=0  p1:x2=1  : 749
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+21/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.Jt6br7wfHF
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.Jt6br7wfHF -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 330044
+ p1:x0=0  p1:x2=2  : 166672
+ p1:x0=1  p1:x2=1  : 2769
+ p1:x0=0  p1:x2=1  : 515
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 362885
+ p1:x0=0  p1:x2=1  : 644
+ p1:x0=0  p1:x2=2  : 133675
+ p1:x0=1  p1:x2=1  : 2796
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+22/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.HpogVFfiyO
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.HpogVFfiyO -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 333991
+ p1:x0=0  p1:x2=2  : 162501
+ p1:x0=0  p1:x2=1  : 581
+ p1:x0=1  p1:x2=1  : 2927
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 353999
+ p1:x0=0  p1:x2=2  : 142337
+ p1:x0=0  p1:x2=1  : 684
+ p1:x0=1  p1:x2=1  : 2980
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+23/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.bLFY6IlGti
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.bLFY6IlGti -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 337486
+ p1:x0=0  p1:x2=2  : 158970
+ p1:x0=1  p1:x2=1  : 3009
+ p1:x0=0  p1:x2=1  : 535
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 350482
+ p1:x0=0  p1:x2=2  : 146442
+ p1:x0=0  p1:x2=1  : 625
+ p1:x0=1  p1:x2=1  : 2451
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+24/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.6o9pVWdAOF
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.6o9pVWdAOF -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 327646
+ p1:x0=0  p1:x2=2  : 168812
+ p1:x0=0  p1:x2=1  : 563
+ p1:x0=1  p1:x2=1  : 2979
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 348610
+ p1:x0=0  p1:x2=2  : 147998
+ p1:x0=1  p1:x2=1  : 2742
+ p1:x0=0  p1:x2=1  : 650
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+25/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.noAROuhRWH
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.noAROuhRWH -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 331858
+ p1:x0=0  p1:x2=2  : 164308
+ p1:x0=0  p1:x2=1  : 665
+ p1:x0=1  p1:x2=1  : 3169
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 349773
+ p1:x0=0  p1:x2=1  : 916
+ p1:x0=0  p1:x2=2  : 146419
+ p1:x0=1  p1:x2=1  : 2892
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+26/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.S09OukwV7s
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.S09OukwV7s -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 332628
+ p1:x0=0  p1:x2=2  : 164211
+ p1:x0=0  p1:x2=1  : 593
+ p1:x0=1  p1:x2=1  : 2568
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 360046
+ p1:x0=0  p1:x2=2  : 136517
+ p1:x0=0  p1:x2=1  : 686
+ p1:x0=1  p1:x2=1  : 2751
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+27/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.TeAi3gYLrl
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.TeAi3gYLrl -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 334050
+ p1:x0=0  p1:x2=2  : 161989
+ p1:x0=1  p1:x2=1  : 3233
+ p1:x0=0  p1:x2=1  : 728
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 362457
+ p1:x0=0  p1:x2=2  : 132680
+ p1:x0=1  p1:x2=1  : 3987
+ p1:x0=0  p1:x2=1  : 876
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+28/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.5MOmo5Xx51
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.5MOmo5Xx51 -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 337423
+ p1:x0=0  p1:x2=2  : 158914
+ p1:x0=0  p1:x2=1  : 556
+ p1:x0=1  p1:x2=1  : 3107
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 358054
+ p1:x0=0  p1:x2=2  : 137982
+ p1:x0=1  p1:x2=1  : 3248
+ p1:x0=0  p1:x2=1  : 716
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+29/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.GQLo2d1DEb
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.GQLo2d1DEb -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 339802
+ p1:x0=0  p1:x2=2  : 156653
+ p1:x0=1  p1:x2=1  : 2904
+ p1:x0=0  p1:x2=1  : 641
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 353987
+ p1:x0=0  p1:x2=2  : 142541
+ p1:x0=0  p1:x2=1  : 768
+ p1:x0=1  p1:x2=1  : 2704
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+30/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.IVWVS0kcKv
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.IVWVS0kcKv -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=1  p1:x2=1  : 3056
+ p1:x0=0  p1:x2=0  : 330174
+ p1:x0=0  p1:x2=2  : 166073
+ p1:x0=0  p1:x2=1  : 697
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 354715
+ p1:x0=0  p1:x2=2  : 141171
+ p1:x0=1  p1:x2=1  : 3194
+ p1:x0=0  p1:x2=1  : 920
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+31/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.KbzTRTBYwj
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.KbzTRTBYwj -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 342858
+ p1:x0=0  p1:x2=2  : 153298
+ p1:x0=1  p1:x2=1  : 3255
+ p1:x0=0  p1:x2=1  : 589
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 356976
+ p1:x0=0  p1:x2=2  : 139519
+ p1:x0=0  p1:x2=1  : 691
+ p1:x0=1  p1:x2=1  : 2814
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+32/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.DVDTqhoDFv
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.DVDTqhoDFv -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 331706
+ p1:x0=0  p1:x2=2  : 164629
+ p1:x0=1  p1:x2=1  : 3068
+ p1:x0=0  p1:x2=1  : 597
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=1  p1:x2=1  : 2451
+ p1:x0=1  p1:x2=0  : 2 *
+ p1:x0=0  p1:x2=0  : 351153
+ p1:x0=0  p1:x2=2  : 145674
+ p1:x0=0  p1:x2=1  : 720
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 2 (of 500000)
+33/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.XjzLOoJ7Zj
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.XjzLOoJ7Zj -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 329521
+ p1:x0=0  p1:x2=2  : 166961
+ p1:x0=1  p1:x2=1  : 2908
+ p1:x0=0  p1:x2=1  : 610
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 362336
+ p1:x0=0  p1:x2=2  : 134299
+ p1:x0=0  p1:x2=1  : 645
+ p1:x0=1  p1:x2=1  : 2720
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+34/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.g0FK7l55R7
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.g0FK7l55R7 -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 340943
+ p1:x0=0  p1:x2=2  : 155581
+ p1:x0=1  p1:x2=1  : 2762
+ p1:x0=0  p1:x2=1  : 714
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 350683
+ p1:x0=0  p1:x2=2  : 145721
+ p1:x0=1  p1:x2=1  : 2884
+ p1:x0=0  p1:x2=1  : 712
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+35/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.rivuigXqVc
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.rivuigXqVc -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 333437
+ p1:x0=0  p1:x2=2  : 163315
+ p1:x0=1  p1:x2=1  : 2630
+ p1:x0=0  p1:x2=1  : 618
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 351720
+ p1:x0=0  p1:x2=2  : 144632
+ p1:x0=0  p1:x2=1  : 781
+ p1:x0=1  p1:x2=1  : 2867
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+36/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.vGzgNZuVIV
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.vGzgNZuVIV -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 334038
+ p1:x0=0  p1:x2=2  : 162424
+ p1:x0=1  p1:x2=1  : 2941
+ p1:x0=0  p1:x2=1  : 597
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 359304
+ p1:x0=0  p1:x2=2  : 137102
+ p1:x0=1  p1:x2=1  : 2954
+ p1:x0=0  p1:x2=1  : 640
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+37/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.YwS5lEg2Pc
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.YwS5lEg2Pc -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 335047
+ p1:x0=0  p1:x2=2  : 161303
+ p1:x0=1  p1:x2=1  : 3116
+ p1:x0=0  p1:x2=1  : 534
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 358586
+ p1:x0=0  p1:x2=2  : 137756
+ p1:x0=0  p1:x2=1  : 688
+ p1:x0=1  p1:x2=1  : 2970
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+38/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.E2oJY27EpS
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.E2oJY27EpS -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 329815
+ p1:x0=0  p1:x2=2  : 166364
+ p1:x0=1  p1:x2=1  : 3243
+ p1:x0=0  p1:x2=1  : 578
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 354359
+ p1:x0=0  p1:x2=2  : 141257
+ p1:x0=0  p1:x2=1  : 755
+ p1:x0=1  p1:x2=1  : 3629
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+39/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.jbJFLGHOQv
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.jbJFLGHOQv -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 338627
+ p1:x0=0  p1:x2=2  : 157794
+ p1:x0=0  p1:x2=1  : 582
+ p1:x0=1  p1:x2=1  : 2997
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 358581
+ p1:x0=1  p1:x2=1  : 3314
+ p1:x0=0  p1:x2=2  : 137431
+ p1:x0=0  p1:x2=1  : 674
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+40/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.KMmsMlpouJ
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.KMmsMlpouJ -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 328508
+ p1:x0=0  p1:x2=2  : 168060
+ p1:x0=1  p1:x2=1  : 2829
+ p1:x0=0  p1:x2=1  : 603
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 352753
+ p1:x0=0  p1:x2=2  : 142971
+ p1:x0=0  p1:x2=1  : 703
+ p1:x0=1  p1:x2=1  : 3573
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+41/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.d21Rxu6WO0
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.d21Rxu6WO0 -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 332259
+ p1:x0=0  p1:x2=2  : 163987
+ p1:x0=1  p1:x2=1  : 3202
+ p1:x0=0  p1:x2=1  : 552
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 355945
+ p1:x0=0  p1:x2=2  : 140469
+ p1:x0=0  p1:x2=1  : 749
+ p1:x0=1  p1:x2=1  : 2837
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+42/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.KZO4Mk25iw
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.KZO4Mk25iw -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 331319
+ p1:x0=0  p1:x2=2  : 165625
+ p1:x0=0  p1:x2=1  : 548
+ p1:x0=1  p1:x2=1  : 2508
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 355419
+ p1:x0=0  p1:x2=2  : 141195
+ p1:x0=1  p1:x2=1  : 2685
+ p1:x0=0  p1:x2=1  : 701
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+43/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.hl1M7S6Cl4
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.hl1M7S6Cl4 -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 341424
+ p1:x0=0  p1:x2=2  : 155281
+ p1:x0=1  p1:x2=1  : 2749
+ p1:x0=0  p1:x2=1  : 546
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 361107
+ p1:x0=0  p1:x2=2  : 135554
+ p1:x0=0  p1:x2=1  : 647
+ p1:x0=1  p1:x2=1  : 2692
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+44/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.rEcVg405SO
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.rEcVg405SO -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 325023
+ p1:x0=0  p1:x2=2  : 171410
+ p1:x0=0  p1:x2=1  : 663
+ p1:x0=1  p1:x2=1  : 2904
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 352551
+ p1:x0=0  p1:x2=2  : 143328
+ p1:x0=0  p1:x2=1  : 796
+ p1:x0=1  p1:x2=1  : 3325
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+45/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.42yQ1okKqq
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.42yQ1okKqq -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 329306
+ p1:x0=0  p1:x2=2  : 167458
+ p1:x0=0  p1:x2=1  : 640
+ p1:x0=1  p1:x2=1  : 2596
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 350879
+ p1:x0=0  p1:x2=2  : 144817
+ p1:x0=1  p1:x2=1  : 3429
+ p1:x0=0  p1:x2=1  : 875
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+46/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.OkPoiG1LBj
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.OkPoiG1LBj -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 327165
+ p1:x0=0  p1:x2=2  : 169470
+ p1:x0=0  p1:x2=1  : 632
+ p1:x0=1  p1:x2=1  : 2733
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 360775
+ p1:x0=0  p1:x2=2  : 135494
+ p1:x0=1  p1:x2=1  : 3006
+ p1:x0=0  p1:x2=1  : 725
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+47/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.MPV3DwFrfU
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.MPV3DwFrfU -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 338885
+ p1:x0=0  p1:x2=2  : 157630
+ p1:x0=1  p1:x2=1  : 2885
+ p1:x0=0  p1:x2=1  : 600
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 351578
+ p1:x0=0  p1:x2=2  : 144770
+ p1:x0=1  p1:x2=1  : 2906
+ p1:x0=0  p1:x2=1  : 746
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+48/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.SYQPUgYQk5
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.SYQPUgYQk5 -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 328218
+ p1:x0=0  p1:x2=2  : 168259
+ p1:x0=0  p1:x2=1  : 654
+ p1:x0=1  p1:x2=1  : 2869
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 348975
+ p1:x0=0  p1:x2=2  : 147502
+ p1:x0=1  p1:x2=1  : 2765
+ p1:x0=0  p1:x2=1  : 758
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+49/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.ApZNslG9bn
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.ApZNslG9bn -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 331756
+ p1:x0=0  p1:x2=2  : 164930
+ p1:x0=1  p1:x2=1  : 2721
+ p1:x0=0  p1:x2=1  : 593
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 358527
+ p1:x0=0  p1:x2=2  : 137970
+ p1:x0=0  p1:x2=1  : 721
+ p1:x0=1  p1:x2=1  : 2782
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+50/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.TTGP4JKE6U
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.TTGP4JKE6U -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 333759
+ p1:x0=0  p1:x2=2  : 162353
+ p1:x0=1  p1:x2=1  : 3336
+ p1:x0=0  p1:x2=1  : 552
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 346851
+ p1:x0=0  p1:x2=2  : 148969
+ p1:x0=1  p1:x2=1  : 3394
+ p1:x0=0  p1:x2=1  : 786
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+51/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.46tvxCbZW6
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.46tvxCbZW6 -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 329614
+ p1:x0=0  p1:x2=2  : 166550
+ p1:x0=1  p1:x2=1  : 3121
+ p1:x0=0  p1:x2=1  : 715
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 354882
+ p1:x0=0  p1:x2=2  : 141039
+ p1:x0=1  p1:x2=1  : 3283
+ p1:x0=0  p1:x2=1  : 796
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+52/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.fi61SvOxeF
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.fi61SvOxeF -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 335117
+ p1:x0=0  p1:x2=2  : 160657
+ p1:x0=0  p1:x2=1  : 700
+ p1:x0=1  p1:x2=1  : 3526
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 357312
+ p1:x0=0  p1:x2=2  : 138435
+ p1:x0=0  p1:x2=1  : 767
+ p1:x0=1  p1:x2=1  : 3486
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+53/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.U7pKbmiHGd
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.U7pKbmiHGd -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 335189
+ p1:x0=0  p1:x2=2  : 160453
+ p1:x0=1  p1:x2=1  : 3729
+ p1:x0=0  p1:x2=1  : 629
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 359303
+ p1:x0=0  p1:x2=2  : 136789
+ p1:x0=0  p1:x2=1  : 714
+ p1:x0=1  p1:x2=1  : 3194
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+54/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.LSzQc5LORH
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.LSzQc5LORH -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=1  : 756
+ p1:x0=0  p1:x2=0  : 334806
+ p1:x0=0  p1:x2=2  : 161812
+ p1:x0=1  p1:x2=1  : 2626
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 354954
+ p1:x0=0  p1:x2=2  : 141451
+ p1:x0=1  p1:x2=1  : 2801
+ p1:x0=0  p1:x2=1  : 794
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+55/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.eHLdZLfSYK
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.eHLdZLfSYK -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 335776
+ p1:x0=0  p1:x2=2  : 159876
+ p1:x0=0  p1:x2=1  : 704
+ p1:x0=1  p1:x2=1  : 3644
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 364897
+ p1:x0=0  p1:x2=2  : 131132
+ p1:x0=0  p1:x2=1  : 814
+ p1:x0=1  p1:x2=1  : 3157
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+56/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.cKvXowUVSA
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.cKvXowUVSA -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 327963
+ p1:x0=0  p1:x2=2  : 168533
+ p1:x0=0  p1:x2=1  : 676
+ p1:x0=1  p1:x2=1  : 2828
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 360672
+ p1:x0=0  p1:x2=2  : 135773
+ p1:x0=0  p1:x2=1  : 695
+ p1:x0=1  p1:x2=1  : 2860
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+57/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.UHQhYbXImp
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.UHQhYbXImp -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 330161
+ p1:x0=0  p1:x2=2  : 165988
+ p1:x0=0  p1:x2=1  : 839
+ p1:x0=1  p1:x2=1  : 3012
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 352726
+ p1:x0=0  p1:x2=2  : 142336
+ p1:x0=0  p1:x2=1  : 977
+ p1:x0=1  p1:x2=1  : 3961
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+58/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.yXqE84q5Pk
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.yXqE84q5Pk -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 322872
+ p1:x0=0  p1:x2=2  : 173664
+ p1:x0=0  p1:x2=1  : 572
+ p1:x0=1  p1:x2=1  : 2892
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=1  p1:x2=1  : 3084
+ p1:x0=0  p1:x2=0  : 353125
+ p1:x0=0  p1:x2=2  : 143091
+ p1:x0=0  p1:x2=1  : 700
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+59/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.OYU4vfWbBZ
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.OYU4vfWbBZ -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=1  p1:x2=1  : 3024
+ p1:x0=1  p1:x2=0  : 1 *
+ p1:x0=0  p1:x2=2  : 163282
+ p1:x0=0  p1:x2=0  : 333026
+ p1:x0=0  p1:x2=1  : 667
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 1 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 351637
+ p1:x0=0  p1:x2=2  : 144599
+ p1:x0=0  p1:x2=1  : 754
+ p1:x0=1  p1:x2=1  : 3010
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+60/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.Zguelyyo0b
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.Zguelyyo0b -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 337635
+ p1:x0=0  p1:x2=2  : 158513
+ p1:x0=0  p1:x2=1  : 744
+ p1:x0=1  p1:x2=1  : 3108
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=1  p1:x2=1  : 3027
+ p1:x0=0  p1:x2=0  : 357528
+ p1:x0=0  p1:x2=2  : 138636
+ p1:x0=0  p1:x2=1  : 809
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+61/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.lM4Sam01p0
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.lM4Sam01p0 -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 338706
+ p1:x0=0  p1:x2=1  : 616
+ p1:x0=0  p1:x2=2  : 157796
+ p1:x0=1  p1:x2=1  : 2882
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=1  p1:x2=1  : 3122
+ p1:x0=0  p1:x2=0  : 352889
+ p1:x0=0  p1:x2=1  : 735
+ p1:x0=0  p1:x2=2  : 143254
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+62/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.gymgCY98KF
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.gymgCY98KF -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 332400
+ p1:x0=0  p1:x2=2  : 163809
+ p1:x0=1  p1:x2=1  : 3061
+ p1:x0=0  p1:x2=1  : 730
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 358679
+ p1:x0=0  p1:x2=2  : 137900
+ p1:x0=0  p1:x2=1  : 792
+ p1:x0=1  p1:x2=1  : 2629
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+63/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.UjeyAwOdsc
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.UjeyAwOdsc -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 330926
+ p1:x0=0  p1:x2=2  : 164959
+ p1:x0=0  p1:x2=1  : 643
+ p1:x0=1  p1:x2=1  : 3472
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 358919
+ p1:x0=0  p1:x2=2  : 136635
+ p1:x0=0  p1:x2=1  : 822
+ p1:x0=1  p1:x2=1  : 3624
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+64/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.NUk4tL1Nj2
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.NUk4tL1Nj2 -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 338029
+ p1:x0=0  p1:x2=2  : 158464
+ p1:x0=1  p1:x2=1  : 2925
+ p1:x0=0  p1:x2=1  : 582
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 351533
+ p1:x0=0  p1:x2=2  : 144882
+ p1:x0=1  p1:x2=1  : 2871
+ p1:x0=0  p1:x2=1  : 714
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+65/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.skDLN2POuG
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.skDLN2POuG -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 332976
+ p1:x0=0  p1:x2=2  : 163565
+ p1:x0=1  p1:x2=1  : 2816
+ p1:x0=0  p1:x2=1  : 643
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 360383
+ p1:x0=1  p1:x2=1  : 3426
+ p1:x0=1  p1:x2=0  : 1 *
+ p1:x0=0  p1:x2=2  : 135496
+ p1:x0=0  p1:x2=1  : 694
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 1 (of 500000)
+66/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.NMCkX8xQlE
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.NMCkX8xQlE -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 332173
+ p1:x0=0  p1:x2=2  : 164397
+ p1:x0=1  p1:x2=1  : 2746
+ p1:x0=0  p1:x2=1  : 684
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 353411
+ p1:x0=0  p1:x2=2  : 143120
+ p1:x0=0  p1:x2=1  : 721
+ p1:x0=1  p1:x2=1  : 2748
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+67/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.Gs9rzPAaLk
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.Gs9rzPAaLk -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 327509
+ p1:x0=0  p1:x2=2  : 168414
+ p1:x0=1  p1:x2=1  : 2926
+ p1:x0=0  p1:x2=1  : 1151
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 349989
+ p1:x0=0  p1:x2=2  : 145674
+ p1:x0=0  p1:x2=1  : 1289
+ p1:x0=1  p1:x2=1  : 3048
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+68/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.PkAWxegopD
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.PkAWxegopD -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 336612
+ p1:x0=0  p1:x2=2  : 159815
+ p1:x0=0  p1:x2=1  : 756
+ p1:x0=1  p1:x2=1  : 2817
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 350766
+ p1:x0=0  p1:x2=2  : 145915
+ p1:x0=1  p1:x2=1  : 2575
+ p1:x0=0  p1:x2=1  : 744
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+69/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.pGgxRVsgk3
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.pGgxRVsgk3 -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 335225
+ p1:x0=0  p1:x2=2  : 161143
+ p1:x0=0  p1:x2=1  : 1119
+ p1:x0=1  p1:x2=1  : 2513
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 349354
+ p1:x0=0  p1:x2=1  : 1289
+ p1:x0=0  p1:x2=2  : 146136
+ p1:x0=1  p1:x2=1  : 3221
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+70/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.4wRzthnNu8
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.4wRzthnNu8 -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 333322
+ p1:x0=0  p1:x2=2  : 162548
+ p1:x0=0  p1:x2=1  : 1167
+ p1:x0=1  p1:x2=1  : 2963
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 352128
+ p1:x0=0  p1:x2=2  : 143721
+ p1:x0=1  p1:x2=1  : 2955
+ p1:x0=0  p1:x2=1  : 1196
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+71/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.ptz0De9mH0
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.ptz0De9mH0 -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 341159
+ p1:x0=0  p1:x2=2  : 154891
+ p1:x0=0  p1:x2=1  : 545
+ p1:x0=1  p1:x2=1  : 3405
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 362766
+ p1:x0=1  p1:x2=1  : 3346
+ p1:x0=0  p1:x2=2  : 133221
+ p1:x0=0  p1:x2=1  : 667
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+72/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.YNW3FZOo4U
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.YNW3FZOo4U -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 335865
+ p1:x0=0  p1:x2=2  : 160625
+ p1:x0=0  p1:x2=1  : 648
+ p1:x0=1  p1:x2=1  : 2862
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 353499
+ p1:x0=0  p1:x2=2  : 142493
+ p1:x0=1  p1:x2=1  : 3192
+ p1:x0=0  p1:x2=1  : 816
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+73/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.AkNlqtE7ku
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.AkNlqtE7ku -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 341523
+ p1:x0=0  p1:x2=2  : 155231
+ p1:x0=0  p1:x2=1  : 480
+ p1:x0=1  p1:x2=1  : 2766
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 360368
+ p1:x0=0  p1:x2=2  : 135996
+ p1:x0=0  p1:x2=1  : 639
+ p1:x0=1  p1:x2=1  : 2997
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+74/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.jD3AEVTZLp
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.jD3AEVTZLp -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 328786
+ p1:x0=0  p1:x2=2  : 167274
+ p1:x0=0  p1:x2=1  : 638
+ p1:x0=1  p1:x2=1  : 3302
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=1  p1:x2=0  : 1 *
+ p1:x0=0  p1:x2=0  : 353977
+ p1:x0=0  p1:x2=2  : 141761
+ p1:x0=1  p1:x2=1  : 3545
+ p1:x0=0  p1:x2=1  : 716
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 1 (of 500000)
+75/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.0ZoR4k6quP
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.0ZoR4k6quP -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 336225
+ p1:x0=0  p1:x2=2  : 159716
+ p1:x0=0  p1:x2=1  : 763
+ p1:x0=1  p1:x2=1  : 3296
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 363019
+ p1:x0=0  p1:x2=2  : 133351
+ p1:x0=1  p1:x2=1  : 2913
+ p1:x0=0  p1:x2=1  : 717
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+76/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.ZZk0uQqpST
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.ZZk0uQqpST -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=1  p1:x2=1  : 2578
+ p1:x0=0  p1:x2=0  : 332654
+ p1:x0=0  p1:x2=1  : 655
+ p1:x0=0  p1:x2=2  : 164113
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 356441
+ p1:x0=0  p1:x2=2  : 139631
+ p1:x0=0  p1:x2=1  : 802
+ p1:x0=1  p1:x2=1  : 3126
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+77/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.NUMY0GWGoD
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.NUMY0GWGoD -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 337597
+ p1:x0=0  p1:x2=1  : 599
+ p1:x0=0  p1:x2=2  : 158944
+ p1:x0=1  p1:x2=1  : 2860
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 352594
+ p1:x0=0  p1:x2=2  : 143763
+ p1:x0=0  p1:x2=1  : 734
+ p1:x0=1  p1:x2=1  : 2909
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+78/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.1ZwjgA2GBt
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.1ZwjgA2GBt -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 335555
+ p1:x0=0  p1:x2=2  : 160560
+ p1:x0=0  p1:x2=1  : 584
+ p1:x0=1  p1:x2=1  : 3301
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 357144
+ p1:x0=0  p1:x2=2  : 139787
+ p1:x0=0  p1:x2=1  : 602
+ p1:x0=1  p1:x2=1  : 2467
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+79/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.t5IRsQg0Tl
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.t5IRsQg0Tl -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 333038
+ p1:x0=0  p1:x2=2  : 163816
+ p1:x0=1  p1:x2=1  : 2534
+ p1:x0=0  p1:x2=1  : 612
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 360725
+ p1:x0=0  p1:x2=2  : 135441
+ p1:x0=1  p1:x2=1  : 3054
+ p1:x0=0  p1:x2=1  : 780
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+80/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.d3zXQuMrWD
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.d3zXQuMrWD -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 335392
+ p1:x0=0  p1:x2=2  : 161152
+ p1:x0=1  p1:x2=1  : 2844
+ p1:x0=0  p1:x2=1  : 612
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 351180
+ p1:x0=0  p1:x2=2  : 145240
+ p1:x0=1  p1:x2=1  : 2879
+ p1:x0=0  p1:x2=1  : 701
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+81/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.qsWBTdfZEE
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.qsWBTdfZEE -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 335371
+ p1:x0=0  p1:x2=2  : 161134
+ p1:x0=0  p1:x2=1  : 536
+ p1:x0=1  p1:x2=1  : 2959
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 362355
+ p1:x0=0  p1:x2=2  : 133819
+ p1:x0=1  p1:x2=1  : 3109
+ p1:x0=0  p1:x2=1  : 717
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+82/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.paAlFH3Pc9
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.paAlFH3Pc9 -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 337371
+ p1:x0=0  p1:x2=2  : 159184
+ p1:x0=1  p1:x2=1  : 2882
+ p1:x0=0  p1:x2=1  : 563
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 356416
+ p1:x0=0  p1:x2=2  : 139352
+ p1:x0=0  p1:x2=1  : 747
+ p1:x0=1  p1:x2=1  : 3485
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+83/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.u0BKW60L0R
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.u0BKW60L0R -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 336647
+ p1:x0=0  p1:x2=2  : 159659
+ p1:x0=0  p1:x2=1  : 655
+ p1:x0=1  p1:x2=1  : 3039
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 360668
+ p1:x0=0  p1:x2=1  : 782
+ p1:x0=0  p1:x2=2  : 135332
+ p1:x0=1  p1:x2=1  : 3218
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+84/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.ksuhDlV45V
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.ksuhDlV45V -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 331390
+ p1:x0=0  p1:x2=2  : 165039
+ p1:x0=1  p1:x2=1  : 2963
+ p1:x0=0  p1:x2=1  : 608
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 356695
+ p1:x0=0  p1:x2=2  : 139545
+ p1:x0=1  p1:x2=1  : 2957
+ p1:x0=0  p1:x2=1  : 803
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+85/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.dbfXCciusJ
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.dbfXCciusJ -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 341165
+ p1:x0=0  p1:x2=2  : 155443
+ p1:x0=1  p1:x2=1  : 2762
+ p1:x0=0  p1:x2=1  : 630
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 351749
+ p1:x0=0  p1:x2=2  : 143786
+ p1:x0=1  p1:x2=1  : 3660
+ p1:x0=0  p1:x2=1  : 805
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+86/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.pROriU78mJ
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.pROriU78mJ -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 326303
+ p1:x0=0  p1:x2=2  : 169961
+ p1:x0=0  p1:x2=1  : 739
+ p1:x0=1  p1:x2=1  : 2997
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 354102
+ p1:x0=0  p1:x2=2  : 142418
+ p1:x0=0  p1:x2=1  : 736
+ p1:x0=1  p1:x2=1  : 2744
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+87/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.2y5PK9AiAr
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.2y5PK9AiAr -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 333204
+ p1:x0=0  p1:x2=2  : 163775
+ p1:x0=0  p1:x2=1  : 526
+ p1:x0=1  p1:x2=1  : 2495
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=1  p1:x2=1  : 3210
+ p1:x0=0  p1:x2=0  : 362205
+ p1:x0=0  p1:x2=2  : 133921
+ p1:x0=0  p1:x2=1  : 664
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+88/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.Bc9w0s7B41
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.Bc9w0s7B41 -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 331059
+ p1:x0=0  p1:x2=2  : 165228
+ p1:x0=0  p1:x2=1  : 1201
+ p1:x0=1  p1:x2=1  : 2512
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 348746
+ p1:x0=0  p1:x2=2  : 147182
+ p1:x0=1  p1:x2=1  : 2644
+ p1:x0=0  p1:x2=1  : 1428
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+89/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.bs7W5fSctt
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.bs7W5fSctt -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 334711
+ p1:x0=0  p1:x2=2  : 162062
+ p1:x0=0  p1:x2=1  : 581
+ p1:x0=1  p1:x2=1  : 2646
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 356461
+ p1:x0=0  p1:x2=2  : 139489
+ p1:x0=0  p1:x2=1  : 708
+ p1:x0=1  p1:x2=1  : 3342
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+90/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.skR0AYA6Ik
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.skR0AYA6Ik -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 333725
+ p1:x0=0  p1:x2=2  : 162530
+ p1:x0=1  p1:x2=1  : 3093
+ p1:x0=0  p1:x2=1  : 652
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 358263
+ p1:x0=0  p1:x2=2  : 138176
+ p1:x0=0  p1:x2=1  : 777
+ p1:x0=1  p1:x2=1  : 2784
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+91/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.IQwIs1alnq
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.IQwIs1alnq -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 339923
+ p1:x0=0  p1:x2=2  : 156195
+ p1:x0=0  p1:x2=1  : 516
+ p1:x0=1  p1:x2=1  : 3366
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 357889
+ p1:x0=0  p1:x2=2  : 138074
+ p1:x0=1  p1:x2=1  : 3295
+ p1:x0=0  p1:x2=1  : 742
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+92/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.fgvAIlnFYZ
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.fgvAIlnFYZ -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 333604
+ p1:x0=0  p1:x2=2  : 163254
+ p1:x0=1  p1:x2=1  : 2622
+ p1:x0=0  p1:x2=1  : 520
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 352143
+ p1:x0=0  p1:x2=2  : 144329
+ p1:x0=0  p1:x2=1  : 727
+ p1:x0=1  p1:x2=1  : 2801
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+93/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.UALRPEjdxu
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.UALRPEjdxu -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 334798
+ p1:x0=1  p1:x2=1  : 3045
+ p1:x0=0  p1:x2=2  : 161554
+ p1:x0=0  p1:x2=1  : 603
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 354650
+ p1:x0=0  p1:x2=2  : 141361
+ p1:x0=1  p1:x2=1  : 3276
+ p1:x0=0  p1:x2=1  : 713
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+94/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.tXR3aN6xGV
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.tXR3aN6xGV -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 336215
+ p1:x0=0  p1:x2=2  : 159912
+ p1:x0=1  p1:x2=1  : 3319
+ p1:x0=0  p1:x2=1  : 554
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 369139
+ p1:x0=0  p1:x2=2  : 126910
+ p1:x0=1  p1:x2=1  : 3242
+ p1:x0=0  p1:x2=1  : 709
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+95/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.skv02QDP8W
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.skv02QDP8W -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=1  p1:x2=0  : 2 *
+ p1:x0=1  p1:x2=1  : 2906
+ p1:x0=0  p1:x2=0  : 330525
+ p1:x0=0  p1:x2=2  : 165814
+ p1:x0=0  p1:x2=1  : 753
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 2 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 360406
+ p1:x0=0  p1:x2=2  : 136015
+ p1:x0=1  p1:x2=1  : 2815
+ p1:x0=0  p1:x2=1  : 764
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+96/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.7sET9Ab1zw
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.7sET9Ab1zw -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 329234
+ p1:x0=0  p1:x2=2  : 167220
+ p1:x0=1  p1:x2=1  : 2868
+ p1:x0=0  p1:x2=1  : 678
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 356882
+ p1:x0=0  p1:x2=2  : 139300
+ p1:x0=0  p1:x2=1  : 742
+ p1:x0=1  p1:x2=1  : 3076
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+97/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.tTUCheuL8f
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.tTUCheuL8f -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 333358
+ p1:x0=0  p1:x2=2  : 163099
+ p1:x0=0  p1:x2=1  : 578
+ p1:x0=1  p1:x2=1  : 2965
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 363799
+ p1:x0=0  p1:x2=2  : 133019
+ p1:x0=0  p1:x2=1  : 646
+ p1:x0=1  p1:x2=1  : 2536
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+98/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.j2pTcmpn2x
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.j2pTcmpn2x -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 335640
+ p1:x0=0  p1:x2=2  : 160898
+ p1:x0=1  p1:x2=1  : 2942
+ p1:x0=0  p1:x2=1  : 520
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 354050
+ p1:x0=0  p1:x2=2  : 141699
+ p1:x0=0  p1:x2=1  : 751
+ p1:x0=1  p1:x2=1  : 3500
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+99/100
+++ echo Starting bin/host_litmus.exe
+Starting bin/host_litmus.exe
++++ mktemp
+++ tmp=/tmp/tmp.FdiqkXY5ea
+++ base64 -d
+++ zcat
+++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.FdiqkXY5ea -smp 4 -append '-p -n500000 BBM1+dsb-tlbiis-dsb-dsb+dsb BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb'
+P0			P1			P2			P3			
+
+Test BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 329396
+ p1:x0=0  p1:x2=2  : 166803
+ p1:x0=0  p1:x2=1  : 703
+ p1:x0=1  p1:x2=1  : 3098
+Observation BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+P0			P1			P2			P3			
+
+Test BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 353389
+ p1:x0=0  p1:x2=2  : 143076
+ p1:x0=1  p1:x2=1  : 2776
+ p1:x0=0  p1:x2=1  : 759
+Observation BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+100/100
