@@ -68,7 +68,7 @@ ifeq ($(strip $(TEST_DISCOVER)),1)
    ifndef LITMUS_FILES
       _ := $(shell $(MAKE_TEST_LIST_CMD) $(quiet) $(LITMUS_TESTS))
    endif
-   litmus_test_list = $(shell tail -n +2 litmus/test_list.txt)
+   litmus_test_list = $(shell awk '$$1==1 {print $$2}' litmus/test_list.txt)
    LITMUS_TEST_FILES ?= $(litmus_test_list)
 else
    LITMUS_TEST_FILES ?= $(wildcard litmus/litmus_tests/**/*.c)
@@ -232,4 +232,6 @@ ssh: bin/host_litmus.exe
 .PHONY: clean
 clean:
 	rm -rf bin/
+	rm litmus/groups.c
 	rm litmus/test_list.txt
+	rm litmus/group_list.txt
