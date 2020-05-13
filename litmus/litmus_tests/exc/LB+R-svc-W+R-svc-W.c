@@ -24,7 +24,7 @@ static void P0(litmus_test_run* data) {
       "dmb st\n\t"
       :
       : [x] "r" (data->var[0]), [y] "r" (data->var[1]), [outp0r0] "r" (data->out_reg[0])
-      :  "cc", "memory", "x0", "x2", "x3"
+      :  "cc", "memory", "x0", "x1", "x2", "x3"
   );
 }
 
