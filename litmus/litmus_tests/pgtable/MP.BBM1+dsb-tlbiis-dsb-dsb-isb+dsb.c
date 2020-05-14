@@ -54,7 +54,7 @@ static void P1(litmus_test_run* data) {
 
 
 litmus_test_t BBM1_dsbtlbiisdsbdsbisb_dsb = {
-  "BBM1+dsb-tlbiis-dsb-dsb-isb+dsb",
+  "MP.BBM1+dsb-tlbiis-dsb-dsb-isb+dsb",
   2,(th_f*[]){
     (th_f*)P0,
     (th_f*)P1

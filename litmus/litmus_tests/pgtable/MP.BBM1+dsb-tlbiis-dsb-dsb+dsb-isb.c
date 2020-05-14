@@ -18,7 +18,6 @@ static void P0(litmus_test_run* data) {
     "dsb sy\n\t"
     "str x3,[x4]\n\t"
     "dsb sy\n\t"
-    "isb\n\t"
     "str x5,[x6]\n\t"
   :
   : [zdesc] "r" (data->desc[2]), [xpte] "r" (data->pte[0]), [xpage] "r" (PAGE(data->var[0])), [y] "r" (data->var[1])
@@ -54,8 +53,8 @@ static void P1(litmus_test_run* data) {
 }
 
 
-litmus_test_t BBM1_dsbtlbiisdsbdsbisb_dsbisb = {
-  "BBM1+dsb-tlbiis-dsb-dsb-isb+dsb-isb",
+litmus_test_t BBM1_dsbtlbiisdsbdsb_dsbisb = {
+  "MP.BBM1+dsb-tlbiis-dsb-dsb+dsb-isb",
   2,(th_f*[]){
     (th_f*)P0,
     (th_f*)P1
