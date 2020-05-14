@@ -16,7 +16,6 @@ fetchrpi:
 
 .PHONY: tabular
 tabular:
-	python3 tabular.py $(TABULAR_ARGS)
 	python3 tabular.py $(TABULAR_ARGS) --standalone
 
 .PHONY: top.pdf

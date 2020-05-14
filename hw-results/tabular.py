@@ -85,10 +85,8 @@ def humanize(n):
 
 
 def write_one_table(grp_list, f, device, results, running, includes=[], excludes=[]):
-    f.write("\\begin{tabular}{l r l l l}\n")
-    f.write("& \\textbf{Name} & \\textbf{Total} & \\textbf{Distribution} &\\\\\n")
-
-    for (test_name, groups) in grp_list:
+    filtered = []
+    for (test_name, groups) in sorted(grp_list, key=lambda t: (t[1], t[0])):
         if (
             (includes and not any(g in includes for g in groups))
             or (any(g in excludes for g in groups))
@@ -96,7 +94,18 @@ def write_one_table(grp_list, f, device, results, running, includes=[], excludes
         ):
             print('Skip ! {}: {}'.format(device, test_name))
             continue
+        filtered.append((test_name, groups))
 
+    one_group = len(set(g for (_, grps) in filtered for g in grps if g != 'all')) == 1
+
+    if one_group:
+        f.write("\\begin{tabular}{r l l l}\n")
+        f.write("\\textbf{Name} & \\textbf{Total} & \\textbf{Distribution} &\\\\\n")
+    else:
+        f.write("\\begin{tabular}{l r l l l}\n")
+        f.write("\\textbf{Type} & \\textbf{Name} & \\textbf{Total} & \\textbf{Distribution} &\\\\\n")
+
+    for (test_name, groups) in filtered:
         total_observations, total_runs = results[test_name]
         # assuming d is Poission distribution then var(d) = 1/n sum(d)
         d = running[test_name]
@@ -111,7 +120,11 @@ def write_one_table(grp_list, f, device, results, running, includes=[], excludes
         h_run = humanize(run)
 
         group = groups[-1]
-        f.write(f"   {group} & {test_name} & {h_total_observations}/{h_total_runs}")
+        f.write("   ")  # padding for nice .tex
+        if not one_group:
+            f.write(f"{group} &")
+
+        f.write(f"{test_name} & {h_total_observations}/{h_total_runs}")
         if total_observations > 0:
             f.write(f" & {h_avg}/{h_run} & $\\pm$ {h_u}/{h_run} \\\\\n")
         else:
@@ -132,6 +145,9 @@ if __name__ == "__main__":
     excludes = [] if not args.excludes else args.excludes.split(",")
     includes = [] if not args.includes else args.includes.split(",")
 
+    includes = [i.strip("@") for i in includes]
+    excludes = [e.strip("@") for e in excludes]
+
     devices = {}
     if args.device:
         for device_dir in args.device:
@@ -149,6 +165,10 @@ if __name__ == "__main__":
         for line in f:
             include, file_path, last_modified_timestamp, test_ident, test_name, *groups = line.split()
             group_list.append((test_name, groups))
+
+    for d, (results, running) in devices.items():
+        with open(root / f"results-{d!s}.tex", "w") as f:
+            write_one_table(group_list, f, d, results, running, includes=includes, excludes=excludes)
 
     if args.standalone:
         with open(args.standalone_file, "w") as f:
@@ -170,7 +190,3 @@ if __name__ == "__main__":
                     f.write(f"   {line}\n")
                 f.write("   \\hspace{3cm}")
             f.write("\\end{document}\n")
-    else:
-        for d, (results, running) in devices.items():
-            with open(root / f"results-{d!s}.tex", "w") as f:
-                write_one_table(group_list, f, d, results, running)
