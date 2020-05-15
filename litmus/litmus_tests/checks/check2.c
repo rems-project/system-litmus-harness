@@ -4,13 +4,13 @@
 
 static void P0(litmus_test_run* data) {
   asm volatile (
-    "mov x10, %[exc_out]\n\t"
+    "mov x10, %[exc]\n\t"
     "mov x0, #1\n\t"
     "str x0, [%[x]]\n\t"
     "mov x2, #1\n\t"
     "str x2, [%[y]]\n\t"
   :
-  : [x] "r" (data->var[0]), [y] "r" (data->var[1]), [exc_out] "r" (data->out_reg[0])
+  : [x] "r" (var_va(data, "x")), [y] "r" (var_va(data, "y")), [exc] "r" (out_reg(data, "exc"))
   : "cc", "memory", "x0", "x2", "x10", "x11"
   );
 }
@@ -19,11 +19,11 @@ static void P1(litmus_test_run* data) {
   uint64_t _x0, _x2;
 
   asm volatile (
-    "mov x10, %[exc_out]\n\t"
+    "mov x10, %[exc]\n\t"
     "ldr %[x0], [%[x1]]\n\t"
     "ldr %[x2], [%[x3]]\n\t"
   : [x0] "=&r" (_x0), [x2] "=&r" (_x2)
-  : [x1] "r" (data->var[1]), [x3] "r" (data->var[0]), [exc_out] "r" (data->out_reg[0])
+  : [x1] "r" (var_va(data, "y")), [x3] "r" (var_va(data, "x")), [exc] "r" (out_reg(data, "exc"))
   : "cc", "memory", "x0", "x2", "x10", "x11"
   );
 }

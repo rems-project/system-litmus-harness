@@ -98,7 +98,7 @@ void free(void* p) {
   lock(&__valloc_lock);
   valloc_alloc_chunk* chk = valloc_alloclist_find_alloc_chunk((uint64_t)p);
   if (! chk) {
-    error("! err: free %p (double free?)\n", p);
+    fail("! err: free %p (double free?)\n", p);
   }
   uint64_t size = chk->size;
 

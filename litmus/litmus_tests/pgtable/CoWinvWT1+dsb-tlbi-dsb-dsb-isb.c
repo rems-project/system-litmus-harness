@@ -34,7 +34,7 @@ static void P0(litmus_test_run* data) {
       /* output */
       "str x5, [%[outp0r5]]\n\t"
       :
-      : [xpte] "r" (data->pte[0]), [xpage] "r" (PAGE(data->var[0])), [ydesc] "r" (data->desc[1]), [x] "r" (data->var[0]), [outp0r5] "r" (data->out_reg[0])
+      : [xpte] "r" (var_pte(data, "x")), [xpage] "r" (var_page(data, "x")), [ydesc] "r" (var_desc(data, "y")), [x] "r" (var_va(data, "x")), [outp0r5] "r" (out_reg(data, "p0:x5"))
       :  "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x5", "x6", "x10"
   );
 }

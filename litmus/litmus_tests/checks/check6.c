@@ -7,7 +7,7 @@ static void P0(litmus_test_run* data) {
     "ldr %[x0], [%[x]]\n\t"
     "str %[x2], [%[x]]\n\t"
   : [x0] "=&r" (*data->out_reg[0])
-  : [x2] "r" (2), [x] "r" (data->var[0])
+  : [x2] "r" (2), [x] "r" (var_va(data, "x"))
   : "cc", "memory"
   );
 }
@@ -19,7 +19,7 @@ static void P1(litmus_test_run* data) {
     "str %[ydesc], [%[xpte]]\n\t"
     ".after:\n\t"
   :
-  : [x] "r" (data->var[0]), [ydesc] "r" (data->desc[1]), [xpte] "r" (data->pte[0])
+  : [x] "r" (var_va(data, "x")), [ydesc] "r" (var_desc(data, "y")), [xpte] "r" (var_pte(data, "x"))
   : "cc", "memory", "x0"
   );
 }

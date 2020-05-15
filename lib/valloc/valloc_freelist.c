@@ -63,7 +63,7 @@ valloc_free_chunk* valloc_freelist_split_alignment(valloc_free_chunk* chunk, uin
   uint64_t chunk_start = (uint64_t)chunk;
   uint64_t chunk_alignment = ALIGN_UP_TO(chunk_start, alignment) - chunk_start;
   if (chunk->size < size + chunk_alignment) {
-    error("! valloc_freelist_split_alignment: cannot split a chunk that is not big enough");
+    fail("! valloc_freelist_split_alignment: cannot split a chunk that is not big enough");
   }
 
   /* remove the chunk and add 1-3 new ones .. */

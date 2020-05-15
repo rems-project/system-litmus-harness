@@ -14,9 +14,9 @@ static void P0(litmus_test_run* data) {
   asm volatile (
     "ldr x0, [%[x]]\n\t"
     "str %[invl], [%[xpte]]\n\t"
-    "str x0, [%[x0]]\n\t"
+    "str x0, [%[outp0r0]]\n\t"
   :
-  : [x] "r" (data->var[0]), [invl] "r" (0), [xpte] "r" (data->pte[0]), [x0] "r" (data->out_reg[0])
+  : [x] "r" (var_va(data, "x")), [invl] "r" (0), [xpte] "r" (var_pte(data, "x")), [outp0r0] "r" (out_reg(data, "p0:x0"))
   : "cc", "memory", "x0", "x10"
   );
 }

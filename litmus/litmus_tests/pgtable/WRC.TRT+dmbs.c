@@ -9,7 +9,7 @@ static void P0(litmus_test_run* data) {
     /* test */
     "str x0, [x1]\n\t"
   :
-  : [zdesc] "r" (data->desc[2]), [xpte] "r" (data->pte[0])
+  : [zdesc] "r" (var_desc(data, "z")), [xpte] "r" (var_pte(data, "x"))
   : "cc", "memory", "x0", "x1"
   );
 }
@@ -26,22 +26,27 @@ static void P1(litmus_test_run* data) {
     /* output */
     "str x0, [%[outp1r0]]\n\t"
   :
-  : [x] "r" (data->var[0]), [y] "r" (data->var[1]), [outp1r0] "r" (data->out_reg[0])
+  : [x] "r" (var_va(data, "x")), [y] "r" (var_va(data, "y")), [outp1r0] "r" (out_reg(data, "p1:x0"))
   : "cc", "memory", "x0", "x1", "x2", "x3"
   );
 }
 
 static void P2(litmus_test_run* data) {
   asm volatile (
+    /* initial registers */
     "mov x1, %[y]\n\t"
     "mov x3, %[x]\n\t"
+
+    /* test */
     "ldr x0, [x1]\n\t"
     "dmb sy\n\t"
     "ldr x2, [x3]\n\t"
-    "str x0, [%[p2r0]]\n\t"
-    "str x2, [%[p2r2]]\n\t"
+
+    /* output */
+    "str x0, [%[outp2r0]]\n\t"
+    "str x2, [%[outp2r2]]\n\t"
   :
-  : [y] "r" (data->var[1]), [x] "r" (data->var[0]), [p2r0] "r" (data->out_reg[1]), [p2r2] "r" (data->out_reg[2])
+  : [y] "r" (var_va(data, "y")), [x] "r" (var_va(data, "x")), [outp2r0] "r" (out_reg(data, "p2:x0")), [outp2r2] "r" (out_reg(data, "p2:x2"))
   : "cc", "memory", "x0", "x1", "x2", "x3"
   );
 }

@@ -48,7 +48,7 @@ RUN_CMD_LOCAL = 	\
 CCERRORS = return-type parentheses misleading-indentation null-dereference sequence-point uninitialized maybe-uninitialized
 CCNOWARN =
 INC_DIRS = inc inc/litmus inc/vmm inc/re
-LIB_DIRS = lib lib/arch lib/vmm lib/valloc lib/re
+LIB_DIRS = lib lib/arch lib/vmm lib/valloc lib/re lib/litmus_test
 OTHER_INCLUDES =  # set for unittests
 CFLAGS = -O0 -nostdlib \
 		$(foreach DIR,$(INC_DIRS),-I $(DIR)) \
@@ -213,6 +213,7 @@ bin/host_%.exe: bin/%.bin
 		$(call make_exe,$(RUN_CMD_HOST))\
 	)
 
+.PHONY: run
 run: bin/qemu_litmus.exe
 	./bin/qemu_litmus.exe $(BIN_ARGS)
 

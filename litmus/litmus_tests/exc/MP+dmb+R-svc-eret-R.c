@@ -10,7 +10,7 @@ static void P0(litmus_test_run* data) {
       "mov x2, #1\n\t"
       "str x2, [%[x3]]\n\t"
       :
-      : [x1] "r" (data->var[0]), [x3] "r" (data->var[1])
+      : [x1] "r" (var_va(data, "x")), [x3] "r" (var_va(data, "y"))
       :  "cc", "memory", "x0", "x2"
   );
 }
@@ -25,16 +25,17 @@ static void P1(litmus_test_run* data) {
       /* load variables into machine registers */
       "mov x1, %[x1]\n\t"
       "mov x3, %[x3]\n\t"
+
+      /* test */
       "ldr x0, [x1]\n\t"
-      /* x3 = X */
       "svc #0\n\t"
       "ldr x2, [x3]\n\t"
+
       /* extract values */
-      "str x0, [%[x0]]\n\t"
-      "str x2, [%[x2]]\n\t"
-      "dmb st\n\t"
+      "str x0, [%[outp1r0]]\n\t"
+      "str x2, [%[outp1r2]]\n\t"
       :
-      : [x1] "r" (data->var[1]), [x3] "r" (data->var[0]), [x0] "r" (data->out_reg[0]), [x2] "r" (data->out_reg[1])
+      : [x1] "r" (var_va(data, "y")), [x3] "r" (var_va(data, "x")), [outp1r0] "r" (out_reg(data, "p1:x0")), [outp1r2] "r" (out_reg(data, "p1:x2"))
       : "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x5", "x6",
         "x7" /* dont touch parameter registers */
   );

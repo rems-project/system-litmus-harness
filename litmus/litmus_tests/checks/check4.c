@@ -7,7 +7,7 @@ static void P0(litmus_test_run* data) {
     "ldr %[x0], [%[x]]\n\t"
     "str %[x1], [%[x]]\n\t"
   : [x0] "=&r" (*data->out_reg[0])
-  : [x1] "r" (4), [x] "r" (data->var[0])
+  : [x1] "r" (4), [x] "r" (var_va(data, "x"))
   : "cc", "memory"
   );
 }

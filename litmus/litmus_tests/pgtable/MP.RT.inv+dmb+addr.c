@@ -13,7 +13,7 @@ static void P0(litmus_test_run* data) {
     "dmb sy\n\t"
     "str x2, [x3]\n\t"
   :
-  : [zdesc] "r" (data->desc[2]), [xpte] "r" (data->pte[0]), [y] "r" (data->var[1])
+  : [zdesc] "r" (var_desc(data, "z")), [xpte] "r" (var_pte(data, "x")), [y] "r" (var_va(data, "y"))
   : "cc", "memory", "x0", "x1", "x2", "x3"
   );
 }
@@ -33,7 +33,7 @@ static void P1(litmus_test_run* data) {
     "str x0, [%[outp1r0]]\n\t"
     "str x2, [%[outp1r2]]\n\t"
   :
-  : [x] "r" (data->var[0]), [y] "r" (data->var[1]), [outp1r0] "r" (data->out_reg[0]), [outp1r2] "r" (data->out_reg[1])
+  : [x] "r" (var_va(data, "x")), [y] "r" (var_va(data, "y")), [outp1r0] "r" (out_reg(data, "p1:x0")), [outp1r2] "r" (out_reg(data, "p1:x2"))
   : "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x10", "x11"
   );
 }

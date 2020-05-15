@@ -37,7 +37,7 @@ void psci_cpu_on(uint64_t cpu);
 void psci_system_off(void);
 
 void abort(void);
-void error(const char* fmt, ...);
+void fail(const char* fmt, ...);
 #define unreachable() do {printf("! unreachable: [%s] %s %d\n", __FILE__, __FUNCTION__, __LINE__); raise_to_el1(); abort();} while (1);
 
 

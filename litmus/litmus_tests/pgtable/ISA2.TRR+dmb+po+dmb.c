@@ -14,7 +14,7 @@ static void P0(litmus_test_run* data) {
     "dmb sy\n\t"
     "str x2, [x3]\n\t"
   :
-  :  [x] "r" (data->var[0]), [yprimedesc] "r" (*yprimepte), [ypte] "r" (data->pte[0])
+  :  [x] "r" (var_va(data, "x")), [yprimedesc] "r" (*yprimepte), [ypte] "r" (var_pte(data, "x"))
   : "cc", "memory", "x0", "x1", "x2", "x3"
   );
 }
@@ -30,7 +30,7 @@ static void P1(litmus_test_run* data) {
     /* output */
     "str x0, [%[outp1r0]]\n\t"
   :
-  : [y] "r" (data->var[1]), [z] "r" (data->var[2]), [outp1r0] "r" (data->out_reg[0])
+  : [y] "r" (var_va(data, "y")), [z] "r" (var_va(data, "z")), [outp1r0] "r" (out_reg(data, "p1:x0"))
   : "cc", "memory", "x0", "x1", "x2", "x3"
   );
 }
@@ -42,10 +42,10 @@ static void P2(litmus_test_run* data) {
     "ldr x0, [x1]\n\t"
     "dmb sy\n\t"
     "ldr x2, [x3]\n\t"
-    "str x0, [%[p2r0]]\n\t"
-    "str x2, [%[p2r2]]\n\t"
+    "str x0, [%[outp2r0]]\n\t"
+    "str x2, [%[outp2r2]]\n\t"
   :
-  : [z] "r" (data->var[2]), [x] "r" (data->var[0]), [p2r0] "r" (data->out_reg[1]), [p2r2] "r" (data->out_reg[2])
+  : [z] "r" (var_va(data, "z")), [x] "r" (var_va(data, "x")), [outp2r0] "r" (out_reg(data, "p2:x0")), [outp2r2] "r" (out_reg(data, "p2:x2"))
   : "cc", "memory", "x0", "x1", "x2", "x3"
   );
 }

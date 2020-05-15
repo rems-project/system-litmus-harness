@@ -20,14 +20,16 @@ static void P0(litmus_test_run* data) {
       "mov x3, %[x]\n\t"
       "mov x4, x3\n\t"
       "lsr x4, x4, #12\n\t"
+
       /* test */
       "str x0, [x1]\n\t"
       "dsb sy\n\t"
       "svc #0\n\t"
+
       /* output back to C vars */
-      "str x2, [%[x2]]\n\t"
+      "str x2, [%[outp0r2]]\n\t"
       :
-      : [ydesc] "r" (data->desc[1]), [xpte] "r" (data->pte[0]), [x] "r" (data->var[0]), [x2] "r" (data->out_reg[0])
+      : [ydesc] "r" (var_desc(data, "y")), [xpte] "r" (var_pte(data, "x")), [x] "r" (var_va(data, "x")), [outp0r2] "r" (out_reg(data, "p0:x2"))
       :  "cc", "memory", "x0", "x1", "x2", "x3", "x4"
   );
 }

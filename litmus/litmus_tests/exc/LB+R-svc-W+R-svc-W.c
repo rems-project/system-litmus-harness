@@ -13,17 +13,17 @@ static void svc_handler0(void) {
 static void P0(litmus_test_run* data) {
   asm volatile(
       /*initial registers */
-      "mov x2, #1\n\t" 
+      "mov x2, #1\n\t"
       "mov x1, %[x]\n\t"
       "mov x3, %[y]\n\t"
-               
+
       "ldr x0, [x1]\n\t"
       "svc #0\n\t"
       /* extract values */
       "str x0, [%[outp0r0]]\n\t"
       "dmb st\n\t"
       :
-      : [x] "r" (data->var[0]), [y] "r" (data->var[1]), [outp0r0] "r" (data->out_reg[0])
+      : [x] "r" (var_va(data, "x")), [y] "r" (var_va(data, "y")), [outp0r0] "r" (out_reg(data, "p0:x0"))
       :  "cc", "memory", "x0", "x1", "x2", "x3"
   );
 }
@@ -41,13 +41,13 @@ static void P1(litmus_test_run* data) {
       "mov x2, #1\n\t"
       "mov x1, %[y]\n\t"
       "mov x3, %[x]\n\t"
-      
+
       "ldr x0, [x1]\n\t"
       "svc #0\n\t"
       "str x0, [%[outp1r0]]\n\t"
       "dmb st\n\t"
       :
-      : [x] "r" (data->var[0]), [y] "r" (data->var[1]), [outp1r0] "r" (data->out_reg[1])
+      : [x] "r" (var_va(data, "x")), [y] "r" (var_va(data, "y")), [outp1r0] "r" (out_reg(data, "p1:x0"))
       : "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x5", "x6",
         "x7" /* dont touch parameter registers */
   );

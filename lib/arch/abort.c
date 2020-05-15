@@ -4,7 +4,7 @@ void abort(void) {
     psci_system_off();
 }
 
-void error(const char* fmt, ...) {
+void fail(const char* fmt, ...) {
 	va_list ap;
 	va_start(ap, fmt);
 	vprintf(fmt, ap);

@@ -24,7 +24,7 @@ static void P0(litmus_test_run* data) {
     /* extract values */
     "str x2, [%[outp0r2]]\n\t"
   :
-  : [x] "r" (data->var[0]), [y] "r" (data->var[1]), [outp0r2] "r" (data->out_reg[0])
+  : [x] "r" (var_va(data, "x")), [y] "r" (var_va(data, "y")), [outp0r2] "r" (out_reg(data, "p0:x2"))
   :  "cc", "memory", "x0", "x1", "x2", "x3"
   );
 }
@@ -44,7 +44,7 @@ static void P1(litmus_test_run* data) {
     /* extract values */
     "str x2, [%[outp1r2]]\n\t"
   :
-  : [y] "r" (data->var[1]), [x] "r" (data->var[0]), [outp1r2] "r" (data->out_reg[1])
+  : [y] "r" (var_va(data, "y")), [x] "r" (var_va(data, "x")), [outp1r2] "r" (out_reg(data, "p1:x2"))
   :  "cc", "memory", "x0", "x1", "x2", "x3"
   );
 }

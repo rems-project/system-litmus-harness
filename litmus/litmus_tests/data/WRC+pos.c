@@ -9,7 +9,7 @@ static void P0(litmus_test_run* data) {
     /* test */
     "str x0, [x1]\n\t"
   :
-  : [x] "r" (data->var[0]), [y] "r" (data->var[1])
+  : [x] "r" (var_va(data, "x")), [y] "r" (var_va(data, "y"))
   : "cc", "memory", "x0", "x1"
   );
 }
@@ -24,7 +24,7 @@ static void P1(litmus_test_run* data) {
     "str x2, [x3]\n\t"
     "str x0, [%[outp1r0]]\n\t"
   :
-  : [x] "r" (data->var[0]), [y] "r" (data->var[1]), [outp1r0] "r" (data->out_reg[0])
+  : [x] "r" (var_va(data, "x")), [y] "r" (var_va(data, "y")), [outp1r0] "r" (out_reg(data, "p1:x0"))
   : "cc", "memory", "x0", "x1", "x2", "x3"
   );
 }
@@ -39,7 +39,7 @@ static void P2(litmus_test_run* data) {
     "str x0, [%[outp2r0]]\n\t"
     "str x2, [%[outp2r2]]\n\t"
   :
-  : [x] "r" (data->var[0]), [y] "r" (data->var[1]), [outp2r0] "r" (data->out_reg[1]), [outp2r2] "r" (data->out_reg[2])
+  : [x] "r" (var_va(data, "x")), [y] "r" (var_va(data, "y")), [outp2r0] "r" (out_reg(data, "p2:x0")), [outp2r2] "r" (out_reg(data, "p2:x2"))
   : "cc", "memory", "x0", "x1", "x2", "x3"
   );
 }

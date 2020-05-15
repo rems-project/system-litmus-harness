@@ -11,7 +11,7 @@ static void P0(litmus_test_run* data) {
     "dmb sy\n\t"
     "str x2, [%[x]]\n\t"
   : [x0] "=&r" (*data->out_reg[0])
-  : [x] "r" (data->var[0]), [y] "r" (data->var[1])
+  : [x] "r" (var_va(data, "x")), [y] "r" (var_va(data, "y"))
   : "cc", "memory", "x0", "x2"
   );
 }
@@ -25,7 +25,7 @@ static void P1(litmus_test_run* data) {
     "dmb sy\n\t"
     "str x2, [%[y]]\n\t"
   : [x0] "=&r" (*data->out_reg[1])
-  : [x] "r" (data->var[0]), [y] "r" (data->var[1])
+  : [x] "r" (var_va(data, "x")), [y] "r" (var_va(data, "y"))
   : "cc", "memory", "x0", "x2"
   );
 }

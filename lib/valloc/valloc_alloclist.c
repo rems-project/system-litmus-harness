@@ -5,7 +5,7 @@
 /** move a chunk from the dealloc list to the alloc list */
 static void swap(valloc_alloc_chunk* chunk, valloc_alloc_chunk** from, valloc_alloc_chunk** to) {
   if (chunk == NULL) {
-    error("valloc_swap : null chunk");
+    fail("valloc_swap : null chunk");
     return;
   }
 
@@ -54,7 +54,7 @@ valloc_alloc_chunk* valloc_alloclist_find_alloc_chunk(uint64_t addr) {
 void valloc_alloclist_dealloc(uint64_t addr) {
   valloc_alloc_chunk* alloced_chunk = valloc_alloclist_find_alloc_chunk(addr);
   if (! alloced_chunk) {
-    error("! err: valloc_alloclist_dealloc no alloc at %p (double free?)\n", addr);
+    fail("! err: valloc_alloclist_dealloc no alloc at %p (double free?)\n", addr);
   }
   move_to_dealloc(alloced_chunk);
 }
@@ -63,7 +63,7 @@ valloc_alloc_chunk* valloc_alloclist_alloc(uint64_t addr, uint64_t size) {
   /* assume addr not already allocated */
   valloc_alloc_chunk* head = chunk_unalloc_list;
   if (head == NULL) {
-    error("! err: cannot alloc any more chunks\n");
+    fail("! err: cannot alloc any more chunks\n");
   }
 
   head->start = addr;
