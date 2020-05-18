@@ -2,6 +2,43 @@
 #define LITMUS_MACROS_H
 
 #include "bitwise.h"
+#include "litmus_asm_in_macros.h"
+
+
+/** these macros are for building the litmus_test_t struct easier
+ * from a group of regs/vars
+ * e.g.
+ *  #define VARS x, y, z
+ *  #define REGS p0r1, p0r2
+ *
+ *  litmus_test_t test = {
+ *     "name",
+ *     MAKE_THREADS(2),
+ *     MAKE_VARS(VARS),
+ *     MAKE_REGS(REGS),
+ *     ...
+ *  }
+ */
+#define MAKE_THREADS(n) n,(th_f*[]){BUILD_THREADS_##n}
+#define MAKE_VARS(...) VA_COUNT(__VA_ARGS__), (const char*[]) {STRINGIFY(__VA_ARGS__)}
+#define MAKE_REGS(...) VA_COUNT(__VA_ARGS__), (const char*[]) {HUMANIZE(__VA_ARGS__)}
+
+/** these are for building the asm blocks automatically
+ * e.g.
+ *  #define VARS x, y, z
+ *  #define REGS p0r1, p2r3
+ *
+ *  ...
+ *  asm volatile (
+ *    ...
+ *  :
+ *  : ASM_VARS(data, VARS),
+ *    ASM_REGS(data, REGS)
+ *  : ...
+ *  )
+ */
+#define ASM_VARS(data, ...) VAR_VAs(data, __VA_ARGS__)//, VAR_PTEs(data, __VA_ARGS__), VAR_DESCs(data, __VA_ARGS__), VAR_PAGEs(data, __VA_ARGS__)
+#define ASM_REGS(data, ...) REG_FNs_UNKNOWN(data, __VA_ARGS__)
 
 /** Generates the asm sequence to do an exception return to the _next_ instruction
  *

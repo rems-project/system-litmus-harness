@@ -14,7 +14,7 @@ LITMUS_FIELDS = {
     ),
 }
 
-LITMUS_TEST_T_PAT = (
+LITMUS_TEST_T_PAT_OLD = (
     r"litmus_test_t\s+(?P<cname>.+?)\s*=\s*\{"
     r"\s*\"(?P<human_name>.+?)\"\s*,"
     r"\s*(?P<no_threads>\d+),\(th_f\*\[\]\)\{[\s\S]+\}\s*,"
@@ -24,9 +24,26 @@ LITMUS_TEST_T_PAT = (
     r'\s*\}\s*;'
 )
 
+LITMUS_TEST_T_PAT_NEW = (
+    r"litmus_test_t\s+(?P<cname>.+?)\s*=\s*\{"
+    r"\s*\"(?P<human_name>.+?)\"\s*,"
+    r"\s*(?P<no_threads>\d+),\(th_f\*\[\]\)\{[\s\S]+\}\s*,"
+    r'\s*MAKE_VARS\(VARS\)\s*?,'
+    r'\s*MAKE_REGS\(REGS\)\s*?,'
+    r'(?P<fields>[\s\S]*?)'
+    r'\s*\}\s*;'
+)
+
+ASM_PAT = (
+    r"asm\s*(volatile)?\s*\("
+    r"(([^\)]*?)|([^/(]*?\([^\)]*?\)))*?"
+    r"\s*[^/)]*?"
+    r"\s*\);"
+)
+
 ASM_BLOCK_PAT = (
     r"asm\s*(volatile)?\s*\("
-    r"\s*(?P<code>([^\(]+?.+\)?)*?)"
+    r"\s*(?P<code>[^(]*?)"
     r"(\s*:(?P<outreg>[\s\S]+?)"
     r"\s*:(?P<inreg>[\s\S]+?)"
     r"\s*:(?P<clobber>[\s\S]+?))?"
@@ -46,7 +63,12 @@ def get_reg_names(asm):
     return ['x{}'.format(i) for i in re.findall(r'(?<=(?<!\%\[)[xw])\d+', asm['code'])]
 
 def parse_litmus_code(path, c_code):
-    match = re.search(LITMUS_TEST_T_PAT, c_code, re.MULTILINE)
+    match = re.search(LITMUS_TEST_T_PAT_NEW, c_code, re.MULTILINE)
+    if not match:
+        old_match = re.search(LITMUS_TEST_T_PAT_OLD, c_code, re.MULTILINE)
+        if old_match:
+            warn({'path': path}, "old-style litmus file")
+        # let fallthrough to error
     handlers = re.search(LITMUS_FIELDS['handlers'], match['fields'], re.MULTILINE)
     if handlers is None:
         handlers = [('NULL','NULL')]*int(match['no_threads'])
@@ -59,7 +81,8 @@ def parse_litmus_code(path, c_code):
     funs = {m['fname']: m for m in re.finditer(C_FUN_PAT, c_code, re.MULTILINE)}
 
     def _get_asm(fn):
-        return re.search(ASM_BLOCK_PAT, funs[fn]['body'], re.MULTILINE)
+        asm_blk = re.search(ASM_PAT, funs[fn]['body'], re.MULTILINE)
+        return re.match(ASM_BLOCK_PAT, asm_blk.group(0), re.MULTILINE)
 
     handler_fns = {
         f: _get_asm(f) if f != 'NULL' else None
@@ -73,8 +96,8 @@ def parse_litmus_code(path, c_code):
             'handlers': handler_fns,
             'cname': match['cname'],
             'human_name': match['human_name'],
-            'vars': (int(match['no_vars']), match['var_names']),
-            'regs': (int(match['no_regs']), match['reg_names']),
+            #'vars': (int(match['no_vars']), match['var_names']),
+            #'regs': (int(match['no_regs']), match['reg_names']),
             'threads': (int(match['no_threads']), threads)}
 
 
@@ -120,7 +143,7 @@ def check_clobber_registers(l):
         el0_asm = l['handlers'][el0]
         el1_asm = l['handlers'][el1]
         regs = get_reg_names(thr) + get_reg_names(el0_asm) + get_reg_names(el1_asm)
-        for r in regs:
+        for r in sorted(set(regs)):
             if thr['clobber'] and r not in thr['clobber']:
                 warn(l, 'clobber missing register {r} in Thread {i}'.format(r=r, i=i))
 
@@ -142,7 +165,6 @@ def check_register_use(l):
                         or el1_ret_reg and r == el1_ret_reg.group(1)):
                     continue
                 warn(l, 'register {r} in Thread {i} appears to be unused'.format(r=r, i=i))
-
 
 def _lint(lit):
     check_human_match_path(lit)
@@ -166,7 +188,6 @@ def lint_file(path):
 def lint_files(paths):
     collected_litmuses = list(collect_litmuses(paths))
     _lint_many(collected_litmuses)
-
 
 if __name__ == "__main__":
     p = argparse.ArgumentParser()

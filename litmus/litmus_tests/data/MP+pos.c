@@ -2,37 +2,42 @@
 
 #include "lib.h"
 
+#define VARS x, y
+#define REGS p1x0, p1x2
+
 static void P0(litmus_test_run* data) {
   asm volatile (
     "mov x0, #1\n\t"
-    "str x0, [%[x1]]\n\t"
+    "str x0, [%[x]]\n\t"
     "mov x2, #1\n\t"
-    "str x2, [%[x3]]\n\t"
+    "str x2, [%[y]]\n\t"
   :
-  : [x1] "r" (var_va(data, "x")), [x3] "r" (var_va(data, "y"))
+  : ASM_VARS(data, VARS),
+    ASM_REGS(data, REGS)
   : "cc", "memory", "x0", "x2"
   );
 }
 
 static void P1(litmus_test_run* data) {
   asm volatile (
-    "ldr %[x0], [%[x1]]\n\t"
-    "ldr %[x2], [%[x3]]\n\t"
-  : [x0] "=&r" (*data->out_reg[0]), [x2] "=&r" (*data->out_reg[1])
-  : [x1] "r" (var_va(data, "y")), [x3] "r" (var_va(data, "x"))
-  : "cc", "memory"
+    "ldr x0, [%[y]]\n\t"
+    "ldr x2, [%[x]]\n\t"
+
+    "str x0, [%[outp1r0]]\n\t"
+    "str x2, [%[outp1r2]]\n\t"
+  :
+  : ASM_VARS(data, VARS),
+    ASM_REGS(data, REGS)
+  : "cc", "memory", "x0", "x2"
   );
 }
 
 
 litmus_test_t MP_pos = {
   "MP+pos",
-  2,(th_f*[]){
-    (th_f*)P0,
-    (th_f*)P1
-  },
-  2,(const char*[]){"x", "y"},
-  2,(const char*[]){"p1:x0", "p1:x2"},
+  MAKE_THREADS(2),
+  MAKE_VARS(VARS),
+  MAKE_REGS(REGS),
   .interesting_result =
     (uint64_t[]){
       /* p1:x0 =*/ 1,
