@@ -2,6 +2,9 @@
 
 #include "lib.h"
 
+#define VARS x, y, z, p
+#define REGS p0x2, p1x0, p2x0, p2x2
+
 static void P0(litmus_test_run* data) {
   asm volatile (
     "mov x0, %[zdesc]\n\t"
@@ -23,11 +26,8 @@ static void P0(litmus_test_run* data) {
     /* output */
     "str x2, [%[outp0r2]]\n\t"
   :
-  : [zdesc] "r" (var_desc(data, "z")), [xpte] "r" (var_pte(data, "x")),
-    [p] "r" (data->va[3]),
-    [xpage] "r" (var_page(data, "x")),
-    [y] "r" (var_va(data, "y")),
-    [outp0r2] "r" (out_reg(data, "p0:x2"))
+  : ASM_VARS(data, VARS),
+    ASM_REGS(data, REGS)
   : "memory", "x0", "x1", "x2", "x3", "x4", "x5", "x6"
   );
 }
@@ -45,7 +45,8 @@ static void P1(litmus_test_run* data) {
       /* output */
       "str x0, [%[outp1r0]]\n\t"
       :
-      : [xpte] "r" (var_pte(data, "x")), [p] "r" (data->va[3]), [outp1r0] "r" (out_reg(data, "p1:x0"))
+      : ASM_VARS(data, VARS),
+        ASM_REGS(data, REGS)
       :  "cc", "memory", "x0", "x1", "x2", "x3", "x4"
   );
 
@@ -77,13 +78,14 @@ static void P2(litmus_test_run* data) {
 
 litmus_test_t MPRT1_dsbdmbldtlbiisdsbisb_dmb = {
   "MP.RT1+[dmb.ld]-dsb-tlbiis-dsb-isb+dmb",
-  3,(th_f*[]){
-    (th_f*)P0,
-    (th_f*)P1,
-    (th_f*)P2
-  },
-  4,(const char*[]){"x", "y", "z", "p"},
-  4,(const char*[]){"p0:x2", "p1:x0", "p2:x0", "p2:x2"},
+  MAKE_THREADS(3),
+  MAKE_VARS(VARS),
+  MAKE_REGS(REGS),
+  INIT_STATE(
+    INIT_VAR(x, 0),
+    INIT_VAR(y, 0),
+    INIT_VAR(z, 1),
+  ),
   .interesting_result = (uint64_t[]){
       /* p0:x2 =*/1,
       /* p1:x0 =*/1,
@@ -91,10 +93,6 @@ litmus_test_t MPRT1_dsbdmbldtlbiisdsbisb_dmb = {
       /* p2:x2 =*/0,
   },
   .start_els=(int[]){1,0,0},
-  .no_init_states=1,
-  .init_states=(init_varstate_t*[]){
-    &(init_varstate_t){"z", TYPE_HEAP, 1},
-  },
   .requires_pgtable=1,
   .no_sc_results = 12,
 };

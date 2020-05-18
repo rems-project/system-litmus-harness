@@ -16,12 +16,22 @@
  *     MAKE_THREADS(2),
  *     MAKE_VARS(VARS),
  *     MAKE_REGS(REGS),
- *     ...
+ *     INIT_STATE(
+ *        INIT_VAR(x, 0),
+ *        INIT_VAR(y, 1),
+ *        INIT_UNMAPPED(z),
+ *     )
  *  }
  */
 #define MAKE_THREADS(n) n,(th_f*[]){BUILD_THREADS_##n}
 #define MAKE_VARS(...) VA_COUNT(__VA_ARGS__), (const char*[]) {STRINGIFY(__VA_ARGS__)}
 #define MAKE_REGS(...) VA_COUNT(__VA_ARGS__), (const char*[]) {HUMANIZE(__VA_ARGS__)}
+
+/* for defining the initial state */
+#define INIT_STATE(...) .no_init_states=VA_COUNT(__VA_ARGS__),.init_states={__VA_ARGS__}
+#define INIT_VAR(var, value) &(init_varstate_t){#var, TYPE_HEAP, value}
+#define INIT_PGT(var, value) &(init_varstate_t){#var, TYPE_PTE, value}
+#define INIT_UNMAPPED(var) &(init_varstate_t){#var, TYPE_PTE, 0}
 
 /** these are for building the asm blocks automatically
  * e.g.
@@ -37,7 +47,7 @@
  *  : ...
  *  )
  */
-#define ASM_VARS(data, ...) VAR_VAs(data, __VA_ARGS__)//, VAR_PTEs(data, __VA_ARGS__), VAR_DESCs(data, __VA_ARGS__), VAR_PAGEs(data, __VA_ARGS__)
+#define ASM_VARS(data, ...) VAR_VAs(data, __VA_ARGS__), VAR_PTEs(data, __VA_ARGS__), VAR_DESCs(data, __VA_ARGS__), VAR_PAGEs(data, __VA_ARGS__)
 #define ASM_REGS(data, ...) REG_FNs_UNKNOWN(data, __VA_ARGS__)
 
 /** Generates the asm sequence to do an exception return to the _next_ instruction
