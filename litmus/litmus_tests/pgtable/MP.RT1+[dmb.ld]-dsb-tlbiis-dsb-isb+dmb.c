@@ -82,6 +82,7 @@ litmus_test_t MPRT1_dsbdmbldtlbiisdsbisb_dmb = {
   MAKE_VARS(VARS),
   MAKE_REGS(REGS),
   INIT_STATE(
+    3,
     INIT_VAR(x, 0),
     INIT_VAR(y, 0),
     INIT_VAR(z, 1),

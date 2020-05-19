@@ -4,7 +4,6 @@
 #include "bitwise.h"
 #include "litmus_asm_in_macros.h"
 
-
 /** these macros are for building the litmus_test_t struct easier
  * from a group of regs/vars
  * e.g.
@@ -17,6 +16,7 @@
  *     MAKE_VARS(VARS),
  *     MAKE_REGS(REGS),
  *     INIT_STATE(
+ *        3,
  *        INIT_VAR(x, 0),
  *        INIT_VAR(y, 1),
  *        INIT_UNMAPPED(z),
@@ -28,7 +28,7 @@
 #define MAKE_REGS(...) VA_COUNT(__VA_ARGS__), (const char*[]) {HUMANIZE(__VA_ARGS__)}
 
 /* for defining the initial state */
-#define INIT_STATE(...) .no_init_states=VA_COUNT(__VA_ARGS__),.init_states={__VA_ARGS__}
+#define INIT_STATE(N, ...) .no_init_states=N,.init_states=(init_varstate_t*[]){__VA_ARGS__}
 #define INIT_VAR(var, value) &(init_varstate_t){#var, TYPE_HEAP, value}
 #define INIT_PGT(var, value) &(init_varstate_t){#var, TYPE_PTE, value}
 #define INIT_UNMAPPED(var) &(init_varstate_t){#var, TYPE_PTE, 0}

@@ -55,6 +55,15 @@ C_FUN_PAT = (
     r"\s*\}"
 )
 
+C_INIT_ST = (
+    r'INIT_STATE\s*\('
+    r'\s*(?P<no_init_states>\d+)\s*,'
+    r'\s*(?P<body>'
+    r'([^\(]*?|([^\(]*?\([^\)]*?\)))*?'
+    r')'
+    r'\s*\)'
+)
+
 def get_reg_names(asm):
     if not asm:
         return []
@@ -89,12 +98,15 @@ def parse_litmus_code(path, c_code):
         for f in (el0, el1)
     }
 
+    init_st = re.search(C_INIT_ST, c_code, re.MULTILINE)
     thr_blocks = [(int(fun['fname'][1:]), fun) for fname, fun in funs.items() if re.fullmatch('P\d+', fname)]
     threads = [(i, _get_asm(m['fname']), handlers[i]) for (i, m) in thr_blocks]
+
     return {'path': path,
             'handlers': handler_fns,
             'cname': match['cname'],
             'human_name': match['human_name'],
+            'init': init_st,
             #'vars': (int(match['no_vars']), match['var_names']),
             #'regs': (int(match['no_regs']), match['reg_names']),
             'threads': (int(match['no_threads']), threads)}
@@ -165,11 +177,33 @@ def check_register_use(l):
                     continue
                 warn(l, 'register {r} in Thread {i} appears to be unused'.format(r=r, i=i))
 
+def check_init_count(lit):
+    init = lit['init']
+    count = int(init['no_init_states'])
+    init_body = init['body']
+    commas = 0
+    b = 0
+    body = init_body.strip()
+    for i, c in enumerate(body):
+        if c == '(':
+            b += 1
+        elif c == ')':
+            b -= 1
+        elif c == ',' and b == 0 and i != len(body) - 1:
+            commas += 1
+    no_sts = commas + 1
+    if no_sts != count:
+        warn(lit, 'initial state contains {no_sts} states but INIT_STATE arguments claim it has {n} states'.format(
+            no_sts=no_sts,
+            n=count,
+        ))
+
 def _lint(lit):
     check_human_match_path(lit)
     check_thread_count(lit)
     check_clobber_registers(lit)
     check_register_use(lit)
+    check_init_count(lit)
 
 
 def _lint_many(lits):
