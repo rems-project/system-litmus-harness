@@ -70,7 +70,8 @@ static void P2(litmus_test_run* data) {
       "str x0, [%[outp2r0]]\n\t"
       "str x2, [%[outp2r2]]\n\t"
       :
-      : [y] "r" (var_va(data, "y")), [x] "r" (var_va(data, "x")), [outp2r0] "r" (out_reg(data, "p2:x0")), [outp2r2] "r" (out_reg(data, "p2:x2"))
+      : ASM_VARS(data, VARS),
+        ASM_REGS(data, REGS)
       :  "cc", "memory", "x0", "x1", "x2", "x3", "x4"
   );
 }
