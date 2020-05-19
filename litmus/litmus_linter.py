@@ -27,7 +27,7 @@ LITMUS_TEST_T_PAT_OLD = (
 LITMUS_TEST_T_PAT_NEW = (
     r"litmus_test_t\s+(?P<cname>.+?)\s*=\s*\{"
     r"\s*\"(?P<human_name>.+?)\"\s*,"
-    r"\s*(?P<no_threads>\d+),\(th_f\*\[\]\)\{[\s\S]+\}\s*,"
+    r'\s*MAKE_THREADS\((?P<no_threads>\d+)\)\s*?,'
     r'\s*MAKE_VARS\(VARS\)\s*?,'
     r'\s*MAKE_REGS\(REGS\)\s*?,'
     r'(?P<fields>[\s\S]*?)'
@@ -36,14 +36,13 @@ LITMUS_TEST_T_PAT_NEW = (
 
 ASM_PAT = (
     r"asm\s*(volatile)?\s*\("
-    r"(([^\)]*?)|([^/(]*?\([^\)]*?\)))*?"
-    r"\s*[^/)]*?"
+    r"[^;]*?"
     r"\s*\);"
 )
 
 ASM_BLOCK_PAT = (
     r"asm\s*(volatile)?\s*\("
-    r"\s*(?P<code>[^(]*?)"
+    r"\s*(?P<code>[^;]*?)"
     r"(\s*:(?P<outreg>[\s\S]+?)"
     r"\s*:(?P<inreg>[\s\S]+?)"
     r"\s*:(?P<clobber>[\s\S]+?))?"
@@ -66,7 +65,7 @@ def parse_litmus_code(path, c_code):
     match = re.search(LITMUS_TEST_T_PAT_NEW, c_code, re.MULTILINE)
     if not match:
         old_match = re.search(LITMUS_TEST_T_PAT_OLD, c_code, re.MULTILINE)
-        if old_match:
+        if old_match and args.warn_old_style:
             warn({'path': path}, "old-style litmus file")
         # let fallthrough to error
     handlers = re.search(LITMUS_FIELDS['handlers'], match['fields'], re.MULTILINE)
@@ -193,5 +192,6 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser()
     p.add_argument('file', nargs='*')
     p.add_argument('-s', '--quiet', action='store_true')
+    p.add_argument('--warn-old-style', action='store_true')
     args = p.parse_args()
     lint_files(args.file)
