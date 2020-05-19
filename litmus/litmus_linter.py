@@ -198,16 +198,23 @@ def check_init_count(lit):
             n=count,
         ))
 
+
+def run_lint(linter, litmus):
+    try:
+        linter(litmus)
+    except Exception:
+        pass
+
 def _lint(lit):
-    check_human_match_path(lit)
-    check_thread_count(lit)
-    check_clobber_registers(lit)
-    check_register_use(lit)
-    check_init_count(lit)
+    run_lint(check_human_match_path, lit)
+    run_lint(check_thread_count, lit)
+    run_lint(check_clobber_registers, lit)
+    run_lint(check_register_use, lit)
+    run_lint(check_init_count, lit)
 
 
 def _lint_many(lits):
-    check_uniq_names(lits)
+    run_lint(check_uniq_names, lits)
 
     for l in lits:
         _lint(l)
@@ -228,4 +235,14 @@ if __name__ == "__main__":
     p.add_argument('-s', '--quiet', action='store_true')
     p.add_argument('--warn-old-style', action='store_true')
     args = p.parse_args()
-    lint_files(args.file)
+
+    try:
+        lint_files(args.file)
+    except Exception as e:
+        # dump the traceback to stderr, but compress it as they can get big and noisy
+        import traceback
+        import base64
+        import gzip
+        tb = traceback.format_exc().encode()
+        bs = base64.b64encode(gzip.compress(tb))
+        sys.stderr.write('! linter exc: {!r}\n'.format(bs.decode()))
