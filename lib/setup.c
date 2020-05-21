@@ -54,9 +54,14 @@ void per_cpu_setup(int cpu) {
   }
 
   if (ENABLE_PERF_COUNTS) {
-    uint64_t enable = read_sysreg(pmuserenr_el0);
-    enable ^= 1UL << 2;  /* Enable Counter aka PMCCNTR_EL0 */
-    write_sysreg(enable, pmuserenr_el0);
+    /* enable virtual/physical timers */
+    write_sysreg((1 << 0) | (1 << 1), cntkctl_el1);
+
+    /* enable PMU cycle counter */
+    write_sysreg((1UL << 27), pmccfiltr_el0);
+    write_sysreg((1UL << 6) | (1UL << 0), pmcr_el0);  /* reset to 0 */
+    write_sysreg((1 << 31), pmcntenset_el0);
+    write_sysreg((1 << 0), pmuserenr_el0);
   }
 
   current_thread_info()->locking_enabled = 1;
@@ -64,4 +69,7 @@ void per_cpu_setup(int cpu) {
   cpu_data[cpu].to_execute = 0;
   dmb();
   cpu_data[cpu].started = 1;
+
+  /* ensure setup of sys registers are visible to harness as well as tests */
+  isb();
 }
