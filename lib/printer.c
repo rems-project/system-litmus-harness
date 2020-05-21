@@ -77,7 +77,7 @@ char* sputhex(char* out, uint64_t n) {
 
 
 void putc(char c) {
-	writeb(c, UART0_BASE);
+	write_stdout(c);
 }
 
 void puts(const char *s) {
@@ -141,7 +141,7 @@ static void vsprintf(char* out, const char* fmt, va_list ap) {
 				abort();
 			}
 		}
-		
+
 		p++;
 	}
 	sputc(out, '\0');

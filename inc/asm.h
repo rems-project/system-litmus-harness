@@ -57,5 +57,9 @@ void writeb(uint8_t byte, uint64_t addr);
     asm volatile("mov " #r ", %[reg]" : : [reg] "rZ" (v));  \
 } while (0)
 
+
+/** read the clock register */
+uint64_t read_clk(void);
+
 #endif
 #endif /* ASM_H */

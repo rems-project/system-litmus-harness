@@ -21,12 +21,10 @@
 #include "debug.h"
 #include "config.h"
 #include "re.h"
+#include "driver.h"
 
 uint64_t vector_base_pa;
 uint64_t vector_base_addr_rw;
-
-/* QEMU memory mapped addresses */
-#define UART0_BASE 0x09000000
 
 /* PSCI Mandatory Functions */
 #define PSCI_SYSTEM_OFF 0x84000008UL

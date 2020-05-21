@@ -160,13 +160,6 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
   }
 }
 
-/* Test Data */
-
-uint64_t read_clk(void) {
-  uint64_t clk = read_sysreg(pmccntr_el0);
-  return clk;
-}
-
 void prefetch(test_ctx_t* ctx, int i) {
   for (int v = 0; v < ctx->cfg->no_heap_vars; v++) {
     /* TODO: read initial state */

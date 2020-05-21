@@ -142,3 +142,26 @@ void debug_vmm_show_walk(uint64_t* pgtable, uint64_t va){
     root = (uint64_t*)desc.table_addr;
   }
 }
+
+const char hex[] = "0123456789abcdef";
+
+void dump_hex(char* dest, char* src, int len) {
+  int cur = 0;
+  dest[cur++] = '\'';
+  for (int i = 0; i < len; i += 1) {
+    uint8_t c = *(src+i);
+    uint8_t hi = (c & 0xf0) >> 4;
+    uint8_t lo = (c & 0x0f);
+
+    if (32 <= c && c <= 90) {
+      dest[cur++] = c;
+    } else {
+      dest[cur++] = '\\';
+      dest[cur++] = 'x';
+      dest[cur++] = hex[hi];
+      dest[cur++] = hex[lo];
+    }
+  }
+  dest[cur++] = '\'';
+  dest[cur++] = '\0';
+}

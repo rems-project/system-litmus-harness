@@ -31,6 +31,12 @@ static uint32_t read_be(char* p) {
     return ((uint32_t)b0<<24) + ((uint32_t)b1<<16) + ((uint32_t)b2<<8) + (uint32_t)b3;
 }
 
+char* dtb_read_str(char* fdt, uint32_t nameoff) {
+    fdt_header* hd = (fdt_header*)fdt;
+    char* name_start = fdt + read_be((char*)&hd->fdt_off_dt_strings) + nameoff;
+    return name_start;
+}
+
 /** given a pointer to the start of a pieces,
  * read it and return a pointer to the start of the next
  */
@@ -74,12 +80,6 @@ fdt_structure_piece dtb_read_piece(char* p) {
 
     piece.next = (char*)FDT_ALIGN((uint64_t)next);
     return piece;
-}
-
-char* dtb_read_str(char* fdt, uint32_t nameoff) {
-    fdt_header* hd = (fdt_header*)fdt;
-    char* name_start = fdt + read_be((char*)&hd->fdt_off_dt_strings) + nameoff;
-    return name_start;
 }
 
 fdt_structure_property_header* fdt_read_prop(char* fdt, char* node_name, char* prop_name) {
