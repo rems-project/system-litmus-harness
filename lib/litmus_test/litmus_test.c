@@ -59,11 +59,7 @@ uint64_t ctx_initial_heap_value(test_ctx_t* ctx, uint64_t idx) {
 static void go_cpus(int cpu, void* a) {
   test_ctx_t* ctx = (test_ctx_t*)a;
   start_of_thread(ctx, cpu);
-
-  if (cpu < ctx->cfg->no_threads) {
-    run_thread(ctx, cpu);
-  }
-
+  run_thread(ctx, cpu);
   end_of_thread(ctx, cpu);
 }
 
@@ -81,18 +77,20 @@ static void _check_ptes(test_ctx_t* ctx, uint64_t n, uint64_t** vas,
 /** run the tests in a loop
  */
 static void run_thread(test_ctx_t* ctx, int cpu) {
-  th_f* pre = ctx->cfg->setup_fns == NULL ? NULL : ctx->cfg->setup_fns[cpu];
-  th_f* func = ctx->cfg->threads[cpu];
-  th_f* post = ctx->cfg->teardown_fns == NULL ? NULL : ctx->cfg->teardown_fns[cpu];
-
   for (int j = 0; j < ctx->no_runs; j++) {
     int i = ctx->shuffled_ixs[j];
+    int vcpu = ctx->affinity[cpu];
+
     uint64_t* heaps[ctx->cfg->no_heap_vars];
     uint64_t* ptes[ctx->cfg->no_heap_vars];
     uint64_t pas[ctx->cfg->no_heap_vars];
     uint64_t* regs[ctx->cfg->no_regs];
     uint64_t descs[ctx->cfg->no_heap_vars];
     uint64_t saved_ptes[ctx->cfg->no_heap_vars];
+
+    if (vcpu >= ctx->cfg->no_threads) {
+      goto run_thread_after_execution;
+    }
 
     for (int v = 0; v < ctx->cfg->no_heap_vars; v++) {
       uint64_t* p = &ctx->heap_vars[v][i];
@@ -123,21 +121,25 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
       .desc = descs,
     };
 
-    start_of_run(ctx, cpu, i);
+    th_f* pre = ctx->cfg->setup_fns == NULL ? NULL : ctx->cfg->setup_fns[vcpu];
+    th_f* func = ctx->cfg->threads[vcpu];
+    th_f* post = ctx->cfg->teardown_fns == NULL ? NULL : ctx->cfg->teardown_fns[vcpu];
+
+    start_of_run(ctx, cpu, vcpu, i);
     if (pre != NULL)
       pre(&run);
 
     if (ctx->cfg->thread_sync_handlers) {
-      if (ctx->cfg->thread_sync_handlers[cpu][0] != NULL)
-        old_sync_handler_el0     = hotswap_exception(0x400, (uint32_t*)ctx->cfg->thread_sync_handlers[cpu][0]);
-      if (ctx->cfg->thread_sync_handlers[cpu][1] != NULL) {
-        old_sync_handler_el1     = hotswap_exception(0x000, (uint32_t*)ctx->cfg->thread_sync_handlers[cpu][1]);
-        old_sync_handler_el1_spx = hotswap_exception(0x200, (uint32_t*)ctx->cfg->thread_sync_handlers[cpu][1]);
+      if (ctx->cfg->thread_sync_handlers[vcpu][0] != NULL)
+        old_sync_handler_el0     = hotswap_exception(0x400, (uint32_t*)ctx->cfg->thread_sync_handlers[vcpu][0]);
+      if (ctx->cfg->thread_sync_handlers[vcpu][1] != NULL) {
+        old_sync_handler_el1     = hotswap_exception(0x000, (uint32_t*)ctx->cfg->thread_sync_handlers[vcpu][1]);
+        old_sync_handler_el1_spx = hotswap_exception(0x200, (uint32_t*)ctx->cfg->thread_sync_handlers[vcpu][1]);
       }
     }
 
     /* this barrier must be last thing before running function */
-    bwait(cpu, i % ctx->cfg->no_threads, &ctx->start_barriers[i], ctx->cfg->no_threads);
+    bwait(vcpu, i % ctx->cfg->no_threads, &ctx->start_barriers[i], ctx->cfg->no_threads);
     func(&run);
     if (ctx->cfg->thread_sync_handlers) {
       if (old_sync_handler_el0 != NULL)
@@ -151,12 +153,13 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     if (post != NULL)
       post(&run);
 
-    end_of_run(ctx, cpu, i);
+    end_of_run(ctx, cpu, vcpu, i);
 
     if (ENABLE_PGTABLE)
       _check_ptes(ctx, ctx->cfg->no_heap_vars, heaps, ptes, saved_ptes);
 
-    bwait(cpu, i % ctx->cfg->no_threads, &ctx->cleanup_barriers[i], ctx->cfg->no_threads);
+run_thread_after_execution:
+    bwait(cpu, i % NO_CPUS, &ctx->cleanup_barriers[i], NO_CPUS);
   }
 }
 
@@ -194,20 +197,28 @@ static void resetsp(void) {
   }
 }
 
-void start_of_run(test_ctx_t* ctx, int thread, int i) {
+void start_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i) {
   /* do not prefetch anymore .. not safe! */
   prefetch(ctx, i);
-  if (! ctx->cfg->start_els || ctx->cfg->start_els[thread] == 0)
+  if (! ctx->cfg->start_els || ctx->cfg->start_els[vcpu] == 0)
     drop_to_el0();
 }
 
+/** every N/10 runs we shuffle the CPUs about
+ */
+static void reshuffle(test_ctx_t* ctx) {
+  shuffle(ctx->affinity, sizeof(int), NO_CPUS);
 void end_of_run(test_ctx_t* ctx, int thread, int i) {
   if (! ctx->cfg->start_els || ctx->cfg->start_els[thread] == 0)
+}
+
+void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i) {
+  if (! ctx->cfg->start_els || ctx->cfg->start_els[vcpu] == 0)
     raise_to_el1();
-  bwait(thread, i % ctx->cfg->no_threads, &ctx->end_barriers[i], ctx->cfg->no_threads);
+  bwait(vcpu, i % ctx->cfg->no_threads, &ctx->end_barriers[i], ctx->cfg->no_threads);
 
   /* only 1 thread should collect the results, else they will be duplicated */
-  if (thread == 0) {
+  if (vcpu == 0) {
     uint64_t r = ctx->current_run++;
     handle_new_result(ctx, i, r);
 
@@ -215,6 +226,7 @@ void end_of_run(test_ctx_t* ctx, int thread, int i) {
     uint64_t step = (ctx->no_runs / 10);
     if (r % step == 0) {
       trace("[%d/%d]\n", r, ctx->no_runs);
+      reshuffle(ctx);
     } else if (r == ctx->no_runs - 1) {
       trace("[%d/%d]\n", r + 1, ctx->no_runs);
     }

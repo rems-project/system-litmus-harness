@@ -82,7 +82,7 @@ void unlock(volatile lock_t* lock) {
 
 lock_t bwait_lock;
 
-void bwait(int cpu, int i, bar_t* bar, int sz) {
+void bwait(int vcpu, int i, bar_t* bar, int sz) {
   /* slow acquire */
   lock(&bwait_lock);
   bar->counter++;
@@ -99,7 +99,7 @@ void bwait(int cpu, int i, bar_t* bar, int sz) {
    * before releasing
    * N.B.  context switching kills this, it really needs a dedicated CPU.
    */
-  bar->release_flags[get_cpu()] = 1;
+  bar->release_flags[vcpu] = 1;
   dsb();
 
   for (int i = 0; i < sz; i++) {

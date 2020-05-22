@@ -4,6 +4,9 @@
 
 void init_device(void);
 
+/** number of physical hardware threads */
+uint64_t NO_CPUS;
+
 /* top of physical memory */
 uint64_t TOP_OF_MEM;
 

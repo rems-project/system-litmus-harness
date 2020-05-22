@@ -19,12 +19,16 @@ uint64_t randn(void) {
   return SEED;
 }
 
-void shuffle(uint64_t* arr, int n) {
-  for (int i = 0; i < n; i++) {
-    int x = randn() % n;
-    int y = randn() % n;
-    uint64_t temp = arr[x];
-    arr[x] = arr[y];
-    arr[y] = temp;
+void shuffle(void* p, int szof, int n) {
+  char* arr = p;
+
+  for (int i = 0; i < n/szof; i++) {
+    char datum[szof];
+    int x = (randn() % n) * szof;
+    int y = (randn() % n) * szof;
+
+    valloc_memcpy(datum, arr+x, szof);
+    valloc_memcpy(arr+x, arr+y, szof);
+    valloc_memcpy(arr+y, datum, szof);
   }
 }

@@ -8,6 +8,7 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
   bar_t* clean_bars = alloc(sizeof(bar_t) * no_runs);
   bar_t* final_barrier = alloc(sizeof(bar_t));
   uint64_t* shuffled = alloc(sizeof(uint64_t) * no_runs);
+  int* affinity = alloc(sizeof(int)*NO_CPUS);
 
   for (int v = 0; v < cfg->no_heap_vars; v++) {
     // ensure each heap var alloc'd into its own page...
@@ -33,7 +34,11 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
     shuffled[i] = i;
   }
   *final_barrier = (bar_t){0};
-  shuffle(shuffled, no_runs);
+  shuffle(shuffled, sizeof(uint64_t), no_runs);
+
+  for (int i = 0; i < NO_CPUS; i++) {
+    affinity[i] = i;
+  }
 
   test_hist_t* hist = alloc(sizeof(test_hist_t) + sizeof(test_result_t) * 200);
   hist->allocated = 0;
@@ -56,6 +61,7 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
   ctx->cleanup_barriers = clean_bars;
   ctx->final_barrier = final_barrier;
   ctx->shuffled_ixs = shuffled;
+  ctx->affinity = affinity;
   ctx->hist = hist;
   ctx->ptable = NULL;
   ctx->current_run = 0;
@@ -162,4 +168,5 @@ void free_test_ctx(test_ctx_t* ctx) {
   free((bar_t*)ctx->cleanup_barriers);
   free((bar_t*)ctx->final_barrier);
   free(ctx->shuffled_ixs);
+  free(ctx->affinity);
 }

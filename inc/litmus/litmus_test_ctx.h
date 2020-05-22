@@ -18,6 +18,7 @@ struct test_ctx {
   bar_t* cleanup_barriers;
   bar_t* final_barrier;
   uint64_t* shuffled_ixs;
+  int* affinity;
   test_hist_t* hist;
   uint64_t* ptable;
   uint64_t current_run;

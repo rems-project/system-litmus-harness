@@ -1,6 +1,8 @@
 #include "lib.h"
 
 void init_device(void) {
+    NO_CPUS = 4;
+
     /* some of these are hard-coded for now but should really be read from the dtb and lds */
     TOP_OF_MEM = 0x48000000UL;
     TOP_OF_STACK = (uint64_t)&stacktop;

@@ -34,7 +34,6 @@ void setup(char* fdtloc) {
     }
   }
 
-  /* shuffle shuffled */
   uint64_t seed = read_clk();
   rand_seed(seed);
   debug("set initial seed = 0x%lx\n", seed);
