@@ -208,8 +208,7 @@ void start_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i) {
  */
 static void reshuffle(test_ctx_t* ctx) {
   shuffle(ctx->affinity, sizeof(int), NO_CPUS);
-void end_of_run(test_ctx_t* ctx, int thread, int i) {
-  if (! ctx->cfg->start_els || ctx->cfg->start_els[thread] == 0)
+  debug("set affinity = %Ad\n", ctx->affinity, NO_CPUS);
 }
 
 void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i) {

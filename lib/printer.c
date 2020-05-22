@@ -101,8 +101,24 @@ void putdec(uint64_t n) {
 	puts(s);
 }
 
+char* sputarray(char* out, char* fmt, void* p, int count) {
+	out = sputc(out, '[');
+	char* arr = p;
+	for (int i = 0; i < count; i++) {
+		if (strcmp(fmt, "%d")) {
+			int* x = arr+i*sizeof(int);
+			out = sprintf(out, fmt, *x);
+		}
+
+		if (i < count-1)
+			out = sputc(out, ' ');
+	}
+	out = sputc(out, ']');
+	return out;
+}
+
 static volatile lock_t __PR_LOCK;
-static void vsprintf(char* out, const char* fmt, va_list ap) {
+static char* vsprintf(char* out, const char* fmt, va_list ap) {
 	if (! DEBUG) {
 		for (int i = 0; i < get_cpu(); i++) {
 			out = sputs(out, "\t\t\t");
@@ -115,7 +131,9 @@ static void vsprintf(char* out, const char* fmt, va_list ap) {
 			out = sputc(out, c);
 		} else if (c == '%') {
 			c = *++p;
-			if (c == 'd') {
+			if (c == '%') {
+				out = sputc(out, '%');
+			} else if (c == 'd') {
 				if (*(p+1) == 'x') {
 					out = sputhex(out, va_arg(ap, int));
 					p++;
@@ -137,6 +155,11 @@ static void vsprintf(char* out, const char* fmt, va_list ap) {
 			} else if (c == 'p') {
 				out = sputs(out, "0x");
 				out = sputhex(out, va_arg(ap, long));
+			} else if (c == 'A') {
+				char fmt[10];
+				sprintf(fmt, "%%%c", *(p+1));
+				out = sputarray(out, fmt, va_arg(ap, void*), va_arg(ap, int));
+				p++;
 			} else {
 				puts("!! printf: unknown symbol: ");
 				putc(c);
@@ -148,6 +171,8 @@ static void vsprintf(char* out, const char* fmt, va_list ap) {
 		p++;
 	}
 	sputc(out, '\0');
+	return out;  /* return reference to the NUL, not to after it
+				  * to make chaining vsprintf() calls easier */
 }
 
 void vprintf(const char* fmt, va_list ap) {
@@ -158,11 +183,12 @@ void vprintf(const char* fmt, va_list ap) {
 	unlock(&__PR_LOCK);
 }
 
-void sprintf(char* out, const char* fmt, ...) {
+char* sprintf(char* out, const char* fmt, ...) {
 	va_list ap;
 	va_start(ap, fmt);
-	vsprintf(out, fmt, ap);
+	out = vsprintf(out, fmt, ap);
 	va_end(ap);
+	return out;
 }
 
 void printf(const char* fmt, ...) {

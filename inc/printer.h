@@ -11,7 +11,7 @@ void puthex(uint64_t n);
 void putdec(uint64_t n);
 
 void vprintf(const char* fmt, va_list ap);
-void sprintf(char* out, const char* fmt, ...);
+char* sprintf(char* out, const char* fmt, ...);
 void printf(const char* fmt, ...);
 void trace(const char* fmt, ...);
 /* debug() declared in debug.h */
