@@ -60,7 +60,7 @@ void* alloc_with_alignment(uint64_t size, uint64_t alignment) {
   }
 
   lock(&__valloc_lock);
-  debug("alloc %p (align %p)\n", size, alignment);
+  //debug("alloc %p (align %p)\n", size, alignment);
   valloc_free_chunk* free_chunk = valloc_freelist_find_best(size, alignment);
   if (free_chunk != NULL) {
     free_chunk = valloc_freelist_split_alignment(free_chunk, size, alignment);
