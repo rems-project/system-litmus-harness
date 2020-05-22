@@ -103,8 +103,11 @@ void putdec(uint64_t n) {
 
 static volatile lock_t __PR_LOCK;
 static void vsprintf(char* out, const char* fmt, va_list ap) {
-	for (int i = 0; i < get_cpu(); i++)
-		out = sputs(out, "\t\t\t");
+	if (! DEBUG) {
+		for (int i = 0; i < get_cpu(); i++) {
+			out = sputs(out, "\t\t\t");
+		}
+	}
 	char* p = (char*)fmt;
 	while (*p) {
 		char c = *p;
@@ -181,7 +184,8 @@ void trace(const char* fmt, ...) {
 void _debug(const char* filename, const int line, const char* func, const char* fmt, ...) {
 	if (DEBUG) {
 		char new_fmt[100];
-		sprintf(new_fmt, "[%s:%d %s] %s", filename, line, func, fmt);
+		int cpu = get_cpu();
+		sprintf(new_fmt, "[%s:%d %s (CPU%d)] %s", filename, line, func, cpu, fmt);
 
 		va_list ap;
 		va_start(ap, fmt);
