@@ -33,9 +33,6 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
     shuffled[i] = i;
   }
   *final_barrier = (bar_t){0};
-
-  /* shuffle shuffled */
-  rand_seed(read_clk());
   shuffle(shuffled, no_runs);
 
   test_hist_t* hist = alloc(sizeof(test_hist_t) + sizeof(test_result_t) * 200);
