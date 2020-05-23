@@ -106,7 +106,7 @@ char* sputarray(char* out, char* fmt, void* p, int count) {
 	char* arr = p;
 	for (int i = 0; i < count; i++) {
 		if (strcmp(fmt, "%d")) {
-			int* x = arr+i*sizeof(int);
+			int* x = (int*)(arr+i*sizeof(int));
 			out = sprintf(out, fmt, *x);
 		}
 
