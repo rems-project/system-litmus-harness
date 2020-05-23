@@ -234,13 +234,13 @@ uint32_t* hotswap_exception(uint64_t vector_slot, uint32_t data[32]) {
 }
 
 void restore_hotswapped_exception(uint64_t vector_slot, uint32_t* ptr) {
-  uint32_t* vbar = (uint32_t*)(vector_base_addr_rw + (4096*read_sysreg(tpidr_el0)) + vector_slot);
+  uint32_t* vbar = (uint32_t*)(vector_base_addr_rw + (4096*get_cpu() + vector_slot));
 
   for (int i = 0; i < 32; i++) {
     *(vbar + i) = ptr[i];
   }
 
-  uint64_t vbar_start = vector_base_addr_rw + (4096*read_sysreg(tpidr_el0));
+  uint64_t vbar_start = vector_base_addr_rw + (4096*get_cpu());
   uint64_t iline = 1 << BIT_SLICE(read_sysreg(ctr_el0), 3, 0);
   uint64_t dline = 1 << BIT_SLICE(read_sysreg(ctr_el0), 19, 16);
   uint64_t line = MIN(iline, dline);

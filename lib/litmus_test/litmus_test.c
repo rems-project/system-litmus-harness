@@ -80,6 +80,7 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
   for (int j = 0; j < ctx->no_runs; j++) {
     int i = ctx->shuffled_ixs[j];
     int vcpu = ctx->affinity[cpu];
+    set_vcpu(vcpu);
 
     uint64_t* heaps[ctx->cfg->no_heap_vars];
     uint64_t* ptes[ctx->cfg->no_heap_vars];
@@ -141,6 +142,7 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     /* this barrier must be last thing before running function */
     bwait(vcpu, i % ctx->cfg->no_threads, &ctx->start_barriers[i], ctx->cfg->no_threads);
     func(&run);
+
     if (ctx->cfg->thread_sync_handlers) {
       if (old_sync_handler_el0 != NULL)
         restore_hotswapped_exception(0x400, old_sync_handler_el0);
@@ -169,14 +171,14 @@ void prefetch(test_ctx_t* ctx, int i) {
     lock(&__harness_lock);
     uint64_t is_valid = vmm_pte_valid(ctx->ptable, &ctx->heap_vars[v][i]);
     unlock(&__harness_lock);
+    printf("ctx->heap_vars[%d][%d] = %d,  initial-heap-value=%d\n", v, i, ctx->heap_vars[v][i], ctx_initial_heap_value(ctx, v));
     if (randn() % 2 && is_valid && ctx->heap_vars[v][i] != ctx_initial_heap_value(ctx, v)) {
-      raise_to_el1(); /* can abort only at EL1 */
-      printf(
-          "! fatal: initial state for heap var \"%s\" on run %d was %d not %d",
+      fail(
+          "! fatal: initial state for heap var \"%s\" on run %d was %d not %d\n",
           varname_from_idx(ctx, v), i, ctx->heap_vars[v][i], ctx_initial_heap_value(ctx, v));
-      abort();
     }
   }
+  debug("prefetch over\n");
 }
 
 static void resetsp(void) {
@@ -200,8 +202,9 @@ static void resetsp(void) {
 void start_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i) {
   /* do not prefetch anymore .. not safe! */
   prefetch(ctx, i);
-  if (! ctx->cfg->start_els || ctx->cfg->start_els[vcpu] == 0)
+  if (! ctx->cfg->start_els || ctx->cfg->start_els[vcpu] == 0) {
     drop_to_el0();
+  }
 }
 
 /** every N/10 runs we shuffle the CPUs about
