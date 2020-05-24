@@ -5,9 +5,10 @@
 static void P0(litmus_test_run* data) {
   asm volatile (
     "ldr %[x0], [%[x]]\n\t"
-    "str %[x2], [%[x]]\n\t"
+    "mov x2, #2\n\t"
+    "str x2, [%[x]]\n\t"
   : [x0] "=&r" (*data->out_reg[0])
-  : [x2] "r" (2), [x] "r" (var_va(data, "x"))
+  : [x] "r" (var_va(data, "x"))
   : "cc", "memory"
   );
 }

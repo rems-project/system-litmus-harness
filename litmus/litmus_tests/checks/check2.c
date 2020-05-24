@@ -20,10 +20,10 @@ static void P1(litmus_test_run* data) {
 
   asm volatile (
     "mov x10, %[exc]\n\t"
-    "ldr %[x0], [%[x1]]\n\t"
-    "ldr %[x2], [%[x3]]\n\t"
+    "ldr %[x0], [%[y]]\n\t"
+    "ldr %[x2], [%[x]]\n\t"
   : [x0] "=&r" (_x0), [x2] "=&r" (_x2)
-  : [x1] "r" (var_va(data, "y")), [x3] "r" (var_va(data, "x")), [exc] "r" (out_reg(data, "exc"))
+  : [y] "r" (var_va(data, "y")), [x] "r" (var_va(data, "x")), [exc] "r" (out_reg(data, "exc"))
   : "cc", "memory", "x0", "x2", "x10", "x11"
   );
 }
