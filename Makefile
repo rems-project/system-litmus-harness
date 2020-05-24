@@ -87,7 +87,7 @@ COMMON_BIN_FILES := $(addprefix bin/,$(C_FILES:.c=.o) $(ASM_FILES:.S=.o))
 litmus_BIN_FILES := $(addprefix bin/,$(LITMUS_FILES:.c=.o))
 unittests_BIN_FILES := $(addprefix bin/,$(UNITTESTS_FILES:.c=.o))
 
-LINTER = python3 litmus/litmus_linter.py
+LINTER = python3 litmus/linter.py
 
 # defines a helper run_cmd
 # this helper displays nice text and handles VERBOSE/quiet modes gracefully
@@ -234,5 +234,9 @@ ssh: bin/host_litmus.exe
 clean:
 	rm -rf bin/
 	rm litmus/groups.c
+	echo 'run `make cleantests` to remove test and group lists too'
+
+.PHONY: cleantests
+cleantests:
 	rm litmus/test_list.txt
 	rm litmus/group_list.txt
