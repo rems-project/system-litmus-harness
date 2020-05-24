@@ -91,11 +91,11 @@ class TestGroups:
     def updated_groups(self):
         return not self.updated_tests.is_empty() or self.force or not (root / 'groups.c').exists()
 
-    def matches(self, name, extra_includes=[]):
+    def matches(self, name, prefix, extra_includes=[]):
         """returns True if some test name matches the set of included tests
         """
         includes = set().union(self.includes, extra_includes)
-        return name in includes or '@all' in includes
+        return (name in includes or '@all' in includes) and not any('-@'+p in includes for p in prefix)
 
     def read_previous_tests(self):
         if not self.force:
@@ -152,7 +152,7 @@ class TestGroups:
                         sys.exit(1)
 
                     found_match = True
-                    matches = self.matches(testname, extra_includes=extra_includes)
+                    matches = self.matches(testname, groups, extra_includes=extra_includes)
                     tfile = TestFile(path, str(st.st_mtime), Test(cname.strip(), testname, matches), groups)
                     self.all_tests.append(tfile)
 
@@ -174,7 +174,7 @@ class TestGroups:
                 self.get_tests(
                     f,
                     groups=groups+[grp],
-                    extra_includes=(['@all'] if self.matches('@'+f.name) else []),
+                    extra_includes=(['@all'] if self.matches('@'+f.name, groups) else []),
                 )
             elif f.suffix == '.c':
                 self.find_tests_in_file(f, groups=groups, extra_includes=extra_includes)
