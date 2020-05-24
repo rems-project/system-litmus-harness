@@ -171,7 +171,6 @@ void prefetch(test_ctx_t* ctx, int i) {
     lock(&__harness_lock);
     uint64_t is_valid = vmm_pte_valid(ctx->ptable, &ctx->heap_vars[v][i]);
     unlock(&__harness_lock);
-    printf("ctx->heap_vars[%d][%d] = %d,  initial-heap-value=%d\n", v, i, ctx->heap_vars[v][i], ctx_initial_heap_value(ctx, v));
     if (randn() % 2 && is_valid && ctx->heap_vars[v][i] != ctx_initial_heap_value(ctx, v)) {
       fail(
           "! fatal: initial state for heap var \"%s\" on run %d was %d not %d\n",
