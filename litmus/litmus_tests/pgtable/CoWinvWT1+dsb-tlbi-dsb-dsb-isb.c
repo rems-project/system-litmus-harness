@@ -2,6 +2,9 @@
 
 #include "lib.h"
 
+#define VARS x, y
+#define REGS p0x5
+
 static void sync_handler(void) {
   asm volatile (
     "mov x5, #2\n\t"
@@ -13,7 +16,7 @@ static void sync_handler(void) {
 
 static void P0(litmus_test_run* data) {
   asm volatile (
-      /* move from C vars into machine regs */
+    /* move from C vars into machine regs */
       "mov x0, #0\n\t"
       "mov x1, %[xpte]\n\t"
       "mov x2, %[xpage]\n\t"
@@ -33,20 +36,25 @@ static void P0(litmus_test_run* data) {
 
       /* output */
       "str x5, [%[outp0r5]]\n\t"
-      :
-      : [xpte] "r" (var_pte(data, "x")), [xpage] "r" (var_page(data, "x")), [ydesc] "r" (var_desc(data, "y")), [x] "r" (var_va(data, "x")), [outp0r5] "r" (out_reg(data, "p0:x5"))
-      :  "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x5", "x6", "x10"
+  : 
+  : ASM_VARS(data, VARS),
+    ASM_REGS(data, REGS)
+  : "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x5", "x6", "x10"
   );
 }
 
 
+
 litmus_test_t CoWinvWT1_dsbtlbidsbdsbisb = {
   "CoWinvWT1+dsb-tlbi-dsb-dsb-isb",
-  1,(th_f*[]){
-    (th_f*)P0
-  },
-  2,(const char*[]){"x","y",},
-  1,(const char*[]){"p0:x5",},
+  MAKE_THREADS(1),
+  MAKE_VARS(VARS),
+  MAKE_REGS(REGS),
+  INIT_STATE(
+    2,
+    INIT_VAR(x, 0),
+    INIT_VAR(y, 1)
+  ),
   .no_interesting_results=2,
   .interesting_results = (uint64_t*[]){
     (uint64_t[]){
@@ -60,11 +68,6 @@ litmus_test_t CoWinvWT1_dsbtlbidsbdsbisb = {
   .thread_sync_handlers =
     (uint32_t**[]){
      (uint32_t*[]){NULL, (uint32_t*)sync_handler},
-  },
-  .no_init_states=2,
-  .init_states=(init_varstate_t*[]){
-    &(init_varstate_t){"x", TYPE_HEAP, 0},
-    &(init_varstate_t){"y", TYPE_HEAP, 1},
   },
   .requires_pgtable = 1,
   .no_sc_results = 1,

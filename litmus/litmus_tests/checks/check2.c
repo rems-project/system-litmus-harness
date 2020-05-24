@@ -2,6 +2,13 @@
 
 #include "lib.h"
 
+#define VARS x, y
+#define REGS exc
+
+/* add hooks for exc reg */
+#define USER_exc "exc"
+#define IDENT_exc exc
+
 static void P0(litmus_test_run* data) {
   asm volatile (
     "mov x10, %[exc]\n\t"
@@ -10,7 +17,8 @@ static void P0(litmus_test_run* data) {
     "mov x2, #1\n\t"
     "str x2, [%[y]]\n\t"
   :
-  : [x] "r" (var_va(data, "x")), [y] "r" (var_va(data, "y")), [exc] "r" (out_reg(data, "exc"))
+  : ASM_VARS(data, VARS),
+    ASM_REGS(data, REGS)
   : "cc", "memory", "x0", "x2", "x10", "x11"
   );
 }
@@ -23,7 +31,8 @@ static void P1(litmus_test_run* data) {
     "ldr %[x0], [%[y]]\n\t"
     "ldr %[x2], [%[x]]\n\t"
   : [x0] "=&r" (_x0), [x2] "=&r" (_x2)
-  : [y] "r" (var_va(data, "y")), [x] "r" (var_va(data, "x")), [exc] "r" (out_reg(data, "exc"))
+  : ASM_VARS(data, VARS),
+    ASM_REGS(data, REGS)
   : "cc", "memory", "x0", "x2", "x10", "x11"
   );
 }
@@ -53,14 +62,17 @@ static void teardown(litmus_test_run* data) {
   }
 }
 
+
 litmus_test_t check2 = {
   "check2",
-  2,(th_f*[]){
-    (th_f*)P0,
-    (th_f*)P1
-  },
-  2,(const char*[]){"x", "y"},
-  1,(const char*[]){"exc"},
+  MAKE_THREADS(2),
+  MAKE_VARS(VARS),
+  MAKE_REGS(REGS),
+  INIT_STATE(
+    2,
+    INIT_VAR(x, 0),
+    INIT_VAR(y, 0)
+  ),
   .interesting_result =
     (uint64_t[]){
       /* exc =*/ 1,

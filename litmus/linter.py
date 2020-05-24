@@ -42,10 +42,16 @@ ASM_PAT = (
 
 ASM_BLOCK_PAT = (
     r"asm\s*(volatile)?\s*\("
-    r"\s*(?P<code>[^;]*?)"
+    r"\s*(?P<code>[^;]*)"
     r"(\s*:(?P<outreg>[\s\S]+?)"
     r"\s*:(?P<inreg>[\s\S]+?)"
-    r"\s*:(?P<clobber>[\s\S]+?))?"
+    r"\s*:(?P<clobber>[\s\S]+?))"
+    r"\s*\)\s*;"
+)
+
+ASM_BLOCK_PAT_NO_VARS = (
+    r"asm\s*(volatile)?\s*\("
+    r"\s*(?P<code>[^;]*)"
     r"\s*\)\s*;"
 )
 
@@ -67,7 +73,6 @@ C_INIT_ST = (
 def get_reg_names(asm):
     if not asm:
         return []
-
     return ['x{}'.format(i) for i in re.findall(r'(?<=(?<!\%\[)[xw])\d+', asm['code'])]
 
 def parse_litmus_code(path, c_code):
@@ -77,7 +82,12 @@ def parse_litmus_code(path, c_code):
         if old_match and args.warn_old_style:
             warn({'path': path}, "old-style litmus file")
         # let fallthrough to error
-    handlers = re.search(LITMUS_FIELDS['handlers'], match['fields'], re.MULTILINE)
+
+    if 'handlers' in LITMUS_FIELDS:
+        handlers = re.search(LITMUS_FIELDS['handlers'], match['fields'], re.MULTILINE)
+    else:
+        handlers = None
+
     if handlers is None:
         handlers = [('NULL','NULL')]*int(match['no_threads'])
     else:
@@ -90,7 +100,9 @@ def parse_litmus_code(path, c_code):
 
     def _get_asm(fn):
         asm_blk = re.search(ASM_PAT, funs[fn]['body'], re.MULTILINE)
-        return re.match(ASM_BLOCK_PAT, asm_blk.group(0), re.MULTILINE)
+        asm = asm_blk.group(0)
+        return (re.match(ASM_BLOCK_PAT, asm, re.MULTILINE)
+                or re.match(ASM_BLOCK_PAT_NO_VARS, asm, re.MULTILINE))
 
     handler_fns = {
         f: _get_asm(f) if f != 'NULL' else None
@@ -121,7 +133,8 @@ def collect_litmuses(paths):
             try:
                 litmus = parse_litmus_code(path, f.read())
             except Exception:
-                pass
+                if args.debug:
+                    raise
             else:
                 yield litmus
 
@@ -203,7 +216,8 @@ def run_lint(linter, litmus):
     try:
         linter(litmus)
     except Exception:
-        pass
+        if args.debug:
+            raise
 
 def _lint(lit):
     run_lint(check_human_match_path, lit)
@@ -217,6 +231,8 @@ def _lint_many(lits):
     run_lint(check_uniq_names, lits)
 
     for l in lits:
+        if args.debug:
+            print('[{}]'.format(l['path']))
         _lint(l)
 
 
@@ -234,12 +250,16 @@ if __name__ == "__main__":
     p.add_argument('file', nargs='*')
     p.add_argument('-s', '--quiet', action='store_true')
     p.add_argument('--warn-old-style', action='store_true')
+    p.add_argument('-d', '--debug', action='store_true')
     args = p.parse_args()
 
     try:
         lint_files(args.file)
     except Exception as e:
         # dump the traceback to stderr, but compress it as they can get big and noisy
+        if args.debug:
+            raise
+
         import traceback
         import base64
         import gzip

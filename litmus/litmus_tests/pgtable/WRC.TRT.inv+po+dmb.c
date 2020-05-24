@@ -2,6 +2,9 @@
 
 #include "lib.h"
 
+#define VARS x, y, z
+#define REGS p1x0, p2x0, p2x2
+
 static void P0(litmus_test_run* data) {
   asm volatile (
     "mov x0, %[zdesc]\n\t"
@@ -9,8 +12,9 @@ static void P0(litmus_test_run* data) {
 
     /* test */
     "str x0, [x1]\n\t"
-  :
-  : [zdesc] "r" (var_desc(data, "z")), [xpte] "r" (var_pte(data, "x"))
+  : 
+  : ASM_VARS(data, VARS),
+    ASM_REGS(data, REGS)
   : "cc", "memory", "x0", "x1"
   );
 }
@@ -34,8 +38,9 @@ static void P1(litmus_test_run* data) {
     "str x2, [x3]\n\t"
 
     /* output */
-  :
-  : [x] "r" (var_va(data, "x")), [y] "r" (var_va(data, "y")), [outp1r0] "r" (out_reg(data, "p1:x0"))
+  : 
+  : ASM_VARS(data, VARS),
+    ASM_REGS(data, REGS)
   : "cc", "memory", "x0", "x1", "x2", "x3", "x10", "x11"
   );
 }
@@ -59,28 +64,27 @@ static void P2(litmus_test_run* data) {
 
     "str x0, [%[outp2r0]]\n\t"
     "str x2, [%[outp2r2]]\n\t"
-  :
-  : [y] "r" (var_va(data, "y")), [x] "r" (var_va(data, "x")), [outp2r0] "r" (out_reg(data, "p2:x0")), [outp2r2] "r" (out_reg(data, "p2:x2"))
+  : 
+  : ASM_VARS(data, VARS),
+    ASM_REGS(data, REGS)
   : "cc", "memory", "x0", "x1", "x2", "x3", "x10", "x11"
   );
 }
 
 
+
 litmus_test_t WRCtrtinv_po_dmb = {
   "WRC.TRT.inv+po+dmb",
-  3,(th_f*[]){
-    (th_f*)P0,
-    (th_f*)P1,
-    (th_f*)P2
-  },
-  3,(const char*[]){"x", "y", "z"},
-  3,(const char*[]){"p1:x0", "p2:x0", "p2:x2"},
-  .no_init_states=2,
-  .init_states=(init_varstate_t*[]){
-      &(init_varstate_t){"x", TYPE_PTE, 0},
-      &(init_varstate_t){"z", TYPE_HEAP, 1},
-    },
-  .thread_sync_handlers =
+  MAKE_THREADS(3),
+  MAKE_VARS(VARS),
+  MAKE_REGS(REGS),
+  INIT_STATE(
+    3,
+    INIT_UNMAPPED(x),
+    INIT_VAR(y, 0),
+    INIT_VAR(z, 1)
+  ),
+   .thread_sync_handlers =
     (uint32_t**[]){
      (uint32_t*[]){NULL, NULL},
      (uint32_t*[]){(uint32_t*)sync_handler_1, NULL},

@@ -2,6 +2,9 @@
 
 #include "lib.h"
 
+#define VARS x, y
+#define REGS p1x0, p1x2
+
 static void P0(litmus_test_run* data) {
   asm volatile (
     /* move from C vars into machine regs */
@@ -9,9 +12,10 @@ static void P0(litmus_test_run* data) {
     "mov x1, %[xpte]\n\t"
     /* test */
     "str x0, [x1]\n\t"
-    :
-    : [ydesc] "r" (var_desc(data, "y")), [xpte] "r" (var_pte(data, "x"))
-    : "cc", "memory", "x0", "x1"
+  : 
+  : ASM_VARS(data, VARS),
+    ASM_REGS(data, REGS)
+  : "cc", "memory", "x0", "x1"
   );
 }
 
@@ -34,28 +38,28 @@ static void P1(litmus_test_run* data) {
     ".after:\n\t"
     "eor x2, x2, #1\n\t"
     "str x2, [%[outp1r2]]\n\t"
-    :
-    : [x] "r" (var_va(data, "x")), [xpte] "r" (var_pte(data, "x")), [ydesc] "r" (var_desc(data, "y")), [outp1r0] "r" (out_reg(data, "p1:x0")), [outp1r2] "r" (out_reg(data, "p1:x2"))
-    : "cc", "memory", "x0", "x1", "x2", "x3", "x4"
+  : 
+  : ASM_VARS(data, VARS),
+    ASM_REGS(data, REGS)
+  : "cc", "memory", "x0", "x1", "x2", "x3", "x4"
   );
 }
 
 
+
 litmus_test_t CoTR_addr = {
   "CoTR+addr",
-  2,(th_f*[]){
-    (th_f*)P0,
-    (th_f*)P1
-  },
-  2,(const char*[]){"x", "y"},
-  2,(const char*[]){"p1:x0","p1:x2"},
+  MAKE_THREADS(2),
+  MAKE_VARS(VARS),
+  MAKE_REGS(REGS),
+  INIT_STATE(
+    2,
+    INIT_VAR(x, 0),
+    INIT_VAR(y, 1)
+  ),
   .interesting_result = (uint64_t[]){
       /* p0:x0 =*/1,
       /* p0:x2 =*/0,
-  },
-  .no_init_states=1,
-  .init_states=(init_varstate_t*[]){
-    &(init_varstate_t){"y", TYPE_HEAP, 1},
   },
   .requires_pgtable = 1,
   .no_sc_results = 3,

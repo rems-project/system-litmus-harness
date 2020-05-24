@@ -2,6 +2,9 @@
 
 #include "lib.h"
 
+#define VARS x, y, z
+#define REGS p1x0, p1x2
+
 static void P0(litmus_test_run* data) {
   asm volatile (
     "mov x0, #0\n\t"
@@ -22,8 +25,9 @@ static void P0(litmus_test_run* data) {
     "dsb sy\n\t"
     "isb\n\t"
     "str x5,[x6]\n\t"
-  :
-  : [zdesc] "r" (var_desc(data, "z")), [xpte] "r" (var_pte(data, "x")), [xpage] "r" (var_page(data, "x")), [y] "r" (var_va(data, "y"))
+  : 
+  : ASM_VARS(data, VARS),
+    ASM_REGS(data, REGS)
   : "memory", "x0", "x1", "x2", "x3", "x4", "x5", "x6"
   );
 }
@@ -38,7 +42,7 @@ static void sync_handler(void) {
 
 static void P1(litmus_test_run* data) {
   asm volatile (
-      /* move from C vars into machine regs */
+    /* move from C vars into machine regs */
       "mov x1, %[y]\n\t"
       "mov x3, %[x]\n\t"
       /* test */
@@ -49,21 +53,26 @@ static void P1(litmus_test_run* data) {
       /* output */
       "str x0, [%[outp1r0]]\n\t"
       "str x2, [%[outp1r2]]\n\t"
-      :
-      : [y] "r" (var_va(data, "y")), [x] "r" (var_va(data, "x")), [outp1r0] "r" (out_reg(data, "p1:x0")), [outp1r2] "r" (out_reg(data, "p1:x2"))
-      :  "cc", "memory", "x0", "x1", "x2", "x3", "x10"
+  : 
+  : ASM_VARS(data, VARS),
+    ASM_REGS(data, REGS)
+  : "cc", "memory", "x0", "x1", "x2", "x3", "x10"
   );
 }
 
 
+
 litmus_test_t BBM1_dsbisbtlbiisdsbisbdsbisb_dsbisb = {
   "MP.BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb",
-  2,(th_f*[]){
-    (th_f*)P0,
-    (th_f*)P1
-  },
-  3,(const char*[]){"x", "y", "z"},
-  2,(const char*[]){"p1:x0", "p1:x2"},
+  MAKE_THREADS(2),
+  MAKE_VARS(VARS),
+  MAKE_REGS(REGS),
+  INIT_STATE(
+    3,
+    INIT_VAR(x, 0),
+    INIT_VAR(y, 0),
+    INIT_VAR(z, 1)
+  ),
   .no_interesting_results=2,
   .interesting_results = (uint64_t*[]){
     (uint64_t[]){
@@ -81,10 +90,6 @@ litmus_test_t BBM1_dsbisbtlbiisdsbisbdsbisb_dsbisb = {
      (uint32_t*[]){NULL, NULL},
      (uint32_t*[]){(uint32_t*)sync_handler, NULL},
     },
-  .no_init_states=1,
-  .init_states=(init_varstate_t*[]){
-    &(init_varstate_t){"z", TYPE_HEAP, 1},
-  },
   .requires_pgtable=1,
   .no_sc_results = 4,
 };

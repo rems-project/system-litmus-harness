@@ -2,6 +2,9 @@
 
 #include "lib.h"
 
+#define VARS x, y, z
+#define REGS p1x0, p1x2
+
 static void P0(litmus_test_run* data) {
   asm volatile (
     "mov x0, %[zdesc]\n\t"
@@ -12,8 +15,9 @@ static void P0(litmus_test_run* data) {
     "str x0, [x1]\n\t"
     "dmb sy\n\t"
     "str x2, [x3]\n\t"
-  :
-  : [zdesc] "r" (var_desc(data, "z")), [xpte] "r" (var_pte(data, "x")), [y] "r" (var_va(data, "y"))
+  : 
+  : ASM_VARS(data, VARS),
+    ASM_REGS(data, REGS)
   : "cc", "memory", "x0", "x1", "x2", "x3"
   );
 }
@@ -32,8 +36,9 @@ static void P1(litmus_test_run* data) {
     /* collect */
     "str x0, [%[outp1r0]]\n\t"
     "str x2, [%[outp1r2]]\n\t"
-  :
-  : [x] "r" (var_va(data, "x")), [y] "r" (var_va(data, "y")), [outp1r0] "r" (out_reg(data, "p1:x0")), [outp1r2] "r" (out_reg(data, "p1:x2"))
+  : 
+  : ASM_VARS(data, VARS),
+    ASM_REGS(data, REGS)
   : "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x10", "x11"
   );
 }
@@ -47,20 +52,19 @@ static void sync_handler(void) {
 }
 
 
+
 litmus_test_t MPRTinv_dmb_addr = {
   "MP.RT.inv+dmb+addr",
-  2,(th_f*[]){
-    (th_f*)P0,
-    (th_f*)P1
-  },
-  3,(const char*[]){"x", "y", "z"},
-  2,(const char*[]){"p1:x0", "p1:x2"},
-  .no_init_states=2,
-  .init_states=(init_varstate_t*[]){
-      &(init_varstate_t){"x", TYPE_PTE, 0},
-      &(init_varstate_t){"z", TYPE_HEAP, 1},
-    },
-  .thread_sync_handlers =
+  MAKE_THREADS(2),
+  MAKE_VARS(VARS),
+  MAKE_REGS(REGS),
+  INIT_STATE(
+    3,
+    INIT_UNMAPPED(x),
+    INIT_VAR(y, 0),
+    INIT_VAR(z, 1)
+  ),
+   .thread_sync_handlers =
     (uint32_t**[]){
      (uint32_t*[]){NULL, NULL},
      (uint32_t*[]){(uint32_t*)sync_handler, NULL},

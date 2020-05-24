@@ -2,6 +2,9 @@
 
 #include "lib.h"
 
+#define VARS x, y, z
+#define REGS p1x0, p1x2
+
 static void P0(litmus_test_run* data) {
   asm volatile (
     "mov x0, %[zdesc]\n\t"
@@ -17,7 +20,8 @@ static void P0(litmus_test_run* data) {
     "isb\n\t"
     "str x3,[x4]\n\t"
   :
-  : [zdesc] "r" (var_desc(data, "z")), [xpte] "r" (var_pte(data, "x")), [y] "r" (var_va(data, "y"))
+  : ASM_VARS(data, VARS),
+    ASM_REGS(data, REGS)
   : "memory", "x0", "x1", "x2", "x3", "x4"
   );
 }
@@ -35,30 +39,31 @@ static void P1(litmus_test_run* data) {
     /* output */
     "str x0, [%[outp1r0]]\n\t"
     "str x2, [%[outp1r2]]\n\t"
-    :
-    : [y] "r" (var_va(data, "y")), [x] "r" (var_va(data, "x")), [outp1r0] "r" (out_reg(data, "p1:x0")), [outp1r2] "r" (out_reg(data, "p1:x2"))
-    :  "cc", "memory", "x0", "x1", "x2", "x3", "x4"
+  :
+  : ASM_VARS(data, VARS),
+    ASM_REGS(data, REGS)
+  : "cc", "memory", "x0", "x1", "x2", "x3", "x4"
   );
 }
 
 
-litmus_test_t MPRT1_dcdsbtlbialldsb_dsbisb = {
-  "MP.RT1+dc-dsb-tlbiall-dsb+dsb-isb",
-  2,(th_f*[]){
-    (th_f*)P0,
-    (th_f*)P1
-  },
-  3,(const char*[]){"x", "y", "z"},
-  2,(const char*[]){"p1:x0", "p1:x2"},
+
+litmus_test_t MPRT1_dcdsbtlbialldsbisb_dsbisb = {
+  "MP.RT1+dc-dsb-tlbiall-dsb-isb+dsb-isb",
+  MAKE_THREADS(2),
+  MAKE_VARS(VARS),
+  MAKE_REGS(REGS),
+  INIT_STATE(
+    3,
+    INIT_VAR(x, 0),
+    INIT_VAR(y, 0),
+    INIT_VAR(z, 1)
+  ),
   .interesting_result = (uint64_t[]){
       /* p1:x0 =*/1,
       /* p1:x2 =*/0,
   },
   .start_els=(int[]){1,0},
-  .no_init_states=1,
-  .init_states=(init_varstate_t*[]){
-    &(init_varstate_t){"z", TYPE_HEAP, 1},
-  },
   .requires_pgtable=1,
   .no_sc_results = 3,
 };

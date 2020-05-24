@@ -2,6 +2,9 @@
 
 #include "lib.h"
 
+#define VARS x, y
+#define REGS p0x0, p1x0
+
 static void svc_handler0(void) {
   asm volatile(
       /* x3 = Y */
@@ -11,8 +14,8 @@ static void svc_handler0(void) {
 
 
 static void P0(litmus_test_run* data) {
-  asm volatile(
-      /*initial registers */
+  asm volatile (
+    /*initial registers */
       "mov x2, #1\n\t"
       "mov x1, %[x]\n\t"
       "mov x3, %[y]\n\t"
@@ -22,9 +25,10 @@ static void P0(litmus_test_run* data) {
       /* extract values */
       "str x0, [%[outp0r0]]\n\t"
       "dmb st\n\t"
-      :
-      : [x] "r" (var_va(data, "x")), [y] "r" (var_va(data, "y")), [outp0r0] "r" (out_reg(data, "p0:x0"))
-      :  "cc", "memory", "x0", "x1", "x2", "x3"
+  : 
+  : ASM_VARS(data, VARS),
+    ASM_REGS(data, REGS)
+  : "cc", "memory", "x0", "x1", "x2", "x3"
   );
 }
 
@@ -36,8 +40,8 @@ static void svc_handler1(void) {
 }
 
 static void P1(litmus_test_run* data) {
-  asm volatile(
-      /* initial registers */
+  asm volatile (
+    /* initial registers */
       "mov x2, #1\n\t"
       "mov x1, %[y]\n\t"
       "mov x3, %[x]\n\t"
@@ -46,22 +50,26 @@ static void P1(litmus_test_run* data) {
       "svc #0\n\t"
       "str x0, [%[outp1r0]]\n\t"
       "dmb st\n\t"
-      :
-      : [x] "r" (var_va(data, "x")), [y] "r" (var_va(data, "y")), [outp1r0] "r" (out_reg(data, "p1:x0"))
-      : "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x5", "x6",
+  : 
+  : ASM_VARS(data, VARS),
+    ASM_REGS(data, REGS)
+  : "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x5", "x6",
         "x7" /* dont touch parameter registers */
   );
 }
 
 
+
 litmus_test_t LB_RsvcW_RsvcW = {
   "LB+R-svc-W+R-svc-W",
-  2,(th_f*[]){
-    (th_f*)P0,
-    (th_f*)P1
-  },
-  2,(const char*[]){"x", "y"},
-  2,(const char*[]){"p0:x0", "p1:x0"},
+  MAKE_THREADS(2),
+  MAKE_VARS(VARS),
+  MAKE_REGS(REGS),
+  INIT_STATE(
+    2,
+    INIT_VAR(x, 0),
+    INIT_VAR(y, 0)
+  ),
   .thread_sync_handlers =
     (uint32_t**[]){
      (uint32_t*[]){(uint32_t*)svc_handler0, NULL},

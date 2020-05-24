@@ -2,6 +2,9 @@
 
 #include "lib.h"
 
+#define VARS x
+#define REGS p0x2
+
 static void sync_handler(void) {
   asm volatile (
     "mov x2, #1\n\t"
@@ -23,20 +26,24 @@ static void P0(litmus_test_run* data) {
 
     /* output */
     "str x2, [%[outp0r2]]\n\t"
-    :
-    : [xpte] "r" (var_pte(data, "x")), [x] "r" (var_va(data, "x")), [outp0r2] "r" (out_reg(data, "p0:x2"))
-    : "cc", "memory", "x0", "x1", "x2", "x3", "x10"
+  : 
+  : ASM_VARS(data, VARS),
+    ASM_REGS(data, REGS)
+  : "cc", "memory", "x0", "x1", "x2", "x3", "x10"
   );
 }
 
 
+
 litmus_test_t CoWinvT_dsbisb = {
   "CoWinvT+dsb-isb",
-  1,(th_f*[]){
-    (th_f*)P0
-  },
-  1,(const char*[]){"x"},
-  1,(const char*[]){"p0:x2",},
+  MAKE_THREADS(1),
+  MAKE_VARS(VARS),
+  MAKE_REGS(REGS),
+  INIT_STATE(
+    1,
+    INIT_VAR(x, 0)
+  ),
   .interesting_result = (uint64_t[]){
       /* p0:x2 =*/0,
   },

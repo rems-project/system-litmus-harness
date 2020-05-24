@@ -2,6 +2,9 @@
 
 #include "lib.h"
 
+#define VARS x, y
+#define REGS p0x2
+
 static void svc_handler(void) {
   asm volatile (
     "tlbi vae1, x4\n\t"
@@ -14,7 +17,7 @@ static void svc_handler(void) {
 static void P0(litmus_test_run* data) {
   /* assuming x, y initialised to 1, 2 */
   asm volatile (
-      /* move from C vars into machine regs */
+    /* move from C vars into machine regs */
       "mov x0, %[ydesc]\n\t"
       "mov x1, %[xpte]\n\t"
       "mov x3, %[x]\n\t"
@@ -28,21 +31,26 @@ static void P0(litmus_test_run* data) {
 
       /* output back to C vars */
       "str x2, [%[outp0r2]]\n\t"
-      :
-      : [ydesc] "r" (var_desc(data, "y")), [xpte] "r" (var_pte(data, "x")), [x] "r" (var_va(data, "x")), [outp0r2] "r" (out_reg(data, "p0:x2"))
-      :  "cc", "memory", "x0", "x1", "x2", "x3", "x4"
+  : 
+  : ASM_VARS(data, VARS),
+    ASM_REGS(data, REGS)
+  : "cc", "memory", "x0", "x1", "x2", "x3", "x4"
   );
 }
 
 
 
+
 litmus_test_t CoWT_dsbsvctlbidsb = {
   "CoWT+dsb-svc-tlbi-dsb",
-  1,(th_f*[]){
-    (th_f*)P0
-  },
-  2,(const char*[]){"x", "y"},
-  1,(const char*[]){"p0:x2",},
+  MAKE_THREADS(1),
+  MAKE_VARS(VARS),
+  MAKE_REGS(REGS),
+  INIT_STATE(
+    2,
+    INIT_VAR(x, 1),
+    INIT_VAR(y, 2)
+  ),
   .interesting_result = (uint64_t[]){
       /* p0:x2 =*/1,
   },
@@ -50,11 +58,6 @@ litmus_test_t CoWT_dsbsvctlbidsb = {
     (uint32_t**[]){
      (uint32_t*[]){(uint32_t*)svc_handler, NULL},
     },
-  .no_init_states=2,
-  .init_states=(init_varstate_t*[]){
-    &(init_varstate_t){"x", TYPE_HEAP, 1},
-    &(init_varstate_t){"y", TYPE_HEAP, 2},
-  },
   .requires_pgtable=1,
   .no_sc_results = 1,
 };

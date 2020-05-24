@@ -2,6 +2,9 @@
 
 #include "lib.h"
 
+#define VARS x, y
+#define REGS p0x2
+
 static void sync_handler(void) {
   asm volatile (
     "mov x2, #0\n\t"
@@ -10,7 +13,7 @@ static void sync_handler(void) {
 
 static void P0(litmus_test_run* data) {
   asm volatile (
-      /* move from C vars into machine regs */
+    /* move from C vars into machine regs */
       "mov x0, %[ydesc]\n\t"
       "mov x1, %[xpte]\n\t"
       "mov x3, %[x]\n\t"
@@ -22,26 +25,26 @@ static void P0(litmus_test_run* data) {
 
       /* output */
       "str x2, [%[outp0r2]]\n\t"
-      :
-      : [ydesc] "r" (var_desc(data, "y")), [xpte] "r" (var_pte(data, "x")), [x] "r" (var_va(data, "x")), [outp0r2] "r" (out_reg(data, "p0:x2"))
-      :  "cc", "memory", "x0", "x1", "x2", "x3"
+  : 
+  : ASM_VARS(data, VARS),
+    ASM_REGS(data, REGS)
+  : "cc", "memory", "x0", "x1", "x2", "x3"
   );
 }
 
+
 litmus_test_t CoWTinv_dsb = {
   "CoWT.inv+dsb",
-  1,(th_f*[]){
-    (th_f*)P0
-  },
-  2,(const char*[]){"x", "y"},
-  1,(const char*[]){"p0:x2",},
+  MAKE_THREADS(1),
+  MAKE_VARS(VARS),
+  MAKE_REGS(REGS),
+  INIT_STATE(
+    2,
+    INIT_UNMAPPED(x),
+    INIT_VAR(y, 1)
+  ),
   .interesting_result = (uint64_t[]){
     /* p0:x2 =*/0,
-  },
-  .no_init_states=2,
-  .init_states=(init_varstate_t*[]){
-    &(init_varstate_t){"x", TYPE_PTE, 0},
-    &(init_varstate_t){"y", TYPE_HEAP, 1},
   },
   .thread_sync_handlers = (uint32_t**[]){
     (uint32_t*[]){NULL, NULL},
