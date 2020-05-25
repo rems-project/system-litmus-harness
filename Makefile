@@ -14,6 +14,11 @@ OBJDUMP = $(PREFIX)objdump
 QEMU = qemu-system-aarch64
 GDB = gdb-multiarch  --eval-command "set arch aarch64"
 
+# set to 1 to do a second CC pass with -E
+# this will generate not only bin/**/f.o files but bin/**/f.pp files that are the output
+# of the preprocessor.
+SHOW_PREPROCESSED_OUTPUT = 0
+
 # if running with -s (silent mode)
 ifneq ($(findstring s,$(filter-out --%,$(MAKEFLAGS))),)
   quiet = 1
@@ -109,12 +114,22 @@ endif
 
 # runs $(CC) on the input
 # the input source file must be the first pre-requesite in the rule
-define run_cc
+ifeq ($(SHOW_PREPROCESSED_OUTPUT),1)
+  define run_cc
+	@mkdir -p $(dir $@)
+	$(call run_cmd,CC,$<,\
+		$(CC) $(CFLAGS) -c -o $@ $< \
+		; $(CC) $(CFLAGS) -E -o $(patsubst %.o,%.pp,$@) $<  \
+	)
+  endef
+else
+  define run_cc
 	@mkdir -p $(dir $@)
 	$(call run_cmd,CC,$<,\
 		$(CC) $(CFLAGS) -c -o $@ $< \
 	)
-endef
+  endef
+endif
 
 .PHONY: all
 all: bin/host_litmus.exe bin/qemu_litmus.exe
