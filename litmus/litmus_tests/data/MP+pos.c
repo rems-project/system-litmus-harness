@@ -41,8 +41,8 @@ litmus_test_t MP_pos = {
   INIT_STATE(
     2,
     INIT_VAR(x, 0),
-    INIT_VAR(y, 0)
-  )
+    INIT_VAR(y, 0),
+  ),
   .interesting_result =
     (uint64_t[]){
       /* p1:x0 =*/ 1,
