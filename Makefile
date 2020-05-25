@@ -248,10 +248,10 @@ ssh: bin/host_litmus.exe
 .PHONY: clean
 clean:
 	rm -rf bin/
-	rm litmus/groups.c
+	rm -f litmus/groups.c
 	echo 'run `make cleantests` to remove test and group lists too'
 
 .PHONY: cleantests
 cleantests:
-	rm litmus/test_list.txt
-	rm litmus/group_list.txt
+	rm -f litmus/test_list.txt
+	rm -f litmus/group_list.txt
