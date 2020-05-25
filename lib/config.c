@@ -52,6 +52,11 @@ static void read_arg(char* w) {
           display_help_and_quit();
           return;
 
+        case 's':
+          word += 2;
+          INITIAL_SEED = atoi(word);
+          return;
+
         case '-':
           word = w+2;
           if (strcmp(word, "help")) {

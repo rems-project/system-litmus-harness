@@ -14,6 +14,12 @@ static void run_thread(test_ctx_t* ctx, int cpu);
 void run_test(const litmus_test_t* cfg) {
   /* create test context obj */
   test_ctx_t ctx;
+
+  /* use same seed for each test
+   * this means we can re-run just 1 test from whole batch
+   * and still get determinism (up to relaxation) */
+  reset_seed();
+
   start_of_test(&ctx, cfg, NUMBER_OF_RUNS);
 
   for (int i = 0; i < cfg->no_init_states; i++) {

@@ -2,6 +2,13 @@
 
 #include "lib.h"
 
+volatile uint64_t INITIAL_SEED = 0;
+volatile uint64_t SEED = 0;
+
+void reset_seed(void) {
+  SEED = INITIAL_SEED;
+}
+
 void rand_seed(uint64_t seed) {
   SEED = seed;
 }

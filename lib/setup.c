@@ -34,9 +34,13 @@ void setup(char* fdtloc) {
     }
   }
 
-  uint64_t seed = read_clk();
-  rand_seed(seed);
-  debug("set initial seed = 0x%lx\n", seed);
+  if (INITIAL_SEED == 0) {
+    uint64_t seed = read_clk();
+    INITIAL_SEED = seed;
+    debug("set initial seed = 0x%lx\n", seed);
+  }
+
+  printf("seed = %ld\n", INITIAL_SEED);
 
   debug("setting up CPU0\n");
   cpu_data_init();
