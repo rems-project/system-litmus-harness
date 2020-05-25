@@ -180,7 +180,7 @@ void prefetch(test_ctx_t* ctx, int i) {
     unlock(&__harness_lock);
     if (randn() % 2 && is_valid && ctx->heap_vars[v][i] != ctx_initial_heap_value(ctx, v)) {
       fail(
-          "! fatal: initial state for heap var \"%s\" on run %d was %d not %d\n",
+          "! fatal: initial state for heap var \"%s\" on run %d was %ld not %ld\n",
           varname_from_idx(ctx, v), i, ctx->heap_vars[v][i], ctx_initial_heap_value(ctx, v));
     }
   }
