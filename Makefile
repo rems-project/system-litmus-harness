@@ -136,7 +136,7 @@ all: bin/host_litmus.exe bin/qemu_litmus.exe
 
 .PHONY: lint
 lint:
-	@python3 litmus/litmus_linter.py $(LITMUS_TEST_FILES)
+	@$(LINTER) $(LITMUS_TEST_FILES)
 
 .PHONY: litmus_tests
 litmus_tests:
