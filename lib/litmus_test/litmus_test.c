@@ -242,6 +242,10 @@ void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i) {
 }
 
 void start_of_thread(test_ctx_t* ctx, int cpu) {
+  /* ensure initial state gets propagated to all cores before continuing ...
+  */
+  bwait(cpu, 0, ctx->initial_sync_barrier, ctx->cfg->no_threads);
+
   /* turn on MMU and switch to new pagetable */
   if (ENABLE_PGTABLE) {
       vmm_switch_ttable(ctx->ptable);

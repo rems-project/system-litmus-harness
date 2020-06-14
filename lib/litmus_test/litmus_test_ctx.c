@@ -3,6 +3,7 @@
 void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
   uint64_t** heap_vars = alloc(sizeof(uint64_t*) * cfg->no_heap_vars);
   uint64_t** out_regs = alloc(sizeof(uint64_t*) * cfg->no_regs);
+  bar_t* init_sync_bar = alloc(sizeof(bar_t));
   bar_t* bars = alloc(sizeof(bar_t) * no_runs);
   bar_t* end_bars = alloc(sizeof(bar_t) * no_runs);
   bar_t* clean_bars = alloc(sizeof(bar_t) * no_runs);
@@ -34,6 +35,7 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
     shuffled[i] = i;
   }
   *final_barrier = (bar_t){0};
+  *init_sync_bar = (bar_t){0};
   shuffle(shuffled, sizeof(uint64_t), no_runs);
 
   for (int i = 0; i < NO_CPUS; i++) {
@@ -56,6 +58,7 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
   ctx->no_runs = no_runs;
   ctx->heap_vars = heap_vars;
   ctx->out_regs = out_regs;
+  ctx->initial_sync_barrier = init_sync_bar;
   ctx->start_barriers = bars;
   ctx->end_barriers = end_bars;
   ctx->cleanup_barriers = clean_bars;
@@ -163,6 +166,7 @@ void free_test_ctx(test_ctx_t* ctx) {
 
   free(ctx->heap_vars);
   free(ctx->out_regs);
+  free((bar_t*)ctx->initial_sync_barrier);
   free((bar_t*)ctx->start_barriers);
   free((bar_t*)ctx->end_barriers);
   free((bar_t*)ctx->cleanup_barriers);

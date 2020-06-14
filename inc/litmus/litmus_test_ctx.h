@@ -13,6 +13,7 @@ struct test_ctx {
   uint64_t no_runs;
   uint64_t** heap_vars;         /* set of heap variables: x, y, z etc */
   uint64_t** out_regs;          /* set of output register values: P1:x1,  P2:x3 etc */
+  bar_t* initial_sync_barrier;
   bar_t* start_barriers;
   bar_t* end_barriers;
   bar_t* cleanup_barriers;
