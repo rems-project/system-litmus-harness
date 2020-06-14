@@ -1,3 +1,48 @@
+define USAGE
+Simple Usage:
+	make			equivalent to `make all`
+	make all		equivalent to `make kvm qemu`
+	make qemu		builds bin/qemu_litmus.exe which runs QEMU locally
+	make kvm		builds bin/kvm_litmus.exe which uses KVM for target machine
+	make clean		remove all built files
+
+Advanced Usage:
+	make ssh SSH_NAME="ssh-name" BIN_ARGS="bin-args"
+		runs `make kvm` and then scp's the kvm_litmus.exe file over
+		to ssh-name where it is ran with argv bin-args.
+	make unittests
+		builds the unittests and runs them in QEMU.
+	make lint
+		runs automated linter against all litmus test C files
+		and quits.
+		See LINTER option below.
+
+Options:
+	make [...] -q
+		Show minimal/no output.
+	make [...] VERBOSE=1
+		Show full commands and output
+	make [...] PREFIX="prefix"
+		Use $$(PREFIX)gcc and $$(PREFIX)ld during build
+	make [...] SHOW_PREPROCESSED_OUTPUT=1
+		Generate a .pp file for each .o file,
+		containing the pre-processed source
+	make [...] TEST_DISCOVER=0
+		Disable litmus test discovery.
+		This disables generation of groups.c
+		So the user must manage groups.c manually with this option.
+	make unittests [...] TESTS="test-regexp"
+		Only run test cases matching test-regexp.
+	make [...] LINTER="linter-exe"
+		Use linter-exe as the linter.
+		The Makefile will call `linter-exe file.c` for each
+		litmus test file after compiling it and pipe its output
+		to the user.
+		The -q option disables linting.
+	make [...] MAKE_TEST_LIST_CMD="cmd-exe"
+		Use cmd-exe to build groups.c from the list of given litmus test files.
+endef
+
 # for test discovery
 LITMUS_TESTS = # which litmus tests to collect
 TEST_DISCOVER = 1 # set to 0 to disable auto-test discovery
@@ -68,7 +113,7 @@ SSHFLAGS =
 # otherwise the Makefile will try auto-discover the litmus/*.c files and the litmus/litmus_tests/ files
 #	(according to either the supplied LITMUS_TESTS or checking against previous runs)
 # or if TEST_DISCOVER=0  then just try compile *all* .c files inside litmus/ and litmus/litmus_tests/**/
-# (but the user has to manually edit groups.py so the harness itself knows about them)
+# (but the user has to manually edit groups.c so the harness itself knows about them)
 ifeq ($(strip $(TEST_DISCOVER)),1)
    ifndef LITMUS_FILES
       _ := $(shell $(MAKE_TEST_LIST_CMD) $(quiet) $(LITMUS_TESTS))
@@ -132,7 +177,16 @@ else
 endif
 
 .PHONY: all
-all: bin/host_litmus.exe bin/qemu_litmus.exe
+all: kvm qemu
+
+kvm: bin/kvm_litmus.exe
+qemu: bin/qemu_litmus.exe
+
+.PHONY: help
+help:
+	$(info $(USAGE))
+	@: # do nothing and do not echo
+
 
 .PHONY: lint
 lint:
@@ -222,8 +276,8 @@ bin/qemu_%.exe: bin/%.bin
 		$(call make_exe,$(RUN_CMD_LOCAL))\
 	)
 
-bin/host_%.exe: OUT_NAME=$$tmp
-bin/host_%.exe: bin/%.bin
+bin/kvm_%.exe: OUT_NAME=$$tmp
+bin/kvm_%.exe: bin/%.bin
 	$(call run_cmd,BUILD_EXE,$@,\
 		$(call make_exe,$(RUN_CMD_HOST))\
 	)
@@ -241,8 +295,8 @@ unittests: OUT_NAME=bin/unittests.bin
 unittests: bin/qemu_unittests.exe
 	./bin/qemu_unittests.exe
 
-ssh: bin/host_litmus.exe
-	scp bin/host_litmus.exe $(SSH_NAME):litmus.exe
+ssh: bin/kvm_litmus.exe
+	scp bin/kvm_litmus.exe $(SSH_NAME):litmus.exe
 	ssh $(SSHFLAGS) $(SSH_NAME) "./litmus.exe '$(BIN_ARGS)'"
 
 .PHONY: clean
