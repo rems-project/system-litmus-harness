@@ -24,6 +24,8 @@ Options:
 		Show full commands and output
 	make [...] PREFIX="prefix"
 		Use $$(PREFIX)gcc and $$(PREFIX)ld during build
+	make kvm [...] HOST="no-gic"
+		Use KVM with virtualized interrupt controller
 	make [...] SHOW_PREPROCESSED_OUTPUT=1
 		Generate a .pp file for each .o file,
 		containing the pre-processed source
@@ -59,6 +61,8 @@ OBJDUMP = $(PREFIX)objdump
 QEMU = qemu-system-aarch64
 GDB = gdb-multiarch  --eval-command "set arch aarch64"
 
+HOST = gic
+
 # set to 1 to do a second CC pass with -E
 # this will generate not only bin/**/f.o files but bin/**/f.pp files that are the output
 # of the preprocessor.
@@ -82,12 +86,28 @@ BIN_ARGS =
 # unittest list
 TESTS = .
 
-RUN_CMD_HOST = 	\
+RUN_CMD_HOST_GIC = 	\
 	$(QEMU) \
 		-nodefaults -machine virt,gic-version=host --enable-kvm -cpu host \
 		-device virtio-serial-device -device virtconsole \
 		-display none -serial stdio \
 		-kernel $(OUT_NAME) -smp 4 -append "$$*"
+RUN_CMD_HOST_NO_GIC = 	\
+	$(QEMU) \
+		-nodefaults -machine virt --enable-kvm -cpu host \
+		-device virtio-serial-device -device virtconsole \
+		-display none -serial stdio \
+		-kernel $(OUT_NAME) -smp 4 -append "$$*"
+
+ifeq ($(HOST),gic)
+  RUN_CMD_HOST = $(RUN_CMD_HOST_GIC)
+else ifeq ($(HOST),no-gic)
+  RUN_CMD_HOST = $(RUN_CMD_HOST_NO_GIC)
+else
+  $(info $(USAGE))
+  $(error Unexpected HOST="$(HOST)" param)
+endif
+
 RUN_CMD_LOCAL = 	\
 	$(QEMU) \
 		-nodefaults -machine virt -cpu cortex-a57 \
