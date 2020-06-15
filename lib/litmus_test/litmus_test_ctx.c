@@ -176,5 +176,5 @@ void free_test_ctx(test_ctx_t* ctx) {
   free((bar_t*)ctx->cleanup_barriers);
   free((bar_t*)ctx->final_barrier);
   free(ctx->shuffled_ixs);
-  free(ctx->affinity);
+  free((int*)ctx->affinity);
 }
