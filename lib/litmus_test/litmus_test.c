@@ -95,6 +95,14 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     uint64_t descs[ctx->cfg->no_heap_vars];
     uint64_t saved_ptes[ctx->cfg->no_heap_vars];
 
+    /* since some vCPUs will skip over the tests
+     * it's possible for the test to finish before they get their affinity assignment
+     * but thinks it's for the *old* run
+     *
+     * this bwait ensures that does not happen and that all affinity assignments are per-run
+     */
+    bwait(cpu, 0, &ctx->start_of_run_barriers[i], NO_CPUS);
+
     if (vcpu >= ctx->cfg->no_threads) {
       goto run_thread_after_execution;
     }
@@ -244,7 +252,7 @@ void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i) {
 void start_of_thread(test_ctx_t* ctx, int cpu) {
   /* ensure initial state gets propagated to all cores before continuing ...
   */
-  bwait(cpu, 0, ctx->initial_sync_barrier, ctx->cfg->no_threads);
+  bwait(cpu, 0, ctx->initial_sync_barrier, NO_CPUS);
 
   /* turn on MMU and switch to new pagetable */
   if (ENABLE_PGTABLE) {
@@ -264,7 +272,7 @@ void end_of_thread(test_ctx_t* ctx, int cpu) {
     vmm_switch_ttable(vmm_pgtable);
   }
 
-  bwait(cpu, 0, ctx->final_barrier, 4);
+  bwait(cpu, 0, ctx->final_barrier, NO_CPUS);
   trace("CPU%d: end of test\n", cpu);
 }
 
