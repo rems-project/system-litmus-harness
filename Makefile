@@ -2,10 +2,10 @@ define USAGE
 Simple Usage:
 	make			equivalent to `make all`
 	make all		equivalent to `make kvm qemu`
-	make qemu		builds bin/qemu_litmus.exe which runs QEMU locally
-	make kvm		builds bin/kvm_litmus.exe which uses KVM for target machine
+	make qemu		builds bin/qemu_litmus.exe which runs QEMU
+	make kvm		builds bin/kvm_litmus.exe which uses KVM
 	make clean		remove built files in bin/
-	make cleantests remove auto-generated test files in litmus/
+	make cleantests		remove auto-generated test files in litmus/
 
 Advanced Usage:
 	make ssh SSH_NAME="ssh-name" BIN_ARGS="bin-args"
@@ -17,7 +17,7 @@ Advanced Usage:
 		Runs automated linter against all litmus test C files and quits
 		See LINTER option below
 	make litmus_tests LITMUS_TESTS="litmus-test-list"
-		Runs $$(MAKE_TEST_LIST_CMD) to build groups.c passing litmus-test-list
+		Runs $$(MAKE_TEST_LIST_CMD) to build groups.c
 		See LITMUS_TESTS and MAKE_TEST_LIST_CMD options below
 
 Options:
@@ -30,7 +30,7 @@ Options:
 	make kvm [...] HOST="no-gic"
 		Use KVM with virtualized interrupt controller
 	make [...] SHOW_PREPROCESSED_OUTPUT=1
-		For each .o file generate a .pp one containing the pre-processor output
+		For each .o file generate .pp containing pre-processor output
 	make [...] TEST_DISCOVER=0
 		Disable litmus test discovery.
 		This disables generation of groups.c, so the user must manage
@@ -44,7 +44,7 @@ Options:
 		to the user.
 		This option is disabled if ran with the -q flag
 	make [...] MAKE_TEST_LIST_CMD="cmd-exe"
-		Use cmd-exe to build groups.c from the list of given litmus test files.
+		Use cmd-exe to build groups.c from given litmus test files.
 		This option is disabled if TEST_DISCOVER=0
 	make [...] LITMUS_TESTS="litmus-tests-list"
 		Only compile tests in litmus-tests-list
