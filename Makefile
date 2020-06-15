@@ -4,22 +4,22 @@ Simple Usage:
 	make all		equivalent to `make kvm qemu`
 	make qemu		builds bin/qemu_litmus.exe which runs QEMU locally
 	make kvm		builds bin/kvm_litmus.exe which uses KVM for target machine
-	make clean		remove all built files
+	make clean		remove built files in bin/
+	make cleantests remove auto-generated test files in litmus/
 
 Advanced Usage:
 	make ssh SSH_NAME="ssh-name" BIN_ARGS="bin-args"
 		runs `make kvm` and then scp's the kvm_litmus.exe file over
-		to ssh-name where it is ran with argv bin-args.
+		 to ssh-name where it is ran with argv bin-args.
 	make unittests
 		builds the unittests and runs them in QEMU.
 	make lint
-		runs automated linter against all litmus test C files
-		and quits.
+		runs automated linter against all litmus test C files and quits.
 		See LINTER option below.
 
 Options:
 	make [...] -q
-		Show minimal/no output.
+		Show minimal/no output
 	make [...] VERBOSE=1
 		Show full commands and output
 	make [...] PREFIX="prefix"
@@ -27,12 +27,11 @@ Options:
 	make kvm [...] HOST="no-gic"
 		Use KVM with virtualized interrupt controller
 	make [...] SHOW_PREPROCESSED_OUTPUT=1
-		Generate a .pp file for each .o file,
-		containing the pre-processed source
+		For each .o file generate a .pp one containing the pre-processor output
 	make [...] TEST_DISCOVER=0
 		Disable litmus test discovery.
-		This disables generation of groups.c
-		So the user must manage groups.c manually with this option.
+		This disables generation of groups.c, so the user must manage
+		groups.c manually with this option.
 	make unittests [...] TESTS="test-regexp"
 		Only run test cases matching test-regexp.
 	make [...] LINTER="linter-exe"

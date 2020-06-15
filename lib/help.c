@@ -1,6 +1,6 @@
 #include "lib.h"
 
-const char* HELPTEXT = 
+const char* HELPTEXT =
   "Usage: litmus.exe [OPTION]... [TEST]... \n"
   "Run EL1/EL0 litmus tests\n"
   "\n"
@@ -9,6 +9,7 @@ const char* HELPTEXT =
   "-d --debug:      enable debug output.\n"
   "-t --trace:      enable trace output.\n"
   "-p --pgtable:    switch to pagetable tests.\n"
+  "-sX              initial seed (default: none)\n"
   "--no-hist:       disable histogram output and print results as they are collected\n"
   "-nX:             set number of runs to X (default: 10000)\n";
 
