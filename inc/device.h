@@ -4,6 +4,13 @@
 
 void init_device(void);
 
+/** PSCI Mandatory Functions
+ * While these are defined in the psci node of the dtb
+ * they are architecturally hard-coded to the following values in PSCIv0.2 */
+#define PSCI_SYSTEM_OFF 0x84000008UL
+#define PSCI_CPU_ON 0xC4000003UL  /* SMC64 starts at 0xC4... */
+#define PSCI_CPU_OFF 0x84000002UL
+
 /** number of physical hardware threads */
 uint64_t NO_CPUS;
 
@@ -75,7 +82,10 @@ typedef struct {
     char name[0];
 } fdt_structure_begin_node_header;
 
-fdt_structure_property_header* fdt_read_prop(char* fdt, char* node_name, char* prop_name);
+fdt_structure_begin_node_header* fdt_find_node(char* fdt, char* node_name);
+fdt_structure_begin_node_header* fdt_read_node(fdt_structure_begin_node_header* node, char* node_name);
+fdt_structure_property_header* fdt_read_prop(fdt_structure_begin_node_header* node, char* prop_name);
+fdt_structure_property_header* fdt_find_prop(char* fdt, char* node_name, char* prop_name);
 char* dtb_bootargs(void* fdt);
 
 #endif /* DEVICE_H */

@@ -26,11 +26,6 @@
 uint64_t vector_base_pa;
 uint64_t vector_base_addr_rw;
 
-/* PSCI Mandatory Functions */
-#define PSCI_SYSTEM_OFF 0x84000008UL
-#define PSCI_CPU_ON 0xC4000003UL  /* SMC64 starts at 0xC4... */
-#define PSCI_CPU_OFF 0x84000002UL
-
 void psci_cpu_on(uint64_t cpu);
 void psci_system_off(void);
 
