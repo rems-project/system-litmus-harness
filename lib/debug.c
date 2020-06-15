@@ -153,7 +153,7 @@ void dump_hex(char* dest, char* src, int len) {
     uint8_t hi = (c & 0xf0) >> 4;
     uint8_t lo = (c & 0x0f);
 
-    if (32 <= c && c <= 90) {
+    if ((32 <= c && c <= 90) || (97 <= c && c <= 122)) {
       dest[cur++] = c;
     } else {
       dest[cur++] = '\\';
