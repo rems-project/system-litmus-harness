@@ -4,10 +4,13 @@ Simple Usage:
 	make all		equivalent to `make kvm qemu`
 	make qemu		builds bin/qemu_litmus.exe which runs QEMU
 	make kvm		builds bin/kvm_litmus.exe which uses KVM
+	make run 		runs `make qemu` then runs all tests
 	make clean		remove built files in bin/
 	make cleantests		remove auto-generated test files in litmus/
 
 Advanced Usage:
+	make debug GDB="gdb-exe"
+		Runs `make run` in the background and attaches gdb
 	make ssh SSH_NAME="ssh-name" BIN_ARGS="bin-args"
 		Runs `make kvm` and then scp's the kvm_litmus.exe file over
 		to ssh-name where it is ran with argv bin-args.
