@@ -123,8 +123,8 @@ endif
 RUN_CMD_LOCAL = 	\
 	$(QEMU) \
 		-nodefaults -machine virt -cpu cortex-a57 \
-		-device virtio-serial-device -device virtconsole,chardev=ctd \
-		-chardev testdev,id=ctd -device pci-testdev -display none -serial stdio \
+		-device virtio-serial-device \
+		-display none -serial stdio \
 		-kernel $(OUT_NAME) -smp 4 -append "$$*"
 
 CCERRORS = return-type parentheses misleading-indentation null-dereference sequence-point uninitialized maybe-uninitialized
