@@ -140,7 +140,7 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     th_f* func = ctx->cfg->threads[vcpu];
     th_f* post = ctx->cfg->teardown_fns == NULL ? NULL : ctx->cfg->teardown_fns[vcpu];
 
-    start_of_run(ctx, cpu, vcpu, i);
+    start_of_run(ctx, cpu, vcpu, i, j);
     if (pre != NULL)
       pre(&run);
     if (ctx->cfg->thread_sync_handlers) {
@@ -180,7 +180,7 @@ run_thread_after_execution:
   }
 }
 
-void prefetch(test_ctx_t* ctx, int i) {
+void prefetch(test_ctx_t* ctx, int i, int r) {
   for (int v = 0; v < ctx->cfg->no_heap_vars; v++) {
     /* TODO: read initial state */
     lock(&__harness_lock);
@@ -189,10 +189,9 @@ void prefetch(test_ctx_t* ctx, int i) {
     if (randn() % 2 && is_valid && ctx->heap_vars[v][i] != ctx_initial_heap_value(ctx, v)) {
       fail(
           "! fatal: initial state for heap var \"%s\" on run %d was %ld not %ld\n",
-          varname_from_idx(ctx, v), i, ctx->heap_vars[v][i], ctx_initial_heap_value(ctx, v));
+          varname_from_idx(ctx, v), r, ctx->heap_vars[v][i], ctx_initial_heap_value(ctx, v));
     }
   }
-  debug("prefetch over\n");
 }
 
 static void resetsp(void) {
@@ -213,9 +212,9 @@ static void resetsp(void) {
   }
 }
 
-void start_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i) {
+void start_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i, int r) {
   /* do not prefetch anymore .. not safe! */
-  prefetch(ctx, i);
+  prefetch(ctx, i, r);
   if (! ctx->cfg->start_els || ctx->cfg->start_els[vcpu] == 0) {
     drop_to_el0();
   }
@@ -224,7 +223,7 @@ void start_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i) {
 /** every N/10 runs we shuffle the CPUs about
  */
 static void reshuffle(test_ctx_t* ctx) {
-  shuffle(ctx->affinity, sizeof(int), NO_CPUS);
+  shuffle((int*)ctx->affinity, sizeof(int), NO_CPUS);
   debug("set affinity = %Ad\n", ctx->affinity, NO_CPUS);
 }
 

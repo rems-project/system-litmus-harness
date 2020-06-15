@@ -11,7 +11,7 @@
 void run_test(const litmus_test_t* cfg);
 
 /* call at the start and end of each run  */
-void start_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i);
+void start_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i, int r);
 void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i);
 
 /* call at the start and end of each thread */
