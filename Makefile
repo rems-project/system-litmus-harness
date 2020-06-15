@@ -9,13 +9,16 @@ Simple Usage:
 
 Advanced Usage:
 	make ssh SSH_NAME="ssh-name" BIN_ARGS="bin-args"
-		runs `make kvm` and then scp's the kvm_litmus.exe file over
-		 to ssh-name where it is ran with argv bin-args.
+		Runs `make kvm` and then scp's the kvm_litmus.exe file over
+		to ssh-name where it is ran with argv bin-args.
 	make unittests
-		builds the unittests and runs them in QEMU.
+		Builds the unittests and runs them in QEMU
 	make lint
-		runs automated linter against all litmus test C files and quits.
-		See LINTER option below.
+		Runs automated linter against all litmus test C files and quits
+		See LINTER option below
+	make litmus_tests LITMUS_TESTS="litmus-test-list"
+		Runs $$(MAKE_TEST_LIST_CMD) to build groups.c passing litmus-test-list
+		See LITMUS_TESTS and MAKE_TEST_LIST_CMD options below
 
 Options:
 	make [...] -q
@@ -39,9 +42,16 @@ Options:
 		The Makefile will call `linter-exe file.c` for each
 		litmus test file after compiling it and pipe its output
 		to the user.
-		The -q option disables linting.
+		This option is disabled if ran with the -q flag
 	make [...] MAKE_TEST_LIST_CMD="cmd-exe"
 		Use cmd-exe to build groups.c from the list of given litmus test files.
+		This option is disabled if TEST_DISCOVER=0
+	make [...] LITMUS_TESTS="litmus-tests-list"
+		Only compile tests in litmus-tests-list
+		Whitespace separated list of groups or test names.
+		Can use - to negate match.
+		example: LITMUS_TESTS="@all -@data"
+		This option is disabled if TEST_DISCOVER=0
 endef
 
 # for test discovery
@@ -321,7 +331,9 @@ ssh: bin/kvm_litmus.exe
 .PHONY: clean
 clean:
 	rm -rf bin/
+ifeq ($(strip $(TEST_DISCOVER)),1)
 	rm -f litmus/groups.c
+endif
 	echo 'run `make cleantests` to remove test and group lists too'
 
 .PHONY: cleantests
