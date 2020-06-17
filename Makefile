@@ -9,6 +9,9 @@ Simple Usage:
 	make cleantests		remove auto-generated test files in litmus/
 
 Advanced Usage:
+	make run -- args args args
+		run local qemu with args
+		e.g. make run -- MP+pos -n500 --pgtable
 	make debug GDB="gdb-exe"
 		Runs `make run` in the background and attaches gdb
 	make ssh SSH_NAME="ssh-name" BIN_ARGS="bin-args"
@@ -73,6 +76,20 @@ OBJDUMP = $(PREFIX)objdump
 QEMU = qemu-system-aarch64
 GDB = gdb-multiarch  --eval-command "set arch aarch64"
 
+ifeq ($(word 1,$(MAKECMDGOALS)),run)
+  define leading
+    $(if $(findstring run,$(firstword $1)),sep $(firstword $1),\
+      $(firstword $1) $(call leading, $(wordlist 2,$(words $1),$1)))
+  endef
+  # assume format of command is `make [opt...] run -- cmds`
+  BIN_ARGS = $(wordlist $(words $(call leading,$(MAKECMDGOALS))),$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+  # make dummy targets for BIN_ARGS so Make doesn't try run them
+  # see https://stackoverflow.com/questions/2214575/passing-arguments-to-make-run
+  $(eval $(BIN_ARGS):;@:)
+else
+  BIN_ARGS =
+endif
+
 HOST = gic
 
 # set to 1 to do a second CC pass with -E
@@ -92,8 +109,6 @@ VERBOSE = 0
 
 OUT_NAME = bin/litmus.bin
 SSH_NAME = pi@rems-rpi4b
-
-BIN_ARGS =
 
 # unittest list
 TESTS = .
