@@ -167,8 +167,9 @@ def check_clobber_registers(l):
         el0_asm = l['handlers'][el0]
         el1_asm = l['handlers'][el1]
         regs = get_reg_names(thr) + get_reg_names(el0_asm) + get_reg_names(el1_asm)
+        clobbers = re.findall('"(.+?)"', thr['clobber']) if thr['clobber'] else []
         for r in sorted(set(regs)):
-            if thr['clobber'] and r not in thr['clobber']:
+            if r not in clobbers:
                 warn(l, 'clobber missing register {r} in Thread {i}'.format(r=r, i=i))
 
 
