@@ -22,7 +22,7 @@ static void P0(litmus_test_run* data) {
   :
   : ASM_VARS(data, VARS),
     ASM_REGS(data, REGS)
-  : "cc", "memory", "x0", "x10"
+  : "cc", "memory", "x0", "x1", "x10"
   );
 }
 
