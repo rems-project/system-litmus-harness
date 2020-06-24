@@ -26,7 +26,6 @@ static void P0(litmus_test_run* data) {
   );
 }
 
-
 litmus_test_t check5 = {
   "check5",
   MAKE_THREADS(1),

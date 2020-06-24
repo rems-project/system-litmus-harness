@@ -1,0 +1,8 @@
+Starting 2020-Jun-23 below lists the litmus test errata in litmus tests.
+
+2020-June-23
+    check5
+        Missing clobber in P0
+
+    MP.RT.inv+dmb+addr
+        Incorrect handler made it impossible to tell difference between pagefault and new translation

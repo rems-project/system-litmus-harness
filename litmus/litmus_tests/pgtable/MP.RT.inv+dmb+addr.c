@@ -15,7 +15,7 @@ static void P0(litmus_test_run* data) {
     "str x0, [x1]\n\t"
     "dmb sy\n\t"
     "str x2, [x3]\n\t"
-  : 
+  :
   : ASM_VARS(data, VARS),
     ASM_REGS(data, REGS)
   : "cc", "memory", "x0", "x1", "x2", "x3"
@@ -36,7 +36,7 @@ static void P1(litmus_test_run* data) {
     /* collect */
     "str x0, [%[outp1r0]]\n\t"
     "str x2, [%[outp1r2]]\n\t"
-  : 
+  :
   : ASM_VARS(data, VARS),
     ASM_REGS(data, REGS)
   : "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x10", "x11"
@@ -45,13 +45,11 @@ static void P1(litmus_test_run* data) {
 
 static void sync_handler(void) {
   asm volatile (
-    "mov x2, #1\n\t"
+    "mov x2, #0\n\t"
 
     ERET_TO_NEXT(x10)
   );
 }
-
-
 
 litmus_test_t MPRTinv_dmb_addr = {
   "MP.RT.inv+dmb+addr",
@@ -72,7 +70,7 @@ litmus_test_t MPRTinv_dmb_addr = {
   .interesting_result =
     (uint64_t[]){
       /* p2:x0 =*/ 1,
-      /* p2:x2 =*/ 1,
+      /* p2:x2 =*/ 0,
     },
   .requires_pgtable=1,
   .no_sc_results = 3,
