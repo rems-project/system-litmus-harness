@@ -639,11 +639,11 @@ Test MP.RT+svc-dsb-tlbiis-dsb+dsb-isb:
 Observation MP.RT+svc-dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test MP.RT.inv+dmb+addr:
+Test MP.RT.inv.broken+dmb+addr:
  p1:x0=0  p1:x2=1  : 360249
  p1:x0=1  p1:x2=1  : 139751 *
-Observation MP.RT.inv+dmb+addr: 139751 (of 500000)
-Warning on MP.RT.inv+dmb+addr: saw 1 SC results but expected 3
+Observation MP.RT.inv.broken+dmb+addr: 139751 (of 500000)
+Warning on MP.RT.inv.broken+dmb+addr: saw 1 SC results but expected 3
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:

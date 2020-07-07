@@ -284,11 +284,11 @@ Test MP+dmb+svc:
 Observation MP+dmb+svc: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test MP.RT.inv+dmb+addr:
+Test MP.RT.inv.broken+dmb+addr:
  p1:x0=0  p1:x2=0  : 190132
  p1:x0=1  p1:x2=0  : 165160
  p1:x0=0  p1:x2=1  : 144708
-Observation MP.RT.inv+dmb+addr: 0 (of 500000)
+Observation MP.RT.inv.broken+dmb+addr: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRR+addr+dmb:

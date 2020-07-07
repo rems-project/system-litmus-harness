@@ -234,11 +234,11 @@ Test MP+dmb+svc:
 Observation MP+dmb+svc: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test MP.RT.inv+dmb+addr:
+Test MP.RT.inv.broken+dmb+addr:
  p1:x0=0  p1:x2=1  : 174549
  p1:x0=1  p1:x2=0  : 50387
  p1:x0=0  p1:x2=0  : 275064
-Observation MP.RT.inv+dmb+addr: 0 (of 500000)
+Observation MP.RT.inv.broken+dmb+addr: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRR+addr+dmb:
@@ -580,11 +580,11 @@ Test MP+dmb+svc:
 Observation MP+dmb+svc: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test MP.RT.inv+dmb+addr:
+Test MP.RT.inv.broken+dmb+addr:
  p1:x0=0  p1:x2=0  : 261405
  p1:x0=0  p1:x2=1  : 172948
  p1:x0=1  p1:x2=0  : 65647
-Observation MP.RT.inv+dmb+addr: 0 (of 500000)
+Observation MP.RT.inv.broken+dmb+addr: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRR+addr+dmb:

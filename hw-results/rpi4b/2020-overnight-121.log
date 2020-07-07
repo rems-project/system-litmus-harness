@@ -368,11 +368,11 @@ Test MP.RT+svc-dsb-tlbiis-dsb+dsb-isb:
 Observation MP.RT+svc-dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test MP.RT.inv+dmb+addr:
+Test MP.RT.inv.broken+dmb+addr:
  p1:x0=0  p1:x2=0  : 285627
  p1:x0=0  p1:x2=1  : 164988
  p1:x0=1  p1:x2=0  : 49385
-Observation MP.RT.inv+dmb+addr: 0 (of 500000)
+Observation MP.RT.inv.broken+dmb+addr: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.AT+ctrl+dsb:
@@ -852,11 +852,11 @@ Test MP.RT+svc-dsb-tlbiis-dsb+dsb-isb:
 Observation MP.RT+svc-dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test MP.RT.inv+dmb+addr:
+Test MP.RT.inv.broken+dmb+addr:
  p1:x0=0  p1:x2=0  : 291827
  p1:x0=0  p1:x2=1  : 155151
  p1:x0=1  p1:x2=0  : 53022
-Observation MP.RT.inv+dmb+addr: 0 (of 500000)
+Observation MP.RT.inv.broken+dmb+addr: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.AT+ctrl+dsb:
