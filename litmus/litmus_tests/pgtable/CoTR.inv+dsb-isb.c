@@ -12,7 +12,7 @@ static void P0(litmus_test_run* data) {
     "mov x1, %[xpte]\n\t"
     /* test */
     "str x0, [x1]\n\t"
-  : 
+  :
   : ASM_VARS(data, VARS),
     ASM_REGS(data, REGS)
   : "cc", "memory", "x0", "x1"
@@ -43,7 +43,7 @@ static void P1(litmus_test_run* data) {
     "mov x2,#1\n\t"
     ".after:\n\t"
     "str x2, [%[outp1r2]]\n\t"
-  : 
+  :
   : ASM_VARS(data, VARS),
     ASM_REGS(data, REGS)
   : "cc", "memory", "x0", "x1", "x2", "x3", "x10"

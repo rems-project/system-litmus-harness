@@ -25,7 +25,7 @@ static void P0(litmus_test_run* data) {
       /* extract values */
       "str x2, [%[outp0r2]]\n\t"
       "dmb st\n\t"
-  : 
+  :
   : ASM_VARS(data, VARS),
     ASM_REGS(data, REGS)
   : "cc", "memory", "x0", "x1", "x2", "x3"
@@ -50,7 +50,7 @@ static void P1(litmus_test_run* data) {
       "svc #0\n\t"
       "str x2, [%[outp1r2]]\n\t"
       "dmb st\n\t"
-  : 
+  :
   : ASM_VARS(data, VARS),
     ASM_REGS(data, REGS)
   : "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x5", "x6",
