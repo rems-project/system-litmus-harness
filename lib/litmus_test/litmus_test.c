@@ -35,6 +35,9 @@ void run_test(const litmus_test_t* cfg) {
       case (TYPE_ALIAS):
         set_init_alias(&ctx, name, var->aliasname);
         break;
+      case (TYPE_AP):
+        set_init_ap(&ctx, name, var->value);
+        break;
     }
   }
 

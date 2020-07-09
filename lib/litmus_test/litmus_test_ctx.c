@@ -145,6 +145,18 @@ void set_init_alias(test_ctx_t* ctx, const char* varname, const char* aliasname)
   }
 }
 
+void set_init_ap(test_ctx_t* ctx, const char* varname, uint64_t ap) {
+  uint64_t idx = idx_from_varname(ctx, varname);
+
+  for (uint64_t i = 0; i < ctx->no_runs; i += 4096 / sizeof(uint64_t)) {
+    uint64_t va = (uint64_t)&ctx->heap_vars[idx][i];
+    uint64_t* pte = ctx_pte(ctx, va);
+    desc_t desc = read_desc(*pte, 3);
+    desc.attrs.AP = ap;
+    *pte = write_desc(desc);
+  }
+}
+
 void set_init_pte(test_ctx_t* ctx, const char* varname, uint64_t desc) {
   uint64_t idx = idx_from_varname(ctx, varname);
 

@@ -43,6 +43,7 @@ const char* varname_from_idx(test_ctx_t* ctx, uint64_t idx);
 const char* regname_from_idx(test_ctx_t* ctx, uint64_t idx);
 
 void set_init_alias(test_ctx_t* ctx, const char* varname, const char* aliasname);
+void set_init_ap(test_ctx_t* ctx, const char* varname, uint64_t ap);
 void set_init_pte(test_ctx_t* ctx, const char* varname, uint64_t pte);
 void set_init_heap(test_ctx_t* ctx, const char* varname, uint64_t value);
 

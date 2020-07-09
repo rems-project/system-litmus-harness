@@ -12,6 +12,7 @@ typedef enum {
   TYPE_HEAP,
   TYPE_PTE,
   TYPE_ALIAS,
+  TYPE_AP,
 } init_type_t;
 
 typedef struct {
