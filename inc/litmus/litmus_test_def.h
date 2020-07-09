@@ -11,12 +11,16 @@
 typedef enum {
   TYPE_HEAP,
   TYPE_PTE,
+  TYPE_ALIAS,
 } init_type_t;
 
 typedef struct {
   const char* varname;
   init_type_t type;
-  uint64_t value;
+  union {
+    uint64_t value;
+    const char* aliasname;
+  };
 } init_varstate_t;
 
 /* Each thread is a functon that takes pointers to a slice of heap variables and output registers */
