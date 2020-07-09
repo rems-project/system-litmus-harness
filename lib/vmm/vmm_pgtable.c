@@ -1,20 +1,23 @@
 #include "lib.h"
 
+uint64_t vmm_make_desc(uint64_t pa, uint64_t prot, int level) {
+  desc_t final;
+  final.type = Block;
+  final.oa = pa;
+  final.level = level;
+  final.attrs = read_attrs(prot);
+  final.attrs.nG = PROT_NG_NOT_GLOBAL;
+  final.attrs.AF = PROT_AF_ACCESS_FLAG_DISABLE;
+  final.attrs.SH = PROT_SH_ISH;
+  final.attrs.NS = PROT_NS_NON_SECURE;
+  return write_desc(final);
+}
+
 static void set_block_or_page(uint64_t* root, uint64_t va, uint64_t pa, uint64_t prot, uint64_t desired_level) {
   vmm_ensure_level(root, desired_level, va);
 
   desc_t desc = vmm_translation_walk(root, va);
-
-  desc_t final;
-  final.type = Block;
-  final.oa = pa;
-  final.level = desc.level;
-  final.attrs = read_attrs(prot);
-  final.attrs.nG = PROT_NG_NOT_GLOBAL,
-  final.attrs.AF = PROT_AF_ACCESS_FLAG_DISABLE,
-  final.attrs.SH = PROT_SH_ISH,
-  final.attrs.NS = PROT_NS_NON_SECURE,
-  *desc.src = write_desc(final);
+  *desc.src = vmm_make_desc(pa, prot, desc.level);
 }
 
 void vmm_update_mapping(uint64_t* pgtable, uint64_t va, uint64_t pa, uint64_t prot) {
