@@ -110,16 +110,16 @@ For more information, run `make help`:
 ```
 > make help
 Simple Usage:
-        make                    equivalent to `make all`
-        make all                equivalent to `make kvm qemu`
-        make qemu               builds bin/qemu_litmus.exe which runs QEMU
-        make kvm                builds bin/kvm_litmus.exe which uses KVM
-        make run                runs `make qemu` then runs all tests
-        make clean              remove built files in bin/
-        make cleantests         remove auto-generated test files in litmus/
+   make                 equivalent to `make all`
+   make all             equivalent to `make kvm qemu`
+   make qemu            builds bin/qemu_litmus.exe which runs QEMU
+   make kvm             builds bin/kvm_litmus.exe which uses KVM
+   make run             runs `make qemu` then runs all tests
+   make clean           remove built files in bin/
+   make cleantests              remove auto-generated test files in litmus/
 
 Advanced Usage:
-    [...]
+   [...]
 ```
 
 Requirements

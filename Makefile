@@ -1,63 +1,63 @@
 define USAGE
 Simple Usage:
-	make			equivalent to `make all`
-	make all		equivalent to `make kvm qemu`
-	make qemu		builds bin/qemu_litmus.exe which runs QEMU
-	make kvm		builds bin/kvm_litmus.exe which uses KVM
-	make run 		runs `make qemu` then runs all tests
-	make clean		remove built files in bin/
-	make cleantests		remove auto-generated test files in litmus/
+   make			equivalent to `make all`
+   make all		equivalent to `make kvm qemu`
+   make qemu		builds bin/qemu_litmus.exe which runs QEMU
+   make kvm		builds bin/kvm_litmus.exe which uses KVM
+   make run 		runs `make qemu` then runs all tests
+   make clean		remove built files in bin/
+   make cleantests		remove auto-generated test files in litmus/
 
 Advanced Usage:
-	make run -- args args args
-		run local qemu with args
-		e.g. make run -- MP+pos -n500 --pgtable
-	make debug GDB="gdb-exe"
-		Runs `make run` in the background and attaches gdb
-	make ssh SSH_NAME="ssh-name" BIN_ARGS="bin-args"
-		Runs `make kvm` and then scp's the kvm_litmus.exe file over
-		to ssh-name where it is ran with argv bin-args.
-	make unittests
-		Builds the unittests and runs them in QEMU
-	make lint
-		Runs automated linter against all litmus test C files and quits
-		See LINTER option below
-	make litmus_tests LITMUS_TESTS="litmus-test-list"
-		Runs $$(MAKE_TEST_LIST_CMD) to build groups.c
-		See LITMUS_TESTS and MAKE_TEST_LIST_CMD options below
+   make run -- args args args
+   	run local qemu with args
+   	e.g. make run -- MP+pos -n500 --pgtable
+   make debug GDB="gdb-exe"
+   	Runs `make run` in the background and attaches gdb
+   make ssh SSH_NAME="ssh-name" BIN_ARGS="bin-args"
+   	Runs `make kvm` and then scp's the kvm_litmus.exe file over
+   	to ssh-name where it is ran with argv bin-args.
+   make unittests
+   	Builds the unittests and runs them in QEMU
+   make lint
+   	Runs automated linter against all litmus test C files and quits
+   	See LINTER option below
+   make litmus_tests LITMUS_TESTS="litmus-test-list"
+   	Runs $$(MAKE_TEST_LIST_CMD) to build groups.c
+   	See LITMUS_TESTS and MAKE_TEST_LIST_CMD options below
 
 Options:
-	make [...] -q
-		Show minimal/no output
-	make [...] VERBOSE=1
-		Show full commands and output
-	make [...] PREFIX="prefix"
-		Use $$(PREFIX)gcc and $$(PREFIX)ld during build
-	make kvm [...] HOST="no-gic"
-		Use KVM with virtualized interrupt controller
-	make [...] SHOW_PREPROCESSED_OUTPUT=1
-		For each .o file generate .pp containing pre-processor output
-	make [...] TEST_DISCOVER=0
-		Disable litmus test discovery.
-		This disables generation of groups.c, so the user must manage
-		groups.c manually with this option.
-	make unittests [...] TESTS="test-regexp"
-		Only run test cases matching test-regexp.
-	make [...] LINTER="linter-exe"
-		Use linter-exe as the linter.
-		The Makefile will call `linter-exe file.c` for each
-		litmus test file after compiling it and pipe its output
-		to the user.
-		This option is disabled if ran with the -q flag
-	make [...] MAKE_TEST_LIST_CMD="cmd-exe"
-		Use cmd-exe to build groups.c from given litmus test files.
-		This option is disabled if TEST_DISCOVER=0
-	make [...] LITMUS_TESTS="litmus-tests-list"
-		Only compile tests in litmus-tests-list
-		Whitespace separated list of groups or test names.
-		Can use - to negate match.
-		example: LITMUS_TESTS="@all -@data"
-		This option is disabled if TEST_DISCOVER=0
+   make [...] -q
+   	Show minimal/no output
+   make [...] VERBOSE=1
+   	Show full commands and output
+   make [...] PREFIX="prefix"
+   	Use $$(PREFIX)gcc and $$(PREFIX)ld during build
+   make kvm [...] HOST="no-gic"
+   	Use KVM with virtualized interrupt controller
+   make [...] SHOW_PREPROCESSED_OUTPUT=1
+   	For each .o file generate .pp containing pre-processor output
+   make [...] TEST_DISCOVER=0
+   	Disable litmus test discovery.
+   	This disables generation of groups.c, so the user must manage
+   	groups.c manually with this option.
+   make unittests [...] TESTS="test-regexp"
+   	Only run test cases matching test-regexp.
+   make [...] LINTER="linter-exe"
+   	Use linter-exe as the linter.
+   	The Makefile will call `linter-exe file.c` for each
+   	litmus test file after compiling it and pipe its output
+   	to the user.
+   	This option is disabled if ran with the -q flag
+   make [...] MAKE_TEST_LIST_CMD="cmd-exe"
+   	Use cmd-exe to build groups.c from given litmus test files.
+   	This option is disabled if TEST_DISCOVER=0
+   make [...] LITMUS_TESTS="litmus-tests-list"
+   	Only compile tests in litmus-tests-list
+   	Whitespace separated list of groups or test names.
+   	Can use - to negate match.
+   	example: LITMUS_TESTS="@all -@data"
+   	This option is disabled if TEST_DISCOVER=0
 endef
 
 # for test discovery
