@@ -42,11 +42,15 @@ void run_test(const litmus_test_t* cfg) {
   }
 
   /* run it */
-  trace("%s\n", "Running Tests ...");
-  for(int i = 0; i < 4; i++) {
-    printf("P%d\t\t\t", i);
-  }
   printf("\n");
+  printf("Test %s:\n", ctx.cfg->name);
+  trace("%s\n", "Running Tests ...");
+  if (TRACE) {
+    for(int i = 0; i < 4; i++) {
+      printf("P%d\t\t\t", i);
+    }
+    printf("\n");
+  }
   run_on_cpus((async_fn_t*)go_cpus, (void*)&ctx);
 
   /* clean up and display results */

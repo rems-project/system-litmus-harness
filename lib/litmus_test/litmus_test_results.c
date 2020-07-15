@@ -126,8 +126,6 @@ void handle_new_result(test_ctx_t* ctx, int i, int run) {
 /** at the end of the test print out the results histogram
  */
 void print_results(test_hist_t* res, test_ctx_t* ctx) {
-  printf("\n");
-  printf("Test %s:\n", ctx->cfg->name);
   int marked = 0;
   int no_sc_results_seen = 0;
   for (int r = 0; r < res->allocated; r++) {
