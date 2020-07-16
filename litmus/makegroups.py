@@ -95,7 +95,8 @@ class TestGroups:
         """returns True if some test name matches the set of included tests
         """
         includes = set().union(self.includes, extra_includes)
-        return (name in includes or '@all' in includes) and not any('-@'+p in includes for p in prefix)
+        return ((name in includes or '@all' in includes) and not any('-@'+p in includes for p in prefix)
+                and not '-'+name in includes)
 
     def read_previous_tests(self):
         if not self.force:
