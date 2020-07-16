@@ -52,6 +52,25 @@
 #define ASM_VARS(data, ...) VAR_VAs(data, __VA_ARGS__), VAR_PTEs(data, __VA_ARGS__), VAR_DESCs(data, __VA_ARGS__), VAR_PAGEs(data, __VA_ARGS__)
 #define ASM_REGS(data, ...) REG_FNs_UNKNOWN(data, __VA_ARGS__)
 
+/** these are used for building asm blocks more manually
+ * sometimes a test contains too many variables to simply allocate everything
+ * and you need more control to allocate *just* the registers needed for that thread.
+ *
+ * e.g.
+ * asm volatile (
+ *  ....
+ * : ASM_VAR_VAs(data, x, y),
+ *   ASM_VAR_PTEs(data, x),
+ *   ASM_REGS(data, REGS)
+ * : ...
+ * )
+ */
+#define ASM_VAR_VAs(data, ...) VAR_VAs(data, __VA_ARGS__)
+#define ASM_VAR_PAs(data, ...) VAR_PAs(data, __VA_ARGS__)
+#define ASM_VAR_PTEs(data, ...) VAR_PTEs(data, __VA_ARGS__)
+#define ASM_VAR_PAGEs(data, ...) VAR_PAGEs(data, __VA_ARGS__)
+#define ASM_VAR_DESCs(data, ...) VAR_DESCs(data, __VA_ARGS__)
+
 /** Generates the asm sequence to do an exception return to the _next_ instruction
  *
  * uses the given general-purpose register name as a temporary register
