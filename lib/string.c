@@ -33,9 +33,17 @@ int ctoi(char c) {
 uint64_t atoi(char* s) {
   uint64_t x = 0;
   while (*s) {
-    x *= 10;
-    x += ctoi(*s);
+    char c = *s;
     s++;
+
+    /* allow separators in integers:
+     * atoi("1_000_000") == 1e6
+     */
+    if (c == '_')
+      continue;
+
+    x *= 10;
+    x += ctoi(c);
   }
   return x;
 }
