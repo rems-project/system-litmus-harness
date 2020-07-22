@@ -35,7 +35,7 @@ static void P1(litmus_test_run* data) {
     /* test payload */
     "ldr x7, [x1]\n\t"
     "mov x0, x8\n\t"
-    "mov x8, #0\n\t"
+    "mov x8, #1\n\t"
     "dsb sy\n\t"
     "isb\n\t"
     "ldr x7, [x3]\n\t"
