@@ -107,6 +107,7 @@ init_cpu:
 	mul x13, x13, x9
 	add x14, x14, x13
     msr vbar_el1, x14
+	isb
 	ret
 
 .globl halt
