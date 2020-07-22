@@ -320,13 +320,13 @@ bin/debug_%.exe: bin/%.bin
 bin/qemu_%.exe: OUT_NAME=$$tmp
 bin/qemu_%.exe: bin/%.bin
 	$(call run_cmd,BUILD_EXE,$@,\
-		$(call make_exe,$(RUN_CMD_LOCAL))\
+		$(call make_exe,$(RUN_CMD_LOCAL) $${QEMU_ARGS})\
 	)
 
 bin/kvm_%.exe: OUT_NAME=$$tmp
 bin/kvm_%.exe: bin/%.bin
 	$(call run_cmd,BUILD_EXE,$@,\
-		$(call make_exe,$(RUN_CMD_HOST))\
+		$(call make_exe,$(RUN_CMD_HOST) $${QEMU_ARGS})\
 	)
 
 .PHONY: run
@@ -352,7 +352,7 @@ clean:
 ifeq ($(strip $(TEST_DISCOVER)),1)
 	rm -f litmus/groups.c
 endif
-	echo 'run `make cleantests` to remove test and group lists too'
+	@echo 'run `make cleantests` to remove test and group lists too'
 
 .PHONY: cleantests
 cleantests:
