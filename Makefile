@@ -33,6 +33,8 @@ Options:
    	Show full commands and output
    make [...] PREFIX="prefix"
    	Use $$(PREFIX)gcc and $$(PREFIX)ld during build
+   make [...] NO_CHECK=1
+    Do not perform existence checks of cross-compilation tools.
    make kvm [...] HOST="no-gic"
    	Use KVM with virtualized interrupt controller
    make [...] SHOW_PREPROCESSED_OUTPUT=1
@@ -69,12 +71,24 @@ MAKE_TEST_LIST_CMD = python3 litmus/makegroups.py
 # Compiler and tools options
 KNOWN_PREFIXES = aarch64-linux-gnu- aarch64-none-elf-
 PREFIX = $(word 1, $(foreach PRF,$(KNOWN_PREFIXES),$(if $(shell which $(PRF)gcc),$(PRF),)))
+
 CC = $(PREFIX)gcc
 LD = $(PREFIX)ld
 OBJCOPY = $(PREFIX)objcopy
 OBJDUMP = $(PREFIX)objdump
 QEMU = qemu-system-aarch64
 GDB = gdb-multiarch  --eval-command "set arch aarch64"
+
+# if NO_CHECK=1 then do not check for existence of the above
+# cross-compilation tools on the local machine
+NO_CHECK = 0
+
+ifeq ($(NO_CHECK),0)
+else ifeq ($(NO_CHECK),1)
+else
+  $(info $(USAGE))
+  $(error Unexpected NO_CHECK="$(NO_CHECK)" param)
+endif
 
 ifeq ($(word 1,$(MAKECMDGOALS)),run)
   define leading
@@ -223,11 +237,32 @@ else
   endef
 endif
 
+define check_tool
+	$(call run_cmd,CHECK,$1,\
+		if ! which "$2" 1>/dev/null; then \
+			echo error: Command "'$2'" not found!; \
+			exit 1; \
+		fi \
+	)
+endef
+
 .PHONY: all
 all: kvm qemu
 
+.PHONY: kvm
 kvm: bin/kvm_litmus.exe
+
+.PHONY: qemu
 qemu: bin/qemu_litmus.exe
+
+# checks that the specified cross-compilation tools actually exist on the machine
+.PHONY: check_cross_tools_exist
+check_cross_tools_exist:
+ifeq ($(NO_CHECK),0)
+	$(call check_tool,CC,$(CC))
+	$(call check_tool,LD,$(LD))
+	$(call check_tool,OBJCOPY,$(OBJCOPY))
+endif
 
 .PHONY: help
 help:
@@ -249,14 +284,14 @@ litmus_tests:
 	)
 	@echo 're-run `make` to compile any new or updated litmus tests'
 
-bin/lib/%.o: lib/%.c
+bin/lib/%.o: lib/%.c | check_cross_tools_exist
 	$(run_cc)
 
 bin/unittests/%.o: OTHER_INCLUDES=-I unittests/include
-bin/unittests/%.o: unittests/%.c
+bin/unittests/%.o: unittests/%.c | check_cross_tools_exist
 	$(run_cc)
 
-bin/litmus/%.o: litmus/%.c
+bin/litmus/%.o: litmus/%.c | check_cross_tools_exist
 	$(run_cc)
 ifeq ($(quiet),0)
 	@$(LINTER) $<
