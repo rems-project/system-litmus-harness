@@ -32,6 +32,19 @@ void lamport_lock(volatile lamport_lock_t* lock) {
   }
 }
 
+void __atomic_set_excl(volatile uint64_t* va, uint64_t v) {
+  asm volatile(
+    "0:\n"
+    "ldxr w0, [%[va]]\n"
+    "cbnz w0, 0b\n"
+    "stxr w1, %[val], [%[va]]\n"
+    "cbnz w1, 0b\n"
+    :
+    : [va] "r" (va), [val] "r" (v)
+    : "x0", "x1", "x2", "memory"
+  );
+}
+
 void lamport_unlock(volatile lamport_lock_t* lock) {
   int i = get_cpu();
   dmb();
@@ -40,24 +53,19 @@ void lamport_unlock(volatile lamport_lock_t* lock) {
 }
 
 void mutex_lock(volatile mutex_t* m) {
-  asm volatile(
-    "0:\n"
-    "ldxr w0, [%[lock]]\n"
-    "cbnz w0, 0b\n"
-    "mov w0, #1\n"
-    "stxr w1, w0, [%[lock]]\n"
-    "cbnz w1, 0b\n"
-    :
-    : [lock] "r" (&m->m)
-    : "x0", "x1", "memory");
+  /* acquire mutex */
+  __atomic_set_excl(&m->m, 1);
 
-  /* ensure ctrl-deps on the lock are observed */
-  dsb();
+  /* ensure critical section waits */
+  dmb();
 }
 
 void mutex_unlock(volatile mutex_t* m) {
-  m->m = 0;
+  /* wait for critical section to finish */
   dmb();
+
+  /* release the mutex */
+  m->m = 0;
 }
 
 void lock(volatile lock_t* lock) {
@@ -83,6 +91,10 @@ void unlock(volatile lock_t* lock) {
 lock_t bwait_lock;
 
 void bwait(int vcpu, int i, bar_t* bar, int sz) {
+  if (! current_thread_info()->locking_enabled) {
+    fail("bwait needs locking enabled\n");
+  }
+
   /* slow acquire */
   lock(&bwait_lock);
   bar->counter++;
