@@ -1,5 +1,34 @@
 #include "lib.h"
 
+/**
+ * ARM64 locks
+ *
+ *  if the MMU is switched off then use a lamport lock
+ *  otherwise,  have to use the atomic mutex
+ */
+
+void lock(volatile lock_t* lock) {
+  if (! current_thread_info()->locking_enabled)
+    return;
+
+  if (ENABLE_PGTABLE)
+    mutex_lock(&lock->m);
+  else
+    lamport_lock(&lock->l);
+}
+
+void unlock(volatile lock_t* lock) {
+  if (! current_thread_info()->locking_enabled)
+    return;
+
+  if (ENABLE_PGTABLE)
+    mutex_unlock(&lock->m);
+  else
+    lamport_unlock(&lock->l);
+}
+
+/** lamport lock
+*/
 int get_ticket(volatile lamport_lock_t* lock) {
   unsigned int max_ticket = 0;
   for (int j = 0; j < num_of_threads; j++) {
@@ -32,7 +61,21 @@ void lamport_lock(volatile lamport_lock_t* lock) {
   }
 }
 
+void lamport_unlock(volatile lamport_lock_t* lock) {
+  int i = get_cpu();
+  dmb();
+  lock->number[i] = 0;
+  dmb();
+}
+
+/** arm64 atomic lock
+ */
+
 void __atomic_set_excl(volatile uint64_t* va, uint64_t v) {
+  /* atomic test and update
+   * equivalent to an atomic:
+   * <while (!*va); *va = v>;
+   */
   asm volatile(
     "0:\n"
     "ldxr w0, [%[va]]\n"
@@ -43,13 +86,6 @@ void __atomic_set_excl(volatile uint64_t* va, uint64_t v) {
     : [va] "r" (va), [val] "r" (v)
     : "x0", "x1", "x2", "memory"
   );
-}
-
-void lamport_unlock(volatile lamport_lock_t* lock) {
-  int i = get_cpu();
-  dmb();
-  lock->number[i] = 0;
-  dmb();
 }
 
 void mutex_lock(volatile mutex_t* m) {
@@ -68,25 +104,12 @@ void mutex_unlock(volatile mutex_t* m) {
   m->m = 0;
 }
 
-void lock(volatile lock_t* lock) {
-  if (! current_thread_info()->locking_enabled)
-    return;
-
-  if (ENABLE_PGTABLE)
-    mutex_lock(&lock->m);
-  else
-    lamport_lock(&lock->l);
-}
-
-void unlock(volatile lock_t* lock) {
-  if (! current_thread_info()->locking_enabled)
-    return;
-
-  if (ENABLE_PGTABLE)
-    mutex_unlock(&lock->m);
-  else
-    lamport_unlock(&lock->l);
-}
+/**
+ * barriers
+ *
+ * bwait() is used to ensure multiple threads synchronize at the same point
+ * releasing them all at roughly the same time.
+ */
 
 lock_t bwait_lock;
 
@@ -117,18 +140,4 @@ void bwait(int vcpu, int i, bar_t* bar, int sz) {
   for (int i = 0; i < sz; i++) {
     while (! bar->release_flags[i]) dmb();
   }
-}
-
-void mmu_lock(volatile lock_t* lock) {
-  asm volatile(
-    "0:\n"
-    "ldxr w0, [%[lock]]\n"
-    "cbnz w0, 0b\n"
-    "mov w0, #1\n"
-    "stxr w1, w0, [%[lock]]\n\t"
-    "dsb nsh\n\t"
-    "cbnz w1, 0b\n"
-    :
-    : [lock] "r"(lock)
-    : "x0", "x1", "memory");
 }
