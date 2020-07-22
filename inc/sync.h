@@ -20,7 +20,7 @@ void lamport_unlock(volatile lamport_lock_t* lock);
  * so switch to exclusives
  */
 typedef struct {
-  uint64_t m;
+  uint64_t locked;
 } mutex_t;
 
 void mutex_lock(volatile mutex_t* lock);

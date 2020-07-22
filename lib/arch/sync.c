@@ -71,7 +71,7 @@ void lamport_unlock(volatile lamport_lock_t* lock) {
 /** arm64 atomic lock
  */
 
-void __atomic_set_excl(volatile uint64_t* va, uint64_t v) {
+void __atomic_wait_and_set(volatile uint64_t* va, uint64_t v) {
   /* atomic test and update
    * equivalent to an atomic:
    * <while (!*va); *va = v>;
@@ -84,24 +84,24 @@ void __atomic_set_excl(volatile uint64_t* va, uint64_t v) {
     "cbnz w1, 0b\n"
     :
     : [va] "r" (va), [val] "r" (v)
-    : "x0", "x1", "x2", "memory"
+    : "memory", "x0", "x1"
   );
 }
 
-void mutex_lock(volatile mutex_t* m) {
+void mutex_lock(volatile mutex_t* mut) {
   /* acquire mutex */
-  __atomic_set_excl(&m->m, 1);
+  __atomic_wait_and_set(&mut->locked, 1);
 
   /* ensure critical section waits */
   dmb();
 }
 
-void mutex_unlock(volatile mutex_t* m) {
+void mutex_unlock(volatile mutex_t* mut) {
   /* wait for critical section to finish */
   dmb();
 
   /* release the mutex */
-  m->m = 0;
+  mut->locked = 0;
 }
 
 /**
