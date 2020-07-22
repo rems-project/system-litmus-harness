@@ -6,3 +6,14 @@ Starting 2020-Jun-23 below lists the litmus test errata in litmus tests.
 
     MP.RT.inv+dmb+addr
         Incorrect handler made it impossible to tell difference between pagefault and new translation
+
+2020-July-22
+    @all
+        fixed race condition in locking in the harness that could sometimes
+        cause the tool to deadlock.  Whether it caused other issues is unknown.
+
+    CoWT.inv
+    CoWT.inv+dmb
+    CoWT.inv+dsb
+    CoWT.inv+dsb-isb
+        Fixed sync handlers. It used to set the sync handler for the incorrect (non-existent) thread.
