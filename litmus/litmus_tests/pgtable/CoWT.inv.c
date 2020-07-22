@@ -24,7 +24,7 @@ static void P0(litmus_test_run* data) {
 
       /* output */
       "str x2, [%[outp0r2]]\n\t"
-  : 
+  :
   : ASM_VARS(data, VARS),
     ASM_REGS(data, REGS)
   : "cc", "memory", "x0", "x1", "x2", "x3"
@@ -46,7 +46,6 @@ litmus_test_t CoWTinv = {
     /* p0:x2 =*/0,
   },
   .thread_sync_handlers = (uint32_t**[]){
-    (uint32_t*[]){NULL, NULL},
     (uint32_t*[]){(uint32_t*)sync_handler, NULL},
   },
   .requires_pgtable = 1,
