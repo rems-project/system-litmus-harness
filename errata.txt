@@ -17,6 +17,7 @@ Starting 2020-Jun-23 below lists the litmus test errata in litmus tests.
     CoWT.inv+dsb
     CoWT.inv+dsb-isb
         Fixed sync handlers. It used to set the sync handler for the incorrect (non-existent) thread.
+        Also the handler had no ERET.
 
     MP.TT.inv+dmb+tpo
     MP.TT.inv+dmb+dsb-isb

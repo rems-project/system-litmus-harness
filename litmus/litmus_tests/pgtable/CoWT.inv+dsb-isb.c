@@ -8,6 +8,7 @@
 static void sync_handler(void) {
   asm volatile (
     "mov x2, #0\n\t"
+    "eret\n\t"
   );
 }
 
