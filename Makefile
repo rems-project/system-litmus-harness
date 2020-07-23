@@ -199,6 +199,7 @@ litmus_BIN_FILES := $(addprefix bin/,$(LITMUS_FILES:.c=.o))
 unittests_BIN_FILES := $(addprefix bin/,$(UNITTESTS_FILES:.c=.o))
 
 LINTER = python3 litmus/linter.py
+NO_LINT = 0
 
 # defines a helper run_cmd
 # this helper displays nice text and handles VERBOSE/quiet modes gracefully
@@ -262,6 +263,16 @@ ifeq ($(NO_CHECK),0)
 	$(call check_tool,CC,$(CC))
 	$(call check_tool,LD,$(LD))
 	$(call check_tool,OBJCOPY,$(OBJCOPY))
+
+ifeq ($(NO_LINT),0)
+	$(call run_cmd,CHECK,$1,\
+		if ! $(LINTER) "(find litmus/litmus_tests -name '*.c' | head -n1)" &>/dev/null; then \
+			echo error: Linter not functional!; \
+			echo Run wtih NO_LINT=1 to disable linting \
+			exit 1; \
+		fi \
+	)
+endif
 endif
 
 .PHONY: help
@@ -294,7 +305,9 @@ bin/unittests/%.o: unittests/%.c | check_cross_tools_exist
 bin/litmus/%.o: litmus/%.c | check_cross_tools_exist
 	$(run_cc)
 ifeq ($(quiet),0)
+ifeq ($(NO_LINT),0)
 	@$(LINTER) $<
+endif
 endif
 
 # this is ugly, should use the same system as above ...
