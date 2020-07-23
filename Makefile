@@ -265,7 +265,7 @@ ifeq ($(NO_CHECK),0)
 	$(call check_tool,OBJCOPY,$(OBJCOPY))
 
 ifeq ($(NO_LINT),0)
-	$(call run_cmd,CHECK,$1,\
+	$(call run_cmd,CHECK,LINTER,\
 		if ! $(LINTER) "(find litmus/litmus_tests -name '*.c' | head -n1)" &>/dev/null; then \
 			echo error: Linter not functional!; \
 			echo Run wtih NO_LINT=1 to disable linting \
@@ -352,7 +352,7 @@ define make_exe =
 		echo 'echo Starting $@' >> $@ ; \
 		echo 'tmp=`mktemp`' >> $@ ; \
 		echo 'base64 -d << BIN_EOF | zcat > $$tmp || exit 2' >> $@ ; \
-		gzip -c $^ | base64 >> $@ ; \
+		gzip -c $< | base64 >> $@ ; \
 		echo "BIN_EOF" >> $@ ; \
 		echo '$1' >> $@ ; \
 		chmod +x $@ ; \
@@ -406,3 +406,11 @@ endif
 cleantests:
 	rm -f litmus/test_list.txt
 	rm -f litmus/group_list.txt
+
+# always re-build *_litmus.exe
+# this ensures the changes to the QEMU flags
+# are seen by the rebuild
+.PHONY: FORCE
+FORCE:
+bin/kvm_litmus.exe: FORCE
+bin/qemu_litmus.exe: FORCE
