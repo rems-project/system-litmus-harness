@@ -5,7 +5,7 @@
 
 /* global configuration options + default values */
 uint64_t NUMBER_OF_RUNS = 10000UL;
-uint8_t ENABLE_PGTABLE = 0;
+uint8_t ENABLE_PGTABLE = 1;  /* start enabled */
 uint8_t ENABLE_PERF_COUNTS = 0;
 
 uint8_t DISABLE_RESULTS_HIST = 0;
