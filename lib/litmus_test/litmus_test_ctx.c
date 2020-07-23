@@ -68,6 +68,7 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
   ctx->final_barrier = final_barrier;
   ctx->shuffled_ixs = shuffled;
   ctx->affinity = affinity;
+  ctx->last_tick = 0;
   ctx->hist = hist;
   ctx->ptable = NULL;
   ctx->current_run = 0;

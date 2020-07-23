@@ -180,7 +180,7 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     if (post != NULL)
       post(&run);
 
-    end_of_run(ctx, cpu, vcpu, i);
+    end_of_run(ctx, cpu, vcpu, i, j);
 
     if (ENABLE_PGTABLE)
       _check_ptes(ctx, ctx->cfg->no_heap_vars, heaps, ptes, saved_ptes);
@@ -237,10 +237,21 @@ static void reshuffle(test_ctx_t* ctx) {
   debug("set affinity = %Ad\n", ctx->affinity, NO_CPUS);
 }
 
-void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i) {
+void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i, int r) {
   if (! ctx->cfg->start_els || ctx->cfg->start_els[vcpu] == 0)
     raise_to_el1();
   bwait(vcpu, i % ctx->cfg->no_threads, &ctx->end_barriers[i], ctx->cfg->no_threads);
+
+  if (cpu == 0) {
+    /* cpu0 ensures alignment on output */
+    uint64_t time = read_clk();
+    if (time - ctx->last_tick > 10*TICKS_PER_SEC) {
+      char time_str[100];
+      sprint_time(&time_str, time);
+      verbose("  [%s] %d/%d\n", time_str, r, ctx->no_runs);
+      ctx->last_tick = time;
+    }
+  }
 
   /* only 1 thread should collect the results, else they will be duplicated */
   if (vcpu == 0) {

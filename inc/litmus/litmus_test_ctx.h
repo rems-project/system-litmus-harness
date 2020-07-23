@@ -26,6 +26,7 @@ struct test_ctx {
   uint64_t current_run;
   uint64_t current_EL;
   uint64_t privileged_harness;  /* require harness to run at EL1 between runs ? */
+  uint64_t last_tick; /* clock ticks since last verbose print */
   const litmus_test_t* cfg;
 };
 

@@ -14,6 +14,7 @@ void vprintf(const char* fmt, va_list ap);
 char* sprintf(char* out, const char* fmt, ...);
 void printf(const char* fmt, ...);
 void trace(const char* fmt, ...);
+void verbose(const char* fmt, ...);
 /* debug() declared in debug.h */
 
 char* sprint_time(char* out, uint64_t clk);

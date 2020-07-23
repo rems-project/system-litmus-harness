@@ -207,6 +207,18 @@ void trace(const char* fmt, ...) {
 	}
 }
 
+void verbose(const char* fmt, ...) {
+	if (VERBOSE) {
+		char new_fmt[100];
+		sprintf(new_fmt, "#%s", fmt);
+
+		va_list ap;
+		va_start(ap, fmt);
+		vprintf(new_fmt, ap);
+		va_end(ap);
+	}
+}
+
 void _debug(const char* filename, const int line, const char* func, const char* fmt, ...) {
 	if (DEBUG) {
 		char new_fmt[100];
