@@ -247,7 +247,7 @@ void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i, int r) {
     uint64_t time = read_clk();
     if (time - ctx->last_tick > 10*TICKS_PER_SEC) {
       char time_str[100];
-      sprint_time(&time_str, time);
+      sprint_time((char*)&time_str, time);
       verbose("  [%s] %d/%d\n", time_str, r, ctx->no_runs);
       ctx->last_tick = time;
     }
