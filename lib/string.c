@@ -1,5 +1,7 @@
 #include <stdint.h>
 
+#include "abort.h"
+
 uint64_t strlen(char* s) {
   uint64_t i = 0;
 
@@ -41,6 +43,24 @@ uint64_t atoi(char* s) {
      */
     if (c == '_')
       continue;
+
+    /* allow ending in K/M for automatic *1000 or *1_000_000
+     */
+    if (c == 'k' || c == 'K') {
+      if (*(s+1) != '\0') {
+        fail("invalid input, [kK] only valid at end.\n");
+        return 0;
+      }
+
+      return x * 1000L;
+    } else if (c == 'm' || c == 'M') {
+      if (*(s+1) != '\0') {
+        fail("invalid input, [mM] only valid at end.\n");
+        return 0;
+      }
+
+      return x * 1000000L;
+    }
 
     x *= 10;
     x += ctoi(c);

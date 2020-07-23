@@ -6,6 +6,7 @@
 #include <stdarg.h>
 #include <str.h>
 
+#include "abort.h"
 #include "thread_info.h"
 #include "argc.h"
 #include "bitwise.h"
@@ -29,8 +30,6 @@ uint64_t vector_base_addr_rw;
 void psci_cpu_on(uint64_t cpu);
 void psci_system_off(void);
 
-void abort(void);
-void fail(const char* fmt, ...);
 #define unreachable() do {printf("! unreachable: [%s] %s %d\n", __FILE__, __FUNCTION__, __LINE__); raise_to_el1(); abort();} while (1);
 
 
