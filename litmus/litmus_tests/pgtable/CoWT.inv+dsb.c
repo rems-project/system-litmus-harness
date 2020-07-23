@@ -8,7 +8,8 @@
 static void sync_handler(void) {
   asm volatile (
     "mov x2, #0\n\t"
-    "eret\n\t"
+
+    ERET_TO_NEXT(x10)
   );
 }
 
@@ -29,7 +30,7 @@ static void P0(litmus_test_run* data) {
   :
   : ASM_VARS(data, VARS),
     ASM_REGS(data, REGS)
-  : "cc", "memory", "x0", "x1", "x2", "x3"
+  : "cc", "memory", "x0", "x1", "x2", "x3", "x10"
   );
 }
 
