@@ -10,8 +10,9 @@ extern uint8_t ENABLE_PERF_COUNTS;
  * and (if -t) print results direct to serial */
 extern uint8_t DISABLE_RESULTS_HIST;
 
-extern uint8_t DEBUG;
+extern uint8_t VERBOSE;
 extern uint8_t TRACE;
+extern uint8_t DEBUG;
 
 extern char*  collected_tests[100];
 extern int    collected_tests_count;

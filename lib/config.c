@@ -10,8 +10,9 @@ uint8_t ENABLE_PERF_COUNTS = 0;
 
 uint8_t DISABLE_RESULTS_HIST = 0;
 
-uint8_t DEBUG = 0;
+uint8_t VERBOSE = 1;  /* start verbose */
 uint8_t TRACE = 0;
+uint8_t DEBUG = 0;
 
 uint8_t ONLY_SHOW_MATCHES = 0;
 
@@ -76,6 +77,20 @@ static void read_arg(char* w) {
             return;
           } else if (strcmp(word, "pgtable")) {
             ENABLE_PGTABLE = 1;
+            return;
+          } else if (strcmp(word, "no-pgtable")) {
+            ENABLE_PGTABLE = 0;
+            return;
+          } else if (strcmp(word, "verbose")) {
+            VERBOSE = 1;
+            return;
+          } else if (strcmp(word, "no-verbose")) {
+            VERBOSE = 0;
+            return;
+          } else if (strcmp(word, "quiet")) {
+            VERBOSE = 0;
+            TRACE = 0;
+            DEBUG = 0;
             return;
           }
           break;
