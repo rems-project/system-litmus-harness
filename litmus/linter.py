@@ -114,14 +114,18 @@ def parse_litmus_code(path, c_code):
     thr_blocks = [(int(fun['fname'][1:]), fun) for fname, fun in funs.items() if re.fullmatch('P\d+', fname)]
     threads = [(i, _get_asm(m['fname']), handlers[i]) for (i, m) in thr_blocks]
 
-    return {'path': path,
-            'handlers': handler_fns,
-            'cname': match['cname'],
-            'human_name': match['human_name'],
-            'init': init_st,
-            #'vars': (int(match['no_vars']), match['var_names']),
-            #'regs': (int(match['no_regs']), match['reg_names']),
-            'threads': (int(match['no_threads']), threads)}
+    return {
+        'path': path,
+        'handlers': handler_fns,
+        'handler_fields': handlers,
+        'cname': match['cname'],
+        'human_name': match['human_name'],
+        'init': init_st,
+        #'vars': (int(match['no_vars']), match['var_names']),
+        #'regs': (int(match['no_regs']), match['reg_names']),
+        'threads': (int(match['no_threads']), threads),
+        'c_code': c_code,
+    }
 
 
 def warn(litmus, msg):
@@ -159,6 +163,9 @@ def check_thread_count(l):
     (count, threads) = l['threads']
     if (count != len(threads)):
         warn(l, "Thread count mismatch.")
+
+    if 'handler_fields' in l and len(l['handler_fields']) != len(threads):
+        warn(l, "Thread count does not match number of exception handler entries.")
 
 
 def check_clobber_registers(l):
@@ -213,6 +220,25 @@ def check_init_count(lit):
         ))
 
 
+def check_requires_pgtable(lit):
+    code = lit['c_code']
+
+    req_pgtable_re = r'\.requires_pgtable\s*=\s*1'
+    m_req_pgtable = re.search(req_pgtable_re, code, re.MULTILINE)
+
+    # look for things that look like it requires the MMU enabled:
+    mmu_enable_check_re = (
+        r'(tlbi)'
+        r'|(INIT\_UNMAPPED)'
+        r'|(INIT\_PTE)'
+        r'|(\%\[\w+desc\])'
+    )
+
+    m_mmu_enable_check = re.search(mmu_enable_check_re, code, re.MULTILINE)
+
+    if m_mmu_enable_check and not m_req_pgtable:
+        warn(lit, 'missing requires_pgtable=1?')
+
 def run_lint(linter, litmus):
     try:
         linter(litmus)
@@ -226,6 +252,7 @@ def _lint(lit):
     run_lint(check_clobber_registers, lit)
     run_lint(check_register_use, lit)
     run_lint(check_init_count, lit)
+    run_lint(check_requires_pgtable, lit)
 
 
 def _lint_many(lits):
