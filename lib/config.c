@@ -63,6 +63,9 @@ static void read_arg(char* w) {
           if (strcmp(word, "help")) {
             display_help_and_quit();
             return;
+          } else if (strcmp(word, "show")) {
+            display_help_show_tests();
+            return;
           } else if (strcmp(word, "perf")) {
             ENABLE_PERF_COUNTS = 1;
             return;

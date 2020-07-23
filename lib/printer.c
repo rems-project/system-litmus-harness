@@ -176,7 +176,7 @@ static char* vsprintf(char* out, const char* fmt, va_list ap) {
 }
 
 void vprintf(const char* fmt, va_list ap) {
-	char s[512];
+	char s[1024];
 	vsprintf(s, fmt, ap);
 	lock(&__PR_LOCK);
 	puts(s);

@@ -20,6 +20,7 @@ extern uint8_t ONLY_SHOW_MATCHES;
 
 
 void display_help_and_quit(void);
+void display_help_show_tests(void);
 void display_test_help(void);
 void read_args(int argc, char** argv);
 
