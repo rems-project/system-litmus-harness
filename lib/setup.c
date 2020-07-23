@@ -40,7 +40,9 @@ void setup(char* fdtloc) {
     debug("set initial seed = 0x%lx\n", seed);
   }
 
-  printf("seed = %ld\n", INITIAL_SEED);
+  INIT_CLOCK = read_clk();
+  TICKS_PER_SEC = read_clk_freq();
+
 
   debug("setting up CPU0\n");
   cpu_data_init();

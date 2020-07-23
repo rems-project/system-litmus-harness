@@ -60,6 +60,10 @@ void writeb(uint8_t byte, uint64_t addr);
 
 /** read the clock register */
 uint64_t read_clk(void);
+uint64_t read_clk_freq(void);
+
+extern uint64_t INIT_CLOCK;
+extern uint64_t TICKS_PER_SEC;
 
 #endif
 #endif /* ASM_H */

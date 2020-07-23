@@ -219,3 +219,42 @@ void _debug(const char* filename, const int line, const char* func, const char* 
 		va_end(ap);
 	}
 }
+
+
+/** printing times */
+char* sprint_time(char* out, uint64_t clk) {
+	/* clk is absolute */
+	/* theoretically INIT_CLOCK is ~0, but we cannot be sure */
+	clk = clk - INIT_CLOCK;
+
+	uint64_t tot_secs = clk / TICKS_PER_SEC;
+	uint64_t rem_secs = tot_secs;
+	uint64_t rem_hours = rem_secs / (60*60);
+	rem_secs = rem_secs % (60*60);
+	uint64_t rem_mins = rem_secs / 60;
+	rem_secs = rem_secs % 60;
+
+	if (rem_hours < 10) {
+		out = sprintf(out, "0%d", rem_hours);
+	} else {
+		out = sprintf(out, "%d", rem_hours);
+	}
+
+	out = sprintf(out, ":");
+
+	if (rem_mins < 10) {
+		out = sprintf(out, "0%d", rem_mins);
+	} else {
+		out = sprintf(out, "%d", rem_mins);
+	}
+
+	out = sprintf(out, ":");
+
+	if (rem_secs < 10) {
+		out = sprintf(out, "0%d", rem_secs);
+	} else {
+		out = sprintf(out, "%d", rem_secs);
+	}
+
+	return out;
+}
