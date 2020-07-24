@@ -108,4 +108,4 @@ Test MP+pos:
 Observation MP+pos: 1674 (of 10000)
 ```
 
-For more details, see the [documentation](rems-project.github.io/system-litmus-harness).
+For more details, see the [documentation](https://rems-project.github.io/system-litmus-harness/).
