@@ -10,7 +10,7 @@ void puts(const char *s);
 void puthex(uint64_t n);
 void putdec(uint64_t n);
 
-void vprintf(const char* fmt, va_list ap);
+void vprintf(int mode, const char* fmt, va_list ap);
 char* sprintf(char* out, const char* fmt, ...);
 void printf(const char* fmt, ...);
 void trace(const char* fmt, ...);

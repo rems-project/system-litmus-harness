@@ -7,7 +7,7 @@ void abort(void) {
 void fail(const char* fmt, ...) {
 	va_list ap;
 	va_start(ap, fmt);
-	vprintf(fmt, ap);
+	vprintf(1, fmt, ap);
 	va_end(ap);
     raise_to_el1();
     abort();

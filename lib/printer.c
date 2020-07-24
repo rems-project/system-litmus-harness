@@ -118,12 +118,7 @@ char* sputarray(char* out, char* fmt, void* p, int count) {
 }
 
 static volatile lock_t __PR_LOCK;
-static char* vsprintf(char* out, const char* fmt, va_list ap) {
-	if (! DEBUG) {
-		for (int i = 0; i < get_cpu(); i++) {
-			out = sputs(out, "\t\t\t");
-		}
-	}
+static char* vsprintf(char* out, int mode, const char* fmt, va_list ap) {
 	char* p = (char*)fmt;
 	while (*p) {
 		char c = *p;
@@ -175,9 +170,15 @@ static char* vsprintf(char* out, const char* fmt, va_list ap) {
 				  * to make chaining vsprintf() calls easier */
 }
 
-void vprintf(const char* fmt, va_list ap) {
+void vprintf(int mode, const char* fmt, va_list ap) {
 	char s[1024];
-	vsprintf(s, fmt, ap);
+	char* out = &s[0];
+	if (mode == 0) {
+		for (int i = 0; i < get_cpu(); i++) {
+			out = sputs(out, "\t\t\t");
+		}
+	}
+	vsprintf(out, mode, fmt, ap);
 	lock(&__PR_LOCK);
 	puts(s);
 	unlock(&__PR_LOCK);
@@ -186,7 +187,7 @@ void vprintf(const char* fmt, va_list ap) {
 char* sprintf(char* out, const char* fmt, ...) {
 	va_list ap;
 	va_start(ap, fmt);
-	out = vsprintf(out, fmt, ap);
+	out = vsprintf(out, 0, fmt, ap);
 	va_end(ap);
 	return out;
 }
@@ -194,7 +195,7 @@ char* sprintf(char* out, const char* fmt, ...) {
 void printf(const char* fmt, ...) {
 	va_list ap;
 	va_start(ap, fmt);
-	vprintf(fmt, ap);
+	vprintf(0, fmt, ap);
 	va_end(ap);
 }
 
@@ -202,7 +203,7 @@ void trace(const char* fmt, ...) {
 	if (TRACE) {
 		va_list ap;
 		va_start(ap, fmt);
-		vprintf(fmt, ap);
+		vprintf(0, fmt, ap);
 		va_end(ap);
 	}
 }
@@ -214,7 +215,7 @@ void verbose(const char* fmt, ...) {
 
 		va_list ap;
 		va_start(ap, fmt);
-		vprintf(new_fmt, ap);
+		vprintf(1, new_fmt, ap);
 		va_end(ap);
 	}
 }
@@ -227,7 +228,7 @@ void _debug(const char* filename, const int line, const char* func, const char* 
 
 		va_list ap;
 		va_start(ap, fmt);
-		vprintf(new_fmt, ap);
+		vprintf(1, new_fmt, ap);
 		va_end(ap);
 	}
 }
