@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "__locale": "c",
+        "bitset": "c"
+    },
+    "restructuredtext.confPath": "${workspaceFolder}/doc/source"
+}

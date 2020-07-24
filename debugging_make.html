@@ -1,0 +1,262 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Debugging a Failing Build &mdash; system-litmus-harness  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Running the Tests" href="customizing_litmus.html" />
+    <link rel="prev" title="Getting Started" href="getting_started.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> system-litmus-harness
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Documentation:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Debugging a Failing Build</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#aarch64-cross-compiler-tools">AArch64 Cross-Compiler Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#error-invalid-instruction-mnemonic">error: invalid instruction mnemonic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#error-command-cmd-not-found">error: Command ‘cmd’ not found!</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="customizing_litmus.html">Running the Tests</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="customizing_make.html">Customizing the Build</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debugging_code.html">Fixing Runtime Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing_tests.html">Writing Litmus Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test_discover.html">Test Discovery and Linting</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">system-litmus-harness</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Debugging a Failing Build</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/debugging_make.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="debugging-a-failing-build">
+<h1>Debugging a Failing Build<a class="headerlink" href="#debugging-a-failing-build" title="Permalink to this headline">¶</a></h1>
+<p>system-litmus-harness uses a relatively simple Makefile to control the build process,
+but it relies on many other tools, any of which could fail.</p>
+<p>The following describes the common issues and their solutions.</p>
+<div class="section" id="aarch64-cross-compiler-tools">
+<h2>AArch64 Cross-Compiler Tools<a class="headerlink" href="#aarch64-cross-compiler-tools" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="error-invalid-instruction-mnemonic">
+<h3>error: invalid instruction mnemonic<a class="headerlink" href="#error-invalid-instruction-mnemonic" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>error: invalid instruction mnemonic ‘msr’</p></li>
+<li><p>error: invalid instruction mnemonic ‘dmb’</p></li>
+<li><p>error: invalid instruction mnemonic ‘isb’</p></li>
+</ul>
+<p>These errors are all caused by the makefile using the incorrect compiler.
+Building the binary requires an AArch64 (Arm64) compiler, see <a class="reference internal" href="getting_started.html"><span class="doc">Getting Started</span></a> to
+see how to get one if you do not have one.</p>
+<p>If you do have an Arm64 compiler e.g. <code class="docutils literal notranslate"><span class="pre">aarch64-none-elf-gcc</span></code> but the makefile is not detecting
+it then you can tell the makefile to use that prefix directly:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make PREFIX=&quot;aarch64-none-elf-&quot;
+</pre></div>
+</div>
+</div>
+<div class="section" id="error-command-cmd-not-found">
+<h3>error: Command ‘cmd’ not found!<a class="headerlink" href="#error-command-cmd-not-found" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>error: Command ‘[…]gcc’ not found!</p></li>
+<li><p>error: Command ‘[…]ld’ not found!</p></li>
+<li><p>error: Command ‘[…]objcopy’ not found!</p></li>
+</ul>
+<p>These errors are caused by make not being able to find one of the required cross-compilation tools.
+Check that they exist (see <a class="reference internal" href="getting_started.html"><span class="doc">Getting Started</span></a> to see requirements) or see previous item to
+fix make’s <code class="docutils literal notranslate"><span class="pre">PREFIX</span></code>.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="customizing_litmus.html" class="btn btn-neutral float-right" title="Running the Tests" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="getting_started.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Ben Simner,  Ohad Kammar
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
