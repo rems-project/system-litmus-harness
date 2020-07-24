@@ -1,0 +1,362 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Getting Started &mdash; system-litmus-harness  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Debugging a Failing Build" href="debugging_make.html" />
+    <link rel="prev" title="Systems Litmus" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> system-litmus-harness
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Documentation:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#how-it-works">How it works</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#compiler-toolchain">Compiler Toolchain</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#qemu-kvm">QEMU/KVM</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#debugging">Debugging</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#installation-and-building">Installation and building</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-the-tool">Running the tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="debugging_make.html">Debugging a Failing Build</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customizing_litmus.html">Running the Tests</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="customizing_make.html">Customizing the Build</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debugging_code.html">Fixing Runtime Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing_tests.html">Writing Litmus Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test_discover.html">Test Discovery and Linting</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">system-litmus-harness</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Getting Started</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/getting_started.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><p>Traditionally, a litmus test is a small parallel program designed
+to exercise the memory model of a parallel, shared-memory, computer. <a class="reference internal" href="#litmus7" id="id1"><span>[litmus7]</span></a></p>
+</div></blockquote>
+<div class="section" id="how-it-works">
+<h2>How it works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h2>
+<p>Systems Litmus Harness (system-litmus-harness) is a tool that allows the user to
+provide small programs that run inside a kernel, that the tool boots in a hypervisor
+many times over.</p>
+<p>Building system-litmus-harness generates a small kernel that is intended to be run inside KVM <a class="reference internal" href="#kvm" id="id2"><span>[kvm]</span></a>.
+When the kernel boots it loads a set of pre-determined <em>litmus tests</em> and runs each a number of times
+before moving onto the next.</p>
+<p>Each litmus test is an individual C file (located in <code class="docutils literal notranslate"><span class="pre">system-litmus-harness/litmus/litmus_tests</span></code>) which
+are discovered by the build system and automatically loaded into the binary.  The litmus tests are comprised
+of a few components:</p>
+<ul class="simple">
+<li><p>a set of heap variables</p></li>
+<li><p>a set of output registers</p></li>
+<li><p>blocks of code for each thread</p></li>
+<li><p>blocks of code for each thread’s synchronous exception handler (optional)</p></li>
+<li><p>the test declaration (name, initial values, interesting outcomes etc)</p></li>
+</ul>
+<p>The basic flow is that the harness will initialise the test state with the initial values,
+load the exception handlers into the vector tables then start each threads’ code running
+at approximately the same moment.  Once all threads have finished it collects all the output
+registers and saves the result,  before either running the test again, or if finished printing the results.</p>
+</div>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="compiler-toolchain">
+<h3>Compiler Toolchain<a class="headerlink" href="#compiler-toolchain" title="Permalink to this headline">¶</a></h3>
+<p>To cross-compile the ELF binary system-litmus-harness requires the ARMv8-A 64-bit cross-compilation
+toolchain.</p>
+<p>The required tools can be downloaded with your systems package manager:
+search for packages that provide <code class="docutils literal notranslate"><span class="pre">aarch64-linux-gnu-gcc</span></code> or <code class="docutils literal notranslate"><span class="pre">aarch64-none-elf-gcc</span></code>.</p>
+<p>Or it can downloaded from Arm’s webpage <a class="reference internal" href="#armv8-tools" id="id3"><span>[armv8-tools]</span></a>.</p>
+</div>
+</div>
+<div class="section" id="qemu-kvm">
+<h2>QEMU/KVM<a class="headerlink" href="#qemu-kvm" title="Permalink to this headline">¶</a></h2>
+<p>To run the final executables the target machine must contain a version of QEMU installed.
+This includes the local machine if the user wishes to run the tool locally (e.g. for debugging purposes)
+under QEMU emulation.</p>
+<p>QEMU can be downloaded from your systems package manager, or can be downloaded manually <a class="reference internal" href="#qemu" id="id4"><span>[qemu]</span></a>.</p>
+<p>For native execution on the remote machine, the target must be running a version of Linux compiled with KVM <a class="reference internal" href="#kvm" id="id5"><span>[kvm]</span></a>.</p>
+<p>You can check whether your device supports KVM by seeing if the <code class="docutils literal notranslate"><span class="pre">/dev/kvm</span></code> file exists,
+e.g. checking if the device named ‘rpi4’ supports KVM via SSH:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ ssh rpi4
+pi@rems-rpi4b:~$ ls -l /dev/kvm
+crw-rw---- 1 root kvm 10, 232 Jul 22 21:22 /dev/kvm
+</pre></div>
+</div>
+<div class="section" id="debugging">
+<h3>Debugging<a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h3>
+<p>The final binary can be debugged using GDB,  which can attach to the guest O/S.
+To do this the target machine must have a version of GDB installed, or if debugging
+the local emulation a multiarch or aarch64 version of GDB must be installed.</p>
+<p>GDB can be installed from your local package manager <a class="reference internal" href="#gdb" id="id6"><span>[gdb]</span></a>.</p>
+<p>For more information about debugging the binary, see <a class="reference internal" href="debugging_code.html"><span class="doc">Fixing Runtime Errors</span></a>.</p>
+</div>
+</div>
+<div class="section" id="installation-and-building">
+<h2>Installation and building<a class="headerlink" href="#installation-and-building" title="Permalink to this headline">¶</a></h2>
+<p>The source code can be pulled from GitHub:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ git pull https://github.com/rems-project/system-litmus-harness.git
+$ cd system-litmus-harness
+</pre></div>
+</div>
+<p>If you want to just build with defaults you can just run the makefile:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make
+</pre></div>
+</div>
+<p>If that does not work, see <a class="reference internal" href="debugging_make.html"><span class="doc">Debugging a Failing Build</span></a>.</p>
+<p>For more customization of the built binary see <a class="reference internal" href="customizing_make.html"><span class="doc">Customizing the Build</span></a>.</p>
+</div>
+<div class="section" id="running-the-tool">
+<span id="getting-started-running"></span><h2>Running the tool<a class="headerlink" href="#running-the-tool" title="Permalink to this headline">¶</a></h2>
+<p>Once the binary has been built there are primarily two modes of operation,
+the build script generates two executables:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">bin/qemu_litmus.exe</span></code> for local QEMU emulation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bin/kvm_litmus.exe</span></code> for remote KVM execution</p></li>
+</ul>
+<p>To run the local version there is a shorthand:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make run -- MP+pos
+Test MP+pos:
+ p1:x0=1  p1:x2=1  : 1240
+ p1:x0=0  p1:x2=0  : 1395
+ p1:x0=0  p1:x2=1  : 7365
+Observation MP+pos: 0 (of 10000)
+</pre></div>
+</div>
+<p>To run it on the remote device (e.g. via SSH to a Raspberry Pi 4B+):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make
+$ scp bin/kvm_litmus.exe rpi4b:litmus.exe
+$ ssh rpi4b &#39;./litmus.exe MP+pos&#39;
+Test MP+pos:
+ p1:x0=1  p1:x2=1  : 2346
+ p1:x0=0  p1:x2=0  : 3712
+ p1:x0=0  p1:x2=1  : 2268
+ p1:x0=1  p1:x2=0  : 1674 *
+Observation MP+pos: 1674 (of 10000)
+</pre></div>
+</div>
+<p>For more information about the options and running litmus tests see <a class="reference internal" href="customizing_litmus.html"><span class="doc">Running the Tests</span></a>.</p>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<dl class="citation">
+<dt class="label" id="litmus7"><span class="brackets"><a class="fn-backref" href="#id1">litmus7</a></span></dt>
+<dd><p><a class="reference external" href="http://diy.inria.fr/doc/litmus.html">http://diy.inria.fr/doc/litmus.html</a></p>
+</dd>
+<dt class="label" id="armv8-tools"><span class="brackets"><a class="fn-backref" href="#id3">armv8-tools</a></span></dt>
+<dd><p><a class="reference external" href="https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-a/downloads">https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-a/downloads</a></p>
+</dd>
+<dt class="label" id="qemu"><span class="brackets"><a class="fn-backref" href="#id4">qemu</a></span></dt>
+<dd><p><a class="reference external" href="https://www.qemu.org/download/">https://www.qemu.org/download/</a></p>
+</dd>
+<dt class="label" id="kvm"><span class="brackets">kvm</span><span class="fn-backref">(<a href="#id2">1</a>,<a href="#id5">2</a>)</span></dt>
+<dd><p><a class="reference external" href="https://www.linux-kvm.org/page/Main_Page">https://www.linux-kvm.org/page/Main_Page</a></p>
+</dd>
+<dt class="label" id="gdb"><span class="brackets"><a class="fn-backref" href="#id6">gdb</a></span></dt>
+<dd><p><a class="reference external" href="https://www.gnu.org/software/gdb/">https://www.gnu.org/software/gdb/</a></p>
+</dd>
+</dl>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="debugging_make.html" class="btn btn-neutral float-right" title="Debugging a Failing Build" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Systems Litmus" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Ben Simner,  Ohad Kammar
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

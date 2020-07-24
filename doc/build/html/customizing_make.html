@@ -1,0 +1,294 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Customizing the Build &mdash; system-litmus-harness  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Fixing Runtime Errors" href="debugging_code.html" />
+    <link rel="prev" title="Running the Tests" href="customizing_litmus.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> system-litmus-harness
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debugging_make.html">Debugging a Failing Build</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customizing_litmus.html">Running the Tests</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Customizing the Build</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#changing-the-compiler">Changing the compiler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changing-the-litmus-tests">Changing the litmus tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#building-for-kvm">Building for KVM</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="debugging_code.html">Fixing Runtime Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing_tests.html">Writing Litmus Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test_discover.html">Test Discovery and Linting</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">system-litmus-harness</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Customizing the Build</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/customizing_make.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="customizing-the-build">
+<h1>Customizing the Build<a class="headerlink" href="#customizing-the-build" title="Permalink to this headline">¶</a></h1>
+<p>system-litmus-harness comes with many options to customize the built binary.</p>
+<p>To see them in full run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">help</span></code> to see all options available to you:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make help
+Simple Usage:
+  make              equivalent to `make all`
+  make all          equivalent to `make kvm qemu`
+  make qemu         builds bin/qemu_litmus.exe which runs QEMU
+  make kvm          builds bin/kvm_litmus.exe which uses KVM
+  make run          runs `make qemu` then runs all tests
+  make clean        remove built files in bin/
+  make cleantests   remove auto-generated test files in litmus/
+
+  Advanced Usage:
+    [...]
+</pre></div>
+</div>
+<div class="section" id="changing-the-compiler">
+<h2>Changing the compiler<a class="headerlink" href="#changing-the-compiler" title="Permalink to this headline">¶</a></h2>
+<p>system-litmus-harness uses a set of cross-compilation tools to build
+the ELF (and the eventual <code class="docutils literal notranslate"><span class="pre">.exe</span></code> that can be run on the target machine).</p>
+<p>The tools the harness uses can be changed with the <code class="docutils literal notranslate"><span class="pre">PREFIX</span></code> argument to the makefile,
+e.g. to use the <code class="docutils literal notranslate"><span class="pre">aarch64-none-elf</span></code> toolchain simply do:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make PREFIX=&quot;aarch64-none-elf-&quot;
+</pre></div>
+</div>
+</div>
+<div class="section" id="changing-the-litmus-tests">
+<h2>Changing the litmus tests<a class="headerlink" href="#changing-the-litmus-tests" title="Permalink to this headline">¶</a></h2>
+<p>Warning: Most of the time you <em>do not want</em> to change this setting, but rather just
+compile all of the tests and then pick which tests to run on the host machine.
+See <a class="reference internal" href="customizing_litmus.html"><span class="doc">Running the Tests</span></a>.</p>
+<p>The compiled binary contains the set of compiled litmus tests.
+To change the set of litmus tests to compile use the <code class="docutils literal notranslate"><span class="pre">LITMUS_TESTS</span></code> argument:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># build the groups and test listing
+$ make litmus_tests LITMUS_TESTS=MP+pos,MP+dmbs
+# then compile them
+$ make
+</pre></div>
+</div>
+<p>Tests are arranged into groups and you can supply group listings,
+as well as test names,  using <code class="docutils literal notranslate"><span class="pre">-</span></code> s to exclude tests or test groups instead of including them:</p>
+</div>
+<div class="section" id="building-for-kvm">
+<h2>Building for KVM<a class="headerlink" href="#building-for-kvm" title="Permalink to this headline">¶</a></h2>
+<p>The final executable passes different arguments to the final QEMU call depending on whether
+it’s designed for emulation or execution as a KVM guest.</p>
+<p>Running <code class="docutils literal notranslate"><span class="pre">make</span></code> will build the following files:</p>
+<ul class="simple">
+<li><p>bin/litmus.elf        the QEMU/KVM guest ELF</p></li>
+<li><p>bin/litmus.bin        the stripped raw binary</p></li>
+<li><p>bin/kvm_litmus.exe    executable file that loads the elf and executes it with KVM</p></li>
+<li><p>bin/qemu_litmus.exe   executable file that loads the elf and emulates within QEMU</p></li>
+</ul>
+<p>the executable files are identical except for the final QEMU call in each that supplies
+different baked-in arguments.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make
+# ... run local with QEMU emulation
+$ ./bin/qemu_litmus.exe -h
+# shorthand:
+$ make run -- -h
+
+# ... or remotely
+$ scp bin/kvm_litmus.exe rpi4:litmus.exe
+$ ssh rpi4 &#39;./litmus.exe -h&#39;
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="debugging_code.html" class="btn btn-neutral float-right" title="Fixing Runtime Errors" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="customizing_litmus.html" class="btn btn-neutral float-left" title="Running the Tests" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Ben Simner,  Ohad Kammar
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
