@@ -151,8 +151,10 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     th_f* post = ctx->cfg->teardown_fns == NULL ? NULL : ctx->cfg->teardown_fns[vcpu];
 
     start_of_run(ctx, cpu, vcpu, i, j);
+
     if (pre != NULL)
       pre(&run);
+
     if (ctx->cfg->thread_sync_handlers) {
       if (ctx->cfg->thread_sync_handlers[vcpu][0] != NULL) {
         old_sync_handler_el0     = hotswap_exception(0x400, (uint32_t*)ctx->cfg->thread_sync_handlers[vcpu][0]);
@@ -240,10 +242,11 @@ static void reshuffle(test_ctx_t* ctx) {
 void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i, int r) {
   if (! ctx->cfg->start_els || ctx->cfg->start_els[vcpu] == 0)
     raise_to_el1();
+
   bwait(vcpu, i % ctx->cfg->no_threads, &ctx->end_barriers[i], ctx->cfg->no_threads);
 
-  if (cpu == 0) {
-    /* cpu0 ensures alignment on output */
+  /* only 1 thread should collect the results, else they will be duplicated */
+  if (vcpu == 0) {
     uint64_t time = read_clk();
     if (time - ctx->last_tick > 10*TICKS_PER_SEC) {
       char time_str[100];
@@ -251,10 +254,7 @@ void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i, int r) {
       verbose("  [%s] %d/%d\n", time_str, r, ctx->no_runs);
       ctx->last_tick = time;
     }
-  }
 
-  /* only 1 thread should collect the results, else they will be duplicated */
-  if (vcpu == 0) {
     uint64_t r = ctx->current_run++;
     handle_new_result(ctx, i, r);
 
