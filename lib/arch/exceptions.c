@@ -205,6 +205,43 @@ void reset_pgfault_handler(uint64_t va) {
   table_pgfault[cpu][va % 127] = NULL;
 }
 
+/** flush the icache for this threads' vector table entries
+ *
+ * note that ARMv8 allows icaches to behave like VIPT caches and therefore
+ * we cannot just perform the IC invalidation over the R/W VA we performed the write to
+ * but rather have to invalidate the actual VA/PA that is used during execution
+ */
+static void flush_icache_vector_entries(void) {
+  uint64_t vbar_start = vector_base_addr_rw + (4096*get_cpu());
+  uint64_t vbar_pa_start = vector_base_pa + (4096*get_cpu());
+
+  uint64_t iline = 1 << BIT_SLICE(read_sysreg(ctr_el0), 3, 0);
+  uint64_t dline = 1 << BIT_SLICE(read_sysreg(ctr_el0), 19, 16);
+
+  for (uint64_t vbar_va = vbar_start; vbar_va < vbar_start+4096; vbar_va += 4*dline) {
+    asm volatile (
+      "dc cvau, %[va]\n\t"
+    :
+    : [va] "r" (vbar_va)
+    : "memory"
+    );
+  }
+
+  dsb();
+
+  for (uint64_t vbar_pa = vbar_pa_start; vbar_pa < vbar_pa_start+4096; vbar_pa += 4*iline) {
+    asm volatile (
+      "ic ivau, %[pa]\n\t"
+    :
+    : [pa] "r" (vbar_pa)
+    : "memory"
+    );
+  }
+
+  dsb();
+  isb();
+}
+
 uint32_t* hotswap_exception(uint64_t vector_slot, uint32_t data[32]) {
   uint32_t* p = alloc(sizeof(uint32_t) * 32);
   uint32_t* vbar = (uint32_t*)(vector_base_addr_rw + (4096*get_cpu()) + vector_slot);
@@ -213,22 +250,7 @@ uint32_t* hotswap_exception(uint64_t vector_slot, uint32_t data[32]) {
     *(vbar + i) = data[i];
   }
 
-  uint64_t vbar_start = vector_base_addr_rw + (4096*get_cpu());
-  uint64_t iline = 1 << BIT_SLICE(read_sysreg(ctr_el0), 3, 0);
-  uint64_t dline = 1 << BIT_SLICE(read_sysreg(ctr_el0), 19, 16);
-  uint64_t line = MIN(iline, dline);
-  for (uint64_t vbar_va = vbar_start; vbar_va < vbar_start+4096; vbar_va += line) {
-    asm volatile(
-        "dc cvau, %[vbar]\n\t"
-        "dsb ish\n\t"
-        "ic ivau, %[vbar]\n\t"
-        "dsb ish\n\t"
-        "isb\n\t"  /* not required if SCTLR_EL1.EIS is set (or if in v8.4 or earlier) */
-        /** TODO: BS: ^ is the above True?  Does EIS require ISB-like sync before vector itself is fetched ?*/
-        :
-        : [vbar] "r"(vbar_va)
-        : "memory");
-  }
+  flush_icache_vector_entries();
 
   return p;
 }
@@ -240,22 +262,7 @@ void restore_hotswapped_exception(uint64_t vector_slot, uint32_t* ptr) {
     *(vbar + i) = ptr[i];
   }
 
-  uint64_t vbar_start = vector_base_addr_rw + (4096*get_cpu());
-  uint64_t iline = 1 << BIT_SLICE(read_sysreg(ctr_el0), 3, 0);
-  uint64_t dline = 1 << BIT_SLICE(read_sysreg(ctr_el0), 19, 16);
-  uint64_t line = MIN(iline, dline);
-  for (uint64_t vbar_va = vbar_start; vbar_va < vbar_start+4096; vbar_va += line) {
-    asm volatile(
-        "dc cvau, %[vbar]\n\t"
-        "dsb ish\n\t"
-        "ic ivau, %[vbar]\n\t"
-        "dsb ish\n\t"
-        "isb\n\t"  /* not required if SCTLR_EL1.EIS is set (or if in v8.4 or earlier) */
-        /** TODO: BS: ^ is the above True?  Does EIS require ISB-like sync before vector itself is fetched ?*/
-        :
-        : [vbar] "r"(vbar_va)
-        : "memory");
-  }
+  flush_icache_vector_entries();
 
   free(ptr);
 }
