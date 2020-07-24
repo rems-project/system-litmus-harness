@@ -108,4 +108,4 @@ Test MP+pos:
 Observation MP+pos: 1674 (of 10000)
 ```
 
-For more details, see the [documentation](./doc/build/index.html).
+For more details, see the [documentation](./doc/build/html/index.html).
