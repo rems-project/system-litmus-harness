@@ -63,14 +63,6 @@ static void s(char* x) {
   INITIAL_SEED = Xn;
 }
 
-static void t(char* x) {
-  TRACE = 1;
-}
-
-static void d(char* x) {
-  DEBUG = 1;
-}
-
 static void show(char* x) {
   display_help_show_tests();
 }
@@ -134,6 +126,12 @@ argdef_t ARGS = (argdef_t){
       "enable/disable performance tests\n"
     ),
     FLAG(
+      "-t",
+      "--trace",
+      TRACE,
+      "enable/disable tracing\n"
+    ),
+    FLAG(
       "-d",
       "--debug",
       DEBUG,
@@ -149,21 +147,9 @@ argdef_t ARGS = (argdef_t){
       "-q",
       "--quiet",
       q,
-      "quiet mode",
-      .only_action=1
-    ),
-    OPT(
-      "-t",
-      "--trace",
-      t,
-      "tracing mode",
-      .only_action=1
-    ),
-    OPT(
-      "-d",
-      "--debug",
-      d,
-      "debugging mode",
+      "quiet mode\n"
+      "\n"
+      "disables verbose/trace and debug output.\n",
       .only_action=1
     ),
     FLAG(
