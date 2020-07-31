@@ -2,3 +2,9 @@ bin/
 litmus/groups.c
 litmus/test_list.txt
 litmus/group_list.txt
+
+# specifically un-ignore the interesting dirs
+-lib/
+-inc/
+-unittests/
+-litmus/
