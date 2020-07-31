@@ -20,6 +20,7 @@
 #define VAR_VAs(data, ...) VAR_FNs_UNKNOWN(var_va, data,, __VA_ARGS__)
 #define VAR_PAs(data, ...) VAR_FNs_UNKNOWN(var_pa, data,, __VA_ARGS__)
 #define VAR_PTEs(data, ...) VAR_FNs_UNKNOWN(var_pte, data,pte, __VA_ARGS__)
+#define VAR_PTE_LEVEL(data, level, ...) VAR_FNs_UNKNOWN(var_pte_level##level, data,pte##level, __VA_ARGS__)
 #define VAR_DESCs(data, ...) VAR_FNs_UNKNOWN(var_desc, data,desc, __VA_ARGS__)
 #define VAR_PAGEs(data, ...) VAR_FNs_UNKNOWN(var_page, data,page, __VA_ARGS__)
 

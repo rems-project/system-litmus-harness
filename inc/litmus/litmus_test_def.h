@@ -33,7 +33,7 @@ typedef struct {
   uint64_t** va;
   uint64_t** out_reg;
   uint64_t* pa;
-  uint64_t** pte;
+  uint64_t*** pte_descs;
   uint64_t* desc;
 } litmus_test_run;
 
@@ -42,6 +42,12 @@ typedef void th_f(litmus_test_run* data);
 uint64_t* var_va(litmus_test_run* data, const char* name);
 uint64_t var_pa(litmus_test_run* data, const char* name);
 uint64_t* var_pte(litmus_test_run* data, const char* name);
+uint64_t* var_pte_level(litmus_test_run* data, const char* name, int level);
+uint64_t* var_pte_level0(litmus_test_run* data, const char* name);
+uint64_t* var_pte_level1(litmus_test_run* data, const char* name);
+uint64_t* var_pte_level2(litmus_test_run* data, const char* name);
+uint64_t* var_pte_level3(litmus_test_run* data, const char* name);
+
 uint64_t var_desc(litmus_test_run* data, const char* name);
 uint64_t var_page(litmus_test_run* data, const char* name);
 uint64_t* out_reg(litmus_test_run* data, const char* name);

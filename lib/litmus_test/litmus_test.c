@@ -82,9 +82,11 @@ static void go_cpus(int cpu, void* a) {
 /** reset the pagtable back to the state it was before the test
  */
 static void _check_ptes(test_ctx_t* ctx, uint64_t n, uint64_t** vas,
-                        uint64_t** ptes, uint64_t* original) {
-  for (int i = 0; i < n; i++) {
-    *ptes[i] = original[i];
+                        uint64_t** ptes[4], uint64_t* original[4]) {
+  for (int lvl = 0; lvl < 4; lvl++) {
+    for (int i = 0; i < n; i++) {
+      *ptes[lvl][i] = original[lvl][i];
+    }
   }
 
   if (LITMUS_SYNC_TYPE == SYNC_ALL)
@@ -106,11 +108,11 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     }
 
     uint64_t* heaps[ctx->cfg->no_heap_vars];
-    uint64_t* ptes[ctx->cfg->no_heap_vars];
+    uint64_t* ptes[4][ctx->cfg->no_heap_vars];
     uint64_t pas[ctx->cfg->no_heap_vars];
     uint64_t* regs[ctx->cfg->no_regs];
     uint64_t descs[ctx->cfg->no_heap_vars];
-    uint64_t saved_ptes[ctx->cfg->no_heap_vars];
+    uint64_t saved_ptes[4][ctx->cfg->no_heap_vars];
 
     /* since some vCPUs will skip over the tests
      * it's possible for the test to finish before they get their affinity assignment
@@ -134,9 +136,12 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
       uint64_t* p = &ctx->heap_vars[v][i];
       heaps[v] = p;
       if (ENABLE_PGTABLE) {
-        ptes[v] = ctx_pte(ctx, (uint64_t)p);
-        descs[v] = *ptes[v];
-        saved_ptes[v] = descs[v];
+        for (int lvl = 0; lvl < 4; lvl++) {
+          ptes[lvl][v] = vmm_pte_at_level(ctx->ptable, (uint64_t)p, lvl);
+          saved_ptes[lvl][v] = *ptes[lvl][v];
+        }
+
+        descs[v] = *ptes[3][v];
         pas[v] = ctx_pa(ctx, (uint64_t)p);
       }
     }
@@ -149,11 +154,18 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     uint32_t* old_sync_handler_el1 = NULL;
     uint32_t* old_sync_handler_el1_spx = NULL;
 
+    uint64_t** pte_descs[4];
+    uint64_t* saved_pte_descs[4];
+    for (int lvl = 0; lvl < 4; lvl++) {
+      pte_descs[lvl] = &ptes[lvl][0];
+      saved_pte_descs[lvl] = &saved_ptes[lvl][0];
+    }
+
     litmus_test_run run = {
       .ctx = ctx,
       .i = (uint64_t)i,
       .va = heaps,
-      .pte = ptes,
+      .pte_descs = pte_descs,
       .pa = pas,
       .out_reg = regs,
       .desc = descs,
@@ -198,7 +210,7 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     end_of_run(ctx, cpu, vcpu, i, j);
 
     if (ENABLE_PGTABLE)
-      _check_ptes(ctx, ctx->cfg->no_heap_vars, heaps, ptes, saved_ptes);
+      _check_ptes(ctx, ctx->cfg->no_heap_vars, heaps, pte_descs, saved_pte_descs);
 
     if (LITMUS_SYNC_TYPE == SYNC_ASID)
       vmm_switch_asid(0);

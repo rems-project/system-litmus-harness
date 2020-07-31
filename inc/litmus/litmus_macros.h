@@ -49,7 +49,10 @@
  *  : ...
  *  )
  */
-#define ASM_VARS(data, ...) VAR_VAs(data, __VA_ARGS__), VAR_PTEs(data, __VA_ARGS__), VAR_DESCs(data, __VA_ARGS__), VAR_PAGEs(data, __VA_ARGS__)
+#define ASM_VARS(data, ...) \
+  VAR_VAs(data, __VA_ARGS__), VAR_PTEs(data, __VA_ARGS__), \
+  VAR_DESCs(data, __VA_ARGS__), VAR_PAGEs(data, __VA_ARGS__)
+
 #define ASM_REGS(data, ...) REG_FNs_UNKNOWN(data, __VA_ARGS__)
 
 /** these are used for building asm blocks more manually
@@ -61,6 +64,7 @@
  *  ....
  * : ASM_VAR_VAs(data, x, y),
  *   ASM_VAR_PTEs(data, x),
+ *   ASM_VAR_PTE_LEVEL(data, x, 2),
  *   ASM_REGS(data, REGS)
  * : ...
  * )
@@ -70,6 +74,7 @@
 #define ASM_VAR_PTEs(data, ...) VAR_PTEs(data, __VA_ARGS__)
 #define ASM_VAR_PAGEs(data, ...) VAR_PAGEs(data, __VA_ARGS__)
 #define ASM_VAR_DESCs(data, ...) VAR_DESCs(data, __VA_ARGS__)
+#define ASM_VAR_PTE_LEVELs(data, level, ...) VAR_PTE_LEVEL(data, level, __VA_ARGS__)
 
 /** Generates the asm sequence to do an exception return to the _next_ instruction
  *
