@@ -26,8 +26,6 @@ static void P0(litmus_test_run* data) {
   );
 }
 
-
-
 litmus_test_t CoWRalias = {
   "CoWR.alias",
   MAKE_THREADS(1),
