@@ -52,12 +52,12 @@ desc_t read_descptr(uint64_t* desc, int level) {
   return read_desc(*desc, level);
 }
 
-desc_t vmm_translation_walk(uint64_t* root, uint64_t va) {
+desc_t vmm_translation_walk_to_level(uint64_t* root, uint64_t va, int max_level) {
   desc_t desc;
 
   uint64_t* parent = NULL;
 
-  for (int level = 0; level <= 3; level++) {
+  for (int level = 0; level <= max_level; level++) {
     uint64_t* p = root + OFFS(va, level);
     uint64_t* parents[4];
     valloc_memcpy(parents, desc.parents, 4*sizeof(uint64_t*));
@@ -79,6 +79,10 @@ vmm_translation_walk_end:
   return desc;
 }
 
+desc_t vmm_translation_walk(uint64_t* root, uint64_t va) {
+  return vmm_translation_walk_to_level(root, va, 3);
+}
+
 uint64_t* vmm_block(uint64_t* root, uint64_t va) {
   desc_t desc = vmm_translation_walk(root, va);
   return desc.src;
@@ -89,9 +93,14 @@ int vmm_level(uint64_t* root, uint64_t va) {
   return desc.level;
 }
 
-uint64_t* vmm_pte(uint64_t* root, uint64_t va) {
+uint64_t* vmm_pte_at_level(uint64_t* root, uint64_t va, int level) {
   vmm_ensure_level(root, 3, va);
-  return vmm_block(root, va);
+  desc_t desc = vmm_translation_walk_to_level(root, va, level);
+  return desc.src;
+}
+
+uint64_t* vmm_pte(uint64_t* root, uint64_t va) {
+  return vmm_pte_at_level(root, va, 3);
 }
 
 uint64_t* vmm_pa(uint64_t* root, uint64_t va) {
