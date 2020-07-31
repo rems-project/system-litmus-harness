@@ -19,18 +19,32 @@ uint8_t ONLY_SHOW_MATCHES = 0;
 char* collected_tests[100];
 int   collected_tests_count;
 
-static void read_arg(char* w) {
-  char* word = w;
+sync_type_t LITMUS_SYNC_TYPE = SYNC_ALL;
+aff_type_t LITMUS_AFF_TYPE = AFF_RAND;
 
-  switch (w[0]) {
-    case '\0':
-      return;
+char* sync_type_to_str(sync_type_t ty) {
+  switch (ty) {
+    case SYNC_NONE:
+      return "none";
+    case SYNC_ALL:
+      return "all";
+    case SYNC_ASID:
+      return "asid";
+    default:
+      return "unknown";
+  }
+}
 
-    case '-':
-      switch (w[1]) {
-        case 't':
-          TRACE = 1;
-          return;
+char* aff_type_to_str(aff_type_t ty) {
+  switch (ty) {
+    case AFF_NONE:
+      return "none";
+    case AFF_RAND:
+      return "rand";
+    default:
+      return "unknown";
+  }
+}
 
         case 'd':
           DEBUG = 1;

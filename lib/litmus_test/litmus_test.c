@@ -87,7 +87,8 @@ static void _check_ptes(test_ctx_t* ctx, uint64_t n, uint64_t** vas,
     *ptes[i] = original[i];
   }
 
-  vmm_flush_tlb();
+  if (LITMUS_SYNC_TYPE == SYNC_ALL)
+    vmm_flush_tlb();
 }
 
 /** run the tests in a loop
@@ -95,8 +96,14 @@ static void _check_ptes(test_ctx_t* ctx, uint64_t n, uint64_t** vas,
 static void run_thread(test_ctx_t* ctx, int cpu) {
   for (int j = 0; j < ctx->no_runs; j++) {
     int i = ctx->shuffled_ixs[j];
-    int vcpu = ctx->affinity[cpu];
-    set_vcpu(vcpu);
+    int vcpu;
+
+    if (LITMUS_AFF_TYPE == AFF_RAND) {
+      vcpu = ctx->affinity[cpu];
+      set_vcpu(vcpu);
+    } else if (LITMUS_AFF_TYPE == AFF_NONE) {
+      vcpu = cpu;
+    }
 
     uint64_t* heaps[ctx->cfg->no_heap_vars];
     uint64_t* ptes[ctx->cfg->no_heap_vars];
@@ -115,6 +122,12 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
 
     if (vcpu >= ctx->cfg->no_threads) {
       goto run_thread_after_execution;
+    }
+
+    if (LITMUS_SYNC_TYPE == SYNC_ASID) {
+      /* reserve ASID 0 for harness */
+      uint64_t asid = 1 + (j % 254);
+      vmm_switch_asid(asid);
     }
 
     for (int v = 0; v < ctx->cfg->no_heap_vars; v++) {
@@ -186,6 +199,9 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
 
     if (ENABLE_PGTABLE)
       _check_ptes(ctx, ctx->cfg->no_heap_vars, heaps, ptes, saved_ptes);
+
+    if (LITMUS_SYNC_TYPE == SYNC_ASID)
+      vmm_switch_asid(0);
 
 run_thread_after_execution:
     bwait(cpu, i % NO_CPUS, &ctx->cleanup_barriers[i], NO_CPUS);
