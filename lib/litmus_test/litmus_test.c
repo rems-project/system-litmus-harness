@@ -329,7 +329,7 @@ void start_of_test(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
 }
 
 void end_of_test(test_ctx_t* ctx) {
-  if (! DISABLE_RESULTS_HIST) {
+  if (ENABLE_RESULTS_HIST) {
     trace("%s\n", "Printing Results...");
     print_results(ctx->hist, ctx);
   }

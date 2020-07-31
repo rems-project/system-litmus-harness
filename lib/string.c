@@ -13,6 +13,40 @@ uint64_t strlen(char* s) {
   return i;
 }
 
+int strstartswith(char* s1, char* prefix) {
+  if (*prefix == '\0')
+    return 1;
+
+  if (*s1 != *prefix)
+    return 0;
+
+  return strstartswith(s1+1, prefix+1);
+}
+
+int strpartition(char* outL, char* outR, char* s, char sep) {
+  while (1) {
+    if (*s == '\0')
+      return 0;
+
+    if (*s != sep) {
+      *outL = *s;
+      s++;
+      outL++;
+    } else {
+      s++;
+      break;
+    }
+  }
+
+  while (1) {
+    *outR = *s;
+    s++;
+    outR++;
+
+    if (*(s-1) == '\0')
+      return 1;
+  }
+}
 
 int strcmp(char* s1, char* s2) {
   if (*s1 == '\0')

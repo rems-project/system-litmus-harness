@@ -50,6 +50,8 @@ void setup(char* fdtloc) {
   printf("#pgtable: %ld\n", ENABLE_PGTABLE);
   printf("#timing: %ld\n", ENABLE_PERF_COUNTS);
   printf("#no_runs: %ld\n", NUMBER_OF_RUNS);
+  printf("#sync_type: %s\n", sync_type_to_str(LITMUS_SYNC_TYPE));
+  printf("#aff_type: %s\n", aff_type_to_str(LITMUS_AFF_TYPE));
 
   debug("setting up CPU0\n");
   cpu_data_init();

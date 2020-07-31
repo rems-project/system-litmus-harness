@@ -24,6 +24,8 @@
 #include "re.h"
 #include "driver.h"
 
+#define VERSION "0.1"
+
 uint64_t vector_base_pa;
 uint64_t vector_base_addr_rw;
 
@@ -32,6 +34,9 @@ void psci_system_off(void);
 
 #define unreachable() do {printf("! unreachable: [%s] %s %d\n", __FILE__, __FUNCTION__, __LINE__); raise_to_el1(); abort();} while (1);
 
+/* some str functions not in <string.h> */
+int strstartswith(char* s1, char* prefix);
+int strpartition(char* outL, char* outR, char* s, char sep);
 
 /** for configuration in main.c */
 typedef struct grp {

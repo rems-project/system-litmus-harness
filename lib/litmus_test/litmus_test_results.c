@@ -114,7 +114,7 @@ static void print_single_result(test_ctx_t* ctx, int i) {
 /** store or print the result from the previous run
  */
 void handle_new_result(test_ctx_t* ctx, int i, int run) {
-    if (! DISABLE_RESULTS_HIST) {
+    if (ENABLE_RESULTS_HIST) {
       test_hist_t* res = ctx->hist;
       add_results(res, ctx, i);
     } else {
