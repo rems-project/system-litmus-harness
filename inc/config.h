@@ -36,8 +36,16 @@ typedef enum {
 
 extern aff_type_t LITMUS_AFF_TYPE;
 
+typedef enum {
+    SHUF_NONE,
+    SHUF_RAND,
+} shuffle_type_t;
+
+extern shuffle_type_t LITMUS_SHUFFLE_TYPE;
+
 char* sync_type_to_str(sync_type_t ty);
 char* aff_type_to_str(aff_type_t ty);
+char* shuff_type_to_str(shuffle_type_t ty);
 
 /* helper functions for displaying help */
 void display_help_and_quit(argdef_t* args);

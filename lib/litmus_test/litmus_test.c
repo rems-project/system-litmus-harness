@@ -100,8 +100,17 @@ static void _check_ptes(test_ctx_t* ctx, uint64_t n, uint64_t** vas,
  */
 static void run_thread(test_ctx_t* ctx, int cpu) {
   for (int j = 0; j < ctx->no_runs; j++) {
-    int i = ctx->shuffled_ixs[j];
+    int i;
     int vcpu;
+
+    switch (LITMUS_SHUFFLE_TYPE) {
+      case SHUF_NONE:
+        i = j;
+        break;
+      case SHUF_RAND:
+        i = ctx->shuffled_ixs[j];
+        break;
+    }
 
     if (LITMUS_AFF_TYPE == AFF_RAND) {
       vcpu = ctx->affinity[cpu];

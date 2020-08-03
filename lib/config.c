@@ -21,6 +21,7 @@ int   collected_tests_count;
 
 sync_type_t LITMUS_SYNC_TYPE = SYNC_ALL;
 aff_type_t LITMUS_AFF_TYPE = AFF_RAND;
+shuffle_type_t LITMUS_SHUFFLE_TYPE = SHUF_RAND;
 
 char* sync_type_to_str(sync_type_t ty) {
   switch (ty) {
@@ -40,6 +41,17 @@ char* aff_type_to_str(aff_type_t ty) {
     case AFF_NONE:
       return "none";
     case AFF_RAND:
+      return "rand";
+    default:
+      return "unknown";
+  }
+}
+
+char* shuff_type_to_str(shuffle_type_t ty) {
+  switch (ty) {
+    case SHUF_NONE:
+      return "none";
+    case SHUF_RAND:
       return "rand";
     default:
       return "unknown";
@@ -192,6 +204,21 @@ argdef_t ARGS = (argdef_t){
       "none: Thread 0 is pinned to CPU0, Thread 1 to CPU1 etc.\n"
       "rand: Thread 0 is pinned to vCPU0, etc.  vCPUs may migrate between CPUs"
       " in-between tests.\n"
+    ),
+    ENUMERATE(
+      "--shuffle",
+      LITMUS_SHUFFLE_TYPE,
+      shuffle_type_t,
+      2,
+      ARR((const char*[]){"none", "rand"}),
+      ARR((shuffle_type_t[]){SHUF_NONE, SHUF_RAND}),
+      "type of shuffle control\n"
+      "\n"
+      "controls the order of access to allocated pages\n"
+      "shuffling the indexes more should lead to more interesting caching results.\n"
+      "\n"
+      "none: access pages in-order\n"
+      "rand: access pages in random order\n"
     ),
     NULL,  /* nul terminated list */
   }

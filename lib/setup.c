@@ -52,6 +52,7 @@ void setup(char* fdtloc) {
   printf("#no_runs: %ld\n", NUMBER_OF_RUNS);
   printf("#sync_type: %s\n", sync_type_to_str(LITMUS_SYNC_TYPE));
   printf("#aff_type: %s\n", aff_type_to_str(LITMUS_AFF_TYPE));
+  printf("#shuffle_type: %s\n", aff_type_to_str(LITMUS_SHUFFLE_TYPE));
 
   debug("setting up CPU0\n");
   cpu_data_init();
