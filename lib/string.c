@@ -81,14 +81,14 @@ uint64_t atoi(char* s) {
     /* allow ending in K/M for automatic *1000 or *1_000_000
      */
     if (c == 'k' || c == 'K') {
-      if (*(s+1) != '\0') {
+      if (*s != '\0') {
         fail("invalid input, [kK] only valid at end.\n");
         return 0;
       }
 
       return x * 1000L;
     } else if (c == 'm' || c == 'M') {
-      if (*(s+1) != '\0') {
+      if (*s != '\0') {
         fail("invalid input, [mM] only valid at end.\n");
         return 0;
       }
