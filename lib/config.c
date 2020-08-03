@@ -31,6 +31,8 @@ char* sync_type_to_str(sync_type_t ty) {
       return "all";
     case SYNC_ASID:
       return "asid";
+    case SYNC_VA:
+      return "va";
     default:
       return "unknown";
   }
@@ -183,13 +185,14 @@ argdef_t ARGS = (argdef_t){
       "--sync",
       LITMUS_SYNC_TYPE,
       sync_type_t,
-      3,
-      ARR((const char*[]){"none", "asid", "all"}),
-      ARR((sync_type_t[]){SYNC_NONE, SYNC_ASID, SYNC_ALL}),
+      4,
+      ARR((const char*[]){"none", "asid", "va", "all"}),
+      ARR((sync_type_t[]){SYNC_NONE, SYNC_ASID, SYNC_VA, SYNC_ALL}),
       "type of tlb synchronization\n"
       "\n"
       "none:  no synchronization of the TLB (incompatible with --pgtable).\n"
       "all: always flush the entire TLB in-between tests.\n"
+      "va: (EXPERIMENTAL) only flush test data VAs\n"
       "asid: (EXPERIMENTAL) assign each test run an ASID and only flush that \n"
     ),
     ENUMERATE(

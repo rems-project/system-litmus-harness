@@ -86,13 +86,20 @@ static void _check_ptes(test_ctx_t* ctx, uint64_t n, uint64_t** vas,
   for (int lvl = 0; lvl < 4; lvl++) {
     for (int i = 0; i < n; i++) {
       *ptes[lvl][i] = original[lvl][i];
+
+      if (lvl == 3 && LITMUS_SYNC_TYPE == SYNC_VA) {
+        tlbi_va((uint64_t)vas[i]);
+      }
     }
   }
 
-  if (LITMUS_SYNC_TYPE == SYNC_ALL)
+  if (LITMUS_SYNC_TYPE == SYNC_ALL) {
     vmm_flush_tlb();
   } else if (LITMUS_SYNC_TYPE == SYNC_ASID) {
     vmm_flush_tlb_asid(ctx->asid);
+  } else if (LITMUS_SYNC_TYPE == SYNC_VA) {
+    dsb();
+    isb();
   }
 }
 

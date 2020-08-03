@@ -24,6 +24,7 @@ extern uint8_t ONLY_SHOW_MATCHES;
 typedef enum {
     SYNC_NONE,
     SYNC_ALL,
+    SYNC_VA,
     SYNC_ASID,
 } sync_type_t;
 
