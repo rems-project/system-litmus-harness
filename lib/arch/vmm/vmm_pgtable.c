@@ -179,7 +179,6 @@ void vmm_switch_asid(uint64_t asid) {
   uint64_t ttbr = read_sysreg(ttbr0_el1);
   write_sysreg(TTBR0(ttbr, asid), ttbr0_el1);
   isb();  /* is this needed? */
-  vmm_flush_tlb_asid(asid);
 }
 
 void __vmm_free_pgtable(uint64_t* pgtable, int level) {

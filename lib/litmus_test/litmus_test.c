@@ -91,6 +91,9 @@ static void _check_ptes(test_ctx_t* ctx, uint64_t n, uint64_t** vas,
 
   if (LITMUS_SYNC_TYPE == SYNC_ALL)
     vmm_flush_tlb();
+  } else if (LITMUS_SYNC_TYPE == SYNC_ASID) {
+    vmm_flush_tlb_asid(ctx->asid);
+  }
 }
 
 /** run the tests in a loop
@@ -128,8 +131,8 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
 
     if (LITMUS_SYNC_TYPE == SYNC_ASID) {
       /* reserve ASID 0 for harness */
-      uint64_t asid = 1 + (j % 254);
-      vmm_switch_asid(asid);
+      ctx->asid = 1 + (j % 254);
+      vmm_switch_asid(ctx->asid);
     }
 
     for (int v = 0; v < ctx->cfg->no_heap_vars; v++) {
