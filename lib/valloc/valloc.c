@@ -70,6 +70,10 @@ void* alloc_with_alignment(uint64_t size, uint64_t alignment) {
     return free_chunk;
   }
 
+  if (size > mem.top - BOT_OF_HEAP) {
+    fail("! error: cannot allocate %p bytes, only %p bytes left to allocate\n", size, mem.top - BOT_OF_HEAP);
+  }
+
   /* move 'top' down and align to size */
   uint64_t allocated_space_vaddr = ALIGN_POW2(mem.top - size, alignment);
   uint64_t new_top = allocated_space_vaddr;
