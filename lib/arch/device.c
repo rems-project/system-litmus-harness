@@ -1,15 +1,19 @@
 #include "lib.h"
 
-void init_device(void) {
+void init_device(void* fdt) {
     NO_CPUS = 4;
 
-    /* some of these are hard-coded for now but should really be read from the dtb and lds */
-    TOP_OF_MEM = 0x48000000UL;
+    /* read the memory region from the dtb */
+    TOP_OF_MEM = dtb_read_top_of_memory(fdt);
+
+    /* read regions from linker */
     TOP_OF_STACK = (uint64_t)&stacktop;
     BOT_OF_STACK = (uint64_t)&data_end;
+    TOP_OF_TEXT = (uint64_t)&text_end;
+
+    /* compute remaining friendly region names */
     TOTAL_HEAP = TOP_OF_MEM - TOP_OF_STACK;
     BOT_OF_HEAP = TOP_OF_MEM - TOTAL_HEAP;
-    TOP_OF_TEXT = (uint64_t)&text_end;
     TOP_OF_DATA = BOT_OF_STACK;
 }
 
@@ -57,6 +61,7 @@ char* dtb_read_str(char* fdt, uint32_t nameoff) {
 fdt_structure_piece dtb_read_piece(char* p) {
     uint32_t token = read_be(p);
     fdt_structure_piece piece;
+    piece.current = p;
     piece.token = token;
     char* next;
     char* ps;
@@ -82,6 +87,7 @@ fdt_structure_piece dtb_read_piece(char* p) {
             prop.nameoff = read_be(p + 8);
             next = p + sizeof(fdt_structure_property_header) + prop.len;
             break;
+
         case FDT_END:
             piece.next = NULL;
             return piece;
@@ -227,6 +233,62 @@ fdt_structure_property_header* fdt_read_prop(fdt_structure_begin_node_header* no
     return NULL;
 }
 
+fdt_structure_piece fdt_find_node_with_prop_with_index(char* fdt, char* index, char* prop_name, char* expected_value) {
+    fdt_header* hd = (fdt_header*)fdt;
+    fdt_structure_begin_node_header* curr_header;
+
+    char* struct_block;
+
+    if (index == NULL)
+        struct_block = (char*)((uint64_t)fdt + read_be((char*)&hd->fdt_off_dt_struct));
+    else
+        struct_block = index;
+
+    char* current_node = NULL;
+    char* prop;
+
+    char* namestack[100];  /* max-depth = 100 */
+    int namestackdepth = 0;
+
+    while (struct_block != NULL) {
+        fdt_structure_piece piece = dtb_read_piece(struct_block);
+        switch (piece.token) {
+            case FDT_BEGIN_NODE:
+                namestack[namestackdepth] = current_node;
+                namestackdepth++;
+                curr_header = (fdt_structure_begin_node_header*)struct_block;
+                current_node = struct_block+sizeof(fdt_structure_begin_node_header);
+                break;
+
+            case FDT_END_NODE:
+                namestackdepth--;
+                current_node = namestack[namestackdepth];
+                break;
+
+            case FDT_PROP:
+                prop = dtb_read_str(fdt, read_be(struct_block+8));
+                if (strcmp(prop, prop_name)) {
+                    fdt_structure_property_header* prop = (fdt_structure_property_header*)struct_block;
+                    if (strcmp(prop->data, expected_value)) {
+                        return (fdt_structure_piece){.current=(char*)curr_header, .token=FDT_PROP, .next=piece.next};;
+                    }
+                }
+                break;
+
+            case FDT_END:
+                return (fdt_structure_piece){.current=NULL, .token=FDT_END, .next=NULL};
+
+            default:
+                break;
+        }
+
+        struct_block = piece.next;
+    }
+
+    fail("! fdt_find_node_with_prop, could not find property \"%s\" with required value in any node as never reached FDT_END\n", prop_name);
+    return (fdt_structure_piece){.current=NULL, .token=-1, .next=NULL};
+}
+
 fdt_structure_property_header* fdt_find_prop(char* fdt, char* node_name, char* prop_name) {
     fdt_header* hd = (fdt_header*)fdt;
     char* struct_block = (char*)((uint64_t)fdt + read_be((char*)&hd->fdt_off_dt_struct));
@@ -361,10 +423,13 @@ void fdt_debug_print_all(char* fdt) {
                     printf("%s", " ");
                 printf(" %s : ", prop);
                 char hex_out[1024];
-                int len = read_be((char*)&prop_head->len);
-                len = len < 100 ? len : 100;
+                int orig_len = read_be((char*)&prop_head->len);
+                int len = orig_len < 100 ? orig_len : 100;
                 dump_hex(hex_out, prop_head->data, len);
-                printf("%s", hex_out);
+                printf("(%d) %s", orig_len, hex_out);
+                if (orig_len >= 100){
+                    printf("!\n");
+                }
                 printf("\n");
                 break;
 
@@ -434,4 +499,28 @@ char* dtb_bootargs(void* fdt) {
         return "";
 
     return prop->data;
+}
+
+uint64_t dtb_read_top_of_memory(void* fdt) {
+    /* find the first node with device_type: "memory" */
+    fdt_structure_piece piece = fdt_find_node_with_prop_with_index(fdt, NULL, "device_type", "memory");
+    fdt_structure_begin_node_header* node = (fdt_structure_begin_node_header*)piece.current;
+    fdt_structure_property_header* prop = fdt_read_prop(node, "reg");
+
+    /* its reg is stored as big endian {u64_base, u64_size} */
+    uint32_t blocks[4];
+    for (int i = 0; i < 4; i++) {
+         blocks[i] = read_be(prop->data + i*4);
+    }
+    uint64_t base = (uint64_t)blocks[0] << 32 | blocks[1];
+    uint64_t size = (uint64_t)blocks[2] << 32 | blocks[3];
+
+    /* check no other memory nodes (unsupported for now ...) */
+    piece = fdt_find_node_with_prop_with_index(fdt, piece.next, "device_type", "memory");
+    if (piece.current != NULL) {
+        fail("! dtb_read_top_of_memory: only expected 1 memory region in dtb, got '%s' too\n",
+            ((fdt_structure_begin_node_header*)piece.current)->name
+        );
+    }
+    return base+size;
 }

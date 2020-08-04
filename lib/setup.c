@@ -11,7 +11,7 @@ void setup(char* fdtloc) {
   current_thread_info()->mmu_enabled = 0;
   current_thread_info()->locking_enabled = 0;
 
-  init_device();
+  init_device(fdt);
   init_valloc();
 
   /* read passed args */

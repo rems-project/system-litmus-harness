@@ -2,7 +2,7 @@
 #define DEVICE_H
 #include <stdint.h>
 
-void init_device(void);
+void init_device(void* fdt);
 
 /** PSCI Mandatory Functions
  * While these are defined in the psci node of the dtb
@@ -66,6 +66,7 @@ typedef struct {
 } fdt_structure_piece_with_name;
 
 typedef struct {
+    char* current;
     uint32_t token;
     char* next;
 } fdt_structure_piece;
@@ -82,10 +83,13 @@ typedef struct {
     char name[0];
 } fdt_structure_begin_node_header;
 
+fdt_structure_piece fdt_find_node_with_prop_with_index(char* fdt, char* index, char* prop_name, char* expected_value);
 fdt_structure_begin_node_header* fdt_find_node(char* fdt, char* node_name);
 fdt_structure_begin_node_header* fdt_read_node(fdt_structure_begin_node_header* node, char* node_name);
 fdt_structure_property_header* fdt_read_prop(fdt_structure_begin_node_header* node, char* prop_name);
 fdt_structure_property_header* fdt_find_prop(char* fdt, char* node_name, char* prop_name);
+
 char* dtb_bootargs(void* fdt);
+uint64_t dtb_read_top_of_memory(void* fdt);
 
 #endif /* DEVICE_H */
