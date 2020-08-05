@@ -6,6 +6,7 @@ Simple Usage:
    make kvm		builds bin/kvm_litmus.exe which uses KVM
    make run 		runs `make qemu` then runs all tests
    make clean		remove built files in bin/
+   make cleanlibs		remove built harness objects but leave compiled tests alone
    make cleantests		remove auto-generated test files in litmus/
 
 Advanced Usage:
@@ -401,6 +402,13 @@ ifeq ($(strip $(TEST_DISCOVER)),1)
 	rm -f litmus/groups.c
 endif
 	@echo 'run `make cleantests` to remove test and group lists too'
+
+.PHONY: cleanlibs
+cleanlibs:
+	rm -rf bin/*.o
+	rm -rf bin/litmus.*
+	rm -rf bin/lib/
+	@echo 'run `make clean` to remove compiled tests too'
 
 .PHONY: cleantests
 cleantests:
