@@ -295,7 +295,7 @@ void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i, int r) {
   /* only 1 thread should collect the results, else they will be duplicated */
   if (vcpu == 0) {
     uint64_t time = read_clk();
-    if (time - ctx->last_tick > 10*TICKS_PER_SEC) {
+    if (time - ctx->last_tick > 10*TICKS_PER_SEC || ctx->last_tick == 0) {
       char time_str[100];
       sprint_time((char*)&time_str, time);
       verbose("  [%s] %d/%d\n", time_str, r, ctx->no_runs);
