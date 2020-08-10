@@ -38,6 +38,9 @@ int main(int argc, char** argv) {
   uint64_t time = read_clk();
   char time_str[100];
   sprint_time((char*)&time_str, time);
-  verbose("elapsed time: %s\n", time_str);
+  /* always show, even when not in verbose mode
+   * this will make it easier to do retrospective performance
+   * evaluations in future */
+  printf("#elapsed time: %s\n", time_str);
   return 0;
 }
