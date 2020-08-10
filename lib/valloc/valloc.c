@@ -140,6 +140,10 @@ int valloc_is_free(void* p) {
   return 0;
 }
 
+void memset(void* p, int val, size_t n) {
+  valloc_memset(p, (uint64_t)val, (uint64_t)n);
+}
+
 uint64_t valloc_free_size(void) {
   uint64_t top = mem.top;
 
