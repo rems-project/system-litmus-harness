@@ -198,7 +198,7 @@ def build_group_defs(matching):
         yield from build_group_defs(g)
 
     name = matching.name
-    test_refs = sorted('&{}'.format(t.test.ident) for t in matching.tests)
+    test_refs = ['&{}'.format(t.test.ident) for t in sorted(matching.tests, key=lambda t: t.test.name)]
     grp_refs = sorted('&grp_{}'.format(grp_name) for grp_name in matching.groups)
     test_refs.append('NULL')
     grp_refs.append('NULL')
