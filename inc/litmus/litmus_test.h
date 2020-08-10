@@ -19,7 +19,7 @@ void start_of_thread(test_ctx_t* ctx, int cpu);
 void end_of_thread(test_ctx_t* ctx, int cpu);
 
 /* call at the beginning and end of each test */
-void start_of_test(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs);
+void start_of_test(test_ctx_t* ctx);
 void end_of_test(test_ctx_t* ctx);
 
 #endif /* LITMUS_TEST_H */

@@ -43,6 +43,7 @@ typedef struct {
   volatile uint64_t counter;
   uint64_t released;
   uint8_t release_flags[4];
+  uint8_t to_be_cleaned;
 } bar_t;
 
 void bwait(int cpu, int i, bar_t* barrier, int sz);

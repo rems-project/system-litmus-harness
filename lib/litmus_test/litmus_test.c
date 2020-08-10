@@ -12,6 +12,13 @@ static void run_thread(test_ctx_t* ctx, int cpu);
 
 /* entry point */
 void run_test(const litmus_test_t* cfg) {
+  static regions_t* region = NULL;
+
+  /* first-time intiialisation, create the region */
+  if (region == NULL) {
+    region = alloc(sizeof(regions_t));
+  }
+
   /* create test context obj */
   test_ctx_t ctx;
 
@@ -20,26 +27,27 @@ void run_test(const litmus_test_t* cfg) {
    * and still get determinism (up to relaxation) */
   reset_seed();
 
-  start_of_test(&ctx, cfg, NUMBER_OF_RUNS);
+  /* create the dynamic configuration (context) from the static information (cfg) */
+  debug("init test context...\n");
+  init_test_ctx(&ctx, cfg, NUMBER_OF_RUNS);
 
-  for (int i = 0; i < cfg->no_init_states; i++) {
-    init_varstate_t* var = cfg->init_states[i];
-    const char* name = var->varname;
-    switch (var->type) {
-      case (TYPE_HEAP):
-        set_init_heap(&ctx, name, var->value);
-        break;
-      case (TYPE_PTE):
-        set_init_pte(&ctx, name, var->value);
-        break;
-      case (TYPE_ALIAS):
-        set_init_alias(&ctx, name, var->aliasname);
-        break;
-      case (TYPE_AP):
-        set_init_ap(&ctx, name, var->value);
-        break;
+  /* setup pagetable */
+  if (ENABLE_PGTABLE) {
+    ctx.ptable = vmm_alloc_new_idmap_4k();
+
+    /* need to add read/write mappings to the exception vector table */
+    for (int i = 0; i < 4; i++) {
+      vmm_update_mapping(ctx.ptable, vector_base_addr_rw+i*4096, vector_base_pa+i*4096, PROT_PGTABLE);
     }
   }
+
+  /* concretize the symbolic test information down */
+  debug("concretize tests...\n");
+  ctx.heap_memory = region;
+  concretize(&ctx, cfg, ctx.heap_vars, NUMBER_OF_RUNS);
+
+  debug("done.  run the tests.\n");
+  start_of_test(&ctx);
 
   /* run it */
   printf("\n");
@@ -57,19 +65,12 @@ void run_test(const litmus_test_t* cfg) {
   end_of_test(&ctx);
 }
 
+uint64_t* ctx_heap_var_va(test_ctx_t* ctx, uint64_t varidx, uint64_t i) {
+  return ctx->heap_vars[varidx].values[i];
+}
 
 uint64_t ctx_initial_heap_value(test_ctx_t* ctx, uint64_t idx) {
-  for (int i = 0; i < ctx->cfg->no_init_states; i++) {
-    init_varstate_t* var = ctx->cfg->init_states[i];
-    const char* varname = var->varname;
-    uint64_t var_idx = idx_from_varname(ctx, varname);
-    if (var_idx == idx && var->type == TYPE_HEAP) {
-      return var->value;
-    }
-  }
-
-  /* default: assume 0 */
-  return 0;
+  return ctx->heap_vars[idx].init_value;
 }
 
 static void go_cpus(int cpu, void* a) {
@@ -139,7 +140,7 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
      *
      * this bwait ensures that does not happen and that all affinity assignments are per-run
      */
-    bwait(cpu, 0, &ctx->start_of_run_barriers[i], NO_CPUS);
+    bwait(cpu, 0, &ctx->start_of_run_barriers[i % 512], NO_CPUS);
 
     if (vcpu >= ctx->cfg->no_threads) {
       goto run_thread_after_execution;
@@ -152,7 +153,7 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     }
 
     for (int v = 0; v < ctx->cfg->no_heap_vars; v++) {
-      uint64_t* p = &ctx->heap_vars[v][i];
+      uint64_t* p = ctx_heap_var_va(ctx, v, i);
       heaps[v] = p;
       if (ENABLE_PGTABLE) {
         for (int lvl = 0; lvl < 4; lvl++) {
@@ -210,7 +211,7 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     }
 
     /* this barrier must be last thing before running function */
-    bwait(vcpu, i % ctx->cfg->no_threads, &ctx->start_barriers[i], ctx->cfg->no_threads);
+    bwait(vcpu, i % ctx->cfg->no_threads, &ctx->start_barriers[i % 512], ctx->cfg->no_threads);
     func(&run);
 
     if (ctx->cfg->thread_sync_handlers) {
@@ -243,12 +244,12 @@ void prefetch(test_ctx_t* ctx, int i, int r) {
   for (int v = 0; v < ctx->cfg->no_heap_vars; v++) {
     /* TODO: read initial state */
     lock(&__harness_lock);
-    uint64_t is_valid = vmm_pte_valid(ctx->ptable, &ctx->heap_vars[v][i]);
+    uint64_t is_valid = vmm_pte_valid(ctx->ptable, ctx_heap_var_va(ctx, v, i));
     unlock(&__harness_lock);
-    if (randn() % 2 && is_valid && ctx->heap_vars[v][i] != ctx_initial_heap_value(ctx, v)) {
+    if (randn() % 2 && is_valid && *ctx_heap_var_va(ctx, v, i) != ctx_initial_heap_value(ctx, v)) {
       fail(
           "! fatal: initial state for heap var \"%s\" on run %d was %ld not %ld\n",
-          varname_from_idx(ctx, v), r, ctx->heap_vars[v][i], ctx_initial_heap_value(ctx, v));
+          varname_from_idx(ctx, v), r, *ctx_heap_var_va(ctx, v, i), ctx_initial_heap_value(ctx, v));
     }
   }
 }
@@ -290,7 +291,7 @@ void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i, int r) {
   if (! ctx->cfg->start_els || ctx->cfg->start_els[vcpu] == 0)
     raise_to_el1();
 
-  bwait(vcpu, i % ctx->cfg->no_threads, &ctx->end_barriers[i], ctx->cfg->no_threads);
+  bwait(vcpu, i % ctx->cfg->no_threads, &ctx->end_barriers[i % 512], ctx->cfg->no_threads);
 
   /* only 1 thread should collect the results, else they will be duplicated */
   if (vcpu == 0) {
@@ -343,20 +344,8 @@ void end_of_thread(test_ctx_t* ctx, int cpu) {
   trace("CPU%d: end of test\n", cpu);
 }
 
-void start_of_test(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
-  trace("====== %s ======\n", cfg->name);
-
-  /* create the dynamic configuration (context) from the static information (cfg) */
-  init_test_ctx(ctx, cfg, no_runs);
-
-  if (ENABLE_PGTABLE) {
-    ctx->ptable = vmm_alloc_new_idmap_4k();
-
-    /* need to add read/write mappings to the exception vector table */
-    for (int i = 0; i < 4; i++) {
-      vmm_update_mapping(ctx->ptable, vector_base_addr_rw+i*4096, vector_base_pa+i*4096, PROT_PGTABLE);
-    }
-  }
+void start_of_test(test_ctx_t* ctx) {
+  trace("====== %s ======\n", ctx->cfg->name);
 }
 
 void end_of_test(test_ctx_t* ctx) {
