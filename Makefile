@@ -171,6 +171,10 @@ CFLAGS = -O0 -nostdlib \
 LDFLAGS = -nostdlib -n -pie
 SSHFLAGS =
 
+ifeq ($(findstring clean,$(MAKECMDGOALS)),clean)
+  LITMUS_TARGET_CLEAN := 1
+endif
+
 # can pass LITMUS_FILES manually to supply a space-separated list of all the .c files to compile and link in the litmus/ directory
 # otherwise the Makefile will try auto-discover the litmus/*.c files and the litmus/litmus_tests/ files
 #	(according to either the supplied LITMUS_TESTS or checking against previous runs)
@@ -178,7 +182,26 @@ SSHFLAGS =
 # (but the user has to manually edit groups.c so the harness itself knows about them)
 ifeq ($(strip $(TEST_DISCOVER)),1)
    ifndef LITMUS_FILES
-      _ := $(shell $(MAKE_TEST_LIST_CMD) $(quiet) $(LITMUS_TESTS))
+   ifndef LITMUS_TARGET_CLEAN
+      outcp := $(shell [ -f litmus/groups.c ] || (echo FAIL; cp litmus/backup/* litmus/))
+
+      ifeq ($(outcp),FAIL)
+        $(warning \
+			No groups.c file detected. \
+		 	Creating fresh ... \
+		)
+      endif
+
+      # if fail, ignore
+      out := $(shell ($(MAKE_TEST_LIST_CMD) $(quiet) $(LITMUS_TESTS) 2>/dev/null) || echo "FAIL")
+
+      ifeq ($(out),FAIL)
+        $(warning \
+			Generation of litmus/groups.c failed. \
+		 	Expecting user management of groups.c file. \
+		)
+      endif
+   endif
    endif
    litmus_test_list = $(shell awk '$$1==1 {print $$2}' litmus/test_list.txt)
    LITMUS_TEST_FILES ?= $(litmus_test_list)
@@ -269,7 +292,7 @@ ifeq ($(NO_LINT),0)
 	$(call run_cmd,CHECK,LINTER,\
 		if ! $(LINTER) "(find litmus/litmus_tests -name '*.c' | head -n1)" &>/dev/null; then \
 			echo error: Linter not functional!; \
-			echo Run wtih NO_LINT=1 to disable linting \
+			echo Run again with NO_LINT=1 to disable linting; \
 			exit 1; \
 		fi \
 	)
