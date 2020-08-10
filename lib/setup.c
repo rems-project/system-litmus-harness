@@ -44,9 +44,11 @@ void setup(char* fdtloc) {
   TICKS_PER_SEC = read_clk_freq();
 
   printf("#seed: %ld\n", INITIAL_SEED);
-  printf("#verbose: %ld\n", VERBOSE);
-  printf("#trace: %ld\n", TRACE);
-  printf("#debug: %ld\n", DEBUG);
+  if (VERBOSE | TRACE | DEBUG) {
+    printf("#verbose: %ld\n", VERBOSE);
+    printf("#trace: %ld\n", TRACE);
+    printf("#debug: %ld\n", DEBUG);
+  }
   printf("#pgtable: %ld\n", ENABLE_PGTABLE);
   printf("#timing: %ld\n", ENABLE_PERF_COUNTS);
   printf("#no_runs: %ld\n", NUMBER_OF_RUNS);
