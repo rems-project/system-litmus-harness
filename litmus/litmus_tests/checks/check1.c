@@ -19,7 +19,7 @@ static void P0(litmus_test_run* data) {
   :
   : ASM_VARS(data, VARS),
     ASM_REGS(data, REGS)
-  : "cc", "memory", "x0", "x1", "x10", "x11"
+  : "cc", "memory", "x0", "x1", "x10", "x11", "x12"
   );
 }
 
@@ -37,7 +37,7 @@ static void P1(litmus_test_run* data) {
   :
   : ASM_VARS(data, VARS),
     ASM_REGS(data, REGS)
-  : "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x10", "x11"
+  : "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x10", "x11", "x12"
   );
 }
 
@@ -55,7 +55,7 @@ static void P2(litmus_test_run* data) {
   : [x2] "=&r" (_x2)
   : ASM_VARS(data, VARS),
     ASM_REGS(data, REGS)
-  : "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x10", "x11"
+  : "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x10", "x11", "x12"
   );
 }
 
@@ -64,7 +64,7 @@ static void handler(void) {
     "mov x11,#1\n\t"
     "str x11,[x10]\n\t"
 
-    ERET_TO_NEXT(x10)
+    ERET_TO_NEXT(x12)
   );
 }
 
