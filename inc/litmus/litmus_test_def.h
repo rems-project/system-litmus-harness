@@ -13,7 +13,15 @@ typedef enum {
   TYPE_PTE,
   TYPE_ALIAS,
   TYPE_AP,
+  TYPE_REGION,
 } init_type_t;
+
+typedef enum {
+  REGION_SAME_CACHE_LINE, /* both in the same cache line */
+  REGION_SAME_PAGE, /* both in the same 4k page but not the same cache-line */
+  REGION_SAME_PMD,  /* both in the same 2M region but not the same 4k page */
+  REGION_SAME_PGD,  /* both in the same 1G region but not in the same 2M region */
+} pin_level_t;
 
 typedef struct {
   const char* varname;
@@ -21,6 +29,10 @@ typedef struct {
   union {
     uint64_t value;
     const char* aliasname;
+    struct {
+      const char* pinned_var_name;
+      pin_level_t pinned_level;
+    };
   };
 } init_varstate_t;
 

@@ -3,6 +3,113 @@
 
 #include "lib.h"
 
+#define NR_ENTRIES_PER_PAGE 512
+typedef struct {
+  uint64_t values[NR_ENTRIES_PER_PAGE];
+} page_t;
+
+#define NR_PAGES_PER_DIR 512
+typedef struct {
+  page_t pages[NR_PAGES_PER_DIR];
+} dir_t;
+
+/** a 8M region
+ * is split into 4 middle-level dirs
+ * each of which contains 512 pages
+ * which each contain 4k bytes of data.
+ */
+#define NR_DIRS_PER_REGION 4
+typedef struct {
+  dir_t dirs[NR_DIRS_PER_REGION];
+} region_t;
+
+/** heap variable data is split over regions
+ *
+ * each region covers 1 8M section of memory
+ */
+#define NR_REGIONS 8
+typedef struct {
+  region_t regions[NR_REGIONS];
+} regions_t;
+
+/** this region ticker keeps track
+ * of the current directory and page in that directory
+ * for each region
+ *
+ * this is useful during initial allocation of the test data
+ * to regions and pages
+ *
+ * we assume each cache line = 16 words aka 64 cache lines per page
+ */
+#define NR_u64_PER_CACHE_LINE 8
+#define NR_CACHE_LINES_PER_PAGE 64
+
+typedef struct {
+  uint64_t curr_val_ix;
+} cache_line_tracker_t;
+
+typedef struct {
+  uint64_t curr_scl_ix;
+  cache_line_tracker_t scl_ix [NR_CACHE_LINES_PER_PAGE];
+} page_tracker_t;
+
+typedef struct {
+  uint64_t curr_page_ix;
+  page_tracker_t page_ixs [NR_PAGES_PER_DIR];
+} dir_tracker_t;
+
+typedef struct {
+  uint64_t curr_dir_ix;
+  dir_tracker_t dir_ixs [NR_DIRS_PER_REGION];
+} region_tracker_t;
+
+typedef struct {
+  region_tracker_t tickers [NR_REGIONS];
+} region_trackers_t;
+
+typedef struct {
+  uint64_t reg_ix;
+  uint64_t dir_ix;
+  uint64_t page_ix;
+  uint64_t scl_ix;
+  uint64_t val_ix;
+} tracker_loc_t;
+
+/** heap var info
+ *
+ */
+typedef struct {
+  const char* name;
+  uint64_t init_value;
+  uint64_t init_ap;
+  uint64_t init_unmapped;
+
+
+  uint8_t init_region_pinned;
+  union {
+    /** if the region is pinned then this var is pinned to another var with some region offset */
+    struct {
+      const char* pin_region_var;
+      int pin_region_level;
+    };
+
+    /** if not pinned, then this var can move about freely */
+    struct {
+      uint64_t curr_region;
+    };
+  };
+
+  /** if aliased, the name of the variable this one aliases
+   */
+  const char* alias;
+
+  /** array of pointers into memory region for each run
+   *
+   * this is what actually defines the concrete tests
+   */
+  uint64_t** values;
+} var_info_t;
+
 /**
  * the test_ctx_t type is the dynamic configuration generated at runtime
  * it holds live pointers to the actual blocks of memory for variables and registers and the
@@ -11,7 +118,8 @@
  */
 struct test_ctx {
   uint64_t no_runs;
-  uint64_t** heap_vars;         /* set of heap variables: x, y, z etc */
+  regions_t* heap_memory;       /* pointer to the 1G aligned set of regions to be used for heap values */
+  var_info_t* heap_vars;        /* set of heap variables: x, y, z etc */
   uint64_t** out_regs;          /* set of output register values: P1:x1,  P2:x3 etc */
   bar_t* initial_sync_barrier;
   bar_t* start_of_run_barriers;
@@ -19,7 +127,7 @@ struct test_ctx {
   bar_t* end_barriers;
   bar_t* cleanup_barriers;
   bar_t* final_barrier;
-  uint64_t* shuffled_ixs;
+  int* shuffled_ixs;
   volatile int* affinity;
   test_hist_t* hist;
   uint64_t* ptable;
@@ -39,14 +147,24 @@ void free_test_ctx(test_ctx_t* ctx);
 uint64_t ctx_pa(test_ctx_t* ctx, uint64_t va);
 uint64_t* ctx_pte(test_ctx_t* ctx, uint64_t va);
 
+uint64_t idx_from_varname_infos(const litmus_test_t* cfg, var_info_t* infos, const char* varname);
 uint64_t idx_from_varname(test_ctx_t* ctx, const char* varname);
 uint64_t idx_from_regname(test_ctx_t* ctx, const char* regname);
 const char* varname_from_idx(test_ctx_t* ctx, uint64_t idx);
 const char* regname_from_idx(test_ctx_t* ctx, uint64_t idx);
 
-void set_init_alias(test_ctx_t* ctx, const char* varname, const char* aliasname);
-void set_init_ap(test_ctx_t* ctx, const char* varname, uint64_t ap);
-void set_init_pte(test_ctx_t* ctx, const char* varname, uint64_t pte);
-void set_init_heap(test_ctx_t* ctx, const char* varname, uint64_t value);
+/* for loading var_info_t */
+void read_var_infos(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, int no_runs);
+void read_init_region(const litmus_test_t* cfg, var_info_t* infos, const char* varname, const char* pinned_var_name, pin_level_t pin_level);
+void read_init_alias(const litmus_test_t* cfg, var_info_t* infos, const char* varname, const char* aliasname);
+void read_init_ap(const litmus_test_t* cfg, var_info_t* infos, const char* varname, uint64_t ap);
+void read_init_pte(const litmus_test_t* cfg, var_info_t* infos, const char* varname, uint64_t pte);
+void read_init_heap(const litmus_test_t* cfg, var_info_t* infos, const char* varname, uint64_t value);
+
+/* for concretization */
+void set_init_var(test_ctx_t* ctx, var_info_t* infos, uint64_t varidx, uint64_t idx);
+void concretization_precheck(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos);
+void concretization_postcheck(test_ctx_t*, const litmus_test_t* cfg, var_info_t* infos, int run);
+void concretize(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, int no_runs);
 
 #endif /* LITMUS_CTX_H */

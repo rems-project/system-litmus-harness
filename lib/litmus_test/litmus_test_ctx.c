@@ -1,44 +1,55 @@
 #include "lib.h"
 
+#define ALLOC_MANY(ty, count) ({ \
+  debug("alloc %ldx %s\n", count, #ty); \
+  void* v = alloc_with_alignment((sizeof(ty))*count, sizeof(ty)); \
+  v; \
+})
+
+#define ALLOC_ONE(ty) ALLOC_MANY(ty, 1)
+
 void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
-  uint64_t** heap_vars = alloc(sizeof(uint64_t*) * cfg->no_heap_vars);
-  uint64_t** out_regs = alloc(sizeof(uint64_t*) * cfg->no_regs);
-  bar_t* init_sync_bar = alloc(sizeof(bar_t));
-  bar_t* start_run_bars = alloc(sizeof(bar_t) * no_runs);
-  bar_t* bars = alloc(sizeof(bar_t) * no_runs);
-  bar_t* end_bars = alloc(sizeof(bar_t) * no_runs);
-  bar_t* clean_bars = alloc(sizeof(bar_t) * no_runs);
-  bar_t* final_barrier = alloc(sizeof(bar_t));
-  uint64_t* shuffled = alloc(sizeof(uint64_t) * no_runs);
-  int* affinity = alloc(sizeof(int)*NO_CPUS);
+  var_info_t* var_infos = ALLOC_MANY(var_info_t, cfg->no_heap_vars);
+  uint64_t** out_regs = ALLOC_MANY(uint64_t*, cfg->no_regs);
+  bar_t* init_sync_bar = ALLOC_ONE(bar_t);
+  /* we don't need millions of barriers, just a handful */
+  bar_t* start_run_bars = ALLOC_MANY(bar_t, 512);
+  bar_t* bars = ALLOC_MANY(bar_t, 512);
+  bar_t* end_bars = ALLOC_MANY(bar_t, 512);
+  bar_t* clean_bars = ALLOC_MANY(bar_t, no_runs);
+  bar_t* final_barrier = ALLOC_ONE(bar_t);
+  int* shuffled = ALLOC_MANY(int, no_runs);
+  int* affinity = ALLOC_MANY(int, NO_CPUS);
 
   for (int v = 0; v < cfg->no_heap_vars; v++) {
-    // ensure each heap var alloc'd into its own page...
-    uint64_t* heap_var =
-        alloc_with_alignment(ALIGN_UP(sizeof(uint64_t) * no_runs, 12), 4096UL);
-    heap_vars[v] = heap_var;
+    var_infos[v].values =  ALLOC_MANY(uint64_t*, no_runs);
   }
 
+  read_var_infos(ctx, cfg, var_infos, no_runs);
+
   for (int r = 0; r < cfg->no_regs; r++) {
-    uint64_t* out_reg = alloc(sizeof(uint64_t) * no_runs);
+    uint64_t* out_reg = ALLOC_MANY(uint64_t, no_runs);
     out_regs[r] = out_reg;
   }
 
   for (int i = 0; i < no_runs; i++) {
-    /* one time init so column major doesnt matter */
-    for (int v = 0; v < cfg->no_heap_vars; v++) heap_vars[v][i] = 0;
+    for (int r = 0; r < cfg->no_regs; r++) {
+      out_regs[r][i] = 0;
+    }
 
-    for (int r = 0; r < cfg->no_regs; r++) out_regs[r][i] = 0;
-
-    start_run_bars[i] = (bar_t){0};
-    bars[i] = (bar_t){0};
-    end_bars[i] = (bar_t){0};
     clean_bars[i] = (bar_t){0};
     shuffled[i] = i;
   }
+
+  shuffle(shuffled, sizeof(int), no_runs);
+
+  for (int i = 0; i < 512; i++) {
+    start_run_bars[i] = (bar_t){0};
+    bars[i] = (bar_t){0};
+    end_bars[i] = (bar_t){0};
+  }
   *final_barrier = (bar_t){0};
   *init_sync_bar = (bar_t){0};
-  shuffle(shuffled, sizeof(uint64_t), no_runs);
 
   for (int i = 0; i < NO_CPUS; i++) {
     affinity[i] = i;
@@ -47,7 +58,7 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
   test_hist_t* hist = alloc(sizeof(test_hist_t) + sizeof(test_result_t) * 200);
   hist->allocated = 0;
   hist->limit = 200;
-  test_result_t** lut = alloc(sizeof(test_result_t*) * hist->limit);
+  test_result_t** lut = ALLOC_MANY(test_result_t*, hist->limit);
   hist->lut = lut;
 
   for (int t = 0; t < hist->limit; t++) {
@@ -58,7 +69,7 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
   }
 
   ctx->no_runs = no_runs;
-  ctx->heap_vars = heap_vars;
+  ctx->heap_vars = var_infos;
   ctx->out_regs = out_regs;
   ctx->initial_sync_barrier = init_sync_bar;
   ctx->start_of_run_barriers = start_run_bars;
@@ -98,10 +109,19 @@ const char* varname_from_idx(test_ctx_t* ctx, uint64_t idx) {
   return 0;
 }
 
+uint64_t idx_from_varname_infos(const litmus_test_t* cfg, var_info_t* infos, const char* varname) {
+  for (int i = 0; i < cfg->no_heap_vars; i++) {
+    if (strcmp(infos[i].name, varname)) {
+      return i;
+    }
+  }
+
+  return cfg->no_heap_vars;
+}
 
 uint64_t idx_from_varname(test_ctx_t* ctx, const char* varname) {
   for (int i = 0; i < ctx->cfg->no_heap_vars; i++) {
-    if (strcmp(ctx->cfg->heap_var_names[i], varname)) {
+    if (strcmp(ctx->heap_vars[i].name, varname)) {
       return i;
     }
   }
@@ -132,51 +152,6 @@ uint64_t idx_from_regname(test_ctx_t* ctx, const char* varname) {
   return 0;
 }
 
-void set_init_alias(test_ctx_t* ctx, const char* varname, const char* aliasname) {
-  uint64_t idx = idx_from_varname(ctx, varname);
-  uint64_t otheridx = idx_from_varname(ctx, aliasname);
-
-  for (uint64_t i = 0; i < ctx->no_runs; i += 4096 / sizeof(uint64_t)) {
-    uint64_t va = (uint64_t)&ctx->heap_vars[idx][i];
-    uint64_t* pte = ctx_pte(ctx, va);
-
-    uint64_t otherva = (uint64_t)&ctx->heap_vars[otheridx][i];
-    uint64_t* otherpte = ctx_pte(ctx, otherva);
-    *pte = *otherpte;
-  }
-}
-
-void set_init_ap(test_ctx_t* ctx, const char* varname, uint64_t ap) {
-  uint64_t idx = idx_from_varname(ctx, varname);
-
-  for (uint64_t i = 0; i < ctx->no_runs; i += 4096 / sizeof(uint64_t)) {
-    uint64_t va = (uint64_t)&ctx->heap_vars[idx][i];
-    uint64_t* pte = ctx_pte(ctx, va);
-    desc_t desc = read_desc(*pte, 3);
-    desc.attrs.AP = ap;
-    *pte = write_desc(desc);
-  }
-}
-
-void set_init_pte(test_ctx_t* ctx, const char* varname, uint64_t desc) {
-  uint64_t idx = idx_from_varname(ctx, varname);
-
-  for (uint64_t i = 0; i < ctx->no_runs; i += 4096 / sizeof(uint64_t)) {
-    uint64_t va = (uint64_t)&ctx->heap_vars[idx][i];
-    uint64_t* pte = ctx_pte(ctx, va);
-    *pte = desc; /* assuming 1 page per heap var */
-  }
-
-  /* no need to flush, assume this call happens before setting new pgtable */
-}
-
-void set_init_heap(test_ctx_t* ctx, const char* varname, uint64_t value) {
-  uint64_t idx = idx_from_varname(ctx, varname);
-  for (int i = 0; i < ctx->no_runs; i++) {
-    ctx->heap_vars[idx][i] = value;
-  }
-}
-
 void free_test_ctx(test_ctx_t* ctx) {
   for (int t = 0; t < ctx->hist->limit; t++) {
     free(ctx->hist->results[t]);
@@ -190,7 +165,7 @@ void free_test_ctx(test_ctx_t* ctx) {
   }
 
   for (int v = 0; v < ctx->cfg->no_heap_vars; v++) {
-    free(ctx->heap_vars[v]);
+    free(ctx->heap_vars[v].values);
   }
 
   free(ctx->heap_vars);

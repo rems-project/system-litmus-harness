@@ -120,9 +120,16 @@ void bwait(int vcpu, int i, bar_t* bar, int sz) {
 
   /* slow acquire */
   lock(&bwait_lock);
+
+  /* allow re-use of the same barrier */
+  if (bar->to_be_cleaned) {
+    *bar = (bar_t){0};
+  }
+
   bar->counter++;
   if (bar->counter == sz) {
     bar->released = 1;
+    bar->to_be_cleaned = 1;
     dsb();
     sev();
   }
