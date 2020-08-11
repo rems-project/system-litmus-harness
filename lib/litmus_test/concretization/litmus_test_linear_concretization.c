@@ -13,7 +13,6 @@ void concretize_linear(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* in
 
     for (uint64_t i = 0; i < no_runs; i++) {
       vinfo->values[i] = p;
-      printf("var%d/%s [%d] = %p\n", v, vinfo->name, i, p);
       p++;
     }
 
