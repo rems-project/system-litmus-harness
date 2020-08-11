@@ -118,7 +118,7 @@ char* sputarray(char* out, char* fmt, void* p, int count) {
 }
 
 static volatile lock_t __PR_LOCK;
-static char* vsprintf(char* out, int mode, const char* fmt, va_list ap) {
+char* vsprintf(char* out, int mode, const char* fmt, va_list ap) {
 	char* p = (char*)fmt;
 	while (*p) {
 		char c = *p;

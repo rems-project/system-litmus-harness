@@ -12,6 +12,7 @@ void putdec(uint64_t n);
 
 void vprintf(int mode, const char* fmt, va_list ap);
 char* sprintf(char* out, const char* fmt, ...);
+char* vsprintf(char* out, int mode, const char* fmt, va_list ap);
 void printf(const char* fmt, ...);
 void trace(const char* fmt, ...);
 void verbose(const char* fmt, ...);
