@@ -1,0 +1,2024 @@
++ echo Starting bin/kvm_litmus.exe
+Starting bin/kvm_litmus.exe
+++ mktemp
++ tmp=/tmp/tmp.GRwS42aSot
++ base64 -d
++ zcat
++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.GRwS42aSot -smp 4 -append '@all -n500k --no-verbose'
+qemu-system-aarch64: warning: ITS KVM: full reset is not supported by the host kernel
+#seed: 12395570
+#pgtable: 1
+#timing: 0
+#no_runs: 500000
+#sync_type: all
+#aff_type: rand
+#shuffle_type: rand
+! skipping "MP.times+pos":  requires --perf
+
+Test check1:
+ exc=0  : 500000
+Observation check1: 0 (of 500000)
+
+Test check2:
+ exc=0  : 500000
+Observation check2: 0 (of 500000)
+
+Test check3:
+ p1:x0=0  p1:x2=1  : 119321
+ p1:x0=1  p1:x2=0  : 186133
+ p1:x0=0  p1:x2=0  : 194546
+Observation check3: 0 (of 500000)
+
+Test check4:
+ p0:x0=0  : 500000
+Observation check4: 0 (of 500000)
+
+Test check5:
+ p0:x0=1  : 500000
+Observation check5: 0 (of 500000)
+
+Test check6:
+ p0:x0=0  : 500000
+Observation check6: 0 (of 500000)
+
+Test LB+pos:
+ p0:x2=1  p1:x2=0  : 238608
+ p0:x2=0  p1:x2=0  : 168932
+ p0:x2=0  p1:x2=1  : 92460
+Observation LB+pos: 0 (of 500000)
+
+Test MP+dmbs:
+ p1:x0=0  p1:x2=1  : 168876
+ p1:x0=0  p1:x2=0  : 203166
+ p1:x0=1  p1:x2=1  : 127958
+Observation MP+dmbs: 0 (of 500000)
+
+Test MP+pos:
+ p1:x0=0  p1:x2=0  : 241355
+ p1:x0=1  p1:x2=1  : 105313
+ p1:x0=0  p1:x2=1  : 106612
+ p1:x0=1  p1:x2=0  : 46720 *
+Observation MP+pos: 46720 (of 500000)
+
+Test SB+dmbs:
+ p0:x2=1  p1:x2=0  : 229540
+ p0:x2=0  p1:x2=1  : 126333
+ p0:x2=1  p1:x2=1  : 144127
+Observation SB+dmbs: 0 (of 500000)
+
+Test SB+pos:
+ p0:x2=1  p1:x2=0  : 250203
+ p0:x2=0  p1:x2=1  : 119671
+ p0:x2=1  p1:x2=1  : 80516
+ p0:x2=0  p1:x2=0  : 49610 *
+Observation SB+pos: 49610 (of 500000)
+
+Test WRC+addrs:
+ p1:x0=0  p2:x0=1  p2:x2=1  : 145146
+ p1:x0=0  p2:x0=1  p2:x2=0  : 17717
+ p1:x0=0  p2:x0=0  p2:x2=0  : 185062
+ p1:x0=1  p2:x0=0  p2:x2=1  : 58054
+ p1:x0=1  p2:x0=1  p2:x2=1  : 6012
+ p1:x0=1  p2:x0=0  p2:x2=0  : 24340
+ p1:x0=0  p2:x0=0  p2:x2=1  : 63669
+Observation WRC+addrs: 0 (of 500000)
+
+Test WRC+pos:
+ p1:x0=0  p2:x0=0  p2:x2=0  : 152660
+ p1:x0=0  p2:x0=1  p2:x2=1  : 83197
+ p1:x0=1  p2:x0=0  p2:x2=1  : 93215
+ p1:x0=0  p2:x0=0  p2:x2=1  : 39884
+ p1:x0=1  p2:x0=0  p2:x2=0  : 60120
+ p1:x0=0  p2:x0=1  p2:x2=0  : 63389
+ p1:x0=1  p2:x0=1  p2:x2=1  : 7529
+ p1:x0=1  p2:x0=1  p2:x2=0  : 6 *
+Observation WRC+pos: 6 (of 500000)
+
+Test LB+R-svc-W+R-svc-W:
+ p0:x0=1  p1:x0=0  : 120153
+ p0:x0=0  p1:x0=0  : 339214
+ p0:x0=0  p1:x0=1  : 40633
+Observation LB+R-svc-W+R-svc-W: 0 (of 500000)
+
+Test MP+W-svc-W+addr:
+ p1:x0=0  p1:x2=0  : 93768
+ p1:x0=0  p1:x2=1  : 226276
+ p1:x0=1  p1:x2=1  : 179956
+Observation MP+W-svc-W+addr: 0 (of 500000)
+
+Test MP+dmb+R-svc-eret-R:
+ p1:x0=0  p1:x2=0  : 224959
+ p1:x0=1  p1:x2=1  : 52503
+ p1:x0=0  p1:x2=1  : 222538
+Observation MP+dmb+R-svc-eret-R: 0 (of 500000)
+
+Test MP+dmb+eret:
+ p1:x0=0  p1:x2=1  : 149904
+ p1:x0=1  p1:x2=1  : 104940
+ p1:x0=0  p1:x2=0  : 245156
+Observation MP+dmb+eret: 0 (of 500000)
+
+Test MP+dmb+svc:
+ p1:x0=0  p1:x2=0  : 211794
+ p1:x0=0  p1:x2=1  : 241870
+ p1:x0=1  p1:x2=1  : 46336
+Observation MP+dmb+svc: 0 (of 500000)
+
+Test MP+dmb+svc2-R-eret-R:
+ p1:x0=0  p1:x2=0  : 114623
+ p1:x0=0  p1:x2=1  : 226032
+ p1:x0=1  p1:x2=1  : 159345
+Observation MP+dmb+svc2-R-eret-R: 0 (of 500000)
+
+Test MP+dmb+svc-R-eret-svc-R:
+ p1:x0=0  p1:x2=1  : 329700
+ p1:x0=0  p1:x2=0  : 86928
+ p1:x0=1  p1:x2=1  : 83372
+Observation MP+dmb+svc-R-eret-svc-R: 0 (of 500000)
+
+Test MP+dmb+svc-R-svc-R:
+ p1:x0=0  p1:x2=1  : 307154
+ p1:x0=1  p1:x2=1  : 94504
+ p1:x0=0  p1:x2=0  : 98342
+Observation MP+dmb+svc-R-svc-R: 0 (of 500000)
+
+Test MP+dmb+svc-R-svc-eret-R:
+ p1:x0=0  p1:x2=1  : 181597
+ p1:x0=1  p1:x2=1  : 226792
+ p1:x0=0  p1:x2=0  : 91611
+Observation MP+dmb+svc-R-svc-eret-R: 0 (of 500000)
+
+Test MP+svc-W-eret-W+addr:
+ p1:x0=0  p1:x2=0  : 156357
+ p1:x0=0  p1:x2=1  : 147347
+ p1:x0=1  p1:x2=1  : 196295
+ p1:x0=1  p1:x2=0  : 1 *
+Observation MP+svc-W-eret-W+addr: 1 (of 500000)
+
+Test SB+W-svc-R+W-svc-R:
+ p0:x2=1  p1:x2=0  : 261007
+ p0:x2=1  p1:x2=1  : 200217
+ p0:x2=0  p1:x2=1  : 38771
+ p0:x2=0  p1:x2=0  : 5 *
+Observation SB+W-svc-R+W-svc-R: 5 (of 500000)
+
+Test SB+svc-erets:
+ p0:x2=1  p1:x2=1  : 161898
+ p0:x2=0  p1:x2=1  : 55526
+ p0:x2=1  p1:x2=0  : 282574
+ p0:x2=0  p1:x2=0  : 2 *
+Observation SB+svc-erets: 2 (of 500000)
+
+Test MP.BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 431625
+ p1:x0=0  p1:x2=2  : 58068
+ p1:x0=1  p1:x2=1  : 9978
+ p1:x0=0  p1:x2=1  : 329
+Observation MP.BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+
+Test MP.BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 430000
+ p1:x0=0  p1:x2=2  : 62929
+ p1:x0=1  p1:x2=1  : 6859
+ p1:x0=0  p1:x2=1  : 212
+Observation MP.BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+
+Test MP.BBM1+dsb-tlbiis-dsb-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 456458
+ p1:x0=0  p1:x2=2  : 38621
+ p1:x0=0  p1:x2=1  : 295
+ p1:x0=1  p1:x2=1  : 4626
+Observation MP.BBM1+dsb-tlbiis-dsb-dsb+dsb-isb: 0 (of 500000)
+
+Test MP.BBM1+dsb-tlbiis-dsb-dsb-isb+dsb:
+ p1:x0=0  p1:x2=0  : 457218
+ p1:x0=0  p1:x2=2  : 37222
+ p1:x0=1  p1:x2=1  : 5392
+ p1:x0=0  p1:x2=1  : 168
+Observation MP.BBM1+dsb-tlbiis-dsb-dsb-isb+dsb: 0 (of 500000)
+
+Test MP.BBM1+dsb-tlbiis-dsb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 428535
+ p1:x0=1  p1:x2=1  : 5732
+ p1:x0=0  p1:x2=1  : 311
+ p1:x0=0  p1:x2=2  : 65422
+Observation MP.BBM1+dsb-tlbiis-dsb-dsb-isb+dsb-isb: 0 (of 500000)
+
+Test MP.BBM1.id+dsb-tlbiis-dsb-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 411141
+ p1:x0=0  p1:x2=2  : 83858
+ p1:x0=0  p1:x2=1  : 260
+ p1:x0=1  p1:x2=1  : 4740
+ p1:x0=1  p1:x2=0  : 1 *
+Observation MP.BBM1.id+dsb-tlbiis-dsb-dsb+dsb-isb: 1 (of 500000)
+
+Test CoRT:
+ p1:x0=0  p1:x2=0  : 318027
+ p1:x0=0  p1:x2=1  : 102339
+ p1:x0=1  p1:x2=0  : 37973 *
+ p1:x0=1  p1:x2=1  : 41661
+Observation CoRT: 37973 (of 500000)
+
+Test CoRT+dsb-isb:
+ p1:x0=0  p1:x2=0  : 392164
+ p1:x0=0  p1:x2=1  : 61690
+ p1:x0=1  p1:x2=0  : 17122 *
+ p1:x0=1  p1:x2=1  : 29024
+Observation CoRT+dsb-isb: 17122 (of 500000)
+
+Test CoTR:
+ p1:x0=1  p1:x2=1  : 25718
+ p1:x0=0  p1:x2=0  : 370679
+ p1:x0=0  p1:x2=1  : 23947
+ p1:x0=1  p1:x2=0  : 79656 *
+Observation CoTR: 79656 (of 500000)
+
+Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
+ p1:x0=0  p1:x2=0  : 2669
+ p1:x0=1  p1:x2=1  : 51935
+ p1:x0=0  p1:x2=1  : 445396
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+
+Test CoTR1+dsb-tlbi-dsb-isb:
+ p1:x0=0  p1:x2=1  : 446139
+ p1:x0=0  p1:x2=0  : 1738
+ p1:x0=1  p1:x2=1  : 52123
+Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+
+Test CoTR1.tlbi+dsb-isb:
+ p1:x0=0  p1:x2=0  : 1681
+ p1:x0=1  p1:x2=1  : 494824
+ p1:x0=0  p1:x2=1  : 3495
+Observation CoTR1.tlbi+dsb-isb: 0 (of 500000)
+
+Test CoTR+addr:
+ p1:x0=0  p1:x2=0  : 274325
+ p1:x0=1  p1:x2=1  : 136769
+ p1:x0=0  p1:x2=1  : 88906
+Observation CoTR+addr: 0 (of 500000)
+
+Test CoTR+dmb:
+ p1:x0=0  p1:x2=0  : 276446
+ p1:x0=0  p1:x2=1  : 85360
+ p1:x0=1  p1:x2=1  : 138194
+Observation CoTR+dmb: 0 (of 500000)
+
+Test CoTR+dsb:
+ p1:x0=0  p1:x2=0  : 275875
+ p1:x0=0  p1:x2=1  : 109145
+ p1:x0=1  p1:x2=1  : 114980
+Observation CoTR+dsb: 0 (of 500000)
+
+Test CoTR+dsb-isb:
+ p1:x0=0  p1:x2=0  : 230242
+ p1:x0=0  p1:x2=1  : 136348
+ p1:x0=1  p1:x2=1  : 133410
+Observation CoTR+dsb-isb: 0 (of 500000)
+
+Test CoTR.inv:
+ p1:x0=1  p1:x2=0  : 320882 *
+ p1:x0=0  p1:x2=1  : 154709
+ p1:x0=0  p1:x2=0  : 19500
+ p1:x0=1  p1:x2=1  : 4909
+Observation CoTR.inv: 320882 (of 500000)
+
+Test CoTR.inv+dsb-isb:
+ p1:x0=1  p1:x2=1  : 310807
+ p1:x0=0  p1:x2=1  : 182813
+ p1:x0=0  p1:x2=0  : 6380
+Observation CoTR.inv+dsb-isb: 0 (of 500000)
+
+Test CoTT:
+ p1:x0=0  p1:x2=0  : 355942
+ p1:x0=1  p1:x2=1  : 144058
+Observation CoTT: 0 (of 500000)
+Warning on CoTT: saw 2 SC results but expected 3
+
+Test CoWT:
+ p0:x2=2  : 250433
+ p0:x2=1  : 249567 *
+Observation CoWT: 249567 (of 500000)
+
+Test CoWT1+dsb-tlbi-dsb:
+ p0:x3=1  : 500000
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
+
+Test CoWT1+dsb-tlbi-dsb-isb:
+ p0:x3=1  : 500000
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
+
+Test CoWT+dsb:
+ p0:x2=2  : 250274
+ p0:x2=1  : 249726 *
+Observation CoWT+dsb: 249726 (of 500000)
+
+Test CoWT+dsb-isb:
+ p0:x2=2  : 250285
+ p0:x2=1  : 249715 *
+Observation CoWT+dsb-isb: 249715 (of 500000)
+
+Test CoWT+dsb-svc-tlbi-dsb:
+ p0:x2=2  : 500000
+Observation CoWT+dsb-svc-tlbi-dsb: 0 (of 500000)
+
+Test CoWT.inv:
+ p0:x2=1  : 500000
+Observation CoWT.inv: 0 (of 500000)
+
+Test CoWT.inv+dmb:
+ p0:x2=1  : 500000
+Observation CoWT.inv+dmb: 0 (of 500000)
+
+Test CoWT.inv+dsb:
+ p0:x2=1  : 500000
+Observation CoWT.inv+dsb: 0 (of 500000)
+
+Test CoWT.inv+dsb-isb:
+ p0:x2=1  : 500000
+Observation CoWT.inv+dsb-isb: 0 (of 500000)
+
+Test CoWinvT:
+ p0:x2=1  : 248006
+ p0:x2=0  : 251994 *
+Observation CoWinvT: 251994 (of 500000)
+
+Test CoWinvT1+dsb-tlbi-dsb:
+ p0:x2=1  : 500000
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
+
+Test CoWinvT+dsb-isb:
+ p0:x2=1  : 248156
+ p0:x2=0  : 251844 *
+Observation CoWinvT+dsb-isb: 251844 (of 500000)
+
+Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
+ p0:x5=1  : 500000
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
+
+Test ISA2.TRR+dmb+po+dmb:
+ p1:x0=0  p2:x0=1  p2:x2=1  : 110922
+ p1:x0=1  p2:x0=1  p2:x2=1  : 234
+ p1:x0=0  p2:x0=0  p2:x2=1  : 116150
+ p1:x0=1  p2:x0=0  p2:x2=1  : 15785
+ p1:x0=0  p2:x0=1  p2:x2=0  : 23850
+ p1:x0=0  p2:x0=0  p2:x2=0  : 227997
+ p1:x0=1  p2:x0=0  p2:x2=0  : 5062
+Observation ISA2.TRR+dmb+po+dmb: 0 (of 500000)
+
+Test MP.RT1+dc-dsb-tlbiall-dsb+dsb-isb:
+ p1:x0=0  p1:x2=1  : 99766
+ p1:x0=0  p1:x2=0  : 389673
+ p1:x0=1  p1:x2=1  : 10561
+Observation MP.RT1+dc-dsb-tlbiall-dsb+dsb-isb: 0 (of 500000)
+
+Test MP.RT1+dc-dsb-tlbiall-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 370150
+ p1:x0=0  p1:x2=1  : 123896
+ p1:x0=1  p1:x2=1  : 5954
+Observation MP.RT1+dc-dsb-tlbiall-dsb-isb+dsb-isb: 0 (of 500000)
+
+Test MP.RT1+[dmb.ld]-dmb+dsb-isb:
+ p0:x2=0  p1:x0=0  p2:x0=0  p2:x2=1  : 43475
+ p0:x2=0  p1:x0=0  p2:x0=0  p2:x2=0  : 118167
+ p0:x2=1  p1:x0=0  p2:x0=0  p2:x2=1  : 41184
+ p0:x2=0  p1:x0=0  p2:x0=1  p2:x2=1  : 17943
+ p0:x2=0  p1:x0=1  p2:x0=0  p2:x2=1  : 21178
+ p0:x2=1  p1:x0=0  p2:x0=0  p2:x2=0  : 166520
+ p0:x2=1  p1:x0=0  p2:x0=1  p2:x2=1  : 4606
+ p0:x2=0  p1:x0=1  p2:x0=1  p2:x2=0  : 9760
+ p0:x2=0  p1:x0=0  p2:x0=1  p2:x2=0  : 15382
+ p0:x2=0  p1:x0=1  p2:x0=0  p2:x2=0  : 46785
+ p0:x2=0  p1:x0=1  p2:x0=1  p2:x2=1  : 10347
+ p0:x2=1  p1:x0=0  p2:x0=1  p2:x2=0  : 3815
+ p0:x2=1  p1:x0=1  p2:x0=0  p2:x2=0  : 426
+ p0:x2=1  p1:x0=1  p2:x0=0  p2:x2=1  : 372
+ p0:x2=1  p1:x0=1  p2:x0=1  p2:x2=0  : 22 *
+ p0:x2=1  p1:x0=1  p2:x0=1  p2:x2=1  : 18
+Observation MP.RT1+[dmb.ld]-dmb+dsb-isb: 22 (of 500000)
+Warning on MP.RT1+[dmb.ld]-dmb+dsb-isb: saw 15 SC results but expected 12
+
+Test MP.RT1+[dmb.ld]-dsb-tlbiis-dsb-isb+dmb:
+ p0:x2=1  p1:x0=0  p2:x0=0  p2:x2=0  : 149674
+ p0:x2=0  p1:x0=1  p2:x0=0  p2:x2=0  : 62108
+ p0:x2=0  p1:x0=0  p2:x0=0  p2:x2=0  : 135760
+ p0:x2=0  p1:x0=0  p2:x0=0  p2:x2=1  : 67137
+ p0:x2=1  p1:x0=0  p2:x0=0  p2:x2=1  : 41022
+ p0:x2=0  p1:x0=1  p2:x0=0  p2:x2=1  : 38336
+ p0:x2=1  p1:x0=0  p2:x0=1  p2:x2=1  : 2085
+ p0:x2=0  p1:x0=0  p2:x0=1  p2:x2=1  : 2718
+ p0:x2=0  p1:x0=1  p2:x0=1  p2:x2=1  : 1139
+ p0:x2=1  p1:x0=1  p2:x0=0  p2:x2=0  : 17
+ p0:x2=1  p1:x0=1  p2:x0=0  p2:x2=1  : 4
+Observation MP.RT1+[dmb.ld]-dsb-tlbiis-dsb-isb+dmb: 0 (of 500000)
+Warning on MP.RT1+[dmb.ld]-dsb-tlbiis-dsb-isb+dmb: saw 11 SC results but expected 12
+
+Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 405071
+ p1:x0=0  p1:x2=1  : 88512
+ p1:x0=1  p1:x2=1  : 6417
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+
+Test MP.RT1+dsb-tlbiall-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 315172
+ p1:x0=0  p1:x2=1  : 177501
+ p1:x0=1  p1:x2=1  : 7327
+Observation MP.RT1+dsb-tlbiall-dsb+dsb-isb: 0 (of 500000)
+
+Test MP.RT1+dsb-tlbiallis-dsb+dsb-isb:
+ p1:x0=0  p1:x2=1  : 124664
+ p1:x0=0  p1:x2=0  : 369558
+ p1:x0=1  p1:x2=1  : 5778
+Observation MP.RT1+dsb-tlbiallis-dsb+dsb-isb: 0 (of 500000)
+
+Test MP.RT1+dsb-tlbi-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 381692
+ p1:x0=0  p1:x2=1  : 113664
+ p1:x0=1  p1:x2=1  : 4644
+Observation MP.RT1+dsb-tlbi-dsb+dsb-isb: 0 (of 500000)
+
+Test MP.RT1+dsb-tlbiis-dsb+dsb-isb:
+ p1:x0=0  p1:x2=1  : 113342
+ p1:x0=0  p1:x2=0  : 378049
+ p1:x0=1  p1:x2=1  : 8609
+Observation MP.RT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+
+Test MP.RT1+dsb-tlbiis-dsb-isb+dmb:
+ p1:x0=0  p1:x2=1  : 113263
+ p1:x0=0  p1:x2=0  : 380477
+ p1:x0=1  p1:x2=1  : 6260
+Observation MP.RT1+dsb-tlbiis-dsb-isb+dmb: 0 (of 500000)
+
+Test MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=1  : 88813
+ p1:x0=0  p1:x2=0  : 405998
+ p1:x0=1  p1:x2=1  : 5189
+Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+
+Test MP.RT1+dsb-tlbiis-dsb-tlbiis-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 392649
+ p1:x0=0  p1:x2=1  : 100952
+ p1:x0=1  p1:x2=1  : 6399
+Observation MP.RT1+dsb-tlbiis-dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+
+Test MP.RT+svc-dsb-tlbi-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 349343
+ p1:x0=0  p1:x2=1  : 138292
+ p1:x0=1  p1:x2=1  : 12365
+Observation MP.RT+svc-dsb-tlbi-dsb+dsb-isb: 0 (of 500000)
+
+Test MP.RT+svc-dsb-tlbiis-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 352477
+ p1:x0=0  p1:x2=1  : 135654
+ p1:x0=1  p1:x2=1  : 11869
+Observation MP.RT+svc-dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+
+Test MP.RT.inv+dmb+addr:
+ p1:x0=0  p1:x2=0  : 238537
+ p1:x0=0  p1:x2=1  : 223825
+ p1:x0=1  p1:x2=1  : 37638
+Observation MP.RT.inv+dmb+addr: 0 (of 500000)
+
+Test MP.RT.inv+dmb+po:
+ p1:x0=0  p1:x2=0  : 207711
+ p1:x0=0  p1:x2=1  : 237178
+ p1:x0=1  p1:x2=1  : 55111
+Observation MP.RT.inv+dmb+po: 0 (of 500000)
+
+Test MP.TT+Winv-dmb-Winv+tpo:
+ p1:x0=0  p1:x2=1  : 81363
+ p1:x0=0  p1:x2=0  : 414737
+ p1:x0=1  p1:x2=1  : 2275
+ p1:x0=1  p1:x2=0  : 1625 *
+Observation MP.TT+Winv-dmb-Winv+tpo: 1625 (of 500000)
+
+Test MP.TT+dmb+dsb-isb:
+ p1:x0=0  p1:x2=1  : 56322
+ p1:x0=0  p1:x2=0  : 418851
+ p1:x0=1  p1:x2=0  : 12282 *
+ p1:x0=1  p1:x2=1  : 12545
+Observation MP.TT+dmb+dsb-isb: 12282 (of 500000)
+
+Test MP.TT+dmb+tpo:
+ p1:x0=0  p1:x2=0  : 367081
+ p1:x0=1  p1:x2=0  : 18211 *
+ p1:x0=0  p1:x2=1  : 91358
+ p1:x0=1  p1:x2=1  : 23350
+Observation MP.TT+dmb+tpo: 18211 (of 500000)
+
+Test MP.TT.inv+dmb+dsb-isb:
+ p1:x0=1  p1:x2=1  : 94571
+ p1:x0=0  p1:x2=0  : 5735
+ p1:x0=0  p1:x2=1  : 399694
+Observation MP.TT.inv+dmb+dsb-isb: 0 (of 500000)
+
+Test MP.TT.inv+dmb+tpo:
+ p1:x0=0  p1:x2=1  : 392471
+ p1:x0=1  p1:x2=1  : 82401
+ p1:x0=0  p1:x2=0  : 25128
+Observation MP.TT.inv+dmb+tpo: 0 (of 500000)
+
+Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 375154
+ p1:x0=0  p1:x2=1  : 122653
+ p1:x0=1  p1:x2=1  : 2193
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+
+Test MP.invRT1+dsb-tlbiis-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 379054
+ p1:x0=0  p1:x2=1  : 116935
+ p1:x0=1  p1:x2=1  : 4011
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+
+Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 373667
+ p1:x0=0  p1:x2=1  : 122191
+ p1:x0=1  p1:x2=1  : 4142
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+
+Test MP.invRT+dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 369756
+ p1:x0=1  p1:x2=1  : 51642
+ p1:x0=0  p1:x2=1  : 73951
+ p1:x0=1  p1:x2=0  : 4651 *
+Observation MP.invRT+dsb+dsb-isb: 4651 (of 500000)
+
+Test WRC.AT+ctrl+dsb:
+ p1:x2=1  p2:x0=1  p2:x2=0  : 94089
+ p1:x2=1  p2:x0=0  p2:x2=1  : 72352
+ p1:x2=1  p2:x0=0  p2:x2=0  : 194221
+ p1:x2=1  p2:x0=1  p2:x2=1  : 80079
+ p1:x2=0  p2:x0=0  p2:x2=0  : 38102
+ p1:x2=0  p2:x0=0  p2:x2=1  : 19637
+ p1:x2=0  p2:x0=1  p2:x2=0  : 722 *
+ p1:x2=0  p2:x0=1  p2:x2=1  : 798
+Observation WRC.AT+ctrl+dsb: 722 (of 500000)
+
+Test WRC.TRR+addr+dmb:
+ p1:x0=0  p2:x0=1  p2:x2=1  : 98536
+ p1:x0=1  p2:x0=0  p2:x2=1  : 91363
+ p1:x0=0  p2:x0=0  p2:x2=1  : 309202
+ p1:x0=1  p2:x0=1  p2:x2=1  : 899
+Observation WRC.TRR+addr+dmb: 0 (of 500000)
+Warning on WRC.TRR+addr+dmb: saw 4 SC results but expected 7
+
+Test WRC.TRR.inv+addrs:
+ p1:x0=0  p2:x0=0  p2:x2=1  : 338275
+ p1:x0=0  p2:x0=1  p2:x2=1  : 49115
+ p1:x0=1  p2:x0=0  p2:x2=1  : 110594
+ p1:x0=1  p2:x0=1  p2:x2=1  : 2016
+Observation WRC.TRR.inv+addrs: 0 (of 500000)
+Warning on WRC.TRR.inv+addrs: saw 4 SC results but expected 7
+
+Test WRC.TRT1+dsb-tlbiis-dsb+dmb:
+ p1:x0=0  p2:x0=0  p2:x2=0  : 259896
+ p1:x0=1  p2:x0=0  p2:x2=0  : 38919
+ p1:x0=0  p2:x0=0  p2:x2=1  : 174271
+ p1:x0=1  p2:x0=0  p2:x2=1  : 25246
+ p1:x0=0  p2:x0=1  p2:x2=1  : 1353
+ p1:x0=1  p2:x0=1  p2:x2=1  : 301
+ p1:x0=0  p2:x0=1  p2:x2=0  : 14
+Observation WRC.TRT1+dsb-tlbiis-dsb+dmb: 0 (of 500000)
+
+Test WRC.TRT1+dsb-tlbiis-dsb+dsb-isb:
+ p1:x0=0  p2:x0=0  p2:x2=0  : 263388
+ p1:x0=0  p2:x0=0  p2:x2=1  : 169581
+ p1:x0=1  p2:x0=0  p2:x2=0  : 40292
+ p1:x0=1  p2:x0=0  p2:x2=1  : 25204
+ p1:x0=0  p2:x0=1  p2:x2=1  : 1178
+ p1:x0=1  p2:x0=1  p2:x2=1  : 338
+ p1:x0=0  p2:x0=1  p2:x2=0  : 19
+Observation WRC.TRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+
+Test WRC.TRT+addr+dmb:
+ p1:x0=0  p2:x0=1  p2:x2=0  : 69675
+ p1:x0=0  p2:x0=0  p2:x2=0  : 190087
+ p1:x0=0  p2:x0=1  p2:x2=1  : 62853
+ p1:x0=1  p2:x0=0  p2:x2=0  : 48800
+ p1:x0=1  p2:x0=1  p2:x2=0  : 567 *
+ p1:x0=0  p2:x0=0  p2:x2=1  : 94163
+ p1:x0=1  p2:x0=0  p2:x2=1  : 33171
+ p1:x0=1  p2:x0=1  p2:x2=1  : 684
+Observation WRC.TRT+addr+dmb: 567 (of 500000)
+
+Test WRC.TRT+dmbs:
+ p1:x0=0  p2:x0=1  p2:x2=0  : 66565
+ p1:x0=0  p2:x0=0  p2:x2=0  : 172089
+ p1:x0=0  p2:x0=0  p2:x2=1  : 68618
+ p1:x0=0  p2:x0=1  p2:x2=1  : 58647
+ p1:x0=1  p2:x0=0  p2:x2=1  : 51352
+ p1:x0=1  p2:x0=0  p2:x2=0  : 81253
+ p1:x0=1  p2:x0=1  p2:x2=1  : 830
+ p1:x0=1  p2:x0=1  p2:x2=0  : 646 *
+Observation WRC.TRT+dmbs: 646 (of 500000)
+
+Test WRC.TRT+dsb-isbs:
+ p1:x0=0  p2:x0=1  p2:x2=0  : 55788
+ p1:x0=0  p2:x0=0  p2:x2=0  : 197228
+ p1:x0=1  p2:x0=0  p2:x2=1  : 45531
+ p1:x0=1  p2:x0=0  p2:x2=0  : 77872
+ p1:x0=0  p2:x0=1  p2:x2=1  : 48931
+ p1:x0=0  p2:x0=0  p2:x2=1  : 72735
+ p1:x0=1  p2:x0=1  p2:x2=1  : 988
+ p1:x0=1  p2:x0=1  p2:x2=0  : 927 *
+Observation WRC.TRT+dsb-isbs: 927 (of 500000)
+
+Test WRC.TRT.inv+addrs:
+ p1:x0=0  p2:x0=0  p2:x2=0  : 63754
+ p1:x0=0  p2:x0=0  p2:x2=1  : 252904
+ p1:x0=1  p2:x0=0  p2:x2=1  : 136593
+ p1:x0=0  p2:x0=1  p2:x2=1  : 16313
+ p1:x0=1  p2:x0=0  p2:x2=0  : 27674
+ p1:x0=1  p2:x0=1  p2:x2=1  : 2601
+ p1:x0=0  p2:x0=1  p2:x2=0  : 161
+Observation WRC.TRT.inv+addrs: 0 (of 500000)
+
+Test WRC.TRT.inv+dsb-isbs:
+ p1:x0=0  p2:x0=0  p2:x2=1  : 399980
+ p1:x0=0  p2:x0=0  p2:x2=0  : 61087
+ p1:x0=0  p2:x0=1  p2:x2=1  : 38554
+ p1:x0=0  p2:x0=1  p2:x2=0  : 379
+Observation WRC.TRT.inv+dsb-isbs: 0 (of 500000)
+Warning on WRC.TRT.inv+dsb-isbs: saw 4 SC results but expected 7
+
+Test WRC.TRT.inv+po+addr:
+ p1:x0=0  p2:x0=0  p2:x2=1  : 379876
+ p1:x0=0  p2:x0=1  p2:x2=1  : 31997
+ p1:x0=0  p2:x0=0  p2:x2=0  : 87861
+ p1:x0=0  p2:x0=1  p2:x2=0  : 266
+Observation WRC.TRT.inv+po+addr: 0 (of 500000)
+Warning on WRC.TRT.inv+po+addr: saw 4 SC results but expected 7
+
+Test WRC.TRT.inv+po+dmb:
+ p1:x0=0  p2:x0=0  p2:x2=0  : 111065
+ p1:x0=0  p2:x0=0  p2:x2=1  : 371095
+ p1:x0=0  p2:x0=1  p2:x2=1  : 17484
+ p1:x0=0  p2:x0=1  p2:x2=0  : 356
+Observation WRC.TRT.inv+po+dmb: 0 (of 500000)
+Warning on WRC.TRT.inv+po+dmb: saw 4 SC results but expected 7
+
+Test CoWR.alias:
+ p0:x2=1  : 500000
+Observation CoWR.alias: 0 (of 500000)
+
+Test MP+dmb-data+dmb:
+ p1:x0=0  p1:x2=0  : 193499
+ p1:x0=1  p1:x2=1  : 120339
+ p1:x0=0  p1:x2=1  : 186162
+Observation MP+dmb-data+dmb: 0 (of 500000)
+
+Test MP+po-data+dmb:
+ p1:x0=0  p1:x2=0  : 260563
+ p1:x0=1  p1:x2=1  : 116305
+ p1:x0=0  p1:x2=1  : 118370
+ p1:x0=1  p1:x2=0  : 4762 *
+Observation MP+po-data+dmb: 4762 (of 500000)
+
+Test MP.alias2+dmb-data+dmb:
+ p1:x0=1  p1:x2=1  : 60471
+ p1:x0=0  p1:x2=0  : 264972
+ p1:x0=0  p1:x2=1  : 174557
+Observation MP.alias2+dmb-data+dmb: 0 (of 500000)
+
+Test MP.alias2+po-data+dmb:
+ p1:x0=0  p1:x2=0  : 294967
+ p1:x0=1  p1:x2=1  : 98635
+ p1:x0=0  p1:x2=1  : 100066
+ p1:x0=1  p1:x2=0  : 6332 *
+Observation MP.alias2+po-data+dmb: 6332 (of 500000)
+
+Test MP.alias+dmbs:
+ p1:x0=0  p1:x2=0  : 323941
+ p1:x0=1  p1:x2=1  : 154006
+ p1:x0=0  p1:x2=1  : 22053
+Observation MP.alias+dmbs: 0 (of 500000)
+Warning on MP.alias+dmbs: saw 3 SC results but expected 1
+
+Test SB.alias+dmbs:
+ p0:x2=1  p1:x2=1  : 500000
+Observation SB.alias+dmbs: 0 (of 500000)
++ echo Starting bin/kvm_litmus.exe
+Starting bin/kvm_litmus.exe
+++ mktemp
++ tmp=/tmp/tmp.oNsu3raAoy
++ zcat
++ base64 -d
++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.oNsu3raAoy -smp 4 -append '@all -n500k --no-verbose'
+qemu-system-aarch64: warning: ITS KVM: full reset is not supported by the host kernel
+#seed: 19898422
+#pgtable: 1
+#timing: 0
+#no_runs: 500000
+#sync_type: all
+#aff_type: rand
+#shuffle_type: rand
+! skipping "MP.times+pos":  requires --perf
+
+Test check1:
+ exc=0  : 500000
+Observation check1: 0 (of 500000)
+
+Test check2:
+ exc=0  : 500000
+Observation check2: 0 (of 500000)
+
+Test check3:
+ p1:x0=1  p1:x2=0  : 152740
+ p1:x0=0  p1:x2=1  : 128598
+ p1:x0=0  p1:x2=0  : 218662
+Observation check3: 0 (of 500000)
+
+Test check4:
+ p0:x0=0  : 500000
+Observation check4: 0 (of 500000)
+
+Test check5:
+ p0:x0=1  : 500000
+Observation check5: 0 (of 500000)
+
+Test check6:
+ p0:x0=0  : 500000
+Observation check6: 0 (of 500000)
+
+Test LB+pos:
+ p0:x2=1  p1:x2=0  : 207008
+ p0:x2=0  p1:x2=0  : 193076
+ p0:x2=0  p1:x2=1  : 99916
+Observation LB+pos: 0 (of 500000)
+
+Test MP+dmbs:
+ p1:x0=1  p1:x2=1  : 125212
+ p1:x0=0  p1:x2=0  : 206440
+ p1:x0=0  p1:x2=1  : 168348
+Observation MP+dmbs: 0 (of 500000)
+
+Test MP+pos:
+ p1:x0=1  p1:x2=1  : 108427
+ p1:x0=0  p1:x2=0  : 232735
+ p1:x0=0  p1:x2=1  : 99275
+ p1:x0=1  p1:x2=0  : 59563 *
+Observation MP+pos: 59563 (of 500000)
+
+Test SB+dmbs:
+ p0:x2=1  p1:x2=0  : 241386
+ p0:x2=0  p1:x2=1  : 126511
+ p0:x2=1  p1:x2=1  : 132103
+Observation SB+dmbs: 0 (of 500000)
+
+Test SB+pos:
+ p0:x2=1  p1:x2=0  : 257935
+ p0:x2=0  p1:x2=1  : 115066
+ p0:x2=0  p1:x2=0  : 67495 *
+ p0:x2=1  p1:x2=1  : 59504
+Observation SB+pos: 67495 (of 500000)
+
+Test WRC+addrs:
+ p1:x0=0  p2:x0=1  p2:x2=1  : 139591
+ p1:x0=1  p2:x0=0  p2:x2=1  : 126958
+ p1:x0=0  p2:x0=0  p2:x2=1  : 69144
+ p1:x0=0  p2:x0=0  p2:x2=0  : 107695
+ p1:x0=1  p2:x0=0  p2:x2=0  : 38989
+ p1:x0=0  p2:x0=1  p2:x2=0  : 8100
+ p1:x0=1  p2:x0=1  p2:x2=1  : 9523
+Observation WRC+addrs: 0 (of 500000)
+
+Test WRC+pos:
+ p1:x0=0  p2:x0=0  p2:x2=0  : 104987
+ p1:x0=1  p2:x0=0  p2:x2=1  : 128100
+ p1:x0=0  p2:x0=1  p2:x2=1  : 80378
+ p1:x0=1  p2:x0=1  p2:x2=1  : 10642
+ p1:x0=1  p2:x0=0  p2:x2=0  : 77761
+ p1:x0=0  p2:x0=0  p2:x2=1  : 49173
+ p1:x0=0  p2:x0=1  p2:x2=0  : 48842
+ p1:x0=1  p2:x0=1  p2:x2=0  : 117 *
+Observation WRC+pos: 117 (of 500000)
+
+Test LB+R-svc-W+R-svc-W:
+ p0:x0=1  p1:x0=0  : 102833
+ p0:x0=0  p1:x0=0  : 345101
+ p0:x0=0  p1:x0=1  : 52066
+Observation LB+R-svc-W+R-svc-W: 0 (of 500000)
+
+Test MP+W-svc-W+addr:
+ p1:x0=1  p1:x2=1  : 155824
+ p1:x0=0  p1:x2=1  : 219189
+ p1:x0=0  p1:x2=0  : 124987
+Observation MP+W-svc-W+addr: 0 (of 500000)
+
+Test MP+dmb+R-svc-eret-R:
+ p1:x0=0  p1:x2=0  : 194219
+ p1:x0=1  p1:x2=1  : 71726
+ p1:x0=0  p1:x2=1  : 234055
+Observation MP+dmb+R-svc-eret-R: 0 (of 500000)
+
+Test MP+dmb+eret:
+ p1:x0=1  p1:x2=1  : 124453
+ p1:x0=0  p1:x2=0  : 204742
+ p1:x0=0  p1:x2=1  : 170805
+Observation MP+dmb+eret: 0 (of 500000)
+
+Test MP+dmb+svc:
+ p1:x0=1  p1:x2=1  : 65480
+ p1:x0=0  p1:x2=1  : 248504
+ p1:x0=0  p1:x2=0  : 186016
+Observation MP+dmb+svc: 0 (of 500000)
+
+Test MP+dmb+svc2-R-eret-R:
+ p1:x0=0  p1:x2=0  : 93859
+ p1:x0=1  p1:x2=1  : 171982
+ p1:x0=0  p1:x2=1  : 234159
+Observation MP+dmb+svc2-R-eret-R: 0 (of 500000)
+
+Test MP+dmb+svc-R-eret-svc-R:
+ p1:x0=0  p1:x2=0  : 78707
+ p1:x0=1  p1:x2=1  : 98868
+ p1:x0=0  p1:x2=1  : 322425
+Observation MP+dmb+svc-R-eret-svc-R: 0 (of 500000)
+
+Test MP+dmb+svc-R-svc-R:
+ p1:x0=1  p1:x2=1  : 111487
+ p1:x0=0  p1:x2=0  : 84589
+ p1:x0=0  p1:x2=1  : 303924
+Observation MP+dmb+svc-R-svc-R: 0 (of 500000)
+
+Test MP+dmb+svc-R-svc-eret-R:
+ p1:x0=1  p1:x2=1  : 148508
+ p1:x0=0  p1:x2=0  : 62316
+ p1:x0=0  p1:x2=1  : 289176
+Observation MP+dmb+svc-R-svc-eret-R: 0 (of 500000)
+
+Test MP+svc-W-eret-W+addr:
+ p1:x0=1  p1:x2=1  : 166621
+ p1:x0=0  p1:x2=1  : 136122
+ p1:x0=0  p1:x2=0  : 197255
+ p1:x0=1  p1:x2=0  : 2 *
+Observation MP+svc-W-eret-W+addr: 2 (of 500000)
+
+Test SB+W-svc-R+W-svc-R:
+ p0:x2=1  p1:x2=1  : 209446
+ p0:x2=0  p1:x2=1  : 50021
+ p0:x2=1  p1:x2=0  : 240521
+ p0:x2=0  p1:x2=0  : 12 *
+Observation SB+W-svc-R+W-svc-R: 12 (of 500000)
+
+Test SB+svc-erets:
+ p0:x2=0  p1:x2=1  : 71646
+ p0:x2=1  p1:x2=1  : 186126
+ p0:x2=1  p1:x2=0  : 242225
+ p0:x2=0  p1:x2=0  : 3 *
+Observation SB+svc-erets: 3 (of 500000)
+
+Test MP.BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 441209
+ p1:x0=0  p1:x2=2  : 52834
+ p1:x0=1  p1:x2=1  : 5727
+ p1:x0=0  p1:x2=1  : 230
+Observation MP.BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+
+Test MP.BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 432484
+ p1:x0=0  p1:x2=2  : 62068
+ p1:x0=0  p1:x2=1  : 171
+ p1:x0=1  p1:x2=1  : 5277
+Observation MP.BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+
+Test MP.BBM1+dsb-tlbiis-dsb-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 460099
+ p1:x0=0  p1:x2=2  : 34155
+ p1:x0=1  p1:x2=1  : 5358
+ p1:x0=0  p1:x2=1  : 388
+Observation MP.BBM1+dsb-tlbiis-dsb-dsb+dsb-isb: 0 (of 500000)
+
+Test MP.BBM1+dsb-tlbiis-dsb-dsb-isb+dsb:
+ p1:x0=0  p1:x2=0  : 464828
+ p1:x0=0  p1:x2=2  : 30175
+ p1:x0=1  p1:x2=1  : 4780
+ p1:x0=0  p1:x2=1  : 217
+Observation MP.BBM1+dsb-tlbiis-dsb-dsb-isb+dsb: 0 (of 500000)
+
+Test MP.BBM1+dsb-tlbiis-dsb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 432577
+ p1:x0=0  p1:x2=2  : 61735
+ p1:x0=0  p1:x2=1  : 377
+ p1:x0=1  p1:x2=1  : 5311
+Observation MP.BBM1+dsb-tlbiis-dsb-dsb-isb+dsb-isb: 0 (of 500000)
+
+Test MP.BBM1.id+dsb-tlbiis-dsb-dsb+dsb-isb:
+ p1:x0=1  p1:x2=0  : 2 *
+ p1:x0=1  p1:x2=1  : 5221
+ p1:x0=0  p1:x2=0  : 418290
+ p1:x0=0  p1:x2=2  : 76135
+ p1:x0=0  p1:x2=1  : 352
+Observation MP.BBM1.id+dsb-tlbiis-dsb-dsb+dsb-isb: 2 (of 500000)
+
+Test CoRT:
+ p1:x0=0  p1:x2=0  : 310328
+ p1:x0=1  p1:x2=0  : 37941 *
+ p1:x0=1  p1:x2=1  : 48702
+ p1:x0=0  p1:x2=1  : 103029
+Observation CoRT: 37941 (of 500000)
+
+Test CoRT+dsb-isb:
+ p1:x0=0  p1:x2=0  : 384780
+ p1:x0=1  p1:x2=0  : 16472 *
+ p1:x0=0  p1:x2=1  : 54207
+ p1:x0=1  p1:x2=1  : 44541
+Observation CoRT+dsb-isb: 16472 (of 500000)
+
+Test CoTR:
+ p1:x0=0  p1:x2=0  : 333407
+ p1:x0=0  p1:x2=1  : 37425
+ p1:x0=1  p1:x2=1  : 38345
+ p1:x0=1  p1:x2=0  : 90823 *
+Observation CoTR: 90823 (of 500000)
+
+Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
+ p1:x0=0  p1:x2=0  : 2709
+ p1:x0=0  p1:x2=1  : 430984
+ p1:x0=1  p1:x2=1  : 66307
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+
+Test CoTR1+dsb-tlbi-dsb-isb:
+ p1:x0=0  p1:x2=0  : 4650
+ p1:x0=1  p1:x2=1  : 56021
+ p1:x0=0  p1:x2=1  : 439329
+Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+
+Test CoTR1.tlbi+dsb-isb:
+ p1:x0=1  p1:x2=1  : 492745
+ p1:x0=0  p1:x2=0  : 3881
+ p1:x0=0  p1:x2=1  : 3374
+Observation CoTR1.tlbi+dsb-isb: 0 (of 500000)
+
+Test CoTR+addr:
+ p1:x0=0  p1:x2=0  : 263226
+ p1:x0=0  p1:x2=1  : 87628
+ p1:x0=1  p1:x2=1  : 149146
+Observation CoTR+addr: 0 (of 500000)
+
+Test CoTR+dmb:
+ p1:x0=0  p1:x2=0  : 261956
+ p1:x0=0  p1:x2=1  : 91094
+ p1:x0=1  p1:x2=1  : 146950
+Observation CoTR+dmb: 0 (of 500000)
+
+Test CoTR+dsb:
+ p1:x0=0  p1:x2=0  : 279692
+ p1:x0=0  p1:x2=1  : 107897
+ p1:x0=1  p1:x2=1  : 112411
+Observation CoTR+dsb: 0 (of 500000)
+
+Test CoTR+dsb-isb:
+ p1:x0=0  p1:x2=0  : 226417
+ p1:x0=0  p1:x2=1  : 132205
+ p1:x0=1  p1:x2=1  : 141378
+Observation CoTR+dsb-isb: 0 (of 500000)
+
+Test CoTR.inv:
+ p1:x0=0  p1:x2=0  : 24828
+ p1:x0=1  p1:x2=0  : 368982 *
+ p1:x0=0  p1:x2=1  : 96816
+ p1:x0=1  p1:x2=1  : 9374
+Observation CoTR.inv: 368982 (of 500000)
+
+Test CoTR.inv+dsb-isb:
+ p1:x0=1  p1:x2=1  : 347809
+ p1:x0=0  p1:x2=1  : 140962
+ p1:x0=0  p1:x2=0  : 11229
+Observation CoTR.inv+dsb-isb: 0 (of 500000)
+
+Test CoTT:
+ p1:x0=0  p1:x2=0  : 372345
+ p1:x0=1  p1:x2=1  : 127655
+Observation CoTT: 0 (of 500000)
+Warning on CoTT: saw 2 SC results but expected 3
+
+Test CoWT:
+ p0:x2=1  : 249669 *
+ p0:x2=2  : 250331
+Observation CoWT: 249669 (of 500000)
+
+Test CoWT1+dsb-tlbi-dsb:
+ p0:x3=1  : 500000
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
+
+Test CoWT1+dsb-tlbi-dsb-isb:
+ p0:x3=1  : 500000
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
+
+Test CoWT+dsb:
+ p0:x2=1  : 249737 *
+ p0:x2=2  : 250263
+Observation CoWT+dsb: 249737 (of 500000)
+
+Test CoWT+dsb-isb:
+ p0:x2=1  : 249720 *
+ p0:x2=2  : 250280
+Observation CoWT+dsb-isb: 249720 (of 500000)
+
+Test CoWT+dsb-svc-tlbi-dsb:
+ p0:x2=2  : 500000
+Observation CoWT+dsb-svc-tlbi-dsb: 0 (of 500000)
+
+Test CoWT.inv:
+ p0:x2=1  : 500000
+Observation CoWT.inv: 0 (of 500000)
+
+Test CoWT.inv+dmb:
+ p0:x2=1  : 500000
+Observation CoWT.inv+dmb: 0 (of 500000)
+
+Test CoWT.inv+dsb:
+ p0:x2=1  : 500000
+Observation CoWT.inv+dsb: 0 (of 500000)
+
+Test CoWT.inv+dsb-isb:
+ p0:x2=1  : 500000
+Observation CoWT.inv+dsb-isb: 0 (of 500000)
+
+Test CoWinvT:
+ p0:x2=0  : 249213 *
+ p0:x2=1  : 250787
+Observation CoWinvT: 249213 (of 500000)
+
+Test CoWinvT1+dsb-tlbi-dsb:
+ p0:x2=1  : 500000
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
+
+Test CoWinvT+dsb-isb:
+ p0:x2=0  : 249200 *
+ p0:x2=1  : 250800
+Observation CoWinvT+dsb-isb: 249200 (of 500000)
+
+Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
+ p0:x5=1  : 500000
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
+
+Test ISA2.TRR+dmb+po+dmb:
+ p1:x0=1  p2:x0=0  p2:x2=0  : 3418
+ p1:x0=1  p2:x0=0  p2:x2=1  : 13014
+ p1:x0=0  p2:x0=0  p2:x2=0  : 235943
+ p1:x0=0  p2:x0=0  p2:x2=1  : 104517
+ p1:x0=0  p2:x0=1  p2:x2=0  : 27076
+ p1:x0=0  p2:x0=1  p2:x2=1  : 115798
+ p1:x0=1  p2:x0=1  p2:x2=1  : 234
+Observation ISA2.TRR+dmb+po+dmb: 0 (of 500000)
+
+Test MP.RT1+dc-dsb-tlbiall-dsb+dsb-isb:
+ p1:x0=1  p1:x2=0  : 1 *
+ p1:x0=0  p1:x2=0  : 404306
+ p1:x0=1  p1:x2=1  : 5530
+ p1:x0=0  p1:x2=1  : 90163
+Observation MP.RT1+dc-dsb-tlbiall-dsb+dsb-isb: 1 (of 500000)
+
+Test MP.RT1+dc-dsb-tlbiall-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 377370
+ p1:x0=0  p1:x2=1  : 120132
+ p1:x0=1  p1:x2=1  : 2498
+Observation MP.RT1+dc-dsb-tlbiall-dsb-isb+dsb-isb: 0 (of 500000)
+
+Test MP.RT1+[dmb.ld]-dmb+dsb-isb:
+ p0:x2=0  p1:x0=0  p2:x0=0  p2:x2=0  : 94316
+ p0:x2=0  p1:x0=1  p2:x0=0  p2:x2=0  : 59585
+ p0:x2=1  p1:x0=0  p2:x0=0  p2:x2=0  : 125315
+ p0:x2=0  p1:x0=1  p2:x0=0  p2:x2=1  : 41800
+ p0:x2=0  p1:x0=0  p2:x0=1  p2:x2=0  : 17431
+ p0:x2=0  p1:x0=0  p2:x0=0  p2:x2=1  : 51605
+ p0:x2=1  p1:x0=0  p2:x0=0  p2:x2=1  : 46717
+ p0:x2=0  p1:x0=1  p2:x0=1  p2:x2=1  : 17070
+ p0:x2=0  p1:x0=0  p2:x0=1  p2:x2=1  : 18557
+ p0:x2=0  p1:x0=1  p2:x0=1  p2:x2=0  : 16750
+ p0:x2=1  p1:x0=0  p2:x0=1  p2:x2=1  : 4164
+ p0:x2=1  p1:x0=0  p2:x0=1  p2:x2=0  : 3827
+ p0:x2=1  p1:x0=1  p2:x0=0  p2:x2=1  : 1289
+ p0:x2=1  p1:x0=1  p2:x0=0  p2:x2=0  : 1525
+ p0:x2=1  p1:x0=1  p2:x0=1  p2:x2=1  : 24
+ p0:x2=1  p1:x0=1  p2:x0=1  p2:x2=0  : 25 *
+Observation MP.RT1+[dmb.ld]-dmb+dsb-isb: 25 (of 500000)
+Warning on MP.RT1+[dmb.ld]-dmb+dsb-isb: saw 15 SC results but expected 12
+
+Test MP.RT1+[dmb.ld]-dsb-tlbiis-dsb-isb+dmb:
+ p0:x2=1  p1:x0=0  p2:x0=0  p2:x2=0  : 110424
+ p0:x2=0  p1:x0=1  p2:x0=0  p2:x2=0  : 100522
+ p0:x2=0  p1:x0=1  p2:x0=0  p2:x2=1  : 82983
+ p0:x2=0  p1:x0=0  p2:x0=0  p2:x2=0  : 104436
+ p0:x2=1  p1:x0=0  p2:x0=0  p2:x2=1  : 35720
+ p0:x2=0  p1:x0=0  p2:x0=0  p2:x2=1  : 58063
+ p0:x2=0  p1:x0=1  p2:x0=1  p2:x2=1  : 1531
+ p0:x2=0  p1:x0=0  p2:x0=1  p2:x2=1  : 3880
+ p0:x2=1  p1:x0=0  p2:x0=1  p2:x2=1  : 2395
+ p0:x2=1  p1:x0=1  p2:x0=0  p2:x2=1  : 22
+ p0:x2=1  p1:x0=1  p2:x0=0  p2:x2=0  : 24
+Observation MP.RT1+[dmb.ld]-dsb-tlbiis-dsb-isb+dmb: 0 (of 500000)
+Warning on MP.RT1+[dmb.ld]-dsb-tlbiis-dsb-isb+dmb: saw 11 SC results but expected 12
+
+Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 398609
+ p1:x0=0  p1:x2=1  : 97189
+ p1:x0=1  p1:x2=1  : 4202
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+
+Test MP.RT1+dsb-tlbiall-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 328953
+ p1:x0=0  p1:x2=1  : 158442
+ p1:x0=1  p1:x2=1  : 12605
+Observation MP.RT1+dsb-tlbiall-dsb+dsb-isb: 0 (of 500000)
+
+Test MP.RT1+dsb-tlbiallis-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 383926
+ p1:x0=0  p1:x2=1  : 107182
+ p1:x0=1  p1:x2=1  : 8892
+Observation MP.RT1+dsb-tlbiallis-dsb+dsb-isb: 0 (of 500000)
+
+Test MP.RT1+dsb-tlbi-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 375276
+ p1:x0=0  p1:x2=1  : 118897
+ p1:x0=1  p1:x2=1  : 5827
+Observation MP.RT1+dsb-tlbi-dsb+dsb-isb: 0 (of 500000)
+
+Test MP.RT1+dsb-tlbiis-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 376571
+ p1:x0=0  p1:x2=1  : 115815
+ p1:x0=1  p1:x2=1  : 7614
+Observation MP.RT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+
+Test MP.RT1+dsb-tlbiis-dsb-isb+dmb:
+ p1:x0=0  p1:x2=0  : 367709
+ p1:x0=0  p1:x2=1  : 125296
+ p1:x0=1  p1:x2=1  : 6995
+Observation MP.RT1+dsb-tlbiis-dsb-isb+dmb: 0 (of 500000)
+
+Test MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 410740
+ p1:x0=0  p1:x2=1  : 83246
+ p1:x0=1  p1:x2=1  : 6014
+Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+
+Test MP.RT1+dsb-tlbiis-dsb-tlbiis-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 397490
+ p1:x0=0  p1:x2=1  : 95834
+ p1:x0=1  p1:x2=1  : 6676
+Observation MP.RT1+dsb-tlbiis-dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+
+Test MP.RT+svc-dsb-tlbi-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 330730
+ p1:x0=0  p1:x2=1  : 157741
+ p1:x0=1  p1:x2=1  : 11529
+Observation MP.RT+svc-dsb-tlbi-dsb+dsb-isb: 0 (of 500000)
+
+Test MP.RT+svc-dsb-tlbiis-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 343815
+ p1:x0=0  p1:x2=1  : 144904
+ p1:x0=1  p1:x2=1  : 11281
+Observation MP.RT+svc-dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+
+Test MP.RT.inv+dmb+addr:
+ p1:x0=0  p1:x2=0  : 253948
+ p1:x0=0  p1:x2=1  : 205355
+ p1:x0=1  p1:x2=1  : 40697
+Observation MP.RT.inv+dmb+addr: 0 (of 500000)
+
+Test MP.RT.inv+dmb+po:
+ p1:x0=0  p1:x2=1  : 231383
+ p1:x0=1  p1:x2=1  : 74494
+ p1:x0=0  p1:x2=0  : 194123
+Observation MP.RT.inv+dmb+po: 0 (of 500000)
+
+Test MP.TT+Winv-dmb-Winv+tpo:
+ p1:x0=0  p1:x2=0  : 422813
+ p1:x0=0  p1:x2=1  : 71823
+ p1:x0=1  p1:x2=1  : 2854
+ p1:x0=1  p1:x2=0  : 2510 *
+Observation MP.TT+Winv-dmb-Winv+tpo: 2510 (of 500000)
+
+Test MP.TT+dmb+dsb-isb:
+ p1:x0=1  p1:x2=0  : 1647 *
+ p1:x0=0  p1:x2=0  : 456225
+ p1:x0=0  p1:x2=1  : 40363
+ p1:x0=1  p1:x2=1  : 1765
+Observation MP.TT+dmb+dsb-isb: 1647 (of 500000)
+
+Test MP.TT+dmb+tpo:
+ p1:x0=0  p1:x2=0  : 404778
+ p1:x0=0  p1:x2=1  : 88159
+ p1:x0=1  p1:x2=0  : 3281 *
+ p1:x0=1  p1:x2=1  : 3782
+Observation MP.TT+dmb+tpo: 3281 (of 500000)
+
+Test MP.TT.inv+dmb+dsb-isb:
+ p1:x0=0  p1:x2=1  : 389020
+ p1:x0=0  p1:x2=0  : 13766
+ p1:x0=1  p1:x2=1  : 97214
+Observation MP.TT.inv+dmb+dsb-isb: 0 (of 500000)
+
+Test MP.TT.inv+dmb+tpo:
+ p1:x0=0  p1:x2=0  : 37778
+ p1:x0=1  p1:x2=1  : 67392
+ p1:x0=0  p1:x2=1  : 394830
+Observation MP.TT.inv+dmb+tpo: 0 (of 500000)
+
+Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 355833
+ p1:x0=0  p1:x2=1  : 140668
+ p1:x0=1  p1:x2=1  : 3499
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+
+Test MP.invRT1+dsb-tlbiis-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 378030
+ p1:x0=0  p1:x2=1  : 118223
+ p1:x0=1  p1:x2=1  : 3747
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+
+Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 370210
+ p1:x0=0  p1:x2=1  : 126251
+ p1:x0=1  p1:x2=1  : 3539
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+
+Test MP.invRT+dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 356925
+ p1:x0=1  p1:x2=0  : 11089 *
+ p1:x0=1  p1:x2=1  : 60410
+ p1:x0=0  p1:x2=1  : 71576
+Observation MP.invRT+dsb+dsb-isb: 11089 (of 500000)
+
+Test WRC.AT+ctrl+dsb:
+ p1:x2=1  p2:x0=0  p2:x2=0  : 198852
+ p1:x2=0  p2:x0=0  p2:x2=0  : 82361
+ p1:x2=1  p2:x0=1  p2:x2=0  : 79508
+ p1:x2=1  p2:x0=1  p2:x2=1  : 67405
+ p1:x2=0  p2:x0=0  p2:x2=1  : 32174
+ p1:x2=1  p2:x0=0  p2:x2=1  : 32833
+ p1:x2=0  p2:x0=1  p2:x2=1  : 5043
+ p1:x2=0  p2:x0=1  p2:x2=0  : 1824 *
+Observation WRC.AT+ctrl+dsb: 1824 (of 500000)
+
+Test WRC.TRR+addr+dmb:
+ p1:x0=0  p2:x0=0  p2:x2=1  : 296312
+ p1:x0=1  p2:x0=0  p2:x2=1  : 104298
+ p1:x0=1  p2:x0=1  p2:x2=1  : 1533
+ p1:x0=0  p2:x0=1  p2:x2=1  : 97857
+Observation WRC.TRR+addr+dmb: 0 (of 500000)
+Warning on WRC.TRR+addr+dmb: saw 4 SC results but expected 7
+
+Test WRC.TRR.inv+addrs:
+ p1:x0=0  p2:x0=1  p2:x2=1  : 66332
+ p1:x0=1  p2:x0=0  p2:x2=1  : 128547
+ p1:x0=0  p2:x0=0  p2:x2=1  : 301656
+ p1:x0=1  p2:x0=1  p2:x2=1  : 3465
+Observation WRC.TRR.inv+addrs: 0 (of 500000)
+Warning on WRC.TRR.inv+addrs: saw 4 SC results but expected 7
+
+Test WRC.TRT1+dsb-tlbiis-dsb+dmb:
+ p1:x0=0  p2:x0=0  p2:x2=0  : 277135
+ p1:x0=0  p2:x0=0  p2:x2=1  : 131903
+ p1:x0=1  p2:x0=0  p2:x2=1  : 29652
+ p1:x0=1  p2:x0=0  p2:x2=0  : 56660
+ p1:x0=1  p2:x0=1  p2:x2=1  : 981
+ p1:x0=0  p2:x0=1  p2:x2=1  : 3613
+ p1:x0=0  p2:x0=1  p2:x2=0  : 56
+Observation WRC.TRT1+dsb-tlbiis-dsb+dmb: 0 (of 500000)
+
+Test WRC.TRT1+dsb-tlbiis-dsb+dsb-isb:
+ p1:x0=0  p2:x0=0  p2:x2=0  : 274457
+ p1:x0=1  p2:x0=0  p2:x2=0  : 56806
+ p1:x0=1  p2:x0=0  p2:x2=1  : 28931
+ p1:x0=0  p2:x0=0  p2:x2=1  : 133465
+ p1:x0=0  p2:x0=1  p2:x2=1  : 5014
+ p1:x0=1  p2:x0=1  p2:x2=1  : 1215
+ p1:x0=0  p2:x0=1  p2:x2=0  : 112
+Observation WRC.TRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+
+Test WRC.TRT+addr+dmb:
+ p1:x0=0  p2:x0=0  p2:x2=0  : 231740
+ p1:x0=0  p2:x0=0  p2:x2=1  : 57349
+ p1:x0=0  p2:x0=1  p2:x2=0  : 59696
+ p1:x0=1  p2:x0=0  p2:x2=1  : 33169
+ p1:x0=0  p2:x0=1  p2:x2=1  : 49096
+ p1:x0=1  p2:x0=0  p2:x2=0  : 66531
+ p1:x0=1  p2:x0=1  p2:x2=0  : 1072 *
+ p1:x0=1  p2:x0=1  p2:x2=1  : 1347
+Observation WRC.TRT+addr+dmb: 1072 (of 500000)
+
+Test WRC.TRT+dmbs:
+ p1:x0=0  p2:x0=0  p2:x2=0  : 178747
+ p1:x0=1  p2:x0=0  p2:x2=0  : 129148
+ p1:x0=1  p2:x0=0  p2:x2=1  : 49702
+ p1:x0=0  p2:x0=0  p2:x2=1  : 33314
+ p1:x0=0  p2:x0=1  p2:x2=0  : 54224
+ p1:x0=0  p2:x0=1  p2:x2=1  : 50222
+ p1:x0=1  p2:x0=1  p2:x2=1  : 2903
+ p1:x0=1  p2:x0=1  p2:x2=0  : 1740 *
+Observation WRC.TRT+dmbs: 1740 (of 500000)
+
+Test WRC.TRT+dsb-isbs:
+ p1:x0=0  p2:x0=0  p2:x2=0  : 198658
+ p1:x0=0  p2:x0=1  p2:x2=1  : 38987
+ p1:x0=1  p2:x0=0  p2:x2=0  : 134929
+ p1:x0=1  p2:x0=0  p2:x2=1  : 48894
+ p1:x0=0  p2:x0=1  p2:x2=0  : 36456
+ p1:x0=0  p2:x0=0  p2:x2=1  : 39144
+ p1:x0=1  p2:x0=1  p2:x2=1  : 1526
+ p1:x0=1  p2:x0=1  p2:x2=0  : 1406 *
+Observation WRC.TRT+dsb-isbs: 1406 (of 500000)
+
+Test WRC.TRT.inv+addrs:
+ p1:x0=1  p2:x0=0  p2:x2=0  : 131664
+ p1:x0=0  p2:x0=0  p2:x2=0  : 49095
+ p1:x0=0  p2:x0=0  p2:x2=1  : 96348
+ p1:x0=1  p2:x0=0  p2:x2=1  : 205710
+ p1:x0=0  p2:x0=1  p2:x2=1  : 10867
+ p1:x0=0  p2:x0=1  p2:x2=0  : 428
+ p1:x0=1  p2:x0=1  p2:x2=1  : 5888
+Observation WRC.TRT.inv+addrs: 0 (of 500000)
+
+Test WRC.TRT.inv+dsb-isbs:
+ p1:x0=0  p2:x0=0  p2:x2=1  : 360516
+ p1:x0=0  p2:x0=1  p2:x2=1  : 28597
+ p1:x0=0  p2:x0=0  p2:x2=0  : 109957
+ p1:x0=0  p2:x0=1  p2:x2=0  : 930
+Observation WRC.TRT.inv+dsb-isbs: 0 (of 500000)
+Warning on WRC.TRT.inv+dsb-isbs: saw 4 SC results but expected 7
+
+Test WRC.TRT.inv+po+addr:
+ p1:x0=0  p2:x0=0  p2:x2=1  : 317821
+ p1:x0=0  p2:x0=0  p2:x2=0  : 165367
+ p1:x0=0  p2:x0=1  p2:x2=1  : 16291
+ p1:x0=0  p2:x0=1  p2:x2=0  : 521
+Observation WRC.TRT.inv+po+addr: 0 (of 500000)
+Warning on WRC.TRT.inv+po+addr: saw 4 SC results but expected 7
+
+Test WRC.TRT.inv+po+dmb:
+ p1:x0=0  p2:x0=0  p2:x2=0  : 214291
+ p1:x0=0  p2:x0=0  p2:x2=1  : 273126
+ p1:x0=0  p2:x0=1  p2:x2=1  : 12120
+ p1:x0=0  p2:x0=1  p2:x2=0  : 463
+Observation WRC.TRT.inv+po+dmb: 0 (of 500000)
+Warning on WRC.TRT.inv+po+dmb: saw 4 SC results but expected 7
+
+Test CoWR.alias:
+ p0:x2=1  : 500000
+Observation CoWR.alias: 0 (of 500000)
+
+Test MP+dmb-data+dmb:
+ p1:x0=0  p1:x2=1  : 147174
+ p1:x0=1  p1:x2=1  : 157203
+ p1:x0=0  p1:x2=0  : 195623
+Observation MP+dmb-data+dmb: 0 (of 500000)
+
+Test MP+po-data+dmb:
+ p1:x0=0  p1:x2=0  : 260224
+ p1:x0=0  p1:x2=1  : 117522
+ p1:x0=1  p1:x2=1  : 121234
+ p1:x0=1  p1:x2=0  : 1020 *
+Observation MP+po-data+dmb: 1020 (of 500000)
+
+Test MP.alias2+dmb-data+dmb:
+ p1:x0=0  p1:x2=0  : 269205
+ p1:x0=0  p1:x2=1  : 156980
+ p1:x0=1  p1:x2=1  : 73815
+Observation MP.alias2+dmb-data+dmb: 0 (of 500000)
+
+Test MP.alias2+po-data+dmb:
+ p1:x0=0  p1:x2=0  : 304799
+ p1:x0=1  p1:x2=0  : 4621 *
+ p1:x0=0  p1:x2=1  : 95314
+ p1:x0=1  p1:x2=1  : 95266
+Observation MP.alias2+po-data+dmb: 4621 (of 500000)
+
+Test MP.alias+dmbs:
+ p1:x0=0  p1:x2=0  : 282047
+ p1:x0=1  p1:x2=1  : 203250
+ p1:x0=0  p1:x2=1  : 14703
+Observation MP.alias+dmbs: 0 (of 500000)
+Warning on MP.alias+dmbs: saw 3 SC results but expected 1
+
+Test SB.alias+dmbs:
+ p0:x2=1  p1:x2=1  : 500000
+Observation SB.alias+dmbs: 0 (of 500000)
+#elapsed time: 03:43:33
++ echo Starting bin/kvm_litmus.exe
+Starting bin/kvm_litmus.exe
+++ mktemp
++ tmp=/tmp/tmp.cXeMunysz9
++ base64 -d
++ zcat
++ qemu-system-aarch64 -nodefaults -machine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.cXeMunysz9 -smp 4 -append '@all -n500k --no-verbose'
+qemu-system-aarch64: warning: ITS KVM: full reset is not supported by the host kernel
+#seed: 20035564
+#pgtable: 1
+#timing: 0
+#no_runs: 500000
+#sync_type: all
+#aff_type: rand
+#shuffle_type: rand
+! skipping "MP.times+pos":  requires --perf
+
+Test check1:
+ exc=0  : 500000
+Observation check1: 0 (of 500000)
+
+Test check2:
+ exc=0  : 500000
+Observation check2: 0 (of 500000)
+
+Test check3:
+ p1:x0=1  p1:x2=0  : 214227
+ p1:x0=0  p1:x2=1  : 121390
+ p1:x0=0  p1:x2=0  : 164383
+Observation check3: 0 (of 500000)
+
+Test check4:
+ p0:x0=0  : 500000
+Observation check4: 0 (of 500000)
+
+Test check5:
+ p0:x0=1  : 500000
+Observation check5: 0 (of 500000)
+
+Test check6:
+ p0:x0=0  : 500000
+Observation check6: 0 (of 500000)
+
+Test LB+pos:
+ p0:x2=0  p1:x2=0  : 154807
+ p0:x2=1  p1:x2=0  : 256932
+ p0:x2=0  p1:x2=1  : 88261
+Observation LB+pos: 0 (of 500000)
+
+Test MP+dmbs:
+ p1:x0=0  p1:x2=0  : 215708
+ p1:x0=1  p1:x2=1  : 131528
+ p1:x0=0  p1:x2=1  : 152764
+Observation MP+dmbs: 0 (of 500000)
+
+Test MP+pos:
+ p1:x0=0  p1:x2=0  : 258245
+ p1:x0=1  p1:x2=1  : 106415
+ p1:x0=0  p1:x2=1  : 86638
+ p1:x0=1  p1:x2=0  : 48702 *
+Observation MP+pos: 48702 (of 500000)
+
+Test SB+dmbs:
+ p0:x2=0  p1:x2=1  : 105623
+ p0:x2=1  p1:x2=0  : 271637
+ p0:x2=1  p1:x2=1  : 122740
+Observation SB+dmbs: 0 (of 500000)
+
+Test SB+pos:
+ p0:x2=1  p1:x2=0  : 294610
+ p0:x2=0  p1:x2=1  : 92218
+ p0:x2=0  p1:x2=0  : 38968 *
+ p0:x2=1  p1:x2=1  : 74204
+Observation SB+pos: 38968 (of 500000)
+
+Test WRC+addrs:
+ p1:x0=1  p2:x0=0  p2:x2=1  : 133336
+ p1:x0=0  p2:x0=1  p2:x2=1  : 143969
+ p1:x0=0  p2:x0=0  p2:x2=1  : 73342
+ p1:x0=0  p2:x0=0  p2:x2=0  : 85798
+ p1:x0=1  p2:x0=1  p2:x2=1  : 14308
+ p1:x0=1  p2:x0=0  p2:x2=0  : 40312
+ p1:x0=0  p2:x0=1  p2:x2=0  : 8935
+Observation WRC+addrs: 0 (of 500000)
+
+Test WRC+pos:
+ p1:x0=0  p2:x0=1  p2:x2=1  : 93086
+ p1:x0=0  p2:x0=0  p2:x2=0  : 81409
+ p1:x0=0  p2:x0=1  p2:x2=0  : 41426
+ p1:x0=1  p2:x0=0  p2:x2=1  : 133588
+ p1:x0=1  p2:x0=1  p2:x2=1  : 19461
+ p1:x0=0  p2:x0=0  p2:x2=1  : 48691
+ p1:x0=1  p2:x0=0  p2:x2=0  : 81940
+ p1:x0=1  p2:x0=1  p2:x2=0  : 399 *
+Observation WRC+pos: 399 (of 500000)
+
+Test LB+R-svc-W+R-svc-W:
+ p0:x0=0  p1:x0=0  : 347951
+ p0:x0=0  p1:x0=1  : 50726
+ p0:x0=1  p1:x0=0  : 101323
+Observation LB+R-svc-W+R-svc-W: 0 (of 500000)
+
+Test MP+W-svc-W+addr:
+ p1:x0=1  p1:x2=1  : 200591
+ p1:x0=0  p1:x2=1  : 221814
+ p1:x0=0  p1:x2=0  : 77595
+Observation MP+W-svc-W+addr: 0 (of 500000)
+
+Test MP+dmb+R-svc-eret-R:
+ p1:x0=1  p1:x2=1  : 60687
+ p1:x0=0  p1:x2=0  : 219370
+ p1:x0=0  p1:x2=1  : 219943
+Observation MP+dmb+R-svc-eret-R: 0 (of 500000)
+
+Test MP+dmb+eret:
+ p1:x0=0  p1:x2=0  : 217952
+ p1:x0=0  p1:x2=1  : 150969
+ p1:x0=1  p1:x2=1  : 131079
+Observation MP+dmb+eret: 0 (of 500000)
+
+Test MP+dmb+svc:
+ p1:x0=0  p1:x2=1  : 242445
+ p1:x0=1  p1:x2=1  : 61754
+ p1:x0=0  p1:x2=0  : 195801
+Observation MP+dmb+svc: 0 (of 500000)
+
+Test MP+dmb+svc2-R-eret-R:
+ p1:x0=1  p1:x2=1  : 180725
+ p1:x0=0  p1:x2=0  : 114598
+ p1:x0=0  p1:x2=1  : 204677
+Observation MP+dmb+svc2-R-eret-R: 0 (of 500000)
+
+Test MP+dmb+svc-R-eret-svc-R:
+ p1:x0=0  p1:x2=0  : 77444
+ p1:x0=0  p1:x2=1  : 309050
+ p1:x0=1  p1:x2=1  : 113506
+Observation MP+dmb+svc-R-eret-svc-R: 0 (of 500000)
+
+Test MP+dmb+svc-R-svc-R:
+ p1:x0=0  p1:x2=1  : 286119
+ p1:x0=0  p1:x2=0  : 89979
+ p1:x0=1  p1:x2=1  : 123902
+Observation MP+dmb+svc-R-svc-R: 0 (of 500000)
+
+Test MP+dmb+svc-R-svc-eret-R:
+ p1:x0=1  p1:x2=1  : 189825
+ p1:x0=0  p1:x2=1  : 175765
+ p1:x0=0  p1:x2=0  : 134410
+Observation MP+dmb+svc-R-svc-eret-R: 0 (of 500000)
+
+Test MP+svc-W-eret-W+addr:
+ p1:x0=0  p1:x2=0  : 154127
+ p1:x0=1  p1:x2=1  : 200608
+ p1:x0=0  p1:x2=1  : 145260
+ p1:x0=1  p1:x2=0  : 5 *
+Observation MP+svc-W-eret-W+addr: 5 (of 500000)
+
+Test SB+W-svc-R+W-svc-R:
+ p0:x2=0  p1:x2=1  : 33160
+ p0:x2=1  p1:x2=0  : 281834
+ p0:x2=1  p1:x2=1  : 185003
+ p0:x2=0  p1:x2=0  : 3 *
+Observation SB+W-svc-R+W-svc-R: 3 (of 500000)
+
+Test SB+svc-erets:
+ p0:x2=1  p1:x2=0  : 267822
+ p0:x2=1  p1:x2=1  : 175796
+ p0:x2=0  p1:x2=1  : 56379
+ p0:x2=0  p1:x2=0  : 3 *
+Observation SB+svc-erets: 3 (of 500000)
+
+Test MP.BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 430449
+ p1:x0=0  p1:x2=2  : 64779
+ p1:x0=0  p1:x2=1  : 226
+ p1:x0=1  p1:x2=1  : 4546
+Observation MP.BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb: 0 (of 500000)
+
+Test MP.BBM1+dsb-tlbiis-dsb-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 442578
+ p1:x0=0  p1:x2=2  : 52319
+ p1:x0=1  p1:x2=1  : 4912
+ p1:x0=0  p1:x2=1  : 191
+Observation MP.BBM1+dsb-tlbiis-dsb-dsb+dsb: 0 (of 500000)
+
+Test MP.BBM1+dsb-tlbiis-dsb-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 457797
+ p1:x0=0  p1:x2=2  : 36300
+ p1:x0=1  p1:x2=1  : 5515
+ p1:x0=0  p1:x2=1  : 388
+Observation MP.BBM1+dsb-tlbiis-dsb-dsb+dsb-isb: 0 (of 500000)
+
+Test MP.BBM1+dsb-tlbiis-dsb-dsb-isb+dsb:
+ p1:x0=1  p1:x2=1  : 3987
+ p1:x0=0  p1:x2=0  : 462479
+ p1:x0=0  p1:x2=2  : 33390
+ p1:x0=0  p1:x2=1  : 144
+Observation MP.BBM1+dsb-tlbiis-dsb-dsb-isb+dsb: 0 (of 500000)
+
+Test MP.BBM1+dsb-tlbiis-dsb-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 434035
+ p1:x0=0  p1:x2=2  : 61248
+ p1:x0=0  p1:x2=1  : 331
+ p1:x0=1  p1:x2=1  : 4386
+Observation MP.BBM1+dsb-tlbiis-dsb-dsb-isb+dsb-isb: 0 (of 500000)
+
+Test MP.BBM1.id+dsb-tlbiis-dsb-dsb+dsb-isb:
+ p1:x0=1  p1:x2=0  : 1 *
+ p1:x0=0  p1:x2=0  : 418044
+ p1:x0=0  p1:x2=2  : 73369
+ p1:x0=0  p1:x2=1  : 557
+ p1:x0=1  p1:x2=1  : 8029
+Observation MP.BBM1.id+dsb-tlbiis-dsb-dsb+dsb-isb: 1 (of 500000)
+
+Test CoRT:
+ p1:x0=0  p1:x2=0  : 315004
+ p1:x0=1  p1:x2=0  : 39638 *
+ p1:x0=0  p1:x2=1  : 100984
+ p1:x0=1  p1:x2=1  : 44374
+Observation CoRT: 39638 (of 500000)
+
+Test CoRT+dsb-isb:
+ p1:x0=0  p1:x2=0  : 394830
+ p1:x0=0  p1:x2=1  : 62126
+ p1:x0=1  p1:x2=0  : 20056 *
+ p1:x0=1  p1:x2=1  : 22988
+Observation CoRT+dsb-isb: 20056 (of 500000)
+
+Test CoTR:
+ p1:x0=0  p1:x2=0  : 344509
+ p1:x0=1  p1:x2=1  : 33317
+ p1:x0=0  p1:x2=1  : 32522
+ p1:x0=1  p1:x2=0  : 89652 *
+Observation CoTR: 89652 (of 500000)
+
+Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
+ p1:x0=0  p1:x2=1  : 417144
+ p1:x0=1  p1:x2=1  : 75348
+ p1:x0=0  p1:x2=0  : 7508
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+
+Test CoTR1+dsb-tlbi-dsb-isb:
+ p1:x0=0  p1:x2=0  : 4851
+ p1:x0=0  p1:x2=1  : 440650
+ p1:x0=1  p1:x2=1  : 54499
+Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
+
+Test CoTR1.tlbi+dsb-isb:
+ p1:x0=1  p1:x2=1  : 491565
+ p1:x0=0  p1:x2=0  : 5635
+ p1:x0=0  p1:x2=1  : 2800
+Observation CoTR1.tlbi+dsb-isb: 0 (of 500000)
+
+Test CoTR+addr:
+ p1:x0=0  p1:x2=0  : 264544
+ p1:x0=1  p1:x2=1  : 136708
+ p1:x0=0  p1:x2=1  : 98748
+Observation CoTR+addr: 0 (of 500000)
+
+Test CoTR+dmb:
+ p1:x0=0  p1:x2=0  : 266226
+ p1:x0=0  p1:x2=1  : 97282
+ p1:x0=1  p1:x2=1  : 136492
+Observation CoTR+dmb: 0 (of 500000)
+
+Test CoTR+dsb:
+ p1:x0=0  p1:x2=0  : 261440
+ p1:x0=1  p1:x2=1  : 123666
+ p1:x0=0  p1:x2=1  : 114894
+Observation CoTR+dsb: 0 (of 500000)
+
+Test CoTR+dsb-isb:
+ p1:x0=0  p1:x2=0  : 234637
+ p1:x0=0  p1:x2=1  : 127608
+ p1:x0=1  p1:x2=1  : 137755
+Observation CoTR+dsb-isb: 0 (of 500000)
+
+Test CoTR.inv:
+ p1:x0=1  p1:x2=0  : 343807 *
+ p1:x0=0  p1:x2=1  : 125586
+ p1:x0=0  p1:x2=0  : 23523
+ p1:x0=1  p1:x2=1  : 7084
+Observation CoTR.inv: 343807 (of 500000)
+
+Test CoTR.inv+dsb-isb:
+ p1:x0=1  p1:x2=1  : 336804
+ p1:x0=0  p1:x2=1  : 154300
+ p1:x0=0  p1:x2=0  : 8896
+Observation CoTR.inv+dsb-isb: 0 (of 500000)
+
+Test CoTT:
+ p1:x0=0  p1:x2=0  : 360816
+ p1:x0=1  p1:x2=1  : 139184
+Observation CoTT: 0 (of 500000)
+Warning on CoTT: saw 2 SC results but expected 3
+
+Test CoWT:
+ p0:x2=1  : 250024 *
+ p0:x2=2  : 249976
+Observation CoWT: 250024 (of 500000)
+
+Test CoWT1+dsb-tlbi-dsb:
+ p0:x3=1  : 500000
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
+
+Test CoWT1+dsb-tlbi-dsb-isb:
+ p0:x3=1  : 500000
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
+
+Test CoWT+dsb:
+ p0:x2=1  : 250103 *
+ p0:x2=2  : 249897
+Observation CoWT+dsb: 250103 (of 500000)
+
+Test CoWT+dsb-isb:
+ p0:x2=1  : 250109 *
+ p0:x2=2  : 249891
+Observation CoWT+dsb-isb: 250109 (of 500000)
+
+Test CoWT+dsb-svc-tlbi-dsb:
+ p0:x2=2  : 500000
+Observation CoWT+dsb-svc-tlbi-dsb: 0 (of 500000)
+
+Test CoWT.inv:
+ p0:x2=1  : 500000
+Observation CoWT.inv: 0 (of 500000)
+
+Test CoWT.inv+dmb:
+ p0:x2=1  : 500000
+Observation CoWT.inv+dmb: 0 (of 500000)
+
+Test CoWT.inv+dsb:
+ p0:x2=1  : 500000
+Observation CoWT.inv+dsb: 0 (of 500000)
+
+Test CoWT.inv+dsb-isb:
+ p0:x2=1  : 500000
+Observation CoWT.inv+dsb-isb: 0 (of 500000)
+
+Test CoWinvT:
+ p0:x2=0  : 256925 *
+ p0:x2=1  : 243075
+Observation CoWinvT: 256925 (of 500000)
+
+Test CoWinvT1+dsb-tlbi-dsb:
+ p0:x2=1  : 500000
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
+
+Test CoWinvT+dsb-isb:
+ p0:x2=0  : 255424 *
+ p0:x2=1  : 244576
+Observation CoWinvT+dsb-isb: 255424 (of 500000)
+
+Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
+ p0:x5=1  : 500000
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
+
+Test ISA2.TRR+dmb+po+dmb:
+ p1:x0=0  p2:x0=1  p2:x2=1  : 128891
+ p1:x0=0  p2:x0=0  p2:x2=0  : 202812
+ p1:x0=0  p2:x0=0  p2:x2=1  : 128820
+ p1:x0=1  p2:x0=0  p2:x2=1  : 16231
+ p1:x0=0  p2:x0=1  p2:x2=0  : 18617
+ p1:x0=1  p2:x0=0  p2:x2=0  : 4334
+ p1:x0=1  p2:x0=1  p2:x2=1  : 295
+Observation ISA2.TRR+dmb+po+dmb: 0 (of 500000)
+
+Test MP.RT1+dc-dsb-tlbiall-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 402534
+ p1:x0=0  p1:x2=1  : 90116
+ p1:x0=1  p1:x2=1  : 7350
+Observation MP.RT1+dc-dsb-tlbiall-dsb+dsb-isb: 0 (of 500000)
+
+Test MP.RT1+dc-dsb-tlbiall-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 372145
+ p1:x0=0  p1:x2=1  : 123306
+ p1:x0=1  p1:x2=1  : 4549
+Observation MP.RT1+dc-dsb-tlbiall-dsb-isb+dsb-isb: 0 (of 500000)
+
+Test MP.RT1+[dmb.ld]-dmb+dsb-isb:
+ p0:x2=1  p1:x0=0  p2:x0=0  p2:x2=0  : 129401
+ p0:x2=0  p1:x0=1  p2:x0=1  p2:x2=1  : 9035
+ p0:x2=0  p1:x0=0  p2:x0=0  p2:x2=0  : 108439
+ p0:x2=0  p1:x0=1  p2:x0=0  p2:x2=0  : 51731
+ p0:x2=1  p1:x0=0  p2:x0=0  p2:x2=1  : 60214
+ p0:x2=0  p1:x0=0  p2:x0=0  p2:x2=1  : 62608
+ p0:x2=0  p1:x0=0  p2:x0=1  p2:x2=1  : 23514
+ p0:x2=0  p1:x0=0  p2:x0=1  p2:x2=0  : 21721
+ p0:x2=0  p1:x0=1  p2:x0=0  p2:x2=1  : 18366
+ p0:x2=0  p1:x0=1  p2:x0=1  p2:x2=0  : 7543
+ p0:x2=1  p1:x0=0  p2:x0=1  p2:x2=0  : 3346
+ p0:x2=1  p1:x0=0  p2:x0=1  p2:x2=1  : 3602
+ p0:x2=1  p1:x0=1  p2:x0=0  p2:x2=1  : 205
+ p0:x2=1  p1:x0=1  p2:x0=0  p2:x2=0  : 245
+ p0:x2=1  p1:x0=1  p2:x0=1  p2:x2=1  : 19
+ p0:x2=1  p1:x0=1  p2:x0=1  p2:x2=0  : 11 *
+Observation MP.RT1+[dmb.ld]-dmb+dsb-isb: 11 (of 500000)
+Warning on MP.RT1+[dmb.ld]-dmb+dsb-isb: saw 15 SC results but expected 12
+
+Test MP.RT1+[dmb.ld]-dsb-tlbiis-dsb-isb+dmb:
+ p0:x2=0  p1:x0=1  p2:x0=0  p2:x2=0  : 71897
+ p0:x2=1  p1:x0=0  p2:x0=0  p2:x2=0  : 119496
+ p0:x2=0  p1:x0=1  p2:x0=1  p2:x2=1  : 1273
+ p0:x2=1  p1:x0=0  p2:x0=0  p2:x2=1  : 56905
+ p0:x2=0  p1:x0=0  p2:x0=0  p2:x2=0  : 121157
+ p0:x2=0  p1:x0=0  p2:x0=0  p2:x2=1  : 84206
+ p0:x2=0  p1:x0=0  p2:x0=1  p2:x2=1  : 4355
+ p0:x2=1  p1:x0=0  p2:x0=1  p2:x2=1  : 2579
+ p0:x2=0  p1:x0=1  p2:x0=0  p2:x2=1  : 38108
+ p0:x2=1  p1:x0=1  p2:x0=0  p2:x2=0  : 21
+ p0:x2=1  p1:x0=1  p2:x0=0  p2:x2=1  : 3
+Observation MP.RT1+[dmb.ld]-dsb-tlbiis-dsb-isb+dmb: 0 (of 500000)
+Warning on MP.RT1+[dmb.ld]-dsb-tlbiis-dsb-isb+dmb: saw 11 SC results but expected 12
+
+Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 408249
+ p1:x0=0  p1:x2=1  : 86053
+ p1:x0=1  p1:x2=1  : 5698
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+
+Test MP.RT1+dsb-tlbiall-dsb+dsb-isb:
+ p1:x0=1  p1:x2=1  : 17394
+ p1:x0=0  p1:x2=0  : 331095
+ p1:x0=0  p1:x2=1  : 151511
+Observation MP.RT1+dsb-tlbiall-dsb+dsb-isb: 0 (of 500000)
+
+Test MP.RT1+dsb-tlbiallis-dsb+dsb-isb:
+ p1:x0=1  p1:x2=1  : 6746
+ p1:x0=0  p1:x2=0  : 384378
+ p1:x0=0  p1:x2=1  : 108876
+Observation MP.RT1+dsb-tlbiallis-dsb+dsb-isb: 0 (of 500000)
+
+Test MP.RT1+dsb-tlbi-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 379674
+ p1:x0=0  p1:x2=1  : 114113
+ p1:x0=1  p1:x2=1  : 6213
+Observation MP.RT1+dsb-tlbi-dsb+dsb-isb: 0 (of 500000)
+
+Test MP.RT1+dsb-tlbiis-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 384624
+ p1:x0=0  p1:x2=1  : 111019
+ p1:x0=1  p1:x2=1  : 4357
+Observation MP.RT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+
+Test MP.RT1+dsb-tlbiis-dsb-isb+dmb:
+ p1:x0=0  p1:x2=0  : 378662
+ p1:x0=0  p1:x2=1  : 116811
+ p1:x0=1  p1:x2=1  : 4527
+Observation MP.RT1+dsb-tlbiis-dsb-isb+dmb: 0 (of 500000)
+
+Test MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 413285
+ p1:x0=0  p1:x2=1  : 79483
+ p1:x0=1  p1:x2=1  : 7232
+Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+
+Test MP.RT1+dsb-tlbiis-dsb-tlbiis-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 397280
+ p1:x0=0  p1:x2=1  : 98939
+ p1:x0=1  p1:x2=1  : 3781
+Observation MP.RT1+dsb-tlbiis-dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+
+Test MP.RT+svc-dsb-tlbi-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 330218
+ p1:x0=0  p1:x2=1  : 162701
+ p1:x0=1  p1:x2=1  : 7081
+Observation MP.RT+svc-dsb-tlbi-dsb+dsb-isb: 0 (of 500000)
+
+Test MP.RT+svc-dsb-tlbiis-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 372879
+ p1:x0=0  p1:x2=1  : 118632
+ p1:x0=1  p1:x2=1  : 8489
+Observation MP.RT+svc-dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+
+Test MP.RT.inv+dmb+addr:
+ p1:x0=0  p1:x2=0  : 259201
+ p1:x0=0  p1:x2=1  : 215691
+ p1:x0=1  p1:x2=1  : 25108
+Observation MP.RT.inv+dmb+addr: 0 (of 500000)
+
+Test MP.RT.inv+dmb+po:
+ p1:x0=1  p1:x2=1  : 35907
+ p1:x0=0  p1:x2=0  : 206949
+ p1:x0=0  p1:x2=1  : 257144
+Observation MP.RT.inv+dmb+po: 0 (of 500000)
+
+Test MP.TT+Winv-dmb-Winv+tpo:
+ p1:x0=0  p1:x2=0  : 417072
+ p1:x0=1  p1:x2=1  : 1857
+ p1:x0=0  p1:x2=1  : 79371
+ p1:x0=1  p1:x2=0  : 1700 *
+Observation MP.TT+Winv-dmb-Winv+tpo: 1700 (of 500000)
+
+Test MP.TT+dmb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 452420
+ p1:x0=0  p1:x2=1  : 40122
+ p1:x0=1  p1:x2=0  : 3756 *
+ p1:x0=1  p1:x2=1  : 3702
+Observation MP.TT+dmb+dsb-isb: 3756 (of 500000)
+
+Test MP.TT+dmb+tpo:
+ p1:x0=0  p1:x2=0  : 406016
+ p1:x0=0  p1:x2=1  : 84667
+ p1:x0=1  p1:x2=0  : 4470 *
+ p1:x0=1  p1:x2=1  : 4847
+Observation MP.TT+dmb+tpo: 4470 (of 500000)
+
+Test MP.TT.inv+dmb+dsb-isb:
+ p1:x0=0  p1:x2=1  : 413404
+ p1:x0=1  p1:x2=1  : 77051
+ p1:x0=0  p1:x2=0  : 9545
+Observation MP.TT.inv+dmb+dsb-isb: 0 (of 500000)
+
+Test MP.TT.inv+dmb+tpo:
+ p1:x0=0  p1:x2=0  : 29458
+ p1:x0=0  p1:x2=1  : 409242
+ p1:x0=1  p1:x2=1  : 61300
+Observation MP.TT.inv+dmb+tpo: 0 (of 500000)
+
+Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 376413
+ p1:x0=0  p1:x2=1  : 122195
+ p1:x0=1  p1:x2=1  : 1392
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+
+Test MP.invRT1+dsb-tlbiis-dsb+dsb:
+ p1:x0=0  p1:x2=0  : 377381
+ p1:x0=0  p1:x2=1  : 120750
+ p1:x0=1  p1:x2=1  : 1869
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+
+Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 373256
+ p1:x0=0  p1:x2=1  : 124872
+ p1:x0=1  p1:x2=1  : 1872
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+
+Test MP.invRT+dsb+dsb-isb:
+ p1:x0=0  p1:x2=0  : 367788
+ p1:x0=1  p1:x2=1  : 68200
+ p1:x0=0  p1:x2=1  : 57090
+ p1:x0=1  p1:x2=0  : 6922 *
+Observation MP.invRT+dsb+dsb-isb: 6922 (of 500000)
+
+Test WRC.AT+ctrl+dsb:
+ p1:x2=1  p2:x0=0  p2:x2=0  : 147979
+ p1:x2=0  p2:x0=0  p2:x2=1  : 36374
+ p1:x2=0  p2:x0=0  p2:x2=0  : 80931
+ p1:x2=1  p2:x0=1  p2:x2=0  : 92379
+ p1:x2=1  p2:x0=1  p2:x2=1  : 87322
+ p1:x2=1  p2:x0=0  p2:x2=1  : 38074
+ p1:x2=0  p2:x0=1  p2:x2=1  : 9229
+ p1:x2=0  p2:x0=1  p2:x2=0  : 7712 *
+Observation WRC.AT+ctrl+dsb: 7712 (of 500000)
+
+Test WRC.TRR+addr+dmb:
+ p1:x0=0  p2:x0=0  p2:x2=1  : 262983
+ p1:x0=1  p2:x0=0  p2:x2=1  : 127833
+ p1:x0=0  p2:x0=1  p2:x2=1  : 106577
+ p1:x0=1  p2:x0=1  p2:x2=1  : 2607
+Observation WRC.TRR+addr+dmb: 0 (of 500000)
+Warning on WRC.TRR+addr+dmb: saw 4 SC results but expected 7
+
+Test WRC.TRR.inv+addrs:
+ p1:x0=1  p2:x0=0  p2:x2=1  : 93106
+ p1:x0=0  p2:x0=1  p2:x2=1  : 78474
+ p1:x0=0  p2:x0=0  p2:x2=1  : 320862
+ p1:x0=1  p2:x0=1  p2:x2=1  : 7558
+Observation WRC.TRR.inv+addrs: 0 (of 500000)
+Warning on WRC.TRR.inv+addrs: saw 4 SC results but expected 7
+
+Test WRC.TRT1+dsb-tlbiis-dsb+dmb:
+ p1:x0=0  p2:x0=0  p2:x2=0  : 228469
+ p1:x0=0  p2:x0=0  p2:x2=1  : 161777
+ p1:x0=1  p2:x0=0  p2:x2=0  : 69606
+ p1:x0=1  p2:x0=0  p2:x2=1  : 33473
+ p1:x0=0  p2:x0=1  p2:x2=1  : 4642
+ p1:x0=0  p2:x0=1  p2:x2=0  : 101
+ p1:x0=1  p2:x0=1  p2:x2=1  : 1932
+Observation WRC.TRT1+dsb-tlbiis-dsb+dmb: 0 (of 500000)
+
+Test WRC.TRT1+dsb-tlbiis-dsb+dsb-isb:
+ p1:x0=0  p2:x0=0  p2:x2=0  : 242347
+ p1:x0=0  p2:x0=1  p2:x2=1  : 3118
+ p1:x0=0  p2:x0=0  p2:x2=1  : 152985
+ p1:x0=1  p2:x0=0  p2:x2=0  : 67494
+ p1:x0=1  p2:x0=0  p2:x2=1  : 32439
+ p1:x0=0  p2:x0=1  p2:x2=0  : 74
+ p1:x0=1  p2:x0=1  p2:x2=1  : 1543
+Observation WRC.TRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+
+Test WRC.TRT+addr+dmb:
+ p1:x0=0  p2:x0=1  p2:x2=0  : 59922
+ p1:x0=0  p2:x0=1  p2:x2=1  : 58483
+ p1:x0=0  p2:x0=0  p2:x2=0  : 181985
+ p1:x0=0  p2:x0=0  p2:x2=1  : 63313
+ p1:x0=1  p2:x0=0  p2:x2=1  : 41363
+ p1:x0=1  p2:x0=0  p2:x2=0  : 91487
+ p1:x0=1  p2:x0=1  p2:x2=0  : 1426 *
+ p1:x0=1  p2:x0=1  p2:x2=1  : 2021
+Observation WRC.TRT+addr+dmb: 1426 (of 500000)
+
+Test WRC.TRT+dmbs:
+ p1:x0=0  p2:x0=0  p2:x2=0  : 157988
+ p1:x0=0  p2:x0=1  p2:x2=1  : 67004
+ p1:x0=0  p2:x0=1  p2:x2=0  : 70470
+ p1:x0=0  p2:x0=0  p2:x2=1  : 44142
+ p1:x0=1  p2:x0=0  p2:x2=1  : 48877
+ p1:x0=1  p2:x0=0  p2:x2=0  : 107323
+ p1:x0=1  p2:x0=1  p2:x2=1  : 2420
+ p1:x0=1  p2:x0=1  p2:x2=0  : 1776 *
+Observation WRC.TRT+dmbs: 1776 (of 500000)
+
+Test WRC.TRT+dsb-isbs:
+ p1:x0=0  p2:x0=0  p2:x2=0  : 192775
+ p1:x0=0  p2:x0=1  p2:x2=0  : 53215
+ p1:x0=0  p2:x0=1  p2:x2=1  : 51813
+ p1:x0=1  p2:x0=0  p2:x2=0  : 103878
+ p1:x0=0  p2:x0=0  p2:x2=1  : 49928
+ p1:x0=1  p2:x0=0  p2:x2=1  : 46229
+ p1:x0=1  p2:x0=1  p2:x2=0  : 982 *
+ p1:x0=1  p2:x0=1  p2:x2=1  : 1180
+Observation WRC.TRT+dsb-isbs: 982 (of 500000)
+
+Test WRC.TRT.inv+addrs:
+qemu-system-aarch64: terminating on signal 15 from pid 754 ()
