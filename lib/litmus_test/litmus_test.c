@@ -19,6 +19,9 @@ void run_test(const litmus_test_t* cfg) {
     region = alloc(sizeof(regions_t));
   }
 
+  printf("\n");
+  printf("Test %s:\n", cfg->name);
+
   /* create test context obj */
   test_ctx_t ctx;
 
@@ -50,8 +53,6 @@ void run_test(const litmus_test_t* cfg) {
   start_of_test(&ctx);
 
   /* run it */
-  printf("\n");
-  printf("Test %s:\n", ctx.cfg->name);
   trace("%s\n", "Running Tests ...");
   if (TRACE) {
     for(int i = 0; i < 4; i++) {
