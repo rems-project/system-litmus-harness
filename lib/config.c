@@ -22,6 +22,7 @@ int   collected_tests_count;
 sync_type_t LITMUS_SYNC_TYPE = SYNC_ALL;
 aff_type_t LITMUS_AFF_TYPE = AFF_RAND;
 shuffle_type_t LITMUS_SHUFFLE_TYPE = SHUF_RAND;
+concretize_type_t LITMUS_CONCRETIZATION_TYPE = CONCRETE_STANDARD;
 
 char* sync_type_to_str(sync_type_t ty) {
   switch (ty) {
@@ -55,6 +56,17 @@ char* shuff_type_to_str(shuffle_type_t ty) {
       return "none";
     case SHUF_RAND:
       return "rand";
+    default:
+      return "unknown";
+  }
+}
+
+char* concretize_type_to_str(concretize_type_t ty) {
+  switch (ty) {
+    case CONCRETE_LINEAR:
+      return "linear";
+    case CONCRETE_STANDARD:
+      return "standard";
     default:
       return "unknown";
   }
@@ -222,6 +234,20 @@ argdef_t ARGS = (argdef_t){
       "\n"
       "none: access pages in-order\n"
       "rand: access pages in random order\n"
+    ),
+    ENUMERATE(
+      "--concretization",
+      LITMUS_CONCRETIZATION_TYPE,
+      concretize_type_t,
+      2,
+      ARR((const char*[]){"linear", "standard"}),
+      ARR((shuffle_type_t[]){CONCRETE_LINEAR, CONCRETE_STANDARD}),
+      "test concretization algorithml\n"
+      "\n"
+      "controls the memory layout of generated concrete tests\n"
+      "\n"
+      "linear: allocate each var in separate pages in-order\n"
+      "stanard: default algorithm, tries to split tests all over memory\n"
     ),
     NULL,  /* nul terminated list */
   }
