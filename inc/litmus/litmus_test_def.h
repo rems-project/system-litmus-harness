@@ -11,6 +11,7 @@
 typedef enum {
   TYPE_HEAP,
   TYPE_PTE,
+  TYPE_UNMAPPED,
   TYPE_ALIAS,
   TYPE_AP,
   TYPE_REGION,

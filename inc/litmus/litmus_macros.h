@@ -33,7 +33,7 @@
 #define INIT_PGT(var, value) &(init_varstate_t){#var, TYPE_PTE, {value}}
 #define INIT_ALIAS(var, othervar) &(init_varstate_t){#var, TYPE_ALIAS, {.aliasname=(const char*)#othervar}}
 #define INIT_PERMISSIONS(var, ap) &(init_varstate_t){#var, TYPE_AP, {ap}}
-#define INIT_UNMAPPED(var) &(init_varstate_t){#var, TYPE_PTE, {0}}
+#define INIT_UNMAPPED(var) &(init_varstate_t){#var, TYPE_UNMAPPED, {0}}
 
 /** these are for building the asm blocks automatically
  * e.g.

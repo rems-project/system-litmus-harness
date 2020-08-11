@@ -155,11 +155,6 @@ const char* regname_from_idx(test_ctx_t* ctx, uint64_t idx);
 
 /* for loading var_info_t */
 void read_var_infos(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, int no_runs);
-void read_init_region(const litmus_test_t* cfg, var_info_t* infos, const char* varname, const char* pinned_var_name, pin_level_t pin_level);
-void read_init_alias(const litmus_test_t* cfg, var_info_t* infos, const char* varname, const char* aliasname);
-void read_init_ap(const litmus_test_t* cfg, var_info_t* infos, const char* varname, uint64_t ap);
-void read_init_pte(const litmus_test_t* cfg, var_info_t* infos, const char* varname, uint64_t pte);
-void read_init_heap(const litmus_test_t* cfg, var_info_t* infos, const char* varname, uint64_t value);
 
 /* for concretization */
 void set_init_var(test_ctx_t* ctx, var_info_t* infos, uint64_t varidx, uint64_t idx);
