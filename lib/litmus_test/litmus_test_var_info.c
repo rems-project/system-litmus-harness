@@ -1,5 +1,12 @@
 #include "lib.h"
 
+void read_init_unmapped(const litmus_test_t* cfg, var_info_t* infos, const char* varname);
+void read_init_region(const litmus_test_t* cfg, var_info_t* infos, const char* varname, const char* pinned_var_name, pin_level_t pin_level);
+void read_init_alias(const litmus_test_t* cfg, var_info_t* infos, const char* varname, const char* aliasname);
+void read_init_ap(const litmus_test_t* cfg, var_info_t* infos, const char* varname, uint64_t ap);
+void read_init_pte(const litmus_test_t* cfg, var_info_t* infos, const char* varname, uint64_t pte);
+void read_init_heap(const litmus_test_t* cfg, var_info_t* infos, const char* varname, uint64_t value);
+
 void read_var_infos(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, int no_runs) {
   for (int v = 0; v < cfg->no_heap_vars; v++) {
     infos[v].name = cfg->heap_var_names[v];
@@ -15,6 +22,9 @@ void read_var_infos(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos
       case (TYPE_PTE):
         read_init_pte(cfg, infos, name, var->value);
         break;
+      case (TYPE_UNMAPPED):
+        read_init_unmapped(cfg, infos, name);
+        break;
       case (TYPE_ALIAS):
         read_init_alias(cfg, infos, name, var->aliasname);
         break;
@@ -26,6 +36,11 @@ void read_var_infos(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos
         break;
     }
   }
+}
+
+void read_init_unmapped(const litmus_test_t* cfg, var_info_t* infos, const char* varname) {
+  uint64_t idx = idx_from_varname_infos(cfg, infos, varname);
+  infos[idx].init_unmapped = 1;
 }
 
 void read_init_region(const litmus_test_t* cfg, var_info_t* infos, const char* varname, const char* pinned_var_name, pin_level_t pin_level) {
