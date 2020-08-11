@@ -31,7 +31,7 @@ void set_init_var(test_ctx_t* ctx, var_info_t* infos, uint64_t varidx, uint64_t 
    */
   if (vinfo->alias) {
     uint64_t otheridx = idx_from_varname(ctx, vinfo->alias);
-    uint64_t otherva = (uint64_t)&ctx->heap_vars[otheridx].values[idx];
+    uint64_t otherva = (uint64_t )ctx->heap_vars[otheridx].values[idx];
     uint64_t* otherpte = ctx_pte(ctx, otherva);
     *pte = *otherpte;
   }
