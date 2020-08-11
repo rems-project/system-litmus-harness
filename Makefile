@@ -160,7 +160,7 @@ RUN_CMD_LOCAL = 	\
 CCERRORS = return-type parentheses misleading-indentation null-dereference sequence-point uninitialized maybe-uninitialized
 CCNOWARN =
 INC_DIRS = inc inc/litmus inc/vmm inc/re
-LIB_DIRS = lib lib/arch lib/arch/vmm lib/valloc lib/re lib/drivers/qemu lib/litmus_test
+LIB_DIRS = lib lib/arch lib/arch/vmm lib/valloc lib/re lib/drivers/qemu lib/litmus_test lib/litmus_test/concretization
 OTHER_INCLUDES =  # set for unittests
 CFLAGS = -O0 -nostdlib \
 		$(foreach DIR,$(INC_DIRS),-I $(DIR)) \
