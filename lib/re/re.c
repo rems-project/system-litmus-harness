@@ -3,7 +3,7 @@
 #include "re_types.h"
 
 re_tok_t _tokenize(char c) {
-    if (c == '*') {
+    if (c == '*' || c == '?') {
         return (re_tok_t){.accepts='\0', .is_char=0};
     } else {
         return (re_tok_t){.accepts=c, .is_char=1};
