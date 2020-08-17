@@ -8,6 +8,7 @@ When to allocate
 ----------------
 
 There are primarily three ways to perform the instantiation of the input data:
+
 * ephemeral
 * arrayization
 * semi-arrayization
@@ -103,6 +104,7 @@ Constraints
 Take the following concrete initial state,  for a test with 3 variables ``x``, ``y`` and ``z``.
 The test writes to ``x``,  writes to the last-level translation table entry of ``y`` and to the
 2nd-level translation table entry of ``z``.  This imposes the following constraints on the variables:
+
 * ``x`` must be 64-bit aligned.
 * ``y``'s 4k-aligned region (page) must not contain ``x`` or ``z``, and ``y`` must be 64-bit aligned.
 * ``z``'s 2M-aligned region (dir) must not contain ``x`` or ``y``, and ``z`` must be 64-bit aligned.
