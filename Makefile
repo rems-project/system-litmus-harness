@@ -6,9 +6,10 @@ Simple Usage:
    make kvm		builds bin/kvm_litmus.exe which uses KVM
    make run 		runs `make qemu` then runs all tests
    make clean		remove built files in bin/
-   make cleanlibs		remove built harness objects but leave compiled tests alone
-   make cleantests		remove auto-generated test files in litmus/
-   make publish			publish doc/ folder to gh-pages
+   make cleanlibs	remove built harness objects but leave compiled tests alone
+   make cleantests	remove auto-generated test files in litmus/
+   make publish		publish doc/ folder to gh-pages
+   make hw-results	collect hardware results from known sources
 
 Advanced Usage:
    make run -- args args args
@@ -450,3 +451,7 @@ bin/qemu_litmus.exe: FORCE
 .PHONY: publish
 publish:
 	$(MAKE) -C doc publish
+
+.PHONY: hw-results
+hw-results:
+	$(MAKE) -C hw-results EXCLUDES=checks,errata
