@@ -1,0 +1,33 @@
+- date: 2020-June-23
+  errata:
+    - test: check5
+      description: Missing clobber in P0
+
+    - test: MP.RT.inv+dmb+addr
+      description: Incorrect handler made it impossible to tell difference between pagefault and new translation
+
+- date: 2020-July-22
+  errata:
+    - test: '@all'
+      description: >
+        fixed race condition in locking in the harness that could sometimes
+        cause the tool to deadlock.  Whether it caused other issues is unknown.
+
+    - test: MP.RT.inv+dmb+addr
+      description: Incorrect handler made it impossible to tell difference between pagefault and new translation
+
+    - test: CoWT.inv CoWT.inv+dmb CoWT.inv+dsb CoWT.inv+dsb-isb
+      description: >
+        Fixed sync handlers. It used to set the sync handler for the incorrect (non-existent) thread.
+        Also the handler had no ERET.
+
+    - test: MP.TT.inv+dmb+tpo MP.TT.inv+dmb+dsb-isb
+      description: Fixed register write that caused final state to be incorrect.
+
+- date: 2020-August-10
+  errata:
+    - test: check1 check2
+      description: >
+        fixed case where if _both_ loads faulted then the second load's exception handler would also fault
+        causing the entire harness to crash.
+        More generally tests need to be more resilient to unexpected faults and have more detection.

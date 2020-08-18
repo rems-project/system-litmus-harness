@@ -14,6 +14,8 @@ all:  fetchrpi tabular top.pdf install clean
 fetchrpi:
 	scp 'rpi4:overnights/*.log' rpi4b/
 	scp 'rpi3:overnights/*.log' rpi3bp/
+	scp 'aws:*.log' graviton2/
+	python3 filter_erratas.py || echo failed to filter errata
 
 .PHONY: tabular
 tabular:

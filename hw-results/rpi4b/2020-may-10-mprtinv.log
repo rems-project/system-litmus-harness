@@ -11,21 +11,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 338073
  p1:x0=0  p1:x2=1  : 161061
  p1:x0=1  p1:x2=1  : 866
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 331293
  p1:x0=0  p1:x2=1  : 167755
  p1:x0=1  p1:x2=1  : 952
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 158409
  p1:x0=0  p1:x2=0  : 340495
  p1:x0=1  p1:x2=1  : 1096
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -36,7 +36,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=1  p2:x2=1  : 1237
  p1:x0=0  p2:x0=0  p2:x2=0  : 8324
  p1:x0=0  p2:x0=1  p2:x2=0  : 102
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 1/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -51,21 +51,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 336484
  p1:x0=0  p1:x2=1  : 162638
  p1:x0=1  p1:x2=1  : 878
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 315441
  p1:x0=0  p1:x2=1  : 183627
  p1:x0=1  p1:x2=1  : 932
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 153911
  p1:x0=0  p1:x2=0  : 345120
  p1:x0=1  p1:x2=1  : 969
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -76,7 +76,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=1  p2:x2=1  : 4422
  p1:x0=0  p2:x0=1  p2:x2=1  : 1036
  p1:x0=0  p2:x0=1  p2:x2=0  : 70
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 2/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -91,21 +91,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 328868
  p1:x0=0  p1:x2=1  : 169407
  p1:x0=1  p1:x2=1  : 1725
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 322774
  p1:x0=0  p1:x2=1  : 175544
  p1:x0=1  p1:x2=1  : 1682
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 158898
  p1:x0=0  p1:x2=0  : 339675
  p1:x0=1  p1:x2=1  : 1427
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -116,7 +116,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=1  p2:x2=1  : 2294
  p1:x0=1  p2:x0=1  p2:x2=1  : 4239
  p1:x0=0  p2:x0=1  p2:x2=0  : 106
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 3/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -131,21 +131,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 333124
  p1:x0=0  p1:x2=1  : 165851
  p1:x0=1  p1:x2=1  : 1025
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 327245
  p1:x0=0  p1:x2=1  : 171526
  p1:x0=1  p1:x2=1  : 1229
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 333665
  p1:x0=0  p1:x2=1  : 165224
  p1:x0=1  p1:x2=1  : 1111
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 qemu-system-aarch64: terminating on signal 1 from pid 14345 ()
 4/100
@@ -162,21 +162,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 322694
  p1:x0=0  p1:x2=1  : 176072
  p1:x0=1  p1:x2=1  : 1234
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 306055
  p1:x0=0  p1:x2=1  : 192896
  p1:x0=1  p1:x2=1  : 1049
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 331064
  p1:x0=0  p1:x2=1  : 167731
  p1:x0=1  p1:x2=1  : 1205
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -187,7 +187,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=1  p2:x2=1  : 1111
  p1:x0=0  p2:x0=0  p2:x2=0  : 6782
  p1:x0=0  p2:x0=1  p2:x2=0  : 107
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 5/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -202,7 +202,7 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 329880
  p1:x0=0  p1:x2=1  : 169059
  p1:x0=1  p1:x2=1  : 1061
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
@@ -210,14 +210,14 @@ Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 319908
  p1:x0=0  p1:x2=1  : 179281
  p1:x0=1  p1:x2=1  : 810
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 1 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 335322
  p1:x0=0  p1:x2=1  : 163543
  p1:x0=1  p1:x2=1  : 1135
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -228,7 +228,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=1  p2:x2=1  : 4034
  p1:x0=0  p2:x0=1  p2:x2=1  : 794
  p1:x0=0  p2:x0=1  p2:x2=0  : 78
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 6/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -243,21 +243,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 337137
  p1:x0=0  p1:x2=1  : 161288
  p1:x0=1  p1:x2=1  : 1575
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 337686
  p1:x0=0  p1:x2=1  : 160831
  p1:x0=1  p1:x2=1  : 1483
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 342758
  p1:x0=0  p1:x2=1  : 155731
  p1:x0=1  p1:x2=1  : 1511
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -268,7 +268,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=0  p2:x2=0  : 8483
  p1:x0=0  p2:x0=1  p2:x2=1  : 1216
  p1:x0=0  p2:x0=1  p2:x2=0  : 65
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 7/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -283,21 +283,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 327793
  p1:x0=0  p1:x2=1  : 171131
  p1:x0=1  p1:x2=1  : 1076
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 326678
  p1:x0=0  p1:x2=1  : 172374
  p1:x0=1  p1:x2=1  : 948
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 167877
  p1:x0=0  p1:x2=0  : 331156
  p1:x0=1  p1:x2=1  : 967
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -308,7 +308,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=1  p2:x2=1  : 4205
  p1:x0=0  p2:x0=1  p2:x2=1  : 1364
  p1:x0=0  p2:x0=1  p2:x2=0  : 143
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 8/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -323,21 +323,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 336113
  p1:x0=0  p1:x2=1  : 163071
  p1:x0=1  p1:x2=1  : 816
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 329679
  p1:x0=0  p1:x2=1  : 169487
  p1:x0=1  p1:x2=1  : 834
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 336620
  p1:x0=0  p1:x2=1  : 162574
  p1:x0=1  p1:x2=1  : 806
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -348,7 +348,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=1  p2:x2=0  : 95
  p1:x0=0  p2:x0=0  p2:x2=0  : 7825
  p1:x0=1  p2:x0=0  p2:x2=0  : 1788
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 9/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -363,21 +363,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=1  p1:x2=1  : 1090
  p1:x0=0  p1:x2=0  : 329244
  p1:x0=0  p1:x2=1  : 169666
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 331123
  p1:x0=0  p1:x2=1  : 167853
  p1:x0=1  p1:x2=1  : 1024
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 336713
  p1:x0=0  p1:x2=1  : 162195
  p1:x0=1  p1:x2=1  : 1092
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -388,7 +388,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=1  p2:x2=1  : 4041
  p1:x0=0  p2:x0=1  p2:x2=1  : 1164
  p1:x0=0  p2:x0=1  p2:x2=0  : 95
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 10/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -403,21 +403,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=1  p1:x2=1  : 924
  p1:x0=0  p1:x2=0  : 332321
  p1:x0=0  p1:x2=1  : 166755
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 327186
  p1:x0=0  p1:x2=1  : 171878
  p1:x0=1  p1:x2=1  : 936
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 158787
  p1:x0=0  p1:x2=0  : 340238
  p1:x0=1  p1:x2=1  : 975
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -428,7 +428,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=1  p2:x2=1  : 4269
  p1:x0=0  p2:x0=1  p2:x2=1  : 966
  p1:x0=0  p2:x0=1  p2:x2=0  : 73
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 11/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -443,21 +443,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 339037
  p1:x0=0  p1:x2=1  : 159611
  p1:x0=1  p1:x2=1  : 1352
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 340796
  p1:x0=0  p1:x2=1  : 157774
  p1:x0=1  p1:x2=1  : 1430
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 157858
  p1:x0=0  p1:x2=0  : 340976
  p1:x0=1  p1:x2=1  : 1166
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -468,7 +468,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=1  p2:x2=1  : 3677
  p1:x0=0  p2:x0=1  p2:x2=1  : 1227
  p1:x0=0  p2:x0=1  p2:x2=0  : 127
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 12/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -483,21 +483,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 327898
  p1:x0=0  p1:x2=1  : 170895
  p1:x0=1  p1:x2=1  : 1207
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 310456
  p1:x0=0  p1:x2=1  : 188164
  p1:x0=1  p1:x2=1  : 1380
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 155117
  p1:x0=0  p1:x2=0  : 343623
  p1:x0=1  p1:x2=1  : 1260
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -508,7 +508,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=0  p2:x2=0  : 11461
  p1:x0=0  p2:x0=1  p2:x2=1  : 3671
  p1:x0=0  p2:x0=1  p2:x2=0  : 108
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 13/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -523,21 +523,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=1  p1:x2=1  : 1122
  p1:x0=0  p1:x2=0  : 334589
  p1:x0=0  p1:x2=1  : 164289
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 327613
  p1:x0=0  p1:x2=1  : 171238
  p1:x0=1  p1:x2=1  : 1149
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 149425
  p1:x0=0  p1:x2=0  : 349496
  p1:x0=1  p1:x2=1  : 1079
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -548,7 +548,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=0  p2:x2=0  : 4907
  p1:x0=0  p2:x0=1  p2:x2=1  : 3624
  p1:x0=0  p2:x0=1  p2:x2=0  : 142
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 14/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -563,21 +563,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 334917
  p1:x0=0  p1:x2=1  : 163744
  p1:x0=1  p1:x2=1  : 1339
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 328140
  p1:x0=0  p1:x2=1  : 170215
  p1:x0=1  p1:x2=1  : 1645
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 153199
  p1:x0=0  p1:x2=0  : 345199
  p1:x0=1  p1:x2=1  : 1602
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -588,7 +588,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=1  p2:x2=1  : 4439
  p1:x0=0  p2:x0=1  p2:x2=1  : 1269
  p1:x0=0  p2:x0=1  p2:x2=0  : 127
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 15/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -603,21 +603,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 334994
  p1:x0=0  p1:x2=1  : 163885
  p1:x0=1  p1:x2=1  : 1121
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 329668
  p1:x0=0  p1:x2=1  : 169331
  p1:x0=1  p1:x2=1  : 1001
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 342924
  p1:x0=0  p1:x2=1  : 156124
  p1:x0=1  p1:x2=1  : 952
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -628,7 +628,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=1  p2:x2=1  : 1244
  p1:x0=1  p2:x0=0  p2:x2=0  : 1917
  p1:x0=0  p2:x0=1  p2:x2=0  : 101
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 16/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -643,21 +643,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 331570
  p1:x0=0  p1:x2=1  : 166830
  p1:x0=1  p1:x2=1  : 1600
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 332043
  p1:x0=0  p1:x2=1  : 166254
  p1:x0=1  p1:x2=1  : 1703
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 339196
  p1:x0=0  p1:x2=1  : 159076
  p1:x0=1  p1:x2=1  : 1728
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -668,7 +668,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=1  p2:x2=1  : 5027
  p1:x0=0  p2:x0=1  p2:x2=1  : 1556
  p1:x0=0  p2:x0=1  p2:x2=0  : 118
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 17/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -683,21 +683,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 337070
  p1:x0=0  p1:x2=1  : 160973
  p1:x0=1  p1:x2=1  : 1957
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 326285
  p1:x0=0  p1:x2=1  : 171748
  p1:x0=1  p1:x2=1  : 1967
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 144037
  p1:x0=0  p1:x2=0  : 353736
  p1:x0=1  p1:x2=1  : 2227
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -708,7 +708,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=1  p2:x2=1  : 3112
  p1:x0=0  p2:x0=1  p2:x2=0  : 168
  p1:x0=1  p2:x0=0  p2:x2=0  : 5854
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 18/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -723,21 +723,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 338087
  p1:x0=0  p1:x2=1  : 160839
  p1:x0=1  p1:x2=1  : 1074
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 328086
  p1:x0=0  p1:x2=1  : 170754
  p1:x0=1  p1:x2=1  : 1160
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 335751
  p1:x0=0  p1:x2=1  : 163095
  p1:x0=1  p1:x2=1  : 1154
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -748,7 +748,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=1  p2:x2=1  : 4709
  p1:x0=0  p2:x0=1  p2:x2=1  : 1257
  p1:x0=0  p2:x0=1  p2:x2=0  : 84
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 19/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -763,21 +763,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 329727
  p1:x0=0  p1:x2=1  : 168418
  p1:x0=1  p1:x2=1  : 1855
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 317870
  p1:x0=0  p1:x2=1  : 180272
  p1:x0=1  p1:x2=1  : 1858
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 161483
  p1:x0=0  p1:x2=0  : 336810
  p1:x0=1  p1:x2=1  : 1707
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -788,7 +788,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=1  p2:x2=1  : 982
  p1:x0=1  p2:x0=1  p2:x2=1  : 4103
  p1:x0=0  p2:x0=1  p2:x2=0  : 117
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 20/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -803,21 +803,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 330991
  p1:x0=0  p1:x2=1  : 168020
  p1:x0=1  p1:x2=1  : 989
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 327119
  p1:x0=0  p1:x2=1  : 171857
  p1:x0=1  p1:x2=1  : 1024
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 337026
  p1:x0=0  p1:x2=1  : 161965
  p1:x0=1  p1:x2=1  : 1009
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -828,7 +828,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=0  p2:x2=0  : 8259
  p1:x0=1  p2:x0=0  p2:x2=0  : 1931
  p1:x0=0  p2:x0=1  p2:x2=0  : 113
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 21/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -843,21 +843,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 335042
  p1:x0=0  p1:x2=1  : 163994
  p1:x0=1  p1:x2=1  : 964
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 333484
  p1:x0=0  p1:x2=1  : 165534
  p1:x0=1  p1:x2=1  : 982
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 337473
  p1:x0=0  p1:x2=1  : 161669
  p1:x0=1  p1:x2=1  : 858
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -868,7 +868,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=1  p2:x2=1  : 1190
  p1:x0=1  p2:x0=0  p2:x2=0  : 1855
  p1:x0=0  p2:x0=1  p2:x2=0  : 92
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 22/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -883,21 +883,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 332678
  p1:x0=0  p1:x2=1  : 166319
  p1:x0=1  p1:x2=1  : 1003
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 330095
  p1:x0=0  p1:x2=1  : 169047
  p1:x0=1  p1:x2=1  : 858
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 345321
  p1:x0=0  p1:x2=1  : 153667
  p1:x0=1  p1:x2=1  : 1012
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -908,7 +908,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=0  p2:x2=0  : 7769
  p1:x0=1  p2:x0=1  p2:x2=1  : 4240
  p1:x0=0  p2:x0=1  p2:x2=0  : 105
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 23/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -923,21 +923,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 334120
  p1:x0=0  p1:x2=1  : 164931
  p1:x0=1  p1:x2=1  : 949
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=1  p1:x2=1  : 936
  p1:x0=0  p1:x2=0  : 328442
  p1:x0=0  p1:x2=1  : 170622
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 159477
  p1:x0=0  p1:x2=0  : 339360
  p1:x0=1  p1:x2=1  : 1163
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -948,7 +948,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=1  p2:x2=1  : 1415
  p1:x0=0  p2:x0=0  p2:x2=0  : 7053
  p1:x0=0  p2:x0=1  p2:x2=0  : 131
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 24/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -963,21 +963,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 328912
  p1:x0=0  p1:x2=1  : 169973
  p1:x0=1  p1:x2=1  : 1115
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 332765
  p1:x0=0  p1:x2=1  : 165905
  p1:x0=1  p1:x2=1  : 1330
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 160084
  p1:x0=0  p1:x2=0  : 338685
  p1:x0=1  p1:x2=1  : 1231
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -988,7 +988,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=0  p2:x2=0  : 7901
  p1:x0=1  p2:x0=1  p2:x2=1  : 4674
  p1:x0=0  p2:x0=1  p2:x2=0  : 111
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 25/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1003,21 +1003,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 339706
  p1:x0=0  p1:x2=1  : 159238
  p1:x0=1  p1:x2=1  : 1056
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 326613
  p1:x0=0  p1:x2=1  : 172269
  p1:x0=1  p1:x2=1  : 1118
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 340104
  p1:x0=0  p1:x2=1  : 158957
  p1:x0=1  p1:x2=1  : 939
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -1028,7 +1028,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=0  p2:x2=0  : 1527
  p1:x0=0  p2:x0=0  p2:x2=0  : 7428
  p1:x0=0  p2:x0=1  p2:x2=0  : 118
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 26/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1043,21 +1043,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 335553
  p1:x0=0  p1:x2=1  : 163533
  p1:x0=1  p1:x2=1  : 914
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 333018
  p1:x0=0  p1:x2=1  : 165998
  p1:x0=1  p1:x2=1  : 984
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 171096
  p1:x0=0  p1:x2=0  : 328047
  p1:x0=1  p1:x2=1  : 857
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -1068,7 +1068,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=0  p2:x2=0  : 1888
  p1:x0=1  p2:x0=1  p2:x2=1  : 4181
  p1:x0=0  p2:x0=1  p2:x2=0  : 116
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 27/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1083,21 +1083,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=1  p1:x2=1  : 1025
  p1:x0=0  p1:x2=0  : 335111
  p1:x0=0  p1:x2=1  : 163864
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 335582
  p1:x0=0  p1:x2=1  : 163343
  p1:x0=1  p1:x2=1  : 1075
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 342975
  p1:x0=0  p1:x2=1  : 156112
  p1:x0=1  p1:x2=1  : 913
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -1108,7 +1108,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=1  p2:x2=1  : 4149
  p1:x0=0  p2:x0=0  p2:x2=0  : 6969
  p1:x0=0  p2:x0=1  p2:x2=0  : 104
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 28/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1123,21 +1123,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 335000
  p1:x0=0  p1:x2=1  : 163693
  p1:x0=1  p1:x2=1  : 1307
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 326533
  p1:x0=0  p1:x2=1  : 172150
  p1:x0=1  p1:x2=1  : 1317
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 339554
  p1:x0=0  p1:x2=1  : 159121
  p1:x0=1  p1:x2=1  : 1325
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -1148,7 +1148,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=1  p2:x2=1  : 1005
  p1:x0=1  p2:x0=0  p2:x2=0  : 1554
  p1:x0=0  p2:x0=1  p2:x2=0  : 96
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 29/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1163,21 +1163,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 330828
  p1:x0=0  p1:x2=1  : 167681
  p1:x0=1  p1:x2=1  : 1491
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 333972
  p1:x0=0  p1:x2=1  : 164373
  p1:x0=1  p1:x2=1  : 1655
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 344940
  p1:x0=0  p1:x2=1  : 153752
  p1:x0=1  p1:x2=1  : 1308
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -1188,7 +1188,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=1  p2:x2=1  : 4716
  p1:x0=0  p2:x0=1  p2:x2=1  : 1297
  p1:x0=0  p2:x0=1  p2:x2=0  : 72
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 30/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1203,21 +1203,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=1  p1:x2=1  : 1303
  p1:x0=0  p1:x2=0  : 333545
  p1:x0=0  p1:x2=1  : 165152
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 328815
  p1:x0=0  p1:x2=1  : 169858
  p1:x0=1  p1:x2=1  : 1327
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 161706
  p1:x0=0  p1:x2=0  : 336922
  p1:x0=1  p1:x2=1  : 1372
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -1228,7 +1228,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=0  p2:x2=0  : 1625
  p1:x0=0  p2:x0=1  p2:x2=1  : 2225
  p1:x0=0  p2:x0=1  p2:x2=0  : 250
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 31/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1243,21 +1243,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=1  p1:x2=1  : 1078
  p1:x0=0  p1:x2=0  : 331414
  p1:x0=0  p1:x2=1  : 167508
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 329147
  p1:x0=0  p1:x2=1  : 169761
  p1:x0=1  p1:x2=1  : 1092
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 138969
  p1:x0=0  p1:x2=0  : 359886
  p1:x0=1  p1:x2=1  : 1145
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -1268,7 +1268,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=0  p2:x2=0  : 1745
  p1:x0=1  p2:x0=1  p2:x2=1  : 4198
  p1:x0=0  p2:x0=1  p2:x2=0  : 112
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 32/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1283,21 +1283,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 329543
  p1:x0=0  p1:x2=1  : 169282
  p1:x0=1  p1:x2=1  : 1175
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 323928
  p1:x0=0  p1:x2=1  : 174986
  p1:x0=1  p1:x2=1  : 1086
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 328224
  p1:x0=0  p1:x2=1  : 170814
  p1:x0=1  p1:x2=1  : 962
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -1308,7 +1308,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=1  p2:x2=1  : 1006
  p1:x0=0  p2:x0=1  p2:x2=0  : 84
  p1:x0=1  p2:x0=0  p2:x2=0  : 1406
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 33/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1323,21 +1323,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 331978
  p1:x0=0  p1:x2=1  : 167096
  p1:x0=1  p1:x2=1  : 926
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 329295
  p1:x0=0  p1:x2=1  : 169740
  p1:x0=1  p1:x2=1  : 965
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 338886
  p1:x0=0  p1:x2=1  : 160206
  p1:x0=1  p1:x2=1  : 908
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -1348,7 +1348,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=1  p2:x2=1  : 4536
  p1:x0=0  p2:x0=1  p2:x2=0  : 123
  p1:x0=0  p2:x0=1  p2:x2=1  : 1014
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 34/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1363,14 +1363,14 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 325497
  p1:x0=0  p1:x2=1  : 173291
  p1:x0=1  p1:x2=1  : 1212
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 326531
  p1:x0=0  p1:x2=1  : 172158
  p1:x0=1  p1:x2=1  : 1311
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
@@ -1378,7 +1378,7 @@ Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=0  p1:x2=0  : 333848
  p1:x0=0  p1:x2=1  : 164942
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 1 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -1389,7 +1389,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=0  p2:x2=0  : 8404
  p1:x0=1  p2:x0=1  p2:x2=1  : 4358
  p1:x0=0  p2:x0=1  p2:x2=0  : 105
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 35/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1404,21 +1404,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 338305
  p1:x0=0  p1:x2=1  : 160531
  p1:x0=1  p1:x2=1  : 1164
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 330092
  p1:x0=0  p1:x2=1  : 168710
  p1:x0=1  p1:x2=1  : 1198
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=1  p1:x2=1  : 984
  p1:x0=0  p1:x2=0  : 321319
  p1:x0=0  p1:x2=1  : 177697
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -1429,7 +1429,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=1  p2:x2=1  : 4652
  p1:x0=0  p2:x0=1  p2:x2=1  : 1061
  p1:x0=0  p2:x0=1  p2:x2=0  : 98
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 36/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1444,21 +1444,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 336502
  p1:x0=0  p1:x2=1  : 162402
  p1:x0=1  p1:x2=1  : 1096
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 333615
  p1:x0=0  p1:x2=1  : 165449
  p1:x0=1  p1:x2=1  : 936
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 342245
  p1:x0=0  p1:x2=1  : 156414
  p1:x0=1  p1:x2=1  : 1341
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -1469,7 +1469,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=1  p2:x2=1  : 4887
  p1:x0=0  p2:x0=1  p2:x2=1  : 1024
  p1:x0=0  p2:x0=1  p2:x2=0  : 103
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 37/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1484,21 +1484,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 340380
  p1:x0=0  p1:x2=1  : 158555
  p1:x0=1  p1:x2=1  : 1065
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 334043
  p1:x0=0  p1:x2=1  : 164893
  p1:x0=1  p1:x2=1  : 1064
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 344456
  p1:x0=0  p1:x2=1  : 154554
  p1:x0=1  p1:x2=1  : 990
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -1509,7 +1509,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=1  p2:x2=1  : 1054
  p1:x0=1  p2:x0=1  p2:x2=1  : 4376
  p1:x0=0  p2:x0=1  p2:x2=0  : 95
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 38/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1524,21 +1524,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 327308
  p1:x0=0  p1:x2=1  : 171486
  p1:x0=1  p1:x2=1  : 1206
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 327807
  p1:x0=0  p1:x2=1  : 170921
  p1:x0=1  p1:x2=1  : 1272
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 331575
  p1:x0=0  p1:x2=1  : 167075
  p1:x0=1  p1:x2=1  : 1350
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -1549,7 +1549,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=0  p2:x2=0  : 1903
  p1:x0=0  p2:x0=0  p2:x2=0  : 7911
  p1:x0=0  p2:x0=1  p2:x2=0  : 85
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 39/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1564,21 +1564,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 323160
  p1:x0=0  p1:x2=1  : 175408
  p1:x0=1  p1:x2=1  : 1432
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 322016
  p1:x0=0  p1:x2=1  : 176214
  p1:x0=1  p1:x2=1  : 1770
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 163643
  p1:x0=0  p1:x2=0  : 334770
  p1:x0=1  p1:x2=1  : 1587
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -1589,7 +1589,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=1  p2:x2=1  : 1465
  p1:x0=1  p2:x0=0  p2:x2=0  : 1386
  p1:x0=0  p2:x0=1  p2:x2=0  : 123
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 40/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1604,21 +1604,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 335804
  p1:x0=0  p1:x2=1  : 163199
  p1:x0=1  p1:x2=1  : 997
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 329546
  p1:x0=0  p1:x2=1  : 169460
  p1:x0=1  p1:x2=1  : 994
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 156342
  p1:x0=0  p1:x2=0  : 342678
  p1:x0=1  p1:x2=1  : 980
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -1629,7 +1629,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=1  p2:x2=1  : 1263
  p1:x0=1  p2:x0=1  p2:x2=1  : 4436
  p1:x0=0  p2:x0=1  p2:x2=0  : 103
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 41/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1644,21 +1644,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 329926
  p1:x0=0  p1:x2=1  : 168872
  p1:x0=1  p1:x2=1  : 1202
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 325353
  p1:x0=0  p1:x2=1  : 173527
  p1:x0=1  p1:x2=1  : 1120
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 339244
  p1:x0=0  p1:x2=1  : 159559
  p1:x0=1  p1:x2=1  : 1197
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -1669,7 +1669,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=0  p2:x2=0  : 6808
  p1:x0=1  p2:x0=1  p2:x2=1  : 4808
  p1:x0=0  p2:x0=1  p2:x2=0  : 89
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 42/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1684,21 +1684,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 331114
  p1:x0=0  p1:x2=1  : 167237
  p1:x0=1  p1:x2=1  : 1649
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 324384
  p1:x0=0  p1:x2=1  : 174131
  p1:x0=1  p1:x2=1  : 1485
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 339898
  p1:x0=0  p1:x2=1  : 158455
  p1:x0=1  p1:x2=1  : 1647
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -1709,7 +1709,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=1  p2:x2=1  : 3741
  p1:x0=0  p2:x0=1  p2:x2=1  : 1302
  p1:x0=0  p2:x0=1  p2:x2=0  : 82
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 43/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1724,21 +1724,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 335705
  p1:x0=0  p1:x2=1  : 163168
  p1:x0=1  p1:x2=1  : 1127
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 328460
  p1:x0=0  p1:x2=1  : 170603
  p1:x0=1  p1:x2=1  : 937
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 341938
  p1:x0=0  p1:x2=1  : 156840
  p1:x0=1  p1:x2=1  : 1222
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -1749,7 +1749,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=0  p2:x2=0  : 1729
  p1:x0=0  p2:x0=0  p2:x2=0  : 8577
  p1:x0=0  p2:x0=1  p2:x2=0  : 84
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 44/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1764,7 +1764,7 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=1  p1:x2=1  : 1527
  p1:x0=0  p1:x2=0  : 341991
  p1:x0=0  p1:x2=1  : 156482
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
@@ -1772,14 +1772,14 @@ Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 333992
  p1:x0=0  p1:x2=1  : 164440
  p1:x0=1  p1:x2=1  : 1567
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 1 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 154957
  p1:x0=0  p1:x2=0  : 343668
  p1:x0=1  p1:x2=1  : 1375
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -1790,7 +1790,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=1  p2:x2=1  : 1361
  p1:x0=0  p2:x0=0  p2:x2=0  : 8307
  p1:x0=0  p2:x0=1  p2:x2=0  : 113
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 45/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1805,21 +1805,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 333509
  p1:x0=0  p1:x2=1  : 165078
  p1:x0=1  p1:x2=1  : 1413
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 330506
  p1:x0=0  p1:x2=1  : 168283
  p1:x0=1  p1:x2=1  : 1211
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 338678
  p1:x0=0  p1:x2=1  : 160150
  p1:x0=1  p1:x2=1  : 1172
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -1830,7 +1830,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=0  p2:x2=0  : 1859
  p1:x0=0  p2:x0=1  p2:x2=1  : 1111
  p1:x0=0  p2:x0=1  p2:x2=0  : 103
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 46/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1845,21 +1845,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 331157
  p1:x0=0  p1:x2=1  : 167619
  p1:x0=1  p1:x2=1  : 1224
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 330780
  p1:x0=0  p1:x2=1  : 167874
  p1:x0=1  p1:x2=1  : 1346
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 166251
  p1:x0=0  p1:x2=0  : 332390
  p1:x0=1  p1:x2=1  : 1359
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -1870,7 +1870,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=1  p2:x2=1  : 3807
  p1:x0=0  p2:x0=1  p2:x2=1  : 840
  p1:x0=0  p2:x0=1  p2:x2=0  : 80
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 47/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1885,21 +1885,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 333945
  p1:x0=0  p1:x2=1  : 163707
  p1:x0=1  p1:x2=1  : 2348
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 327932
  p1:x0=0  p1:x2=1  : 170125
  p1:x0=1  p1:x2=1  : 1943
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 158062
  p1:x0=0  p1:x2=0  : 340040
  p1:x0=1  p1:x2=1  : 1898
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -1910,7 +1910,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=1  p2:x2=1  : 4070
  p1:x0=0  p2:x0=1  p2:x2=1  : 924
  p1:x0=0  p2:x0=1  p2:x2=0  : 81
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 48/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1925,21 +1925,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 330759
  p1:x0=0  p1:x2=1  : 168133
  p1:x0=1  p1:x2=1  : 1108
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 331992
  p1:x0=0  p1:x2=1  : 166741
  p1:x0=1  p1:x2=1  : 1267
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 343017
  p1:x0=0  p1:x2=1  : 155763
  p1:x0=1  p1:x2=1  : 1220
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -1950,7 +1950,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=1  p2:x2=1  : 1079
  p1:x0=0  p2:x0=0  p2:x2=0  : 6913
  p1:x0=0  p2:x0=1  p2:x2=0  : 113
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 49/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1965,21 +1965,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 333319
  p1:x0=0  p1:x2=1  : 164853
  p1:x0=1  p1:x2=1  : 1828
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 329567
  p1:x0=0  p1:x2=1  : 168312
  p1:x0=1  p1:x2=1  : 2121
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 161506
  p1:x0=0  p1:x2=0  : 336310
  p1:x0=1  p1:x2=1  : 2184
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -1990,7 +1990,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=0  p2:x2=0  : 1698
  p1:x0=1  p2:x0=1  p2:x2=1  : 4221
  p1:x0=0  p2:x0=1  p2:x2=0  : 78
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 50/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2005,21 +2005,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 336903
  p1:x0=0  p1:x2=1  : 162031
  p1:x0=1  p1:x2=1  : 1066
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 325010
  p1:x0=0  p1:x2=1  : 174065
  p1:x0=1  p1:x2=1  : 925
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 153988
  p1:x0=0  p1:x2=0  : 345008
  p1:x0=1  p1:x2=1  : 1004
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -2030,7 +2030,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=0  p2:x2=0  : 2103
  p1:x0=0  p2:x0=1  p2:x2=0  : 116
  p1:x0=0  p2:x0=1  p2:x2=1  : 1071
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 51/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2045,21 +2045,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 327143
  p1:x0=0  p1:x2=1  : 171744
  p1:x0=1  p1:x2=1  : 1113
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 332575
  p1:x0=0  p1:x2=1  : 166088
  p1:x0=1  p1:x2=1  : 1337
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=1  p1:x2=1  : 1101
  p1:x0=0  p1:x2=0  : 339207
  p1:x0=0  p1:x2=1  : 159692
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -2070,7 +2070,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=0  p2:x2=0  : 1812
  p1:x0=0  p2:x0=1  p2:x2=1  : 1096
  p1:x0=0  p2:x0=1  p2:x2=0  : 98
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 52/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2085,21 +2085,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 328610
  p1:x0=0  p1:x2=1  : 170173
  p1:x0=1  p1:x2=1  : 1217
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 331381
  p1:x0=0  p1:x2=1  : 167277
  p1:x0=1  p1:x2=1  : 1342
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 160860
  p1:x0=0  p1:x2=0  : 337970
  p1:x0=1  p1:x2=1  : 1170
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -2110,7 +2110,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=0  p2:x2=0  : 7828
  p1:x0=0  p2:x0=1  p2:x2=1  : 1006
  p1:x0=0  p2:x0=1  p2:x2=0  : 99
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 53/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2125,21 +2125,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 326629
  p1:x0=0  p1:x2=1  : 172298
  p1:x0=1  p1:x2=1  : 1073
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 329897
  p1:x0=0  p1:x2=1  : 169110
  p1:x0=1  p1:x2=1  : 993
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 332503
  p1:x0=0  p1:x2=1  : 166443
  p1:x0=1  p1:x2=1  : 1054
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -2150,7 +2150,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=0  p2:x2=0  : 1701
  p1:x0=0  p2:x0=0  p2:x2=0  : 7605
  p1:x0=0  p2:x0=1  p2:x2=0  : 116
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 54/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2165,21 +2165,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 337481
  p1:x0=0  p1:x2=1  : 161673
  p1:x0=1  p1:x2=1  : 846
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 331850
  p1:x0=0  p1:x2=1  : 167300
  p1:x0=1  p1:x2=1  : 850
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 168087
  p1:x0=0  p1:x2=0  : 331001
  p1:x0=1  p1:x2=1  : 912
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -2190,7 +2190,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=0  p2:x2=0  : 9061
  p1:x0=0  p2:x0=1  p2:x2=1  : 984
  p1:x0=0  p2:x0=1  p2:x2=0  : 93
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 55/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2205,21 +2205,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 327850
  p1:x0=0  p1:x2=1  : 170946
  p1:x0=1  p1:x2=1  : 1204
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 327412
  p1:x0=0  p1:x2=1  : 171323
  p1:x0=1  p1:x2=1  : 1265
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 167645
  p1:x0=0  p1:x2=0  : 331114
  p1:x0=1  p1:x2=1  : 1241
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -2230,7 +2230,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=0  p2:x2=0  : 8818
  p1:x0=1  p2:x0=1  p2:x2=1  : 4724
  p1:x0=0  p2:x0=1  p2:x2=0  : 100
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 56/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2245,21 +2245,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 329353
  p1:x0=0  p1:x2=1  : 169357
  p1:x0=1  p1:x2=1  : 1290
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 322158
  p1:x0=0  p1:x2=1  : 176332
  p1:x0=1  p1:x2=1  : 1510
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 164434
  p1:x0=0  p1:x2=0  : 334173
  p1:x0=1  p1:x2=1  : 1393
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -2270,7 +2270,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=0  p2:x2=0  : 1990
  p1:x0=0  p2:x0=0  p2:x2=0  : 9751
  p1:x0=0  p2:x0=1  p2:x2=0  : 90
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 57/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2285,7 +2285,7 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 338639
  p1:x0=0  p1:x2=1  : 160422
  p1:x0=1  p1:x2=1  : 939
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
@@ -2293,14 +2293,14 @@ Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 333425
  p1:x0=1  p1:x2=1  : 915
  p1:x0=0  p1:x2=1  : 165659
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 1 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 344633
  p1:x0=0  p1:x2=1  : 154355
  p1:x0=1  p1:x2=1  : 1012
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -2311,7 +2311,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=0  p2:x2=0  : 2107
  p1:x0=1  p2:x0=1  p2:x2=1  : 4122
  p1:x0=0  p2:x0=1  p2:x2=0  : 115
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 58/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2326,21 +2326,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 334146
  p1:x0=0  p1:x2=1  : 164955
  p1:x0=1  p1:x2=1  : 899
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 319660
  p1:x0=0  p1:x2=1  : 179391
  p1:x0=1  p1:x2=1  : 949
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=1  p1:x2=1  : 985
  p1:x0=0  p1:x2=0  : 339703
  p1:x0=0  p1:x2=1  : 159312
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -2351,7 +2351,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=1  p2:x2=1  : 4249
  p1:x0=0  p2:x0=1  p2:x2=1  : 1076
  p1:x0=0  p2:x0=1  p2:x2=0  : 106
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 59/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2366,21 +2366,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 331180
  p1:x0=0  p1:x2=1  : 167330
  p1:x0=1  p1:x2=1  : 1490
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 331097
  p1:x0=0  p1:x2=1  : 167539
  p1:x0=1  p1:x2=1  : 1364
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 337724
  p1:x0=0  p1:x2=1  : 161091
  p1:x0=1  p1:x2=1  : 1185
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -2391,7 +2391,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=0  p2:x2=0  : 29726
  p1:x0=0  p2:x0=1  p2:x2=1  : 1240
  p1:x0=0  p2:x0=1  p2:x2=0  : 91
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 60/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2406,21 +2406,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 333825
  p1:x0=0  p1:x2=1  : 165127
  p1:x0=1  p1:x2=1  : 1048
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 332315
  p1:x0=0  p1:x2=1  : 166641
  p1:x0=1  p1:x2=1  : 1044
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 338389
  p1:x0=0  p1:x2=1  : 160691
  p1:x0=1  p1:x2=1  : 920
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -2431,7 +2431,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=1  p2:x2=1  : 4412
  p1:x0=0  p2:x0=1  p2:x2=0  : 101
  p1:x0=0  p2:x0=1  p2:x2=1  : 1018
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 61/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2446,14 +2446,14 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 329319
  p1:x0=0  p1:x2=1  : 168888
  p1:x0=1  p1:x2=1  : 1793
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 312477
  p1:x0=0  p1:x2=1  : 185852
  p1:x0=1  p1:x2=1  : 1671
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
@@ -2461,7 +2461,7 @@ Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 340664
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=1  p1:x2=1  : 2001
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 1 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -2472,7 +2472,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=1  p2:x2=1  : 912
  p1:x0=1  p2:x0=1  p2:x2=1  : 3768
  p1:x0=0  p2:x0=1  p2:x2=0  : 86
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 62/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2487,21 +2487,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 338476
  p1:x0=0  p1:x2=1  : 160498
  p1:x0=1  p1:x2=1  : 1026
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 337132
  p1:x0=0  p1:x2=1  : 161926
  p1:x0=1  p1:x2=1  : 942
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 153698
  p1:x0=0  p1:x2=0  : 345461
  p1:x0=1  p1:x2=1  : 841
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -2512,7 +2512,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=0  p2:x2=0  : 1948
  p1:x0=1  p2:x0=1  p2:x2=1  : 3546
  p1:x0=0  p2:x0=1  p2:x2=0  : 86
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 63/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2527,21 +2527,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 322177
  p1:x0=0  p1:x2=1  : 176748
  p1:x0=1  p1:x2=1  : 1075
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 325145
  p1:x0=0  p1:x2=1  : 173733
  p1:x0=1  p1:x2=1  : 1122
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 333080
  p1:x0=0  p1:x2=1  : 166110
  p1:x0=1  p1:x2=1  : 810
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -2552,7 +2552,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=1  p2:x2=1  : 4325
  p1:x0=0  p2:x0=1  p2:x2=1  : 853
  p1:x0=0  p2:x0=1  p2:x2=0  : 93
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 64/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2567,7 +2567,7 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=1  p1:x2=1  : 1305
  p1:x0=0  p1:x2=0  : 328528
  p1:x0=0  p1:x2=1  : 170167
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
@@ -2575,14 +2575,14 @@ Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=1  p1:x2=1  : 1519
  p1:x0=0  p1:x2=1  : 174268
  p1:x0=0  p1:x2=0  : 324212
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 1 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 163052
  p1:x0=0  p1:x2=0  : 335705
  p1:x0=1  p1:x2=1  : 1243
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -2593,7 +2593,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=0  p2:x2=0  : 2689
  p1:x0=0  p2:x0=1  p2:x2=0  : 91
  p1:x0=0  p2:x0=1  p2:x2=1  : 953
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 65/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2608,21 +2608,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 323721
  p1:x0=0  p1:x2=1  : 175307
  p1:x0=1  p1:x2=1  : 972
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 311367
  p1:x0=0  p1:x2=1  : 187849
  p1:x0=1  p1:x2=1  : 784
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 166744
  p1:x0=0  p1:x2=0  : 332363
  p1:x0=1  p1:x2=1  : 893
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -2633,7 +2633,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=0  p2:x2=0  : 1712
  p1:x0=0  p2:x0=1  p2:x2=1  : 925
  p1:x0=0  p2:x0=1  p2:x2=0  : 102
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 66/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2648,21 +2648,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 337065
  p1:x0=0  p1:x2=1  : 161732
  p1:x0=1  p1:x2=1  : 1203
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 323609
  p1:x0=0  p1:x2=1  : 175261
  p1:x0=1  p1:x2=1  : 1130
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 158775
  p1:x0=0  p1:x2=0  : 339875
  p1:x0=1  p1:x2=1  : 1350
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -2673,7 +2673,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=1  p2:x2=1  : 3518
  p1:x0=0  p2:x0=1  p2:x2=1  : 1023
  p1:x0=0  p2:x0=1  p2:x2=0  : 106
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 67/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2688,21 +2688,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 331243
  p1:x0=0  p1:x2=1  : 167473
  p1:x0=1  p1:x2=1  : 1284
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 331648
  p1:x0=0  p1:x2=1  : 166899
  p1:x0=1  p1:x2=1  : 1453
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 338336
  p1:x0=1  p1:x2=1  : 1357
  p1:x0=0  p1:x2=1  : 160307
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -2713,7 +2713,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=1  p2:x2=1  : 3521
  p1:x0=1  p2:x0=0  p2:x2=0  : 1547
  p1:x0=0  p2:x0=1  p2:x2=0  : 123
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 68/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2728,21 +2728,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 332537
  p1:x0=0  p1:x2=1  : 166353
  p1:x0=1  p1:x2=1  : 1110
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 315485
  p1:x0=0  p1:x2=1  : 182752
  p1:x0=1  p1:x2=1  : 1763
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 348504
  p1:x0=0  p1:x2=1  : 149913
  p1:x0=1  p1:x2=1  : 1583
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -2753,7 +2753,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=1  p2:x2=1  : 4163
  p1:x0=0  p2:x0=1  p2:x2=1  : 1008
  p1:x0=0  p2:x0=1  p2:x2=0  : 87
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 69/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2768,21 +2768,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 328428
  p1:x0=0  p1:x2=1  : 170111
  p1:x0=1  p1:x2=1  : 1461
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 323590
  p1:x0=0  p1:x2=1  : 175176
  p1:x0=1  p1:x2=1  : 1234
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 162217
  p1:x0=0  p1:x2=0  : 336400
  p1:x0=1  p1:x2=1  : 1383
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -2793,7 +2793,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=1  p2:x2=1  : 5017
  p1:x0=0  p2:x0=1  p2:x2=1  : 1352
  p1:x0=0  p2:x0=1  p2:x2=0  : 140
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 70/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2808,21 +2808,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 334911
  p1:x0=0  p1:x2=1  : 163888
  p1:x0=1  p1:x2=1  : 1201
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 327247
  p1:x0=0  p1:x2=1  : 171506
  p1:x0=1  p1:x2=1  : 1247
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 333391
  p1:x0=0  p1:x2=1  : 165275
  p1:x0=1  p1:x2=1  : 1334
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -2833,7 +2833,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=1  p2:x2=1  : 880
  p1:x0=0  p2:x0=1  p2:x2=0  : 82
  p1:x0=1  p2:x0=0  p2:x2=0  : 1752
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 71/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2848,21 +2848,21 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 330177
  p1:x0=0  p1:x2=1  : 168793
  p1:x0=1  p1:x2=1  : 1030
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=1  p1:x2=1  : 970
  p1:x0=0  p1:x2=0  : 321560
  p1:x0=0  p1:x2=1  : 177470
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 168144
  p1:x0=0  p1:x2=0  : 330899
  p1:x0=1  p1:x2=1  : 957
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -2873,7 +2873,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=1  p2:x2=1  : 1471
  p1:x0=0  p2:x0=0  p2:x2=0  : 6605
  p1:x0=0  p2:x0=1  p2:x2=0  : 148
-Observation WRC.TRT.inv+addrs: 0 (of 500000)
+Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
 72/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2888,7 +2888,7 @@ Test MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 330518
  p1:x0=0  p1:x2=1  : 162545
  p1:x0=1  p1:x2=1  : 6937
-Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
+Observation MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 ce virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.BoNlFqxlv9 -smp 4 -append 'MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb -p -n500000'
 P0			P1			P2			P3			

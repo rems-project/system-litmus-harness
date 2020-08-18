@@ -11,39 +11,39 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=1  : 193040
  p1:x0=0  p1:x2=0  : 108013
  p1:x0=0  p1:x2=1  : 198947
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=0  p1:x2=0  : 56221
  p1:x0=0  p1:x2=1  : 12646
  p1:x0=1  p1:x2=1  : 431133
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 219759
  p1:x0=0  p1:x2=0  : 34177
  p1:x0=0  p1:x2=1  : 246064
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 268745
  p1:x0=0  p1:x2=0  : 29129
  p1:x0=1  p1:x2=1  : 202126
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 254280
  p0:x2=1  : 245720 *
-Observation CoWT+dsb-isb: 245720 (of 500000)
+Observation CoWT+dsb-isb.errata: 245720 (of 500000)
 1/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -58,39 +58,39 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=1  : 193902
  p1:x0=0  p1:x2=0  : 150061
  p1:x0=0  p1:x2=1  : 156037
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=0  p1:x2=0  : 56058
  p1:x0=1  p1:x2=1  : 428995
  p1:x0=0  p1:x2=1  : 14947
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 33142
  p1:x0=0  p1:x2=1  : 243114
  p1:x0=1  p1:x2=1  : 223744
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 29884
  p1:x0=1  p1:x2=1  : 208356
  p1:x0=0  p1:x2=1  : 261760
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 233657
  p0:x2=1  : 266343 *
-Observation CoWT+dsb-isb: 266343 (of 500000)
+Observation CoWT+dsb-isb.errata: 266343 (of 500000)
 2/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -105,39 +105,39 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=1  : 190261
  p1:x0=0  p1:x2=0  : 109078
  p1:x0=1  p1:x2=1  : 200661
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=1  p1:x2=1  : 432024
  p1:x0=0  p1:x2=1  : 12323
  p1:x0=0  p1:x2=0  : 55653
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 222315
  p1:x0=0  p1:x2=0  : 40549
  p1:x0=0  p1:x2=1  : 237136
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 216027
  p1:x0=0  p1:x2=0  : 43674
  p1:x0=0  p1:x2=1  : 240299
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 236193
  p0:x2=1  : 263807 *
-Observation CoWT+dsb-isb: 263807 (of 500000)
+Observation CoWT+dsb-isb.errata: 263807 (of 500000)
 3/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -152,39 +152,39 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=0  : 100146
  p1:x0=0  p1:x2=1  : 202070
  p1:x0=1  p1:x2=1  : 197784
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=1  p1:x2=1  : 433788
  p1:x0=0  p1:x2=1  : 12751
  p1:x0=0  p1:x2=0  : 53461
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 31597
  p1:x0=1  p1:x2=1  : 224225
  p1:x0=0  p1:x2=1  : 244178
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 30218
  p1:x0=1  p1:x2=1  : 208707
  p1:x0=0  p1:x2=1  : 261075
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 235530
  p0:x2=1  : 264470 *
-Observation CoWT+dsb-isb: 264470 (of 500000)
+Observation CoWT+dsb-isb.errata: 264470 (of 500000)
 4/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -199,39 +199,39 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=1  : 203910
  p1:x0=0  p1:x2=0  : 99361
  p1:x0=1  p1:x2=1  : 196729
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=1  p1:x2=1  : 436088
  p1:x0=0  p1:x2=0  : 51779
  p1:x0=0  p1:x2=1  : 12133
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 248814
  p1:x0=1  p1:x2=1  : 221435
  p1:x0=0  p1:x2=0  : 29751
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 200262
  p1:x0=0  p1:x2=0  : 20983
  p1:x0=0  p1:x2=1  : 278755
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 232618
  p0:x2=1  : 267382 *
-Observation CoWT+dsb-isb: 267382 (of 500000)
+Observation CoWT+dsb-isb.errata: 267382 (of 500000)
 5/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -246,14 +246,14 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=0  : 91003
  p1:x0=1  p1:x2=1  : 197503
  p1:x0=0  p1:x2=1  : 211494
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=1  p1:x2=1  : 436622
  p1:x0=0  p1:x2=0  : 52347
  p1:x0=0  p1:x2=1  : 11031
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
@@ -261,25 +261,25 @@ Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=1  p1:x2=1  : 217168
  p1:x0=0  p1:x2=1  : 258284
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 1 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 21695
  p1:x0=0  p1:x2=1  : 279625
  p1:x0=1  p1:x2=1  : 198680
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 232174
  p0:x2=1  : 267826 *
-Observation CoWT+dsb-isb: 267826 (of 500000)
+Observation CoWT+dsb-isb.errata: 267826 (of 500000)
 6/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -294,39 +294,39 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=0  : 96991
  p1:x0=0  p1:x2=1  : 213043
  p1:x0=1  p1:x2=1  : 189966
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=1  p1:x2=1  : 435801
  p1:x0=0  p1:x2=0  : 53376
  p1:x0=0  p1:x2=1  : 10823
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 222012
  p1:x0=0  p1:x2=1  : 254145
  p1:x0=0  p1:x2=0  : 23843
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 279097
  p1:x0=1  p1:x2=1  : 195835
  p1:x0=0  p1:x2=0  : 25068
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 235144
  p0:x2=1  : 264856 *
-Observation CoWT+dsb-isb: 264856 (of 500000)
+Observation CoWT+dsb-isb.errata: 264856 (of 500000)
 7/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -341,39 +341,39 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=0  : 155045
  p1:x0=1  p1:x2=1  : 202426
  p1:x0=0  p1:x2=1  : 142529
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=1  p1:x2=1  : 431989
  p1:x0=0  p1:x2=1  : 13154
  p1:x0=0  p1:x2=0  : 54857
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 221220
  p1:x0=0  p1:x2=1  : 255746
  p1:x0=0  p1:x2=0  : 23034
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 280891
  p1:x0=0  p1:x2=0  : 24494
  p1:x0=1  p1:x2=1  : 194615
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 233599
  p0:x2=1  : 266401 *
-Observation CoWT+dsb-isb: 266401 (of 500000)
+Observation CoWT+dsb-isb.errata: 266401 (of 500000)
 8/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -388,39 +388,39 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=0  : 94386
  p1:x0=1  p1:x2=1  : 197583
  p1:x0=0  p1:x2=1  : 208031
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=1  p1:x2=1  : 431345
  p1:x0=0  p1:x2=0  : 57242
  p1:x0=0  p1:x2=1  : 11413
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 257029
  p1:x0=1  p1:x2=1  : 219948
  p1:x0=0  p1:x2=0  : 23023
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 296564
  p1:x0=0  p1:x2=0  : 23366
  p1:x0=1  p1:x2=1  : 180070
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 250348
  p0:x2=1  : 249652 *
-Observation CoWT+dsb-isb: 249652 (of 500000)
+Observation CoWT+dsb-isb.errata: 249652 (of 500000)
 9/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -436,39 +436,39 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=0  p1:x2=0  : 94919
  p1:x0=0  p1:x2=1  : 206998
-Observation CoTR+dsb-isb: 1 (of 500000)
+Observation CoTR+dsb-isb.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=1  p1:x2=1  : 434858
  p1:x0=0  p1:x2=1  : 10955
  p1:x0=0  p1:x2=0  : 54187
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 24302
  p1:x0=0  p1:x2=1  : 260313
  p1:x0=1  p1:x2=1  : 215385
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 292508
  p1:x0=0  p1:x2=0  : 23871
  p1:x0=1  p1:x2=1  : 183621
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 228301
  p0:x2=1  : 271699 *
-Observation CoWT+dsb-isb: 271699 (of 500000)
+Observation CoWT+dsb-isb.errata: 271699 (of 500000)
 10/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -483,39 +483,39 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=0  : 93714
  p1:x0=0  p1:x2=1  : 212584
  p1:x0=1  p1:x2=1  : 193702
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=1  p1:x2=1  : 437420
  p1:x0=0  p1:x2=0  : 51613
  p1:x0=0  p1:x2=1  : 10967
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 219040
  p1:x0=0  p1:x2=0  : 23368
  p1:x0=0  p1:x2=1  : 257592
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 22032
  p1:x0=1  p1:x2=1  : 179611
  p1:x0=0  p1:x2=1  : 298357
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 231136
  p0:x2=1  : 268864 *
-Observation CoWT+dsb-isb: 268864 (of 500000)
+Observation CoWT+dsb-isb.errata: 268864 (of 500000)
 11/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -530,39 +530,39 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=0  : 93902
  p1:x0=1  p1:x2=1  : 193109
  p1:x0=0  p1:x2=1  : 212989
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=0  p1:x2=1  : 12720
  p1:x0=1  p1:x2=1  : 434984
  p1:x0=0  p1:x2=0  : 52296
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 24666
  p1:x0=1  p1:x2=1  : 212689
  p1:x0=0  p1:x2=1  : 262645
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 24731
  p1:x0=1  p1:x2=1  : 194397
  p1:x0=0  p1:x2=1  : 280872
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 229496
  p0:x2=1  : 270504 *
-Observation CoWT+dsb-isb: 270504 (of 500000)
+Observation CoWT+dsb-isb.errata: 270504 (of 500000)
 12/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -577,39 +577,39 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=1  : 195426
  p1:x0=0  p1:x2=1  : 214567
  p1:x0=0  p1:x2=0  : 90007
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=0  p1:x2=1  : 10764
  p1:x0=1  p1:x2=1  : 439573
  p1:x0=0  p1:x2=0  : 49663
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 218196
  p1:x0=0  p1:x2=0  : 20483
  p1:x0=0  p1:x2=1  : 261321
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 204285
  p1:x0=0  p1:x2=0  : 14939
  p1:x0=0  p1:x2=1  : 280776
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 242780
  p0:x2=1  : 257220 *
-Observation CoWT+dsb-isb: 257220 (of 500000)
+Observation CoWT+dsb-isb.errata: 257220 (of 500000)
 13/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -624,39 +624,39 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=1  : 229024
  p1:x0=1  p1:x2=1  : 230362
  p1:x0=0  p1:x2=0  : 40614
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=1  p1:x2=1  : 492682
  p1:x0=0  p1:x2=1  : 3749
  p1:x0=0  p1:x2=0  : 3569
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 273099
  p1:x0=0  p1:x2=0  : 4010
  p1:x0=1  p1:x2=1  : 222891
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 208371
  p1:x0=0  p1:x2=1  : 285005
  p1:x0=0  p1:x2=0  : 6624
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 237901
  p0:x2=1  : 262099 *
-Observation CoWT+dsb-isb: 262099 (of 500000)
+Observation CoWT+dsb-isb.errata: 262099 (of 500000)
 14/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -672,14 +672,14 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=1  p1:x2=1  : 213270
  p1:x0=0  p1:x2=1  : 245034
-Observation CoTR+dsb-isb: 1 (of 500000)
+Observation CoTR+dsb-isb.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=0  p1:x2=1  : 4091
  p1:x0=1  p1:x2=1  : 491314
  p1:x0=0  p1:x2=0  : 4595
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
@@ -687,7 +687,7 @@ Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=0  p1:x2=1  : 279708
  p1:x0=0  p1:x2=0  : 6765
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 1 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -695,18 +695,18 @@ Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 5253
  p1:x0=1  p1:x2=1  : 206416
  p1:x0=0  p1:x2=1  : 288330
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 1 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 242065
  p0:x2=1  : 257935 *
-Observation CoWT+dsb-isb: 257935 (of 500000)
+Observation CoWT+dsb-isb.errata: 257935 (of 500000)
 15/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -721,39 +721,39 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=1  : 218945
  p1:x0=0  p1:x2=1  : 192160
  p1:x0=0  p1:x2=0  : 88895
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=0  p1:x2=1  : 7783
  p1:x0=1  p1:x2=1  : 488573
  p1:x0=0  p1:x2=0  : 3644
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 218574
  p1:x0=0  p1:x2=0  : 7588
  p1:x0=0  p1:x2=1  : 273838
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 4922
  p1:x0=0  p1:x2=1  : 299588
  p1:x0=1  p1:x2=1  : 195490
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 235940
  p0:x2=1  : 264060 *
-Observation CoWT+dsb-isb: 264060 (of 500000)
+Observation CoWT+dsb-isb.errata: 264060 (of 500000)
 16/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -768,21 +768,21 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=0  : 38701
  p1:x0=1  p1:x2=1  : 226488
  p1:x0=0  p1:x2=1  : 234811
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=1  p1:x2=1  : 492263
  p1:x0=0  p1:x2=1  : 4083
  p1:x0=0  p1:x2=0  : 3654
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 267347
  p1:x0=0  p1:x2=0  : 4579
  p1:x0=1  p1:x2=1  : 228074
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -790,18 +790,18 @@ Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=0  p1:x2=0  : 4253
  p1:x0=0  p1:x2=1  : 288280
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 1 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=1  : 264961 *
  p0:x2=2  : 235039
-Observation CoWT+dsb-isb: 264961 (of 500000)
+Observation CoWT+dsb-isb.errata: 264961 (of 500000)
 17/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -816,14 +816,14 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=1  : 217867
  p1:x0=0  p1:x2=0  : 91945
  p1:x0=0  p1:x2=1  : 190188
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=0  p1:x2=1  : 7641
  p1:x0=1  p1:x2=1  : 488393
  p1:x0=0  p1:x2=0  : 3966
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
@@ -831,7 +831,7 @@ Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 273685
  p1:x0=1  p1:x2=1  : 220535
  p1:x0=0  p1:x2=0  : 5779
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 1 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -839,18 +839,18 @@ Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=0  p1:x2=1  : 288638
  p1:x0=0  p1:x2=0  : 5660
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 1 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 232598
  p0:x2=1  : 267402 *
-Observation CoWT+dsb-isb: 267402 (of 500000)
+Observation CoWT+dsb-isb.errata: 267402 (of 500000)
 18/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -865,21 +865,21 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=0  : 39347
  p1:x0=1  p1:x2=1  : 224002
  p1:x0=0  p1:x2=1  : 236651
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=0  p1:x2=1  : 4592
  p1:x0=1  p1:x2=1  : 491143
  p1:x0=0  p1:x2=0  : 4265
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 222131
  p1:x0=0  p1:x2=0  : 6443
  p1:x0=0  p1:x2=1  : 271426
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -887,18 +887,18 @@ Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=0  p1:x2=1  : 286284
  p1:x0=0  p1:x2=0  : 4501
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 1 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 239936
  p0:x2=1  : 260064 *
-Observation CoWT+dsb-isb: 260064 (of 500000)
+Observation CoWT+dsb-isb.errata: 260064 (of 500000)
 19/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -913,39 +913,39 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=0  : 99452
  p1:x0=0  p1:x2=1  : 180338
  p1:x0=1  p1:x2=1  : 220210
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=0  p1:x2=1  : 6297
  p1:x0=1  p1:x2=1  : 489489
  p1:x0=0  p1:x2=0  : 4214
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 216592
  p1:x0=0  p1:x2=1  : 277441
  p1:x0=0  p1:x2=0  : 5967
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 302897
  p1:x0=1  p1:x2=1  : 191909
  p1:x0=0  p1:x2=0  : 5194
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 243330
  p0:x2=1  : 256670 *
-Observation CoWT+dsb-isb: 256670 (of 500000)
+Observation CoWT+dsb-isb.errata: 256670 (of 500000)
 20/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -961,39 +961,39 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=1  : 225488
  p1:x0=0  p1:x2=1  : 230994
  p1:x0=0  p1:x2=0  : 43516
-Observation CoTR+dsb-isb: 2 (of 500000)
+Observation CoTR+dsb-isb.errata: 2 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=1  p1:x2=1  : 492519
  p1:x0=0  p1:x2=0  : 3513
  p1:x0=0  p1:x2=1  : 3968
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 266704
  p1:x0=0  p1:x2=0  : 4421
  p1:x0=1  p1:x2=1  : 228875
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 4397
  p1:x0=0  p1:x2=1  : 275612
  p1:x0=1  p1:x2=1  : 219991
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 238374
  p0:x2=1  : 261626 *
-Observation CoWT+dsb-isb: 261626 (of 500000)
+Observation CoWT+dsb-isb.errata: 261626 (of 500000)
 21/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -1008,39 +1008,39 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=0  : 44018
  p1:x0=1  p1:x2=1  : 220255
  p1:x0=0  p1:x2=1  : 235727
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=1  p1:x2=1  : 491959
  p1:x0=0  p1:x2=1  : 3959
  p1:x0=0  p1:x2=0  : 4082
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 269992
  p1:x0=0  p1:x2=0  : 5020
  p1:x0=1  p1:x2=1  : 224988
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 212193
  p1:x0=0  p1:x2=1  : 281726
  p1:x0=0  p1:x2=0  : 6081
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 239748
  p0:x2=1  : 260252 *
-Observation CoWT+dsb-isb: 260252 (of 500000)
+Observation CoWT+dsb-isb.errata: 260252 (of 500000)
 22/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -1055,14 +1055,14 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=0  : 40220
  p1:x0=0  p1:x2=1  : 235598
  p1:x0=1  p1:x2=1  : 224182
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=0  p1:x2=1  : 4668
  p1:x0=1  p1:x2=1  : 491543
  p1:x0=0  p1:x2=0  : 3789
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
@@ -1070,25 +1070,25 @@ Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 5540
  p1:x0=0  p1:x2=1  : 272900
  p1:x0=1  p1:x2=1  : 221559
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 1 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 199547
  p1:x0=0  p1:x2=0  : 5562
  p1:x0=0  p1:x2=1  : 294891
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 238175
  p0:x2=1  : 261825 *
-Observation CoWT+dsb-isb: 261825 (of 500000)
+Observation CoWT+dsb-isb.errata: 261825 (of 500000)
 23/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -1103,39 +1103,39 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=0  : 41513
  p1:x0=0  p1:x2=1  : 246811
  p1:x0=1  p1:x2=1  : 211676
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=1  p1:x2=1  : 492956
  p1:x0=0  p1:x2=0  : 2921
  p1:x0=0  p1:x2=1  : 4123
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 5352
  p1:x0=1  p1:x2=1  : 230644
  p1:x0=0  p1:x2=1  : 264004
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 3419
  p1:x0=1  p1:x2=1  : 218099
  p1:x0=0  p1:x2=1  : 278482
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 239081
  p0:x2=1  : 260919 *
-Observation CoWT+dsb-isb: 260919 (of 500000)
+Observation CoWT+dsb-isb.errata: 260919 (of 500000)
 24/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -1151,14 +1151,14 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=1  p1:x2=1  : 215942
  p1:x0=0  p1:x2=1  : 194177
-Observation CoTR+dsb-isb: 1 (of 500000)
+Observation CoTR+dsb-isb.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=1  p1:x2=1  : 489494
  p1:x0=0  p1:x2=1  : 6784
  p1:x0=0  p1:x2=0  : 3722
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
@@ -1166,25 +1166,25 @@ Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=0  p1:x2=0  : 5969
  p1:x0=1  p1:x2=1  : 225029
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 1 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 212582
  p1:x0=0  p1:x2=0  : 6577
  p1:x0=0  p1:x2=1  : 280841
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=1  : 255906 *
  p0:x2=2  : 244094
-Observation CoWT+dsb-isb: 255906 (of 500000)
+Observation CoWT+dsb-isb.errata: 255906 (of 500000)
 25/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -1200,39 +1200,39 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=0  p1:x2=1  : 247025
  p1:x0=0  p1:x2=0  : 34891
-Observation CoTR+dsb-isb: 1 (of 500000)
+Observation CoTR+dsb-isb.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=1  p1:x2=1  : 493236
  p1:x0=0  p1:x2=1  : 2666
  p1:x0=0  p1:x2=0  : 4098
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 276801
  p1:x0=1  p1:x2=1  : 215902
  p1:x0=0  p1:x2=0  : 7297
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 200980
  p1:x0=0  p1:x2=1  : 294289
  p1:x0=0  p1:x2=0  : 4731
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 239822
  p0:x2=1  : 260178 *
-Observation CoWT+dsb-isb: 260178 (of 500000)
+Observation CoWT+dsb-isb.errata: 260178 (of 500000)
 26/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -1247,39 +1247,39 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=1  : 190346
  p1:x0=0  p1:x2=0  : 88943
  p1:x0=1  p1:x2=1  : 220711
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=0  p1:x2=1  : 7716
  p1:x0=1  p1:x2=1  : 489015
  p1:x0=0  p1:x2=0  : 3269
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 217754
  p1:x0=0  p1:x2=1  : 275810
  p1:x0=0  p1:x2=0  : 6436
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 3649
  p1:x0=1  p1:x2=1  : 195446
  p1:x0=0  p1:x2=1  : 300905
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 234586
  p0:x2=1  : 265414 *
-Observation CoWT+dsb-isb: 265414 (of 500000)
+Observation CoWT+dsb-isb.errata: 265414 (of 500000)
 27/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -1294,39 +1294,39 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=1  : 201015
  p1:x0=0  p1:x2=1  : 154697
  p1:x0=0  p1:x2=0  : 144288
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=1  p1:x2=1  : 302321
  p1:x0=0  p1:x2=1  : 194703
  p1:x0=0  p1:x2=0  : 2976
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 285871
  p1:x0=1  p1:x2=1  : 207735
  p1:x0=0  p1:x2=0  : 6394
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 5137
  p1:x0=0  p1:x2=1  : 294326
  p1:x0=1  p1:x2=1  : 200537
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 226543
  p0:x2=1  : 273457 *
-Observation CoWT+dsb-isb: 273457 (of 500000)
+Observation CoWT+dsb-isb.errata: 273457 (of 500000)
 28/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -1341,39 +1341,39 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=0  : 151303
  p1:x0=1  p1:x2=1  : 201526
  p1:x0=0  p1:x2=1  : 147171
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=0  p1:x2=1  : 171829
  p1:x0=1  p1:x2=1  : 325187
  p1:x0=0  p1:x2=0  : 2984
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 209301
  p1:x0=0  p1:x2=0  : 7255
  p1:x0=0  p1:x2=1  : 283444
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 275183
  p1:x0=1  p1:x2=1  : 218537
  p1:x0=0  p1:x2=0  : 6280
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 243652
  p0:x2=1  : 256348 *
-Observation CoWT+dsb-isb: 256348 (of 500000)
+Observation CoWT+dsb-isb.errata: 256348 (of 500000)
 29/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -1388,39 +1388,39 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=1  : 203784
  p1:x0=0  p1:x2=0  : 148882
  p1:x0=0  p1:x2=1  : 147334
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=1  p1:x2=1  : 317816
  p1:x0=0  p1:x2=1  : 179623
  p1:x0=0  p1:x2=0  : 2561
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 259163
  p1:x0=1  p1:x2=1  : 236946
  p1:x0=0  p1:x2=0  : 3891
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 4440
  p1:x0=0  p1:x2=1  : 304321
  p1:x0=1  p1:x2=1  : 191239
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 247766
  p0:x2=1  : 252234 *
-Observation CoWT+dsb-isb: 252234 (of 500000)
+Observation CoWT+dsb-isb.errata: 252234 (of 500000)
 30/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -1435,39 +1435,39 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=1  : 208851
  p1:x0=0  p1:x2=0  : 141503
  p1:x0=0  p1:x2=1  : 149646
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=1  p1:x2=1  : 330809
  p1:x0=0  p1:x2=1  : 166274
  p1:x0=0  p1:x2=0  : 2917
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 202424
  p1:x0=0  p1:x2=1  : 290244
  p1:x0=0  p1:x2=0  : 7332
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 279316
  p1:x0=0  p1:x2=0  : 7547
  p1:x0=1  p1:x2=1  : 213137
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 249747
  p0:x2=1  : 250253 *
-Observation CoWT+dsb-isb: 250253 (of 500000)
+Observation CoWT+dsb-isb.errata: 250253 (of 500000)
 31/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -1482,39 +1482,39 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=0  : 139460
  p1:x0=0  p1:x2=1  : 147779
  p1:x0=1  p1:x2=1  : 212761
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=0  p1:x2=0  : 2882
  p1:x0=0  p1:x2=1  : 161898
  p1:x0=1  p1:x2=1  : 335220
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 207113
  p1:x0=0  p1:x2=1  : 289158
  p1:x0=0  p1:x2=0  : 3729
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 288149
  p1:x0=1  p1:x2=1  : 206560
  p1:x0=0  p1:x2=0  : 5291
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 247704
  p0:x2=1  : 252296 *
-Observation CoWT+dsb-isb: 252296 (of 500000)
+Observation CoWT+dsb-isb.errata: 252296 (of 500000)
 32/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -1529,39 +1529,39 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=0  : 145891
  p1:x0=0  p1:x2=1  : 151135
  p1:x0=1  p1:x2=1  : 202974
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=1  p1:x2=1  : 306316
  p1:x0=0  p1:x2=1  : 190217
  p1:x0=0  p1:x2=0  : 3467
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 256538
  p1:x0=1  p1:x2=1  : 238095
  p1:x0=0  p1:x2=0  : 5367
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 5305
  p1:x0=1  p1:x2=1  : 209520
  p1:x0=0  p1:x2=1  : 285175
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 237115
  p0:x2=1  : 262885 *
-Observation CoWT+dsb-isb: 262885 (of 500000)
+Observation CoWT+dsb-isb.errata: 262885 (of 500000)
 33/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -1576,39 +1576,39 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=0  : 146587
  p1:x0=0  p1:x2=1  : 142366
  p1:x0=1  p1:x2=1  : 211047
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=0  p1:x2=0  : 3379
  p1:x0=1  p1:x2=1  : 313004
  p1:x0=0  p1:x2=1  : 183617
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 6366
  p1:x0=1  p1:x2=1  : 236922
  p1:x0=0  p1:x2=1  : 256712
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 4634
  p1:x0=0  p1:x2=1  : 291584
  p1:x0=1  p1:x2=1  : 203782
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 236877
  p0:x2=1  : 263123 *
-Observation CoWT+dsb-isb: 263123 (of 500000)
+Observation CoWT+dsb-isb.errata: 263123 (of 500000)
 34/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -1623,39 +1623,39 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=0  : 144709
  p1:x0=1  p1:x2=1  : 208797
  p1:x0=0  p1:x2=1  : 146494
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=0  p1:x2=0  : 2574
  p1:x0=1  p1:x2=1  : 326146
  p1:x0=0  p1:x2=1  : 171280
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 4585
  p1:x0=1  p1:x2=1  : 207132
  p1:x0=0  p1:x2=1  : 288283
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 199021
  p1:x0=0  p1:x2=1  : 296281
  p1:x0=0  p1:x2=0  : 4698
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=1  : 266707 *
  p0:x2=2  : 233293
-Observation CoWT+dsb-isb: 266707 (of 500000)
+Observation CoWT+dsb-isb.errata: 266707 (of 500000)
 35/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -1670,39 +1670,39 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=1  : 203067
  p1:x0=0  p1:x2=1  : 149797
  p1:x0=0  p1:x2=0  : 147136
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=0  p1:x2=0  : 3353
  p1:x0=1  p1:x2=1  : 315494
  p1:x0=0  p1:x2=1  : 181153
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 193661
  p1:x0=0  p1:x2=0  : 4672
  p1:x0=0  p1:x2=1  : 301667
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 304796
  p1:x0=1  p1:x2=1  : 190438
  p1:x0=0  p1:x2=0  : 4766
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 230412
  p0:x2=1  : 269588 *
-Observation CoWT+dsb-isb: 269588 (of 500000)
+Observation CoWT+dsb-isb.errata: 269588 (of 500000)
 36/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -1718,21 +1718,21 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=1  p1:x2=1  : 208326
  p1:x0=0  p1:x2=1  : 154397
-Observation CoTR+dsb-isb: 1 (of 500000)
+Observation CoTR+dsb-isb.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=0  p1:x2=1  : 145734
  p1:x0=1  p1:x2=1  : 351133
  p1:x0=0  p1:x2=0  : 3133
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 284054
  p1:x0=0  p1:x2=0  : 3157
  p1:x0=1  p1:x2=1  : 212789
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -1740,18 +1740,18 @@ Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=0  p1:x2=1  : 286579
  p1:x0=0  p1:x2=0  : 4719
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 1 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 235439
  p0:x2=1  : 264561 *
-Observation CoWT+dsb-isb: 264561 (of 500000)
+Observation CoWT+dsb-isb.errata: 264561 (of 500000)
 37/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -1767,14 +1767,14 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=0  p1:x2=1  : 155362
  p1:x0=0  p1:x2=0  : 140621
-Observation CoTR+dsb-isb: 1 (of 500000)
+Observation CoTR+dsb-isb.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=0  p1:x2=0  : 3274
  p1:x0=0  p1:x2=1  : 140056
  p1:x0=1  p1:x2=1  : 356670
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
@@ -1782,7 +1782,7 @@ Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=0  p1:x2=1  : 280183
  p1:x0=0  p1:x2=0  : 5748
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 1 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -1790,18 +1790,18 @@ Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 284754
  p1:x0=1  p1:x2=1  : 211778
  p1:x0=0  p1:x2=0  : 3467
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 1 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 224860
  p0:x2=1  : 275140 *
-Observation CoWT+dsb-isb: 275140 (of 500000)
+Observation CoWT+dsb-isb.errata: 275140 (of 500000)
 38/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -1817,14 +1817,14 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=1  p1:x2=1  : 201009
  p1:x0=0  p1:x2=1  : 149348
-Observation CoTR+dsb-isb: 1 (of 500000)
+Observation CoTR+dsb-isb.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=0  p1:x2=1  : 150159
  p1:x0=1  p1:x2=1  : 346998
  p1:x0=0  p1:x2=0  : 2843
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
@@ -1832,7 +1832,7 @@ Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 289129
  p1:x0=1  p1:x2=1  : 205272
  p1:x0=0  p1:x2=0  : 5598
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 1 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
@@ -1840,18 +1840,18 @@ Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=1  p1:x2=1  : 239928
  p1:x0=0  p1:x2=0  : 3205
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 1 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 240942
  p0:x2=1  : 259058 *
-Observation CoWT+dsb-isb: 259058 (of 500000)
+Observation CoWT+dsb-isb.errata: 259058 (of 500000)
 39/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -1867,39 +1867,39 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=1  p1:x2=1  : 215130
  p1:x0=0  p1:x2=1  : 133541
-Observation CoTR+dsb-isb: 1 (of 500000)
+Observation CoTR+dsb-isb.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=0  p1:x2=0  : 3343
  p1:x0=0  p1:x2=1  : 182077
  p1:x0=1  p1:x2=1  : 314580
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.broken+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 288816
  p1:x0=0  p1:x2=0  : 6250
  p1:x0=1  p1:x2=1  : 204934
-Observation CoTR1.broken+dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1.broken+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-dc-dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 5665
  p1:x0=1  p1:x2=1  : 199675
  p1:x0=0  p1:x2=1  : 294660
-Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb: 0 (of 500000)
+Observation CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb-isb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb-isb: 0 (of 500000)
+Observation CoWT.inv+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 240078
  p0:x2=1  : 259922 *
-Observation CoWT+dsb-isb: 259922 (of 500000)
+Observation CoWT+dsb-isb.errata: 259922 (of 500000)
 40/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -1914,7 +1914,7 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=1  : 80259
  p1:x0=0  p1:x2=1  : 323389
  p1:x0=0  p1:x2=0  : 96352
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 			Unhandled Exception (CPU1): 
 			  [VBAR: 0x4008E000]
@@ -1938,7 +1938,7 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=1  : 78657
  p1:x0=0  p1:x2=1  : 315351
  p1:x0=0  p1:x2=0  : 105992
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 			Unhandled Exception (CPU1): 
 			  [VBAR: 0x4008E000]
@@ -1962,14 +1962,14 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=0  : 97511
  p1:x0=0  p1:x2=1  : 325121
  p1:x0=1  p1:x2=1  : 77368
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=0  p1:x2=0  : 3074
  p1:x0=1  p1:x2=1  : 460129
  p1:x0=0  p1:x2=1  : 36797
-Observation CoTR.inv+dsb-isb: 0 (of 500000)
+Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
 			Unhandled Exception (CPU1): 
 			  [VBAR: 0x4008E000]
 			  [Vector: 0x0 (VEC_EL1T_SYNC)]
@@ -1992,7 +1992,7 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=0  : 103260
  p1:x0=1  p1:x2=1  : 73304
  p1:x0=0  p1:x2=1  : 323436
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 			Unhandled Exception (CPU1): 
 			  [VBAR: 0x4008E000]
@@ -2016,7 +2016,7 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=1  : 81824
  p1:x0=0  p1:x2=0  : 105288
  p1:x0=0  p1:x2=1  : 312888
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 			Unhandled Exception (CPU1): 
 			  [VBAR: 0x4008E000]
@@ -2040,7 +2040,7 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=1  : 327520
  p1:x0=0  p1:x2=0  : 89067
  p1:x0=1  p1:x2=1  : 83413
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 			Unhandled Exception (CPU1): 
 			  [VBAR: 0x4008E000]
@@ -2064,7 +2064,7 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=0  : 99130
  p1:x0=0  p1:x2=1  : 325033
  p1:x0=1  p1:x2=1  : 75837
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 			Unhandled Exception (CPU1): 
 			  [VBAR: 0x4008E000]
@@ -2088,7 +2088,7 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=1  : 76316
  p1:x0=0  p1:x2=0  : 97805
  p1:x0=0  p1:x2=1  : 325879
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 			Unhandled Exception (CPU1): 
 			  [VBAR: 0x4008E000]
@@ -2112,7 +2112,7 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=1  : 89199
  p1:x0=0  p1:x2=1  : 316647
  p1:x0=0  p1:x2=0  : 94154
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 			Unhandled Exception (CPU1): 
 			  [VBAR: 0x4008E000]
@@ -2136,7 +2136,7 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=1  : 77720
  p1:x0=0  p1:x2=1  : 322708
  p1:x0=0  p1:x2=0  : 99572
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 			Unhandled Exception (CPU1): 
 			  [VBAR: 0x4008E000]
@@ -2160,7 +2160,7 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=0  : 100297
  p1:x0=0  p1:x2=1  : 320293
  p1:x0=1  p1:x2=1  : 79410
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 			Unhandled Exception (CPU1): 
 			  [VBAR: 0x4008E000]
@@ -2184,7 +2184,7 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=1  : 80752
  p1:x0=0  p1:x2=1  : 316824
  p1:x0=0  p1:x2=0  : 102424
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 			Unhandled Exception (CPU1): 
 			  [VBAR: 0x4008E000]
@@ -2208,7 +2208,7 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=0  : 90569
  p1:x0=1  p1:x2=1  : 77028
  p1:x0=0  p1:x2=1  : 332403
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 			Unhandled Exception (CPU1): 
 			  [VBAR: 0x4008E000]
@@ -2233,7 +2233,7 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=1  : 76374
  p1:x0=0  p1:x2=1  : 326989
  p1:x0=0  p1:x2=0  : 96636
-Observation CoTR+dsb-isb: 1 (of 500000)
+Observation CoTR+dsb-isb.errata: 1 (of 500000)
 P0			P1			P2			P3			
 			Unhandled Exception (CPU1): 
 			  [VBAR: 0x4008E000]
@@ -2257,7 +2257,7 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=1  : 78733
  p1:x0=0  p1:x2=0  : 104655
  p1:x0=0  p1:x2=1  : 316612
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 			Unhandled Exception (CPU1): 
 			  [VBAR: 0x4008E000]
@@ -2281,7 +2281,7 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=1  : 80198
  p1:x0=0  p1:x2=0  : 102929
  p1:x0=0  p1:x2=1  : 316873
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 			Unhandled Exception (CPU1): 
 			  [VBAR: 0x4008E000]
@@ -2305,7 +2305,7 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=1  : 317475
  p1:x0=0  p1:x2=0  : 99813
  p1:x0=1  p1:x2=1  : 82712
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 			Unhandled Exception (CPU1): 
 			  [VBAR: 0x4008E000]
@@ -2329,7 +2329,7 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=0  : 104589
  p1:x0=0  p1:x2=1  : 318614
  p1:x0=1  p1:x2=1  : 76797
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 			Unhandled Exception (CPU1): 
 			  [VBAR: 0x4008E000]
@@ -2353,7 +2353,7 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=0  : 108420
  p1:x0=0  p1:x2=1  : 312811
  p1:x0=1  p1:x2=1  : 78769
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 			Unhandled Exception (CPU1): 
 			  [VBAR: 0x4008E000]
@@ -2377,7 +2377,7 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=1  : 311629
  p1:x0=0  p1:x2=0  : 110140
  p1:x0=1  p1:x2=1  : 78231
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 			Unhandled Exception (CPU1): 
 			  [VBAR: 0x4008E000]
@@ -2401,7 +2401,7 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=1  : 78833
  p1:x0=0  p1:x2=0  : 98583
  p1:x0=0  p1:x2=1  : 322584
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 			Unhandled Exception (CPU1): 
 			  [VBAR: 0x4008E000]
@@ -2425,7 +2425,7 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=1  : 313152
  p1:x0=0  p1:x2=0  : 103974
  p1:x0=1  p1:x2=1  : 82874
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 			Unhandled Exception (CPU1): 
 			  [VBAR: 0x4008E000]
@@ -2449,7 +2449,7 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=0  : 101677
  p1:x0=0  p1:x2=1  : 317408
  p1:x0=1  p1:x2=1  : 80915
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 			Unhandled Exception (CPU1): 
 			  [VBAR: 0x4008E000]
@@ -2473,7 +2473,7 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=1  : 78085
  p1:x0=0  p1:x2=1  : 319345
  p1:x0=0  p1:x2=0  : 102570
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 			Unhandled Exception (CPU1): 
 			  [VBAR: 0x4008E000]
@@ -2497,7 +2497,7 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=0  : 100114
  p1:x0=0  p1:x2=1  : 320828
  p1:x0=1  p1:x2=1  : 79058
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 			Unhandled Exception (CPU1): 
 			  [VBAR: 0x4008E000]
@@ -2521,7 +2521,7 @@ Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=0  : 89687
  p1:x0=1  p1:x2=1  : 82400
  p1:x0=0  p1:x2=1  : 327913
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 			Unhandled Exception (CPU1): 
 			  [VBAR: 0x4008E000]
@@ -2545,7 +2545,7 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=1  : 78557
  p1:x0=0  p1:x2=0  : 104888
  p1:x0=0  p1:x2=1  : 316555
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 			Unhandled Exception (CPU1): 
 			  [VBAR: 0x4008E000]
@@ -2569,7 +2569,7 @@ Test CoTR+dsb-isb:
  p1:x0=1  p1:x2=1  : 83654
  p1:x0=0  p1:x2=1  : 311966
  p1:x0=0  p1:x2=0  : 104380
-Observation CoTR+dsb-isb: 0 (of 500000)
+Observation CoTR+dsb-isb.errata: 0 (of 500000)
 P0			P1			P2			P3			
 			Unhandled Exception (CPU1): 
 			  [VBAR: 0x4008E000]

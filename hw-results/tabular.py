@@ -86,6 +86,11 @@ def humanize(n):
 
 def write_one_table(grp_list, f, device, results, running, includes=[], excludes=[]):
     filtered = []
+
+    orphans = results.keys() - {t for (t, g) in grp_list}
+    for orphan in orphans:
+        grp_list.append((orphan, ["all", "errata"]))
+
     for (test_name, groups) in sorted(grp_list, key=lambda t: (t[1], t[0])):
         if (
             (includes and not any(g in includes for g in groups))

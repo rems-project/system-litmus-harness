@@ -11,63 +11,63 @@ Test MP+W-svc-W+addr:
  p1:x0=1  p1:x2=1  : 88722
  p1:x0=0  p1:x2=1  : 317462
  p1:x0=0  p1:x2=0  : 93816
-Observation MP+W-svc-W+addr: 0 (of 500000)
+Observation MP+W-svc-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 307846
  p1:x0=0  p1:x2=0  : 79333
  p1:x0=1  p1:x2=1  : 112821
-Observation MP+dmb+R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+eret:
  p1:x0=0  p1:x2=0  : 102195
  p1:x0=1  p1:x2=1  : 250459
  p1:x0=0  p1:x2=1  : 147346
-Observation MP+dmb+eret: 0 (of 500000)
+Observation MP+dmb+eret.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc:
  p1:x0=0  p1:x2=1  : 312828
  p1:x0=1  p1:x2=1  : 108456
  p1:x0=0  p1:x2=0  : 78716
-Observation MP+dmb+svc: 0 (of 500000)
+Observation MP+dmb+svc.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc2-R-eret-R:
  p1:x0=1  p1:x2=1  : 331662
  p1:x0=0  p1:x2=1  : 134316
  p1:x0=0  p1:x2=0  : 34022
-Observation MP+dmb+svc2-R-eret-R: 0 (of 500000)
+Observation MP+dmb+svc2-R-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-eret-svc-R:
  p1:x0=1  p1:x2=1  : 222233
  p1:x0=0  p1:x2=1  : 240877
  p1:x0=0  p1:x2=0  : 36890
-Observation MP+dmb+svc-R-eret-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-eret-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-R:
  p1:x0=0  p1:x2=1  : 243659
  p1:x0=1  p1:x2=1  : 208272
  p1:x0=0  p1:x2=0  : 48069
-Observation MP+dmb+svc-R-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-eret-R:
  p1:x0=0  p1:x2=0  : 33299
  p1:x0=1  p1:x2=1  : 228108
  p1:x0=0  p1:x2=1  : 238593
-Observation MP+dmb+svc-R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+svc-W-eret-W+addr:
  p1:x0=0  p1:x2=1  : 196809
  p1:x0=0  p1:x2=0  : 214018
  p1:x0=1  p1:x2=1  : 89173
-Observation MP+svc-W-eret-W+addr: 0 (of 500000)
+Observation MP+svc-W-eret-W+addr.errata: 0 (of 500000)
 1/runs
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -82,56 +82,56 @@ Test MP+W-svc-W+addr:
  p1:x0=1  p1:x2=1  : 91924
  p1:x0=0  p1:x2=1  : 312015
  p1:x0=0  p1:x2=0  : 96061
-Observation MP+W-svc-W+addr: 0 (of 500000)
+Observation MP+W-svc-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+R-svc-eret-R:
  p1:x0=0  p1:x2=0  : 81212
  p1:x0=0  p1:x2=1  : 311453
  p1:x0=1  p1:x2=1  : 107335
-Observation MP+dmb+R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+eret:
  p1:x0=0  p1:x2=1  : 156790
  p1:x0=0  p1:x2=0  : 101270
  p1:x0=1  p1:x2=1  : 241940
-Observation MP+dmb+eret: 0 (of 500000)
+Observation MP+dmb+eret.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc:
  p1:x0=0  p1:x2=1  : 310544
  p1:x0=0  p1:x2=0  : 83751
  p1:x0=1  p1:x2=1  : 105705
-Observation MP+dmb+svc: 0 (of 500000)
+Observation MP+dmb+svc.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc2-R-eret-R:
  p1:x0=0  p1:x2=1  : 153226
  p1:x0=1  p1:x2=1  : 313534
  p1:x0=0  p1:x2=0  : 33240
-Observation MP+dmb+svc2-R-eret-R: 0 (of 500000)
+Observation MP+dmb+svc2-R-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-eret-svc-R:
  p1:x0=0  p1:x2=1  : 240292
  p1:x0=1  p1:x2=1  : 223834
  p1:x0=0  p1:x2=0  : 35874
-Observation MP+dmb+svc-R-eret-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-eret-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-R:
  p1:x0=0  p1:x2=1  : 236366
  p1:x0=1  p1:x2=1  : 214963
  p1:x0=0  p1:x2=0  : 48671
-Observation MP+dmb+svc-R-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-eret-R:
  p1:x0=0  p1:x2=0  : 33798
  p1:x0=1  p1:x2=1  : 230443
  p1:x0=0  p1:x2=1  : 235759
-Observation MP+dmb+svc-R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 qemu-system-aarch64: terminating on signal 1 from pid 25391 ()
 2/runs
@@ -148,63 +148,63 @@ Test MP+W-svc-W+addr:
  p1:x0=0  p1:x2=0  : 88825
  p1:x0=0  p1:x2=1  : 315529
  p1:x0=1  p1:x2=1  : 95646
-Observation MP+W-svc-W+addr: 0 (of 500000)
+Observation MP+W-svc-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 309221
  p1:x0=1  p1:x2=1  : 110151
  p1:x0=0  p1:x2=0  : 80628
-Observation MP+dmb+R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+eret:
  p1:x0=0  p1:x2=0  : 102802
  p1:x0=1  p1:x2=1  : 244144
  p1:x0=0  p1:x2=1  : 153054
-Observation MP+dmb+eret: 0 (of 500000)
+Observation MP+dmb+eret.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc:
  p1:x0=0  p1:x2=0  : 85840
  p1:x0=0  p1:x2=1  : 310076
  p1:x0=1  p1:x2=1  : 104084
-Observation MP+dmb+svc: 0 (of 500000)
+Observation MP+dmb+svc.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc2-R-eret-R:
  p1:x0=1  p1:x2=1  : 337410
  p1:x0=0  p1:x2=0  : 31970
  p1:x0=0  p1:x2=1  : 130620
-Observation MP+dmb+svc2-R-eret-R: 0 (of 500000)
+Observation MP+dmb+svc2-R-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-eret-svc-R:
  p1:x0=0  p1:x2=1  : 229756
  p1:x0=1  p1:x2=1  : 239262
  p1:x0=0  p1:x2=0  : 30982
-Observation MP+dmb+svc-R-eret-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-eret-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-R:
  p1:x0=0  p1:x2=1  : 232698
  p1:x0=1  p1:x2=1  : 220077
  p1:x0=0  p1:x2=0  : 47225
-Observation MP+dmb+svc-R-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 238442
  p1:x0=0  p1:x2=0  : 36192
  p1:x0=1  p1:x2=1  : 225366
-Observation MP+dmb+svc-R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+svc-W-eret-W+addr:
  p1:x0=0  p1:x2=0  : 216173
  p1:x0=0  p1:x2=1  : 193296
  p1:x0=1  p1:x2=1  : 90531
-Observation MP+svc-W-eret-W+addr: 0 (of 500000)
+Observation MP+svc-W-eret-W+addr.errata: 0 (of 500000)
 3/runs
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -219,63 +219,63 @@ Test MP+W-svc-W+addr:
  p1:x0=0  p1:x2=0  : 95856
  p1:x0=0  p1:x2=1  : 313261
  p1:x0=1  p1:x2=1  : 90883
-Observation MP+W-svc-W+addr: 0 (of 500000)
+Observation MP+W-svc-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 309498
  p1:x0=0  p1:x2=0  : 77334
  p1:x0=1  p1:x2=1  : 113168
-Observation MP+dmb+R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+eret:
  p1:x0=0  p1:x2=0  : 107419
  p1:x0=0  p1:x2=1  : 156634
  p1:x0=1  p1:x2=1  : 235947
-Observation MP+dmb+eret: 0 (of 500000)
+Observation MP+dmb+eret.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc:
  p1:x0=0  p1:x2=1  : 307961
  p1:x0=0  p1:x2=0  : 83608
  p1:x0=1  p1:x2=1  : 108431
-Observation MP+dmb+svc: 0 (of 500000)
+Observation MP+dmb+svc.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc2-R-eret-R:
  p1:x0=0  p1:x2=0  : 34166
  p1:x0=1  p1:x2=1  : 335110
  p1:x0=0  p1:x2=1  : 130724
-Observation MP+dmb+svc2-R-eret-R: 0 (of 500000)
+Observation MP+dmb+svc2-R-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-eret-svc-R:
  p1:x0=0  p1:x2=1  : 237909
  p1:x0=1  p1:x2=1  : 226396
  p1:x0=0  p1:x2=0  : 35695
-Observation MP+dmb+svc-R-eret-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-eret-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-R:
  p1:x0=0  p1:x2=1  : 234238
  p1:x0=0  p1:x2=0  : 49731
  p1:x0=1  p1:x2=1  : 216031
-Observation MP+dmb+svc-R-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 237089
  p1:x0=1  p1:x2=1  : 227199
  p1:x0=0  p1:x2=0  : 35712
-Observation MP+dmb+svc-R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+svc-W-eret-W+addr:
  p1:x0=0  p1:x2=0  : 235481
  p1:x0=0  p1:x2=1  : 190491
  p1:x0=1  p1:x2=1  : 74028
-Observation MP+svc-W-eret-W+addr: 0 (of 500000)
+Observation MP+svc-W-eret-W+addr.errata: 0 (of 500000)
 4/runs
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -290,63 +290,63 @@ Test MP+W-svc-W+addr:
  p1:x0=1  p1:x2=1  : 88898
  p1:x0=0  p1:x2=1  : 319548
  p1:x0=0  p1:x2=0  : 91554
-Observation MP+W-svc-W+addr: 0 (of 500000)
+Observation MP+W-svc-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 307743
  p1:x0=0  p1:x2=0  : 77194
  p1:x0=1  p1:x2=1  : 115063
-Observation MP+dmb+R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+eret:
  p1:x0=0  p1:x2=0  : 102843
  p1:x0=1  p1:x2=1  : 244955
  p1:x0=0  p1:x2=1  : 152202
-Observation MP+dmb+eret: 0 (of 500000)
+Observation MP+dmb+eret.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc:
  p1:x0=0  p1:x2=0  : 81365
  p1:x0=0  p1:x2=1  : 310413
  p1:x0=1  p1:x2=1  : 108222
-Observation MP+dmb+svc: 0 (of 500000)
+Observation MP+dmb+svc.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc2-R-eret-R:
  p1:x0=1  p1:x2=1  : 333471
  p1:x0=0  p1:x2=1  : 133356
  p1:x0=0  p1:x2=0  : 33173
-Observation MP+dmb+svc2-R-eret-R: 0 (of 500000)
+Observation MP+dmb+svc2-R-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-eret-svc-R:
  p1:x0=0  p1:x2=1  : 236262
  p1:x0=1  p1:x2=1  : 227439
  p1:x0=0  p1:x2=0  : 36299
-Observation MP+dmb+svc-R-eret-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-eret-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-R:
  p1:x0=0  p1:x2=1  : 239231
  p1:x0=1  p1:x2=1  : 213037
  p1:x0=0  p1:x2=0  : 47732
-Observation MP+dmb+svc-R-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-eret-R:
  p1:x0=0  p1:x2=0  : 35632
  p1:x0=0  p1:x2=1  : 237667
  p1:x0=1  p1:x2=1  : 226701
-Observation MP+dmb+svc-R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+svc-W-eret-W+addr:
  p1:x0=0  p1:x2=1  : 204070
  p1:x0=0  p1:x2=0  : 209918
  p1:x0=1  p1:x2=1  : 86012
-Observation MP+svc-W-eret-W+addr: 0 (of 500000)
+Observation MP+svc-W-eret-W+addr.errata: 0 (of 500000)
 5/runs
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -361,63 +361,63 @@ Test MP+W-svc-W+addr:
  p1:x0=1  p1:x2=1  : 96660
  p1:x0=0  p1:x2=0  : 95569
  p1:x0=0  p1:x2=1  : 307771
-Observation MP+W-svc-W+addr: 0 (of 500000)
+Observation MP+W-svc-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 311972
  p1:x0=1  p1:x2=1  : 111351
  p1:x0=0  p1:x2=0  : 76677
-Observation MP+dmb+R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+eret:
  p1:x0=0  p1:x2=0  : 103700
  p1:x0=1  p1:x2=1  : 240988
  p1:x0=0  p1:x2=1  : 155312
-Observation MP+dmb+eret: 0 (of 500000)
+Observation MP+dmb+eret.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc:
  p1:x0=0  p1:x2=1  : 306213
  p1:x0=0  p1:x2=0  : 85539
  p1:x0=1  p1:x2=1  : 108248
-Observation MP+dmb+svc: 0 (of 500000)
+Observation MP+dmb+svc.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc2-R-eret-R:
  p1:x0=1  p1:x2=1  : 336018
  p1:x0=0  p1:x2=1  : 129864
  p1:x0=0  p1:x2=0  : 34118
-Observation MP+dmb+svc2-R-eret-R: 0 (of 500000)
+Observation MP+dmb+svc2-R-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-eret-svc-R:
  p1:x0=0  p1:x2=1  : 236807
  p1:x0=0  p1:x2=0  : 33382
  p1:x0=1  p1:x2=1  : 229811
-Observation MP+dmb+svc-R-eret-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-eret-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-R:
  p1:x0=0  p1:x2=1  : 236846
  p1:x0=1  p1:x2=1  : 217320
  p1:x0=0  p1:x2=0  : 45834
-Observation MP+dmb+svc-R-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 234642
  p1:x0=1  p1:x2=1  : 229481
  p1:x0=0  p1:x2=0  : 35877
-Observation MP+dmb+svc-R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+svc-W-eret-W+addr:
  p1:x0=0  p1:x2=1  : 185351
  p1:x0=0  p1:x2=0  : 231717
  p1:x0=1  p1:x2=1  : 82932
-Observation MP+svc-W-eret-W+addr: 0 (of 500000)
+Observation MP+svc-W-eret-W+addr.errata: 0 (of 500000)
 6/runs
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -432,63 +432,63 @@ Test MP+W-svc-W+addr:
  p1:x0=1  p1:x2=1  : 93456
  p1:x0=0  p1:x2=1  : 312265
  p1:x0=0  p1:x2=0  : 94279
-Observation MP+W-svc-W+addr: 0 (of 500000)
+Observation MP+W-svc-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+R-svc-eret-R:
  p1:x0=0  p1:x2=0  : 79386
  p1:x0=1  p1:x2=1  : 111415
  p1:x0=0  p1:x2=1  : 309199
-Observation MP+dmb+R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+eret:
  p1:x0=0  p1:x2=0  : 107258
  p1:x0=1  p1:x2=1  : 241566
  p1:x0=0  p1:x2=1  : 151176
-Observation MP+dmb+eret: 0 (of 500000)
+Observation MP+dmb+eret.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc:
  p1:x0=0  p1:x2=0  : 72574
  p1:x0=0  p1:x2=1  : 324617
  p1:x0=1  p1:x2=1  : 102809
-Observation MP+dmb+svc: 0 (of 500000)
+Observation MP+dmb+svc.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc2-R-eret-R:
  p1:x0=0  p1:x2=1  : 152012
  p1:x0=0  p1:x2=0  : 31602
  p1:x0=1  p1:x2=1  : 316386
-Observation MP+dmb+svc2-R-eret-R: 0 (of 500000)
+Observation MP+dmb+svc2-R-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-eret-svc-R:
  p1:x0=0  p1:x2=1  : 240639
  p1:x0=0  p1:x2=0  : 33029
  p1:x0=1  p1:x2=1  : 226332
-Observation MP+dmb+svc-R-eret-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-eret-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-R:
  p1:x0=0  p1:x2=1  : 239429
  p1:x0=0  p1:x2=0  : 51826
  p1:x0=1  p1:x2=1  : 208745
-Observation MP+dmb+svc-R-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-eret-R:
  p1:x0=1  p1:x2=1  : 230969
  p1:x0=0  p1:x2=1  : 232301
  p1:x0=0  p1:x2=0  : 36730
-Observation MP+dmb+svc-R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+svc-W-eret-W+addr:
  p1:x0=1  p1:x2=1  : 79809
  p1:x0=0  p1:x2=1  : 191519
  p1:x0=0  p1:x2=0  : 228672
-Observation MP+svc-W-eret-W+addr: 0 (of 500000)
+Observation MP+svc-W-eret-W+addr.errata: 0 (of 500000)
 7/runs
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -503,63 +503,63 @@ Test MP+W-svc-W+addr:
  p1:x0=1  p1:x2=1  : 87323
  p1:x0=0  p1:x2=1  : 317567
  p1:x0=0  p1:x2=0  : 95110
-Observation MP+W-svc-W+addr: 0 (of 500000)
+Observation MP+W-svc-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 311200
  p1:x0=0  p1:x2=0  : 82897
  p1:x0=1  p1:x2=1  : 105903
-Observation MP+dmb+R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+eret:
  p1:x0=0  p1:x2=0  : 102935
  p1:x0=1  p1:x2=1  : 244126
  p1:x0=0  p1:x2=1  : 152939
-Observation MP+dmb+eret: 0 (of 500000)
+Observation MP+dmb+eret.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc:
  p1:x0=0  p1:x2=1  : 308436
  p1:x0=0  p1:x2=0  : 80595
  p1:x0=1  p1:x2=1  : 110969
-Observation MP+dmb+svc: 0 (of 500000)
+Observation MP+dmb+svc.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc2-R-eret-R:
  p1:x0=0  p1:x2=1  : 133948
  p1:x0=1  p1:x2=1  : 330394
  p1:x0=0  p1:x2=0  : 35658
-Observation MP+dmb+svc2-R-eret-R: 0 (of 500000)
+Observation MP+dmb+svc2-R-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-eret-svc-R:
  p1:x0=0  p1:x2=1  : 235191
  p1:x0=1  p1:x2=1  : 229768
  p1:x0=0  p1:x2=0  : 35041
-Observation MP+dmb+svc-R-eret-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-eret-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-R:
  p1:x0=0  p1:x2=1  : 237548
  p1:x0=1  p1:x2=1  : 210749
  p1:x0=0  p1:x2=0  : 51703
-Observation MP+dmb+svc-R-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 238218
  p1:x0=1  p1:x2=1  : 225335
  p1:x0=0  p1:x2=0  : 36447
-Observation MP+dmb+svc-R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+svc-W-eret-W+addr:
  p1:x0=0  p1:x2=0  : 219568
  p1:x0=0  p1:x2=1  : 194535
  p1:x0=1  p1:x2=1  : 85897
-Observation MP+svc-W-eret-W+addr: 0 (of 500000)
+Observation MP+svc-W-eret-W+addr.errata: 0 (of 500000)
 8/runs
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -574,63 +574,63 @@ Test MP+W-svc-W+addr:
  p1:x0=1  p1:x2=1  : 87963
  p1:x0=0  p1:x2=1  : 314297
  p1:x0=0  p1:x2=0  : 97740
-Observation MP+W-svc-W+addr: 0 (of 500000)
+Observation MP+W-svc-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 311670
  p1:x0=0  p1:x2=0  : 81934
  p1:x0=1  p1:x2=1  : 106396
-Observation MP+dmb+R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+eret:
  p1:x0=0  p1:x2=0  : 104248
  p1:x0=0  p1:x2=1  : 152621
  p1:x0=1  p1:x2=1  : 243131
-Observation MP+dmb+eret: 0 (of 500000)
+Observation MP+dmb+eret.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc:
  p1:x0=0  p1:x2=1  : 309155
  p1:x0=0  p1:x2=0  : 83157
  p1:x0=1  p1:x2=1  : 107688
-Observation MP+dmb+svc: 0 (of 500000)
+Observation MP+dmb+svc.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc2-R-eret-R:
  p1:x0=0  p1:x2=1  : 133258
  p1:x0=1  p1:x2=1  : 333950
  p1:x0=0  p1:x2=0  : 32792
-Observation MP+dmb+svc2-R-eret-R: 0 (of 500000)
+Observation MP+dmb+svc2-R-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-eret-svc-R:
  p1:x0=1  p1:x2=1  : 225184
  p1:x0=0  p1:x2=1  : 238020
  p1:x0=0  p1:x2=0  : 36796
-Observation MP+dmb+svc-R-eret-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-eret-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-R:
  p1:x0=0  p1:x2=1  : 238875
  p1:x0=1  p1:x2=1  : 212200
  p1:x0=0  p1:x2=0  : 48925
-Observation MP+dmb+svc-R-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-eret-R:
  p1:x0=1  p1:x2=1  : 231012
  p1:x0=0  p1:x2=1  : 235098
  p1:x0=0  p1:x2=0  : 33890
-Observation MP+dmb+svc-R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+svc-W-eret-W+addr:
  p1:x0=1  p1:x2=1  : 85216
  p1:x0=0  p1:x2=0  : 222613
  p1:x0=0  p1:x2=1  : 192171
-Observation MP+svc-W-eret-W+addr: 0 (of 500000)
+Observation MP+svc-W-eret-W+addr.errata: 0 (of 500000)
 9/runs
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -645,63 +645,63 @@ Test MP+W-svc-W+addr:
  p1:x0=1  p1:x2=1  : 92150
  p1:x0=0  p1:x2=0  : 89578
  p1:x0=0  p1:x2=1  : 318272
-Observation MP+W-svc-W+addr: 0 (of 500000)
+Observation MP+W-svc-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+R-svc-eret-R:
  p1:x0=1  p1:x2=1  : 113619
  p1:x0=0  p1:x2=1  : 306253
  p1:x0=0  p1:x2=0  : 80128
-Observation MP+dmb+R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+eret:
  p1:x0=0  p1:x2=0  : 104755
  p1:x0=1  p1:x2=1  : 237618
  p1:x0=0  p1:x2=1  : 157627
-Observation MP+dmb+eret: 0 (of 500000)
+Observation MP+dmb+eret.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc:
  p1:x0=1  p1:x2=1  : 111072
  p1:x0=0  p1:x2=0  : 77265
  p1:x0=0  p1:x2=1  : 311663
-Observation MP+dmb+svc: 0 (of 500000)
+Observation MP+dmb+svc.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc2-R-eret-R:
  p1:x0=0  p1:x2=1  : 141866
  p1:x0=0  p1:x2=0  : 32003
  p1:x0=1  p1:x2=1  : 326131
-Observation MP+dmb+svc2-R-eret-R: 0 (of 500000)
+Observation MP+dmb+svc2-R-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-eret-svc-R:
  p1:x0=0  p1:x2=0  : 33076
  p1:x0=0  p1:x2=1  : 238789
  p1:x0=1  p1:x2=1  : 228135
-Observation MP+dmb+svc-R-eret-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-eret-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-R:
  p1:x0=1  p1:x2=1  : 207161
  p1:x0=0  p1:x2=1  : 245619
  p1:x0=0  p1:x2=0  : 47220
-Observation MP+dmb+svc-R-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 236160
  p1:x0=1  p1:x2=1  : 230690
  p1:x0=0  p1:x2=0  : 33150
-Observation MP+dmb+svc-R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+svc-W-eret-W+addr:
  p1:x0=1  p1:x2=1  : 95733
  p1:x0=0  p1:x2=1  : 198168
  p1:x0=0  p1:x2=0  : 206099
-Observation MP+svc-W-eret-W+addr: 0 (of 500000)
+Observation MP+svc-W-eret-W+addr.errata: 0 (of 500000)
 10/runs
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -716,28 +716,28 @@ Test MP+W-svc-W+addr:
  p1:x0=0  p1:x2=0  : 99893
  p1:x0=0  p1:x2=1  : 308023
  p1:x0=1  p1:x2=1  : 92084
-Observation MP+W-svc-W+addr: 0 (of 500000)
+Observation MP+W-svc-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+R-svc-eret-R:
  p1:x0=0  p1:x2=0  : 74191
  p1:x0=0  p1:x2=1  : 311150
  p1:x0=1  p1:x2=1  : 114659
-Observation MP+dmb+R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+eret:
  p1:x0=0  p1:x2=0  : 102161
  p1:x0=1  p1:x2=1  : 243080
  p1:x0=0  p1:x2=1  : 154759
-Observation MP+dmb+eret: 0 (of 500000)
+Observation MP+dmb+eret.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc:
  p1:x0=1  p1:x2=1  : 106069
  p1:x0=0  p1:x2=1  : 306736
  p1:x0=0  p1:x2=0  : 87195
-Observation MP+dmb+svc: 0 (of 500000)
+Observation MP+dmb+svc.errata: 0 (of 500000)
 P0			P1			P2			P3			
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -752,70 +752,70 @@ Test MP+W-svc-W+addr:
  p1:x0=0  p1:x2=0  : 101380
  p1:x0=0  p1:x2=1  : 313443
  p1:x0=1  p1:x2=1  : 85177
-Observation MP+W-svc-W+addr: 0 (of 500000)
+Observation MP+W-svc-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 310670
  p1:x0=0  p1:x2=0  : 82921
  p1:x0=1  p1:x2=1  : 106409
-Observation MP+dmb+R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+eret:
  p1:x0=0  p1:x2=0  : 99165
  p1:x0=1  p1:x2=1  : 250528
  p1:x0=0  p1:x2=1  : 150307
-Observation MP+dmb+eret: 0 (of 500000)
+Observation MP+dmb+eret.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc:
  p1:x0=0  p1:x2=1  : 303168
  p1:x0=1  p1:x2=1  : 108202
  p1:x0=0  p1:x2=0  : 88630
-Observation MP+dmb+svc: 0 (of 500000)
+Observation MP+dmb+svc.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc2-R-eret-R:
  p1:x0=1  p1:x2=1  : 324083
  p1:x0=0  p1:x2=1  : 140809
  p1:x0=0  p1:x2=0  : 35108
-Observation MP+dmb+svc2-R-eret-R: 0 (of 500000)
+Observation MP+dmb+svc2-R-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-eret-svc-R:
  p1:x0=0  p1:x2=1  : 228797
  p1:x0=1  p1:x2=1  : 237394
  p1:x0=0  p1:x2=0  : 33809
-Observation MP+dmb+svc-R-eret-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-eret-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-R:
  p1:x0=0  p1:x2=1  : 240220
  p1:x0=1  p1:x2=1  : 208277
  p1:x0=0  p1:x2=0  : 51503
-Observation MP+dmb+svc-R-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-eret-R:
  p1:x0=1  p1:x2=1  : 231179
  p1:x0=0  p1:x2=0  : 34836
  p1:x0=0  p1:x2=1  : 233985
-Observation MP+dmb+svc-R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+svc-W-eret-W+addr:
  p1:x0=0  p1:x2=1  : 192238
  p1:x0=0  p1:x2=0  : 215234
  p1:x0=1  p1:x2=1  : 92528
-Observation MP+svc-W-eret-W+addr: 0 (of 500000)
+Observation MP+svc-W-eret-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test SB.broken+W-svc-R+W-svc-R:
  p0:x2=0  p1:x2=1  : 90189
  p0:x2=1  p1:x2=0  : 55517
  p0:x2=1  p1:x2=1  : 354294
-Observation SB.broken+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB.broken+W-svc-R+W-svc-R.errata: 0 (of 500000)
 1/runs
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -830,63 +830,63 @@ Test MP+W-svc-W+addr:
  p1:x0=1  p1:x2=1  : 89296
  p1:x0=0  p1:x2=0  : 95758
  p1:x0=0  p1:x2=1  : 314946
-Observation MP+W-svc-W+addr: 0 (of 500000)
+Observation MP+W-svc-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 308065
  p1:x0=0  p1:x2=0  : 79726
  p1:x0=1  p1:x2=1  : 112209
-Observation MP+dmb+R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+eret:
  p1:x0=0  p1:x2=0  : 102991
  p1:x0=1  p1:x2=1  : 249636
  p1:x0=0  p1:x2=1  : 147373
-Observation MP+dmb+eret: 0 (of 500000)
+Observation MP+dmb+eret.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc:
  p1:x0=0  p1:x2=1  : 318042
  p1:x0=0  p1:x2=0  : 79876
  p1:x0=1  p1:x2=1  : 102082
-Observation MP+dmb+svc: 0 (of 500000)
+Observation MP+dmb+svc.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc2-R-eret-R:
  p1:x0=1  p1:x2=1  : 308744
  p1:x0=0  p1:x2=1  : 157213
  p1:x0=0  p1:x2=0  : 34043
-Observation MP+dmb+svc2-R-eret-R: 0 (of 500000)
+Observation MP+dmb+svc2-R-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-eret-svc-R:
  p1:x0=0  p1:x2=1  : 237167
  p1:x0=1  p1:x2=1  : 227399
  p1:x0=0  p1:x2=0  : 35434
-Observation MP+dmb+svc-R-eret-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-eret-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-R:
  p1:x0=0  p1:x2=1  : 242664
  p1:x0=0  p1:x2=0  : 52695
  p1:x0=1  p1:x2=1  : 204641
-Observation MP+dmb+svc-R-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-eret-R:
  p1:x0=0  p1:x2=0  : 38712
  p1:x0=1  p1:x2=1  : 216329
  p1:x0=0  p1:x2=1  : 244959
-Observation MP+dmb+svc-R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+svc-W-eret-W+addr:
  p1:x0=0  p1:x2=1  : 188210
  p1:x0=0  p1:x2=0  : 215878
  p1:x0=1  p1:x2=1  : 95912
-Observation MP+svc-W-eret-W+addr: 0 (of 500000)
+Observation MP+svc-W-eret-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test SB.broken+W-svc-R+W-svc-R:
@@ -894,7 +894,7 @@ Test SB.broken+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=1  : 343552
  p0:x2=0  p1:x2=1  : 101061
  p0:x2=0  p1:x2=0  : 10 *
-Observation SB.broken+W-svc-R+W-svc-R: 10 (of 500000)
+Observation SB.broken+W-svc-R+W-svc-R.errata: 10 (of 500000)
 2/runs
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -909,63 +909,63 @@ Test MP+W-svc-W+addr:
  p1:x0=1  p1:x2=1  : 92887
  p1:x0=0  p1:x2=1  : 311264
  p1:x0=0  p1:x2=0  : 95849
-Observation MP+W-svc-W+addr: 0 (of 500000)
+Observation MP+W-svc-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 313021
  p1:x0=0  p1:x2=0  : 84739
  p1:x0=1  p1:x2=1  : 102240
-Observation MP+dmb+R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+eret:
  p1:x0=0  p1:x2=0  : 103234
  p1:x0=0  p1:x2=1  : 156034
  p1:x0=1  p1:x2=1  : 240732
-Observation MP+dmb+eret: 0 (of 500000)
+Observation MP+dmb+eret.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc:
  p1:x0=0  p1:x2=1  : 302705
  p1:x0=0  p1:x2=0  : 91632
  p1:x0=1  p1:x2=1  : 105663
-Observation MP+dmb+svc: 0 (of 500000)
+Observation MP+dmb+svc.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc2-R-eret-R:
  p1:x0=0  p1:x2=1  : 139123
  p1:x0=1  p1:x2=1  : 326371
  p1:x0=0  p1:x2=0  : 34506
-Observation MP+dmb+svc2-R-eret-R: 0 (of 500000)
+Observation MP+dmb+svc2-R-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-eret-svc-R:
  p1:x0=1  p1:x2=1  : 235257
  p1:x0=0  p1:x2=1  : 231039
  p1:x0=0  p1:x2=0  : 33704
-Observation MP+dmb+svc-R-eret-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-eret-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-R:
  p1:x0=0  p1:x2=1  : 238302
  p1:x0=1  p1:x2=1  : 207600
  p1:x0=0  p1:x2=0  : 54098
-Observation MP+dmb+svc-R-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 232183
  p1:x0=0  p1:x2=0  : 34786
  p1:x0=1  p1:x2=1  : 233031
-Observation MP+dmb+svc-R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+svc-W-eret-W+addr:
  p1:x0=0  p1:x2=0  : 215944
  p1:x0=0  p1:x2=1  : 187783
  p1:x0=1  p1:x2=1  : 96273
-Observation MP+svc-W-eret-W+addr: 0 (of 500000)
+Observation MP+svc-W-eret-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test SB.broken+W-svc-R+W-svc-R:
@@ -973,7 +973,7 @@ Test SB.broken+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=0  : 54554
  p0:x2=0  p1:x2=1  : 102743
  p0:x2=0  p1:x2=0  : 10 *
-Observation SB.broken+W-svc-R+W-svc-R: 10 (of 500000)
+Observation SB.broken+W-svc-R+W-svc-R.errata: 10 (of 500000)
 3/runs
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -988,70 +988,70 @@ Test MP+W-svc-W+addr:
  p1:x0=0  p1:x2=0  : 105006
  p1:x0=0  p1:x2=1  : 310725
  p1:x0=1  p1:x2=1  : 84269
-Observation MP+W-svc-W+addr: 0 (of 500000)
+Observation MP+W-svc-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 311646
  p1:x0=1  p1:x2=1  : 107575
  p1:x0=0  p1:x2=0  : 80779
-Observation MP+dmb+R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+eret:
  p1:x0=0  p1:x2=0  : 104001
  p1:x0=0  p1:x2=1  : 151326
  p1:x0=1  p1:x2=1  : 244673
-Observation MP+dmb+eret: 0 (of 500000)
+Observation MP+dmb+eret.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc:
  p1:x0=0  p1:x2=1  : 303375
  p1:x0=0  p1:x2=0  : 88670
  p1:x0=1  p1:x2=1  : 107955
-Observation MP+dmb+svc: 0 (of 500000)
+Observation MP+dmb+svc.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc2-R-eret-R:
  p1:x0=0  p1:x2=1  : 139855
  p1:x0=1  p1:x2=1  : 323960
  p1:x0=0  p1:x2=0  : 36185
-Observation MP+dmb+svc2-R-eret-R: 0 (of 500000)
+Observation MP+dmb+svc2-R-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-eret-svc-R:
  p1:x0=0  p1:x2=1  : 232404
  p1:x0=1  p1:x2=1  : 233513
  p1:x0=0  p1:x2=0  : 34083
-Observation MP+dmb+svc-R-eret-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-eret-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-R:
  p1:x0=0  p1:x2=1  : 236953
  p1:x0=0  p1:x2=0  : 52989
  p1:x0=1  p1:x2=1  : 210058
-Observation MP+dmb+svc-R-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 250462
  p1:x0=1  p1:x2=1  : 216036
  p1:x0=0  p1:x2=0  : 33502
-Observation MP+dmb+svc-R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+svc-W-eret-W+addr:
  p1:x0=1  p1:x2=1  : 93526
  p1:x0=0  p1:x2=1  : 187761
  p1:x0=0  p1:x2=0  : 218713
-Observation MP+svc-W-eret-W+addr: 0 (of 500000)
+Observation MP+svc-W-eret-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test SB.broken+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=1  : 354762
  p0:x2=1  p1:x2=0  : 53881
  p0:x2=0  p1:x2=1  : 91357
-Observation SB.broken+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB.broken+W-svc-R+W-svc-R.errata: 0 (of 500000)
 4/runs
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1082,7 +1082,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=0  p1:x2=1  : 98658
  p0:x2=1  p1:x2=1  : 343864
  p0:x2=1  p1:x2=0  : 57478
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1096,7 +1096,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=0  : 61063
  p0:x2=1  p1:x2=1  : 347338
  p0:x2=0  p1:x2=1  : 91599
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1110,7 +1110,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=0  p1:x2=1  : 99164
  p0:x2=1  p1:x2=0  : 59585
  p0:x2=1  p1:x2=1  : 341251
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1124,7 +1124,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=0  : 59446
  p0:x2=1  p1:x2=1  : 342691
  p0:x2=0  p1:x2=1  : 97863
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1138,7 +1138,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=0  : 61968
  p0:x2=1  p1:x2=1  : 346747
  p0:x2=0  p1:x2=1  : 91285
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1152,7 +1152,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=0  p1:x2=1  : 93850
  p0:x2=1  p1:x2=1  : 346158
  p0:x2=1  p1:x2=0  : 59992
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1166,7 +1166,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=0  : 60904
  p0:x2=1  p1:x2=1  : 345464
  p0:x2=0  p1:x2=1  : 93632
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1180,7 +1180,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=0  p1:x2=1  : 88440
  p0:x2=1  p1:x2=1  : 346871
  p0:x2=1  p1:x2=0  : 64689
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1194,7 +1194,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=0  p1:x2=1  : 95821
  p0:x2=1  p1:x2=1  : 341780
  p0:x2=1  p1:x2=0  : 62399
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1208,7 +1208,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=0  p1:x2=1  : 96767
  p0:x2=1  p1:x2=1  : 342762
  p0:x2=1  p1:x2=0  : 60471
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1222,7 +1222,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=0  p1:x2=1  : 100859
  p0:x2=1  p1:x2=0  : 58660
  p0:x2=1  p1:x2=1  : 340481
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1236,7 +1236,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=0  : 59856
  p0:x2=1  p1:x2=1  : 340799
  p0:x2=0  p1:x2=1  : 99345
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1250,7 +1250,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=0  p1:x2=1  : 96922
  p0:x2=1  p1:x2=0  : 60992
  p0:x2=1  p1:x2=1  : 342086
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1264,7 +1264,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=0  p1:x2=1  : 91048
  p0:x2=1  p1:x2=1  : 344338
  p0:x2=1  p1:x2=0  : 64614
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1278,7 +1278,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=0  p1:x2=1  : 99162
  p0:x2=1  p1:x2=1  : 341019
  p0:x2=1  p1:x2=0  : 59819
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1292,7 +1292,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=0  p1:x2=1  : 99956
  p0:x2=1  p1:x2=1  : 341034
  p0:x2=1  p1:x2=0  : 59010
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1306,7 +1306,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=0  : 58745
  p0:x2=1  p1:x2=1  : 340128
  p0:x2=0  p1:x2=1  : 101127
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1320,7 +1320,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=1  : 343896
  p0:x2=1  p1:x2=0  : 59402
  p0:x2=0  p1:x2=1  : 96702
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1334,7 +1334,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=0  p1:x2=1  : 104308
  p0:x2=1  p1:x2=1  : 336880
  p0:x2=1  p1:x2=0  : 58812
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1348,7 +1348,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=0  : 59246
  p0:x2=1  p1:x2=1  : 342315
  p0:x2=0  p1:x2=1  : 98439
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1362,7 +1362,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=0  p1:x2=1  : 101167
  p0:x2=1  p1:x2=1  : 341423
  p0:x2=1  p1:x2=0  : 57410
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1376,7 +1376,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=0  : 58571
  p0:x2=1  p1:x2=1  : 344175
  p0:x2=0  p1:x2=1  : 97254
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1390,7 +1390,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=0  : 56769
  p0:x2=1  p1:x2=1  : 340351
  p0:x2=0  p1:x2=1  : 102880
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1404,7 +1404,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=0  : 61547
  p0:x2=1  p1:x2=1  : 348177
  p0:x2=0  p1:x2=1  : 90276
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1418,7 +1418,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=0  p1:x2=1  : 97283
  p0:x2=1  p1:x2=1  : 342191
  p0:x2=1  p1:x2=0  : 60526
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1432,7 +1432,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=1  : 340342
  p0:x2=1  p1:x2=0  : 58110
  p0:x2=0  p1:x2=1  : 101548
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1446,7 +1446,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=0  : 60112
  p0:x2=1  p1:x2=1  : 342457
  p0:x2=0  p1:x2=1  : 97431
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1460,7 +1460,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=0  p1:x2=1  : 93233
  p0:x2=1  p1:x2=0  : 61978
  p0:x2=1  p1:x2=1  : 344789
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1474,7 +1474,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=0  p1:x2=1  : 93517
  p0:x2=1  p1:x2=1  : 344962
  p0:x2=1  p1:x2=0  : 61521
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1488,7 +1488,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=0  p1:x2=1  : 94891
  p0:x2=1  p1:x2=0  : 61586
  p0:x2=1  p1:x2=1  : 343523
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1502,7 +1502,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=0  : 59482
  p0:x2=1  p1:x2=1  : 347667
  p0:x2=0  p1:x2=1  : 92851
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1516,7 +1516,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=0  p1:x2=1  : 93162
  p0:x2=1  p1:x2=0  : 62286
  p0:x2=1  p1:x2=1  : 344552
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1530,7 +1530,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=0  : 55720
  p0:x2=1  p1:x2=1  : 339067
  p0:x2=0  p1:x2=1  : 105213
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1544,7 +1544,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=0  : 59392
  p0:x2=1  p1:x2=1  : 341543
  p0:x2=0  p1:x2=1  : 99065
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1558,7 +1558,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=0  : 59620
  p0:x2=1  p1:x2=1  : 342550
  p0:x2=0  p1:x2=1  : 97830
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1572,7 +1572,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=0  : 61818
  p0:x2=1  p1:x2=1  : 345408
  p0:x2=0  p1:x2=1  : 92774
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1586,7 +1586,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=0  : 59816
  p0:x2=1  p1:x2=1  : 344028
  p0:x2=0  p1:x2=1  : 96156
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1600,7 +1600,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=0  p1:x2=1  : 103531
  p0:x2=1  p1:x2=1  : 336623
  p0:x2=1  p1:x2=0  : 59846
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1614,7 +1614,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=0  p1:x2=1  : 93914
  p0:x2=1  p1:x2=0  : 59464
  p0:x2=1  p1:x2=1  : 346622
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1628,7 +1628,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=0  p1:x2=1  : 95824
  p0:x2=1  p1:x2=0  : 60984
  p0:x2=1  p1:x2=1  : 343192
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1642,7 +1642,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=0  p1:x2=1  : 89722
  p0:x2=1  p1:x2=1  : 347737
  p0:x2=1  p1:x2=0  : 62541
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1656,7 +1656,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=0  p1:x2=1  : 97905
  p0:x2=1  p1:x2=0  : 61057
  p0:x2=1  p1:x2=1  : 341038
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1670,7 +1670,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=0  p1:x2=1  : 102000
  p0:x2=1  p1:x2=1  : 339647
  p0:x2=1  p1:x2=0  : 58353
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1684,7 +1684,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=0  : 58264
  p0:x2=1  p1:x2=1  : 343188
  p0:x2=0  p1:x2=1  : 98548
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1698,7 +1698,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=0  : 61401
  p0:x2=1  p1:x2=1  : 345622
  p0:x2=0  p1:x2=1  : 92977
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1712,7 +1712,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=0  p1:x2=1  : 97584
  p0:x2=1  p1:x2=1  : 341978
  p0:x2=1  p1:x2=0  : 60438
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1726,7 +1726,7 @@ Test SB+W-svc-R+W-svc-R:
  p0:x2=0  p1:x2=1  : 97332
  p0:x2=1  p1:x2=1  : 343985
  p0:x2=1  p1:x2=0  : 58683
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1764,7 +1764,7 @@ Test SB+svc-erets:
  p0:x2=1  p1:x2=1  : 306019
  p0:x2=1  p1:x2=0  : 68860
  p0:x2=0  p1:x2=0  : 1 *
-Observation SB+svc-erets: 1 (of 500000)
+Observation SB+svc-erets.errata: 1 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1778,7 +1778,7 @@ Test SB+svc-erets:
  p0:x2=0  p1:x2=1  : 113607
  p0:x2=1  p1:x2=0  : 78717
  p0:x2=1  p1:x2=1  : 307676
-Observation SB+svc-erets: 0 (of 500000)
+Observation SB+svc-erets.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1792,7 +1792,7 @@ Test SB+svc-erets:
  p0:x2=0  p1:x2=1  : 120173
  p0:x2=1  p1:x2=1  : 309061
  p0:x2=1  p1:x2=0  : 70766
-Observation SB+svc-erets: 0 (of 500000)
+Observation SB+svc-erets.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1806,7 +1806,7 @@ Test SB+svc-erets:
  p0:x2=0  p1:x2=1  : 125720
  p0:x2=1  p1:x2=1  : 306202
  p0:x2=1  p1:x2=0  : 68078
-Observation SB+svc-erets: 0 (of 500000)
+Observation SB+svc-erets.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1820,7 +1820,7 @@ Test SB+svc-erets:
  p0:x2=0  p1:x2=1  : 126543
  p0:x2=1  p1:x2=1  : 308738
  p0:x2=1  p1:x2=0  : 64719
-Observation SB+svc-erets: 0 (of 500000)
+Observation SB+svc-erets.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1834,7 +1834,7 @@ Test SB+svc-erets:
  p0:x2=1  p1:x2=0  : 68701
  p0:x2=1  p1:x2=1  : 307097
  p0:x2=0  p1:x2=1  : 124202
-Observation SB+svc-erets: 0 (of 500000)
+Observation SB+svc-erets.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1848,7 +1848,7 @@ Test SB+svc-erets:
  p0:x2=0  p1:x2=1  : 126807
  p0:x2=1  p1:x2=1  : 308594
  p0:x2=1  p1:x2=0  : 64599
-Observation SB+svc-erets: 0 (of 500000)
+Observation SB+svc-erets.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1863,7 +1863,7 @@ Test SB+svc-erets:
  p0:x2=1  p1:x2=1  : 307933
  p0:x2=1  p1:x2=0  : 68630
  p0:x2=0  p1:x2=0  : 1 *
-Observation SB+svc-erets: 1 (of 500000)
+Observation SB+svc-erets.errata: 1 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1877,7 +1877,7 @@ Test SB+svc-erets:
  p0:x2=0  p1:x2=1  : 118894
  p0:x2=1  p1:x2=1  : 308668
  p0:x2=1  p1:x2=0  : 72438
-Observation SB+svc-erets: 0 (of 500000)
+Observation SB+svc-erets.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1891,7 +1891,7 @@ Test SB+svc-erets:
  p0:x2=0  p1:x2=1  : 123667
  p0:x2=1  p1:x2=0  : 70756
  p0:x2=1  p1:x2=1  : 305577
-Observation SB+svc-erets: 0 (of 500000)
+Observation SB+svc-erets.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1905,7 +1905,7 @@ Test SB+svc-erets:
  p0:x2=0  p1:x2=1  : 124847
  p0:x2=1  p1:x2=0  : 69651
  p0:x2=1  p1:x2=1  : 305502
-Observation SB+svc-erets: 0 (of 500000)
+Observation SB+svc-erets.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1919,7 +1919,7 @@ Test SB+svc-erets:
  p0:x2=1  p1:x2=0  : 67946
  p0:x2=1  p1:x2=1  : 306023
  p0:x2=0  p1:x2=1  : 126031
-Observation SB+svc-erets: 0 (of 500000)
+Observation SB+svc-erets.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1933,7 +1933,7 @@ Test SB+svc-erets:
  p0:x2=0  p1:x2=1  : 119804
  p0:x2=1  p1:x2=0  : 71101
  p0:x2=1  p1:x2=1  : 309095
-Observation SB+svc-erets: 0 (of 500000)
+Observation SB+svc-erets.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1948,7 +1948,7 @@ Test SB+svc-erets:
  p0:x2=1  p1:x2=1  : 306427
  p0:x2=1  p1:x2=0  : 75107
  p0:x2=0  p1:x2=0  : 1 *
-Observation SB+svc-erets: 1 (of 500000)
+Observation SB+svc-erets.errata: 1 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1963,7 +1963,7 @@ Test SB+svc-erets:
  p0:x2=1  p1:x2=1  : 309093
  p0:x2=0  p1:x2=1  : 121313
  p0:x2=0  p1:x2=0  : 1 *
-Observation SB+svc-erets: 1 (of 500000)
+Observation SB+svc-erets.errata: 1 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1977,7 +1977,7 @@ Test SB+svc-erets:
  p0:x2=0  p1:x2=1  : 128230
  p0:x2=1  p1:x2=1  : 306454
  p0:x2=1  p1:x2=0  : 65316
-Observation SB+svc-erets: 0 (of 500000)
+Observation SB+svc-erets.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -1992,7 +1992,7 @@ Test SB+svc-erets:
  p0:x2=0  p1:x2=1  : 124143
  p0:x2=1  p1:x2=1  : 305882
  p0:x2=0  p1:x2=0  : 1 *
-Observation SB+svc-erets: 1 (of 500000)
+Observation SB+svc-erets.errata: 1 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -2006,7 +2006,7 @@ Test SB+svc-erets:
  p0:x2=0  p1:x2=1  : 126300
  p0:x2=1  p1:x2=1  : 305693
  p0:x2=1  p1:x2=0  : 68007
-Observation SB+svc-erets: 0 (of 500000)
+Observation SB+svc-erets.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -2021,7 +2021,7 @@ Test SB+svc-erets:
  p0:x2=1  p1:x2=1  : 306392
  p0:x2=0  p1:x2=1  : 124126
  p0:x2=0  p1:x2=0  : 3 *
-Observation SB+svc-erets: 3 (of 500000)
+Observation SB+svc-erets.errata: 3 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -2036,7 +2036,7 @@ Test SB+svc-erets:
  p0:x2=1  p1:x2=1  : 304823
  p0:x2=0  p1:x2=1  : 124254
  p0:x2=0  p1:x2=0  : 1 *
-Observation SB+svc-erets: 1 (of 500000)
+Observation SB+svc-erets.errata: 1 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -2050,7 +2050,7 @@ Test SB+svc-erets:
  p0:x2=1  p1:x2=0  : 67549
  p0:x2=1  p1:x2=1  : 307060
  p0:x2=0  p1:x2=1  : 125391
-Observation SB+svc-erets: 0 (of 500000)
+Observation SB+svc-erets.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -2065,7 +2065,7 @@ Test SB+svc-erets:
  p0:x2=1  p1:x2=1  : 310954
  p0:x2=0  p1:x2=1  : 115588
  p0:x2=0  p1:x2=0  : 1 *
-Observation SB+svc-erets: 1 (of 500000)
+Observation SB+svc-erets.errata: 1 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -2079,7 +2079,7 @@ Test SB+svc-erets:
  p0:x2=0  p1:x2=1  : 123166
  p0:x2=1  p1:x2=1  : 305177
  p0:x2=1  p1:x2=0  : 71657
-Observation SB+svc-erets: 0 (of 500000)
+Observation SB+svc-erets.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -2094,7 +2094,7 @@ Test SB+svc-erets:
  p0:x2=1  p1:x2=1  : 304999
  p0:x2=1  p1:x2=0  : 70901
  p0:x2=0  p1:x2=0  : 2 *
-Observation SB+svc-erets: 2 (of 500000)
+Observation SB+svc-erets.errata: 2 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -2108,7 +2108,7 @@ Test SB+svc-erets:
  p0:x2=1  p1:x2=1  : 310140
  p0:x2=1  p1:x2=0  : 67342
  p0:x2=0  p1:x2=1  : 122518
-Observation SB+svc-erets: 0 (of 500000)
+Observation SB+svc-erets.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -2122,7 +2122,7 @@ Test SB+svc-erets:
  p0:x2=0  p1:x2=1  : 122094
  p0:x2=1  p1:x2=1  : 311857
  p0:x2=1  p1:x2=0  : 66049
-Observation SB+svc-erets: 0 (of 500000)
+Observation SB+svc-erets.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -2136,7 +2136,7 @@ Test SB+svc-erets:
  p0:x2=0  p1:x2=1  : 120628
  p0:x2=1  p1:x2=1  : 306700
  p0:x2=1  p1:x2=0  : 72672
-Observation SB+svc-erets: 0 (of 500000)
+Observation SB+svc-erets.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -2150,7 +2150,7 @@ Test SB+svc-erets:
  p0:x2=0  p1:x2=1  : 125693
  p0:x2=1  p1:x2=1  : 308419
  p0:x2=1  p1:x2=0  : 65888
-Observation SB+svc-erets: 0 (of 500000)
+Observation SB+svc-erets.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -2164,7 +2164,7 @@ Test SB+svc-erets:
  p0:x2=0  p1:x2=1  : 126358
  p0:x2=1  p1:x2=1  : 305463
  p0:x2=1  p1:x2=0  : 68179
-Observation SB+svc-erets: 0 (of 500000)
+Observation SB+svc-erets.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -2178,7 +2178,7 @@ Test SB+svc-erets:
  p0:x2=0  p1:x2=1  : 118803
  p0:x2=1  p1:x2=1  : 318743
  p0:x2=1  p1:x2=0  : 62454
-Observation SB+svc-erets: 0 (of 500000)
+Observation SB+svc-erets.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -2193,7 +2193,7 @@ Test SB+svc-erets:
  p0:x2=1  p1:x2=1  : 310137
  p0:x2=0  p1:x2=1  : 123183
  p0:x2=0  p1:x2=0  : 1 *
-Observation SB+svc-erets: 1 (of 500000)
+Observation SB+svc-erets.errata: 1 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -2207,7 +2207,7 @@ Test SB+svc-erets:
  p0:x2=0  p1:x2=1  : 122300
  p0:x2=1  p1:x2=0  : 69646
  p0:x2=1  p1:x2=1  : 308054
-Observation SB+svc-erets: 0 (of 500000)
+Observation SB+svc-erets.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -2221,7 +2221,7 @@ Test SB+svc-erets:
  p0:x2=1  p1:x2=0  : 64910
  p0:x2=1  p1:x2=1  : 311063
  p0:x2=0  p1:x2=1  : 124027
-Observation SB+svc-erets: 0 (of 500000)
+Observation SB+svc-erets.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -2235,7 +2235,7 @@ Test SB+svc-erets:
  p0:x2=0  p1:x2=1  : 119059
  p0:x2=1  p1:x2=1  : 308657
  p0:x2=1  p1:x2=0  : 72284
-Observation SB+svc-erets: 0 (of 500000)
+Observation SB+svc-erets.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -2267,70 +2267,70 @@ Test MP+W-svc-W+addr:
  p1:x0=1  p1:x2=1  : 90226
  p1:x0=0  p1:x2=1  : 309650
  p1:x0=0  p1:x2=0  : 100124
-Observation MP+W-svc-W+addr: 0 (of 500000)
+Observation MP+W-svc-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 310763
  p1:x0=0  p1:x2=0  : 92253
  p1:x0=1  p1:x2=1  : 96984
-Observation MP+dmb+R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+eret:
  p1:x0=1  p1:x2=1  : 233672
  p1:x0=0  p1:x2=0  : 118802
  p1:x0=0  p1:x2=1  : 147526
-Observation MP+dmb+eret: 0 (of 500000)
+Observation MP+dmb+eret.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc:
  p1:x0=0  p1:x2=1  : 306404
  p1:x0=0  p1:x2=0  : 92156
  p1:x0=1  p1:x2=1  : 101440
-Observation MP+dmb+svc: 0 (of 500000)
+Observation MP+dmb+svc.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc2-R-eret-R:
  p1:x0=0  p1:x2=1  : 143913
  p1:x0=1  p1:x2=1  : 321372
  p1:x0=0  p1:x2=0  : 34715
-Observation MP+dmb+svc2-R-eret-R: 0 (of 500000)
+Observation MP+dmb+svc2-R-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-eret-svc-R:
  p1:x0=1  p1:x2=1  : 210912
  p1:x0=0  p1:x2=0  : 38791
  p1:x0=0  p1:x2=1  : 250297
-Observation MP+dmb+svc-R-eret-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-eret-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-R:
  p1:x0=0  p1:x2=1  : 238767
  p1:x0=1  p1:x2=1  : 214986
  p1:x0=0  p1:x2=0  : 46247
-Observation MP+dmb+svc-R-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-eret-R:
  p1:x0=1  p1:x2=1  : 231190
  p1:x0=0  p1:x2=1  : 236236
  p1:x0=0  p1:x2=0  : 32574
-Observation MP+dmb+svc-R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+svc-W-eret-W+addr:
  p1:x0=0  p1:x2=1  : 180344
  p1:x0=0  p1:x2=0  : 232479
  p1:x0=1  p1:x2=1  : 87177
-Observation MP+svc-W-eret-W+addr: 0 (of 500000)
+Observation MP+svc-W-eret-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=1  : 336912
  p0:x2=1  p1:x2=0  : 69687
  p0:x2=0  p1:x2=1  : 93401
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test SB+svc-erets:
@@ -2338,7 +2338,7 @@ Test SB+svc-erets:
  p0:x2=1  p1:x2=0  : 76790
  p0:x2=0  p1:x2=1  : 121475
  p0:x2=0  p1:x2=0  : 21 *
-Observation SB+svc-erets: 21 (of 500000)
+Observation SB+svc-erets.errata: 21 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -2352,70 +2352,70 @@ Test MP+W-svc-W+addr:
  p1:x0=1  p1:x2=1  : 92939
  p1:x0=0  p1:x2=1  : 308857
  p1:x0=0  p1:x2=0  : 98204
-Observation MP+W-svc-W+addr: 0 (of 500000)
+Observation MP+W-svc-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+R-svc-eret-R:
  p1:x0=0  p1:x2=0  : 105560
  p1:x0=0  p1:x2=1  : 306169
  p1:x0=1  p1:x2=1  : 88271
-Observation MP+dmb+R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+eret:
  p1:x0=0  p1:x2=0  : 118067
  p1:x0=1  p1:x2=1  : 228230
  p1:x0=0  p1:x2=1  : 153703
-Observation MP+dmb+eret: 0 (of 500000)
+Observation MP+dmb+eret.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc:
  p1:x0=0  p1:x2=0  : 88328
  p1:x0=0  p1:x2=1  : 329174
  p1:x0=1  p1:x2=1  : 82498
-Observation MP+dmb+svc: 0 (of 500000)
+Observation MP+dmb+svc.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc2-R-eret-R:
  p1:x0=0  p1:x2=1  : 144837
  p1:x0=1  p1:x2=1  : 316669
  p1:x0=0  p1:x2=0  : 38494
-Observation MP+dmb+svc2-R-eret-R: 0 (of 500000)
+Observation MP+dmb+svc2-R-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-eret-svc-R:
  p1:x0=0  p1:x2=1  : 241349
  p1:x0=1  p1:x2=1  : 214262
  p1:x0=0  p1:x2=0  : 44389
-Observation MP+dmb+svc-R-eret-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-eret-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-R:
  p1:x0=0  p1:x2=1  : 233173
  p1:x0=1  p1:x2=1  : 210723
  p1:x0=0  p1:x2=0  : 56104
-Observation MP+dmb+svc-R-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 236692
  p1:x0=0  p1:x2=0  : 37926
  p1:x0=1  p1:x2=1  : 225382
-Observation MP+dmb+svc-R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+svc-W-eret-W+addr:
  p1:x0=1  p1:x2=1  : 81108
  p1:x0=0  p1:x2=1  : 175195
  p1:x0=0  p1:x2=0  : 243697
-Observation MP+svc-W-eret-W+addr: 0 (of 500000)
+Observation MP+svc-W-eret-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=0  : 77707
  p0:x2=1  p1:x2=1  : 331835
  p0:x2=0  p1:x2=1  : 90458
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test SB+svc-erets:
@@ -2423,7 +2423,7 @@ Test SB+svc-erets:
  p0:x2=1  p1:x2=1  : 303647
  p0:x2=1  p1:x2=0  : 76539
  p0:x2=0  p1:x2=0  : 58 *
-Observation SB+svc-erets: 58 (of 500000)
+Observation SB+svc-erets.errata: 58 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -2437,77 +2437,77 @@ Test MP+W-svc-W+addr:
  p1:x0=1  p1:x2=1  : 96716
  p1:x0=0  p1:x2=1  : 305412
  p1:x0=0  p1:x2=0  : 97872
-Observation MP+W-svc-W+addr: 0 (of 500000)
+Observation MP+W-svc-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+R-svc-eret-R:
  p1:x0=1  p1:x2=1  : 100831
  p1:x0=0  p1:x2=1  : 308221
  p1:x0=0  p1:x2=0  : 90948
-Observation MP+dmb+R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+eret:
  p1:x0=1  p1:x2=1  : 234784
  p1:x0=0  p1:x2=1  : 147227
  p1:x0=0  p1:x2=0  : 117989
-Observation MP+dmb+eret: 0 (of 500000)
+Observation MP+dmb+eret.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc:
  p1:x0=0  p1:x2=1  : 304569
  p1:x0=0  p1:x2=0  : 91797
  p1:x0=1  p1:x2=1  : 103634
-Observation MP+dmb+svc: 0 (of 500000)
+Observation MP+dmb+svc.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc2-R-eret-R:
  p1:x0=0  p1:x2=1  : 155591
  p1:x0=1  p1:x2=1  : 311142
  p1:x0=0  p1:x2=0  : 33267
-Observation MP+dmb+svc2-R-eret-R: 0 (of 500000)
+Observation MP+dmb+svc2-R-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-eret-svc-R:
  p1:x0=0  p1:x2=1  : 264776
  p1:x0=1  p1:x2=1  : 198655
  p1:x0=0  p1:x2=0  : 36569
-Observation MP+dmb+svc-R-eret-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-eret-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-R:
  p1:x0=0  p1:x2=0  : 45986
  p1:x0=1  p1:x2=1  : 211228
  p1:x0=0  p1:x2=1  : 242786
-Observation MP+dmb+svc-R-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 239048
  p1:x0=1  p1:x2=1  : 226130
  p1:x0=0  p1:x2=0  : 34822
-Observation MP+dmb+svc-R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+svc-W-eret-W+addr:
  p1:x0=0  p1:x2=1  : 175936
  p1:x0=0  p1:x2=0  : 229963
  p1:x0=1  p1:x2=1  : 94101
-Observation MP+svc-W-eret-W+addr: 0 (of 500000)
+Observation MP+svc-W-eret-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=0  : 69211
  p0:x2=1  p1:x2=1  : 331760
  p0:x2=0  p1:x2=1  : 99029
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test SB+svc-erets:
  p0:x2=0  p1:x2=1  : 120999
  p0:x2=1  p1:x2=1  : 308588
  p0:x2=1  p1:x2=0  : 70413
-Observation SB+svc-erets: 0 (of 500000)
+Observation SB+svc-erets.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -2521,70 +2521,70 @@ Test MP+W-svc-W+addr:
  p1:x0=0  p1:x2=0  : 105305
  p1:x0=0  p1:x2=1  : 304075
  p1:x0=1  p1:x2=1  : 90620
-Observation MP+W-svc-W+addr: 0 (of 500000)
+Observation MP+W-svc-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 308970
  p1:x0=0  p1:x2=0  : 94501
  p1:x0=1  p1:x2=1  : 96529
-Observation MP+dmb+R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+eret:
  p1:x0=0  p1:x2=0  : 117277
  p1:x0=0  p1:x2=1  : 154190
  p1:x0=1  p1:x2=1  : 228533
-Observation MP+dmb+eret: 0 (of 500000)
+Observation MP+dmb+eret.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc:
  p1:x0=0  p1:x2=1  : 300581
  p1:x0=0  p1:x2=0  : 100852
  p1:x0=1  p1:x2=1  : 98567
-Observation MP+dmb+svc: 0 (of 500000)
+Observation MP+dmb+svc.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc2-R-eret-R:
  p1:x0=1  p1:x2=1  : 326113
  p1:x0=0  p1:x2=1  : 139356
  p1:x0=0  p1:x2=0  : 34531
-Observation MP+dmb+svc2-R-eret-R: 0 (of 500000)
+Observation MP+dmb+svc2-R-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-eret-svc-R:
  p1:x0=0  p1:x2=0  : 38266
  p1:x0=1  p1:x2=1  : 218506
  p1:x0=0  p1:x2=1  : 243228
-Observation MP+dmb+svc-R-eret-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-eret-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-R:
  p1:x0=0  p1:x2=0  : 47626
  p1:x0=1  p1:x2=1  : 211564
  p1:x0=0  p1:x2=1  : 240810
-Observation MP+dmb+svc-R-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 239192
  p1:x0=0  p1:x2=0  : 36683
  p1:x0=1  p1:x2=1  : 224125
-Observation MP+dmb+svc-R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+svc-W-eret-W+addr:
  p1:x0=1  p1:x2=1  : 80538
  p1:x0=0  p1:x2=1  : 172813
  p1:x0=0  p1:x2=0  : 246649
-Observation MP+svc-W-eret-W+addr: 0 (of 500000)
+Observation MP+svc-W-eret-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=1  : 330432
  p0:x2=1  p1:x2=0  : 78282
  p0:x2=0  p1:x2=1  : 91286
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test SB+svc-erets:
@@ -2592,7 +2592,7 @@ Test SB+svc-erets:
  p0:x2=1  p1:x2=0  : 77714
  p0:x2=0  p1:x2=1  : 121009
  p0:x2=0  p1:x2=0  : 38 *
-Observation SB+svc-erets: 38 (of 500000)
+Observation SB+svc-erets.errata: 38 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -2606,70 +2606,70 @@ Test MP+W-svc-W+addr:
  p1:x0=1  p1:x2=1  : 87455
  p1:x0=0  p1:x2=1  : 308278
  p1:x0=0  p1:x2=0  : 104267
-Observation MP+W-svc-W+addr: 0 (of 500000)
+Observation MP+W-svc-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 307758
  p1:x0=0  p1:x2=0  : 93506
  p1:x0=1  p1:x2=1  : 98736
-Observation MP+dmb+R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+eret:
  p1:x0=0  p1:x2=0  : 117460
  p1:x0=0  p1:x2=1  : 148626
  p1:x0=1  p1:x2=1  : 233914
-Observation MP+dmb+eret: 0 (of 500000)
+Observation MP+dmb+eret.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc:
  p1:x0=0  p1:x2=0  : 93167
  p1:x0=0  p1:x2=1  : 303655
  p1:x0=1  p1:x2=1  : 103178
-Observation MP+dmb+svc: 0 (of 500000)
+Observation MP+dmb+svc.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc2-R-eret-R:
  p1:x0=0  p1:x2=1  : 144896
  p1:x0=1  p1:x2=1  : 321866
  p1:x0=0  p1:x2=0  : 33238
-Observation MP+dmb+svc2-R-eret-R: 0 (of 500000)
+Observation MP+dmb+svc2-R-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-eret-svc-R:
  p1:x0=1  p1:x2=1  : 207478
  p1:x0=0  p1:x2=1  : 252046
  p1:x0=0  p1:x2=0  : 40476
-Observation MP+dmb+svc-R-eret-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-eret-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-R:
  p1:x0=0  p1:x2=0  : 44407
  p1:x0=1  p1:x2=1  : 211574
  p1:x0=0  p1:x2=1  : 244019
-Observation MP+dmb+svc-R-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-eret-R:
  p1:x0=1  p1:x2=1  : 221055
  p1:x0=0  p1:x2=1  : 243350
  p1:x0=0  p1:x2=0  : 35595
-Observation MP+dmb+svc-R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+svc-W-eret-W+addr:
  p1:x0=0  p1:x2=0  : 233186
  p1:x0=0  p1:x2=1  : 180319
  p1:x0=1  p1:x2=1  : 86495
-Observation MP+svc-W-eret-W+addr: 0 (of 500000)
+Observation MP+svc-W-eret-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=1  : 337907
  p0:x2=0  p1:x2=1  : 94675
  p0:x2=1  p1:x2=0  : 67418
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test SB+svc-erets:
@@ -2677,7 +2677,7 @@ Test SB+svc-erets:
  p0:x2=1  p1:x2=0  : 83397
  p0:x2=0  p1:x2=1  : 118866
  p0:x2=0  p1:x2=0  : 8 *
-Observation SB+svc-erets: 8 (of 500000)
+Observation SB+svc-erets.errata: 8 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -2691,70 +2691,70 @@ Test MP+W-svc-W+addr:
  p1:x0=1  p1:x2=1  : 99138
  p1:x0=0  p1:x2=1  : 304683
  p1:x0=0  p1:x2=0  : 96179
-Observation MP+W-svc-W+addr: 0 (of 500000)
+Observation MP+W-svc-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 310441
  p1:x0=0  p1:x2=0  : 91513
  p1:x0=1  p1:x2=1  : 98046
-Observation MP+dmb+R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+eret:
  p1:x0=0  p1:x2=0  : 118606
  p1:x0=0  p1:x2=1  : 150883
  p1:x0=1  p1:x2=1  : 230511
-Observation MP+dmb+eret: 0 (of 500000)
+Observation MP+dmb+eret.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc:
  p1:x0=0  p1:x2=1  : 299637
  p1:x0=0  p1:x2=0  : 96951
  p1:x0=1  p1:x2=1  : 103412
-Observation MP+dmb+svc: 0 (of 500000)
+Observation MP+dmb+svc.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc2-R-eret-R:
  p1:x0=1  p1:x2=1  : 308955
  p1:x0=0  p1:x2=1  : 158711
  p1:x0=0  p1:x2=0  : 32334
-Observation MP+dmb+svc2-R-eret-R: 0 (of 500000)
+Observation MP+dmb+svc2-R-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-eret-svc-R:
  p1:x0=1  p1:x2=1  : 221691
  p1:x0=0  p1:x2=1  : 240818
  p1:x0=0  p1:x2=0  : 37491
-Observation MP+dmb+svc-R-eret-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-eret-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-R:
  p1:x0=1  p1:x2=1  : 217674
  p1:x0=0  p1:x2=1  : 237791
  p1:x0=0  p1:x2=0  : 44535
-Observation MP+dmb+svc-R-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 237416
  p1:x0=0  p1:x2=0  : 35863
  p1:x0=1  p1:x2=1  : 226721
-Observation MP+dmb+svc-R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+svc-W-eret-W+addr:
  p1:x0=0  p1:x2=1  : 173301
  p1:x0=0  p1:x2=0  : 240035
  p1:x0=1  p1:x2=1  : 86664
-Observation MP+svc-W-eret-W+addr: 0 (of 500000)
+Observation MP+svc-W-eret-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=1  : 335533
  p0:x2=1  p1:x2=0  : 75712
  p0:x2=0  p1:x2=1  : 88755
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test SB+svc-erets:
@@ -2762,7 +2762,7 @@ Test SB+svc-erets:
  p0:x2=0  p1:x2=1  : 119355
  p0:x2=1  p1:x2=1  : 308540
  p0:x2=0  p1:x2=0  : 66 *
-Observation SB+svc-erets: 66 (of 500000)
+Observation SB+svc-erets.errata: 66 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -2776,77 +2776,77 @@ Test MP+W-svc-W+addr:
  p1:x0=1  p1:x2=1  : 93046
  p1:x0=0  p1:x2=1  : 309178
  p1:x0=0  p1:x2=0  : 97776
-Observation MP+W-svc-W+addr: 0 (of 500000)
+Observation MP+W-svc-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+R-svc-eret-R:
  p1:x0=0  p1:x2=0  : 102119
  p1:x0=0  p1:x2=1  : 305140
  p1:x0=1  p1:x2=1  : 92741
-Observation MP+dmb+R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+eret:
  p1:x0=0  p1:x2=0  : 120835
  p1:x0=0  p1:x2=1  : 154815
  p1:x0=1  p1:x2=1  : 224350
-Observation MP+dmb+eret: 0 (of 500000)
+Observation MP+dmb+eret.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc:
  p1:x0=0  p1:x2=1  : 298977
  p1:x0=0  p1:x2=0  : 101691
  p1:x0=1  p1:x2=1  : 99332
-Observation MP+dmb+svc: 0 (of 500000)
+Observation MP+dmb+svc.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc2-R-eret-R:
  p1:x0=1  p1:x2=1  : 314990
  p1:x0=0  p1:x2=1  : 145708
  p1:x0=0  p1:x2=0  : 39302
-Observation MP+dmb+svc2-R-eret-R: 0 (of 500000)
+Observation MP+dmb+svc2-R-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-eret-svc-R:
  p1:x0=0  p1:x2=1  : 241335
  p1:x0=1  p1:x2=1  : 212055
  p1:x0=0  p1:x2=0  : 46610
-Observation MP+dmb+svc-R-eret-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-eret-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-R:
  p1:x0=0  p1:x2=1  : 236281
  p1:x0=0  p1:x2=0  : 54420
  p1:x0=1  p1:x2=1  : 209299
-Observation MP+dmb+svc-R-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-eret-R:
  p1:x0=1  p1:x2=1  : 208954
  p1:x0=0  p1:x2=1  : 253334
  p1:x0=0  p1:x2=0  : 37712
-Observation MP+dmb+svc-R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+svc-W-eret-W+addr:
  p1:x0=0  p1:x2=0  : 244869
  p1:x0=0  p1:x2=1  : 173383
  p1:x0=1  p1:x2=1  : 81748
-Observation MP+svc-W-eret-W+addr: 0 (of 500000)
+Observation MP+svc-W-eret-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test SB+W-svc-R+W-svc-R:
  p0:x2=0  p1:x2=1  : 95868
  p0:x2=1  p1:x2=1  : 331289
  p0:x2=1  p1:x2=0  : 72843
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test SB+svc-erets:
  p0:x2=1  p1:x2=1  : 311842
  p0:x2=0  p1:x2=1  : 111625
  p0:x2=1  p1:x2=0  : 76533
-Observation SB+svc-erets: 0 (of 500000)
+Observation SB+svc-erets.errata: 0 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -2860,70 +2860,70 @@ Test MP+W-svc-W+addr:
  p1:x0=1  p1:x2=1  : 90728
  p1:x0=0  p1:x2=1  : 305499
  p1:x0=0  p1:x2=0  : 103773
-Observation MP+W-svc-W+addr: 0 (of 500000)
+Observation MP+W-svc-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 303665
  p1:x0=0  p1:x2=0  : 106247
  p1:x0=1  p1:x2=1  : 90088
-Observation MP+dmb+R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+eret:
  p1:x0=1  p1:x2=1  : 221152
  p1:x0=0  p1:x2=0  : 121795
  p1:x0=0  p1:x2=1  : 157053
-Observation MP+dmb+eret: 0 (of 500000)
+Observation MP+dmb+eret.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc:
  p1:x0=0  p1:x2=0  : 101411
  p1:x0=0  p1:x2=1  : 303765
  p1:x0=1  p1:x2=1  : 94824
-Observation MP+dmb+svc: 0 (of 500000)
+Observation MP+dmb+svc.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc2-R-eret-R:
  p1:x0=0  p1:x2=0  : 38569
  p1:x0=1  p1:x2=1  : 312018
  p1:x0=0  p1:x2=1  : 149413
-Observation MP+dmb+svc2-R-eret-R: 0 (of 500000)
+Observation MP+dmb+svc2-R-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-eret-svc-R:
  p1:x0=0  p1:x2=1  : 244721
  p1:x0=1  p1:x2=1  : 209935
  p1:x0=0  p1:x2=0  : 45344
-Observation MP+dmb+svc-R-eret-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-eret-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-R:
  p1:x0=0  p1:x2=1  : 234002
  p1:x0=1  p1:x2=1  : 210987
  p1:x0=0  p1:x2=0  : 55011
-Observation MP+dmb+svc-R-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 239408
  p1:x0=1  p1:x2=1  : 221369
  p1:x0=0  p1:x2=0  : 39223
-Observation MP+dmb+svc-R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+svc-W-eret-W+addr:
  p1:x0=0  p1:x2=1  : 173071
  p1:x0=0  p1:x2=0  : 242325
  p1:x0=1  p1:x2=1  : 84604
-Observation MP+svc-W-eret-W+addr: 0 (of 500000)
+Observation MP+svc-W-eret-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=1  : 328179
  p0:x2=1  p1:x2=0  : 72780
  p0:x2=0  p1:x2=1  : 99041
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test SB+svc-erets:
@@ -2931,7 +2931,7 @@ Test SB+svc-erets:
  p0:x2=1  p1:x2=0  : 82686
  p0:x2=0  p1:x2=1  : 116303
  p0:x2=0  p1:x2=0  : 44 *
-Observation SB+svc-erets: 44 (of 500000)
+Observation SB+svc-erets.errata: 44 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -2945,70 +2945,70 @@ Test MP+W-svc-W+addr:
  p1:x0=0  p1:x2=0  : 94384
  p1:x0=0  p1:x2=1  : 307128
  p1:x0=1  p1:x2=1  : 98488
-Observation MP+W-svc-W+addr: 0 (of 500000)
+Observation MP+W-svc-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 309234
  p1:x0=0  p1:x2=0  : 91312
  p1:x0=1  p1:x2=1  : 99454
-Observation MP+dmb+R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+eret:
  p1:x0=0  p1:x2=0  : 119589
  p1:x0=0  p1:x2=1  : 149835
  p1:x0=1  p1:x2=1  : 230576
-Observation MP+dmb+eret: 0 (of 500000)
+Observation MP+dmb+eret.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc:
  p1:x0=0  p1:x2=1  : 307972
  p1:x0=0  p1:x2=0  : 91866
  p1:x0=1  p1:x2=1  : 100162
-Observation MP+dmb+svc: 0 (of 500000)
+Observation MP+dmb+svc.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc2-R-eret-R:
  p1:x0=0  p1:x2=0  : 34295
  p1:x0=1  p1:x2=1  : 322853
  p1:x0=0  p1:x2=1  : 142852
-Observation MP+dmb+svc2-R-eret-R: 0 (of 500000)
+Observation MP+dmb+svc2-R-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-eret-svc-R:
  p1:x0=0  p1:x2=1  : 244666
  p1:x0=0  p1:x2=0  : 42031
  p1:x0=1  p1:x2=1  : 213303
-Observation MP+dmb+svc-R-eret-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-eret-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-R:
  p1:x0=0  p1:x2=0  : 45726
  p1:x0=1  p1:x2=1  : 210669
  p1:x0=0  p1:x2=1  : 243605
-Observation MP+dmb+svc-R-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 235571
  p1:x0=0  p1:x2=0  : 34013
  p1:x0=1  p1:x2=1  : 230416
-Observation MP+dmb+svc-R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+svc-W-eret-W+addr:
  p1:x0=0  p1:x2=0  : 232655
  p1:x0=0  p1:x2=1  : 178457
  p1:x0=1  p1:x2=1  : 88888
-Observation MP+svc-W-eret-W+addr: 0 (of 500000)
+Observation MP+svc-W-eret-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=1  : 335127
  p0:x2=1  p1:x2=0  : 68614
  p0:x2=0  p1:x2=1  : 96259
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test SB+svc-erets:
@@ -3016,7 +3016,7 @@ Test SB+svc-erets:
  p0:x2=1  p1:x2=1  : 304472
  p0:x2=0  p1:x2=1  : 126100
  p0:x2=0  p1:x2=0  : 24 *
-Observation SB+svc-erets: 24 (of 500000)
+Observation SB+svc-erets.errata: 24 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -3030,70 +3030,70 @@ Test MP+W-svc-W+addr:
  p1:x0=1  p1:x2=1  : 87669
  p1:x0=0  p1:x2=1  : 303205
  p1:x0=0  p1:x2=0  : 109126
-Observation MP+W-svc-W+addr: 0 (of 500000)
+Observation MP+W-svc-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+R-svc-eret-R:
  p1:x0=0  p1:x2=0  : 92177
  p1:x0=1  p1:x2=1  : 99485
  p1:x0=0  p1:x2=1  : 308338
-Observation MP+dmb+R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+eret:
  p1:x0=0  p1:x2=0  : 109559
  p1:x0=1  p1:x2=1  : 237419
  p1:x0=0  p1:x2=1  : 153022
-Observation MP+dmb+eret: 0 (of 500000)
+Observation MP+dmb+eret.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc:
  p1:x0=0  p1:x2=0  : 96435
  p1:x0=0  p1:x2=1  : 300270
  p1:x0=1  p1:x2=1  : 103295
-Observation MP+dmb+svc: 0 (of 500000)
+Observation MP+dmb+svc.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc2-R-eret-R:
  p1:x0=0  p1:x2=1  : 134674
  p1:x0=1  p1:x2=1  : 332084
  p1:x0=0  p1:x2=0  : 33242
-Observation MP+dmb+svc2-R-eret-R: 0 (of 500000)
+Observation MP+dmb+svc2-R-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-eret-svc-R:
  p1:x0=1  p1:x2=1  : 222513
  p1:x0=0  p1:x2=1  : 238755
  p1:x0=0  p1:x2=0  : 38732
-Observation MP+dmb+svc-R-eret-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-eret-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-R:
  p1:x0=0  p1:x2=1  : 239026
  p1:x0=1  p1:x2=1  : 211165
  p1:x0=0  p1:x2=0  : 49809
-Observation MP+dmb+svc-R-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 234887
  p1:x0=1  p1:x2=1  : 229294
  p1:x0=0  p1:x2=0  : 35819
-Observation MP+dmb+svc-R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+svc-W-eret-W+addr:
  p1:x0=0  p1:x2=1  : 172682
  p1:x0=0  p1:x2=0  : 248417
  p1:x0=1  p1:x2=1  : 78901
-Observation MP+svc-W-eret-W+addr: 0 (of 500000)
+Observation MP+svc-W-eret-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=1  : 331871
  p0:x2=1  p1:x2=0  : 77736
  p0:x2=0  p1:x2=1  : 90393
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test SB+svc-erets:
@@ -3101,7 +3101,7 @@ Test SB+svc-erets:
  p0:x2=1  p1:x2=0  : 74815
  p0:x2=0  p1:x2=1  : 114684
  p0:x2=0  p1:x2=0  : 71 *
-Observation SB+svc-erets: 71 (of 500000)
+Observation SB+svc-erets.errata: 71 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -3115,70 +3115,70 @@ Test MP+W-svc-W+addr:
  p1:x0=0  p1:x2=0  : 115465
  p1:x0=0  p1:x2=1  : 297006
  p1:x0=1  p1:x2=1  : 87529
-Observation MP+W-svc-W+addr: 0 (of 500000)
+Observation MP+W-svc-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 301498
  p1:x0=0  p1:x2=0  : 109820
  p1:x0=1  p1:x2=1  : 88682
-Observation MP+dmb+R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+eret:
  p1:x0=0  p1:x2=0  : 117890
  p1:x0=1  p1:x2=1  : 222417
  p1:x0=0  p1:x2=1  : 159693
-Observation MP+dmb+eret: 0 (of 500000)
+Observation MP+dmb+eret.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc:
  p1:x0=0  p1:x2=0  : 110635
  p1:x0=0  p1:x2=1  : 300693
  p1:x0=1  p1:x2=1  : 88672
-Observation MP+dmb+svc: 0 (of 500000)
+Observation MP+dmb+svc.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc2-R-eret-R:
  p1:x0=0  p1:x2=1  : 164255
  p1:x0=1  p1:x2=1  : 302363
  p1:x0=0  p1:x2=0  : 33382
-Observation MP+dmb+svc2-R-eret-R: 0 (of 500000)
+Observation MP+dmb+svc2-R-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-eret-svc-R:
  p1:x0=0  p1:x2=0  : 48272
  p1:x0=0  p1:x2=1  : 240376
  p1:x0=1  p1:x2=1  : 211352
-Observation MP+dmb+svc-R-eret-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-eret-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-R:
  p1:x0=0  p1:x2=1  : 230483
  p1:x0=0  p1:x2=0  : 55048
  p1:x0=1  p1:x2=1  : 214469
-Observation MP+dmb+svc-R-svc-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc-R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 240063
  p1:x0=1  p1:x2=1  : 219630
  p1:x0=0  p1:x2=0  : 40307
-Observation MP+dmb+svc-R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+svc-R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+svc-W-eret-W+addr:
  p1:x0=0  p1:x2=0  : 244873
  p1:x0=0  p1:x2=1  : 176475
  p1:x0=1  p1:x2=1  : 78652
-Observation MP+svc-W-eret-W+addr: 0 (of 500000)
+Observation MP+svc-W-eret-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test SB+W-svc-R+W-svc-R:
  p0:x2=1  p1:x2=1  : 329989
  p0:x2=1  p1:x2=0  : 76186
  p0:x2=0  p1:x2=1  : 93825
-Observation SB+W-svc-R+W-svc-R: 0 (of 500000)
+Observation SB+W-svc-R+W-svc-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test SB+svc-erets:
@@ -3186,7 +3186,7 @@ Test SB+svc-erets:
  p0:x2=0  p1:x2=1  : 111054
  p0:x2=1  p1:x2=0  : 91288
  p0:x2=0  p1:x2=0  : 38 *
-Observation SB+svc-erets: 38 (of 500000)
+Observation SB+svc-erets.errata: 38 (of 500000)
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
 +++ mktemp
@@ -3200,12 +3200,12 @@ Test MP+W-svc-W+addr:
  p1:x0=1  p1:x2=1  : 90517
  p1:x0=0  p1:x2=1  : 306463
  p1:x0=0  p1:x2=0  : 103020
-Observation MP+W-svc-W+addr: 0 (of 500000)
+Observation MP+W-svc-W+addr.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+R-svc-eret-R:
  p1:x0=0  p1:x2=1  : 309097
  p1:x0=0  p1:x2=0  : 93238
  p1:x0=1  p1:x2=1  : 97665
-Observation MP+dmb+R-svc-eret-R: 0 (of 500000)
+Observation MP+dmb+R-svc-eret-R.errata: 0 (of 500000)
 P0			P1			P2			P3			
