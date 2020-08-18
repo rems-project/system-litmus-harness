@@ -66,7 +66,7 @@ def filter_erratas(dir):
         date = read_file_date(f.name)
 
         for d in errata.keys():
-            if date is None or date < d:
+            if date is None or date <= d:
                 subs(f, errata[d])
 
 cwd = pathlib.Path(".")
