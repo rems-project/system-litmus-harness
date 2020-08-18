@@ -11,6 +11,7 @@ find doc/build/html | while read fname; do
     [[ -f $fname ]] || continue;
     git add -f "$(echo $fname | cut -c 16-)"
 done
+git add -f doc/build/html
 git status
 git commit -m "make publish -- $(date)"
 git checkout ${BRANCH}
