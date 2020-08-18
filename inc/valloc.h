@@ -19,7 +19,7 @@ typedef struct __alloc {
 } valloc_alloc_chunk;
 
 
-/** we store a list of all allocations so far 
+/** we store a list of all allocations so far
  * with a fixed maximum number of allocations
  */
 #define NUM_ALLOC_CHUNKS 1024
@@ -40,7 +40,7 @@ void valloc_freelist_allocate_free_chunk(uint64_t addr, uint64_t size);
 void valloc_freelist_remove_chunk(valloc_free_chunk* chunk);
 void valloc_freelist_compact_chunk(valloc_free_chunk* chunk);
 
-/** the memory itself is just a moving bar that 
+/** the memory itself is just a moving bar that
  * goes from the top of memory down towards the top
  * of stack
  */
@@ -53,6 +53,14 @@ typedef struct {
 volatile valloc_mempool mem;
 
 void init_valloc(void);
+
+#define ALLOC_MANY(ty, count) ({ \
+  debug("alloc %ldx %s\n", count, #ty); \
+  void* v = alloc_with_alignment((sizeof(ty))*count, sizeof(ty)); \
+  v; \
+})
+
+#define ALLOC_ONE(ty) ALLOC_MANY(ty, 1)
 
 void* alloc_with_alignment(uint64_t size, uint64_t alignment);
 void* alloc(uint64_t size);

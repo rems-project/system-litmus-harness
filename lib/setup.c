@@ -20,6 +20,23 @@ void setup(char* fdtloc) {
 
   debug("setup\n");
 
+  char c = 'm';
+  char seps [] = { c, c, c, c, c, c, c, c, c, c, c, c, c, '\0' };
+#define PR_BARS(top, bot) \
+  { uint64_t diff = top-bot; int d = log2(diff)/5; \
+    seps[d] = 0; for (int i = 0; i < (diff/(1<<(5*d))); i++) \
+    debug("\t%s\n", &seps[0]); seps[d] = c;  }
+  debug("memory layout:\n");
+  debug("--------------------------------\n");
+  debug("%p: TOP_OF_MEM\n", TOP_OF_MEM);
+  PR_BARS(TOP_OF_MEM, TOP_OF_STACK);
+  debug("%p: TOP_OF_STACK\n", TOP_OF_STACK);
+  PR_BARS(TOP_OF_STACK, TOP_OF_TEXT);
+  debug("%p: TOP_OF_TEXT\n", TOP_OF_TEXT);
+  PR_BARS(TOP_OF_TEXT, 0);
+  debug("0x0: BOTTOM_OF_MEMORY\n");
+  debug("--------------------------------\n");
+
   vector_base_pa = (uint64_t)&el1_exception_vector_table_p0;
   vector_base_addr_rw = vector_base_pa;
 

@@ -2,6 +2,7 @@
 
 void read_init_unmapped(const litmus_test_t* cfg, var_info_t* infos, const char* varname);
 void read_init_region(const litmus_test_t* cfg, var_info_t* infos, const char* varname, const char* pinned_var_name, pin_level_t pin_level);
+void read_init_region_own(const litmus_test_t* cfg, var_info_t* infos, const char* varname, own_level_t region);
 void read_init_alias(const litmus_test_t* cfg, var_info_t* infos, const char* varname, const char* aliasname);
 void read_init_ap(const litmus_test_t* cfg, var_info_t* infos, const char* varname, uint64_t ap);
 void read_init_pte(const litmus_test_t* cfg, var_info_t* infos, const char* varname, uint64_t pte);
@@ -9,6 +10,7 @@ void read_init_heap(const litmus_test_t* cfg, var_info_t* infos, const char* var
 
 void read_var_infos(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, int no_runs) {
   for (int v = 0; v < cfg->no_heap_vars; v++) {
+    infos[v].varidx = v;
     infos[v].name = cfg->heap_var_names[v];
   }
 
@@ -41,6 +43,12 @@ void read_var_infos(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos
 void read_init_unmapped(const litmus_test_t* cfg, var_info_t* infos, const char* varname) {
   uint64_t idx = idx_from_varname_infos(cfg, infos, varname);
   infos[idx].init_unmapped = 1;
+}
+
+void read_init_region_own(const litmus_test_t* cfg, var_info_t* infos, const char* varname, own_level_t region) {
+  uint64_t idx = idx_from_varname_infos(cfg, infos, varname);
+  infos[idx].init_owns_region = 1;
+  infos[idx].init_owned_region_size = region;
 }
 
 void read_init_region(const litmus_test_t* cfg, var_info_t* infos, const char* varname, const char* pinned_var_name, pin_level_t pin_level) {

@@ -1,4 +1,4 @@
-#ifndef LITMUS_CTX_H
+#ifndef LITMUS_CTX_H-
 #define LITMUS_CTX_H
 
 #include "lib.h"
@@ -45,15 +45,18 @@ typedef struct {
 #define NR_CACHE_LINES_PER_PAGE 64
 
 typedef struct {
+  const char* exclusive_owner;  /* if some var owns this cache line, its name, otherwise NULL */
   uint64_t curr_val_ix;
 } cache_line_tracker_t;
 
 typedef struct {
+  const char* exclusive_owner;  /* if some var owns this page, its name, otherwise NULL */
   uint64_t curr_scl_ix;
   cache_line_tracker_t scl_ix [NR_CACHE_LINES_PER_PAGE];
 } page_tracker_t;
 
 typedef struct {
+  const char* exclusive_owner;  /* if some var owns this dir, its name, otherwise NULL */
   uint64_t curr_page_ix;
   page_tracker_t page_ixs [NR_PAGES_PER_DIR];
 } dir_tracker_t;
@@ -64,7 +67,7 @@ typedef struct {
 } region_tracker_t;
 
 typedef struct {
-  region_tracker_t tickers [NR_REGIONS];
+  region_tracker_t regions [NR_REGIONS];
 } region_trackers_t;
 
 typedef struct {
@@ -79,6 +82,7 @@ typedef struct {
  *
  */
 typedef struct {
+  int varidx;
   const char* name;
   uint64_t init_value;
   uint64_t init_ap;
@@ -98,6 +102,9 @@ typedef struct {
       uint64_t curr_region;
     };
   };
+
+  uint8_t init_owns_region;
+  own_level_t init_owned_region_size;
 
   /** if aliased, the name of the variable this one aliases
    */
@@ -157,9 +164,21 @@ const char* regname_from_idx(test_ctx_t* ctx, uint64_t idx);
 void read_var_infos(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, int no_runs);
 
 /* for concretization */
+typedef struct {
+  void* (*concretize_alloc_st)(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs);
+  void (*concretize_all)(test_ctx_t* ctx, const litmus_test_t* cfg, void* st, int no_runs);
+  void (*concretize_one)(test_ctx_t* ctx, const litmus_test_t* cfg, void* st, int run);
+  void (*concretize_free_st)(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, void* st);
+} concretization_algo_t;
+
 void set_init_var(test_ctx_t* ctx, var_info_t* infos, uint64_t varidx, uint64_t idx);
 void concretization_precheck(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos);
 void concretization_postcheck(test_ctx_t*, const litmus_test_t* cfg, var_info_t* infos, int run);
 void concretize(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, int no_runs);
+
+extern concretization_algo_t LINEAR_CONCRETIZATION_ALGO;
+extern concretization_algo_t STANDARD_CONCRETIZATION_ALGO;
+
+extern concretization_algo_t* CONCRETIZATION_ALGO;
 
 #endif /* LITMUS_CTX_H */
