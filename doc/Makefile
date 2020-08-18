@@ -19,6 +19,12 @@ help:
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
+PUBLISH_FROM_BRANCH = $(shell git branch --show-current)
+DEBUG_PUBLISH = 0
 .PHONY: publish
 publish:
-	bash -x ./publish.sh
+ifeq ($(DEBUG_PUBLISH),1)
+	bash -x ./publish.sh "$(PUBLISH_FROM_BRANCH)"
+else
+	bash ./publish.sh "$(PUBLISH_FROM_BRANCH)"
+endif

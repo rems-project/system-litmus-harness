@@ -1,20 +1,34 @@
-BRANCH="$(git branch --show-current)"
+set -e
+
+BRANCH="$1"
+
+restore-from-gh() {
+    if [[ "$1" == "" ]]; then
+        echo "ERROR, reverting back to ${BRANCH}"
+    fi;
+    rm -rf *
+    git reset --hard HEAD
+    git checkout ${BRANCH}
+    git reset HEAD~
+    if [[ "${STASH}" != 'No local changes to save' ]]; then
+        git stash pop
+    fi
+    popd
+}
+
 make html
-git add -f build/html/
+git add -f .
 git commit -m "tmp"
-git stash
+STASH="$(git stash)"
 pushd ..
 git checkout gh-pages
-git restore --source=${BRANCH} doc/build/html
-cp -r doc/build/html/* .
+git restore --source=${BRANCH} doc || restore-from-gh
+cp -r doc/build/html/. .
 find doc/build/html | while read fname; do
     [[ -f $fname ]] || continue;
-    git add -f "$(echo $fname | cut -c 16-)"
+    git add -f "$(echo $fname | cut -c 16-)" || restore-from-gh
 done
-git add -f doc/build/html
-git status
-git commit -m "make publish -- $(date)"
-git checkout ${BRANCH}
-git stash pop
-git reset HEAD~
-popd
+COMMIT_MSG="$(python3 make_commit_msg.py ${BRANCH})" || restore-from-gh
+git add -f .commits || restore-from-gh
+git commit -m "${COMMIT_MSG}"
+restore-from-gh 0
