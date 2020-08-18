@@ -1,0 +1,235 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>How it Works &mdash; system-litmus-harness  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> system-litmus-harness
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debugging_make.html">Debugging a Failing Build</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customizing_litmus.html">Running the Tests</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="customizing_make.html">Customizing the Build</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debugging_code.html">Fixing Runtime Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing_tests.html">Writing Litmus Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test_discover.html">Test Discovery and Linting</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">system-litmus-harness</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>How it Works</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/how_it_works.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="how-it-works">
+<h1>How it Works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="an-arm-primer">
+<h2>An Arm primer<a class="headerlink" href="#an-arm-primer" title="Permalink to this headline">¶</a></h2>
+<p>The Arm architecture is a RISC-style architecture,  where the instructions are mostly seemingly
+simple register &lt;-&gt; register, and register &lt;-&gt; memory transfer operations.  To make those operations
+performant Arm CPUs have many optimizations, two of which are particuarly interesting to us:
+* pipelining
+* caches</p>
+<p>Pipelined (superscalar) implementations gain performance by splitting instructions into separate
+stages (e.g. fetch -&gt; decode -&gt; execute) and then pushing each instruction through each stage in turn,
+allowing future instructions to begin fetching/decoding and executing before the first instruction has
+finished.  This gives a simple “out-of-order” appearence which is exacerbated by more direct Out-of-order
+executions (e.g. re-order buffers).</p>
+<p>However, pipelines can only do so much,  once the pipeline reaches a memory access it has to stall and wait.
+To help with this, outside the pipeline is a series of fast but small caches of memory that can be used to store
+and retrieve recently-accessed data much faster than going all the way out to memory.  Caches come with a litany
+of consistency and ordering issues and so there exist complex cache protocols to address them.</p>
+<p>In an ideal world both of these optimizations would be unobservable to the user (except for timing effects),
+however this is not the case.  For whatever reason, CPU vendors have decided that fully hiding the details
+would be too costly and so some of the out-of-order nature of the machine is observable to the user.</p>
+<p>Historically these have been</p>
+</div>
+<div class="section" id="going-up-into-systems">
+<h2>Going up into systems<a class="headerlink" href="#going-up-into-systems" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Ben Simner,  Ohad Kammar
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

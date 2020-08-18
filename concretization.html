@@ -1,0 +1,320 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Concretization &mdash; system-litmus-harness  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> system-litmus-harness
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debugging_make.html">Debugging a Failing Build</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customizing_litmus.html">Running the Tests</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="customizing_make.html">Customizing the Build</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debugging_code.html">Fixing Runtime Errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing_tests.html">Writing Litmus Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test_discover.html">Test Discovery and Linting</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">system-litmus-harness</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Concretization</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/concretization.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="concretization">
+<h1>Concretization<a class="headerlink" href="#concretization" title="Permalink to this headline">¶</a></h1>
+<p>A Litmus test is essentially a concrete program with symbolic inputs.
+The job of the test harness is to instantiate these inputs and collect the outputs.</p>
+<div class="section" id="when-to-allocate">
+<h2>When to allocate<a class="headerlink" href="#when-to-allocate" title="Permalink to this headline">¶</a></h2>
+<p>There are primarily three ways to perform the instantiation of the input data:</p>
+<ul class="simple">
+<li><p>ephemeral</p></li>
+<li><p>arrayization</p></li>
+<li><p>semi-arrayization</p></li>
+</ul>
+<p>Each of these ways are similar,  they allocate regions of memory for each input variable
+and then run the test.  But they differ in exactly how they would allocate those regions.</p>
+<div class="section" id="ephemeral">
+<h3>Ephemeral<a class="headerlink" href="#ephemeral" title="Permalink to this headline">¶</a></h3>
+<p>The simplest approach is to just pick concrete addresses on each run of the test,
+initialize them based on the test’s initial state declaration and then run the test,
+repeating the whole process however many times required (in pseudo-code):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>for i in 1...#number-of-runs {
+    input = pick-addrs(i)
+    init-state(input)
+    results = run-code(concrete_code, input)
+    collect-results(results)
+}
+</pre></div>
+</div>
+<p>Because the addresses are picked and then initialized as the tests run, different runs can overlap in memory.
+This makes this the easiest to get working,  but requires much more synchronization between runs than the other approaches,
+making it slow and potentially making interesting results harder to observe.</p>
+</div>
+<div class="section" id="arrayization">
+<h3>Arrayization<a class="headerlink" href="#arrayization" title="Permalink to this headline">¶</a></h3>
+<p>A historical approach is just to allocate a dedicated piece of memory for each test,
+with each input living on its own in its own location/cache-line/page or whatever is necessary for the test.</p>
+<p>Each test is totally isolated and running the tests is trivial,  you just run the concrete program in a tight loop
+passing in each tests’ memory locations as inputs.  No extra synchronization is necessary  (but may still be desireable
+for other reasons), e.g:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>inputs = pick-all-addrs()
+init-all(inputs)
+
+for i in 1...#number-of-runs {
+    input = inputs[i]
+    results = run-code(concrete_code, input)
+    collect-results(results)
+}
+</pre></div>
+</div>
+<p>This allows the tests to run with maximal interleaving at execution time,  and maximal overlap in caches, buffers
+etc</p>
+<p>However, variables that need their own page, or directory effectively take 512x or 32,000x as much space
+per address in the array.  In the worst case, a simple test with 1 variable that exists in its own page
+needs 4KB of space per address and for 1M runs would require nearly 2 GB of memory allocated just for that one variable.
+Variables that need 2nd level translations would need 2MB of space each, and variables that need 1st level translation isolation
+would need ~1 GB per variable per run!</p>
+<p>This is only feasible for tests whose VAs own only a small amount of memory, or for a very small number of runs.</p>
+</div>
+<div class="section" id="semi-arrayization">
+<h3>Semi-arrayization<a class="headerlink" href="#semi-arrayization" title="Permalink to this headline">¶</a></h3>
+<p>A compromise between the two would be to allocate the locations upfront,  with some overlap (e.g. allow
+two instances of the same variable to exist in the same page) and to perform a quick initialization at runtime:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>inputs = pick-all-addrs()
+
+for i in 1...#number-of-runs {
+    input = inputs[i]
+    init-state(input)
+    results = run-code(concrete_code, input)
+    collect-results(results)
+}
+</pre></div>
+</div>
+<p>… TODO: is this good or bad ?</p>
+</div>
+</div>
+<div class="section" id="picking-the-addresses">
+<h2>Picking the addresses<a class="headerlink" href="#picking-the-addresses" title="Permalink to this headline">¶</a></h2>
+<p>No matter which approach is used, concrete addresses must be picked from the pool of available addresses.
+But the addresses cannot simply be randomly picked,  there are constraints each must abide.</p>
+<div class="section" id="constraints">
+<h3>Constraints<a class="headerlink" href="#constraints" title="Permalink to this headline">¶</a></h3>
+<p>Take the following concrete initial state,  for a test with 3 variables <code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code> and <code class="docutils literal notranslate"><span class="pre">z</span></code>.
+The test writes to <code class="docutils literal notranslate"><span class="pre">x</span></code>,  writes to the last-level translation table entry of <code class="docutils literal notranslate"><span class="pre">y</span></code> and to the
+2nd-level translation table entry of <code class="docutils literal notranslate"><span class="pre">z</span></code>.  This imposes the following constraints on the variables:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">x</span></code> must be 64-bit aligned.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">y</span></code>’s 4k-aligned region (page) must not contain <code class="docutils literal notranslate"><span class="pre">x</span></code> or <code class="docutils literal notranslate"><span class="pre">z</span></code>, and <code class="docutils literal notranslate"><span class="pre">y</span></code> must be 64-bit aligned.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">z</span></code>’s 2M-aligned region (dir) must not contain <code class="docutils literal notranslate"><span class="pre">x</span></code> or <code class="docutils literal notranslate"><span class="pre">y</span></code>, and <code class="docutils literal notranslate"><span class="pre">z</span></code> must be 64-bit aligned.</p></li>
+</ul>
+<p>Let <code class="docutils literal notranslate"><span class="pre">x[i]</span></code> notate the address of <code class="docutils literal notranslate"><span class="pre">x</span></code> but on run <code class="docutils literal notranslate"><span class="pre">i</span></code>.</p>
+<ul>
+<li><p>for arrayization, forall distinct <code class="docutils literal notranslate"><span class="pre">i</span></code>, <code class="docutils literal notranslate"><span class="pre">i'</span></code>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">y[i]</span></code>’s page must not contain <code class="docutils literal notranslate"><span class="pre">x[i']</span></code>, <code class="docutils literal notranslate"><span class="pre">y[i']</span></code> or <code class="docutils literal notranslate"><span class="pre">z[i']</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">z[i]</span></code>’s dir must not contain <code class="docutils literal notranslate"><span class="pre">x[i']</span></code>, <code class="docutils literal notranslate"><span class="pre">y[i']</span></code> or <code class="docutils literal notranslate"><span class="pre">z[i']</span></code>.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="coverage">
+<h3>Coverage<a class="headerlink" href="#coverage" title="Permalink to this headline">¶</a></h3>
+<p>The exact relationship between the variables’ virtual addresses may effect how likely
+certain relaxed outcomes may be.  For example,  some outcome might be more likely if two variables share the same last 12 bits.
+(aka they have the same physical offset in a page).  Whereas other outcomes may become more likely if the two variables are “close”
+together (in the same cache-line, page, TLB line etc).</p>
+<p>A single run of a test can only test one of these shapes, but over many runs it should be possible to try out many combinations of
+different layouts of the variables to maximally provoke the CPU to give interesting results.</p>
+<p>But it is not clear exactly <em>what</em> the possible interesting shapes are,  or indeed <em>how much</em> they effect the outcome.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Ben Simner,  Ohad Kammar
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
