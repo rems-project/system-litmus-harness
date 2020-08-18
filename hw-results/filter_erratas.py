@@ -56,8 +56,9 @@ def read_erratas() -> yaml.YAMLObject:
     for item in content:
         date = read_date(item['date'])
         tests = [it['test'] for it in item['errata']]
-        for test in tests:
-            errata[date].add(test)
+        for test_list in tests:
+            for test in test_list.split():
+                errata[date].add(test)
 
     return errata
 

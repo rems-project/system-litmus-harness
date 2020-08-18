@@ -128,7 +128,7 @@ P0			P1			P2			P3
 Test CoWT.inv+dsb:
  p0:x4=0  : 499997
  p0:x4=1  : 3 *
-Observation CoWT.inv+dsb.errata: 3 (of 500000)
+Observation CoWT.inv+dsb.errata.errata: 3 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb:
@@ -490,7 +490,7 @@ P0			P1			P2			P3
 Test CoWT.inv+dsb:
  p0:x4=0  : 499999
  p0:x4=1  : 1 *
-Observation CoWT.inv+dsb.errata: 1 (of 500000)
+Observation CoWT.inv+dsb.errata.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb:
@@ -852,7 +852,7 @@ P0			P1			P2			P3
 Test CoWT.inv+dsb:
  p0:x4=0  : 499998
  p0:x4=1  : 2 *
-Observation CoWT.inv+dsb.errata: 2 (of 500000)
+Observation CoWT.inv+dsb.errata.errata: 2 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb:
@@ -1214,7 +1214,7 @@ P0			P1			P2			P3
 Test CoWT.inv+dsb:
  p0:x4=0  : 499991
  p0:x4=1  : 9 *
-Observation CoWT.inv+dsb.errata: 9 (of 500000)
+Observation CoWT.inv+dsb.errata.errata: 9 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb:
@@ -1576,7 +1576,7 @@ P0			P1			P2			P3
 Test CoWT.inv+dsb:
  p0:x4=0  : 499999
  p0:x4=1  : 1 *
-Observation CoWT.inv+dsb.errata: 1 (of 500000)
+Observation CoWT.inv+dsb.errata.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb:
@@ -1940,7 +1940,7 @@ P0			P1			P2			P3
 Test CoWT.inv+dsb:
  p0:x4=0  : 499995
  p0:x4=1  : 5 *
-Observation CoWT.inv+dsb.errata: 5 (of 500000)
+Observation CoWT.inv+dsb.errata.errata: 5 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb:
@@ -2300,7 +2300,7 @@ P0			P1			P2			P3
 
 Test CoWT.inv+dsb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb.errata: 0 (of 500000)
+Observation CoWT.inv+dsb.errata.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb:
@@ -2663,7 +2663,7 @@ P0			P1			P2			P3
 
 Test CoWT.inv+dsb:
  p0:x4=0  : 500000
-Observation CoWT.inv+dsb.errata: 0 (of 500000)
+Observation CoWT.inv+dsb.errata.errata: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb:
@@ -3026,7 +3026,7 @@ P0			P1			P2			P3
 Test CoWT.inv+dsb:
  p0:x4=0  : 499995
  p0:x4=1  : 5 *
-Observation CoWT.inv+dsb.errata: 5 (of 500000)
+Observation CoWT.inv+dsb.errata.errata: 5 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb:
@@ -3389,7 +3389,7 @@ P0			P1			P2			P3
 Test CoWT.inv+dsb:
  p0:x4=0  : 499999
  p0:x4=1  : 1 *
-Observation CoWT.inv+dsb.errata: 1 (of 500000)
+Observation CoWT.inv+dsb.errata.errata: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb:

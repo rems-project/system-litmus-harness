@@ -17,11 +17,11 @@ qemu-system-aarch64: warning: ITS KVM: full reset is not supported by the host k
 
 Test check1:
  exc=0  : 500000
-Observation check1: 0 (of 500000)
+Observation check1.errata: 0 (of 500000)
 
 Test check2:
  exc=0  : 500000
-Observation check2: 0 (of 500000)
+Observation check2.errata: 0 (of 500000)
 
 Test check3:
  p1:x0=0  p1:x2=1  : 119321
@@ -715,11 +715,11 @@ qemu-system-aarch64: warning: ITS KVM: full reset is not supported by the host k
 
 Test check1:
  exc=0  : 500000
-Observation check1: 0 (of 500000)
+Observation check1.errata: 0 (of 500000)
 
 Test check2:
  exc=0  : 500000
-Observation check2: 0 (of 500000)
+Observation check2.errata: 0 (of 500000)
 
 Test check3:
  p1:x0=1  p1:x2=0  : 152740
@@ -1415,11 +1415,11 @@ qemu-system-aarch64: warning: ITS KVM: full reset is not supported by the host k
 
 Test check1:
  exc=0  : 500000
-Observation check1: 0 (of 500000)
+Observation check1.errata: 0 (of 500000)
 
 Test check2:
  exc=0  : 500000
-Observation check2: 0 (of 500000)
+Observation check2.errata: 0 (of 500000)
 
 Test check3:
  p1:x0=1  p1:x2=0  : 214227

@@ -128,7 +128,7 @@ P0			P1			P2			P3
 Test CoWT.inv+dsb:
  p0:x4=0  : 499996
  p0:x4=1  : 4 *
-Observation CoWT.inv+dsb.errata: 4 (of 500000)
+Observation CoWT.inv+dsb.errata.errata: 4 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb:
