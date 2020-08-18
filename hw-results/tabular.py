@@ -84,7 +84,7 @@ def humanize(n):
     return f"{n:.2f}"
 
 
-def write_one_table(grp_list, f, device, results, running, includes=[], excludes=[]):
+def write_one_table(grp_list, f, device, results, running, includes=[], excludes=[], print_skips=True):
     filtered = []
 
     orphans = results.keys() - {t for (t, g) in grp_list}
@@ -97,7 +97,8 @@ def write_one_table(grp_list, f, device, results, running, includes=[], excludes
             or (any(g in excludes for g in groups))
             or (test_name not in results)
         ):
-            print('Skip ! {}: {}'.format(device, test_name))
+            if print_skips:
+                print('Skip ! {}: {}'.format(device, test_name))
             continue
         filtered.append((test_name, groups))
 
@@ -190,6 +191,7 @@ if __name__ == "__main__":
                     running,
                     includes=includes,
                     excludes=excludes,
+                    print_skips=False,
                 )
                 for line in sio.getvalue().splitlines():
                     f.write(f"   {line}\n")

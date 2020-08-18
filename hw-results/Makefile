@@ -21,8 +21,7 @@ fetchrpi:
 tabular:
 	python3 tabular.py $(TABULAR_ARGS) --standalone
 
-.PHONY: top.pdf
-top.pdf:
+top.pdf: top.tex
 	pdflatex top.tex
 	pdflatex top.tex
 
