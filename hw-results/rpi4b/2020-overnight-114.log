@@ -253,11 +253,11 @@ Test MP+dmb+svc:
 Observation MP+dmb+svc: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test MP.RT.inv.broken+dmb+addr:
+Test MP.RT.inv+dmb+addr:
  p1:x0=0  p1:x2=0  : 322137
  p1:x0=0  p1:x2=1  : 51444
  p1:x0=1  p1:x2=0  : 126419
-Observation MP.RT.inv.broken+dmb+addr: 0 (of 500000)
+Observation MP.RT.inv+dmb+addr: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRR+addr+dmb:
@@ -621,11 +621,11 @@ Test MP+dmb+svc:
 Observation MP+dmb+svc: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test MP.RT.inv.broken+dmb+addr:
+Test MP.RT.inv+dmb+addr:
  p1:x0=0  p1:x2=1  : 47375
  p1:x0=0  p1:x2=0  : 360774
  p1:x0=1  p1:x2=0  : 91851
-Observation MP.RT.inv.broken+dmb+addr: 0 (of 500000)
+Observation MP.RT.inv+dmb+addr: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRR+addr+dmb:
@@ -990,11 +990,11 @@ Test MP+dmb+svc:
 Observation MP+dmb+svc: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test MP.RT.inv.broken+dmb+addr:
+Test MP.RT.inv+dmb+addr:
  p1:x0=0  p1:x2=0  : 361934
  p1:x0=0  p1:x2=1  : 41709
  p1:x0=1  p1:x2=0  : 96357
-Observation MP.RT.inv.broken+dmb+addr: 0 (of 500000)
+Observation MP.RT.inv+dmb+addr: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRR+addr+dmb:
@@ -1358,11 +1358,11 @@ Test MP+dmb+svc:
 Observation MP+dmb+svc: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test MP.RT.inv.broken+dmb+addr:
+Test MP.RT.inv+dmb+addr:
  p1:x0=0  p1:x2=0  : 335305
  p1:x0=1  p1:x2=0  : 130459
  p1:x0=0  p1:x2=1  : 34236
-Observation MP.RT.inv.broken+dmb+addr: 0 (of 500000)
+Observation MP.RT.inv+dmb+addr: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRR+addr+dmb:
@@ -1724,11 +1724,11 @@ Test MP+dmb+svc:
 Observation MP+dmb+svc: 0 (of 500000)
 P0			P1			P2			P3			
 
-Test MP.RT.inv.broken+dmb+addr:
+Test MP.RT.inv+dmb+addr:
  p1:x0=0  p1:x2=0  : 321492
  p1:x0=1  p1:x2=0  : 111717
  p1:x0=0  p1:x2=1  : 66791
-Observation MP.RT.inv.broken+dmb+addr: 0 (of 500000)
+Observation MP.RT.inv+dmb+addr: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRR+addr+dmb:
