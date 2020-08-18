@@ -18,6 +18,7 @@ static void P0(litmus_test_run* data) {
     "str x0,[x1]\n\t"
     "ldr x2,[x3]\n\t"
     "dsb sy\n\t"
+    "isb\n\t"
     "tlbi vae1is,x4\n\t"
     "dsb sy\n\t"
     "isb\n\t"
@@ -40,7 +41,8 @@ static void P1(litmus_test_run* data) {
       "mov x3, %[p]\n\t"
       /* test */
       "ldr x0,[x1]\n\t"
-      "dmb ld\n\t"
+      "dsb sy\n\t"
+      "isb\n\t"
       "str x2,[x3]\n\t"
       /* output */
       "str x0, [%[outp1r0]]\n\t"
@@ -77,8 +79,8 @@ static void P2(litmus_test_run* data) {
 }
 
 
-litmus_test_t MPRT1_dsbdmblddsbtlbiisdsbisb_dmb = {
-  "MP.RT1+[dmb.ld]-dsb-tlbiis-dsb-isb+dmb",
+litmus_test_t MPRT1_dsbdmblddsbisbtlbiisdsbisb_dsbisb = {
+  "MP.RT1+[dmb.ld]-dsb-isb-tlbiis-dsb-isb+dsb-isb",
   MAKE_THREADS(3),
   MAKE_VARS(VARS),
   MAKE_REGS(REGS),
