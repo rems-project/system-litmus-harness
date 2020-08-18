@@ -66,4 +66,7 @@ void cpu_boot(uint64_t cpu);
 void run_on_cpu(uint64_t cpu, async_fn_t* fn, void* arg);
 void run_on_cpus(async_fn_t* fn, void* arg);
 
+/* assorted numeric functions */
+int log2(uint64_t n);
+
 #endif /* LIB_H */

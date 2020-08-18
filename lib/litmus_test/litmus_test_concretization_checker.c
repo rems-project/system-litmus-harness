@@ -1,8 +1,13 @@
 #include "lib.h"
 
-/* check all regions are in scope */
-static void check_valid_regions(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos) {
-
+static void fail_postcheck(test_ctx_t* ctx, const litmus_test_t* cfg, int run, const char* fmt, ...) {
+  char buffer[1024];
+  char* out = &buffer[0];
+  va_list ap;
+  va_start(ap, fmt);
+  vsprintf(out, 1, fmt, ap);
+  va_end(ap);
+  fail("! error: concretization of test %s failed on run %d: %s\n", cfg->name, run, &buffer[0]);
 }
 
 /* if you specify PTE attributes on an unpinned region then
@@ -74,6 +79,60 @@ void postcheck_compat_undefined_region_nooverlap(test_ctx_t* ctx, const litmus_t
  // }
 }
 
+#define IS_SAME_PAGE(va1, va2) (PAGE((uint64_t)(va1)) == PAGE((uint64_t)(va2)))
+
+static void postcheck_overlapping_pages_pte_agree(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, int run) {
+  for (int varidx1 = 0; varidx1 < cfg->no_heap_vars; varidx1++) {
+    for (int varidx2 = varidx1+1; varidx2 < cfg->no_heap_vars; varidx2++) {
+      var_info_t* v1 = &infos[varidx1];
+      var_info_t* v2 = &infos[varidx2];
+
+      if (IS_SAME_PAGE(v1->values[run], v2->values[run])) {
+        if (v1->init_unmapped != v2->init_unmapped) {
+          fail_postcheck(ctx, cfg, run, "%s and %s were mapped to same page but only one is mapped.\n", v1->name, v2->name);
+        }
+
+        if (v1->init_ap != v2->init_ap) {
+          fail_postcheck(ctx, cfg, run, "%s and %s were mapped to same page but have different APs (%d and %d respectively).\n", v1->name, v2->name, v1->init_ap, v2->init_ap);
+        }
+      }
+    }
+  }
+}
+
+static void postcheck_unpinned_not_same_page(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, int run) {
+  for (int varidx1 = 0; varidx1 < cfg->no_heap_vars; varidx1++) {
+    for (int varidx2 = varidx1+1; varidx2 < cfg->no_heap_vars; varidx2++) {
+      var_info_t* v1 = &infos[varidx1];
+      var_info_t* v2 = &infos[varidx2];
+
+      if ((! v1->init_region_pinned) && (! v2->init_region_pinned) && IS_SAME_PAGE(v1->values[run], v2->values[run])) {
+        fail_postcheck(ctx, cfg, run, "%s and %s were mapped to same page but were both unpinned\n", v1->name, v2->name);
+      }
+    }
+  }
+}
+
+static void postcheck_unpinned_different_page_unrelated_vars(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, int run) {
+  for (int varidx1 = 0; varidx1 < cfg->no_heap_vars; varidx1++) {
+    for (int varidx2 = varidx1+1; varidx2 < cfg->no_heap_vars; varidx2++) {
+      var_info_t* v1 = &infos[varidx1];
+      var_info_t* v2 = &infos[varidx2];
+
+      if (IS_SAME_PAGE(v1->values[run], v2->values[run])) {
+        if (
+             ((! v1->init_region_pinned) && (  v2->init_region_pinned) && v2->pin_region_var != v1->name)
+          || ((  v1->init_region_pinned) && (! v2->init_region_pinned) && v1->pin_region_var != v2->name)
+        ) {
+          fail_postcheck(ctx, cfg, run, "%s and %s were mapped to same page but are unrelated\n", v1->name, v2->name);
+        }
+      }
+    }
+  }
+}
+
 void concretization_postcheck(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, int run) {
-  postcheck_compat_undefined_region_nooverlap(ctx, cfg, infos, run);
+  postcheck_overlapping_pages_pte_agree(ctx, cfg, infos, run);
+  postcheck_unpinned_not_same_page(ctx, cfg, infos, run);
+  postcheck_unpinned_different_page_unrelated_vars(ctx, cfg, infos, run);
 }

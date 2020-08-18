@@ -10,17 +10,21 @@ static lock_t __harness_lock;
 static void go_cpus(int cpu, void* a);
 static void run_thread(test_ctx_t* ctx, int cpu);
 
+extern test_runner_t SEMI_ARRAY_TEST_RUNNER;
+extern test_runner_t ARRAY_TEST_RUNNER;
+extern test_runner_t EPHEMERAL_TEST_RUNNER;
+
 /* entry point */
 void run_test(const litmus_test_t* cfg) {
+  printf("\n");
+  printf("Test %s:\n", cfg->name);
+
   static regions_t* region = NULL;
 
   /* first-time intiialisation, create the region */
   if (region == NULL) {
     region = alloc(sizeof(regions_t));
   }
-
-  printf("\n");
-  printf("Test %s:\n", cfg->name);
 
   /* create test context obj */
   test_ctx_t ctx;
@@ -44,10 +48,7 @@ void run_test(const litmus_test_t* cfg) {
     }
   }
 
-  /* concretize the symbolic test information down */
-  debug("concretize tests...\n");
   ctx.heap_memory = region;
-  concretize(&ctx, cfg, ctx.heap_vars, NUMBER_OF_RUNS);
 
   debug("done.  run the tests.\n");
   start_of_test(&ctx);

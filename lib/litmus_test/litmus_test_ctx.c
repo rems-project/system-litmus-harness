@@ -1,13 +1,5 @@
 #include "lib.h"
 
-#define ALLOC_MANY(ty, count) ({ \
-  debug("alloc %ldx %s\n", count, #ty); \
-  void* v = alloc_with_alignment((sizeof(ty))*count, sizeof(ty)); \
-  v; \
-})
-
-#define ALLOC_ONE(ty) ALLOC_MANY(ty, 1)
-
 void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
   var_info_t* var_infos = ALLOC_MANY(var_info_t, cfg->no_heap_vars);
   uint64_t** out_regs = ALLOC_MANY(uint64_t*, cfg->no_regs);

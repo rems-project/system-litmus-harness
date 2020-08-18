@@ -15,6 +15,7 @@ typedef enum {
   TYPE_ALIAS,
   TYPE_AP,
   TYPE_REGION,
+  TYPE_REGION_OWN,
 } init_type_t;
 
 typedef enum {
@@ -23,6 +24,13 @@ typedef enum {
   REGION_SAME_PMD,  /* both in the same 2M region but not the same 4k page */
   REGION_SAME_PGD,  /* both in the same 1G region but not in the same 2M region */
 } pin_level_t;
+
+typedef enum {
+  REGION_OWN_CACHE_LINE,  /* no other vars should be allocated in this cache line */
+  REGION_OWN_PAGE,  /* no other vars should be allocated in this 4k region */
+  REGION_OWN_PMD,  /* no other vars should be allocated in this 2M region */
+  REGION_OWN_PGD,  /* no other vars should be allocated in this 1G region */
+} own_level_t;
 
 typedef struct {
   const char* varname;
@@ -34,6 +42,7 @@ typedef struct {
       const char* pinned_var_name;
       pin_level_t pinned_level;
     };
+    own_level_t ownership_level;
   };
 } init_varstate_t;
 
