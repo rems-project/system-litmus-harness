@@ -169,6 +169,7 @@ CFLAGS = -O0 -nostdlib \
 		$(foreach DIR,$(OTHER_INCLUDES),-I $(DIR)) \
 		-ffreestanding -fomit-frame-pointer -fno-pie -fno-pic \
 		-Wall $(addprefix -Wno-,$(CCNOWARN)) $(addprefix -Werror=,$(CCERRORS)) \
+		-DCOMMITHASH="\"$(shell git rev-parse --short HEAD -n1)\""
 
 LDFLAGS = -nostdlib -n -pie
 SSHFLAGS =
