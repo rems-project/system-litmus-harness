@@ -9,7 +9,7 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x4=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 1/10
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -22,7 +22,7 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x4=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 2/10
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -35,7 +35,7 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x4=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 3/10
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -48,7 +48,7 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x4=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 4/10
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -61,7 +61,7 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x4=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 5/10
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -74,7 +74,7 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x4=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 6/10
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -87,7 +87,7 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x4=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 7/10
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -100,7 +100,7 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x4=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 8/10
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -113,7 +113,7 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x4=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 9/10
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -126,7 +126,7 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x4=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 10/10
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -139,7 +139,7 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x4=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 11/10
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -152,7 +152,7 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x4=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 12/10
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -165,7 +165,7 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x4=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 13/10
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -178,7 +178,7 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x4=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 14/10
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -191,7 +191,7 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x4=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 15/10
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -204,7 +204,7 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x4=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 16/10
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -217,7 +217,7 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x4=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 17/10
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -230,7 +230,7 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x4=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 18/10
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -243,7 +243,7 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x4=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 19/10
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -256,7 +256,7 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x4=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 20/10
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -269,7 +269,7 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x4=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 21/10
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -290,12 +290,12 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 1/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -308,12 +308,12 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 2/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -326,12 +326,12 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 3/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -344,12 +344,12 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 4/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -362,12 +362,12 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 5/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -380,12 +380,12 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 6/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -398,12 +398,12 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 7/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -416,12 +416,12 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 8/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -434,12 +434,12 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 9/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -452,12 +452,12 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 10/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -470,12 +470,12 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 11/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -488,12 +488,12 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 12/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -506,12 +506,12 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 13/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -524,12 +524,12 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 14/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -542,12 +542,12 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 15/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -560,12 +560,12 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 16/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -578,12 +578,12 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 17/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -596,12 +596,12 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 18/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -614,12 +614,12 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 19/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -632,12 +632,12 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 20/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -650,7 +650,7 @@ P0			P1			P2			P3
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -666,7 +666,7 @@ Test CoRT:
  p1:x0=1  p1:x2=0  : 118275 *
  p1:x0=0  p1:x2=1  : 139646
  p1:x0=0  p1:x2=0  : 159906
-Observation CoRT.errata: 118275 (of 500000)
+Observation CoRT: 118275 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -674,27 +674,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=1  : 59128
  p1:x0=0  p1:x2=1  : 122608
  p1:x0=1  p1:x2=0  : 111273 *
-Observation CoRT+dsb-isb.errata: 111273 (of 500000)
+Observation CoRT+dsb-isb: 111273 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 1/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -710,7 +710,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 140820
  p1:x0=1  p1:x2=0  : 111374 *
  p1:x0=1  p1:x2=1  : 76057
-Observation CoRT.errata: 111374 (of 500000)
+Observation CoRT: 111374 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -718,27 +718,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=1  : 69939
  p1:x0=1  p1:x2=0  : 103370 *
  p1:x0=0  p1:x2=1  : 145987
-Observation CoRT+dsb-isb.errata: 103370 (of 500000)
+Observation CoRT+dsb-isb: 103370 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 2/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -754,7 +754,7 @@ Test CoRT:
  p1:x0=0  p1:x2=0  : 168780
  p1:x0=0  p1:x2=1  : 137708
  p1:x0=1  p1:x2=0  : 114098 *
-Observation CoRT.errata: 114098 (of 500000)
+Observation CoRT: 114098 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -762,27 +762,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=0  : 107639 *
  p1:x0=1  p1:x2=1  : 69683
  p1:x0=0  p1:x2=1  : 134719
-Observation CoRT+dsb-isb.errata: 107639 (of 500000)
+Observation CoRT+dsb-isb: 107639 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 3/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -798,7 +798,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 135954
  p1:x0=1  p1:x2=0  : 116859 *
  p1:x0=1  p1:x2=1  : 75831
-Observation CoRT.errata: 116859 (of 500000)
+Observation CoRT: 116859 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -806,27 +806,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=0  : 102127 *
  p1:x0=0  p1:x2=1  : 143654
  p1:x0=1  p1:x2=1  : 67707
-Observation CoRT+dsb-isb.errata: 102127 (of 500000)
+Observation CoRT+dsb-isb: 102127 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 4/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -842,7 +842,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 145747
  p1:x0=1  p1:x2=0  : 109107 *
  p1:x0=1  p1:x2=1  : 79406
-Observation CoRT.errata: 109107 (of 500000)
+Observation CoRT: 109107 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -850,27 +850,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 148260
  p1:x0=1  p1:x2=1  : 75539
  p1:x0=1  p1:x2=0  : 106165 *
-Observation CoRT+dsb-isb.errata: 106165 (of 500000)
+Observation CoRT+dsb-isb: 106165 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 5/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -886,7 +886,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 129492
  p1:x0=1  p1:x2=0  : 116473 *
  p1:x0=1  p1:x2=1  : 72369
-Observation CoRT.errata: 116473 (of 500000)
+Observation CoRT: 116473 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -894,27 +894,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=1  : 73917
  p1:x0=1  p1:x2=0  : 114676 *
  p1:x0=0  p1:x2=1  : 135588
-Observation CoRT+dsb-isb.errata: 114676 (of 500000)
+Observation CoRT+dsb-isb: 114676 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 6/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -930,7 +930,7 @@ Test CoRT:
  p1:x0=0  p1:x2=0  : 182353
  p1:x0=0  p1:x2=1  : 124194
  p1:x0=1  p1:x2=0  : 120466 *
-Observation CoRT.errata: 120466 (of 500000)
+Observation CoRT: 120466 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -938,27 +938,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=1  : 72117
  p1:x0=0  p1:x2=1  : 141821
  p1:x0=1  p1:x2=0  : 106613 *
-Observation CoRT+dsb-isb.errata: 106613 (of 500000)
+Observation CoRT+dsb-isb: 106613 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 7/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -974,7 +974,7 @@ Test CoRT:
  p1:x0=1  p1:x2=0  : 117354 *
  p1:x0=0  p1:x2=0  : 165487
  p1:x0=0  p1:x2=1  : 137478
-Observation CoRT.errata: 117354 (of 500000)
+Observation CoRT: 117354 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -982,27 +982,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 140675
  p1:x0=1  p1:x2=0  : 113239 *
  p1:x0=1  p1:x2=1  : 75113
-Observation CoRT+dsb-isb.errata: 113239 (of 500000)
+Observation CoRT+dsb-isb: 113239 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 8/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1018,7 +1018,7 @@ Test CoRT:
  p1:x0=1  p1:x2=0  : 117313 *
  p1:x0=1  p1:x2=1  : 76889
  p1:x0=0  p1:x2=1  : 131554
-Observation CoRT.errata: 117313 (of 500000)
+Observation CoRT: 117313 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -1026,27 +1026,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 131442
  p1:x0=1  p1:x2=1  : 66359
  p1:x0=1  p1:x2=0  : 109610 *
-Observation CoRT+dsb-isb.errata: 109610 (of 500000)
+Observation CoRT+dsb-isb: 109610 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 9/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1062,7 +1062,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 138498
  p1:x0=1  p1:x2=0  : 108665 *
  p1:x0=1  p1:x2=1  : 73066
-Observation CoRT.errata: 108665 (of 500000)
+Observation CoRT: 108665 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -1070,27 +1070,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 136488
  p1:x0=1  p1:x2=0  : 106253 *
  p1:x0=1  p1:x2=1  : 66524
-Observation CoRT+dsb-isb.errata: 106253 (of 500000)
+Observation CoRT+dsb-isb: 106253 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 10/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1106,7 +1106,7 @@ Test CoRT:
  p1:x0=0  p1:x2=0  : 166692
  p1:x0=1  p1:x2=0  : 113024 *
  p1:x0=0  p1:x2=1  : 137800
-Observation CoRT.errata: 113024 (of 500000)
+Observation CoRT: 113024 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -1114,27 +1114,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 140799
  p1:x0=1  p1:x2=0  : 104005 *
  p1:x0=1  p1:x2=1  : 68096
-Observation CoRT+dsb-isb.errata: 104005 (of 500000)
+Observation CoRT+dsb-isb: 104005 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 11/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1150,7 +1150,7 @@ Test CoRT:
  p1:x0=1  p1:x2=1  : 85633
  p1:x0=1  p1:x2=0  : 106237 *
  p1:x0=0  p1:x2=1  : 153737
-Observation CoRT.errata: 106237 (of 500000)
+Observation CoRT: 106237 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -1158,27 +1158,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=1  : 66164
  p1:x0=1  p1:x2=0  : 114098 *
  p1:x0=0  p1:x2=1  : 127187
-Observation CoRT+dsb-isb.errata: 114098 (of 500000)
+Observation CoRT+dsb-isb: 114098 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 12/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1194,7 +1194,7 @@ Test CoRT:
  p1:x0=0  p1:x2=0  : 166437
  p1:x0=0  p1:x2=1  : 142933
  p1:x0=1  p1:x2=0  : 111367 *
-Observation CoRT.errata: 111367 (of 500000)
+Observation CoRT: 111367 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -1202,27 +1202,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 139891
  p1:x0=1  p1:x2=0  : 112225 *
  p1:x0=1  p1:x2=1  : 73945
-Observation CoRT+dsb-isb.errata: 112225 (of 500000)
+Observation CoRT+dsb-isb: 112225 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 ++ ial stdio -kernel /tmp/tmp.AARLVDNPAH -smp 4 -append 'CoRT* CoWT1+dsb-tlbi-dsb* CoWinv*T1* -p -n500000'
 ./litmus.exe: line 8: ial: command not found
 13/100
@@ -1240,7 +1240,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 164026
  p1:x0=1  p1:x2=1  : 28411
  p1:x0=1  p1:x2=0  : 45872 *
-Observation CoRT.errata: 45872 (of 500000)
+Observation CoRT: 45872 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -1248,27 +1248,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=1  : 22920
  p1:x0=0  p1:x2=1  : 176528
  p1:x0=1  p1:x2=0  : 32265 *
-Observation CoRT+dsb-isb.errata: 32265 (of 500000)
+Observation CoRT+dsb-isb: 32265 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 14/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1284,7 +1284,7 @@ Test CoRT:
  p1:x0=1  p1:x2=1  : 34543
  p1:x0=0  p1:x2=0  : 248129
  p1:x0=1  p1:x2=0  : 51232 *
-Observation CoRT.errata: 51232 (of 500000)
+Observation CoRT: 51232 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -1292,27 +1292,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=0  : 253017
  p1:x0=1  p1:x2=0  : 36936 *
  p1:x0=0  p1:x2=1  : 182402
-Observation CoRT+dsb-isb.errata: 36936 (of 500000)
+Observation CoRT+dsb-isb: 36936 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 15/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1328,7 +1328,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 166356
  p1:x0=1  p1:x2=1  : 37134
  p1:x0=1  p1:x2=0  : 56226 *
-Observation CoRT.errata: 56226 (of 500000)
+Observation CoRT: 56226 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -1336,27 +1336,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=0  : 279479
  p1:x0=0  p1:x2=1  : 162282
  p1:x0=1  p1:x2=0  : 37354 *
-Observation CoRT+dsb-isb.errata: 37354 (of 500000)
+Observation CoRT+dsb-isb: 37354 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 ++ hine virt,gic-version=host --enable-kvm -cpu host -device virtio-serial-device -device virtconsole -display none -serial stdio -kernel /tmp/tmp.jsDUv9NU0C -smp 4 -append 'CoRT* CoWT1+dsb-tlbi-dsb* CoWinv*T1* -p -n500000'
 ./litmus.exe: line 8: hine: command not found
 16/100
@@ -1374,7 +1374,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 172799
  p1:x0=1  p1:x2=0  : 57938 *
  p1:x0=0  p1:x2=0  : 227996
-Observation CoRT.errata: 57938 (of 500000)
+Observation CoRT: 57938 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -1382,27 +1382,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=1  : 33065
  p1:x0=0  p1:x2=1  : 180952
  p1:x0=1  p1:x2=0  : 40945 *
-Observation CoRT+dsb-isb.errata: 40945 (of 500000)
+Observation CoRT+dsb-isb: 40945 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 17/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1418,7 +1418,7 @@ Test CoRT:
  p1:x0=0  p1:x2=0  : 228181
  p1:x0=1  p1:x2=0  : 71456 *
  p1:x0=0  p1:x2=1  : 152516
-Observation CoRT.errata: 71456 (of 500000)
+Observation CoRT: 71456 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -1426,27 +1426,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=0  : 245709
  p1:x0=1  p1:x2=0  : 47666 *
  p1:x0=1  p1:x2=1  : 36127
-Observation CoRT+dsb-isb.errata: 47666 (of 500000)
+Observation CoRT+dsb-isb: 47666 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 18/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1462,7 +1462,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 162581
  p1:x0=1  p1:x2=1  : 51598
  p1:x0=1  p1:x2=0  : 69372 *
-Observation CoRT.errata: 69372 (of 500000)
+Observation CoRT: 69372 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -1470,27 +1470,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 208467
  p1:x0=1  p1:x2=0  : 36077 *
  p1:x0=1  p1:x2=1  : 37300
-Observation CoRT+dsb-isb.errata: 36077 (of 500000)
+Observation CoRT+dsb-isb: 36077 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 19/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1506,7 +1506,7 @@ Test CoRT:
  p1:x0=1  p1:x2=1  : 41551
  p1:x0=1  p1:x2=0  : 59273 *
  p1:x0=0  p1:x2=1  : 165671
-Observation CoRT.errata: 59273 (of 500000)
+Observation CoRT: 59273 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -1514,27 +1514,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 164820
  p1:x0=1  p1:x2=0  : 45956 *
  p1:x0=1  p1:x2=1  : 36318
-Observation CoRT+dsb-isb.errata: 45956 (of 500000)
+Observation CoRT+dsb-isb: 45956 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 20/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1550,7 +1550,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 165759
  p1:x0=1  p1:x2=0  : 61613 *
  p1:x0=1  p1:x2=1  : 44179
-Observation CoRT.errata: 61613 (of 500000)
+Observation CoRT: 61613 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -1558,27 +1558,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=1  : 27473
  p1:x0=0  p1:x2=1  : 175113
  p1:x0=1  p1:x2=0  : 36718 *
-Observation CoRT+dsb-isb.errata: 36718 (of 500000)
+Observation CoRT+dsb-isb: 36718 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 21/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1594,7 +1594,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 141095
  p1:x0=0  p1:x2=0  : 256750
  p1:x0=1  p1:x2=0  : 65413 *
-Observation CoRT.errata: 65413 (of 500000)
+Observation CoRT: 65413 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -1602,27 +1602,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=0  : 40675 *
  p1:x0=0  p1:x2=1  : 206430
  p1:x0=0  p1:x2=0  : 213550
-Observation CoRT+dsb-isb.errata: 40675 (of 500000)
+Observation CoRT+dsb-isb: 40675 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 22/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1638,7 +1638,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 166861
  p1:x0=1  p1:x2=1  : 33886
  p1:x0=1  p1:x2=0  : 52447 *
-Observation CoRT.errata: 52447 (of 500000)
+Observation CoRT: 52447 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -1646,27 +1646,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 181699
  p1:x0=1  p1:x2=1  : 32849
  p1:x0=1  p1:x2=0  : 41731 *
-Observation CoRT+dsb-isb.errata: 41731 (of 500000)
+Observation CoRT+dsb-isb: 41731 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 23/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1682,7 +1682,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 161438
  p1:x0=0  p1:x2=0  : 247481
  p1:x0=1  p1:x2=0  : 52183 *
-Observation CoRT.errata: 52183 (of 500000)
+Observation CoRT: 52183 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -1690,27 +1690,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=1  : 33280
  p1:x0=0  p1:x2=1  : 170646
  p1:x0=1  p1:x2=0  : 47262 *
-Observation CoRT+dsb-isb.errata: 47262 (of 500000)
+Observation CoRT+dsb-isb: 47262 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 24/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1726,7 +1726,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 179997
  p1:x0=1  p1:x2=0  : 14294 *
  p1:x0=1  p1:x2=1  : 12269
-Observation CoRT.errata: 14294 (of 500000)
+Observation CoRT: 14294 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -1734,27 +1734,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 189717
  p1:x0=1  p1:x2=0  : 16215 *
  p1:x0=1  p1:x2=1  : 15120
-Observation CoRT+dsb-isb.errata: 16215 (of 500000)
+Observation CoRT+dsb-isb: 16215 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 25/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1770,7 +1770,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 163356
  p1:x0=1  p1:x2=0  : 52110 *
  p1:x0=1  p1:x2=1  : 35110
-Observation CoRT.errata: 52110 (of 500000)
+Observation CoRT: 52110 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -1778,27 +1778,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 169642
  p1:x0=1  p1:x2=0  : 36567 *
  p1:x0=1  p1:x2=1  : 27601
-Observation CoRT+dsb-isb.errata: 36567 (of 500000)
+Observation CoRT+dsb-isb: 36567 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 26/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1814,7 +1814,7 @@ Test CoRT:
  p1:x0=1  p1:x2=0  : 60193 *
  p1:x0=0  p1:x2=1  : 165764
  p1:x0=1  p1:x2=1  : 44912
-Observation CoRT.errata: 60193 (of 500000)
+Observation CoRT: 60193 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -1822,27 +1822,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=1  : 36092
  p1:x0=0  p1:x2=1  : 180820
  p1:x0=1  p1:x2=0  : 43664 *
-Observation CoRT+dsb-isb.errata: 43664 (of 500000)
+Observation CoRT+dsb-isb: 43664 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 27/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1858,7 +1858,7 @@ Test CoRT:
  p1:x0=0  p1:x2=0  : 240267
  p1:x0=1  p1:x2=0  : 53611 *
  p1:x0=0  p1:x2=1  : 167300
-Observation CoRT.errata: 53611 (of 500000)
+Observation CoRT: 53611 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -1866,27 +1866,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=0  : 247929
  p1:x0=1  p1:x2=0  : 36805 *
  p1:x0=0  p1:x2=1  : 185339
-Observation CoRT+dsb-isb.errata: 36805 (of 500000)
+Observation CoRT+dsb-isb: 36805 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 28/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1902,7 +1902,7 @@ Test CoRT:
  p1:x0=0  p1:x2=0  : 240432
  p1:x0=0  p1:x2=1  : 161326
  p1:x0=1  p1:x2=0  : 58437 *
-Observation CoRT.errata: 58437 (of 500000)
+Observation CoRT: 58437 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -1910,27 +1910,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=0  : 41667 *
  p1:x0=0  p1:x2=1  : 173633
  p1:x0=1  p1:x2=1  : 34580
-Observation CoRT+dsb-isb.errata: 41667 (of 500000)
+Observation CoRT+dsb-isb: 41667 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 29/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1946,7 +1946,7 @@ Test CoRT:
  p1:x0=1  p1:x2=1  : 34250
  p1:x0=1  p1:x2=0  : 52878 *
  p1:x0=0  p1:x2=1  : 152504
-Observation CoRT.errata: 52878 (of 500000)
+Observation CoRT: 52878 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -1954,27 +1954,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=1  : 22949
  p1:x0=0  p1:x2=1  : 174889
  p1:x0=1  p1:x2=0  : 32417 *
-Observation CoRT+dsb-isb.errata: 32417 (of 500000)
+Observation CoRT+dsb-isb: 32417 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 30/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -1990,7 +1990,7 @@ Test CoRT:
  p1:x0=0  p1:x2=0  : 289480
  p1:x0=0  p1:x2=1  : 184447
  p1:x0=1  p1:x2=0  : 14937 *
-Observation CoRT.errata: 14937 (of 500000)
+Observation CoRT: 14937 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -1998,27 +1998,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=0  : 15346 *
  p1:x0=0  p1:x2=1  : 192457
  p1:x0=1  p1:x2=1  : 13474
-Observation CoRT+dsb-isb.errata: 15346 (of 500000)
+Observation CoRT+dsb-isb: 15346 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 31/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2034,7 +2034,7 @@ Test CoRT:
  p1:x0=1  p1:x2=0  : 22287 *
  p1:x0=0  p1:x2=1  : 168110
  p1:x0=0  p1:x2=0  : 294607
-Observation CoRT.errata: 22287 (of 500000)
+Observation CoRT: 22287 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -2042,27 +2042,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 180910
  p1:x0=1  p1:x2=1  : 12168
  p1:x0=1  p1:x2=0  : 17040 *
-Observation CoRT+dsb-isb.errata: 17040 (of 500000)
+Observation CoRT+dsb-isb: 17040 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 32/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2078,7 +2078,7 @@ Test CoRT:
  p1:x0=1  p1:x2=1  : 42665
  p1:x0=0  p1:x2=1  : 159519
  p1:x0=1  p1:x2=0  : 58338 *
-Observation CoRT.errata: 58338 (of 500000)
+Observation CoRT: 58338 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -2086,27 +2086,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 169579
  p1:x0=1  p1:x2=0  : 50267 *
  p1:x0=1  p1:x2=1  : 39723
-Observation CoRT+dsb-isb.errata: 50267 (of 500000)
+Observation CoRT+dsb-isb: 50267 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 33/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2122,7 +2122,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 150503
  p1:x0=1  p1:x2=1  : 42808
  p1:x0=1  p1:x2=0  : 59602 *
-Observation CoRT.errata: 59602 (of 500000)
+Observation CoRT: 59602 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -2130,27 +2130,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 175817
  p1:x0=1  p1:x2=1  : 35546
  p1:x0=1  p1:x2=0  : 44793 *
-Observation CoRT+dsb-isb.errata: 44793 (of 500000)
+Observation CoRT+dsb-isb: 44793 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 34/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2166,7 +2166,7 @@ Test CoRT:
  p1:x0=0  p1:x2=0  : 233198
  p1:x0=0  p1:x2=1  : 164983
  p1:x0=1  p1:x2=0  : 59659 *
-Observation CoRT.errata: 59659 (of 500000)
+Observation CoRT: 59659 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -2174,27 +2174,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=0  : 254066
  p1:x0=1  p1:x2=0  : 35978 *
  p1:x0=0  p1:x2=1  : 180850
-Observation CoRT+dsb-isb.errata: 35978 (of 500000)
+Observation CoRT+dsb-isb: 35978 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 35/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2210,7 +2210,7 @@ Test CoRT:
  p1:x0=1  p1:x2=1  : 39652
  p1:x0=0  p1:x2=0  : 240249
  p1:x0=1  p1:x2=0  : 55181 *
-Observation CoRT.errata: 55181 (of 500000)
+Observation CoRT: 55181 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -2218,27 +2218,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 171105
  p1:x0=1  p1:x2=0  : 39151 *
  p1:x0=1  p1:x2=1  : 29601
-Observation CoRT+dsb-isb.errata: 39151 (of 500000)
+Observation CoRT+dsb-isb: 39151 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 36/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2254,7 +2254,7 @@ Test CoRT:
  p1:x0=1  p1:x2=1  : 34379
  p1:x0=1  p1:x2=0  : 53884 *
  p1:x0=0  p1:x2=1  : 169410
-Observation CoRT.errata: 53884 (of 500000)
+Observation CoRT: 53884 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -2262,27 +2262,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=1  : 41933
  p1:x0=0  p1:x2=1  : 160647
  p1:x0=1  p1:x2=0  : 57413 *
-Observation CoRT+dsb-isb.errata: 57413 (of 500000)
+Observation CoRT+dsb-isb: 57413 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 37/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2298,7 +2298,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 163389
  p1:x0=1  p1:x2=1  : 37503
  p1:x0=1  p1:x2=0  : 54940 *
-Observation CoRT.errata: 54940 (of 500000)
+Observation CoRT: 54940 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -2306,27 +2306,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 165127
  p1:x0=1  p1:x2=1  : 35400
  p1:x0=0  p1:x2=0  : 252995
-Observation CoRT+dsb-isb.errata: 46478 (of 500000)
+Observation CoRT+dsb-isb: 46478 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 38/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2342,7 +2342,7 @@ Test CoRT:
  p1:x0=0  p1:x2=0  : 239717
  p1:x0=0  p1:x2=1  : 173965
  p1:x0=1  p1:x2=0  : 51569 *
-Observation CoRT.errata: 51569 (of 500000)
+Observation CoRT: 51569 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -2350,27 +2350,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=1  : 27671
  p1:x0=0  p1:x2=1  : 169003
  p1:x0=1  p1:x2=0  : 38026 *
-Observation CoRT+dsb-isb.errata: 38026 (of 500000)
+Observation CoRT+dsb-isb: 38026 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 39/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2386,7 +2386,7 @@ Test CoRT:
  p1:x0=1  p1:x2=0  : 68625 *
  p1:x0=1  p1:x2=1  : 38953
  p1:x0=0  p1:x2=1  : 154931
-Observation CoRT.errata: 68625 (of 500000)
+Observation CoRT: 68625 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -2394,27 +2394,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=0  : 49487 *
  p1:x0=0  p1:x2=1  : 172954
  p1:x0=1  p1:x2=1  : 37499
-Observation CoRT+dsb-isb.errata: 49487 (of 500000)
+Observation CoRT+dsb-isb: 49487 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 40/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2430,7 +2430,7 @@ Test CoRT:
  p1:x0=1  p1:x2=0  : 61870 *
  p1:x0=0  p1:x2=1  : 161857
  p1:x0=1  p1:x2=1  : 44864
-Observation CoRT.errata: 61870 (of 500000)
+Observation CoRT: 61870 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -2438,27 +2438,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=1  : 34239
  p1:x0=0  p1:x2=1  : 165842
  p1:x0=1  p1:x2=0  : 45407 *
-Observation CoRT+dsb-isb.errata: 45407 (of 500000)
+Observation CoRT+dsb-isb: 45407 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 41/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2474,7 +2474,7 @@ Test CoRT:
  p1:x0=1  p1:x2=1  : 35599
  p1:x0=0  p1:x2=1  : 173546
  p1:x0=1  p1:x2=0  : 47605 *
-Observation CoRT.errata: 47605 (of 500000)
+Observation CoRT: 47605 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -2482,27 +2482,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=0  : 49158 *
  p1:x0=1  p1:x2=1  : 36314
  p1:x0=0  p1:x2=1  : 167525
-Observation CoRT+dsb-isb.errata: 49158 (of 500000)
+Observation CoRT+dsb-isb: 49158 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 42/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2518,7 +2518,7 @@ Test CoRT:
  p1:x0=0  p1:x2=0  : 224093
  p1:x0=0  p1:x2=1  : 163425
  p1:x0=1  p1:x2=0  : 65268 *
-Observation CoRT.errata: 65268 (of 500000)
+Observation CoRT: 65268 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -2526,27 +2526,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=0  : 251230
  p1:x0=1  p1:x2=0  : 47384 *
  p1:x0=0  p1:x2=1  : 166961
-Observation CoRT+dsb-isb.errata: 47384 (of 500000)
+Observation CoRT+dsb-isb: 47384 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 43/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2562,7 +2562,7 @@ Test CoRT:
  p1:x0=1  p1:x2=1  : 15950
  p1:x0=0  p1:x2=1  : 185614
  p1:x0=0  p1:x2=0  : 278654
-Observation CoRT.errata: 19782 (of 500000)
+Observation CoRT: 19782 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -2570,27 +2570,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 173832
  p1:x0=1  p1:x2=0  : 14855 *
  p1:x0=1  p1:x2=1  : 11005
-Observation CoRT+dsb-isb.errata: 14855 (of 500000)
+Observation CoRT+dsb-isb: 14855 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 44/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2606,7 +2606,7 @@ Test CoRT:
  p1:x0=1  p1:x2=1  : 47517
  p1:x0=0  p1:x2=1  : 165685
  p1:x0=1  p1:x2=0  : 64527 *
-Observation CoRT.errata: 64527 (of 500000)
+Observation CoRT: 64527 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -2614,27 +2614,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 170352
  p1:x0=1  p1:x2=1  : 31276
  p1:x0=1  p1:x2=0  : 40253 *
-Observation CoRT+dsb-isb.errata: 40253 (of 500000)
+Observation CoRT+dsb-isb: 40253 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 45/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2650,7 +2650,7 @@ Test CoRT:
  p1:x0=0  p1:x2=0  : 231584
  p1:x0=0  p1:x2=1  : 149549
  p1:x0=1  p1:x2=0  : 71291 *
-Observation CoRT.errata: 71291 (of 500000)
+Observation CoRT: 71291 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -2658,27 +2658,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=0  : 41772 *
  p1:x0=1  p1:x2=1  : 32100
  p1:x0=0  p1:x2=1  : 180709
-Observation CoRT+dsb-isb.errata: 41772 (of 500000)
+Observation CoRT+dsb-isb: 41772 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 46/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2694,7 +2694,7 @@ Test CoRT:
  p1:x0=0  p1:x2=0  : 281505
  p1:x0=0  p1:x2=1  : 187817
  p1:x0=1  p1:x2=0  : 16701 *
-Observation CoRT.errata: 16701 (of 500000)
+Observation CoRT: 16701 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -2702,27 +2702,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=1  : 12008
  p1:x0=0  p1:x2=1  : 188175
  p1:x0=1  p1:x2=0  : 13770 *
-Observation CoRT+dsb-isb.errata: 13770 (of 500000)
+Observation CoRT+dsb-isb: 13770 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 47/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2738,7 +2738,7 @@ Test CoRT:
  p1:x0=0  p1:x2=0  : 233590
  p1:x0=1  p1:x2=1  : 39822
  p1:x0=1  p1:x2=0  : 58916 *
-Observation CoRT.errata: 58916 (of 500000)
+Observation CoRT: 58916 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -2746,27 +2746,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=0  : 241276
  p1:x0=1  p1:x2=0  : 61650 *
  p1:x0=0  p1:x2=1  : 155380
-Observation CoRT+dsb-isb.errata: 61650 (of 500000)
+Observation CoRT+dsb-isb: 61650 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 48/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2782,7 +2782,7 @@ Test CoRT:
  p1:x0=1  p1:x2=1  : 43310
  p1:x0=1  p1:x2=0  : 69247 *
  p1:x0=0  p1:x2=1  : 158849
-Observation CoRT.errata: 69247 (of 500000)
+Observation CoRT: 69247 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -2790,27 +2790,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 170069
  p1:x0=1  p1:x2=1  : 37635
  p1:x0=1  p1:x2=0  : 46718 *
-Observation CoRT+dsb-isb.errata: 46718 (of 500000)
+Observation CoRT+dsb-isb: 46718 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 49/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2826,7 +2826,7 @@ Test CoRT:
  p1:x0=0  p1:x2=0  : 227288
  p1:x0=1  p1:x2=0  : 55655 *
  p1:x0=0  p1:x2=1  : 179965
-Observation CoRT.errata: 55655 (of 500000)
+Observation CoRT: 55655 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -2834,27 +2834,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=0  : 253870
  p1:x0=0  p1:x2=1  : 184374
  p1:x0=1  p1:x2=0  : 33699 *
-Observation CoRT+dsb-isb.errata: 33699 (of 500000)
+Observation CoRT+dsb-isb: 33699 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 50/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2870,7 +2870,7 @@ Test CoRT:
  p1:x0=0  p1:x2=0  : 227262
  p1:x0=0  p1:x2=1  : 170187
  p1:x0=1  p1:x2=1  : 42277
-Observation CoRT.errata: 60274 (of 500000)
+Observation CoRT: 60274 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -2878,27 +2878,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=0  : 261102
  p1:x0=0  p1:x2=1  : 181810
  p1:x0=1  p1:x2=1  : 25547
-Observation CoRT+dsb-isb.errata: 31541 (of 500000)
+Observation CoRT+dsb-isb: 31541 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 51/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2914,7 +2914,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 153519
  p1:x0=1  p1:x2=1  : 35643
  p1:x0=1  p1:x2=0  : 58972 *
-Observation CoRT.errata: 58972 (of 500000)
+Observation CoRT: 58972 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -2922,27 +2922,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=1  : 29535
  p1:x0=1  p1:x2=0  : 40554 *
  p1:x0=0  p1:x2=1  : 174420
-Observation CoRT+dsb-isb.errata: 40554 (of 500000)
+Observation CoRT+dsb-isb: 40554 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 52/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -2958,7 +2958,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 165451
  p1:x0=0  p1:x2=0  : 227823
  p1:x0=1  p1:x2=0  : 61074 *
-Observation CoRT.errata: 61074 (of 500000)
+Observation CoRT: 61074 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -2966,27 +2966,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 168078
  p1:x0=1  p1:x2=0  : 52010 *
  p1:x0=1  p1:x2=1  : 37857
-Observation CoRT+dsb-isb.errata: 52010 (of 500000)
+Observation CoRT+dsb-isb: 52010 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 53/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -3002,7 +3002,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 173884
  p1:x0=1  p1:x2=0  : 56910 *
  p1:x0=1  p1:x2=1  : 44423
-Observation CoRT.errata: 56910 (of 500000)
+Observation CoRT: 56910 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -3010,27 +3010,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=0  : 41425 *
  p1:x0=0  p1:x2=1  : 177124
  p1:x0=1  p1:x2=1  : 30927
-Observation CoRT+dsb-isb.errata: 41425 (of 500000)
+Observation CoRT+dsb-isb: 41425 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 54/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -3046,7 +3046,7 @@ Test CoRT:
  p1:x0=1  p1:x2=0  : 51784 *
  p1:x0=0  p1:x2=0  : 237094
  p1:x0=1  p1:x2=1  : 38137
-Observation CoRT.errata: 51784 (of 500000)
+Observation CoRT: 51784 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -3054,27 +3054,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 172754
  p1:x0=1  p1:x2=0  : 35000 *
  p1:x0=1  p1:x2=1  : 27606
-Observation CoRT+dsb-isb.errata: 35000 (of 500000)
+Observation CoRT+dsb-isb: 35000 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 55/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -3090,7 +3090,7 @@ Test CoRT:
  p1:x0=1  p1:x2=0  : 53381 *
  p1:x0=0  p1:x2=1  : 173237
  p1:x0=1  p1:x2=1  : 41730
-Observation CoRT.errata: 53381 (of 500000)
+Observation CoRT: 53381 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -3098,27 +3098,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 164832
  p1:x0=1  p1:x2=0  : 45186 *
  p1:x0=1  p1:x2=1  : 38652
-Observation CoRT+dsb-isb.errata: 45186 (of 500000)
+Observation CoRT+dsb-isb: 45186 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 56/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -3134,7 +3134,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 174052
  p1:x0=1  p1:x2=1  : 38032
  p1:x0=1  p1:x2=0  : 49802 *
-Observation CoRT.errata: 49802 (of 500000)
+Observation CoRT: 49802 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -3142,27 +3142,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=0  : 44875 *
  p1:x0=0  p1:x2=1  : 182877
  p1:x0=1  p1:x2=1  : 36700
-Observation CoRT+dsb-isb.errata: 44875 (of 500000)
+Observation CoRT+dsb-isb: 44875 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 57/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -3178,7 +3178,7 @@ Test CoRT:
  p1:x0=0  p1:x2=0  : 242504
  p1:x0=1  p1:x2=0  : 59058 *
  p1:x0=0  p1:x2=1  : 160838
-Observation CoRT.errata: 59058 (of 500000)
+Observation CoRT: 59058 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -3186,27 +3186,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 178102
  p1:x0=1  p1:x2=0  : 39545 *
  p1:x0=1  p1:x2=1  : 32821
-Observation CoRT+dsb-isb.errata: 39545 (of 500000)
+Observation CoRT+dsb-isb: 39545 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 58/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -3222,7 +3222,7 @@ Test CoRT:
  p1:x0=0  p1:x2=0  : 244417
  p1:x0=1  p1:x2=0  : 54348 *
  p1:x0=0  p1:x2=1  : 164633
-Observation CoRT.errata: 54348 (of 500000)
+Observation CoRT: 54348 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -3230,27 +3230,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=0  : 246255
  p1:x0=0  p1:x2=1  : 189288
  p1:x0=1  p1:x2=1  : 29594
-Observation CoRT+dsb-isb.errata: 34863 (of 500000)
+Observation CoRT+dsb-isb: 34863 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 59/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -3266,7 +3266,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 178142
  p1:x0=1  p1:x2=1  : 40013
  p1:x0=1  p1:x2=0  : 54874 *
-Observation CoRT.errata: 54874 (of 500000)
+Observation CoRT: 54874 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -3274,27 +3274,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=1  : 39018
  p1:x0=0  p1:x2=1  : 170726
  p1:x0=1  p1:x2=0  : 47374 *
-Observation CoRT+dsb-isb.errata: 47374 (of 500000)
+Observation CoRT+dsb-isb: 47374 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 60/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -3310,7 +3310,7 @@ Test CoRT:
  p1:x0=1  p1:x2=1  : 35070
  p1:x0=1  p1:x2=0  : 55204 *
  p1:x0=0  p1:x2=1  : 158609
-Observation CoRT.errata: 55204 (of 500000)
+Observation CoRT: 55204 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -3318,27 +3318,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=1  : 27857
  p1:x0=0  p1:x2=1  : 168926
  p1:x0=1  p1:x2=0  : 40644 *
-Observation CoRT+dsb-isb.errata: 40644 (of 500000)
+Observation CoRT+dsb-isb: 40644 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 61/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -3354,7 +3354,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 160549
  p1:x0=1  p1:x2=1  : 45924
  p1:x0=1  p1:x2=0  : 61099 *
-Observation CoRT.errata: 61099 (of 500000)
+Observation CoRT: 61099 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -3362,27 +3362,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=0  : 261419
  p1:x0=1  p1:x2=0  : 36161 *
  p1:x0=1  p1:x2=1  : 28701
-Observation CoRT+dsb-isb.errata: 36161 (of 500000)
+Observation CoRT+dsb-isb: 36161 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 62/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -3398,7 +3398,7 @@ Test CoRT:
  p1:x0=0  p1:x2=0  : 244912
  p1:x0=1  p1:x2=0  : 49694 *
  p1:x0=0  p1:x2=1  : 171234
-Observation CoRT.errata: 49694 (of 500000)
+Observation CoRT: 49694 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -3406,27 +3406,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 176842
  p1:x0=1  p1:x2=1  : 31070
  p1:x0=1  p1:x2=0  : 40423 *
-Observation CoRT+dsb-isb.errata: 40423 (of 500000)
+Observation CoRT+dsb-isb: 40423 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 63/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -3442,7 +3442,7 @@ Test CoRT:
  p1:x0=1  p1:x2=1  : 44060
  p1:x0=0  p1:x2=1  : 165775
  p1:x0=1  p1:x2=0  : 59450 *
-Observation CoRT.errata: 59450 (of 500000)
+Observation CoRT: 59450 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -3450,27 +3450,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=1  : 33285
  p1:x0=0  p1:x2=1  : 174994
  p1:x0=1  p1:x2=0  : 41624 *
-Observation CoRT+dsb-isb.errata: 41624 (of 500000)
+Observation CoRT+dsb-isb: 41624 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 64/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -3486,7 +3486,7 @@ Test CoRT:
  p1:x0=1  p1:x2=1  : 30274
  p1:x0=0  p1:x2=0  : 260865
  p1:x0=1  p1:x2=0  : 49392 *
-Observation CoRT.errata: 49392 (of 500000)
+Observation CoRT: 49392 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -3494,27 +3494,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=0  : 262084
  p1:x0=1  p1:x2=0  : 44077 *
  p1:x0=0  p1:x2=1  : 162592
-Observation CoRT+dsb-isb.errata: 44077 (of 500000)
+Observation CoRT+dsb-isb: 44077 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 65/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -3530,7 +3530,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 166457
  p1:x0=1  p1:x2=1  : 38241
  p1:x0=1  p1:x2=0  : 56780 *
-Observation CoRT.errata: 56780 (of 500000)
+Observation CoRT: 56780 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -3538,27 +3538,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 168851
  p1:x0=1  p1:x2=1  : 37510
  p1:x0=1  p1:x2=0  : 49116 *
-Observation CoRT+dsb-isb.errata: 49116 (of 500000)
+Observation CoRT+dsb-isb: 49116 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 66/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -3574,7 +3574,7 @@ Test CoRT:
  p1:x0=1  p1:x2=0  : 64790 *
  p1:x0=0  p1:x2=1  : 160049
  p1:x0=1  p1:x2=1  : 47488
-Observation CoRT.errata: 64790 (of 500000)
+Observation CoRT: 64790 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -3582,27 +3582,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 170479
  p1:x0=1  p1:x2=0  : 38740 *
  p1:x0=1  p1:x2=1  : 29887
-Observation CoRT+dsb-isb.errata: 38740 (of 500000)
+Observation CoRT+dsb-isb: 38740 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 67/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -3618,7 +3618,7 @@ Test CoRT:
  p1:x0=1  p1:x2=1  : 34384
  p1:x0=0  p1:x2=0  : 238985
  p1:x0=1  p1:x2=0  : 47845 *
-Observation CoRT.errata: 47845 (of 500000)
+Observation CoRT: 47845 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -3626,27 +3626,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=1  : 32894
  p1:x0=0  p1:x2=1  : 173015
  p1:x0=1  p1:x2=0  : 41930 *
-Observation CoRT+dsb-isb.errata: 41930 (of 500000)
+Observation CoRT+dsb-isb: 41930 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 68/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -3662,7 +3662,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 169487
  p1:x0=0  p1:x2=0  : 289496
  p1:x0=1  p1:x2=0  : 23601 *
-Observation CoRT.errata: 23601 (of 500000)
+Observation CoRT: 23601 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -3670,27 +3670,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 183089
  p1:x0=1  p1:x2=1  : 8422
  p1:x0=1  p1:x2=0  : 9980 *
-Observation CoRT+dsb-isb.errata: 9980 (of 500000)
+Observation CoRT+dsb-isb: 9980 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 69/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -3706,7 +3706,7 @@ Test CoRT:
  p1:x0=1  p1:x2=1  : 42115
  p1:x0=0  p1:x2=1  : 167163
  p1:x0=1  p1:x2=0  : 60088 *
-Observation CoRT.errata: 60088 (of 500000)
+Observation CoRT: 60088 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -3714,27 +3714,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=1  : 36590
  p1:x0=0  p1:x2=1  : 158243
  p1:x0=1  p1:x2=0  : 48722 *
-Observation CoRT+dsb-isb.errata: 48722 (of 500000)
+Observation CoRT+dsb-isb: 48722 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 70/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -3750,7 +3750,7 @@ Test CoRT:
  p1:x0=0  p1:x2=0  : 235078
  p1:x0=0  p1:x2=1  : 175187
  p1:x0=1  p1:x2=0  : 51961 *
-Observation CoRT.errata: 51961 (of 500000)
+Observation CoRT: 51961 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -3758,27 +3758,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=0  : 255816
  p1:x0=1  p1:x2=0  : 38566 *
  p1:x0=0  p1:x2=1  : 173063
-Observation CoRT+dsb-isb.errata: 38566 (of 500000)
+Observation CoRT+dsb-isb: 38566 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 71/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -3794,7 +3794,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 163887
  p1:x0=1  p1:x2=1  : 38512
  p1:x0=1  p1:x2=0  : 60235 *
-Observation CoRT.errata: 60235 (of 500000)
+Observation CoRT: 60235 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -3802,27 +3802,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=0  : 36060 *
  p1:x0=1  p1:x2=1  : 27732
  p1:x0=0  p1:x2=1  : 168038
-Observation CoRT+dsb-isb.errata: 36060 (of 500000)
+Observation CoRT+dsb-isb: 36060 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 72/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -3838,7 +3838,7 @@ Test CoRT:
  p1:x0=1  p1:x2=1  : 31758
  p1:x0=0  p1:x2=1  : 174459
  p1:x0=1  p1:x2=0  : 46047 *
-Observation CoRT.errata: 46047 (of 500000)
+Observation CoRT: 46047 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -3846,27 +3846,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 171905
  p1:x0=1  p1:x2=0  : 54572 *
  p1:x0=1  p1:x2=1  : 40037
-Observation CoRT+dsb-isb.errata: 54572 (of 500000)
+Observation CoRT+dsb-isb: 54572 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 73/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -3882,7 +3882,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 169325
  p1:x0=1  p1:x2=1  : 43653
  p1:x0=1  p1:x2=0  : 61461 *
-Observation CoRT.errata: 61461 (of 500000)
+Observation CoRT: 61461 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -3890,27 +3890,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=1  : 34973
  p1:x0=0  p1:x2=1  : 177160
  p1:x0=1  p1:x2=0  : 44116 *
-Observation CoRT+dsb-isb.errata: 44116 (of 500000)
+Observation CoRT+dsb-isb: 44116 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 74/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -3926,7 +3926,7 @@ Test CoRT:
  p1:x0=0  p1:x2=0  : 234648
  p1:x0=1  p1:x2=1  : 43312
  p1:x0=1  p1:x2=0  : 62245 *
-Observation CoRT.errata: 62245 (of 500000)
+Observation CoRT: 62245 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -3934,27 +3934,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=1  : 33788
  p1:x0=0  p1:x2=0  : 257050
  p1:x0=1  p1:x2=0  : 41563 *
-Observation CoRT+dsb-isb.errata: 41563 (of 500000)
+Observation CoRT+dsb-isb: 41563 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 75/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -3970,7 +3970,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 171634
  p1:x0=1  p1:x2=0  : 46903 *
  p1:x0=1  p1:x2=1  : 32216
-Observation CoRT.errata: 46903 (of 500000)
+Observation CoRT: 46903 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -3978,27 +3978,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 163137
  p1:x0=1  p1:x2=1  : 36971
  p1:x0=1  p1:x2=0  : 49762 *
-Observation CoRT+dsb-isb.errata: 49762 (of 500000)
+Observation CoRT+dsb-isb: 49762 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 76/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -4014,7 +4014,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 166241
  p1:x0=1  p1:x2=1  : 39786
  p1:x0=1  p1:x2=0  : 52291 *
-Observation CoRT.errata: 52291 (of 500000)
+Observation CoRT: 52291 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -4022,27 +4022,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 178877
  p1:x0=1  p1:x2=1  : 36238
  p1:x0=1  p1:x2=0  : 44172 *
-Observation CoRT+dsb-isb.errata: 44172 (of 500000)
+Observation CoRT+dsb-isb: 44172 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 77/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -4058,7 +4058,7 @@ Test CoRT:
  p1:x0=1  p1:x2=1  : 39017
  p1:x0=1  p1:x2=0  : 50279 *
  p1:x0=0  p1:x2=1  : 175583
-Observation CoRT.errata: 50279 (of 500000)
+Observation CoRT: 50279 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -4066,27 +4066,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 163963
  p1:x0=1  p1:x2=0  : 52397 *
  p1:x0=1  p1:x2=1  : 37698
-Observation CoRT+dsb-isb.errata: 52397 (of 500000)
+Observation CoRT+dsb-isb: 52397 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 78/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -4102,7 +4102,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 164305
  p1:x0=0  p1:x2=0  : 252190
  p1:x0=1  p1:x2=0  : 50421 *
-Observation CoRT.errata: 50421 (of 500000)
+Observation CoRT: 50421 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -4110,27 +4110,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=0  : 254280
  p1:x0=1  p1:x2=1  : 31262
  p1:x0=1  p1:x2=0  : 46061 *
-Observation CoRT+dsb-isb.errata: 46061 (of 500000)
+Observation CoRT+dsb-isb: 46061 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 79/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -4146,7 +4146,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 159964
  p1:x0=0  p1:x2=0  : 255878
  p1:x0=1  p1:x2=0  : 50858 *
-Observation CoRT.errata: 50858 (of 500000)
+Observation CoRT: 50858 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -4154,27 +4154,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 174625
  p1:x0=1  p1:x2=0  : 43239 *
  p1:x0=1  p1:x2=1  : 34730
-Observation CoRT+dsb-isb.errata: 43239 (of 500000)
+Observation CoRT+dsb-isb: 43239 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 80/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -4190,7 +4190,7 @@ Test CoRT:
  p1:x0=1  p1:x2=0  : 58991 *
  p1:x0=0  p1:x2=1  : 162246
  p1:x0=1  p1:x2=1  : 43736
-Observation CoRT.errata: 58991 (of 500000)
+Observation CoRT: 58991 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -4198,27 +4198,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=0  : 41968 *
  p1:x0=0  p1:x2=1  : 169209
  p1:x0=1  p1:x2=1  : 31209
-Observation CoRT+dsb-isb.errata: 41968 (of 500000)
+Observation CoRT+dsb-isb: 41968 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 81/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -4234,7 +4234,7 @@ Test CoRT:
  p1:x0=1  p1:x2=1  : 38766
  p1:x0=0  p1:x2=1  : 170032
  p1:x0=1  p1:x2=0  : 52362 *
-Observation CoRT.errata: 52362 (of 500000)
+Observation CoRT: 52362 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -4242,27 +4242,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 170223
  p1:x0=1  p1:x2=0  : 54659 *
  p1:x0=1  p1:x2=1  : 39413
-Observation CoRT+dsb-isb.errata: 54659 (of 500000)
+Observation CoRT+dsb-isb: 54659 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 82/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -4278,7 +4278,7 @@ Test CoRT:
  p1:x0=0  p1:x2=0  : 238174
  p1:x0=1  p1:x2=0  : 59632 *
  p1:x0=0  p1:x2=1  : 163981
-Observation CoRT.errata: 59632 (of 500000)
+Observation CoRT: 59632 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -4286,27 +4286,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=0  : 240874
  p1:x0=0  p1:x2=1  : 166428
  p1:x0=1  p1:x2=0  : 52798 *
-Observation CoRT+dsb-isb.errata: 52798 (of 500000)
+Observation CoRT+dsb-isb: 52798 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 83/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -4322,7 +4322,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 169402
  p1:x0=1  p1:x2=1  : 36639
  p1:x0=1  p1:x2=0  : 52618 *
-Observation CoRT.errata: 52618 (of 500000)
+Observation CoRT: 52618 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -4330,27 +4330,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 183261
  p1:x0=1  p1:x2=0  : 42146 *
  p1:x0=1  p1:x2=1  : 36340
-Observation CoRT+dsb-isb.errata: 42146 (of 500000)
+Observation CoRT+dsb-isb: 42146 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 84/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -4366,7 +4366,7 @@ Test CoRT:
  p1:x0=1  p1:x2=1  : 48249
  p1:x0=0  p1:x2=1  : 148073
  p1:x0=1  p1:x2=0  : 70811 *
-Observation CoRT.errata: 70811 (of 500000)
+Observation CoRT: 70811 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -4374,27 +4374,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 159436
  p1:x0=1  p1:x2=0  : 52410 *
  p1:x0=1  p1:x2=1  : 39080
-Observation CoRT+dsb-isb.errata: 52410 (of 500000)
+Observation CoRT+dsb-isb: 52410 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 85/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -4410,7 +4410,7 @@ Test CoRT:
  p1:x0=0  p1:x2=0  : 249263
  p1:x0=0  p1:x2=1  : 160649
  p1:x0=1  p1:x2=0  : 55333 *
-Observation CoRT.errata: 55333 (of 500000)
+Observation CoRT: 55333 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -4418,27 +4418,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 211798
  p1:x0=1  p1:x2=0  : 36826 *
  p1:x0=1  p1:x2=1  : 34339
-Observation CoRT+dsb-isb.errata: 36826 (of 500000)
+Observation CoRT+dsb-isb: 36826 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 86/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -4454,7 +4454,7 @@ Test CoRT:
  p1:x0=1  p1:x2=1  : 42833
  p1:x0=1  p1:x2=0  : 64758 *
  p1:x0=0  p1:x2=1  : 158231
-Observation CoRT.errata: 64758 (of 500000)
+Observation CoRT: 64758 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -4462,27 +4462,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=0  : 38185 *
  p1:x0=1  p1:x2=1  : 28123
  p1:x0=0  p1:x2=1  : 179327
-Observation CoRT+dsb-isb.errata: 38185 (of 500000)
+Observation CoRT+dsb-isb: 38185 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 87/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -4498,7 +4498,7 @@ Test CoRT:
  p1:x0=1  p1:x2=1  : 32051
  p1:x0=0  p1:x2=1  : 174218
  p1:x0=0  p1:x2=0  : 244366
-Observation CoRT.errata: 49365 (of 500000)
+Observation CoRT: 49365 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -4506,27 +4506,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 169305
  p1:x0=1  p1:x2=0  : 43682 *
  p1:x0=1  p1:x2=1  : 30961
-Observation CoRT+dsb-isb.errata: 43682 (of 500000)
+Observation CoRT+dsb-isb: 43682 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 88/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -4542,7 +4542,7 @@ Test CoRT:
  p1:x0=1  p1:x2=0  : 68811 *
  p1:x0=1  p1:x2=1  : 48842
  p1:x0=0  p1:x2=1  : 148060
-Observation CoRT.errata: 68811 (of 500000)
+Observation CoRT: 68811 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -4550,27 +4550,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 164505
  p1:x0=1  p1:x2=0  : 49661 *
  p1:x0=1  p1:x2=1  : 39042
-Observation CoRT+dsb-isb.errata: 49661 (of 500000)
+Observation CoRT+dsb-isb: 49661 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 89/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -4586,7 +4586,7 @@ Test CoRT:
  p1:x0=1  p1:x2=1  : 42419
  p1:x0=0  p1:x2=1  : 158554
  p1:x0=1  p1:x2=0  : 56986 *
-Observation CoRT.errata: 56986 (of 500000)
+Observation CoRT: 56986 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -4594,27 +4594,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=0  : 253224
  p1:x0=0  p1:x2=1  : 167036
  p1:x0=1  p1:x2=1  : 36292
-Observation CoRT+dsb-isb.errata: 43448 (of 500000)
+Observation CoRT+dsb-isb: 43448 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 90/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -4630,7 +4630,7 @@ Test CoRT:
  p1:x0=1  p1:x2=1  : 34250
  p1:x0=1  p1:x2=0  : 52662 *
  p1:x0=0  p1:x2=1  : 166877
-Observation CoRT.errata: 52662 (of 500000)
+Observation CoRT: 52662 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -4638,27 +4638,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 171998
  p1:x0=1  p1:x2=1  : 30229
  p1:x0=1  p1:x2=0  : 37692 *
-Observation CoRT+dsb-isb.errata: 37692 (of 500000)
+Observation CoRT+dsb-isb: 37692 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 91/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -4674,7 +4674,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 180620
  p1:x0=1  p1:x2=1  : 14609
  p1:x0=1  p1:x2=0  : 18627 *
-Observation CoRT.errata: 18627 (of 500000)
+Observation CoRT: 18627 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -4682,27 +4682,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=0  : 253200
  p1:x0=1  p1:x2=0  : 17783 *
  p1:x0=0  p1:x2=1  : 210750
-Observation CoRT+dsb-isb.errata: 17783 (of 500000)
+Observation CoRT+dsb-isb: 17783 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 92/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -4718,7 +4718,7 @@ Test CoRT:
  p1:x0=1  p1:x2=0  : 58009 *
  p1:x0=0  p1:x2=0  : 242032
  p1:x0=0  p1:x2=1  : 163159
-Observation CoRT.errata: 58009 (of 500000)
+Observation CoRT: 58009 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -4726,27 +4726,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=1  : 33170
  p1:x0=0  p1:x2=1  : 179007
  p1:x0=1  p1:x2=0  : 43364 *
-Observation CoRT+dsb-isb.errata: 43364 (of 500000)
+Observation CoRT+dsb-isb: 43364 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 93/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -4762,7 +4762,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 188655
  p1:x0=0  p1:x2=0  : 281944
  p1:x0=1  p1:x2=0  : 16789 *
-Observation CoRT.errata: 16789 (of 500000)
+Observation CoRT: 16789 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -4770,27 +4770,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 178048
  p1:x0=1  p1:x2=1  : 13185
  p1:x0=1  p1:x2=0  : 15110 *
-Observation CoRT+dsb-isb.errata: 15110 (of 500000)
+Observation CoRT+dsb-isb: 15110 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 94/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -4806,7 +4806,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 164885
  p1:x0=1  p1:x2=0  : 54834 *
  p1:x0=1  p1:x2=1  : 39853
-Observation CoRT.errata: 54834 (of 500000)
+Observation CoRT: 54834 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -4814,27 +4814,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 177786
  p1:x0=1  p1:x2=0  : 35485 *
  p1:x0=1  p1:x2=1  : 26725
-Observation CoRT+dsb-isb.errata: 35485 (of 500000)
+Observation CoRT+dsb-isb: 35485 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 95/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -4850,7 +4850,7 @@ Test CoRT:
  p1:x0=0  p1:x2=0  : 234510
  p1:x0=0  p1:x2=1  : 162466
  p1:x0=1  p1:x2=0  : 59760 *
-Observation CoRT.errata: 59760 (of 500000)
+Observation CoRT: 59760 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -4858,27 +4858,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 177526
  p1:x0=1  p1:x2=0  : 39308 *
  p1:x0=1  p1:x2=1  : 30624
-Observation CoRT+dsb-isb.errata: 39308 (of 500000)
+Observation CoRT+dsb-isb: 39308 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 96/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -4894,7 +4894,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 170941
  p1:x0=1  p1:x2=0  : 53327 *
  p1:x0=1  p1:x2=1  : 35810
-Observation CoRT.errata: 53327 (of 500000)
+Observation CoRT: 53327 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -4902,27 +4902,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=1  : 34266
  p1:x0=0  p1:x2=1  : 176269
  p1:x0=1  p1:x2=0  : 40043 *
-Observation CoRT+dsb-isb.errata: 40043 (of 500000)
+Observation CoRT+dsb-isb: 40043 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 97/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -4938,7 +4938,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 167404
  p1:x0=1  p1:x2=0  : 64245 *
  p1:x0=1  p1:x2=1  : 42853
-Observation CoRT.errata: 64245 (of 500000)
+Observation CoRT: 64245 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -4946,27 +4946,27 @@ Test CoRT+dsb-isb:
  p1:x0=1  p1:x2=1  : 38296
  p1:x0=0  p1:x2=1  : 179617
  p1:x0=1  p1:x2=0  : 48059 *
-Observation CoRT+dsb-isb.errata: 48059 (of 500000)
+Observation CoRT+dsb-isb: 48059 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 98/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -4982,7 +4982,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 172898
  p1:x0=1  p1:x2=0  : 51653 *
  p1:x0=1  p1:x2=1  : 39150
-Observation CoRT.errata: 51653 (of 500000)
+Observation CoRT: 51653 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -4990,27 +4990,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 173538
  p1:x0=1  p1:x2=1  : 29859
  p1:x0=1  p1:x2=0  : 39453 *
-Observation CoRT+dsb-isb.errata: 39453 (of 500000)
+Observation CoRT+dsb-isb: 39453 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 99/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5026,7 +5026,7 @@ Test CoRT:
  p1:x0=0  p1:x2=1  : 152309
  p1:x0=0  p1:x2=0  : 240007
  p1:x0=1  p1:x2=0  : 65463 *
-Observation CoRT.errata: 65463 (of 500000)
+Observation CoRT: 65463 (of 500000)
 P0			P1			P2			P3			
 
 Test CoRT+dsb-isb:
@@ -5034,27 +5034,27 @@ Test CoRT+dsb-isb:
  p1:x0=0  p1:x2=1  : 177171
  p1:x0=1  p1:x2=0  : 38749 *
  p1:x0=1  p1:x2=1  : 27353
-Observation CoRT+dsb-isb.errata: 38749 (of 500000)
+Observation CoRT+dsb-isb: 38749 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb-isb:
  p0:x3=1  : 500000
-Observation CoWT1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x2=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvWT1+dsb-tlbi-dsb-dsb-isb:
  p0:x5=1  : 500000
-Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata: 0 (of 500000)
+Observation CoWinvWT1+dsb-tlbi-dsb-dsb-isb: 0 (of 500000)
 100/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5069,7 +5069,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=1  p1:x2=1  : 5473
  p1:x0=0  p1:x2=1  : 207480
  p1:x0=0  p1:x2=0  : 287047
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 1/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5084,7 +5084,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 295131
  p1:x0=0  p1:x2=1  : 200459
  p1:x0=1  p1:x2=1  : 4410
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 2/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5099,7 +5099,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 297500
  p1:x0=0  p1:x2=1  : 197959
  p1:x0=1  p1:x2=1  : 4541
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 3/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5114,7 +5114,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 284808
  p1:x0=0  p1:x2=1  : 211920
  p1:x0=1  p1:x2=1  : 3272
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 4/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5129,7 +5129,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 291117
  p1:x0=0  p1:x2=1  : 204341
  p1:x0=1  p1:x2=1  : 4542
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 5/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5144,7 +5144,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=1  p1:x2=1  : 5273
  p1:x0=0  p1:x2=1  : 204537
  p1:x0=0  p1:x2=0  : 290190
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 6/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5159,7 +5159,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 294813
  p1:x0=0  p1:x2=1  : 200526
  p1:x0=1  p1:x2=1  : 4661
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 7/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5174,7 +5174,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 290651
  p1:x0=0  p1:x2=1  : 203078
  p1:x0=1  p1:x2=1  : 6271
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 8/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5189,7 +5189,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 292265
  p1:x0=0  p1:x2=1  : 203058
  p1:x0=1  p1:x2=1  : 4677
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 9/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5204,7 +5204,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 284179
  p1:x0=0  p1:x2=1  : 209897
  p1:x0=1  p1:x2=1  : 5924
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 10/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5219,7 +5219,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 286683
  p1:x0=0  p1:x2=1  : 209471
  p1:x0=1  p1:x2=1  : 3846
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 11/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5234,7 +5234,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 294895
  p1:x0=0  p1:x2=1  : 201166
  p1:x0=1  p1:x2=1  : 3939
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 12/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5249,7 +5249,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=1  p1:x2=1  : 4210
  p1:x0=0  p1:x2=0  : 288365
  p1:x0=0  p1:x2=1  : 207425
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 13/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5264,7 +5264,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 302250
  p1:x0=0  p1:x2=1  : 192375
  p1:x0=1  p1:x2=1  : 5375
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 14/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5279,7 +5279,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 293845
  p1:x0=0  p1:x2=1  : 202211
  p1:x0=1  p1:x2=1  : 3944
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 15/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5294,7 +5294,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 295528
  p1:x0=0  p1:x2=1  : 199266
  p1:x0=1  p1:x2=1  : 5206
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 16/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5309,7 +5309,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 297069
  p1:x0=0  p1:x2=1  : 198340
  p1:x0=1  p1:x2=1  : 4591
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 17/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5324,7 +5324,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 295873
  p1:x0=0  p1:x2=1  : 200271
  p1:x0=1  p1:x2=1  : 3856
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 18/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5339,7 +5339,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 305583
  p1:x0=0  p1:x2=1  : 190158
  p1:x0=1  p1:x2=1  : 4259
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 19/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5354,7 +5354,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 294110
  p1:x0=0  p1:x2=1  : 200859
  p1:x0=1  p1:x2=1  : 5031
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 20/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5369,7 +5369,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 291147
  p1:x0=1  p1:x2=1  : 5097
  p1:x0=0  p1:x2=1  : 203756
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 21/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5384,7 +5384,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 287089
  p1:x0=1  p1:x2=1  : 4105
  p1:x0=0  p1:x2=1  : 208806
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 22/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5400,7 +5400,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=0  p1:x2=1  : 203578
  p1:x0=0  p1:x2=0  : 289804
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 1 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 1 (of 500000)
 23/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5415,7 +5415,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=1  p1:x2=1  : 4412
  p1:x0=0  p1:x2=0  : 293839
  p1:x0=0  p1:x2=1  : 201749
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 24/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5430,7 +5430,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 293852
  p1:x0=0  p1:x2=1  : 201513
  p1:x0=1  p1:x2=1  : 4635
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 25/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5445,7 +5445,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=1  : 199594
  p1:x0=0  p1:x2=0  : 295758
  p1:x0=1  p1:x2=1  : 4648
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 26/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5460,7 +5460,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 290070
  p1:x0=0  p1:x2=1  : 204472
  p1:x0=1  p1:x2=1  : 5458
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 27/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5475,7 +5475,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 287493
  p1:x0=0  p1:x2=1  : 206775
  p1:x0=1  p1:x2=1  : 5732
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 28/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5490,7 +5490,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=1  p1:x2=1  : 3650
  p1:x0=0  p1:x2=1  : 200714
  p1:x0=0  p1:x2=0  : 295636
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 29/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5505,7 +5505,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 291048
  p1:x0=0  p1:x2=1  : 207071
  p1:x0=1  p1:x2=1  : 1881
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 30/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5520,7 +5520,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 293572
  p1:x0=0  p1:x2=1  : 203075
  p1:x0=1  p1:x2=1  : 3353
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 31/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5535,7 +5535,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 299248
  p1:x0=0  p1:x2=1  : 194631
  p1:x0=1  p1:x2=1  : 6121
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 32/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5550,7 +5550,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 291335
  p1:x0=0  p1:x2=1  : 204205
  p1:x0=1  p1:x2=1  : 4460
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 33/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5565,7 +5565,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 288840
  p1:x0=0  p1:x2=1  : 206455
  p1:x0=1  p1:x2=1  : 4705
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 34/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5580,7 +5580,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 289459
  p1:x0=0  p1:x2=1  : 205647
  p1:x0=1  p1:x2=1  : 4894
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 35/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5595,7 +5595,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 291289
  p1:x0=0  p1:x2=1  : 205643
  p1:x0=1  p1:x2=1  : 3068
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 36/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5610,7 +5610,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 297464
  p1:x0=0  p1:x2=1  : 198667
  p1:x0=1  p1:x2=1  : 3869
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 37/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5625,7 +5625,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 290178
  p1:x0=0  p1:x2=1  : 204917
  p1:x0=1  p1:x2=1  : 4905
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 38/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5640,7 +5640,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 288444
  p1:x0=0  p1:x2=1  : 206926
  p1:x0=1  p1:x2=1  : 4630
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 39/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5655,7 +5655,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 292180
  p1:x0=0  p1:x2=1  : 204322
  p1:x0=1  p1:x2=1  : 3498
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 40/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5670,7 +5670,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 290143
  p1:x0=0  p1:x2=1  : 204517
  p1:x0=1  p1:x2=1  : 5340
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 41/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5685,7 +5685,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 293867
  p1:x0=0  p1:x2=1  : 200679
  p1:x0=1  p1:x2=1  : 5454
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 42/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5700,7 +5700,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 289323
  p1:x0=0  p1:x2=1  : 204928
  p1:x0=1  p1:x2=1  : 5749
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 43/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5715,7 +5715,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 294441
  p1:x0=0  p1:x2=1  : 199504
  p1:x0=1  p1:x2=1  : 6055
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 44/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5730,7 +5730,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 288919
  p1:x0=0  p1:x2=1  : 206203
  p1:x0=1  p1:x2=1  : 4878
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 45/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5745,7 +5745,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 301745
  p1:x0=0  p1:x2=1  : 194031
  p1:x0=1  p1:x2=1  : 4224
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 46/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5760,7 +5760,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 294320
  p1:x0=0  p1:x2=1  : 201819
  p1:x0=1  p1:x2=1  : 3861
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 47/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5775,7 +5775,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 287113
  p1:x0=0  p1:x2=1  : 208898
  p1:x0=1  p1:x2=1  : 3989
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 48/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5790,7 +5790,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 293356
  p1:x0=0  p1:x2=1  : 203628
  p1:x0=1  p1:x2=1  : 3016
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 49/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5805,7 +5805,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 299288
  p1:x0=0  p1:x2=1  : 194385
  p1:x0=1  p1:x2=1  : 6327
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 50/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5821,7 +5821,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=1  p1:x2=1  : 5370
  p1:x0=0  p1:x2=0  : 280980
  p1:x0=0  p1:x2=1  : 213648
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 2 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 2 (of 500000)
 51/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5836,7 +5836,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=1  p1:x2=1  : 6800
  p1:x0=0  p1:x2=1  : 207096
  p1:x0=0  p1:x2=0  : 286104
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 52/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5851,7 +5851,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 294888
  p1:x0=0  p1:x2=1  : 200484
  p1:x0=1  p1:x2=1  : 4628
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 53/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5866,7 +5866,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 298517
  p1:x0=0  p1:x2=1  : 196261
  p1:x0=1  p1:x2=1  : 5222
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 54/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5881,7 +5881,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=1  p1:x2=1  : 3847
  p1:x0=0  p1:x2=0  : 298478
  p1:x0=0  p1:x2=1  : 197675
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 55/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5896,7 +5896,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 294127
  p1:x0=0  p1:x2=1  : 201299
  p1:x0=1  p1:x2=1  : 4574
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 56/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5911,7 +5911,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 286987
  p1:x0=0  p1:x2=1  : 207556
  p1:x0=1  p1:x2=1  : 5457
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 57/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5926,7 +5926,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=1  p1:x2=1  : 4942
  p1:x0=0  p1:x2=1  : 207187
  p1:x0=0  p1:x2=0  : 287871
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 58/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5941,7 +5941,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 289004
  p1:x0=1  p1:x2=1  : 6076
  p1:x0=0  p1:x2=1  : 204920
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 59/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5956,7 +5956,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 297913
  p1:x0=0  p1:x2=1  : 196280
  p1:x0=1  p1:x2=1  : 5807
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 60/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5971,7 +5971,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 298233
  p1:x0=0  p1:x2=1  : 197781
  p1:x0=1  p1:x2=1  : 3986
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 61/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -5986,7 +5986,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 295011
  p1:x0=0  p1:x2=1  : 201185
  p1:x0=1  p1:x2=1  : 3804
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 62/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -6001,7 +6001,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 287584
  p1:x0=0  p1:x2=1  : 208147
  p1:x0=1  p1:x2=1  : 4269
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 63/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -6016,7 +6016,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 281097
  p1:x0=0  p1:x2=1  : 215511
  p1:x0=1  p1:x2=1  : 3392
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 64/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -6031,7 +6031,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=1  p1:x2=1  : 4039
  p1:x0=0  p1:x2=1  : 200649
  p1:x0=0  p1:x2=0  : 295312
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 65/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -6046,7 +6046,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=1  p1:x2=1  : 5952
  p1:x0=0  p1:x2=1  : 194293
  p1:x0=0  p1:x2=0  : 299755
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 66/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -6061,7 +6061,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 290501
  p1:x0=0  p1:x2=1  : 204556
  p1:x0=1  p1:x2=1  : 4943
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 67/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -6076,7 +6076,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 295289
  p1:x0=0  p1:x2=1  : 199511
  p1:x0=1  p1:x2=1  : 5200
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 68/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -6091,7 +6091,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 293445
  p1:x0=0  p1:x2=1  : 201794
  p1:x0=1  p1:x2=1  : 4761
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 69/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -6106,7 +6106,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=1  p1:x2=1  : 4953
  p1:x0=0  p1:x2=0  : 296254
  p1:x0=0  p1:x2=1  : 198793
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 70/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -6121,7 +6121,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 285170
  p1:x0=0  p1:x2=1  : 210158
  p1:x0=1  p1:x2=1  : 4672
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 71/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -6136,7 +6136,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 286553
  p1:x0=0  p1:x2=1  : 208853
  p1:x0=1  p1:x2=1  : 4594
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 72/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -6151,7 +6151,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 286359
  p1:x0=0  p1:x2=1  : 210391
  p1:x0=1  p1:x2=1  : 3250
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 73/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -6166,7 +6166,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 298056
  p1:x0=0  p1:x2=1  : 197719
  p1:x0=1  p1:x2=1  : 4225
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 74/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -6181,7 +6181,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 288813
  p1:x0=0  p1:x2=1  : 203267
  p1:x0=1  p1:x2=1  : 7920
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 75/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -6196,7 +6196,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 305646
  p1:x0=0  p1:x2=1  : 188985
  p1:x0=1  p1:x2=1  : 5369
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 76/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -6211,7 +6211,7 @@ Test MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 294708
  p1:x0=0  p1:x2=1  : 200759
  p1:x0=1  p1:x2=1  : 4533
-Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 ++ zfxOA4X9tLhVt2pAu8KvhU8K/hV8KrgU8Gj6iTEB4fK/c71lh+f42VJhzfVuHWH+0/xwKGCOwVnCq4UHCkbBxwpvIIfhV4wOrwo+FB3qsCVgiMFNwpOFFwoOFAZ4ze8JzefGR2+U/UOXz9woOA+wXmC6wTHqRDIf9HE0TZ+d4wOnyk1AIdomALHCW4TnCa4THCYyoE4KiYOeEvuejc6fKVBeErDlP8BL5k2mXjgAgA=
 ./litmus.exe: line 8: zfxOA4X9tLhVt2pAu8KvhU8K/hV8KrgU8Gj6iTEB4fK/c71lh+f42VJhzfVuHWH+0/xwKGCOwVnCq4UHCkbBxwpvIIfhV4wOrwo+FB3qsCVgiMFNwpOFFwoOFAZ4ze8JzefGR2+U/UOXz9woOA+wXmC6wTHqRDIf9HE0TZ+d4wOnyk1AIdomALHCW4TnCa4THCYyoE4KiYOeEvuejc6fKVBeErDlP8BL5k2mXjgAgA=: No such file or directory
 ++ BIN_EOF
@@ -6235,7 +6235,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=0  p2:x2=1  : 165508
  p1:x0=1  p2:x0=1  p2:x2=1  : 4680
  p1:x0=1  p2:x0=0  p2:x2=0  : 1070
-Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
+Observation WRC.TRT.inv+addrs: 0 (of 500000)
 1/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -6254,7 +6254,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=1  p2:x2=1  : 2318
  p1:x0=1  p2:x0=1  p2:x2=1  : 6001
  p1:x0=0  p2:x0=1  p2:x2=0  : 127
-Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
+Observation WRC.TRT.inv+addrs: 0 (of 500000)
 2/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -6273,7 +6273,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=1  p2:x2=1  : 1185
  p1:x0=0  p2:x0=1  p2:x2=0  : 97
  p1:x0=1  p2:x0=1  p2:x2=1  : 5202
-Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
+Observation WRC.TRT.inv+addrs: 0 (of 500000)
 3/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -6292,7 +6292,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=1  p2:x2=1  : 1294
  p1:x0=1  p2:x0=0  p2:x2=0  : 1034
  p1:x0=0  p2:x0=1  p2:x2=0  : 115
-Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
+Observation WRC.TRT.inv+addrs: 0 (of 500000)
 4/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -6311,7 +6311,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=0  p2:x2=0  : 1093
  p1:x0=1  p2:x0=1  p2:x2=1  : 4525
  p1:x0=0  p2:x0=1  p2:x2=0  : 94
-Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
+Observation WRC.TRT.inv+addrs: 0 (of 500000)
 5/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe

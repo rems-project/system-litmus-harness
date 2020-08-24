@@ -11,14 +11,14 @@ Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 341106
  p1:x0=0  p1:x2=1  : 158045
  p1:x0=1  p1:x2=1  : 849
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 149157
  p1:x0=0  p1:x2=0  : 350056
  p1:x0=1  p1:x2=1  : 787
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 1/20
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -33,14 +33,14 @@ Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 344796
  p1:x0=0  p1:x2=1  : 154077
  p1:x0=1  p1:x2=1  : 1127
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 349453
  p1:x0=0  p1:x2=1  : 149481
  p1:x0=1  p1:x2=1  : 1066
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 2/20
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -55,14 +55,14 @@ Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 339551
  p1:x0=0  p1:x2=1  : 159313
  p1:x0=1  p1:x2=1  : 1136
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 343476
  p1:x0=0  p1:x2=1  : 155481
  p1:x0=1  p1:x2=1  : 1043
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 3/20
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -77,14 +77,14 @@ Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=1  p1:x2=1  : 1326
  p1:x0=0  p1:x2=0  : 341404
  p1:x0=0  p1:x2=1  : 157270
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 344450
  p1:x0=0  p1:x2=1  : 154253
  p1:x0=1  p1:x2=1  : 1297
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 4/20
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -99,14 +99,14 @@ Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=1  p1:x2=1  : 2208
  p1:x0=0  p1:x2=0  : 348883
  p1:x0=0  p1:x2=1  : 148909
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 345619
  p1:x0=1  p1:x2=1  : 2197
  p1:x0=0  p1:x2=1  : 152184
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 ++ G14FhwKzgVdf05FWbFp5APS86j4E88VHArOBVcCg4Fd2KvUcd+qYMvked7yXkS6/gR94n/ATXAOvAQ0QIA
 ./litmus.exe: line 8: G14FhwKzgVdf05FWbFp5APS86j4E88VHArOBVcCg4Fd2KvUcd+qYMvked7yXkS6/gR94n/ATXAOvAQ0QIA: No such file or directory
 ++ BIN_EOF
@@ -118,14 +118,14 @@ Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 348159
  p1:x0=0  p1:x2=1  : 150837
  p1:x0=1  p1:x2=1  : 1004
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 327500
  p1:x0=0  p1:x2=1  : 171556
  p1:x0=1  p1:x2=1  : 944
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 5/20
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -140,14 +140,14 @@ Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=1  p1:x2=1  : 2177
  p1:x0=0  p1:x2=0  : 376607
  p1:x0=0  p1:x2=1  : 121216
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 369388
  p1:x0=0  p1:x2=1  : 128594
  p1:x0=1  p1:x2=1  : 2018
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 6/20
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -162,14 +162,14 @@ Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 381996
  p1:x0=0  p1:x2=1  : 116785
  p1:x0=1  p1:x2=1  : 1219
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 383990
  p1:x0=0  p1:x2=1  : 114826
  p1:x0=1  p1:x2=1  : 1184
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 7/20
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -184,14 +184,14 @@ Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 376218
  p1:x0=0  p1:x2=1  : 122486
  p1:x0=1  p1:x2=1  : 1296
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 372360
  p1:x0=0  p1:x2=1  : 126370
  p1:x0=1  p1:x2=1  : 1270
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 8/20
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -206,14 +206,14 @@ Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 375709
  p1:x0=0  p1:x2=1  : 123237
  p1:x0=1  p1:x2=1  : 1054
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 366055
  p1:x0=0  p1:x2=1  : 132960
  p1:x0=1  p1:x2=1  : 985
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 9/20
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -228,14 +228,14 @@ Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 384052
  p1:x0=0  p1:x2=1  : 114784
  p1:x0=1  p1:x2=1  : 1164
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 378401
  p1:x0=0  p1:x2=1  : 120372
  p1:x0=1  p1:x2=1  : 1227
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 10/20
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -250,14 +250,14 @@ Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 378173
  p1:x0=0  p1:x2=1  : 120723
  p1:x0=1  p1:x2=1  : 1104
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 331331
  p1:x0=0  p1:x2=1  : 167568
  p1:x0=1  p1:x2=1  : 1101
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 11/20
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -272,14 +272,14 @@ Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 383582
  p1:x0=0  p1:x2=1  : 115096
  p1:x0=1  p1:x2=1  : 1322
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 378137
  p1:x0=0  p1:x2=1  : 120778
  p1:x0=1  p1:x2=1  : 1085
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 12/20
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -294,14 +294,14 @@ Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 377340
  p1:x0=0  p1:x2=1  : 121254
  p1:x0=1  p1:x2=1  : 1406
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 124730
  p1:x0=0  p1:x2=0  : 373419
  p1:x0=1  p1:x2=1  : 1851
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 13/20
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -316,14 +316,14 @@ Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 372518
  p1:x0=0  p1:x2=1  : 126116
  p1:x0=1  p1:x2=1  : 1366
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 377117
  p1:x0=0  p1:x2=1  : 121560
  p1:x0=1  p1:x2=1  : 1323
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 14/20
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -338,7 +338,7 @@ Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 377166
  p1:x0=0  p1:x2=1  : 121330
  p1:x0=1  p1:x2=1  : 1504
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
@@ -346,7 +346,7 @@ Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 123892
  p1:x0=0  p1:x2=0  : 374074
  p1:x0=1  p1:x2=1  : 2031
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 3 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 3 (of 500000)
 15/20
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -361,14 +361,14 @@ Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 379493
  p1:x0=0  p1:x2=1  : 119629
  p1:x0=1  p1:x2=1  : 878
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 382252
  p1:x0=0  p1:x2=1  : 116906
  p1:x0=1  p1:x2=1  : 842
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 16/20
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -383,14 +383,14 @@ Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 377090
  p1:x0=0  p1:x2=1  : 121761
  p1:x0=1  p1:x2=1  : 1149
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.invRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 368351
  p1:x0=0  p1:x2=1  : 130752
  p1:x0=1  p1:x2=1  : 897
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 17/20
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -405,6 +405,6 @@ Test MP.invRT1+dsb-tlbiis-dsb+dsb:
  p1:x0=0  p1:x2=0  : 381240
  p1:x0=0  p1:x2=1  : 117378
  p1:x0=1  p1:x2=1  : 1382
-Observation MP.invRT1+dsb-tlbiis-dsb+dsb.errata: 0 (of 500000)
+Observation MP.invRT1+dsb-tlbiis-dsb+dsb: 0 (of 500000)
 P0			P1			P2			P3			
 qemu-system-aarch64: terminating on signal 15 from pid 9276 (<unknown process>)

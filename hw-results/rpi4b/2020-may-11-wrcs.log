@@ -15,7 +15,7 @@ Test WRC.TRT1+dsb-tlbiis-dsb+dmb:
  p1:x0=0  p2:x0=1  p2:x2=1  : 3125
  p1:x0=1  p2:x0=1  p2:x2=1  : 1972
  p1:x0=0  p2:x0=1  p2:x2=0  : 58
-Observation WRC.TRT1+dsb-tlbiis-dsb+dmb.errata: 0 (of 500000)
+Observation WRC.TRT1+dsb-tlbiis-dsb+dmb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT1+dsb-tlbiis-dsb+dsb-isb:
@@ -26,7 +26,7 @@ Test WRC.TRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=1  p2:x0=1  p2:x2=1  : 2094
  p1:x0=0  p2:x0=1  p2:x2=0  : 60
  p1:x0=0  p2:x0=1  p2:x2=1  : 3323
-Observation WRC.TRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation WRC.TRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -37,7 +37,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=0  p2:x2=0  : 6299
  p1:x0=1  p2:x0=1  p2:x2=1  : 3335
  p1:x0=0  p2:x0=1  p2:x2=0  : 88
-Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
+Observation WRC.TRT.inv+addrs: 0 (of 500000)
 1/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -56,7 +56,7 @@ Test WRC.TRT1+dsb-tlbiis-dsb+dmb:
  p1:x0=1  p2:x0=1  p2:x2=1  : 1781
  p1:x0=0  p2:x0=1  p2:x2=1  : 2748
  p1:x0=0  p2:x0=1  p2:x2=0  : 56
-Observation WRC.TRT1+dsb-tlbiis-dsb+dmb.errata: 0 (of 500000)
+Observation WRC.TRT1+dsb-tlbiis-dsb+dmb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT1+dsb-tlbiis-dsb+dsb-isb:
@@ -67,7 +67,7 @@ Test WRC.TRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p2:x0=1  p2:x2=1  : 3887
  p1:x0=0  p2:x0=1  p2:x2=0  : 60
  p1:x0=1  p2:x0=1  p2:x2=1  : 2159
-Observation WRC.TRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation WRC.TRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -78,7 +78,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=1  p2:x2=1  : 3810
  p1:x0=1  p2:x0=0  p2:x2=0  : 4916
  p1:x0=0  p2:x0=1  p2:x2=0  : 96
-Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
+Observation WRC.TRT.inv+addrs: 0 (of 500000)
 2/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -97,7 +97,7 @@ Test WRC.TRT1+dsb-tlbiis-dsb+dmb:
  p1:x0=0  p2:x0=1  p2:x2=1  : 3730
  p1:x0=1  p2:x0=1  p2:x2=1  : 2045
  p1:x0=0  p2:x0=1  p2:x2=0  : 35
-Observation WRC.TRT1+dsb-tlbiis-dsb+dmb.errata: 0 (of 500000)
+Observation WRC.TRT1+dsb-tlbiis-dsb+dmb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT1+dsb-tlbiis-dsb+dsb-isb:
@@ -108,7 +108,7 @@ Test WRC.TRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p2:x0=0  p2:x2=0  : 187206
  p1:x0=1  p2:x0=0  p2:x2=1  : 63044
  p1:x0=0  p2:x0=0  p2:x2=1  : 142018
-Observation WRC.TRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation WRC.TRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -127,7 +127,7 @@ Test WRC.TRT1+dsb-tlbiis-dsb+dmb:
  p1:x0=0  p2:x0=1  p2:x2=1  : 3336
  p1:x0=1  p2:x0=1  p2:x2=1  : 1907
  p1:x0=0  p2:x0=1  p2:x2=0  : 49
-Observation WRC.TRT1+dsb-tlbiis-dsb+dmb.errata: 0 (of 500000)
+Observation WRC.TRT1+dsb-tlbiis-dsb+dmb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT1+dsb-tlbiis-dsb+dsb-isb:
@@ -138,7 +138,7 @@ Test WRC.TRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p2:x0=0  p2:x2=1  : 142260
  p1:x0=0  p2:x0=1  p2:x2=1  : 3245
  p1:x0=1  p2:x0=1  p2:x2=1  : 2193
-Observation WRC.TRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation WRC.TRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -149,7 +149,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=0  p2:x2=0  : 4483
  p1:x0=0  p2:x0=1  p2:x2=1  : 2161
  p1:x0=0  p2:x0=1  p2:x2=0  : 202
-Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
+Observation WRC.TRT.inv+addrs: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-tlbi-dsb-isb:
@@ -157,14 +157,14 @@ Test CoTR1+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 225381
  p1:x0=0  p1:x2=1  : 270880
  p1:x0=0  p1:x2=0  : 3736
-Observation CoTR1+dsb-tlbi-dsb-isb.errata: 3 (of 500000)
+Observation CoTR1+dsb-tlbi-dsb-isb: 3 (of 500000)
 P0			P1			P2			P3			
 
 Test LB+pos:
  p0:x2=0  p1:x2=1  : 218840
  p0:x2=0  p1:x2=0  : 197080
  p0:x2=1  p1:x2=0  : 84080
-Observation LB+pos.errata: 0 (of 500000)
+Observation LB+pos: 0 (of 500000)
 1/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -183,7 +183,7 @@ Test WRC.TRT1+dsb-tlbiis-dsb+dmb:
  p1:x0=0  p2:x0=0  p2:x2=0  : 189960
  p1:x0=0  p2:x0=1  p2:x2=0  : 37
  p1:x0=0  p2:x0=1  p2:x2=1  : 4187
-Observation WRC.TRT1+dsb-tlbiis-dsb+dmb.errata: 0 (of 500000)
+Observation WRC.TRT1+dsb-tlbiis-dsb+dmb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT1+dsb-tlbiis-dsb+dsb-isb:
@@ -194,7 +194,7 @@ Test WRC.TRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p2:x0=0  p2:x2=1  : 137556
  p1:x0=0  p2:x0=1  p2:x2=1  : 3730
  p1:x0=1  p2:x0=1  p2:x2=1  : 2384
-Observation WRC.TRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation WRC.TRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -205,7 +205,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=0  p2:x2=0  : 8628
  p1:x0=0  p2:x0=1  p2:x2=1  : 947
  p1:x0=0  p2:x0=1  p2:x2=0  : 75
-Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
+Observation WRC.TRT.inv+addrs: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-tlbi-dsb-isb:
@@ -213,14 +213,14 @@ Test CoTR1+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=0  p1:x2=1  : 271458
  p1:x0=1  p1:x2=1  : 222849
-Observation CoTR1+dsb-tlbi-dsb-isb.errata: 1 (of 500000)
+Observation CoTR1+dsb-tlbi-dsb-isb: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test LB+pos:
  p0:x2=0  p1:x2=1  : 230841
  p0:x2=0  p1:x2=0  : 189610
  p0:x2=1  p1:x2=0  : 79549
-Observation LB+pos.errata: 0 (of 500000)
+Observation LB+pos: 0 (of 500000)
 2/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -239,7 +239,7 @@ Test WRC.TRT1+dsb-tlbiis-dsb+dmb:
  p1:x0=0  p2:x0=1  p2:x2=0  : 54
  p1:x0=0  p2:x0=1  p2:x2=1  : 4026
  p1:x0=1  p2:x0=1  p2:x2=1  : 2282
-Observation WRC.TRT1+dsb-tlbiis-dsb+dmb.errata: 0 (of 500000)
+Observation WRC.TRT1+dsb-tlbiis-dsb+dmb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT1+dsb-tlbiis-dsb+dsb-isb:
@@ -250,7 +250,7 @@ Test WRC.TRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p2:x0=1  p2:x2=1  : 3144
  p1:x0=1  p2:x0=1  p2:x2=1  : 1978
  p1:x0=0  p2:x0=1  p2:x2=0  : 50
-Observation WRC.TRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation WRC.TRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -261,21 +261,21 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=1  p2:x2=1  : 831
  p1:x0=0  p2:x0=0  p2:x2=0  : 10019
  p1:x0=0  p2:x0=1  p2:x2=0  : 89
-Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
+Observation WRC.TRT.inv+addrs: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 270219
  p1:x0=1  p1:x2=1  : 225081
  p1:x0=0  p1:x2=0  : 4700
-Observation CoTR1+dsb-tlbi-dsb-isb.errata: 0 (of 500000)
+Observation CoTR1+dsb-tlbi-dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test LB+pos:
  p0:x2=1  p1:x2=0  : 85280
  p0:x2=0  p1:x2=0  : 200381
  p0:x2=0  p1:x2=1  : 214339
-Observation LB+pos.errata: 0 (of 500000)
+Observation LB+pos: 0 (of 500000)
 3/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -294,7 +294,7 @@ Test WRC.TRT1+dsb-tlbiis-dsb+dmb:
  p1:x0=1  p2:x0=0  p2:x2=1  : 60984
  p1:x0=0  p2:x0=1  p2:x2=1  : 4265
  p1:x0=1  p2:x0=1  p2:x2=1  : 2437
-Observation WRC.TRT1+dsb-tlbiis-dsb+dmb.errata: 0 (of 500000)
+Observation WRC.TRT1+dsb-tlbiis-dsb+dmb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT1+dsb-tlbiis-dsb+dsb-isb:
@@ -305,7 +305,7 @@ Test WRC.TRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p2:x0=1  p2:x2=1  : 2813
  p1:x0=1  p2:x0=1  p2:x2=1  : 1801
  p1:x0=0  p2:x0=1  p2:x2=0  : 53
-Observation WRC.TRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation WRC.TRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -316,7 +316,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=0  p2:x2=0  : 10045
  p1:x0=0  p2:x0=1  p2:x2=0  : 110
  p1:x0=0  p2:x0=1  p2:x2=1  : 1196
-Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
+Observation WRC.TRT.inv+addrs: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-tlbi-dsb-isb:
@@ -324,14 +324,14 @@ Test CoTR1+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 269894
  p1:x0=1  p1:x2=1  : 223440
  p1:x0=0  p1:x2=0  : 6663
-Observation CoTR1+dsb-tlbi-dsb-isb.errata: 3 (of 500000)
+Observation CoTR1+dsb-tlbi-dsb-isb: 3 (of 500000)
 P0			P1			P2			P3			
 
 Test LB+pos:
  p0:x2=1  p1:x2=0  : 86587
  p0:x2=0  p1:x2=1  : 218001
  p0:x2=0  p1:x2=0  : 195412
-Observation LB+pos.errata: 0 (of 500000)
+Observation LB+pos: 0 (of 500000)
 4/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -350,7 +350,7 @@ Test WRC.TRT1+dsb-tlbiis-dsb+dmb:
  p1:x0=1  p2:x0=0  p2:x2=0  : 104161
  p1:x0=0  p2:x0=1  p2:x2=1  : 4109
  p1:x0=1  p2:x0=1  p2:x2=1  : 2524
-Observation WRC.TRT1+dsb-tlbiis-dsb+dmb.errata: 0 (of 500000)
+Observation WRC.TRT1+dsb-tlbiis-dsb+dmb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT1+dsb-tlbiis-dsb+dsb-isb:
@@ -361,7 +361,7 @@ Test WRC.TRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=1  p2:x0=0  p2:x2=1  : 61455
  p1:x0=0  p2:x0=0  p2:x2=0  : 193044
  p1:x0=1  p2:x0=1  p2:x2=1  : 2322
-Observation WRC.TRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation WRC.TRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -372,7 +372,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=1  p2:x2=1  : 1861
  p1:x0=1  p2:x0=1  p2:x2=1  : 4721
  p1:x0=0  p2:x0=1  p2:x2=0  : 99
-Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
+Observation WRC.TRT.inv+addrs: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-tlbi-dsb-isb:
@@ -380,14 +380,14 @@ Test CoTR1+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=1  : 270761
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=0  p1:x2=0  : 6975
-Observation CoTR1+dsb-tlbi-dsb-isb.errata: 1 (of 500000)
+Observation CoTR1+dsb-tlbi-dsb-isb: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test LB+pos:
  p0:x2=0  p1:x2=1  : 220605
  p0:x2=0  p1:x2=0  : 196857
  p0:x2=1  p1:x2=0  : 82538
-Observation LB+pos.errata: 0 (of 500000)
+Observation LB+pos: 0 (of 500000)
 5/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -406,7 +406,7 @@ Test WRC.TRT1+dsb-tlbiis-dsb+dmb:
  p1:x0=0  p2:x0=0  p2:x2=0  : 182942
  p1:x0=0  p2:x0=1  p2:x2=1  : 3600
  p1:x0=1  p2:x0=1  p2:x2=1  : 2406
-Observation WRC.TRT1+dsb-tlbiis-dsb+dmb.errata: 0 (of 500000)
+Observation WRC.TRT1+dsb-tlbiis-dsb+dmb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT1+dsb-tlbiis-dsb+dsb-isb:
@@ -417,7 +417,7 @@ Test WRC.TRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p2:x0=1  p2:x2=1  : 3165
  p1:x0=0  p2:x0=1  p2:x2=0  : 55
  p1:x0=1  p2:x0=1  p2:x2=1  : 2074
-Observation WRC.TRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation WRC.TRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -428,7 +428,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=0  p2:x0=0  p2:x2=0  : 10629
  p1:x0=0  p2:x0=1  p2:x2=1  : 1011
  p1:x0=0  p2:x0=1  p2:x2=0  : 91
-Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
+Observation WRC.TRT.inv+addrs: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-tlbi-dsb-isb:
@@ -436,14 +436,14 @@ Test CoTR1+dsb-tlbi-dsb-isb:
  p1:x0=0  p1:x2=0  : 5245
  p1:x0=1  p1:x2=1  : 219061
  p1:x0=0  p1:x2=1  : 275692
-Observation CoTR1+dsb-tlbi-dsb-isb.errata: 2 (of 500000)
+Observation CoTR1+dsb-tlbi-dsb-isb: 2 (of 500000)
 P0			P1			P2			P3			
 
 Test LB+pos:
  p0:x2=1  p1:x2=0  : 85147
  p0:x2=0  p1:x2=0  : 200915
  p0:x2=0  p1:x2=1  : 213938
-Observation LB+pos.errata: 0 (of 500000)
+Observation LB+pos: 0 (of 500000)
 6/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -462,7 +462,7 @@ Test WRC.TRT1+dsb-tlbiis-dsb+dmb:
  p1:x0=0  p2:x0=0  p2:x2=0  : 186578
  p1:x0=1  p2:x0=1  p2:x2=1  : 1666
  p1:x0=0  p2:x0=1  p2:x2=1  : 2487
-Observation WRC.TRT1+dsb-tlbiis-dsb+dmb.errata: 0 (of 500000)
+Observation WRC.TRT1+dsb-tlbiis-dsb+dmb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT1+dsb-tlbiis-dsb+dsb-isb:
@@ -473,7 +473,7 @@ Test WRC.TRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p2:x0=1  p2:x2=1  : 4053
  p1:x0=1  p2:x0=1  p2:x2=1  : 2485
  p1:x0=1  p2:x0=0  p2:x2=0  : 105620
-Observation WRC.TRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation WRC.TRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -484,7 +484,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=1  p2:x2=1  : 4258
  p1:x0=0  p2:x0=1  p2:x2=1  : 1074
  p1:x0=0  p2:x0=1  p2:x2=0  : 95
-Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
+Observation WRC.TRT.inv+addrs: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-tlbi-dsb-isb:
@@ -492,14 +492,14 @@ Test CoTR1+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=1  : 221640
  p1:x0=0  p1:x2=1  : 274447
  p1:x0=0  p1:x2=0  : 3911
-Observation CoTR1+dsb-tlbi-dsb-isb.errata: 2 (of 500000)
+Observation CoTR1+dsb-tlbi-dsb-isb: 2 (of 500000)
 P0			P1			P2			P3			
 
 Test LB+pos:
  p0:x2=0  p1:x2=1  : 215479
  p0:x2=1  p1:x2=0  : 85004
  p0:x2=0  p1:x2=0  : 199517
-Observation LB+pos.errata: 0 (of 500000)
+Observation LB+pos: 0 (of 500000)
 7/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe
@@ -518,7 +518,7 @@ Test WRC.TRT1+dsb-tlbiis-dsb+dmb:
  p1:x0=0  p2:x0=1  p2:x2=0  : 31
  p1:x0=0  p2:x0=1  p2:x2=1  : 3316
  p1:x0=1  p2:x0=1  p2:x2=1  : 2290
-Observation WRC.TRT1+dsb-tlbiis-dsb+dmb.errata: 0 (of 500000)
+Observation WRC.TRT1+dsb-tlbiis-dsb+dmb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT1+dsb-tlbiis-dsb+dsb-isb:
@@ -529,7 +529,7 @@ Test WRC.TRT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p2:x0=1  p2:x2=1  : 2958
  p1:x0=1  p2:x0=1  p2:x2=1  : 2421
  p1:x0=0  p2:x0=1  p2:x2=0  : 40
-Observation WRC.TRT1+dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation WRC.TRT1+dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+addrs:
@@ -540,7 +540,7 @@ Test WRC.TRT.inv+addrs:
  p1:x0=1  p2:x0=1  p2:x2=1  : 6454
  p1:x0=0  p2:x0=1  p2:x2=1  : 1877
  p1:x0=0  p2:x0=1  p2:x2=0  : 134
-Observation WRC.TRT.inv+addrs.errata: 0 (of 500000)
+Observation WRC.TRT.inv+addrs: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1+dsb-tlbi-dsb-isb:
@@ -548,14 +548,14 @@ Test CoTR1+dsb-tlbi-dsb-isb:
  p1:x0=1  p1:x2=0  : 2 *
  p1:x0=0  p1:x2=1  : 267149
  p1:x0=1  p1:x2=1  : 227024
-Observation CoTR1+dsb-tlbi-dsb-isb.errata: 2 (of 500000)
+Observation CoTR1+dsb-tlbi-dsb-isb: 2 (of 500000)
 P0			P1			P2			P3			
 
 Test LB+pos:
  p0:x2=0  p1:x2=1  : 217672
  p0:x2=1  p1:x2=0  : 85357
  p0:x2=0  p1:x2=0  : 196971
-Observation LB+pos.errata: 0 (of 500000)
+Observation LB+pos: 0 (of 500000)
 8/100
 ++ echo Starting bin/host_litmus.exe
 Starting bin/host_litmus.exe

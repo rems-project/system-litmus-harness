@@ -12,14 +12,14 @@ Test MP+pos:
  p1:x0=0  p1:x2=0  : 188749
  p1:x0=0  p1:x2=1  : 62748
  p1:x0=1  p1:x2=0  : 12057 *
-Observation MP+pos.errata: 12057 (of 500000)
+Observation MP+pos: 12057 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmbs:
  p1:x0=1  p1:x2=1  : 238205
  p1:x0=0  p1:x2=0  : 180330
  p1:x0=0  p1:x2=1  : 81465
-Observation MP+dmbs.errata: 0 (of 500000)
+Observation MP+dmbs: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test SB+pos:
@@ -27,14 +27,14 @@ Test SB+pos:
  p0:x2=0  p1:x2=1  : 251385
  p0:x2=1  p1:x2=1  : 33142
  p0:x2=0  p1:x2=0  : 36536 *
-Observation SB+pos.errata: 36536 (of 500000)
+Observation SB+pos: 36536 (of 500000)
 P0			P1			P2			P3			
 
 Test SB+dmbs:
  p0:x2=1  p1:x2=0  : 192377
  p0:x2=0  p1:x2=1  : 257745
  p0:x2=1  p1:x2=1  : 49878
-Observation SB+dmbs.errata: 0 (of 500000)
+Observation SB+dmbs: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC+pos:
@@ -46,7 +46,7 @@ Test WRC+pos:
  p1:x0=1  p2:x0=1  p2:x2=1  : 51102
  p1:x0=0  p2:x0=0  p2:x2=1  : 15192
  p1:x0=1  p2:x0=1  p2:x2=0  : 2364 *
-Observation WRC+pos.errata: 2364 (of 500000)
+Observation WRC+pos: 2364 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC+addrs:
@@ -57,21 +57,21 @@ Test WRC+addrs:
  p1:x0=1  p2:x0=0  p2:x2=1  : 143546
  p1:x0=1  p2:x0=0  p2:x2=0  : 64152
  p1:x0=0  p2:x0=0  p2:x2=1  : 39742
-Observation WRC+addrs.errata: 0 (of 500000)
+Observation WRC+addrs: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc:
  p1:x0=0  p1:x2=0  : 107056
  p1:x0=1  p1:x2=1  : 269662
  p1:x0=0  p1:x2=1  : 123282
-Observation MP+dmb+svc.errata: 0 (of 500000)
+Observation MP+dmb+svc: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+eret:
  p1:x0=1  p1:x2=1  : 312693
  p1:x0=0  p1:x2=0  : 117098
  p1:x0=0  p1:x2=1  : 70209
-Observation MP+dmb+eret.errata: 0 (of 500000)
+Observation MP+dmb+eret: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.AT+ctrl+dsb:
@@ -83,24 +83,24 @@ Test WRC.AT+ctrl+dsb:
  p1:x2=0  p2:x0=1  p2:x2=1  : 33944
  p1:x2=0  p2:x0=1  p2:x2=0  : 17042 *
  p1:x2=1  p2:x0=0  p2:x2=1  : 11057
-Observation WRC.AT+ctrl+dsb.errata: 17042 (of 500000)
+Observation WRC.AT+ctrl+dsb: 17042 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x2=2  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-svc-tlbi-dsb:
  p0:x2=2  : 500000
-Observation CoWT+dsb-svc-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT+dsb-svc-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.RT+svc-dsb-tlbiis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 351405
  p1:x0=0  p1:x2=1  : 88633
  p1:x0=1  p1:x2=1  : 59962
-Observation MP.RT+svc-dsb-tlbiis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT+svc-dsb-tlbiis-dsb+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.RT1+dsb-tlbiis-dsb+dsb-isb:
@@ -108,14 +108,14 @@ Test MP.RT1+dsb-tlbiis-dsb+dsb-isb:
  p1:x0=1  p1:x2=0  : 2 *
  p1:x0=0  p1:x2=1  : 100212
  p1:x0=0  p1:x2=0  : 277654
-Observation MP.RT1+dsb-tlbiis-dsb+dsb-isb.errata: 2 (of 500000)
+Observation MP.RT1+dsb-tlbiis-dsb+dsb-isb: 2 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.RT1+dsb-tlbiall-dsb+dsb-isb:
  p1:x0=1  p1:x2=1  : 105682
  p1:x0=0  p1:x2=1  : 161876
  p1:x0=0  p1:x2=0  : 232442
-Observation MP.RT1+dsb-tlbiall-dsb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-tlbiall-dsb+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.RT1+dsb-tlbiis-dsb-tlbiis-dsb+dsb-isb:
@@ -123,48 +123,48 @@ Test MP.RT1+dsb-tlbiis-dsb-tlbiis-dsb+dsb-isb:
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=1  p1:x2=1  : 115344
  p1:x0=0  p1:x2=1  : 86949
-Observation MP.RT1+dsb-tlbiis-dsb-tlbiis-dsb+dsb-isb.errata: 1 (of 500000)
+Observation MP.RT1+dsb-tlbiis-dsb-tlbiis-dsb+dsb-isb: 1 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv+dsb:
  p0:x4=0  : 499972
  p0:x4=1  : 28 *
-Observation CoWT.inv+dsb.errata.errata: 28 (of 500000)
+Observation CoWT.inv+dsb: 28 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb:
  p0:x2=2  : 227136
  p0:x2=1  : 272864 *
-Observation CoWT+dsb.errata: 272864 (of 500000)
+Observation CoWT+dsb: 272864 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT:
  p0:x2=2  : 210103
  p0:x2=1  : 289897 *
-Observation CoWT.errata: 289897 (of 500000)
+Observation CoWT: 289897 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT.inv:
  p0:x4=0  : 499772
  p0:x4=1  : 228 *
-Observation CoWT.inv.errata: 228 (of 500000)
+Observation CoWT.inv: 228 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT:
  p0:x4=0  : 284794 *
  p0:x4=1  : 215206
-Observation CoWinvT.errata: 284794 (of 500000)
+Observation CoWinvT: 284794 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWinvT1+dsb-tlbi-dsb:
  p0:x4=1  : 500000
-Observation CoWinvT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWinvT1+dsb-tlbi-dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT+dsb-isb:
  p0:x2=2  : 232235
  p0:x2=1  : 267765 *
-Observation CoWT+dsb-isb.errata: 267765 (of 500000)
+Observation CoWT+dsb-isb: 267765 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR:
@@ -172,7 +172,7 @@ Test CoTR:
  p1:x0=1  p1:x2=1  : 117086
  p1:x0=1  p1:x2=0  : 79556 *
  p1:x0=0  p1:x2=1  : 56811
-Observation CoTR.errata: 79556 (of 500000)
+Observation CoTR: 79556 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv:
@@ -180,49 +180,49 @@ Test CoTR.inv:
  p1:x0=1  p1:x2=1  : 351035
  p1:x0=1  p1:x2=0  : 49681 *
  p1:x0=0  p1:x2=0  : 82981
-Observation CoTR.inv.errata: 49681 (of 500000)
+Observation CoTR.inv: 49681 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR.inv+dsb-isb:
  p1:x0=0  p1:x2=0  : 84919
  p1:x0=1  p1:x2=1  : 398480
  p1:x0=0  p1:x2=1  : 16601
-Observation CoTR.inv+dsb-isb.errata: 0 (of 500000)
+Observation CoTR.inv+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR+addr:
  p1:x0=1  p1:x2=1  : 196018
  p1:x0=0  p1:x2=1  : 72739
  p1:x0=0  p1:x2=0  : 231243
-Observation CoTR+addr.errata: 0 (of 500000)
+Observation CoTR+addr: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR+dmb:
  p1:x0=1  p1:x2=1  : 188787
  p1:x0=0  p1:x2=1  : 75386
  p1:x0=0  p1:x2=0  : 235827
-Observation CoTR+dmb.errata: 0 (of 500000)
+Observation CoTR+dmb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR+dsb:
  p1:x0=0  p1:x2=1  : 103199
  p1:x0=1  p1:x2=1  : 198040
  p1:x0=0  p1:x2=0  : 198761
-Observation CoTR+dsb.errata: 0 (of 500000)
+Observation CoTR+dsb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR+dsb-isb:
  p1:x0=0  p1:x2=0  : 155907
  p1:x0=1  p1:x2=1  : 196825
  p1:x0=0  p1:x2=1  : 147268
-Observation CoTR+dsb-isb.errata: 0 (of 500000)
+Observation CoTR+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoTR1.tlbi+dsb-isb:
  p1:x0=1  p1:x2=1  : 410222
  p1:x0=0  p1:x2=0  : 81794
  p1:x0=0  p1:x2=1  : 7984
-Observation CoTR1.tlbi+dsb-isb.errata: 0 (of 500000)
+Observation CoTR1.tlbi+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.RT+svc-dsb-tlbi-dsb+dsb-isb:
@@ -230,35 +230,35 @@ Test MP.RT+svc-dsb-tlbi-dsb+dsb-isb:
  p1:x0=1  p1:x2=0  : 2 *
  p1:x0=0  p1:x2=0  : 340740
  p1:x0=0  p1:x2=1  : 98441
-Observation MP.RT+svc-dsb-tlbi-dsb+dsb-isb.errata: 2 (of 500000)
+Observation MP.RT+svc-dsb-tlbi-dsb+dsb-isb: 2 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.RT1+dsb-tlbi-dsb+dsb-isb:
  p1:x0=1  p1:x2=1  : 108699
  p1:x0=0  p1:x2=0  : 276792
  p1:x0=0  p1:x2=1  : 114509
-Observation MP.RT1+dsb-tlbi-dsb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-tlbi-dsb+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+eret:
  p1:x0=1  p1:x2=1  : 312720
  p1:x0=0  p1:x2=0  : 118214
  p1:x0=0  p1:x2=1  : 69066
-Observation MP+dmb+eret.errata: 0 (of 500000)
+Observation MP+dmb+eret: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP+dmb+svc:
  p1:x0=1  p1:x2=1  : 270562
  p1:x0=0  p1:x2=1  : 126976
  p1:x0=0  p1:x2=0  : 102462
-Observation MP+dmb+svc.errata: 0 (of 500000)
+Observation MP+dmb+svc: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test MP.RT.inv+dmb+addr:
  p1:x0=0  p1:x2=0  : 124554
  p1:x0=0  p1:x2=1  : 106163
  p1:x0=1  p1:x2=0  : 269283
-Observation MP.RT.inv+dmb+addr.errata.errata: 0 (of 500000)
+Observation MP.RT.inv+dmb+addr: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRR+addr+dmb:
@@ -266,7 +266,7 @@ Test WRC.TRR+addr+dmb:
  p1:x0=0  p2:x0=1  p2:x2=1  : 157419
  p1:x0=0  p2:x0=0  p2:x2=1  : 203861
  p1:x0=1  p2:x0=0  p2:x2=1  : 108186
-Observation WRC.TRR+addr+dmb.errata: 0 (of 500000)
+Observation WRC.TRR+addr+dmb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRR.inv+addrs:
@@ -274,7 +274,7 @@ Test WRC.TRR.inv+addrs:
  p1:x0=0  p2:x0=0  p2:x2=1  : 147108
  p1:x0=1  p2:x0=0  p2:x2=1  : 216166
  p1:x0=0  p2:x0=1  p2:x2=1  : 82015
-Observation WRC.TRR.inv+addrs.errata: 0 (of 500000)
+Observation WRC.TRR.inv+addrs: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT+addr+dmb:
@@ -286,7 +286,7 @@ Test WRC.TRT+addr+dmb:
  p1:x0=1  p2:x0=0  p2:x2=1  : 36086
  p1:x0=1  p2:x0=1  p2:x2=0  : 11686 *
  p1:x0=0  p2:x0=0  p2:x2=1  : 27786
-Observation WRC.TRT+addr+dmb.errata: 11686 (of 500000)
+Observation WRC.TRT+addr+dmb: 11686 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT+dmbs:
@@ -298,7 +298,7 @@ Test WRC.TRT+dmbs:
  p1:x0=0  p2:x0=0  p2:x2=1  : 33673
  p1:x0=1  p2:x0=1  p2:x2=1  : 21422
  p1:x0=1  p2:x0=1  p2:x2=0  : 9453 *
-Observation WRC.TRT+dmbs.errata: 9453 (of 500000)
+Observation WRC.TRT+dmbs: 9453 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT+dsb-isbs:
@@ -310,7 +310,7 @@ Test WRC.TRT+dsb-isbs:
  p1:x0=1  p2:x0=1  p2:x2=0  : 11058 *
  p1:x0=1  p2:x0=0  p2:x2=1  : 31766
  p1:x0=1  p2:x0=0  p2:x2=0  : 83453
-Observation WRC.TRT+dsb-isbs.errata: 11058 (of 500000)
+Observation WRC.TRT+dsb-isbs: 11058 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+dsb-isbs:
@@ -321,7 +321,7 @@ Test WRC.TRT.inv+dsb-isbs:
  p1:x0=0  p2:x0=0  p2:x2=1  : 48438
  p1:x0=0  p2:x0=1  p2:x2=0  : 71163
  p1:x0=1  p2:x0=0  p2:x2=0  : 69669
-Observation WRC.TRT.inv+dsb-isbs.errata: 0 (of 500000)
+Observation WRC.TRT.inv+dsb-isbs: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT1.broken+dsb-tlbiis-dsb+dmb:
@@ -332,7 +332,7 @@ Test WRC.TRT1.broken+dsb-tlbiis-dsb+dmb:
  p1:x0=0  p2:x0=0  p2:x2=0  : 185139
  p1:x0=1  p2:x0=0  p2:x2=1  : 52810
  p1:x0=1  p2:x0=0  p2:x2=0  : 111450
-Observation WRC.TRT1.broken+dsb-tlbiis-dsb+dmb.errata: 0 (of 500000)
+Observation WRC.TRT1.broken+dsb-tlbiis-dsb+dmb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+po+dmb:
@@ -343,7 +343,7 @@ Test WRC.TRT.inv+po+dmb:
  p1:x0=0  p2:x0=1  p2:x2=0  : 71689
  p1:x0=1  p2:x0=1  p2:x2=1  : 27447
  p1:x0=1  p2:x0=0  p2:x2=0  : 55832
-Observation WRC.TRT.inv+po+dmb.errata: 0 (of 500000)
+Observation WRC.TRT.inv+po+dmb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test WRC.TRT.inv+po+addr:
@@ -354,7 +354,7 @@ Test WRC.TRT.inv+po+addr:
  p1:x0=1  p2:x0=1  p2:x2=0  : 61429
  p1:x0=1  p2:x0=0  p2:x2=1  : 62678
  p1:x0=1  p2:x0=1  p2:x2=1  : 28194
-Observation WRC.TRT.inv+po+addr.errata: 0 (of 500000)
+Observation WRC.TRT.inv+po+addr: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test ISA2.TRR+dmb+po+dmb:
@@ -362,7 +362,7 @@ Test ISA2.TRR+dmb+po+dmb:
  p1:x0=0  p2:x0=1  p2:x2=0  : 58868
  p1:x0=0  p2:x0=0  p2:x2=0  : 184732
  p1:x0=0  p2:x0=1  p2:x2=1  : 147911
-Observation ISA2.TRR+dmb+po+dmb.errata: 0 (of 500000)
+Observation ISA2.TRR+dmb+po+dmb: 0 (of 500000)
 real 118949.21
 user 112966.31
 sys 45403.10

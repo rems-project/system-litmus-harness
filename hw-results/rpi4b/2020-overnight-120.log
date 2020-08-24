@@ -12,7 +12,7 @@ Test MP+pos:
  p1:x0=0  p1:x2=1  : 84532
  p1:x0=0  p1:x2=0  : 293921
  p1:x0=1  p1:x2=0  : 39378 *
-Observation MP+pos.errata: 39378 (of 500000)
+Observation MP+pos: 39378 (of 500000)
 P0			P1			P2			P3			
 			! valloc_freelist_split_alignment: cannot split a chunk that is not big enoughreal 112.61
 user 319.76

@@ -11,7 +11,7 @@ Test MP.RT1+dsb-tlbiallis-dsb+dsb-isb:
  p1:x0=1  p1:x2=1  : 111840
  p1:x0=0  p1:x2=1  : 171006
  p1:x0=0  p1:x2=0  : 217154
-Observation MP.RT1+dsb-tlbiallis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-tlbiallis-dsb+dsb-isb: 0 (of 500000)
 1/10
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -26,7 +26,7 @@ Test MP.RT1+dsb-tlbiallis-dsb+dsb-isb:
  p1:x0=1  p1:x2=1  : 57254
  p1:x0=0  p1:x2=0  : 240349
  p1:x0=0  p1:x2=1  : 202397
-Observation MP.RT1+dsb-tlbiallis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-tlbiallis-dsb+dsb-isb: 0 (of 500000)
 2/10
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -41,7 +41,7 @@ Test MP.RT1+dsb-tlbiallis-dsb+dsb-isb:
  p1:x0=0  p1:x2=1  : 197740
  p1:x0=1  p1:x2=1  : 54726
  p1:x0=0  p1:x2=0  : 247534
-Observation MP.RT1+dsb-tlbiallis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-tlbiallis-dsb+dsb-isb: 0 (of 500000)
 3/10
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -56,7 +56,7 @@ Test MP.RT1+dsb-tlbiallis-dsb+dsb-isb:
  p1:x0=1  p1:x2=1  : 76672
  p1:x0=0  p1:x2=0  : 237096
  p1:x0=0  p1:x2=1  : 186232
-Observation MP.RT1+dsb-tlbiallis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-tlbiallis-dsb+dsb-isb: 0 (of 500000)
 4/10
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -71,7 +71,7 @@ Test MP.RT1+dsb-tlbiallis-dsb+dsb-isb:
  p1:x0=1  p1:x2=1  : 74016
  p1:x0=0  p1:x2=0  : 237205
  p1:x0=0  p1:x2=1  : 188779
-Observation MP.RT1+dsb-tlbiallis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-tlbiallis-dsb+dsb-isb: 0 (of 500000)
 5/10
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -86,7 +86,7 @@ Test MP.RT1+dsb-tlbiallis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 236407
  p1:x0=0  p1:x2=1  : 184708
  p1:x0=1  p1:x2=1  : 78885
-Observation MP.RT1+dsb-tlbiallis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-tlbiallis-dsb+dsb-isb: 0 (of 500000)
 6/10
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -101,7 +101,7 @@ Test MP.RT1+dsb-tlbiallis-dsb+dsb-isb:
  p1:x0=0  p1:x2=0  : 230786
  p1:x0=1  p1:x2=1  : 87727
  p1:x0=0  p1:x2=1  : 181487
-Observation MP.RT1+dsb-tlbiallis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-tlbiallis-dsb+dsb-isb: 0 (of 500000)
 7/10
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -117,7 +117,7 @@ Test MP.RT1+dsb-tlbiallis-dsb+dsb-isb:
  p1:x0=1  p1:x2=0  : 1 *
  p1:x0=0  p1:x2=0  : 238402
  p1:x0=0  p1:x2=1  : 198295
-Observation MP.RT1+dsb-tlbiallis-dsb+dsb-isb.errata: 1 (of 500000)
+Observation MP.RT1+dsb-tlbiallis-dsb+dsb-isb: 1 (of 500000)
 8/10
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -132,7 +132,7 @@ Test MP.RT1+dsb-tlbiallis-dsb+dsb-isb:
  p1:x0=1  p1:x2=1  : 58645
  p1:x0=0  p1:x2=0  : 235626
  p1:x0=0  p1:x2=1  : 205729
-Observation MP.RT1+dsb-tlbiallis-dsb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-tlbiallis-dsb+dsb-isb: 0 (of 500000)
 9/10
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -156,7 +156,7 @@ Test MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 281120
  p1:x0=0  p1:x2=1  : 213191
  p1:x0=1  p1:x2=1  : 5689
-Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 1/10
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -171,7 +171,7 @@ Test MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 280462
  p1:x0=0  p1:x2=1  : 212447
  p1:x0=1  p1:x2=1  : 7091
-Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 2/10
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -186,7 +186,7 @@ Test MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 280526
  p1:x0=0  p1:x2=1  : 214481
  p1:x0=1  p1:x2=1  : 4993
-Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 3/10
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -201,7 +201,7 @@ Test MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=1  p1:x2=1  : 4366
  p1:x0=0  p1:x2=0  : 275839
  p1:x0=0  p1:x2=1  : 219795
-Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 4/10
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -216,7 +216,7 @@ Test MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 282481
  p1:x0=0  p1:x2=1  : 213113
  p1:x0=1  p1:x2=1  : 4406
-Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 5/10
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -231,7 +231,7 @@ Test MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 269016
  p1:x0=0  p1:x2=1  : 227419
  p1:x0=1  p1:x2=1  : 3565
-Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 6/10
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -246,7 +246,7 @@ Test MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 285444
  p1:x0=0  p1:x2=1  : 209374
  p1:x0=1  p1:x2=1  : 5182
-Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 7/10
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -261,7 +261,7 @@ Test MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 285439
  p1:x0=0  p1:x2=1  : 209901
  p1:x0=1  p1:x2=1  : 4660
-Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 8/10
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -276,7 +276,7 @@ Test MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=1  p1:x2=1  : 4838
  p1:x0=0  p1:x2=1  : 207175
  p1:x0=0  p1:x2=0  : 287987
-Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 9/10
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -291,7 +291,7 @@ Test MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 279013
  p1:x0=0  p1:x2=1  : 215903
  p1:x0=1  p1:x2=1  : 5084
-Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 10/10
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -306,12 +306,12 @@ Test MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 285278
  p1:x0=0  p1:x2=1  : 209111
  p1:x0=1  p1:x2=1  : 5611
-Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x2=2  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 1/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -326,12 +326,12 @@ Test MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 284462
  p1:x0=0  p1:x2=1  : 210751
  p1:x0=1  p1:x2=1  : 4787
-Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x2=2  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 2/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -346,12 +346,12 @@ Test MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 307415
  p1:x0=1  p1:x2=1  : 6180
  p1:x0=0  p1:x2=1  : 186405
-Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x2=2  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 3/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -366,12 +366,12 @@ Test MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 278232
  p1:x0=0  p1:x2=1  : 217016
  p1:x0=1  p1:x2=1  : 4752
-Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x2=2  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 4/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -386,12 +386,12 @@ Test MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 276834
  p1:x0=0  p1:x2=1  : 217551
  p1:x0=1  p1:x2=1  : 5615
-Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x2=2  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 5/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -406,12 +406,12 @@ Test MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=0  : 268544
  p1:x0=1  p1:x2=1  : 5709
  p1:x0=0  p1:x2=1  : 225747
-Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x2=2  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 6/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -426,12 +426,12 @@ Test MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=0  p1:x2=1  : 217600
  p1:x0=0  p1:x2=0  : 278163
  p1:x0=1  p1:x2=1  : 4237
-Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb.errata: 0 (of 500000)
+Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb: 0 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x2=2  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 7/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe
@@ -447,12 +447,12 @@ Test MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb:
  p1:x0=1  p1:x2=1  : 4350
  p1:x0=0  p1:x2=0  : 280189
  p1:x0=0  p1:x2=1  : 215459
-Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb.errata: 2 (of 500000)
+Observation MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb: 2 (of 500000)
 P0			P1			P2			P3			
 
 Test CoWT1+dsb-tlbi-dsb:
  p0:x2=2  : 500000
-Observation CoWT1+dsb-tlbi-dsb.errata: 0 (of 500000)
+Observation CoWT1+dsb-tlbi-dsb: 0 (of 500000)
 8/100
 ++ echo Starting bin/litmus.exe
 Starting bin/litmus.exe

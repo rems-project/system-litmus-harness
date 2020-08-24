@@ -1,106 +1,112 @@
 \begin{tabular}{l r l l l}
 \textbf{Type} & \textbf{Name} & \textbf{Total} & \textbf{Distribution} &\\
-   data &LB+pos & 0/28.50M & & \\
-   data &MP+dmbs & 0/28M & & \\
-   data &MP+po-data+dmb & 276.76K/24.50M & 5.65K/500K & $\pm$ 2.17K/500K \\
-   data &MP+pos & 2.99M/28M & 53.42K/500K & $\pm$ 8.79K/500K \\
-   data &MP+rfi-data+dmb & 114.69K/8M & 7.17K/500K & $\pm$ 2.07K/500K \\
-   data &SB+dmbs & 0/28M & & \\
-   data &SB+pos & 3.95M/28M & 70.50K/500K & $\pm$ 16.00K/500K \\
-   data &WRC+addrs & 0/28M & & \\
-   data &WRC+pos & 27.84K/28M & 497.12/500K & $\pm$ 442.47/500K \\
-   exc &LB+R-svc-W+R-svc-W & 0/22M & & \\
-   exc &MP+W-svc-W+addr & 2/22M & 0.05/500K & $\pm$ 0.21/500K \\
-   exc &MP+dmb+R-svc-eret-R & 0/22M & & \\
-   exc &MP+dmb+eret & 0/22M & & \\
-   exc &MP+dmb+svc & 0/22M & & \\
-   exc &MP+dmb+svc-R-eret-svc-R & 0/22M & & \\
-   exc &MP+dmb+svc-R-svc-R & 0/22M & & \\
-   exc &MP+dmb+svc-R-svc-eret-R & 0/22M & & \\
-   exc &MP+dmb+svc2-R-eret-R & 0/22M & & \\
-   exc &MP+svc-W-eret-W+addr & 98/22M & 2.23/500K & $\pm$ 2.37/500K \\
-   exc &SB+W-svc-R+W-svc-R & 537/22M & 12.20/500K & $\pm$ 6.16/500K \\
-   exc &SB+svc-erets & 158/22M & 3.59/500K & $\pm$ 3.96/500K \\
-   pgtable &CoRT & 1.21M/22M & 27.47K/500K & $\pm$ 11.04K/500K \\
-   pgtable &CoRT+dsb-isb & 1.11M/22M & 25.28K/500K & $\pm$ 13.31K/500K \\
-   pgtable &CoTR & 4.96M/22M & 112.61K/500K & $\pm$ 20.42K/500K \\
-   pgtable &CoTR+addr & 0/22M & & \\
-   pgtable &CoTR+dmb & 3/22M & 0.07/500K & $\pm$ 0.25/500K \\
-   pgtable &CoTR+dsb & 3/22M & 0.07/500K & $\pm$ 0.25/500K \\
-   pgtable &CoTR+dsb-isb & 0/22M & & \\
-   pgtable &CoTR.inv & 17.27M/22M & 392.59K/500K & $\pm$ 84.36K/500K \\
-   pgtable &CoTR.inv+dsb-isb & 0/22M & & \\
-   pgtable &CoTR1+dsb-dc-dsb-tlbi-dsb-isb & 2/22M & 0.05/500K & $\pm$ 0.21/500K \\
-   pgtable &CoTR1+dsb-tlbi-dsb-isb & 1/22M & 0.02/500K & $\pm$ 0.15/500K \\
-   pgtable &CoTR1.tlbi+dsb-isb & 17/22M & 0.39/500K & $\pm$ 0.61/500K \\
-   pgtable &CoTT & 0/22M & & \\
-   pgtable &CoWT & 11.02M/22M & 250.50K/500K & $\pm$ 1.53K/500K \\
-   pgtable &CoWT+dsb & 10.99M/22M & 249.76K/500K & $\pm$ 385.82/500K \\
-   pgtable &CoWT+dsb-isb & 10.99M/22M & 249.77K/500K & $\pm$ 374.21/500K \\
-   pgtable &CoWT+dsb-svc-tlbi-dsb & 0/21.50M & & \\
-   pgtable &CoWT.inv & 11/21.50M & 0.26/500K & $\pm$ 0.49/500K \\
-   pgtable &CoWT.inv+dmb & 8/21.50M & 0.19/500K & $\pm$ 0.39/500K \\
-   pgtable &CoWT.inv+dsb & 11/21M & 0.26/500K & $\pm$ 0.62/500K \\
-   pgtable &CoWT.inv+dsb-isb & 0/21M & & \\
-   pgtable &CoWT1+dsb-tlbi-dsb & 0/21.50M & & \\
-   pgtable &CoWT1+dsb-tlbi-dsb-isb & 0/21.50M & & \\
-   pgtable &CoWinvT & 10.74M/20.50M & 261.98K/500K & $\pm$ 20.56K/500K \\
-   pgtable &CoWinvT+dsb-isb & 10.47M/20M & 261.77K/500K & $\pm$ 21.75K/500K \\
-   pgtable &CoWinvT1+dsb-tlbi-dsb & 0/20M & & \\
-   pgtable &CoWinvWT1+dsb-tlbi-dsb-dsb-isb & 0/20M & & \\
-   pgtable &ISA2.TRR+dmb+po+dmb & 0/20M & & \\
-   pgtable &MP.BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb & 1/20M & 0.03/500K & $\pm$ 0.16/500K \\
-   pgtable &MP.BBM1+dsb-tlbiis-dsb-dsb+dsb & 4/20M & 0.10/500K & $\pm$ 0.37/500K \\
-   pgtable &MP.BBM1+dsb-tlbiis-dsb-dsb+dsb-isb & 0/20M & & \\
-   pgtable &MP.BBM1+dsb-tlbiis-dsb-dsb-isb+dsb & 0/20M & & \\
-   pgtable &MP.BBM1+dsb-tlbiis-dsb-dsb-isb+dsb-isb & 1/20M & 0.03/500K & $\pm$ 0.16/500K \\
-   pgtable &MP.BBM1.id+dsb-tlbiis-dsb-dsb+dsb-isb & 40/19.50M & 1.03/500K & $\pm$ 0.16/500K \\
-   pgtable &MP.RT+svc-dsb-tlbi-dsb+dsb-isb & 1/19M & 0.03/500K & $\pm$ 0.16/500K \\
-   pgtable &MP.RT+svc-dsb-tlbiis-dsb+dsb-isb & 0/19M & & \\
-   pgtable &MP.RT.inv+dmb+addr & 0/19M & & \\
-   pgtable &MP.RT.inv+dmb+po & 0/19M & & \\
-   pgtable &MP.RT1+[dmb.ld]-dmb+dsb-isb & 1.16K/19M & 30.39/500K & $\pm$ 43.17/500K \\
-   pgtable &MP.RT1+[dmb.ld]-dsb-tlbiis-dsb-isb+dmb & 0/19M & & \\
-   pgtable &MP.RT1+dc-dsb-tlbiall-dsb+dsb-isb & 4/19M & 0.11/500K & $\pm$ 0.31/500K \\
-   pgtable &MP.RT1+dc-dsb-tlbiall-dsb-isb+dsb-isb & 0/19M & & \\
-   pgtable &MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb & 2/19M & 0.05/500K & $\pm$ 0.22/500K \\
-   pgtable &MP.RT1+dsb-tlbi-dsb+dsb-isb & 0/19M & & \\
-   pgtable &MP.RT1+dsb-tlbiall-dsb+dsb-isb & 3/19M & 0.08/500K & $\pm$ 0.27/500K \\
-   pgtable &MP.RT1+dsb-tlbiallis-dsb+dsb-isb & 0/19M & & \\
-   pgtable &MP.RT1+dsb-tlbiis-dsb+dsb-isb & 0/19M & & \\
-   pgtable &MP.RT1+dsb-tlbiis-dsb-isb+dmb & 1/19M & 0.03/500K & $\pm$ 0.16/500K \\
-   pgtable &MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb & 0/19M & & \\
-   pgtable &MP.RT1+dsb-tlbiis-dsb-tlbiis-dsb+dsb-isb & 1/19M & 0.03/500K & $\pm$ 0.16/500K \\
-   pgtable &MP.TT+Winv-dmb-Winv+tpo & 22.30K/19M & 586.84/500K & $\pm$ 786.40/500K \\
-   pgtable &MP.TT+dmb+dsb-isb & 208.50K/19M & 5.49K/500K & $\pm$ 8.27K/500K \\
-   pgtable &MP.TT+dmb+tpo & 178.59K/19M & 4.70K/500K & $\pm$ 5.06K/500K \\
-   pgtable &MP.TT.inv+dmb+dsb-isb & 0/19M & & \\
-   pgtable &MP.TT.inv+dmb+tpo & 0/19M & & \\
-   pgtable &MP.invRT+dsb+dsb-isb & 335.17K/18.50M & 9.06K/500K & $\pm$ 5.20K/500K \\
-   pgtable &MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb & 0/19M & & \\
-   pgtable &MP.invRT1+dsb-tlbiis-dsb+dsb & 1/19M & 0.03/500K & $\pm$ 0.16/500K \\
-   pgtable &MP.invRT1+dsb-tlbiis-dsb+dsb-isb & 0/19M & & \\
-   pgtable &WRC.AT+ctrl+dsb & 82.22K/18.50M & 2.22K/500K & $\pm$ 3.13K/500K \\
-   pgtable &WRC.TRR+addr+dmb & 0/18.50M & & \\
-   pgtable &WRC.TRR.inv+addrs & 0/18.50M & & \\
-   pgtable &WRC.TRT+addr+dmb & 30.30K/18.50M & 818.84/500K & $\pm$ 467.34/500K \\
-   pgtable &WRC.TRT+dmbs & 40.76K/18.50M & 1.10K/500K & $\pm$ 489.21/500K \\
-   pgtable &WRC.TRT+dsb-isbs & 43.33K/18.50M & 1.17K/500K & $\pm$ 529.56/500K \\
-   pgtable &WRC.TRT.inv+addrs & 0/17.50M & & \\
-   pgtable &WRC.TRT.inv+dsb-isbs & 0/17M & & \\
-   pgtable &WRC.TRT.inv+po+addr & 0/17M & & \\
-   pgtable &WRC.TRT.inv+po+dmb & 0/16.50M & & \\
-   pgtable &WRC.TRT1+dsb-tlbiis-dsb+dmb & 0/17.50M & & \\
-   pgtable &WRC.TRT1+dsb-tlbiis-dsb+dsb-isb & 0/17.50M & & \\
-   aliasing &CoWR.alias & 0/24.50M & & \\
-   aliasing &MP+dmb-data+dmb & 0/24.50M & & \\
-   aliasing &MP.alias+dmbs & 0/24.50M & & \\
-   aliasing &MP.alias2+dmb-data+dmb & 0/24.50M & & \\
-   aliasing &MP.alias2+dmbs & 0/8M & & \\
-   aliasing &MP.alias2+po-data+dmb & 285.42K/24.50M & 5.82K/500K & $\pm$ 1.87K/500K \\
-   aliasing &MP.alias3+rfi-data+dmb & 17.42K/8M & 1.09K/500K & $\pm$ 300.38/500K \\
-   aliasing &SB.alias+dmbs & 0/24M & & \\
-   aliasing &WRC.alias2+addrs & 0/7.50M & & \\
-   aliasing &WRC.alias2+dmbs & 0/7M & & \\
+   data &LB+pos & 0/40M & & \\
+   data &MP+dmbs & 0/39.50M & & \\
+   data &MP+po-data+dmb & 431.10K/36M & 5.99K/500K & $\pm$ 2.36K/500K \\
+   data &MP+pos & 4.12M/39.50M & 52.13K/500K & $\pm$ 8.85K/500K \\
+   data &MP+rfi-data+dmb & 284.40K/19.50M & 7.29K/500K & $\pm$ 2.70K/500K \\
+   data &SB+dmbs & 0/39.50M & & \\
+   data &SB+pos & 5.10M/39.50M & 64.53K/500K & $\pm$ 18.46K/500K \\
+   data &WRC+addrs & 0/39.50M & & \\
+   data &WRC+pos & 44.26K/39.50M & 560.25/500K & $\pm$ 508.94/500K \\
+   exc &LB+R-svc-W+R-svc-W & 0/33.50M & & \\
+   exc &MP+W-svc-W+addr & 2/33.50M & 0.03/500K & $\pm$ 0.17/500K \\
+   exc &MP+dmb+R-svc-eret-R & 0/33.50M & & \\
+   exc &MP+dmb+eret & 0/33.50M & & \\
+   exc &MP+dmb+svc & 0/33.50M & & \\
+   exc &MP+dmb+svc-R-eret-svc-R & 0/33.50M & & \\
+   exc &MP+dmb+svc-R-svc-R & 0/33M & & \\
+   exc &MP+dmb+svc-R-svc-eret-R & 0/33M & & \\
+   exc &MP+dmb+svc2-R-eret-R & 0/33M & & \\
+   exc &MP+svc-W-eret-W+addr & 121/33M & 1.83/500K & $\pm$ 2.11/500K \\
+   exc &SB+W-svc-R+W-svc-R & 723/33M & 10.95/500K & $\pm$ 5.83/500K \\
+   exc &SB+svc-erets & 238/33M & 3.61/500K & $\pm$ 3.91/500K \\
+   pgtable &CoRT & 1.88M/33M & 28.45K/500K & $\pm$ 10.72K/500K \\
+   pgtable &CoRT+dsb-isb & 3.07M/33M & 46.58K/500K & $\pm$ 41.70K/500K \\
+   pgtable &CoTR & 7.34M/32.50M & 112.98K/500K & $\pm$ 18.19K/500K \\
+   pgtable &CoTR+addr & 0/32.50M & & \\
+   pgtable &CoTR+dmb & 4/32.50M & 0.06/500K & $\pm$ 0.24/500K \\
+   pgtable &CoTR+dsb & 5/32.50M & 0.08/500K & $\pm$ 0.27/500K \\
+   pgtable &CoTR+dsb-isb & 1/32.50M & 0.02/500K & $\pm$ 0.12/500K \\
+   pgtable &CoTR.inv & 26.59M/32.50M & 409.09K/500K & $\pm$ 77.47K/500K \\
+   pgtable &CoTR.inv+dsb-isb & 0/32.50M & & \\
+   pgtable &CoTR1+dsb-dc-dsb-tlbi-dsb-isb & 4/32.50M & 0.06/500K & $\pm$ 0.24/500K \\
+   pgtable &CoTR1+dsb-tlbi-dsb-isb & 3/32.50M & 0.05/500K & $\pm$ 0.21/500K \\
+   pgtable &CoTR1.tlbi+dsb-isb & 29/32.50M & 0.45/500K & $\pm$ 0.63/500K \\
+   pgtable &CoTT & 0/32.50M & & \\
+   pgtable &CoWT & 16.30M/32.50M & 250.71K/500K & $\pm$ 1.74K/500K \\
+   pgtable &CoWT+dsb & 16.24M/32.50M & 249.83K/500K & $\pm$ 409.71/500K \\
+   pgtable &CoWT+dsb-isb & 16.24M/32.50M & 249.84K/500K & $\pm$ 397.95/500K \\
+   pgtable &CoWT+dsb-svc-tlbi-dsb & 0/32M & & \\
+   pgtable &CoWT.inv & 22/32M & 0.34/500K & $\pm$ 0.67/500K \\
+   pgtable &CoWT.inv+dmb & 15/32M & 0.23/500K & $\pm$ 0.49/500K \\
+   pgtable &CoWT.inv+dsb & 22/31.50M & 0.35/500K & $\pm$ 0.67/500K \\
+   pgtable &CoWT.inv+dsb-isb & 0/31.50M & & \\
+   pgtable &CoWT1+dsb-tlbi-dsb & 0/32M & & \\
+   pgtable &CoWT1+dsb-tlbi-dsb-isb & 0/32M & & \\
+   pgtable &CoWinvT & 16.32M/31.50M & 259.08K/500K & $\pm$ 17.15K/500K \\
+   pgtable &CoWinvT+dsb-isb & 16.31M/31.50M & 258.94K/500K & $\pm$ 17.86K/500K \\
+   pgtable &CoWinvT1+dsb-tlbi-dsb & 0/31.50M & & \\
+   pgtable &CoWinvWT1+dsb-tlbi-dsb-dsb-isb & 0/31.50M & & \\
+   pgtable &ISA2.TRR+dmb+po+dmb & 0/31.50M & & \\
+   pgtable &MP.BBM1+[dmb.ld]-dsb-tlbiis-dsb-isb-dsb-isb+dsb-isb & 0/495M & & \\
+   pgtable &MP.BBM1+[dmb.ld]-tlbiis-dsb-isb-dsb-isb+dsb-isb & 0/126.50M & & \\
+   pgtable &MP.BBM1+[po]-dsb-tlbiis-dsb-isb-dsb-isb+dsb-isb & 0/157M & & \\
+   pgtable &MP.BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb & 52/125M & 0.21/500K & $\pm$ 0.44/500K \\
+   pgtable &MP.BBM1+dsb-tlbiis-dsb-dsb+dsb & 7/32M & 0.11/500K & $\pm$ 0.36/500K \\
+   pgtable &MP.BBM1+dsb-tlbiis-dsb-dsb+dsb-isb & 2/32M & 0.03/500K & $\pm$ 0.17/500K \\
+   pgtable &MP.BBM1+dsb-tlbiis-dsb-dsb-isb+dsb & 0/32M & & \\
+   pgtable &MP.BBM1+dsb-tlbiis-dsb-dsb-isb+dsb-isb & 3/32M & 0.05/500K & $\pm$ 0.28/500K \\
+   pgtable &MP.BBM1+po-dsb-tlbiis-dsb-isb-dsb-isb+dsb-isb & 9/181M & 0.02/500K & $\pm$ 0.16/500K \\
+   pgtable &MP.BBM1.id+dsb-tlbiis-dsb-dsb+dsb-isb & 66/32M & 1.03/500K & $\pm$ 0.17/500K \\
+   pgtable &MP.RT+svc-dsb-tlbi-dsb+dsb-isb & 3/31.50M & 0.05/500K & $\pm$ 0.21/500K \\
+   pgtable &MP.RT+svc-dsb-tlbiis-dsb+dsb-isb & 3/31.50M & 0.05/500K & $\pm$ 0.21/500K \\
+   pgtable &MP.RT.inv+dmb+addr & 0/31.50M & & \\
+   pgtable &MP.RT.inv+dmb+po & 0/31.50M & & \\
+   pgtable &MP.RT1+[dmb.ld]-dmb+dsb-isb & 1.26K/31.50M & 19.98/500K & $\pm$ 35.96/500K \\
+   pgtable &MP.RT1+[dmb.ld]-dsb-isb-tlbiis-dsb-isb+dmb & 0/12.50M & & \\
+   pgtable &MP.RT1+[dmb.ld]-dsb-isb-tlbiis-dsb-isb+dsb-isb & 0/12.50M & & \\
+   pgtable &MP.RT1+[dmb.ld]-dsb-tlbiis-dsb-isb+dmb & 0/31.50M & & \\
+   pgtable &MP.RT1+dc-dsb-tlbiall-dsb+dsb-isb & 5/31.50M & 0.08/500K & $\pm$ 0.27/500K \\
+   pgtable &MP.RT1+dc-dsb-tlbiall-dsb-isb+dsb-isb & 2/31.50M & 0.03/500K & $\pm$ 0.18/500K \\
+   pgtable &MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb & 4/31M & 0.06/500K & $\pm$ 0.25/500K \\
+   pgtable &MP.RT1+dsb-tlbi-dsb+dsb-isb & 2/31M & 0.03/500K & $\pm$ 0.18/500K \\
+   pgtable &MP.RT1+dsb-tlbiall-dsb+dsb-isb & 6/31M & 0.10/500K & $\pm$ 0.30/500K \\
+   pgtable &MP.RT1+dsb-tlbiallis-dsb+dsb-isb & 2/31M & 0.03/500K & $\pm$ 0.18/500K \\
+   pgtable &MP.RT1+dsb-tlbiis-dsb+dsb-isb & 1/31M & 0.02/500K & $\pm$ 0.13/500K \\
+   pgtable &MP.RT1+dsb-tlbiis-dsb-isb+dmb & 1/31M & 0.02/500K & $\pm$ 0.13/500K \\
+   pgtable &MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb & 1/31M & 0.02/500K & $\pm$ 0.13/500K \\
+   pgtable &MP.RT1+dsb-tlbiis-dsb-tlbiis-dsb+dsb-isb & 3/31M & 0.05/500K & $\pm$ 0.21/500K \\
+   pgtable &MP.TT+Winv-dmb-Winv+tpo & 67.38K/31M & 1.09K/500K & $\pm$ 926.88/500K \\
+   pgtable &MP.TT+dmb+dsb-isb & 398.74K/31M & 6.43K/500K & $\pm$ 7.43K/500K \\
+   pgtable &MP.TT+dmb+tpo & 386.32K/31M & 6.23K/500K & $\pm$ 5.93K/500K \\
+   pgtable &MP.TT.inv+dmb+dsb-isb & 0/31M & & \\
+   pgtable &MP.TT.inv+dmb+tpo & 0/31M & & \\
+   pgtable &MP.invRT+dsb+dsb-isb & 705.96K/30.50M & 11.57K/500K & $\pm$ 5.91K/500K \\
+   pgtable &MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb & 1/31M & 0.02/500K & $\pm$ 0.13/500K \\
+   pgtable &MP.invRT1+dsb-tlbiis-dsb+dsb & 2/31M & 0.03/500K & $\pm$ 0.18/500K \\
+   pgtable &MP.invRT1+dsb-tlbiis-dsb+dsb-isb & 1/31M & 0.02/500K & $\pm$ 0.13/500K \\
+   pgtable &WRC.AT+ctrl+dsb & 183.32K/30.50M & 3.01K/500K & $\pm$ 3.13K/500K \\
+   pgtable &WRC.TRR+addr+dmb & 0/30.50M & & \\
+   pgtable &WRC.TRR.inv+addrs & 0/30.50M & & \\
+   pgtable &WRC.TRT+addr+dmb & 57.00K/30.50M & 934.38/500K & $\pm$ 416.32/500K \\
+   pgtable &WRC.TRT+dmbs & 74.68K/30.50M & 1.22K/500K & $\pm$ 444.60/500K \\
+   pgtable &WRC.TRT+dsb-isbs & 72.31K/30.50M & 1.19K/500K & $\pm$ 435.00/500K \\
+   pgtable &WRC.TRT.inv+addrs & 0/29.50M & & \\
+   pgtable &WRC.TRT.inv+dsb-isbs & 0/29M & & \\
+   pgtable &WRC.TRT.inv+po+addr & 0/28.50M & & \\
+   pgtable &WRC.TRT.inv+po+dmb & 0/28M & & \\
+   pgtable &WRC.TRT1+dsb-tlbiis-dsb+dmb & 0/29M & & \\
+   pgtable &WRC.TRT1+dsb-tlbiis-dsb+dsb-isb & 0/29M & & \\
+   aliasing &CoWR.alias & 0/36M & & \\
+   aliasing &MP+dmb-data+dmb & 0/36M & & \\
+   aliasing &MP.alias+dmbs & 0/36M & & \\
+   aliasing &MP.alias2+dmb-data+dmb & 0/36M & & \\
+   aliasing &MP.alias2+dmbs & 0/19.50M & & \\
+   aliasing &MP.alias2+po-data+dmb & 407.36K/36M & 5.66K/500K & $\pm$ 1.83K/500K \\
+   aliasing &MP.alias3+rfi-data+dmb & 36.35K/19.50M & 932.18/500K & $\pm$ 337.68/500K \\
+   aliasing &SB.alias+dmbs & 0/35.50M & & \\
+   aliasing &WRC.alias2+addrs & 0/19M & & \\
+   aliasing &WRC.alias2+dmbs & 0/18.50M & & \\
 \hline
 \end{tabular}
