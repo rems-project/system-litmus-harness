@@ -8,10 +8,10 @@ exclude_args = $(subst $(space),$(comma),$(EXCLUDES))
 TABULAR_ARGS = -d rpi4b/ -d qemu/ -d rpi3bp/ -d graviton2/ $(if $(INCLUDES),--includes=$(include_args)) $(if $(EXCLUDES),--excludes=$(exclude_args))
 
 .PHONY: all
-all:  fetchrpi tabular top.pdf install clean
+all: tabular top.pdf install clean
 
-.PHONY: fetchrpi
-fetchrpi:
+.PHONY: fetch
+fetch:
 	scp 'rpi4:overnights/*.log' rpi4b/
 	scp 'rpi3:overnights/*.log' rpi3bp/
 	scp 'aws:*.log' graviton2/
