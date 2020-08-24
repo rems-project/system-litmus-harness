@@ -38,6 +38,9 @@ def read_all_errata():
         date = parse_date(item["date"])
         tests = [it["test"] for it in item["errata"]]
         for test_list in tests:
+            if not test_list:
+                continue
+
             for test in test_list.split():
                 errata[date].add(test)
 
