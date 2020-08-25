@@ -8,7 +8,6 @@ extern litmus_test_group grp_all;
 uint8_t dry_run = 0;
 
 int main(int argc, char** argv) {
-  uint64_t* va = (uint64_t* )0x467F6000;
   if (ONLY_SHOW_MATCHES) {
     for (int i = 0; i < collected_tests_count; i++) {
       re_t* re = re_compile(collected_tests[i]);
