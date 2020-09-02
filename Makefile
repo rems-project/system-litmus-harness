@@ -165,6 +165,7 @@ INC_DIRS = inc inc/litmus inc/vmm inc/re
 LIB_DIRS = lib lib/arch lib/arch/vmm lib/valloc lib/re lib/drivers/qemu lib/litmus_test lib/litmus_test/concretization
 OTHER_INCLUDES =  # set for unittests
 CFLAGS = -O0 -nostdlib \
+		-g -gdwarf-4 \
 		$(foreach DIR,$(INC_DIRS),-I $(DIR)) \
 		$(foreach DIR,$(OTHER_INCLUDES),-I $(DIR)) \
 		-ffreestanding -fomit-frame-pointer -fno-pie -fno-pic \
@@ -172,6 +173,7 @@ CFLAGS = -O0 -nostdlib \
 		-DCOMMITHASH="\"$(shell git rev-parse --short HEAD -n1)\""
 
 LDFLAGS = -nostdlib -n -pie
+OBJDUMPFLAGS = -g -l -r
 SSHFLAGS =
 
 ifeq ($(findstring clean,$(MAKECMDGOALS)),clean)
@@ -186,15 +188,6 @@ endif
 ifeq ($(strip $(TEST_DISCOVER)),1)
    ifndef LITMUS_FILES
    ifndef LITMUS_TARGET_CLEAN
-      outcp := $(shell [ -f litmus/groups.c ] || (echo FAIL; cp litmus/backup/* litmus/))
-
-      ifeq ($(outcp),FAIL)
-        $(warning \
-			No groups.c file detected. \
-		 	Creating fresh ... \
-		)
-      endif
-
       # if fail, ignore
       out := $(shell ($(MAKE_TEST_LIST_CMD) $(quiet) $(LITMUS_TESTS) 2>/dev/null) || echo "FAIL")
 
@@ -203,6 +196,15 @@ ifeq ($(strip $(TEST_DISCOVER)),1)
 			Generation of litmus/groups.c failed. \
 		 	Expecting user management of groups.c file. \
 		)
+
+        outcp := $(shell [ -f litmus/groups.c ] || (echo FAIL; cp litmus/backup/* litmus/))
+
+        ifeq ($(outcp),FAIL)
+            $(warning \
+				No groups.c file detected. \
+		 		Creating fresh ... \
+			)
+        endif
       endif
    endif
    endif
@@ -355,14 +357,13 @@ bin/litmus.elf: $(COMMON_BIN_FILES) $(litmus_BIN_FILES)
 	$(call run_cmd,LD,$@,\
 		$(LD) $(LDFLAGS) -o $@ -T bin.lds $(COMMON_BIN_FILES) $(litmus_BIN_FILES))
 	$(call run_cmd,OBJDUMP,$@.S,\
-		$(OBJDUMP) -D -r $@ > $@.S)
-
+		$(OBJDUMP) $(OBJDUMPFLAGS) -D $@ > $@.S)
 
 bin/unittests.elf: $(COMMON_BIN_FILES) $(unittests_BIN_FILES)
 	$(call run_cmd,LD,$@,\
 		$(LD) $(LDFLAGS) -o $@ -T bin.lds $(COMMON_BIN_FILES) $(unittests_BIN_FILES))
 	$(call run_cmd,OBJDUMP,$@.S,\
-		$(OBJDUMP) -D -r $@ > $@.S)
+		$(OBJDUMP) $(OBJDUMPFLAGS) -D $@ > $@.S)
 
 bin/litmus.bin: bin/litmus.elf
 	$(call run_cmd,OBJCOPY,$@,\
@@ -415,7 +416,7 @@ debug: bin/debug_litmus.exe
 
 unittests: OUT_NAME=bin/unittests.bin
 unittests: bin/qemu_unittests.exe
-	./bin/qemu_unittests.exe
+	./bin/qemu_unittests.exe $(BIN_ARGS)
 
 ssh: bin/kvm_litmus.exe
 	scp bin/kvm_litmus.exe $(SSH_NAME):litmus.exe
