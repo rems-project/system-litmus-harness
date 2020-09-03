@@ -124,3 +124,33 @@ void test_concretization_separate_roots(void) {
     ASSERT(PAGE(VAR(&ctx, r, "x")) != PAGE(VAR(&ctx, r, "y")), "x and y were same page");
   }
 }
+
+
+
+UNIT_TEST(test_concretization_aliased)
+void test_concretization_aliased(void) {
+  litmus_test_t test = {
+    "test",
+    0,NULL,
+    2,(const char*[]){"x","y"},
+    0,NULL,
+    INIT_STATE(
+      2,
+      INIT_REGION_OWN(x, REGION_OWN_PAGE),
+      INIT_ALIAS(y, x),
+    )
+  };
+
+  test_ctx_t ctx;
+
+  init_test_ctx(&ctx, &test, SIZE_OF_TEST);
+  regions_t* region = alloc(sizeof(regions_t));
+  ctx.heap_memory = region;
+  concretize_linear_all(&ctx, ctx.cfg, ctx.no_runs);
+
+  for (int r = 0; r < ctx.no_runs; r++) {
+    /* aliased things cannot be in the same page */
+    ASSERT(PAGE(VAR(&ctx, r, "x")) != PAGE(VAR(&ctx, r, "y")), "x in same page as y");
+    ASSERT(PAGEOFF(VAR(&ctx, r, "x")) == PAGEOFF(VAR(&ctx, r, "y")), "x and y not same offset in pages");
+  }
+}
