@@ -6,7 +6,7 @@ int valloc_freelist_hash(valloc_free_chunk* freelist) {
 
   while (freelist) {
     hash ^= (uint64_t)freelist + ((freelist->size) << 12);
-    hash = (hash >> 1) | ((hash & 1) << 64);
+    hash = (hash >> 1) | ((hash & 1) << 63);
     freelist = freelist->next;
   }
 
