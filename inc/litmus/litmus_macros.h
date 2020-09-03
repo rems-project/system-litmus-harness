@@ -93,4 +93,10 @@
 #define PUD(va) (((uint64_t)(va) >> 30) & BITMASK(48-30))
 #define PGD(va) (((uint64_t)(va) >> 39) & BITMASK(48-39))
 
+#define PAGEOFF(va) ((uint64_t)(va) & BITMASK(12))
+#define PMDOFF(va) ((uint64_t)(va) & BITMASK(21))
+#define PUDOFF(va) ((uint64_t)(va) & BITMASK(30))
+#define PGDOFF(va) ((uint64_t)(va) & BITMASK(39))
+
+
 #endif /* LITMUS_MACROS_H */
