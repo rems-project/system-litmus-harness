@@ -2,6 +2,8 @@
 
 #include "testlib.h"
 
+#include "drivers/qemu/qemu.h"
+
 UNIT_TEST(test_vmm_qemu_uart)
 void test_vmm_qemu_uart(void) {
   uint64_t* pgtable = vmm_alloc_new_idmap_4k();

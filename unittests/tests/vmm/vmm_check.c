@@ -3,6 +3,8 @@
 #include "lib.h"
 #include "testlib.h"
 
+#include "drivers/qemu/qemu.h"
+
 /** hand-written translation function for 4k pages
  */
 uint64_t translate4k(uint64_t* root, uint64_t vaddr) {

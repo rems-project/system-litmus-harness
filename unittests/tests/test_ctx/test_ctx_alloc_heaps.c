@@ -22,22 +22,3 @@ static int overlaps_page(uint64_t* var, uint64_t* other, uint64_t no_runs) {
 
   return ((other_start_pg <= var_pg) && (var_pg <= other_end_pg));
 }
-
-UNIT_TEST(test_init_test_ctx_non_overlap_heap)
-void test_init_test_ctx_non_overlap_heap(void) {
-  test_ctx_t ctx;
-
-  init_test_ctx(&ctx, &big_test, 50000UL);
-
-  uint64_t* xs = ctx.heap_vars[0];
-  uint64_t* ys = ctx.heap_vars[1];
-  uint64_t* zs = ctx.heap_vars[2];
-
-  for (uint64_t i = 0; i < ctx.no_runs; i += 4096UL) {
-    ASSERT(! overlaps_page(&xs[i], ys, ctx.no_runs), "X overlaps with Y");
-    ASSERT(! overlaps_page(&xs[i], zs, ctx.no_runs), "X overlaps with Z");
-    ASSERT(! overlaps_page(&ys[i], zs, ctx.no_runs), "Y overlaps with Z");
-  }
-
-  free_test_ctx(&ctx);
-}
