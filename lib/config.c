@@ -73,6 +73,19 @@ char* concretize_type_to_str(concretize_type_t ty) {
   }
 }
 
+char* runner_type_to_str(litmus_runner_type_t ty) {
+  switch (ty) {
+    case RUNNER_ARRAY:
+      return "array";
+    case RUNNER_SEMI_ARRAY:
+      return "semi";
+    case RUNNER_EPHEMERAL:
+      return "ephemeral";
+    default:
+      return "unknown";
+  }
+}
+
 static void help(char* opt) {
   if (opt == NULL || *opt == '\0')
     display_help_and_quit(&ARGS);

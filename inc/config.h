@@ -63,6 +63,7 @@ char* sync_type_to_str(sync_type_t ty);
 char* aff_type_to_str(aff_type_t ty);
 char* shuff_type_to_str(shuffle_type_t ty);
 char* concretize_type_to_str(concretize_type_t ty);
+char* runner_type_to_str(litmus_runner_type_t ty);
 
 /* helper functions for displaying help */
 void display_help_and_quit(argdef_t* args);
