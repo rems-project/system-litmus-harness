@@ -1,1 +1,1 @@
--@amo @all
+@all -@amo
