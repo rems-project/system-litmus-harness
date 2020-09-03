@@ -206,10 +206,11 @@ ifeq ($(strip $(TEST_DISCOVER)),1)
 			)
         endif
       endif
+
+   	  litmus_test_list = $(shell awk '$$1==1 {print $$2}' litmus/test_list.txt)
+   	  LITMUS_TEST_FILES ?= $(litmus_test_list)
    endif
    endif
-   litmus_test_list = $(shell awk '$$1==1 {print $$2}' litmus/test_list.txt)
-   LITMUS_TEST_FILES ?= $(litmus_test_list)
 else
    LITMUS_TEST_FILES ?= $(wildcard litmus/litmus_tests/**/*.c)
 endif
