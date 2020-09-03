@@ -40,7 +40,7 @@ void set_init_var(test_ctx_t* ctx, var_info_t* infos, uint64_t varidx, uint64_t 
 
     /* do not copy attrs of otherpte */
     desc_t desc = read_desc(*pte, 3);
-    desc.oa = PAGE(otherva);
+    desc.oa = PAGE(otherva) << PAGE_SHIFT;
     *pte = write_desc(desc);
   }
 }
