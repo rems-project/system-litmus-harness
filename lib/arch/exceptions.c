@@ -34,9 +34,33 @@ static const char* ec_names[0x26] = {
   [0x25] = "EC_DABT_EL1",
 };
 
+static const char* dabt_iss_dfsc[0x40] = {
+  [0b000000] = "DABT_DFSC_ADDR_L0",
+  [0b000001] = "DABT_DFSC_ADDR_L1",
+  [0b000010] = "DABT_DFSC_ADDR_L2",
+  [0b000011] = "DABT_DFSC_ADDR_L3",
+  [0b000100] = "DABT_DFSC_TRANS_L0",
+  [0b000101] = "DABT_DFSC_TRANS_L1",
+  [0b000110] = "DABT_DFSC_TRANS_L2",
+  [0b000111] = "DABT_DFSC_TRANS_L3",
+  [0b001001] = "DABT_DFSC_ACCFLAG_L1",
+  [0b001010] = "DABT_DFSC_ACCFLAG_L2",
+  [0b001011] = "DABT_DFSC_ACCFLAG_L3",
+  [0b001101] = "DABT_DFSC_PERM_L1",
+  [0b001110] = "DABT_DFSC_PERM_L2",
+  [0b001111] = "DABT_DFSC_PERM_L3",
+  [0b010000] = "DABT_DFSC_SYNC_EXTERNAL_UNKNOWN",
+  [0b010100] = "DABT_DFSC_SYNC_EXTERNAL_L0",
+  [0b010101] = "DABT_DFSC_SYNC_EXTERNAL_L1",
+  [0b010110] = "DABT_DFSC_SYNC_EXTERNAL_L2",
+  [0b010111] = "DABT_DFSC_SYNC_EXTERNAL_L3",
+  [0b100001] = "DABT_DFSC_ALIGN",
+  [0b110000] = "DABT_DFSC_TLB",
+};
 
 void* default_handler(uint64_t vec, uint64_t esr) {
   uint64_t ec = esr >> 26;
+  uint64_t iss = esr & BITMASK(26);
   uint64_t cpu = get_cpu();
   lock(&_EXC_PRINT_LOCK);
 
@@ -47,8 +71,13 @@ void* default_handler(uint64_t vec, uint64_t esr) {
   printf("  [ESR_EL1: 0x%lx]\n", esr);
   printf("  [FAR_EL1: 0x%lx]\n", read_sysreg(far_el1));
   printf("  [ELR_EL1: 0x%lx]\n", read_sysreg(elr_el1));
+  if (ec == 0x24) {
+    printf("  [DATA ABORT ISS]\n");
+    printf("  [  FnV] %d\n", (iss >> 10) & 1);
+    printf("  [  WnR] %d\n", (iss >> 6) & 1);
+    printf("  [  DFSC] %s\n", dabt_iss_dfsc[iss & BITMASK(6)]);
+  }
   printf("  \n");
-
   unlock(&_EXC_PRINT_LOCK);
   abort();
 
