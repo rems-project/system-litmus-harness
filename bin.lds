@@ -3,17 +3,17 @@
  */
 SECTIONS
 {
+    PROVIDE(__ld_begin_text = .);
     .text : {
-        PROVIDE(__ld_begin_text = .);
         *(.init) *(.text) *(.text.*) *(.exc_table)
-        PROVIDE(__ld_end_text = .);
     }
+    PROVIDE(__ld_end_text = .);
 
+    PROVIDE(__ld_begin_reloc = .);
     .rela.dyn : {
-        PROVIDE(__ld_begin_reloc = .);
         *(.rela.dyn)
-        PROVIDE(__ld_end_reloc = .);
     }
+    PROVIDE(__ld_end_reloc = .);
 
     PROVIDE(__ld_start_ro = .);
     .dynsym   : { *(.dynsym) }

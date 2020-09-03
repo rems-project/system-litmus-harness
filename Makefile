@@ -172,7 +172,7 @@ CFLAGS = -O0 -nostdlib \
 		-Wall $(addprefix -Wno-,$(CCNOWARN)) $(addprefix -Werror=,$(CCERRORS)) \
 		-DCOMMITHASH="\"$(shell git rev-parse --short HEAD -n1)\""
 
-LDFLAGS = -nostdlib -n -pie
+LDFLAGS = -nostdlib -n -static -pie
 OBJDUMPFLAGS = -g -l -r
 SSHFLAGS =
 
@@ -358,6 +358,10 @@ bin/litmus.elf: $(COMMON_BIN_FILES) $(litmus_BIN_FILES)
 		$(LD) $(LDFLAGS) -o $@ -T bin.lds $(COMMON_BIN_FILES) $(litmus_BIN_FILES))
 	$(call run_cmd,OBJDUMP,$@.S,\
 		$(OBJDUMP) $(OBJDUMPFLAGS) -D $@ > $@.S)
+	$(call run_cmd,CP,$@.debug,\
+		cp $@ $@.debug)
+	$(call run_cmd,STRIP,$@,\
+		$(OBJCOPY) -g $@)
 
 bin/unittests.elf: $(COMMON_BIN_FILES) $(unittests_BIN_FILES)
 	$(call run_cmd,LD,$@,\

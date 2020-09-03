@@ -18,9 +18,14 @@ _start:
 	add     x9, x9, :lo12:_start
 
 	/*
-	 * Update all R_AARCH64_RELATIVE relocations using the table
-	 * of Elf64_Rela entries between reloc_start/end. The build
-	 * will not emit other relocation types.
+	 * Since QEMU virt-machine will load the ELF at address 0x40080000  (or wherever...)
+	 * some of the static-storage-duration objects will be re-located by the loader
+	 * but their references will not.
+	 *
+	 * the .rela.dyn section of the ELF will contain the R_AARCH64_RELATIVE relocations
+	 * for those references to static-storage-duration objects.
+	 *
+	 * there should not be any other relocation types except Elf64_Rela:
 	 *
 	 * struct Elf64_Rela {
 	 * 	uint64_t r_offset;
@@ -28,12 +33,16 @@ _start:
 	 * 	int64_t  r_addend;
 	 * }
 	 *
+	 * The value at location r_offset stores a reference to the location r_addend
+	 * relative from the base of the ELF.  The code below just adds the base to
+	 * all of those references.
+	 *
 	 * See https://docs.oracle.com/cd/E19683-01/816-1386/chapter6-54839/index.html
 	 */
-	adrp	x10, reloc_start
-	add     x10, x10, :lo12:reloc_start
-	adrp	x11, reloc_end
-	add     x11, x11, :lo12:reloc_end
+	adrp	x10, __ld_begin_reloc
+	add     x10, x10, :lo12:__ld_begin_reloc
+	adrp	x11, __ld_end_reloc
+	add     x11, x11, :lo12:__ld_end_reloc
 1:
 	sub x12, x11, x10
 	cbz x12, 1f
@@ -43,7 +52,6 @@ _start:
 	str x13, [x9, x12]  // Mem[base + r_offset] <- base + r_addend
 	add x10, x10, #24
 	b 1b
-
 
 1:
 	/* setup CPU0 */
