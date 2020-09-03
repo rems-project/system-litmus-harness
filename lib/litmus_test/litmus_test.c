@@ -234,8 +234,9 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
 
     end_of_run(ctx, cpu, vcpu, i, j);
 
-    if (ENABLE_PGTABLE)
+    if (ENABLE_PGTABLE && LITMUS_RUNNER_TYPE != RUNNER_ARRAY) {
       _check_ptes(ctx, ctx->cfg->no_heap_vars, heaps, pte_descs, saved_pte_descs);
+    }
 
     if (LITMUS_SYNC_TYPE == SYNC_ASID)
       vmm_switch_asid(0);
