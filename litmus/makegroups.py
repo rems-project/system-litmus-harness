@@ -105,9 +105,7 @@ class TestGroups:
                     header = f.read()
                     self.includes = set(header.split())
             except FileNotFoundError:
-                self.includes = {"@all"}
-                if not quiet:
-                    sys.stderr.write("   (COLLECT) defaulting to @all\n")
+                sys.exit(1)
 
         try:
             o = open(self.root / 'test_list.txt', 'r')
