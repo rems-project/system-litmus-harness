@@ -80,6 +80,6 @@ def filter_erratas(errata, dir):
 cwd = pathlib.Path(".")
 
 errata = read_all_errata()
-filter_erratas(errata, cwd / "rpi4b")
-filter_erratas(errata, cwd / "rpi3bp")
-filter_erratas(errata, cwd / "graviton2")
+filter_erratas(errata, cwd / "raw" / "rpi4b")
+filter_erratas(errata, cwd / "raw" / "rpi3bp")
+filter_erratas(errata, cwd / "raw" / "graviton2")

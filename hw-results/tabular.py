@@ -157,9 +157,9 @@ if __name__ == "__main__":
     devices = {}
     if args.device:
         for device_dir in args.device:
-            device_dir_path = root / device_dir
+            device_dir_path = root / "raw" / device_dir
             if not device_dir_path.is_dir():
-                raise ValueError("-d accepts directories not files")
+                raise ValueError("-d accepts directories not files: {}".format(device_dir_path))
 
             logs = collect_logs(device_dir_path)
             devices[device_dir_path.stem] = collect_all(logs)

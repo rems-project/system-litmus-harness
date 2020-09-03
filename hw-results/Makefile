@@ -12,10 +12,21 @@ all: tabular top.pdf install clean
 
 .PHONY: fetch
 fetch:
-	scp 'rpi4:overnights/*.log' rpi4b/
-	scp 'rpi3:overnights/*.log' rpi3bp/
-	scp 'aws:*.log' graviton2/
+	mkdir -p raw/qemu/
+	mkdir -p raw/rpi4b/
+	mkdir -p raw/rpi3bp/
+	mkdir -p raw/graviton2/
+
+	scp 'rpi4:overnights/*.log' raw/rpi4b/
+	scp 'rpi3:overnights/*.log' raw/rpi3bp/
+	scp 'aws:*.log' raw/graviton2/
+
 	python3 filter_erratas.py || echo failed to filter errata
+
+	tar -vczf raw/qemu.tar.gz raw/qemu/
+	tar -vczf raw/rpi3bp.tar.gz raw/rpi3bp/
+	tar -vczf raw/rpi4b.tar.gz raw/rpi4b/
+	tar -vczf raw/graviton2.tar.gz raw/graviton2/
 
 .PHONY: tabular
 tabular:
