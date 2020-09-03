@@ -114,7 +114,7 @@ static int __valloc_freelist_compact_chunk_possibility(valloc_free_chunk* chunk1
     valloc_freelist_remove_chunk(chunk2);
     __compact_together(chunk1);
     return 1;
-  } else if (! valloc_is_region_allocated(chunk1_end, chunk2_start)) {
+  } else if (! valloc_is_region_allocated(&mem, chunk1_end, chunk2_start)) {
     /* or the entire space between is also free */
     chunk1->size += (chunk2_start - chunk1_end) + chunk2->size;
     valloc_freelist_remove_chunk(chunk2);
@@ -168,7 +168,7 @@ static void __shift_top(void) {
 
     uint64_t chunk_start = valloc_freelist_start_of_chunk(next);
     uint64_t chunk_end = chunk_start + next->size;
-    if (valloc_is_region_allocated(mem.top, chunk_start)) {
+    if (valloc_is_region_allocated(&mem, mem.top, chunk_start)) {
       break;
     } else {
       mem.top = chunk_end;

@@ -14,8 +14,6 @@ void test_valloc_free_reuse(void) {
 
 UNIT_TEST(test_valloc_freelist)
 void test_valloc_freelist(void) {
-  valloc_mempool pool = mem;
-
   char* p = alloc(64);
   char* q = alloc(64);
   free(p);
@@ -23,6 +21,11 @@ void test_valloc_freelist(void) {
 
   ASSERT(mem.freelist != NULL, "free still NULL");
   ASSERT(mem.freelist->size >= 64, "free size too small");
+
+  /* use q to suppress warnings
+   * this free is not strictly necessary as the tester should cleanup
+   */
+  free(q);
 }
 
 UNIT_TEST(test_valloc_free_compact_reuse)

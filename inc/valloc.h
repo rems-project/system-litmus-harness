@@ -23,22 +23,6 @@ typedef struct __alloc {
  * with a fixed maximum number of allocations
  */
 #define NUM_ALLOC_CHUNKS 1024
-extern valloc_alloc_chunk chunks[NUM_ALLOC_CHUNKS];
-extern valloc_alloc_chunk* chunk_unalloc_list;
-extern valloc_alloc_chunk* chunk_alloc_list;
-
-valloc_alloc_chunk* valloc_alloclist_find_alloc_chunk(uint64_t addr);
-void valloc_alloclist_dealloc(uint64_t addr);
-valloc_alloc_chunk* valloc_alloclist_alloc(uint64_t addr, uint64_t size);
-uint8_t valloc_is_region_allocated(uint64_t start, uint64_t end);
-
-/** free'd memory is stored as a linked list in a dedicated free list
- */
-valloc_free_chunk* valloc_freelist_find_best(uint64_t size, uint64_t alignment);
-valloc_free_chunk* valloc_freelist_split_alignment(valloc_free_chunk* chunk, uint64_t size, uint64_t alignment);
-void valloc_freelist_allocate_free_chunk(uint64_t addr, uint64_t size);
-void valloc_freelist_remove_chunk(valloc_free_chunk* chunk);
-void valloc_freelist_compact_chunk(valloc_free_chunk* chunk);
 
 /** the memory itself is just a moving bar that
  * goes from the top of memory down towards the top
@@ -47,10 +31,26 @@ void valloc_freelist_compact_chunk(valloc_free_chunk* chunk);
 typedef struct {
     uint64_t top;
     valloc_free_chunk* freelist;
+    valloc_alloc_chunk chunks[NUM_ALLOC_CHUNKS];
+    valloc_alloc_chunk* chunk_unalloc_list;
+    valloc_alloc_chunk* chunk_alloc_list;
 } valloc_mempool;
 
 /* global memory pool to allocate from */
-volatile valloc_mempool mem;
+extern valloc_mempool mem;
+
+valloc_alloc_chunk* valloc_alloclist_find_alloc_chunk(valloc_mempool* pool, uint64_t addr);
+void valloc_alloclist_dealloc(valloc_mempool* pool, uint64_t addr);
+valloc_alloc_chunk* valloc_alloclist_alloc(valloc_mempool* pool, uint64_t addr, uint64_t size);
+uint8_t valloc_is_region_allocated(valloc_mempool* pool, uint64_t start, uint64_t end);
+
+/** free'd memory is stored as a linked list in a dedicated free list
+ */
+valloc_free_chunk* valloc_freelist_find_best(uint64_t size, uint64_t alignment);
+valloc_free_chunk* valloc_freelist_split_alignment(valloc_free_chunk* chunk, uint64_t size, uint64_t alignment);
+void valloc_freelist_allocate_free_chunk(uint64_t addr, uint64_t size);
+void valloc_freelist_remove_chunk(valloc_free_chunk* chunk);
+void valloc_freelist_compact_chunk(valloc_free_chunk* chunk);
 
 void init_valloc(void);
 
