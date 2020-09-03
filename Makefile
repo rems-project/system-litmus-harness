@@ -438,8 +438,8 @@ endif
 
 .PHONY: cleanlibs
 cleanlibs:
-	rm -rf bin/*.o
-	rm -rf bin/litmus.*
+	rm -f bin/*.o
+	rm -f bin/litmus.*
 	rm -rf bin/lib/
 	@echo 'run `make clean` to remove compiled tests too'
 
