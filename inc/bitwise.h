@@ -7,7 +7,7 @@
 #define MAX(a, b) ((a) < (b) ? (b) : (a))
 
 /* masks */
-#define BITMASK(n) (((uint64_t)(1) << n) - 1)
+#define BITMASK(n) (((uint64_t)(1) << (n)) - 1)
 
 /* bitwise operations */
 #define BIT(x, i) (((x) >> (i)) & 0x1)
