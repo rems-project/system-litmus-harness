@@ -4,6 +4,23 @@
 
 void init_device(void* fdt);
 
+extern uint64_t __cache_line_size;  /* cache line of minimum size */
+extern uint64_t __cache_line_shift;  /* cache line of minimum size */
+#define CACHE_LINE_SIZE __cache_line_size
+#define CACHE_LINE_SHIFT __cache_line_shift
+#define PAGE_SIZE 4096
+#define PAGE_SHIFT 12
+#define PMD_SIZE 2*1024*1024
+#define PMD_SHIFT 22
+#define PUD_SIZE 1024*1024*1024
+#define PUD_SHIFT 31
+
+extern uint8_t __dc_zero_allow;  /* DC ZVA allow ? */
+extern uint64_t __dc_zero_block_width;  /* size of DC ZVA block */
+
+#define DCZVA_ALLOW __dc_zero_allow
+#define DCZVA_BLOCK_WIDTH __dc_zero_block_width
+
 /** PSCI Mandatory Functions
  * While these are defined in the psci node of the dtb
  * they are architecturally hard-coded to the following values in PSCIv0.2 */
@@ -32,10 +49,8 @@ uint64_t BOT_OF_STACK;
 /**
  * Sections from linker
  */
-extern unsigned long text_end; /* end of .text section (see bin.lds) */
-extern unsigned long data_end; /* end of .bss and .rodata section */
-extern unsigned long stacktop; /* end of .bss and .rodata section */
-
+uint64_t BOT_OF_RDONLY;
+uint64_t TOP_OF_RDONLY;
 uint64_t TOP_OF_TEXT;
 uint64_t TOP_OF_DATA;
 
