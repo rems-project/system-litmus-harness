@@ -164,13 +164,16 @@ CCNOWARN =
 INC_DIRS = inc inc/litmus inc/vmm inc/re
 LIB_DIRS = lib lib/arch lib/arch/vmm lib/valloc lib/re lib/drivers/qemu lib/litmus_test lib/litmus_test/concretization
 OTHER_INCLUDES =  # set for unittests
+_HEAD_COMMIT_SHA = $(shell git rev-parse --short HEAD -n1)
+_DATE_VERSION = $(shell date '+%y.%m')
 CFLAGS = -O0 -nostdlib \
 		-g -gdwarf-4 \
 		$(foreach DIR,$(INC_DIRS),-I $(DIR)) \
 		$(foreach DIR,$(OTHER_INCLUDES),-I $(DIR)) \
 		-ffreestanding -fomit-frame-pointer -fno-pie -fno-pic \
 		-Wall $(addprefix -Wno-,$(CCNOWARN)) $(addprefix -Werror=,$(CCERRORS)) \
-		-DCOMMITHASH="\"$(shell git rev-parse --short HEAD -n1)\""
+		-D__VERSION_STR__="\"$(_DATE_VERSION)\"" \
+		-DCOMMITHASH="\"$(_HEAD_COMMIT_SHA)\""
 
 LDFLAGS = -nostdlib -n -static -pie
 OBJDUMPFLAGS = -g -l -r
