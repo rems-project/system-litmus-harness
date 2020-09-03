@@ -28,11 +28,6 @@ void test_concretization_linear_default_diff_pages(void) {
   init_test_ctx(&ctx, &test, SIZE_OF_TEST);
   regions_t* region = alloc(sizeof(regions_t));
   ctx.heap_memory = region;
-  char* p = (char*)ctx.heap_memory;
-  for (uint64_t i = 0; i < sizeof(regions_t); i++) {
-    *(p+i) = 1;
-  }
-
   concretize_linear_all(&ctx, ctx.cfg, ctx.no_runs);
 
   /* each var must be in its own page */
@@ -64,11 +59,6 @@ void test_concretization_linear_own_pmd(void) {
   init_test_ctx(&ctx, &test, SIZE_OF_TEST);
   regions_t* region = alloc(sizeof(regions_t));
   ctx.heap_memory = region;
-  char* p = (char*)ctx.heap_memory;
-  for (uint64_t i = 0; i < sizeof(regions_t); i++) {
-    *(p+i) = 1;
-  }
-
   concretize_linear_all(&ctx, ctx.cfg, ctx.no_runs);
 
   for (int r = 0; r < ctx.no_runs; r++) {
@@ -96,11 +86,6 @@ void test_concretization_linear_same_page(void) {
   init_test_ctx(&ctx, &test, SIZE_OF_TEST);
   regions_t* region = alloc(sizeof(regions_t));
   ctx.heap_memory = region;
-  char* p = (char*)ctx.heap_memory;
-  for (uint64_t i = 0; i < sizeof(regions_t); i++) {
-    *(p+i) = 1;
-  }
-
   concretize_linear_all(&ctx, ctx.cfg, ctx.no_runs);
 
   /* x and y must be in the same page */
@@ -131,11 +116,6 @@ void test_concretization_separate_roots(void) {
   init_test_ctx(&ctx, &test, SIZE_OF_TEST);
   regions_t* region = alloc(sizeof(regions_t));
   ctx.heap_memory = region;
-  char* p = (char*)ctx.heap_memory;
-  for (uint64_t i = 0; i < sizeof(regions_t); i++) {
-    *(p+i) = 1;
-  }
-
   concretize_linear_all(&ctx, ctx.cfg, ctx.no_runs);
 
   for (int r = 0; r < ctx.no_runs; r++) {
