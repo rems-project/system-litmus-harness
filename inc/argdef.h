@@ -48,7 +48,6 @@ typedef struct {
 } argdef_arg_t;
 
 typedef struct {
-    const char* version;
     const argdef_arg_t** args;
 } argdef_t;
 

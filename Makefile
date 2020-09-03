@@ -357,7 +357,14 @@ bin/vector_table.o:  vector_table.S
 bin/litmus.o: litmus_tests/main.c
 	$(run_cc)
 
-bin/litmus.elf: $(COMMON_BIN_FILES) $(litmus_BIN_FILES)
+# remove bin/lib/version.o and let that build separately
+# so any change to any of the other prerequesites will
+# force a re-fresh of version.o containing the version string
+ELF_PREREQ = $(filter-out bin/lib/version.o, $(COMMON_BIN_FILES)) $(litmus_BIN_FILES)
+bin/lib/version.o: $(ELF_PREREQ)
+# then add version.o back in so direct changes to it also cause a rebuild
+# then make the ELF from all of them
+bin/litmus.elf: bin/lib/version.o $(ELF_PREREQ)
 	$(call run_cmd,LD,$@,\
 		$(LD) $(LDFLAGS) -o $@ -T bin.lds $(COMMON_BIN_FILES) $(litmus_BIN_FILES))
 	$(call run_cmd,OBJDUMP,$@.S,\

@@ -94,7 +94,7 @@ static void help(char* opt) {
 }
 
 static void version(char* opt) {
-  printf("%s\n", BUILD_STRING);
+  printf("%s\n", version_string());
   abort();
 }
 
@@ -123,7 +123,6 @@ static void q(char* x) {
 }
 
 argdef_t ARGS = (argdef_t){
-  .version=VERSION,
   .args=(const argdef_arg_t*[]){
     OPT(
       "-h",
