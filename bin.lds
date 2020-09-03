@@ -3,18 +3,26 @@
  */
 SECTIONS
 {
+    /* place .text into whole 4k page chunks
+     */
+    . = ALIGN(4k);
     PROVIDE(__ld_begin_text = .);
     .text : {
         *(.init) *(.text) *(.text.*) *(.exc_table)
     }
+    . = ALIGN(4k);
     PROVIDE(__ld_end_text = .);
 
-    PROVIDE(__ld_begin_reloc = .);
+    /* relocations must be exactly marked
+     * so don't align
+     */
     .rela.dyn : {
+        PROVIDE(__ld_begin_reloc = .);
         *(.rela.dyn)
     }
     PROVIDE(__ld_end_reloc = .);
 
+    . = ALIGN(4k);
     PROVIDE(__ld_start_ro = .);
     .dynsym   : { *(.dynsym) }
     .dynstr   : { *(.dynstr) }
@@ -26,13 +34,14 @@ SECTIONS
     .rodata   : { *(.rodata*) }
     .data     : { *(.data) }
     .bss      : { *(.bss) }
+    . = ALIGN(4k);
     PROVIDE(__ld_end_ro = .);
 
     . = ALIGN(64K);
     /* from default linker script: `aarch64-none-elf-ld --verbose`
      * DWARF debug sections.
      * Symbols in the DWARF debugging sections are relative to the beginning
-     * of the section so we begin them at 0.
+     * of the section so we place them at 0
      */
     /* DWARF 1 */
     .debug          0 : { *(.debug) }
