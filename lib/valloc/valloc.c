@@ -4,30 +4,33 @@
 
 lock_t __valloc_lock;
 
-valloc_alloc_chunk chunks[NUM_ALLOC_CHUNKS];
-valloc_alloc_chunk* chunk_unalloc_list;
-valloc_alloc_chunk* chunk_alloc_list;
+/* the actual memory pool
+ */
+valloc_mempool mem;
 
 void init_valloc(void) {
   mem = (valloc_mempool){
-      .top = TOP_OF_MEM,
-      .freelist = NULL,
+    .top = TOP_OF_MEM,
+    .freelist = NULL,
+    .chunks = { { 0, 0, NULL, NULL} },
+    .chunk_alloc_list = NULL,
+    .chunk_unalloc_list = NULL
   };
 
+  /* we fill chunk_unalloc_list */
   for (uint64_t i = 0; i < NUM_ALLOC_CHUNKS; i++) {
     if (i == 0)
-      chunks[i].prev = NULL;
+      mem.chunks[i].prev = NULL;
     else
-      chunks[i].prev = &chunks[i-1];
+      mem.chunks[i].prev = &mem.chunks[i-1];
 
     if (i == NUM_ALLOC_CHUNKS - 1)
-      chunks[i].next = NULL;
+      mem.chunks[i].next = NULL;
     else
-      chunks[i].next = &chunks[i+1];
+      mem.chunks[i].next = &mem.chunks[i+1];
   }
 
-  chunk_unalloc_list = &chunks[0];
-  chunk_alloc_list = NULL;
+  mem.chunk_unalloc_list = &mem.chunks[0];
 }
 
 static int is_pow2(uint64_t i) {
@@ -64,7 +67,7 @@ void* alloc_with_alignment(uint64_t size, uint64_t alignment) {
   valloc_free_chunk* free_chunk = valloc_freelist_find_best(size, alignment);
   if (free_chunk != NULL) {
     free_chunk = valloc_freelist_split_alignment(free_chunk, size, alignment);
-    valloc_alloclist_alloc((uint64_t)free_chunk, size);
+    valloc_alloclist_alloc(&mem, (uint64_t)free_chunk, size);
     valloc_freelist_remove_chunk(free_chunk);
     unlock(&__valloc_lock);
     return free_chunk;
@@ -84,7 +87,7 @@ void* alloc_with_alignment(uint64_t size, uint64_t alignment) {
   }
 
   mem.top = new_top;
-  valloc_alloclist_alloc(allocated_space_vaddr, size);
+  valloc_alloclist_alloc(&mem, allocated_space_vaddr, size);
   unlock(&__valloc_lock);
   return (void*)allocated_space_vaddr;
 }
@@ -100,13 +103,13 @@ void* alloc(uint64_t size) {
 
 void free(void* p) {
   lock(&__valloc_lock);
-  valloc_alloc_chunk* chk = valloc_alloclist_find_alloc_chunk((uint64_t)p);
+  valloc_alloc_chunk* chk = valloc_alloclist_find_alloc_chunk(&mem, (uint64_t)p);
   if (! chk) {
     fail("! err: free %p (double free?)\n", p);
   }
   uint64_t size = chk->size;
 
-  valloc_alloclist_dealloc((uint64_t)p);
+  valloc_alloclist_dealloc(&mem, (uint64_t)p);
   valloc_freelist_allocate_free_chunk((uint64_t)p, size);
   valloc_freelist_compact_chunk(mem.freelist);
   unlock(&__valloc_lock);
@@ -116,7 +119,42 @@ void free_all(void) {
   init_valloc(); /* can just re-init the mem struct to get back all memory */
 }
 
+static void __zero_all(void* p, uint64_t size) {
+  char* ptr = (char* )p;
+
+  uint64_t step = DCZVA_BLOCK_WIDTH;
+
+  while (! IS_ALIGNED_TO((uint64_t)ptr, step)) {
+    if (size <= 0)
+      return;
+
+    *ptr = 0;
+    size--;
+    ptr++;
+  }
+
+  while (size >= step) {
+    asm volatile (
+      "dc zva, %[loc]"
+    :
+    : [loc] "r" (ptr)
+    : "memory"
+    );
+    size -= step;
+    ptr += step;
+  }
+
+  for (; size > 0; size--, ptr++) {
+    *ptr = 0;
+  }
+}
+
 void valloc_memset(void* p, uint64_t value, uint64_t size) {
+  if (value == 0 && DCZVA_ALLOW && MMU_ON && 0) {
+    __zero_all(p, size);
+    return;
+  }
+
   char* ptr = p;
   uint64_t end = (uint64_t)ptr + size;
   for (; (uint64_t)ptr < end; ptr++) {
@@ -152,7 +190,7 @@ uint64_t valloc_free_size(void) {
   uint64_t top = mem.top;
 
   uint64_t used_space = 0;
-  valloc_alloc_chunk* chk = chunk_alloc_list;
+  valloc_alloc_chunk* chk = mem.chunk_alloc_list;
   while (chk != NULL) {
     used_space += chk->size;
     chk = chk->next;
@@ -167,4 +205,8 @@ void valloc_memcpy(void* dest, void* src, uint64_t size) {
   for (uint64_t i = 0; i < size; i++) {
     *(q + i) = *(p + i);
   }
+}
+
+void memcpy(void* dest, void* src, size_t size) {
+  valloc_memcpy(dest, src, (uint64_t)size);
 }
