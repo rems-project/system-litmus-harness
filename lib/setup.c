@@ -60,8 +60,7 @@ void setup(char* fdtloc) {
   INIT_CLOCK = read_clk();
   TICKS_PER_SEC = read_clk_freq();
 
-  printf("#build: %s\n", BUILD_STRING);
-  printf("#seed: %ld\n", INITIAL_SEED);
+  printf("#build: (%s)\n", BUILD_STRING);
   if (VERBOSE | TRACE | DEBUG) {
     printf("#verbose: %ld\n", VERBOSE);
     printf("#trace: %ld\n", TRACE);

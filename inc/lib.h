@@ -25,7 +25,7 @@
 #include "driver.h"
 
 #define VERSION __VERSION_STR__
-#define BUILD_STRING "(build " VERSION "/" COMMITHASH ")"
+#define BUILD_STRING "build " VERSION "/" COMMITHASH
 uint64_t vector_base_pa;
 uint64_t vector_base_addr_rw;
 

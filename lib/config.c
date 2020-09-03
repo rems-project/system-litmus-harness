@@ -93,6 +93,11 @@ static void help(char* opt) {
     display_help_for_and_quit(&ARGS, opt);
 }
 
+static void version(char* opt) {
+  printf("%s\n", BUILD_STRING);
+  abort();
+}
+
 static void n(char* x) {
   int Xn = atoi(x);
   NUMBER_OF_RUNS = Xn;
@@ -129,6 +134,14 @@ argdef_t ARGS = (argdef_t){
       "displays help text.\n"
       "--help=foo will display detailed help for foo.",
       .show_help_both=1
+    ),
+    OPT(
+      "-V",
+      "--version",
+      version,
+      "display version information and quit\n"
+      "\n"
+      "displays full version info\n"
     ),
     OPT(
       NULL,

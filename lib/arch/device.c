@@ -32,8 +32,6 @@ void init_device(void* fdt) {
     BOT_OF_RDONLY = (uint64_t)&__ld_start_ro;
     TOP_OF_RDONLY = (uint64_t)&__ld_end_ro;
 
-    printf("stacktop=%p, data_end=%p, text_end=%p, bot_of_heap=%p\n", TOP_OF_STACK, BOT_OF_STACK, TOP_OF_TEXT, BOT_OF_HEAP);
-
     /* compute remaining friendly region names */
     TOTAL_HEAP = TOP_OF_MEM - BOT_OF_HEAP;
     TOP_OF_DATA = BOT_OF_STACK;
