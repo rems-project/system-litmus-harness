@@ -6,13 +6,6 @@
 #define REGS p1x0, p1x2
 
 static void P0(litmus_test_run* data) {
-  printf("x = %p\n", var_va(data, "x"));
-  printf("y = %p\n", var_va(data, "y"));
-  printf("xpte = %p\n", var_pte(data, "x"));
-  printf("ypte = %p\n", var_pte(data, "y"));
-  printf("xdesc = %p\n", var_desc(data, "x"));
-  printf("ydesc = %p\n", var_desc(data, "y"));
-
   asm volatile (
     "mov x0, %[zdesc]\n\t"
     "mov x1, %[xpte]\n\t"
