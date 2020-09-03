@@ -1,7 +1,7 @@
-#ifndef LITMUS_CTX_H-
+#ifndef LITMUS_CTX_H
 #define LITMUS_CTX_H
 
-#include "lib.h"
+#include "config.h"
 
 #define NR_ENTRIES_PER_PAGE 512
 typedef struct {
@@ -94,7 +94,7 @@ typedef struct {
     /** if the region is pinned then this var is pinned to another var with some region offset */
     struct {
       const char* pin_region_var;
-      int pin_region_level;
+      pin_level_t pin_region_level;
     };
 
     /** if not pinned, then this var can move about freely */
@@ -125,11 +125,12 @@ typedef struct {
  */
 struct test_ctx {
   uint64_t no_runs;
-  regions_t* heap_memory;       /* pointer to the 1G aligned set of regions to be used for heap values */
+  regions_t* heap_memory;       /* pointer to set of regions */
   var_info_t* heap_vars;        /* set of heap variables: x, y, z etc */
   uint64_t** out_regs;          /* set of output register values: P1:x1,  P2:x3 etc */
   bar_t* initial_sync_barrier;
   bar_t* start_of_run_barriers;
+  bar_t* concretize_barriers;
   bar_t* start_barriers;
   bar_t* end_barriers;
   bar_t* cleanup_barriers;
@@ -143,6 +144,7 @@ struct test_ctx {
   uint64_t privileged_harness;  /* require harness to run at EL1 between runs ? */
   uint64_t last_tick; /* clock ticks since last verbose print */
   uint64_t asid;  /* current ASID */
+  void* concretization_st; /* current state of the concretizer */
   const litmus_test_t* cfg;
 };
 
@@ -163,22 +165,13 @@ const char* regname_from_idx(test_ctx_t* ctx, uint64_t idx);
 /* for loading var_info_t */
 void read_var_infos(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, int no_runs);
 
-/* for concretization */
-typedef struct {
-  void* (*concretize_alloc_st)(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs);
-  void (*concretize_all)(test_ctx_t* ctx, const litmus_test_t* cfg, void* st, int no_runs);
-  void (*concretize_one)(test_ctx_t* ctx, const litmus_test_t* cfg, void* st, int run);
-  void (*concretize_free_st)(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, void* st);
-} concretization_algo_t;
-
 void set_init_var(test_ctx_t* ctx, var_info_t* infos, uint64_t varidx, uint64_t idx);
 void concretization_precheck(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos);
 void concretization_postcheck(test_ctx_t*, const litmus_test_t* cfg, var_info_t* infos, int run);
-void concretize(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, int no_runs);
+void concretize_one(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, void* st, int run);
+void concretize(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, int no_runs);
 
-extern concretization_algo_t LINEAR_CONCRETIZATION_ALGO;
-extern concretization_algo_t STANDARD_CONCRETIZATION_ALGO;
-
-extern concretization_algo_t* CONCRETIZATION_ALGO;
+void* concretize_allocate_st(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs);
+void  concretize_free_st(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, void* st);
 
 #endif /* LITMUS_CTX_H */

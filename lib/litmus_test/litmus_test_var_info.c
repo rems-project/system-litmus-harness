@@ -36,6 +36,9 @@ void read_var_infos(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos
       case (TYPE_REGION):
         read_init_region(cfg, infos, name, var->pinned_var_name, var->pinned_level);
         break;
+      case (TYPE_REGION_OWN):
+        read_init_region_own(cfg, infos, name, var->ownership_level);
+        break;
     }
   }
 }

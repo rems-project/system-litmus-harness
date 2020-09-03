@@ -46,10 +46,18 @@ extern shuffle_type_t LITMUS_SHUFFLE_TYPE;
 
 typedef enum {
     CONCRETE_LINEAR,
-    CONCRETE_STANDARD,
+    CONCRETE_RANDOM,
 } concretize_type_t;
 
 extern concretize_type_t LITMUS_CONCRETIZATION_TYPE;
+
+typedef enum {
+    RUNNER_ARRAY,
+    RUNNER_SEMI_ARRAY,
+    RUNNER_EPHEMERAL,
+} litmus_runner_type_t;
+
+extern litmus_runner_type_t LITMUS_RUNNER_TYPE;
 
 char* sync_type_to_str(sync_type_t ty);
 char* aff_type_to_str(aff_type_t ty);

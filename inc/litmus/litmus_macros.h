@@ -34,7 +34,7 @@
 #define INIT_ALIAS(var, othervar) &(init_varstate_t){#var, TYPE_ALIAS, {.aliasname=(const char*)#othervar}}
 #define INIT_PERMISSIONS(var, ap) &(init_varstate_t){#var, TYPE_AP, {ap}}
 #define INIT_UNMAPPED(var) &(init_varstate_t){#var, TYPE_UNMAPPED, {0}}
-#define INIT_REGION(var, othervar, relation) &(init_varstate_t){#var, TYPE_REGION, {.pinned_var_name=(const char*)#othervar, .pinned_level=relation}}
+#define INIT_REGION_PIN(var, othervar, relation) &(init_varstate_t){#var, TYPE_REGION, {.pinned_var_name=(const char*)#othervar, .pinned_level=relation}}
 #define INIT_REGION_OWN(var, ownty) &(init_varstate_t){#var, TYPE_REGION_OWN, {.ownership_level=ownty}}
 
 /** these are for building the asm blocks automatically
@@ -88,6 +88,9 @@
 /**
  * Given a VA return a value usable as a register input to a TLBI that affects that address.
  */
-#define PAGE(va) (((uint64_t)(va) >> 12) & BITMASK(48))
+#define PAGE(va) (((uint64_t)(va) >> 12) & BITMASK(48-12))
+#define PMD(va) (((uint64_t)(va) >> 21) & BITMASK(48-21))
+#define PUD(va) (((uint64_t)(va) >> 30) & BITMASK(48-30))
+#define PGD(va) (((uint64_t)(va) >> 39) & BITMASK(48-39))
 
 #endif /* LITMUS_MACROS_H */

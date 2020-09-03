@@ -45,3 +45,42 @@ uint64_t var_page(litmus_test_run* data, const char* name) {
 uint64_t* out_reg(litmus_test_run* data, const char* name) {
     return data->out_reg[idx_from_regname(data->ctx, name)];
 }
+
+
+char* pin_level_to_str(pin_level_t lvl) {
+    switch (lvl) {
+        case REGION_SAME_VAR:
+            return "REGION_SAME_VAR";
+        case REGION_SAME_CACHE_LINE:
+            return "REGION_SAME_CACHE_LINE";
+        case REGION_SAME_PAGE:
+            return "REGION_SAME_PAGE";
+        case REGION_SAME_PMD:
+            return "REGION_SAME_PMD";
+        case REGION_SAME_PUD:
+            return "REGION_SAME_PUD";
+        case REGION_SAME_PGD:
+            return "REGION_SAME_PGD";
+        default:
+            return "<unknown pin_level_t>";
+    }
+}
+
+char* own_level_to_str(own_level_t lvl) {
+    switch (lvl) {
+        case REGION_OWN_VAR:
+            return "REGION_OWN_VAR";
+        case REGION_OWN_CACHE_LINE:
+            return "REGION_OWN_CACHE_LINE";
+        case REGION_OWN_PAGE:
+            return "REGION_OWN_PAGE";
+        case REGION_OWN_PMD:
+            return "REGION_OWN_PMD";
+        case REGION_OWN_PUD:
+            return "REGION_OWN_PUD";
+        case REGION_OWN_PGD:
+            return "REGION_OWN_PGD";
+        default:
+            return "<unknown own_level_t>";
+    }
+}

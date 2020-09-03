@@ -9,10 +9,12 @@ static lock_t __harness_lock;
 
 static void go_cpus(int cpu, void* a);
 static void run_thread(test_ctx_t* ctx, int cpu);
-
-extern test_runner_t SEMI_ARRAY_TEST_RUNNER;
-extern test_runner_t ARRAY_TEST_RUNNER;
-extern test_runner_t EPHEMERAL_TEST_RUNNER;
+static void end_of_test(test_ctx_t* ctx);
+static void start_of_test(test_ctx_t* ctx);
+static void end_of_thread(test_ctx_t* ctx, int cpu);
+static void start_of_thread(test_ctx_t* ctx, int cpu);
+static void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i, int r);
+static void start_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i, int r);
 
 /* entry point */
 void run_test(const litmus_test_t* cfg) {
@@ -35,19 +37,7 @@ void run_test(const litmus_test_t* cfg) {
   reset_seed();
 
   /* create the dynamic configuration (context) from the static information (cfg) */
-  debug("init test context...\n");
   init_test_ctx(&ctx, cfg, NUMBER_OF_RUNS);
-
-  /* setup pagetable */
-  if (ENABLE_PGTABLE) {
-    ctx.ptable = vmm_alloc_new_idmap_4k();
-
-    /* need to add read/write mappings to the exception vector table */
-    for (int i = 0; i < 4; i++) {
-      vmm_update_mapping(ctx.ptable, vector_base_addr_rw+i*4096, vector_base_pa+i*4096, PROT_PGTABLE);
-    }
-  }
-
   ctx.heap_memory = region;
 
   debug("done.  run the tests.\n");
@@ -109,6 +99,13 @@ static void _check_ptes(test_ctx_t* ctx, uint64_t n, uint64_t** vas,
 /** run the tests in a loop
  */
 static void run_thread(test_ctx_t* ctx, int cpu) {
+  uint64_t* heaps[ctx->cfg->no_heap_vars];
+  uint64_t* ptes[4][ctx->cfg->no_heap_vars];
+  uint64_t pas[ctx->cfg->no_heap_vars];
+  uint64_t* regs[ctx->cfg->no_regs];
+  uint64_t descs[ctx->cfg->no_heap_vars];
+  uint64_t saved_ptes[4][ctx->cfg->no_heap_vars];
+
   for (int j = 0; j < ctx->no_runs; j++) {
     int i;
     int vcpu;
@@ -129,13 +126,6 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
       vcpu = cpu;
     }
 
-    uint64_t* heaps[ctx->cfg->no_heap_vars];
-    uint64_t* ptes[4][ctx->cfg->no_heap_vars];
-    uint64_t pas[ctx->cfg->no_heap_vars];
-    uint64_t* regs[ctx->cfg->no_regs];
-    uint64_t descs[ctx->cfg->no_heap_vars];
-    uint64_t saved_ptes[4][ctx->cfg->no_heap_vars];
-
     /* since some vCPUs will skip over the tests
      * it's possible for the test to finish before they get their affinity assignment
      * but thinks it's for the *old* run
@@ -152,6 +142,19 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
       /* reserve ASID 0 for harness */
       ctx->asid = 1 + (j % 254);
       vmm_switch_asid(ctx->asid);
+    }
+
+    if (LITMUS_RUNNER_TYPE == RUNNER_EPHEMERAL) {
+      if (vcpu == 0) {
+        concretize_one(LITMUS_CONCRETIZATION_TYPE, ctx, ctx->cfg, ctx->concretization_st, i);
+
+        /* have to flush tlb
+         * since set_init_var doesn't do it
+         */
+        vmm_flush_tlb();
+      }
+
+      bwait(vcpu, i % ctx->cfg->no_threads, &ctx->concretize_barriers[i % 512], ctx->cfg->no_threads);
     }
 
     for (int v = 0; v < ctx->cfg->no_heap_vars; v++) {
@@ -242,7 +245,7 @@ run_thread_after_execution:
   }
 }
 
-void prefetch(test_ctx_t* ctx, int i, int r) {
+static void prefetch(test_ctx_t* ctx, int i, int r) {
   for (int v = 0; v < ctx->cfg->no_heap_vars; v++) {
     /* TODO: read initial state */
     lock(&__harness_lock);
@@ -274,7 +277,7 @@ static void resetsp(void) {
   }
 }
 
-void start_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i, int r) {
+static void start_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i, int r) {
   /* do not prefetch anymore .. not safe! */
   prefetch(ctx, i, r);
   if (! ctx->cfg->start_els || ctx->cfg->start_els[vcpu] == 0) {
@@ -289,7 +292,7 @@ static void reshuffle(test_ctx_t* ctx) {
   debug("set affinity = %Ad\n", ctx->affinity, NO_CPUS);
 }
 
-void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i, int r) {
+static void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i, int r) {
   if (! ctx->cfg->start_els || ctx->cfg->start_els[vcpu] == 0)
     raise_to_el1();
 
@@ -319,7 +322,7 @@ void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i, int r) {
   }
 }
 
-void start_of_thread(test_ctx_t* ctx, int cpu) {
+static void start_of_thread(test_ctx_t* ctx, int cpu) {
   /* ensure initial state gets propagated to all cores before continuing ...
   */
   bwait(cpu, 0, ctx->initial_sync_barrier, NO_CPUS);
@@ -336,7 +339,7 @@ void start_of_thread(test_ctx_t* ctx, int cpu) {
   trace("CPU%d: starting test\n", cpu);
 }
 
-void end_of_thread(test_ctx_t* ctx, int cpu) {
+static void end_of_thread(test_ctx_t* ctx, int cpu) {
   if (ENABLE_PGTABLE) {
     /* restore global non-test pgtable */
     vmm_switch_ttable(vmm_pgtable);
@@ -346,16 +349,36 @@ void end_of_thread(test_ctx_t* ctx, int cpu) {
   trace("CPU%d: end of test\n", cpu);
 }
 
-void start_of_test(test_ctx_t* ctx) {
+static void start_of_test(test_ctx_t* ctx) {
+  if (ENABLE_PGTABLE) {
+    ctx->ptable = vmm_alloc_new_idmap_4k();
+
+    /* need to add read/write mappings to the exception vector table */
+    for (int i = 0; i < 4; i++) {
+      vmm_update_mapping(ctx->ptable, vector_base_addr_rw+i*4096, vector_base_pa+i*4096, PROT_PGTABLE);
+    }
+  }
+
+  if (LITMUS_RUNNER_TYPE != RUNNER_EPHEMERAL) {
+    concretize(LITMUS_CONCRETIZATION_TYPE, ctx, ctx->cfg, ctx->heap_vars, ctx->no_runs);
+  } else {
+    ctx->concretization_st = concretize_allocate_st(LITMUS_CONCRETIZATION_TYPE, ctx, ctx->cfg, ctx->no_runs);
+  }
+
   trace("====== %s ======\n", ctx->cfg->name);
 }
 
-void end_of_test(test_ctx_t* ctx) {
+static void end_of_test(test_ctx_t* ctx) {
   if (ENABLE_RESULTS_HIST) {
     trace("%s\n", "Printing Results...");
     print_results(ctx->hist, ctx);
   }
+
   trace("Finished test %s\n", ctx->cfg->name);
+
+  if (LITMUS_RUNNER_TYPE == RUNNER_EPHEMERAL)
+    concretize_free_st(LITMUS_CONCRETIZATION_TYPE, ctx, ctx->cfg, ctx->no_runs, ctx->concretization_st);
+
   free_test_ctx(ctx);
 
   if (ENABLE_PGTABLE)

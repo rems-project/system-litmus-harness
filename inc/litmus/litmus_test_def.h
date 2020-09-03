@@ -19,18 +19,28 @@ typedef enum {
 } init_type_t;
 
 typedef enum {
+  REGION_SAME_VAR,  /* unused, but for completeness of type */
   REGION_SAME_CACHE_LINE, /* both in the same cache line */
   REGION_SAME_PAGE, /* both in the same 4k page but not the same cache-line */
   REGION_SAME_PMD,  /* both in the same 2M region but not the same 4k page */
-  REGION_SAME_PGD,  /* both in the same 1G region but not in the same 2M region */
+  REGION_SAME_PUD,  /* both in the same 1G region but not the same 4k page */
+  REGION_SAME_PGD,  /* unused, too large */
 } pin_level_t;
 
+char* pin_level_to_str(pin_level_t lvl);
+
+#define NUM_PIN_LEVELS 6
+
 typedef enum {
+  REGION_OWN_VAR, /* unused, but for completeness of type */
   REGION_OWN_CACHE_LINE,  /* no other vars should be allocated in this cache line */
   REGION_OWN_PAGE,  /* no other vars should be allocated in this 4k region */
   REGION_OWN_PMD,  /* no other vars should be allocated in this 2M region */
-  REGION_OWN_PGD,  /* no other vars should be allocated in this 1G region */
+  REGION_OWN_PUD,  /* no other vars should be allocated in this 1G region */
+  REGION_OWN_PGD,  /* unused, too large */
 } own_level_t;
+
+char* own_level_to_str(own_level_t lvl);
 
 typedef struct {
   const char* varname;

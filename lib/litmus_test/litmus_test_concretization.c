@@ -1,16 +1,13 @@
 #include "lib.h"
 
-extern void concretize_all_linear(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs);
-extern void concretize_one_linear(test_ctx_t* ctx, const litmus_test_t* cfg, int run);
-extern void concretize_standard(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, int no_runs);
+/* random */
+extern void* concretize_random_alloc_st(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs);
+extern void concretize_random_one(test_ctx_t* ctx, const litmus_test_t* cfg, void* st, int run);
+extern void concretize_random_all(test_ctx_t* ctx, const litmus_test_t* cfg, void* st, int no_runs);
+extern void concretize_random_free_st(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, void* st);
 
-concretization_algo_t LINEAR_CONCRETIZATION_ALGO = {
-  .concretize_all = concretize_all_linear,
-  .concretize_one = concretize_one_linear,
-}
-concretization_algo_t STANDARD_CONCRETIZATION_ALGO;
-
-extern concretization_algo_t* CONCRETIZATION_ALGO;
+/* linear */
+extern void concretize_linear_all(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs);
 
 /** given a var and an index perform the necessary initialization
  * this is unsynchronized so TLB maintenance must be performed after the fact.
@@ -24,9 +21,7 @@ void set_init_var(test_ctx_t* ctx, var_info_t* infos, uint64_t varidx, uint64_t 
   *va = vinfo->init_value;
   uint64_t* pte = ctx_pte(ctx, (uint64_t)va);
 
-  printf("var %s @ %p/%p  (desc %p)\n", vinfo->name, va, pte, *pte);
   if (vinfo->init_unmapped != 0) {
-    printf("unmapping %s \n", vinfo->name);
     *pte = 0;
   }
 
@@ -50,20 +45,44 @@ void set_init_var(test_ctx_t* ctx, var_info_t* infos, uint64_t varidx, uint64_t 
   }
 }
 
+void init_vars(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, int run) {
+  for (int v = 0; v < cfg->no_heap_vars; v++) {
+    set_init_var(ctx, infos, v, run);
+  }
+
+  /* check that the concretization was successful before continuing */
+  concretization_postcheck(ctx, cfg, infos, run);
+}
+
 void pick_concrete_addrs(test_ctx_t* ctx, const litmus_test_t* cfg, int run);
 
-void concretize(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, int no_runs) {
+void concretize_one(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, void* st, int run) {
+  switch (type) {
+    case CONCRETE_LINEAR:
+      fail("! concretize: cannot concretize_one with concretization=linear\n");
+      break;
+    case CONCRETE_RANDOM:
+      concretize_random_one(ctx, cfg, st, run);
+      break;
+    default:
+      fail("! concretize: got unexpected concretization type: %s (%s)\n", LITMUS_CONCRETIZATION_TYPE, (LITMUS_CONCRETIZATION_TYPE));
+      break;
+  }
+
+  init_vars(ctx, cfg, ctx->heap_vars, run);
+}
+
+void concretize(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, int no_runs) {
   /* check that the test _can_ be concretized correctly
    * or fail if there's some error */
   concretization_precheck(ctx, cfg, infos);
 
-  switch (LITMUS_CONCRETIZATION_TYPE) {
-    case CONCRETE_STANDARD:
-      concretize_standard(ctx, cfg, infos, no_runs);
-      break;
+  switch (type) {
     case CONCRETE_LINEAR:
-      concretize_linear(ctx, cfg, infos, no_runs);
+      concretize_linear_all(ctx, cfg, no_runs);
       break;
+    case CONCRETE_RANDOM:
+      concretize_random_all(ctx, cfg, infos, no_runs);
     default:
       fail("! concretize: got unexpected concretization type: %s (%s)\n", LITMUS_CONCRETIZATION_TYPE, (LITMUS_CONCRETIZATION_TYPE));
       break;
@@ -75,20 +94,37 @@ void concretize(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, in
    */
   for (uint64_t i = 0; i < no_runs; i++) {
     for (int v = 0; v < cfg->no_heap_vars; v++) {
-      vmm_ensure_level(ctx->ptable, 3, infos[v].values[i]);
+      vmm_ensure_level(ctx->ptable, 3, (uint64_t)infos[v].values[i]);
     }
   }
 
-  /* actually set the values and ptes now
-   *
-   * TODO: should we do this now or at test run time?
-   */
   for (uint64_t i = 0; i < no_runs; i++) {
-    for (int v = 0; v < cfg->no_heap_vars; v++) {
-      set_init_var(ctx, infos, v, i);
-    }
+    init_vars(ctx, cfg, ctx->heap_vars, i);
+  }
+}
 
-    /* check that the concretization was successful before continuing */
-    concretization_postcheck(ctx, cfg, infos, i);
+void* concretize_allocate_st(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
+  switch (type) {
+    case CONCRETE_LINEAR:
+      break;
+    case CONCRETE_RANDOM:
+      break;
+    default:
+      fail("! concretize_allocate_st: got unexpected concretization type: %s (%s)\n", LITMUS_CONCRETIZATION_TYPE, (LITMUS_CONCRETIZATION_TYPE));
+      break;
+  }
+
+  return NULL;
+}
+
+void concretize_free_st(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, void* st) {
+  switch (type) {
+    case CONCRETE_LINEAR:
+      break;
+    case CONCRETE_RANDOM:
+      break;
+    default:
+      fail("! concretize_free_st: got unexpected concretization type: %s (%s)\n", LITMUS_CONCRETIZATION_TYPE, (LITMUS_CONCRETIZATION_TYPE));
+      break;
   }
 }

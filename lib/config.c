@@ -22,7 +22,8 @@ int   collected_tests_count;
 sync_type_t LITMUS_SYNC_TYPE = SYNC_ALL;
 aff_type_t LITMUS_AFF_TYPE = AFF_RAND;
 shuffle_type_t LITMUS_SHUFFLE_TYPE = SHUF_RAND;
-concretize_type_t LITMUS_CONCRETIZATION_TYPE = CONCRETE_STANDARD;
+concretize_type_t LITMUS_CONCRETIZATION_TYPE = CONCRETE_LINEAR;
+litmus_runner_type_t LITMUS_RUNNER_TYPE = RUNNER_SEMI_ARRAY;
 
 char* sync_type_to_str(sync_type_t ty) {
   switch (ty) {
@@ -65,8 +66,8 @@ char* concretize_type_to_str(concretize_type_t ty) {
   switch (ty) {
     case CONCRETE_LINEAR:
       return "linear";
-    case CONCRETE_STANDARD:
-      return "standard";
+    case CONCRETE_RANDOM:
+      return "random";
     default:
       return "unknown";
   }
@@ -102,6 +103,7 @@ static void q(char* x) {
   DEBUG = 0;
   TRACE = 0;
 }
+
 argdef_t ARGS = (argdef_t){
   .version=VERSION,
   .args=(const argdef_arg_t*[]){
@@ -240,14 +242,29 @@ argdef_t ARGS = (argdef_t){
       LITMUS_CONCRETIZATION_TYPE,
       concretize_type_t,
       2,
-      ARR((const char*[]){"linear", "standard"}),
-      ARR((shuffle_type_t[]){CONCRETE_LINEAR, CONCRETE_STANDARD}),
+      ARR((const char*[]){"linear", "random"}),
+      ARR((shuffle_type_t[]){CONCRETE_LINEAR, CONCRETE_RANDOM}),
       "test concretization algorithml\n"
       "\n"
       "controls the memory layout of generated concrete tests\n"
       "\n"
-      "linear: allocate each var in separate pages in-order\n"
-      "stanard: default algorithm, tries to split tests all over memory\n"
+      "linear: allocate each var as a fixed shape and walk linearly over memory\n"
+      "random: allocate randomly\n"
+    ),
+    ENUMERATE(
+      "--runner",
+      LITMUS_RUNNER_TYPE,
+      litmus_runner_type_t,
+      3,
+      ARR((const char*[]){"array", "semi", "ephemeral"}),
+      ARR((litmus_runner_type_t[]){RUNNER_ARRAY, RUNNER_SEMI_ARRAY, RUNNER_EPHEMERAL}),
+      "test runner algorithml\n"
+      "\n"
+      "controls when concretization occurs and how the test is run\n"
+      "\n"
+      "array: full array-ization, all alloation done upfront\n"
+      "stanard: semi-arrayization, VA selection upfront, synchronization at runtime\n"
+      "ephemeral: allocate at runtime\n"
     ),
     NULL,  /* nul terminated list */
   }

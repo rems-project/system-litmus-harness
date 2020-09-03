@@ -47,6 +47,9 @@ void vmm_free_pgtable(uint64_t* root);
 void vmm_mmu_off(void);
 void vmm_mmu_on(void);
 
+#define MMU_ON thread_infos[get_cpu()].mmu_enabled
+#define MMU_OFF (!thread_infos[get_cpu()].mmu_enabled)
+
 void vmm_set_id_translation(uint64_t* pgtable);
 void vmm_update_mapping(uint64_t* pgtable, uint64_t va, uint64_t pa, uint64_t prot);
 void vmm_switch_ttable(uint64_t* new_table);

@@ -8,6 +8,7 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
   bar_t* start_run_bars = ALLOC_MANY(bar_t, 512);
   bar_t* bars = ALLOC_MANY(bar_t, 512);
   bar_t* end_bars = ALLOC_MANY(bar_t, 512);
+  bar_t* conc_bars = ALLOC_MANY(bar_t, 512);
   bar_t* clean_bars = ALLOC_MANY(bar_t, no_runs);
   bar_t* final_barrier = ALLOC_ONE(bar_t);
   int* shuffled = ALLOC_MANY(int, no_runs);
@@ -40,6 +41,7 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
     start_run_bars[i] = (bar_t){0};
     bars[i] = (bar_t){0};
     end_bars[i] = (bar_t){0};
+    conc_bars[i] = (bar_t){0};
   }
   *final_barrier = (bar_t){0};
   *init_sync_bar = (bar_t){0};
@@ -66,6 +68,7 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
   ctx->out_regs = out_regs;
   ctx->initial_sync_barrier = init_sync_bar;
   ctx->start_of_run_barriers = start_run_bars;
+  ctx->concretize_barriers = conc_bars;
   ctx->start_barriers = bars;
   ctx->end_barriers = end_bars;
   ctx->cleanup_barriers = clean_bars;
@@ -78,6 +81,7 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
   ctx->current_run = 0;
   ctx->privileged_harness = 0;
   ctx->cfg = cfg;
+  ctx->concretization_st = NULL;
 }
 
 uint64_t ctx_pa(test_ctx_t* ctx, uint64_t va) {
@@ -165,6 +169,7 @@ void free_test_ctx(test_ctx_t* ctx) {
   free(ctx->out_regs);
   free((bar_t*)ctx->initial_sync_barrier);
   free((bar_t*)ctx->start_of_run_barriers);
+  free((bar_t*)ctx->concretize_barriers);
   free((bar_t*)ctx->start_barriers);
   free((bar_t*)ctx->end_barriers);
   free((bar_t*)ctx->cleanup_barriers);
