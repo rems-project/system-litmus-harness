@@ -1,5 +1,21 @@
 #include "lib.h"
 
+uint64_t __cache_line_size;  /* cache line of maximum size */
+uint64_t __cache_line_shift;  /* log2(__cache_line_size) */
+
+uint8_t __dc_zero_allow;  /* DC ZVA allow ? */
+uint64_t __dc_zero_block_width;  /* size of DC ZVA block */
+
+extern char* __ld_begin_text;
+extern char* __ld_end_text;
+extern char* __ld_begin_reloc;
+extern char* __ld_end_reloc;
+extern char* __ld_begin_stack;
+extern char* __ld_end_stack;
+extern char* __ld_end_sections;
+extern char* __ld_start_ro;
+extern char* __ld_end_ro;
+
 void init_device(void* fdt) {
     NO_CPUS = 4;
 
@@ -7,14 +23,30 @@ void init_device(void* fdt) {
     TOP_OF_MEM = dtb_read_top_of_memory(fdt);
 
     /* read regions from linker */
-    TOP_OF_STACK = (uint64_t)&stacktop;
-    BOT_OF_STACK = (uint64_t)&data_end;
-    TOP_OF_TEXT = (uint64_t)&text_end;
+    TOP_OF_STACK = (uint64_t)&__ld_end_stack;
+    BOT_OF_STACK = (uint64_t)&__ld_begin_stack;
+
+    TOP_OF_TEXT = (uint64_t)&__ld_end_text;
+    BOT_OF_HEAP = (uint64_t)&__ld_end_sections;
+
+    BOT_OF_RDONLY = (uint64_t)&__ld_start_ro;
+    TOP_OF_RDONLY = (uint64_t)&__ld_end_ro;
+
+    printf("stacktop=%p, data_end=%p, text_end=%p, bot_of_heap=%p\n", TOP_OF_STACK, BOT_OF_STACK, TOP_OF_TEXT, BOT_OF_HEAP);
 
     /* compute remaining friendly region names */
-    TOTAL_HEAP = TOP_OF_MEM - TOP_OF_STACK;
-    BOT_OF_HEAP = TOP_OF_MEM - TOTAL_HEAP;
+    TOTAL_HEAP = TOP_OF_MEM - BOT_OF_HEAP;
     TOP_OF_DATA = BOT_OF_STACK;
+
+    /* read cache line of *minimum* size */
+    uint64_t ctr = read_sysreg(ctr_el0);
+    uint64_t dminline = (ctr >> 16) & 0b1111;
+    __cache_line_size = 4 * (1 << dminline);
+    __cache_line_shift = log2(__cache_line_size);
+
+    uint64_t dczvid = read_sysreg(dczid_el0);
+    __dc_zero_allow = (dczvid >> 4) == 0;
+    __dc_zero_block_width = 4 * (1 << (dczvid & 0xf));
 }
 
 /* dtb location */

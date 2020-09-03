@@ -32,6 +32,8 @@ void ptable_set_idrange(uint64_t* root,
                         uint64_t prot) {
   uint64_t level1 = 30, level2 = 21, level3 = 12;
 
+  debug("from %p -> %p, prot=%p\n", va_start, va_end, prot);
+
   if (!IS_ALIGNED(va_start, level3)) {
     puts("! error: ptable_set_idrange: got unaligned va_start\n");
     abort();
@@ -111,7 +113,7 @@ uint64_t* vmm_alloc_new_idmap_4k(void) {
   ptable_set_idrange(root_ptable, phys_offs, TOP_OF_TEXT, PROT_MEMTYPE_NORMAL | PROT_RX_RX);
 
   /* bss and other data segments */
-  ptable_set_idrange(root_ptable, TOP_OF_TEXT, TOP_OF_DATA, PROT_MEMTYPE_NORMAL | PROT_RW_RWX);
+  ptable_set_idrange(root_ptable, BOT_OF_RDONLY, TOP_OF_RDONLY, PROT_MEMTYPE_NORMAL | PROT_RW_RWX);
 
   /* stack */
   ptable_set_idrange(root_ptable, BOT_OF_STACK, TOP_OF_STACK, PROT_MEMTYPE_NORMAL | PROT_RW_RWX);
