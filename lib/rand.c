@@ -33,6 +33,11 @@ uint64_t randn(void) {
   return new_seed;
 }
 
+uint64_t randrange(uint64_t low, uint64_t high) {
+  uint64_t r = randn();
+  return low + r % (high - low);
+}
+
 void shuffle(void* p, int szof, int n) {
   char* arr = p;
 
