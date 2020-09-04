@@ -71,7 +71,7 @@ void* default_handler(uint64_t vec, uint64_t esr) {
   printf("  [ESR_EL1: 0x%lx]\n", esr);
   printf("  [FAR_EL1: 0x%lx]\n", read_sysreg(far_el1));
   printf("  [ELR_EL1: 0x%lx]\n", read_sysreg(elr_el1));
-  if (ec == 0x24) {
+  if (ec == 0x24 || ec == 0x25) {
     printf("  [DATA ABORT ISS]\n");
     printf("  [  FnV] %d\n", (iss >> 10) & 1);
     printf("  [  WnR] %d\n", (iss >> 6) & 1);
