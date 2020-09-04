@@ -42,6 +42,11 @@ desc_t vmm_translation_walk(uint64_t* root, uint64_t va);
  * as an entry in a level 'level' table */
 uint64_t vmm_make_desc(uint64_t pa, uint64_t prot, int level);
 
+/** given a va perform a translation table walk
+ * and gather the attrs
+ */
+attrs_t vmm_read_attrs(uint64_t* root, uint64_t va);
+
 uint64_t* vmm_alloc_new_idmap_4k(void);
 void vmm_free_pgtable(uint64_t* root);
 void vmm_mmu_off(void);

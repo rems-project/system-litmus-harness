@@ -104,6 +104,12 @@ uint64_t* vmm_pte(uint64_t* root, uint64_t va) {
   return vmm_pte_at_level(root, va, 3);
 }
 
+attrs_t vmm_read_attrs(uint64_t* root, uint64_t va) {
+  /* TODO: collect from all levels not just level 3 */
+  uint64_t* pte = vmm_pte(root, va);
+  return read_attrs(*pte);
+}
+
 uint64_t* vmm_pa(uint64_t* root, uint64_t va) {
   desc_t desc = vmm_translation_walk(root, va);
 

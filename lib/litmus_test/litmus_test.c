@@ -144,18 +144,20 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
       vmm_switch_asid(ctx->asid);
     }
 
-    if (LITMUS_RUNNER_TYPE == RUNNER_EPHEMERAL) {
-      if (vcpu == 0) {
+    if (vcpu == 0 && LITMUS_RUNNER_TYPE != RUNNER_ARRAY) {
+      if (LITMUS_RUNNER_TYPE == RUNNER_EPHEMERAL) {
         concretize_one(LITMUS_CONCRETIZATION_TYPE, ctx, ctx->cfg, ctx->concretization_st, i);
-
-        /* have to flush tlb
-         * since set_init_var doesn't do it
-         */
-        vmm_flush_tlb();
+      } else if (LITMUS_RUNNER_TYPE == RUNNER_SEMI_ARRAY) {
+        init_vars(ctx, ctx->cfg, i);
       }
 
-      bwait(vcpu, i % ctx->cfg->no_threads, &ctx->concretize_barriers[i % 512], ctx->cfg->no_threads);
+      /* have to flush tlb
+        * since set_init_var doesn't do it
+        */
+      vmm_flush_tlb();
     }
+
+    bwait(vcpu, i % ctx->cfg->no_threads, &ctx->concretize_barriers[i % 512], ctx->cfg->no_threads);
 
     for (int v = 0; v < ctx->cfg->no_heap_vars; v++) {
       uint64_t* p = ctx_heap_var_va(ctx, v, i);

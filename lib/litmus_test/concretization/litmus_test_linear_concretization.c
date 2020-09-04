@@ -1,15 +1,5 @@
 #include "lib.h"
 
-#define FOREACH_HEAP_VAR(ctx, el) \
-    el = &ctx->heap_vars[0]; \
-    for (int __v##__COUNTER__ = 0; __v##__COUNTER__ < ctx->cfg->no_heap_vars; __v##__COUNTER__++, el++)
-
-/* asks if var_info_t* v owns a own_level_t r */
-#define OWNS_REGION(v, r) ((v)->init_owns_region && (v)->init_owned_region_size == (r))
-
-/* is v1 pinned to v2 ? */
-#define PINNED_TO(ctx, v1, v2) (idx_from_varname((ctx), (v1)->pin_region_var) == (v2)->varidx)
-
 int __count_fit(uint64_t x, uint64_t bound) {
   int count = 0;
 
@@ -33,6 +23,7 @@ typedef struct {
 } var_st_t;
 
 typedef struct {
+  region_trackers_t trackers;
   var_st_t* var_sts;
   uint64_t* offsets;
 } concretization_st_t ;
@@ -114,12 +105,9 @@ static uint64_t calculate_offsets(test_ctx_t* ctx, const litmus_test_t* cfg, con
   st->offsets[rootvar->varidx] = start;
 
   for (pin_level_t lvl = REGION_SAME_CACHE_LINE; lvl <= REGION_SAME_PGD; lvl++) {
-    debug("lvl = %d\n", lvl);
     pin_st_t* pin_st = &st->var_sts[rootvar->varidx].pins[lvl];
     for (int pinidx = 0; pinidx < pin_st->no_pins; pinidx++) {
-      debug("pinidx %d\n", pinidx);
       var_info_t* pin_var = pin_st->vars[pinidx];
-      debug(" = %s\n", pin_var->name);
       st->offsets[pin_var->varidx] = start + (++no_levels[lvl - 1])*level_sizes[lvl - 1];
     }
   }
@@ -152,13 +140,14 @@ static uint8_t __same_region(uint64_t* va1, uint64_t* va2, pin_level_t lvl) {
 }
 
 static uint64_t __aligned(test_ctx_t* ctx,  const litmus_test_t* cfg, concretization_st_t* st, var_info_t* rootvar, int run) {
+  uint64_t* rootva = rootvar->values[run];
+
   /* check all the things pinned to var are in the same region */
   uint64_t diff = 0;
   for (pin_level_t lvl = REGION_SAME_CACHE_LINE; lvl <= REGION_SAME_PGD; lvl++) {
     pin_st_t* pin_st = &st->var_sts[rootvar->varidx].pins[lvl];
     for (int pinidx = 0; pinidx < pin_st->no_pins; pinidx++) {
       var_info_t* pin_var = pin_st->vars[pinidx];
-      uint64_t* rootva = rootvar->values[run];
       uint64_t* pinva = pin_var->values[run];
 
       if (! __same_region(rootva, pinva, lvl)) {
@@ -171,11 +160,84 @@ static uint64_t __aligned(test_ctx_t* ctx,  const litmus_test_t* cfg, concretiza
     }
   }
 
+  /* check if this var's VA's dir/page/cacheline is already owned and if so,
+   * skip over it
+   */
+  dir_tracker_t* dir = tracker_dir(ctx->heap_memory, &st->trackers, rootva);
+  page_tracker_t* pg = tracker_page(ctx->heap_memory, &st->trackers, rootva);
+  cache_line_tracker_t* cl = tracker_cache_line(ctx->heap_memory, &st->trackers, rootva);
+  for (int othervaridx = 0; othervaridx < cfg->no_heap_vars; othervaridx++) {
+    if (othervaridx == rootvar->varidx)
+      continue;
+
+    if (dir->exclusive_owner != NULL && dir->exclusive_owner != rootvar->name) {
+      diff = MAX(
+        diff,
+        (1-BITMASK(PMD_SHIFT)) - ((uint64_t)rootva & (1-BITMASK(PMD_SHIFT)))
+      );
+    } else if (pg->exclusive_owner != NULL && pg->exclusive_owner != rootvar->name) {
+      diff = MAX(
+        diff,
+        (1-BITMASK(PAGE_SHIFT)) - ((uint64_t)rootva & (1-BITMASK(PAGE_SHIFT)))
+      );
+    } else if (cl->exclusive_owner != NULL && cl->exclusive_owner != rootvar->name) {
+      diff = MAX(
+        diff,
+        (1-BITMASK(CACHE_LINE_SHIFT)) - ((uint64_t)rootva & (1-BITMASK(CACHE_LINE_SHIFT)))
+      );
+    }
+  }
+
   if (diff != 0) {
     return diff;
   }
 
   return 0;
+}
+
+/** mark a region as owned by this var
+ */
+static void mark_own_region(test_ctx_t* ctx, const litmus_test_t* cfg, concretization_st_t* st, var_info_t* var, int run) {
+  switch (var->init_owned_region_size) {
+    case REGION_OWN_CACHE_LINE: {
+      cache_line_tracker_t* cl = tracker_cache_line(ctx->heap_memory, &st->trackers, var->values[run]);
+      if (cl->exclusive_owner != NULL) {
+        fail("! concretize: mark_own_region: marking %p/%s failed, cache line already owned by %s\n",
+          var->values[run],
+          var->name,
+          cl->exclusive_owner
+        );
+      }
+      cl->exclusive_owner = var->name;
+      break;
+    }
+    case REGION_OWN_PAGE: {
+      page_tracker_t* pg = tracker_page(ctx->heap_memory, &st->trackers, var->values[run]);
+      if (pg->exclusive_owner != NULL) {
+        fail("! concretize: mark_own_region: marking %p/%s failed, page already owned by %s\n",
+          var->values[run],
+          var->name,
+          pg->exclusive_owner
+        );
+      }
+      pg->exclusive_owner = var->name;
+      break;
+    }
+    case REGION_OWN_PMD: {
+      dir_tracker_t* dir = tracker_dir(ctx->heap_memory, &st->trackers, var->values[run]);
+      if (dir->exclusive_owner != NULL) {
+        fail("! concretize: mark_own_region: marking %p/%s failed, pmd already owned by %s\n",
+          var->values[run],
+          var->name,
+          dir->exclusive_owner
+        );
+      }
+      dir->exclusive_owner = var->name;
+      break;
+    }
+    default:
+      fail("! concretize: mark_own_region: cannot mark anything larger than pmd\n");
+  }
 }
 
 void concretize_linear_all(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
@@ -237,6 +299,11 @@ void concretize_linear_all(test_ctx_t* ctx, const litmus_test_t* cfg, int no_run
       /* mark */
       FOREACH_HEAP_VAR(ctx, var) {
         *var->values[i] = 1;
+
+        if (var->init_owns_region) {
+          /* mark that region as owned by this */
+          mark_own_region(ctx, cfg, st, var, i);
+        }
       }
 
       break;

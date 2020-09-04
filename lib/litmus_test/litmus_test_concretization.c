@@ -1,39 +1,75 @@
+/**
+ * concretization is the process of selecting virtual addresses for each variable
+ * for each run of the harness.
+ *
+ * there are 2 stages of concretization:
+ *  - selection of VAs
+ *  - initialization of ptes/values
+ *
+ * there are roughly 3 ways to run a litmus test:
+ *  - array:
+ *    both phases of concretization happen at the beginning of time:
+ *        SELECT VAs ITER #1
+ *        INIT ITER #1
+ *        SELECT VAs ITER #2
+ *        INIT ITER #2
+ *        ... then later ...
+ *        RUN ITER #1
+ *        RUN ITER #2
+ *
+ *  - ephemeral:
+ *    both phases happen when the test is running:
+ *      SELECT VAs ITER #1
+ *      INIT ITER #1
+ *      RUN ITER #1
+ *      SELECT VAs ITER #2
+ *      INIT ITER #2
+ *      RUN ITER #2
+ *
+ *  - semi-array:
+ *    selection of VAs and initialization happens upfront, like array.
+ *    But PTEs need to be cleaned after each run since different runs may re-use the same page.
+ */
+
 #include "lib.h"
 
 /* random */
-extern void* concretize_random_alloc_st(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs);
-extern void concretize_random_one(test_ctx_t* ctx, const litmus_test_t* cfg, void* st, int run);
-extern void concretize_random_all(test_ctx_t* ctx, const litmus_test_t* cfg, void* st, int no_runs);
-extern void concretize_random_free_st(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, void* st);
+extern void concretize_random_one(test_ctx_t* ctx, const litmus_test_t* cfg, int run);
+extern void concretize_random_all(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs);
 
 /* linear */
 extern void concretize_linear_all(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs);
 
 /** given a var and an index perform the necessary initialization
- * this is unsynchronized so TLB maintenance must be performed after the fact.
+ * to their pagetable entries
  *
- * assumes all other vars have had their values[idx] set
+ * assumes all the vars have their VAs assigned and the default
+ * initial pagetable entries for all tests have been created
  */
-void set_init_var(test_ctx_t* ctx, var_info_t* infos, uint64_t varidx, uint64_t idx) {
-  var_info_t* vinfo = &infos[varidx];
+void set_init_pte(test_ctx_t* ctx, uint64_t varidx, uint64_t idx) {
+  if (! ENABLE_PGTABLE)
+    return;
 
+  var_info_t* vinfo = &ctx->heap_vars[varidx];
   uint64_t* va = vinfo->values[idx];
-  *va = vinfo->init_value;
-  uint64_t* pte = ctx_pte(ctx, (uint64_t)va);
+  uint64_t* pte = vmm_pte(ctx->ptable, (uint64_t)va);
 
+  /* now if it was unmapped we can reset the last-level entry
+  * to be invalid
+  */
   if (vinfo->init_unmapped != 0) {
     *pte = 0;
-  }
-
-  if (vinfo->init_ap != 0) {
+  } else if (vinfo->init_ap != 0) {
+    /* or if there were permissions, update those */
     desc_t desc = read_desc(*pte, 3);
     desc.attrs.AP = vinfo->init_ap;
     *pte = write_desc(desc);
   }
 
-  /* this means we must ensure that all VAs for this idx are chosen
-   * before attempting to set_init_var
-   */
+  /* set alias by copying the last-level pte OA
+  * this means we must ensure that all VAs for this idx are chosen
+  * before attempting to set_init_var
+  */
   if (vinfo->alias) {
     uint64_t otheridx = idx_from_varname(ctx, vinfo->alias);
     uint64_t otherva = (uint64_t )ctx->heap_vars[otheridx].values[idx];
@@ -43,15 +79,48 @@ void set_init_var(test_ctx_t* ctx, var_info_t* infos, uint64_t varidx, uint64_t 
     desc.oa = PAGE(otherva) << PAGE_SHIFT;
     *pte = write_desc(desc);
   }
+
+  /* flush TLB now before we perform the write below */
+  if (LITMUS_SYNC_TYPE == SYNC_ALL) {
+    vmm_flush_tlb();
+  } else if (LITMUS_SYNC_TYPE == SYNC_ASID) {
+    fail("--tlbsync=asid not supported\n");
+  } else if (LITMUS_SYNC_TYPE == SYNC_VA) {
+    vmm_flush_tlb_vaddr((uint64_t)va);
+  }
 }
 
-void init_vars(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, int run) {
+/** given a var and an index perform the necessary initialization
+ *
+ * assumes all vars have their VAs assigned and the default initial pagetable
+ * for the test has been created.
+ *
+ * this will, for each run, for each VA, set the PTE entry for that VA
+ * and then write the initial value (if applicable).
+ */
+void set_init_var(test_ctx_t* ctx, uint64_t varidx, uint64_t idx) {
+  var_info_t* vinfo = &ctx->heap_vars[varidx];
+
+  uint64_t* va = vinfo->values[idx];
+  set_init_pte(ctx, varidx, idx);
+
+  if (ENABLE_PGTABLE) {
+    attrs_t attrs = vmm_read_attrs(ctx->ptable, (uint64_t)va);
+    if (attrs.AP == PROT_AP_RW_RWX) {
+      *va = vinfo->init_value;
+    }
+  } else {
+    *va = vinfo->init_value;
+  }
+}
+
+void init_vars(test_ctx_t* ctx, const litmus_test_t* cfg, int run) {
   for (int v = 0; v < cfg->no_heap_vars; v++) {
-    set_init_var(ctx, infos, v, run);
+    set_init_var(ctx, v, run);
   }
 
   /* check that the concretization was successful before continuing */
-  concretization_postcheck(ctx, cfg, infos, run);
+  concretization_postcheck(ctx, cfg, ctx->heap_vars, run);
 }
 
 void pick_concrete_addrs(test_ctx_t* ctx, const litmus_test_t* cfg, int run);
@@ -62,14 +131,15 @@ void concretize_one(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t
       fail("! concretize: cannot concretize_one with concretization=linear\n");
       break;
     case CONCRETE_RANDOM:
-      concretize_random_one(ctx, cfg, st, run);
+      concretize_random_one(ctx, cfg, run);
+      break;
       break;
     default:
-      fail("! concretize: got unexpected concretization type: %s (%s)\n", LITMUS_CONCRETIZATION_TYPE, (LITMUS_CONCRETIZATION_TYPE));
+      fail("! concretize_one: got unexpected concretization type: %s (%s)\n", LITMUS_CONCRETIZATION_TYPE, (LITMUS_CONCRETIZATION_TYPE));
       break;
   }
 
-  init_vars(ctx, cfg, ctx->heap_vars, run);
+  init_vars(ctx, cfg, run);
 }
 
 void concretize(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, int no_runs) {
@@ -82,7 +152,8 @@ void concretize(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cf
       concretize_linear_all(ctx, cfg, no_runs);
       break;
     case CONCRETE_RANDOM:
-      concretize_random_all(ctx, cfg, infos, no_runs);
+      concretize_random_all(ctx, cfg, no_runs);
+      break;
     default:
       fail("! concretize: got unexpected concretization type: %s (%s)\n", LITMUS_CONCRETIZATION_TYPE, (LITMUS_CONCRETIZATION_TYPE));
       break;
@@ -98,8 +169,10 @@ void concretize(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cf
     }
   }
 
-  for (uint64_t i = 0; i < no_runs; i++) {
-    init_vars(ctx, cfg, ctx->heap_vars, i);
+  if (LITMUS_RUNNER_TYPE == RUNNER_ARRAY) {
+    for (uint64_t i = 0; i < no_runs; i++) {
+      init_vars(ctx, cfg, i);
+    }
   }
 }
 

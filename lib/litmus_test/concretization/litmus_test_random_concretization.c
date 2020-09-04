@@ -5,14 +5,6 @@
 
 #include "lib.h"
 
-#define FOREACH_HEAP_VAR(ctx, el) \
-    el = &ctx->heap_vars[0]; \
-    for (int __v##__COUNTER__ = 0; __v##__COUNTER__ < ctx->cfg->no_heap_vars; __v##__COUNTER__++, el++)
-
-/* asks if var_info_t* v owns a own_level_t r */
-#define OWNS_REGION(v, r) ((v)->init_owns_region && (v)->init_owned_region_size == (r))
-
-
 typedef struct {
   tracker_loc_t curr_loc;
 } var_st_t;
@@ -21,10 +13,6 @@ typedef struct {
   region_trackers_t* trackers;
   var_st_t var_sts[];
 } concretization_st_t;
-
-void* concretize_random_alloc_st(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
-  return NULL;
-}
 
 uint8_t overlaps(tracker_loc_t* t1, tracker_loc_t* t2, own_level_t lvl) {
   if (   (                               (t1->reg_ix == t2->reg_ix))
@@ -129,7 +117,7 @@ uint64_t* va_from_loc(test_ctx_t* ctx, tracker_loc_t loc) {
           .values[loc.val_ix + loc.scl_ix*NR_CACHE_LINES_PER_PAGE];
 }
 
-void concretize_random_one(test_ctx_t* ctx, const litmus_test_t* cfg, void* _, int run) {
+void concretize_random_one(test_ctx_t* ctx, const litmus_test_t* cfg, int run) {
   var_info_t* var;
 
   concretization_st_t* st = alloc(sizeof(concretization_st_t) + sizeof(var_st_t)*cfg->no_heap_vars);
@@ -165,12 +153,8 @@ void concretize_random_one(test_ctx_t* ctx, const litmus_test_t* cfg, void* _, i
   free(st);
 }
 
-void concretize_random_all(test_ctx_t* ctx, const litmus_test_t* cfg, void* st, int no_runs) {
+void concretize_random_all(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
   for (uint64_t i = 0; i < ctx->no_runs; i++) {
-    concretize_random_one(ctx, cfg, st, i);
+    concretize_random_one(ctx, cfg, i);
   }
-}
-
-void concretize_random_free_st(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, void* st) {
-  /* nop */
 }
