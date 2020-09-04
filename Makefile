@@ -390,7 +390,7 @@ bin/unittests.bin: bin/unittests.elf
 
 # Builds a standalone executable from the elf/bin file
 # Usage: $(call make_exe,QEMU-COMMAND)
-define make_exe =
+define make_exe
 	{	echo 'tmp=`mktemp`' > $@ ; \
 		echo 'base64 -d << BIN_EOF | zcat > $$tmp || exit 2' >> $@ ; \
 		gzip -c $< | base64 >> $@ ; \
