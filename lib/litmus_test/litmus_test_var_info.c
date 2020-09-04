@@ -41,6 +41,16 @@ void read_var_infos(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos
         break;
     }
   }
+
+  /* fill defaults */
+  for (int v = 0; v < cfg->no_heap_vars; v++) {
+    var_info_t* vinfo = &infos[v];
+
+    if (! vinfo->init_region_pinned && ! vinfo->init_owns_region) {
+      vinfo->init_owns_region = 1;
+      vinfo->init_owned_region_size = REGION_OWN_PAGE;
+    }
+  }
 }
 
 void read_init_unmapped(const litmus_test_t* cfg, var_info_t* infos, const char* varname) {
