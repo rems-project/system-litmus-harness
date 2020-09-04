@@ -126,7 +126,6 @@ void test_concretization_separate_roots(void) {
 }
 
 
-
 UNIT_TEST(test_concretization_aliased)
 void test_concretization_aliased(void) {
   litmus_test_t test = {
@@ -152,5 +151,37 @@ void test_concretization_aliased(void) {
     /* aliased things cannot be in the same page */
     ASSERT(PAGE(VAR(&ctx, r, "x")) != PAGE(VAR(&ctx, r, "y")), "x in same page as y");
     ASSERT(PAGEOFF(VAR(&ctx, r, "x")) == PAGEOFF(VAR(&ctx, r, "y")), "x and y not same offset in pages");
+  }
+}
+
+
+UNIT_TEST(test_concretization_unrelated_aliased)
+void test_concretization_unrelated_aliased(void) {
+  litmus_test_t test = {
+    "test",
+    0,NULL,
+    3,(const char*[]){"x","y","z"},
+    0,NULL,
+    INIT_STATE(
+      3,
+      INIT_VAR(x, 0),
+      INIT_VAR(y, 0),
+      INIT_ALIAS(z, x),
+    )
+  };
+
+  test_ctx_t ctx;
+
+  init_test_ctx(&ctx, &test, SIZE_OF_TEST);
+  regions_t* region = alloc(sizeof(regions_t));
+  ctx.heap_memory = region;
+  concretize_linear_all(&ctx, ctx.cfg, ctx.no_runs);
+
+  for (int r = 0; r < ctx.no_runs; r++) {
+    ASSERT(PAGE(VAR(&ctx, r, "x")) != PAGE(VAR(&ctx, r, "y")), "x in same page as y");
+    ASSERT(PAGE(VAR(&ctx, r, "x")) != PAGE(VAR(&ctx, r, "z")), "x in same page as z");
+    ASSERT(PAGE(VAR(&ctx, r, "y")) != PAGE(VAR(&ctx, r, "z")), "y in same page as z");
+
+    ASSERT(PAGEOFF(VAR(&ctx, r, "x")) == PAGEOFF(VAR(&ctx, r, "z")), "x and y not same offset in pages");
   }
 }
