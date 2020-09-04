@@ -6,8 +6,7 @@ Simple Usage:
    make kvm		builds bin/kvm_litmus.exe which uses KVM
    make run 		runs `make qemu` then runs all tests
    make clean		remove built files in bin/
-   make cleanlibs	remove built harness objects but leave compiled tests alone
-   make cleantests	remove auto-generated test files in litmus/
+   make deepclean	clean everything. No really.
    make publish		publish doc/ folder to gh-pages
    make hw-results	collect hardware results from known sources
 
@@ -28,7 +27,10 @@ Advanced Usage:
    make litmus_tests LITMUS_TESTS="litmus-test-list"
    	Runs $$(MAKE_TEST_LIST_CMD) to build groups.c
    	See LITMUS_TESTS and MAKE_TEST_LIST_CMD options below
-
+   make cleanlibs
+   	remove built harness objects but leave compiled tests alone
+   make cleantests
+   	remove auto-generated test files in litmus/
 Options:
    make [...] -q
    	Show minimal/no output
@@ -121,6 +123,16 @@ else
   quiet = 0
 endif
 
+# if deepclean target
+ifneq ($(findstring deepclean,$(MAKECMDGOALS)),)
+  TARGET_DEEPCLEAN = 1
+endif
+
+# if help target
+ifneq ($(findstring help,$(filter-out --%,$(MAKECMDGOALS))),)
+  TARGET_HELP = 1
+endif
+
 # set VERBOSE=1 to disable pretty-out
 VERBOSE = 0
 
@@ -191,6 +203,7 @@ endif
 ifeq ($(strip $(TEST_DISCOVER)),1)
    ifndef LITMUS_FILES
    ifndef LITMUS_TARGET_CLEAN
+   ifndef TARGET_HELP
       # if fail, ignore
       out := $(shell ($(MAKE_TEST_LIST_CMD) $(quiet) $(LITMUS_TESTS) 2>/dev/null) || echo "FAIL")
 
@@ -212,6 +225,7 @@ ifeq ($(strip $(TEST_DISCOVER)),1)
 
    	  litmus_test_list = $(shell awk '$$1==1 {print $$2}' litmus/test_list.txt)
    	  LITMUS_TEST_FILES ?= $(litmus_test_list)
+   endif
    endif
    endif
 else
@@ -441,14 +455,18 @@ clean:
 ifeq ($(strip $(TEST_DISCOVER)),1)
 	rm -f litmus/groups.c
 endif
+ifndef TARGET_DEEPCLEAN
 	@echo 'run `make cleantests` to remove test and group lists too'
+endif
 
 .PHONY: cleanlibs
 cleanlibs:
 	rm -f bin/*.o
 	rm -f bin/litmus.*
 	rm -rf bin/lib/
+ifndef TARGET_DEEPCLEAN
 	@echo 'run `make clean` to remove compiled tests too'
+endif
 
 .PHONY: cleantests
 cleantests:
@@ -470,3 +488,6 @@ publish:
 .PHONY: hw-results
 hw-results:
 	$(MAKE) -C hw-results EXCLUDES=checks,errata
+
+.PHONY: deepclean
+deepclean: clean cleanlibs cleantests
