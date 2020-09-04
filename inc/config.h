@@ -47,6 +47,7 @@ extern shuffle_type_t LITMUS_SHUFFLE_TYPE;
 typedef enum {
     CONCRETE_LINEAR,
     CONCRETE_RANDOM,
+    CONCRETE_FIXED,
 } concretize_type_t;
 
 extern concretize_type_t LITMUS_CONCRETIZATION_TYPE;

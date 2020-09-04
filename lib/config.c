@@ -68,6 +68,8 @@ char* concretize_type_to_str(concretize_type_t ty) {
       return "linear";
     case CONCRETE_RANDOM:
       return "random";
+    case CONCRETE_FIXED:
+      return "fixed";
     default:
       return "unknown";
   }
@@ -266,15 +268,16 @@ argdef_t ARGS = (argdef_t){
       "--concretization",
       LITMUS_CONCRETIZATION_TYPE,
       concretize_type_t,
-      2,
-      ARR((const char*[]){"linear", "random"}),
-      ARR((shuffle_type_t[]){CONCRETE_LINEAR, CONCRETE_RANDOM}),
+      3,
+      ARR((const char*[]){"linear", "random", "fixed"}),
+      ARR((concretize_type_t[]){CONCRETE_LINEAR, CONCRETE_RANDOM, CONCRETE_FIXED}),
       "test concretization algorithml\n"
       "\n"
       "controls the memory layout of generated concrete tests\n"
       "\n"
       "linear: allocate each var as a fixed shape and walk linearly over memory\n"
       "random: allocate randomly\n"
+      "fixed: always use the same address, random or can be manually picked via --config-concretize\n"
     ),
     ENUMERATE(
       "--runner",

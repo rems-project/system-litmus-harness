@@ -36,6 +36,8 @@
 /* random */
 extern void concretize_random_one(test_ctx_t* ctx, const litmus_test_t* cfg, int run);
 extern void concretize_random_all(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs);
+extern void concretize_fixed_one(test_ctx_t* ctx, const litmus_test_t* cfg, int run);
+extern void concretize_fixed_all(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs);
 
 /* linear */
 extern void concretize_linear_all(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs);
@@ -133,6 +135,8 @@ void concretize_one(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t
     case CONCRETE_RANDOM:
       concretize_random_one(ctx, cfg, run);
       break;
+    case CONCRETE_FIXED:
+      concretize_fixed_one(ctx, cfg, run);
       break;
     default:
       fail("! concretize_one: got unexpected concretization type: %s (%s)\n", LITMUS_CONCRETIZATION_TYPE, (LITMUS_CONCRETIZATION_TYPE));
@@ -153,6 +157,9 @@ void concretize(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cf
       break;
     case CONCRETE_RANDOM:
       concretize_random_all(ctx, cfg, no_runs);
+      break;
+    case CONCRETE_FIXED:
+      concretize_fixed_all(ctx, cfg, no_runs);
       break;
     default:
       fail("! concretize: got unexpected concretization type: %s (%s)\n", LITMUS_CONCRETIZATION_TYPE, (LITMUS_CONCRETIZATION_TYPE));
@@ -182,6 +189,8 @@ void* concretize_allocate_st(concretize_type_t type, test_ctx_t* ctx, const litm
       break;
     case CONCRETE_RANDOM:
       break;
+    case CONCRETE_FIXED:
+      break;
     default:
       fail("! concretize_allocate_st: got unexpected concretization type: %s (%s)\n", LITMUS_CONCRETIZATION_TYPE, (LITMUS_CONCRETIZATION_TYPE));
       break;
@@ -195,6 +204,8 @@ void concretize_free_st(concretize_type_t type, test_ctx_t* ctx, const litmus_te
     case CONCRETE_LINEAR:
       break;
     case CONCRETE_RANDOM:
+      break;
+    case CONCRETE_FIXED:
       break;
     default:
       fail("! concretize_free_st: got unexpected concretization type: %s (%s)\n", LITMUS_CONCRETIZATION_TYPE, (LITMUS_CONCRETIZATION_TYPE));

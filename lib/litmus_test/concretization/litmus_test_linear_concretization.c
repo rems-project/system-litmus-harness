@@ -166,33 +166,24 @@ static uint64_t __aligned(test_ctx_t* ctx,  const litmus_test_t* cfg, concretiza
   dir_tracker_t* dir = tracker_dir(ctx->heap_memory, &st->trackers, rootva);
   page_tracker_t* pg = tracker_page(ctx->heap_memory, &st->trackers, rootva);
   cache_line_tracker_t* cl = tracker_cache_line(ctx->heap_memory, &st->trackers, rootva);
-  for (int othervaridx = 0; othervaridx < cfg->no_heap_vars; othervaridx++) {
-    if (othervaridx == rootvar->varidx)
-      continue;
-
-    if (dir->exclusive_owner != NULL && dir->exclusive_owner != rootvar->name) {
-      diff = MAX(
-        diff,
-        (1-BITMASK(PMD_SHIFT)) - ((uint64_t)rootva & (1-BITMASK(PMD_SHIFT)))
-      );
-    } else if (pg->exclusive_owner != NULL && pg->exclusive_owner != rootvar->name) {
-      diff = MAX(
-        diff,
-        (1-BITMASK(PAGE_SHIFT)) - ((uint64_t)rootva & (1-BITMASK(PAGE_SHIFT)))
-      );
-    } else if (cl->exclusive_owner != NULL && cl->exclusive_owner != rootvar->name) {
-      diff = MAX(
-        diff,
-        (1-BITMASK(CACHE_LINE_SHIFT)) - ((uint64_t)rootva & (1-BITMASK(CACHE_LINE_SHIFT)))
-      );
-    }
+  if (dir->exclusive_owner != NULL && dir->exclusive_owner != rootvar->name) {
+    diff = MAX(
+      diff,
+      1 + (BITMASK(PMD_SHIFT) - 1) - ((uint64_t)rootva & (BITMASK(PMD_SHIFT) - 1))
+    );
+  } else if (pg->exclusive_owner != NULL && pg->exclusive_owner != rootvar->name) {
+    diff = MAX(
+      diff,
+      1 + (BITMASK(PAGE_SHIFT) - 1) - ((uint64_t)rootva & (BITMASK(PAGE_SHIFT) - 1))
+    );
+  } else if (cl->exclusive_owner != NULL && cl->exclusive_owner != rootvar->name) {
+    diff = MAX(
+      diff,
+      1 + (BITMASK(CACHE_LINE_SHIFT) - 1) - ((uint64_t)rootva & (BITMASK(CACHE_LINE_SHIFT) - 1))
+    );
   }
 
-  if (diff != 0) {
-    return diff;
-  }
-
-  return 0;
+  return diff;
 }
 
 /** mark a region as owned by this var
@@ -201,7 +192,7 @@ static void mark_own_region(test_ctx_t* ctx, const litmus_test_t* cfg, concretiz
   switch (var->init_owned_region_size) {
     case REGION_OWN_CACHE_LINE: {
       cache_line_tracker_t* cl = tracker_cache_line(ctx->heap_memory, &st->trackers, var->values[run]);
-      if (cl->exclusive_owner != NULL) {
+      if (cl->exclusive_owner != NULL && cl->exclusive_owner != var->name) {
         fail("! concretize: mark_own_region: marking %p/%s failed, cache line already owned by %s\n",
           var->values[run],
           var->name,
@@ -213,11 +204,13 @@ static void mark_own_region(test_ctx_t* ctx, const litmus_test_t* cfg, concretiz
     }
     case REGION_OWN_PAGE: {
       page_tracker_t* pg = tracker_page(ctx->heap_memory, &st->trackers, var->values[run]);
-      if (pg->exclusive_owner != NULL) {
-        fail("! concretize: mark_own_region: marking %p/%s failed, page already owned by %s\n",
+      if (pg->exclusive_owner != NULL && pg->exclusive_owner != var->name) {
+        fail("! concretize: mark_own_region: marking %p/%s failed, page %p already owned by %s (%p)\n",
           var->values[run],
           var->name,
-          pg->exclusive_owner
+          PAGE(var->values[run])<<12,
+          pg->exclusive_owner,
+          pg
         );
       }
       pg->exclusive_owner = var->name;
@@ -225,7 +218,7 @@ static void mark_own_region(test_ctx_t* ctx, const litmus_test_t* cfg, concretiz
     }
     case REGION_OWN_PMD: {
       dir_tracker_t* dir = tracker_dir(ctx->heap_memory, &st->trackers, var->values[run]);
-      if (dir->exclusive_owner != NULL) {
+      if (dir->exclusive_owner != NULL && dir->exclusive_owner != var->name) {
         fail("! concretize: mark_own_region: marking %p/%s failed, pmd already owned by %s\n",
           var->values[run],
           var->name,
@@ -280,6 +273,7 @@ void concretize_linear_all(test_ctx_t* ctx, const litmus_test_t* cfg, int no_run
         uint64_t* va = (uint64_t* )(start + st->offsets[var->varidx]);
 
         if (*va == 1) {
+          debug("try again va taken\n");
           goto try_again;
         }
 
@@ -311,7 +305,6 @@ try_again:
       start += 8;
     }
   }
-
 
   free_st(ctx, st);
 }
