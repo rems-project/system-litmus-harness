@@ -185,3 +185,39 @@ void test_concretization_unrelated_aliased(void) {
     ASSERT(PAGEOFF(VAR(&ctx, r, "x")) == PAGEOFF(VAR(&ctx, r, "z")), "x and y not same offset in pages");
   }
 }
+
+
+UNIT_TEST(test_concretization_unmapped)
+void test_concretization_unmapped(void) {
+  litmus_test_t test = {
+    "test",
+    0,NULL,
+    3,(const char*[]){"x","y","z"},
+    0,NULL,
+    INIT_STATE(
+      3,
+      INIT_UNMAPPED(x),
+      INIT_VAR(y, 0),
+      INIT_VAR(z, 1)
+    ),
+  };
+
+  test_ctx_t ctx;
+
+  init_test_ctx(&ctx, &test, SIZE_OF_TEST);
+  regions_t* region = alloc(sizeof(regions_t));
+  ctx.heap_memory = region;
+  concretize_linear_all(&ctx, ctx.cfg, ctx.no_runs);
+
+  for (int r = 0; r < ctx.no_runs; r++) {
+    /* no other var on any other run got given the same page as x on this run */
+    uint64_t xpage = PAGE(VAR(&ctx, r, "x"));
+    for (int varidx = 0; varidx < ctx.cfg->no_heap_vars; varidx++) {
+      if (varidx != idx_from_varname(&ctx, "x")) {
+        for (int r2 = 0; r2 < ctx.no_runs; r2++) {
+          ASSERT(PAGE(ctx.heap_vars[varidx].values[r2]) != xpage, "x and %s had same page", ctx.heap_vars[varidx].name);
+        }
+      }
+    }
+  }
+}
