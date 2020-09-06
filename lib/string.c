@@ -58,15 +58,43 @@ int strcmp(char* s1, char* s2) {
   return strcmp(s1+1, s2+1);
 }
 
-int ctoi(char c) {
+int ctoi_hex(char c) {
   if (c >= '0' && c <= '9') {
-    return ((int)c - 48);
+    return ((int)c - '0');
+  } else if (c >= 'a' && c <= 'f') {
+    return ((int)c - 'a');
+  } else if (c >= 'A' && c <= 'F') {
+    return ((int)c - 'A');
   }
 
   return 0;
 }
 
-uint64_t atoi(char* s) {
+int ctoi(char c) {
+  if (c >= '0' && c <= '9') {
+    return ((int)c - '0');
+  }
+
+  return 0;
+}
+
+uint64_t __atoi_hex(char* s) {
+  uint64_t x = 0;
+  /* skip 0x */
+  s = s+2;
+
+  while (*s) {
+    char c = *s;
+    s++;
+
+    x *= 16;
+    x += ctoi_hex(c);
+  }
+
+  return x;
+}
+
+uint64_t __atoi_dec(char* s) {
   uint64_t x = 0;
   while (*s) {
     char c = *s;
@@ -100,4 +128,11 @@ uint64_t atoi(char* s) {
     x += ctoi(c);
   }
   return x;
+}
+
+uint64_t atoi(char* s) {
+  if (*s == '0' && *(s+1) == 'x')
+    return __atoi_hex(s);
+
+  return __atoi_dec(s);
 }

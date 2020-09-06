@@ -23,6 +23,7 @@ sync_type_t LITMUS_SYNC_TYPE = SYNC_ALL;
 aff_type_t LITMUS_AFF_TYPE = AFF_RAND;
 shuffle_type_t LITMUS_SHUFFLE_TYPE = SHUF_RAND;
 concretize_type_t LITMUS_CONCRETIZATION_TYPE = CONCRETE_LINEAR;
+char LITMUS_CONCRETIZATION_CFG[1024];
 litmus_runner_type_t LITMUS_RUNNER_TYPE = RUNNER_SEMI_ARRAY;
 
 char* sync_type_to_str(sync_type_t ty) {
@@ -122,6 +123,10 @@ static void q(char* x) {
   VERBOSE = 0;
   DEBUG = 0;
   TRACE = 0;
+}
+
+static void conc_cfg(char* x) {
+  valloc_memcpy(LITMUS_CONCRETIZATION_CFG, x, strlen(x));
 }
 
 argdef_t ARGS = (argdef_t){
@@ -278,6 +283,20 @@ argdef_t ARGS = (argdef_t){
       "linear: allocate each var as a fixed shape and walk linearly over memory\n"
       "random: allocate randomly\n"
       "fixed: always use the same address, random or can be manually picked via --config-concretize\n"
+    ),
+    OPT(
+      NULL,
+      "--config-concretize",
+      conc_cfg,
+      "concretization-specific configuration\n"
+      "\n"
+      "the format differs depending on the value of --concretization:\n"
+      "for random, linear: do nothing.\n"
+      "for fixed:\n"
+      "format:  [<var>=<value]*\n"
+      "example: \n"
+      "  --config-concretize=\"x=0x1234,y=0x5678,c=0x9abc\"\n"
+      "  places x at 0x1234, y at 0x5678 and z at 0x9abc.\n"
     ),
     ENUMERATE(
       "--runner",

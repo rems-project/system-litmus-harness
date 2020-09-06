@@ -78,7 +78,7 @@ void concretization_postcheck(test_ctx_t*, const litmus_test_t* cfg, var_info_t*
 void concretize_one(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, void* st, int run);
 void concretize(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, int no_runs);
 
-void* concretize_allocate_st(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs);
-void  concretize_free_st(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, void* st);
+void* concretize_init(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs);
+void  concretize_finalize(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, void* st);
 
 #endif /* LITMUS_CONCRETIZATION_H */

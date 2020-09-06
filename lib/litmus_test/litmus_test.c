@@ -365,7 +365,7 @@ static void start_of_test(test_ctx_t* ctx) {
   if (LITMUS_RUNNER_TYPE != RUNNER_EPHEMERAL) {
     concretize(LITMUS_CONCRETIZATION_TYPE, ctx, ctx->cfg, ctx->heap_vars, ctx->no_runs);
   } else {
-    ctx->concretization_st = concretize_allocate_st(LITMUS_CONCRETIZATION_TYPE, ctx, ctx->cfg, ctx->no_runs);
+    ctx->concretization_st = concretize_init(LITMUS_CONCRETIZATION_TYPE, ctx, ctx->cfg, ctx->no_runs);
   }
 
   trace("====== %s ======\n", ctx->cfg->name);
@@ -380,7 +380,7 @@ static void end_of_test(test_ctx_t* ctx) {
   trace("Finished test %s\n", ctx->cfg->name);
 
   if (LITMUS_RUNNER_TYPE == RUNNER_EPHEMERAL)
-    concretize_free_st(LITMUS_CONCRETIZATION_TYPE, ctx, ctx->cfg, ctx->no_runs, ctx->concretization_st);
+    concretize_finalize(LITMUS_CONCRETIZATION_TYPE, ctx, ctx->cfg, ctx->no_runs, ctx->concretization_st);
 
   free_test_ctx(ctx);
 

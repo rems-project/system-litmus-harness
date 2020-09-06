@@ -183,13 +183,19 @@ void concretize(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cf
   }
 }
 
-void* concretize_allocate_st(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
+void concretized_fixed_init(test_ctx_t* ctx, const litmus_test_t* cfg);
+
+/** initialize the concretizer
+ * and optionally return any state to be passed along
+ */
+void* concretize_init(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
   switch (type) {
     case CONCRETE_LINEAR:
       break;
     case CONCRETE_RANDOM:
       break;
     case CONCRETE_FIXED:
+      concretized_fixed_init(ctx, cfg);
       break;
     default:
       fail("! concretize_allocate_st: got unexpected concretization type: %s (%s)\n", LITMUS_CONCRETIZATION_TYPE, (LITMUS_CONCRETIZATION_TYPE));
@@ -199,7 +205,11 @@ void* concretize_allocate_st(concretize_type_t type, test_ctx_t* ctx, const litm
   return NULL;
 }
 
-void concretize_free_st(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, void* st) {
+/** cleanup after a run
+ *
+ * and optionally free any allocated state
+ */
+void concretize_finalize(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, void* st) {
   switch (type) {
     case CONCRETE_LINEAR:
       break;

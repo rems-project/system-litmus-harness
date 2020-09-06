@@ -51,6 +51,7 @@ typedef enum {
 } concretize_type_t;
 
 extern concretize_type_t LITMUS_CONCRETIZATION_TYPE;
+extern char LITMUS_CONCRETIZATION_CFG[1024];
 
 typedef enum {
     RUNNER_ARRAY,
