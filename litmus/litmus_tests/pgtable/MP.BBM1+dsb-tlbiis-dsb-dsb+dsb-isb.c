@@ -22,7 +22,7 @@ static void P0(litmus_test_run* data) {
     "str x3,[x4]\n\t"
     "dsb sy\n\t"
     "str x5,[x6]\n\t"
-  : 
+  :
   : ASM_VARS(data, VARS),
     ASM_REGS(data, REGS)
   : "memory", "x0", "x1", "x2", "x3", "x4", "x5", "x6"
@@ -50,7 +50,7 @@ static void P1(litmus_test_run* data) {
       /* output */
       "str x0, [%[outp1r0]]\n\t"
       "str x2, [%[outp1r2]]\n\t"
-  : 
+  :
   : ASM_VARS(data, VARS),
     ASM_REGS(data, REGS)
   : "cc", "memory", "x0", "x1", "x2", "x3", "x10"

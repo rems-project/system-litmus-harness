@@ -61,19 +61,25 @@ void setup(char* fdtloc) {
   TICKS_PER_SEC = read_clk_freq();
 
   printf("#build: (%s)\n", version_string());
-  if (VERBOSE | TRACE | DEBUG) {
-    printf("#verbose: %ld\n", VERBOSE);
-    printf("#trace: %ld\n", TRACE);
-    printf("#debug: %ld\n", DEBUG);
+  printf("#output: ");
+  if (DEBUG) {
+    printf("verbose+trace+debug");
+  } else if (TRACE) {
+    printf("verbose+trace");
+  } else if (VERBOSE) {
+    printf("verbose");
+  } else {
+    printf("quiet");
   }
+  printf("\n");
   printf("#pgtable: %ld\n", ENABLE_PGTABLE);
   printf("#timing: %ld\n", ENABLE_PERF_COUNTS);
   printf("#no_runs: %ld\n", NUMBER_OF_RUNS);
-  printf("#sync_type: %s\n", sync_type_to_str(LITMUS_SYNC_TYPE));
-  printf("#aff_type: %s\n", aff_type_to_str(LITMUS_AFF_TYPE));
-  printf("#shuffle_type: %s\n", aff_type_to_str(LITMUS_SHUFFLE_TYPE));
-  printf("#concretization_type: %s\n", concretize_type_to_str(LITMUS_CONCRETIZATION_TYPE));
-  printf("#runner_type: %s\n", runner_type_to_str(LITMUS_RUNNER_TYPE));
+  printf("#tlbsync: %s\n", sync_type_to_str(LITMUS_SYNC_TYPE));
+  printf("#aff: %s\n", aff_type_to_str(LITMUS_AFF_TYPE));
+  printf("#shuffle: %s\n", aff_type_to_str(LITMUS_SHUFFLE_TYPE));
+  printf("#concretize: %s\n", concretize_type_to_str(LITMUS_CONCRETIZATION_TYPE));
+  printf("#runner: %s\n", runner_type_to_str(LITMUS_RUNNER_TYPE));
 
   debug("setting up CPU0\n");
   cpu_data_init();

@@ -8,6 +8,9 @@
 void concretize_random_one(test_ctx_t* ctx, const litmus_test_t* cfg, int run);
 
 void __set_var(test_ctx_t* ctx, const litmus_test_t* cfg, char* var, char* val) {
+  if (strcmp(var, "") || strcmp(val, ""))
+    return;
+
   uint64_t value = atoi(val);
   uint64_t varidx = idx_from_varname(ctx, var);
 
@@ -29,6 +32,7 @@ void __read_from_argv(test_ctx_t* ctx, const litmus_test_t* cfg, char* arg) {
       *curSink = '\0';
       __set_var(ctx, cfg, &curVar[0], &curVal[0]);
       curSink = &curVar[0];
+      curVar[0] = '\0';
       cur++;
     } else {
       *curSink++ = *cur++;
@@ -57,6 +61,16 @@ void concretized_fixed_init(test_ctx_t* ctx, const litmus_test_t* cfg) {
       }
     }
   }
+
+  char cfg_format[1024];
+  char* out = &cfg_format[0];
+
+  var_info_t* var;
+  FOREACH_HEAP_VAR(ctx, var) {
+    out = sprintf(out, "%s=%p,", var->name, var->values[0]);
+  }
+
+  printf("#vas: %s\n", &cfg_format[0]);
 }
 
 void concretize_fixed_one(test_ctx_t* ctx, const litmus_test_t* cfg, int run) {

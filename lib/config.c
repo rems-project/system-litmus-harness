@@ -228,7 +228,7 @@ argdef_t ARGS = (argdef_t){
       "this seed can be forced with --seed=12345 which ensures some level of determinism."
     ),
     ENUMERATE(
-      "--sync",
+      "--tlbsync",
       LITMUS_SYNC_TYPE,
       sync_type_t,
       4,
@@ -270,7 +270,7 @@ argdef_t ARGS = (argdef_t){
       "rand: access pages in random order\n"
     ),
     ENUMERATE(
-      "--concretization",
+      "--concretize",
       LITMUS_CONCRETIZATION_TYPE,
       concretize_type_t,
       3,
@@ -290,7 +290,7 @@ argdef_t ARGS = (argdef_t){
       conc_cfg,
       "concretization-specific configuration\n"
       "\n"
-      "the format differs depending on the value of --concretization:\n"
+      "the format differs depending on the value of --concretize:\n"
       "for random, linear: do nothing.\n"
       "for fixed:\n"
       "format:  [<var>=<value]*\n"
