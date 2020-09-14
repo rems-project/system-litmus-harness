@@ -22,9 +22,9 @@ int   collected_tests_count;
 sync_type_t LITMUS_SYNC_TYPE = SYNC_ALL;
 aff_type_t LITMUS_AFF_TYPE = AFF_RAND;
 shuffle_type_t LITMUS_SHUFFLE_TYPE = SHUF_RAND;
-concretize_type_t LITMUS_CONCRETIZATION_TYPE = CONCRETE_LINEAR;
+concretize_type_t LITMUS_CONCRETIZATION_TYPE = CONCRETE_RANDOM;
 char LITMUS_CONCRETIZATION_CFG[1024];
-litmus_runner_type_t LITMUS_RUNNER_TYPE = RUNNER_SEMI_ARRAY;
+litmus_runner_type_t LITMUS_RUNNER_TYPE = RUNNER_EPHEMERAL;
 
 char* sync_type_to_str(sync_type_t ty) {
   switch (ty) {
@@ -298,22 +298,7 @@ argdef_t ARGS = (argdef_t){
       "  --config-concretize=\"x=0x1234,y=0x5678,c=0x9abc\"\n"
       "  places x at 0x1234, y at 0x5678 and z at 0x9abc.\n"
     ),
-    ENUMERATE(
-      "--runner",
-      LITMUS_RUNNER_TYPE,
-      litmus_runner_type_t,
-      3,
-      ARR((const char*[]){"array", "semi", "ephemeral"}),
-      ARR((litmus_runner_type_t[]){RUNNER_ARRAY, RUNNER_SEMI_ARRAY, RUNNER_EPHEMERAL}),
-      "test runner algorithml\n"
-      "\n"
-      "controls when concretization occurs and how the test is run\n"
-      "\n"
-      "array: full array-ization, all alloation done upfront\n"
-      "stanard: semi-arrayization, VA selection upfront, synchronization at runtime\n"
-      "ephemeral: allocate at runtime\n"
-    ),
-    NULL,  /* nul terminated list */
+    NULL
   }
 };
 

@@ -21,6 +21,19 @@ void run_test(const litmus_test_t* cfg) {
   printf("\n");
   printf("Test %s:\n", cfg->name);
 
+  /* ensure we use the correct runner for the given concretization algorithm */
+  switch (LITMUS_CONCRETIZATION_TYPE) {
+    case CONCRETE_RANDOM:
+      LITMUS_RUNNER_TYPE = RUNNER_EPHEMERAL;
+      break;
+    case CONCRETE_LINEAR:
+      LITMUS_RUNNER_TYPE = RUNNER_SEMI_ARRAY;
+      break;
+    case CONCRETE_FIXED:
+      LITMUS_RUNNER_TYPE = RUNNER_EPHEMERAL;
+      break;
+  }
+
   static regions_t* region = NULL;
 
   /* first-time intiialisation, create the region */
