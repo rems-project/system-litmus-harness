@@ -6,11 +6,20 @@
 #include "lib.h"
 
 typedef struct {
-  tracker_loc_t curr_loc;
+  int no_pins;
+  var_info_t** vars;
+} pin_st_t;
+
+typedef struct {
+  uint8_t picked;
+  uint64_t va;
+  pin_st_t pins[NUM_PIN_LEVELS];
 } var_st_t;
 
 typedef struct {
   region_trackers_t* trackers;
+  uint64_t mem_hi;
+  uint64_t mem_lo;
   var_st_t var_sts[];
 } concretization_st_t;
 
@@ -27,134 +36,170 @@ uint8_t overlaps(tracker_loc_t* t1, tracker_loc_t* t2, own_level_t lvl) {
   return 0;
 }
 
-uint8_t validate_selection(test_ctx_t* ctx, concretization_st_t* st, var_info_t* thisvar, tracker_loc_t loc, own_level_t lvl) {
+uint8_t overlaps_owned_region(concretization_st_t* st, var_info_t* var, var_info_t* with) {
+  if (! with->init_owns_region) {
+    return 0;
+  }
+
+  uint64_t va = st->var_sts[var->varidx].va;
+  uint64_t otherva = st->var_sts[with->varidx].va;
+  uint64_t level = with->init_owned_region_size;
+
+  uint64_t lo = otherva & ~BITMASK(LEVEL_SHIFTS[level]);
+  uint64_t hi = lo + LEVEL_SIZES[level];
+
+  if (lo <= va && va < hi) {
+    return 1;
+  }
+
+  return 0;
+}
+
+uint8_t has_same_va(concretization_st_t* st, var_info_t* var, var_info_t* with) {
+  uint64_t va = st->var_sts[var->varidx].va;
+  uint64_t otherva = st->var_sts[with->varidx].va;
+
+  return (va == otherva);
+}
+
+uint8_t validate_selection(test_ctx_t* ctx, concretization_st_t* st, var_info_t* thisvar) {
   var_info_t* var;
   FOREACH_HEAP_VAR(ctx, var) {
-    tracker_loc_t* other_loc = &st->var_sts[var->varidx].curr_loc;
+    if (var->varidx == thisvar->varidx)
+      continue;
 
-    /* if there are any other vars in the same own_level_t return false */
-    if (overlaps(other_loc, &loc, lvl)) {
+    if (  has_same_va(st, thisvar, var)
+       || overlaps_owned_region(st, thisvar, var)
+    ) {
       return 0;
-    }
-
-    /* if this var got allocated in the same region as another own_level_t
-     * _and_ this var isn't pinned to that var */
-    if (var->init_owns_region) {
-      if ( overlaps(&loc, other_loc, var->init_owned_region_size)
-        && !(var->init_region_pinned && (idx_from_varname(ctx,var->pin_region_var) != var->varidx))
-      ) {
-        return 0;
-      }
-    }
-
-    /* finally ensure this does not overlap with the page of an unpinned unowned var */
-    if (!var->init_owns_region && !var->init_region_pinned) {
-      if (overlaps(&loc, other_loc, REGION_OWN_PAGE)) {
-        return 0;
-      }
     }
   }
 
   return 1;
 }
 
+void pick_pin(test_ctx_t* ctx, concretization_st_t* st, var_info_t* rootvar, uint64_t rootva, var_info_t* pinnedvar) {
+  uint64_t lvl = pinnedvar->pin_region_level;
+  uint64_t va_begin = rootva & ~BITMASK(LEVEL_SHIFTS[lvl]);
+  uint64_t va_end = va_begin + LEVEL_SIZES[lvl];
+
+  uint64_t va = randrange(va_begin, va_end);
+  va = ALIGN_TO(va, 4);  /* always allocated 64-bit aligned values */
+
+  if (pinnedvar->init_region_offset) {
+    uint64_t othervaridx = pinnedvar->offset_var;
+    if (st->var_sts[othervaridx].picked) {
+      uint64_t othershift = LEVEL_SHIFTS[pinnedvar->offset_level];
+      uint64_t otherva = st->var_sts[othervaridx].va;
+      va &= ~BITMASK(othershift);
+      va |= otherva & BITMASK(othershift);
+    }
+  }
+
+  st->var_sts[pinnedvar->varidx].va = va;
+  st->var_sts[pinnedvar->varidx].picked = 1;
+}
+
+/** select the VA for a var that OWNs a region
+ */
 void pick_one(test_ctx_t* ctx, concretization_st_t* st, var_info_t* var, own_level_t lvl) {
-  tracker_loc_t loc;
-  while (1) {
-    loc.reg_ix = randn() % NR_REGIONS;
-    loc.dir_ix = randn() % NR_DIRS_PER_REGION;
-    loc.page_ix = randn() % NR_PAGES_PER_DIR;
-    loc.scl_ix = randn() % NR_CACHE_LINES_PER_PAGE;
-    loc.val_ix = randn() % NR_u64_PER_CACHE_LINE;
+  uint64_t va = randrange(st->mem_lo, st->mem_hi);
+  va = ALIGN_TO(va, 4);  /* always allocated 64-bit aligned values */
 
-    if (validate_selection(ctx, st, var, loc, lvl))
-      break;
+  if (var->init_region_offset) {
+    uint64_t othervaridx = var->offset_var;
+    if (st->var_sts[othervaridx].picked) {
+      uint64_t othershift = LEVEL_SHIFTS[var->offset_level];
+      uint64_t otherva = st->var_sts[othervaridx].va;
+      va &= ~BITMASK(othershift);
+      va |= otherva & BITMASK(othershift);
+    }
   }
 
-  st->var_sts[var->varidx].curr_loc = loc;
-}
-
-void pick_pin(test_ctx_t* ctx, concretization_st_t* st, var_info_t* var) {
-  uint64_t othervaridx = idx_from_varname(ctx, var->pin_region_var);
-  tracker_loc_t loc;
-  tracker_loc_t* other_var_loc = &st->var_sts[othervaridx].curr_loc;
-
-  while (1) {
-    if (var->pin_region_level <= REGION_SAME_PMD) {
-      loc.reg_ix = other_var_loc->reg_ix;
-      loc.dir_ix = other_var_loc->reg_ix;
-    } else {
-      loc.reg_ix = randn() % NR_REGIONS;
-      loc.dir_ix = randn() % NR_DIRS_PER_REGION;
+  /* for each pinned var, pick a VA for it too */
+  var_st_t* varst = &st->var_sts[var->varidx];
+  for (pin_level_t lvl = REGION_SAME_VAR; lvl < REGION_SAME_PGD; lvl++) {
+    pin_st_t* varpin = &varst->pins[lvl];
+    var_info_t** pinned_vars = varpin->vars;
+    for (int pidx = 0; pidx < varpin->no_pins; pidx++) {
+      var_info_t* pinnedvar = pinned_vars[pidx];
+      pick_pin(ctx, st, var, va, pinnedvar);
     }
-
-    if (var->pin_region_level <= REGION_SAME_PAGE) {
-      loc.page_ix = other_var_loc->page_ix;
-    } else {
-      loc.page_ix = randn() % NR_PAGES_PER_DIR;
-    }
-
-    if (var->pin_region_level <= REGION_SAME_CACHE_LINE) {
-      loc.scl_ix = other_var_loc->scl_ix;
-    } else {
-      loc.scl_ix = randn() % NR_CACHE_LINES_PER_PAGE;
-    }
-
-    loc.val_ix = randn() % NR_u64_PER_CACHE_LINE;
-
-    if (validate_selection(ctx, st, var, loc, REGION_OWN_VAR))
-      break;
   }
 
-  st->var_sts[var->varidx].curr_loc = loc;
+  st->var_sts[var->varidx].va = va;
+  st->var_sts[var->varidx].picked = 1;
 }
 
-uint64_t* va_from_loc(test_ctx_t* ctx, tracker_loc_t loc) {
-  return &ctx->heap_memory->
-          regions[loc.reg_ix]
-          .dirs[loc.dir_ix]
-          .pages[loc.page_ix]
-          .values[loc.val_ix + loc.scl_ix*NR_CACHE_LINES_PER_PAGE];
-}
-
-void concretize_random_one(test_ctx_t* ctx, const litmus_test_t* cfg, int run) {
-  var_info_t* var;
-
+void* concretize_random_init(test_ctx_t* ctx, const litmus_test_t* cfg) {
   concretization_st_t* st = alloc(sizeof(concretization_st_t) + sizeof(var_st_t)*cfg->no_heap_vars);
   valloc_memset(st, 0, sizeof(concretization_st_t) + sizeof(var_st_t)*cfg->no_heap_vars);
 
-  for (own_level_t lvl = REGION_OWN_PGD; lvl > REGION_OWN_VAR; lvl--) {
+  st->mem_lo = (uint64_t)ctx->heap_memory;
+  st->mem_hi = st->mem_lo + sizeof(regions_t);
+
+  /* collect pins */
+  var_info_t* var;
+  FOREACH_HEAP_VAR(ctx, var) {
+    var_st_t* varst = &st->var_sts[var->varidx];
+    for (pin_level_t lvl = REGION_SAME_VAR; lvl < REGION_SAME_PGD; lvl++) {
+      pin_st_t* varpin = &varst->pins[lvl];
+      var_info_t** pinned_vars = varpin->vars;
+      varpin->no_pins = count_pinned_to(pinned_vars, ctx, var, lvl);
+    }
+  }
+
+  return (void*)st;
+}
+
+static void reset_st(test_ctx_t* ctx, const litmus_test_t* cfg, concretization_st_t* st) {
+  for (int i = 0; i < cfg->no_heap_vars; i++) {
+    var_st_t* vst = &st->var_sts[i];
+    vst->picked = 0;
+  }
+}
+
+void concretize_random_one(test_ctx_t* ctx, const litmus_test_t* cfg, concretization_st_t* st, int run) {
+  var_info_t* var;
+
+  int count = 1;
+  int tryagain = 1;
+  while (tryagain) {
+    tryagain = 0;
+
+    reset_st(ctx, cfg, st);
+
+    for (own_level_t lvl = REGION_OWN_PGD; lvl > REGION_OWN_VAR; lvl--) {
+      FOREACH_HEAP_VAR(ctx, var) {
+        if (OWNS_REGION(var, lvl)) {
+          pick_one(ctx, st, var, lvl);
+        }
+      }
+    }
+
     FOREACH_HEAP_VAR(ctx, var) {
-      if (OWNS_REGION(var, lvl)) {
-        pick_one(ctx, st, var, lvl);
+      if (! validate_selection(ctx, st, var)) {
+        count++;
+        tryagain = 1;
+        break;
       }
     }
   }
 
-  FOREACH_HEAP_VAR(ctx, var) {
-    if (!var->init_owns_region) {
-      pick_one(ctx, st, var, REGION_SAME_PAGE);
-    }
-  }
+  debug("# allocate_random_one: tried %d times to allocate VAs\n", count);
 
   FOREACH_HEAP_VAR(ctx, var) {
-    if (var->init_region_pinned) {
-      pick_pin(ctx, st, var);
-    }
+    var->values[run] = (uint64_t*)st->var_sts[var->varidx].va;
+    debug("%s.va = %p\n", var->name, var->values[run]);
   }
-
-  /* allocate VAs */
-
-  FOREACH_HEAP_VAR(ctx, var) {
-    uint64_t* va = va_from_loc(ctx, st->var_sts[var->varidx].curr_loc);
-    var->values[run] = va;
-  }
-
-  free(st);
 }
 
-void concretize_random_all(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
+void concretize_random_all(test_ctx_t* ctx, const litmus_test_t* cfg, concretization_st_t* st, int no_runs) {
   for (uint64_t i = 0; i < ctx->no_runs; i++) {
-    concretize_random_one(ctx, cfg, i);
+    concretize_random_one(ctx, cfg, st, i);
   }
+}
+
+void concretize_random_finalize(test_ctx_t* ctx, const litmus_test_t* cfg, void* st) {
+  free(st);
 }

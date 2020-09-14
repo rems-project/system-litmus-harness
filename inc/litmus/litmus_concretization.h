@@ -70,13 +70,15 @@ cache_line_tracker_t* tracker_cache_line(regions_t* regions, region_trackers_t* 
 
 /* generic concretization functions */
 
+int count_pinned_to(var_info_t** out_vinfos, test_ctx_t* ctx, var_info_t* var, pin_level_t lvl);
+
 void set_init_pte(test_ctx_t* ctx, uint64_t varidx, uint64_t idx);
 void set_init_var(test_ctx_t* ctx, uint64_t varidx, uint64_t idx);
 void init_vars(test_ctx_t* ctx, const litmus_test_t* cfg, int run);
 void concretization_precheck(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos);
 void concretization_postcheck(test_ctx_t*, const litmus_test_t* cfg, var_info_t* infos, int run);
 void concretize_one(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, void* st, int run);
-void concretize(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, int no_runs);
+void concretize(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, void* st, int no_runs);
 
 void* concretize_init(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs);
 void  concretize_finalize(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, void* st);

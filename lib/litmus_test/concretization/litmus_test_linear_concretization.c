@@ -1,3 +1,41 @@
+/** linear concretization algorithm
+ *
+ *
+ * each var can OWN a region of memory
+ *      or be PINNED within another region
+ *
+ * each region can optionally have a RELATION with another variable
+ *
+ * for example, for a litmus test you might want:
+ *  X OWNS a PAGE (4K region)
+ *  Y PINNED to X's page (so in the same 4k region)
+ *  Z OWNS a PAGE (so different 4K region to X and Y)
+ *  Z RELATES to X's PAGE offset (so shares the same last 12 bits)
+ *
+ *
+ * To allocate VAs we follow the simple following algorithm:
+ *  1. Pick one of the variables as the "root" at give it offset 0
+ *  2. For each var V that owns a region, in order of the size of the region
+ *      a) if V RELATES to V' and V' has been allocated an offset
+ *        i) raise the current offset to match the last N bits of V'
+ *      b) put V at the current offset
+ *      c) for each var V' pinned to V, in order of size of the pin (closest->furthest)
+ *         i) increment current offset by size of the level of pin below the current
+ *                (e.g. if at offset 0x1000 and pinned to the PMD, then incremenet by a PAGE)
+ *         ii) if V' RELATES to V''  and V'' has been allocated an offset
+ *            1) raise the current offset to match the last N bits of V''
+ *            2) if the current offset pushes V' outside the pin, fail.
+ *         iii) put V' at current offset
+ *      d) move offset to 1+ end of V's region
+ *
+ * 3. Set start=0
+ * 4. For each run i
+ *    a) for each var V
+ *      i) set VA for V on run i to start + offset of V
+ *    b) incremenet start up to the next available place
+ *        (such that the next set of variables will not collide with previous ones)
+ */
+
 #include "lib.h"
 
 int __count_fit(uint64_t x, uint64_t bound) {
@@ -25,23 +63,27 @@ typedef struct {
 typedef struct {
   region_trackers_t trackers;
   var_st_t* var_sts;
+  uint8_t* offsets_allocd;
   uint64_t* offsets;
 } concretization_st_t ;
 
 concretization_st_t* init_st(test_ctx_t* ctx) {
-  var_st_t* var_sts = ALLOC_MANY(var_st_t, NUM_PIN_LEVELS);
+  concretization_st_t* st = ALLOC_ONE(concretization_st_t);
+  st->offsets = ALLOC_MANY(uint64_t, ctx->cfg->no_heap_vars);
+  st->offsets_allocd = ALLOC_MANY(uint8_t, ctx->cfg->no_heap_vars);
+  st->var_sts = ALLOC_MANY(var_st_t, NUM_PIN_LEVELS);
+
   for (int varidx = 0; varidx < ctx->cfg->no_heap_vars; varidx++) {
     for (int i = 0; i < NUM_PIN_LEVELS; i++) {
-      var_st_t* var_st = &var_sts[varidx];
+      var_st_t* var_st = &st->var_sts[varidx];
       pin_st_t* pin_st = &var_st->pins[i];
       pin_st->no_pins = 0;
       pin_st->vars = ALLOC_MANY(var_info_t*, ctx->cfg->no_heap_vars);
     }
+
+    st->offsets_allocd[varidx] = 0;
   }
 
-  concretization_st_t* st = ALLOC_ONE(concretization_st_t);
-  st->offsets = ALLOC_MANY(uint64_t, ctx->cfg->no_heap_vars);
-  st->var_sts = var_sts;
   return st;
 }
 
@@ -55,25 +97,8 @@ void free_st(test_ctx_t* ctx, concretization_st_t* st) {
   }
   free(st->var_sts);
   free(st->offsets);
+  free(st->offsets_allocd);
   free(st);
-}
-
-static int count_pinned_to(var_info_t** out_vinfos, test_ctx_t* ctx, var_info_t* var, pin_level_t lvl) {
-  var_info_t* othervar;
-  int count = 0;
-
-  FOREACH_HEAP_VAR(ctx, othervar) {
-    if ( (var->varidx != othervar->varidx)
-         && othervar->init_region_pinned
-         && idx_from_varname(ctx, othervar->pin_region_var) == var->varidx
-         && othervar->pin_region_level == lvl
-    ) {
-      out_vinfos[count] = othervar;
-      count += 1;
-    }
-  }
-
-  return count;
 }
 
 /** place each VA in its own region
@@ -91,7 +116,7 @@ static uint64_t calculate_offsets(test_ctx_t* ctx, const litmus_test_t* cfg, con
     0
   };
 
-  uint64_t root_size = rootvar->init_owns_region ? level_sizes[rootvar->init_owned_region_size] : PAGE_SIZE;
+  uint64_t root_size = level_sizes[rootvar->init_owned_region_size];
 
   uint64_t no_levels[] = {
     0, /* same loc */
@@ -102,16 +127,41 @@ static uint64_t calculate_offsets(test_ctx_t* ctx, const litmus_test_t* cfg, con
     0, /* same pgd */
   };
 
-  st->offsets[rootvar->varidx] = start;
+  uint64_t rootoffs = start;
+
+  if (rootvar->init_region_offset) {
+    uint64_t offsvaridx = rootvar->offset_var;
+    if (st->offsets_allocd[offsvaridx]) {
+      /* if the offset between A and B is a PAGE
+       * then offsets[A] = offsets[B] + x*4096
+       * similarly with all other ranges
+       */
+      uint64_t offsvaroffs = st->offsets[offsvaridx];
+      uint64_t offsvar_leveloffs = offsvaroffs % level_sizes[rootvar->offset_level];
+      uint64_t rootvar_leveloffs = rootoffs % level_sizes[rootvar -> offset_level];
+
+      if (rootvar_leveloffs < offsvar_leveloffs) {
+        rootoffs += offsvar_leveloffs - rootvar_leveloffs;
+      } else {
+        rootoffs += level_sizes[rootvar -> offset_level] + offsvar_leveloffs - rootvar_leveloffs;
+      }
+    }
+  }
+
+  st->offsets[rootvar->varidx] = rootoffs;
+  st->offsets_allocd[rootvar->varidx] = 1;
 
   for (pin_level_t lvl = REGION_SAME_CACHE_LINE; lvl <= REGION_SAME_PGD; lvl++) {
     pin_st_t* pin_st = &st->var_sts[rootvar->varidx].pins[lvl];
     for (int pinidx = 0; pinidx < pin_st->no_pins; pinidx++) {
       var_info_t* pin_var = pin_st->vars[pinidx];
-      st->offsets[pin_var->varidx] = start + (++no_levels[lvl - 1])*level_sizes[lvl - 1];
+      st->offsets[pin_var->varidx] = rootoffs + (++no_levels[lvl - 1])*level_sizes[lvl - 1];
     }
   }
 
+  /* TODO:
+   * what if offset for pinned var went over the edge ?
+   */
   return start + root_size;
 }
 
@@ -233,7 +283,7 @@ static void mark_own_region(test_ctx_t* ctx, const litmus_test_t* cfg, concretiz
   }
 }
 
-void concretize_linear_all(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
+void* concretize_linear_init(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
   concretization_st_t* st = init_st(ctx);
   valloc_memset(ctx->heap_memory, 0, sizeof(regions_t));
 
@@ -248,19 +298,26 @@ void concretize_linear_all(test_ctx_t* ctx, const litmus_test_t* cfg, int no_run
     }
   }
 
+  return (void*)st;
+}
+
+void concretize_linear_finalize(test_ctx_t* ctx, const litmus_test_t* cfg, concretization_st_t* st) {
+  free_st(ctx, st);
+}
+
+void concretize_linear_all(test_ctx_t* ctx, const litmus_test_t* cfg, concretization_st_t* st, int no_runs) {
   /* calculate offsets */
+  var_info_t* var;
   uint64_t offs = 0;
   FOREACH_HEAP_VAR(ctx, var) {
     if (var->init_owns_region) {
       offs = calculate_offsets(ctx, cfg, st, var, offs);
-    } else if (! var->init_region_pinned) {
-      offs = calculate_offsets(ctx, cfg, st, var, PAGE_SIZE+offs);
     }
   }
 
   debug("calcd offsets\n");
   FOREACH_HEAP_VAR(ctx, var) {
-    debug("offset[%s] = %d\n", var->name, st->offsets[var->varidx]);
+    debug("offset[%s] = %p\n", var->name, st->offsets[var->varidx]);
   }
 
   /* walk over memory */
@@ -305,6 +362,4 @@ try_again:
       start += 8;
     }
   }
-
-  free_st(ctx, st);
 }

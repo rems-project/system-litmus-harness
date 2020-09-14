@@ -5,7 +5,9 @@
 
 #include "lib.h"
 
-void concretize_random_one(test_ctx_t* ctx, const litmus_test_t* cfg, int run);
+void* concretize_random_init(test_ctx_t* ctx, const litmus_test_t* cfg);
+void concretize_random_one(test_ctx_t* ctx, const litmus_test_t* cfg, void* st, int run);
+void concretize_random_finalize(test_ctx_t* ctx, const litmus_test_t* cfg, void* st);
 
 void __set_var(test_ctx_t* ctx, const litmus_test_t* cfg, char* var, char* val) {
   if (strcmp(var, "") || strcmp(val, ""))
@@ -45,7 +47,9 @@ void __read_from_argv(test_ctx_t* ctx, const litmus_test_t* cfg, char* arg) {
 
 void concretized_fixed_init(test_ctx_t* ctx, const litmus_test_t* cfg) {
   if (strcmp(LITMUS_CONCRETIZATION_CFG, "")) {
-    concretize_random_one(ctx, cfg, 0);
+    void* st = concretize_random_init(ctx, cfg);
+    concretize_random_one(ctx, cfg, st, 0);
+    concretize_random_finalize(ctx, cfg, st);
   } else {
     __read_from_argv(ctx, cfg, (char*)LITMUS_CONCRETIZATION_CFG);
 

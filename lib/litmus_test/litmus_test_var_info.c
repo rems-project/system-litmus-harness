@@ -65,7 +65,17 @@ void read_var_infos(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos
   }
 
   if (first == NULL) {
-    fail("! read_var_infos: default state for test '%s' has no owned variable to root to.\n", cfg->name);
+    if (cfg->no_heap_vars == 0) {
+      /* it's OK for a test to have no heap vars
+       * e.g. for tests about relaxed registers and the like
+       */
+      return;
+    } else {
+      /* but if it has variables there must be at least 1 to be the 'root'
+       * to attach others' PAGE bits to.
+       */
+      fail("! read_var_infos: default state for test '%s' has no owned variable to root to.\n", cfg->name);
+    }
   }
 
   for (int v = 0; v < cfg->no_heap_vars; v++) {

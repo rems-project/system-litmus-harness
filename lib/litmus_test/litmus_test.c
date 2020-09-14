@@ -21,19 +21,6 @@ void run_test(const litmus_test_t* cfg) {
   printf("\n");
   printf("Test %s:\n", cfg->name);
 
-  /* ensure we use the correct runner for the given concretization algorithm */
-  switch (LITMUS_CONCRETIZATION_TYPE) {
-    case CONCRETE_RANDOM:
-      LITMUS_RUNNER_TYPE = RUNNER_EPHEMERAL;
-      break;
-    case CONCRETE_LINEAR:
-      LITMUS_RUNNER_TYPE = RUNNER_SEMI_ARRAY;
-      break;
-    case CONCRETE_FIXED:
-      LITMUS_RUNNER_TYPE = RUNNER_EPHEMERAL;
-      break;
-  }
-
   static regions_t* region = NULL;
 
   /* first-time intiialisation, create the region */
@@ -163,11 +150,6 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
       } else if (LITMUS_RUNNER_TYPE == RUNNER_SEMI_ARRAY) {
         init_vars(ctx, ctx->cfg, i);
       }
-
-      /* have to flush tlb
-        * since set_init_var doesn't do it
-        */
-      vmm_flush_tlb();
     }
 
     bwait(vcpu, i % ctx->cfg->no_threads, &ctx->concretize_barriers[i % 512], ctx->cfg->no_threads);
@@ -375,10 +357,9 @@ static void start_of_test(test_ctx_t* ctx) {
     }
   }
 
+  ctx->concretization_st = concretize_init(LITMUS_CONCRETIZATION_TYPE, ctx, ctx->cfg, ctx->no_runs);
   if (LITMUS_RUNNER_TYPE != RUNNER_EPHEMERAL) {
-    concretize(LITMUS_CONCRETIZATION_TYPE, ctx, ctx->cfg, ctx->heap_vars, ctx->no_runs);
-  } else {
-    ctx->concretization_st = concretize_init(LITMUS_CONCRETIZATION_TYPE, ctx, ctx->cfg, ctx->no_runs);
+    concretize(LITMUS_CONCRETIZATION_TYPE, ctx, ctx->cfg, ctx->concretization_st, ctx->no_runs);
   }
 
   trace("====== %s ======\n", ctx->cfg->name);
@@ -392,9 +373,7 @@ static void end_of_test(test_ctx_t* ctx) {
 
   trace("Finished test %s\n", ctx->cfg->name);
 
-  if (LITMUS_RUNNER_TYPE == RUNNER_EPHEMERAL)
-    concretize_finalize(LITMUS_CONCRETIZATION_TYPE, ctx, ctx->cfg, ctx->no_runs, ctx->concretization_st);
-
+  concretize_finalize(LITMUS_CONCRETIZATION_TYPE, ctx, ctx->cfg, ctx->no_runs, ctx->concretization_st);
   free_test_ctx(ctx);
 
   if (ENABLE_PGTABLE)
