@@ -145,7 +145,7 @@ static void __print_id_cpu(int cpu, void* arg) {
   printf("REVIDR_EL1: %p\n", read_sysreg(revidr_el1));
 }
 
-static void device_ident(char* opt) {
+static void device_ident_and_quit(char* opt) {
   uint64_t midr = read_sysreg(midr_el1);
   uint64_t rev = midr & BITMASK(1 + 3 - 0);
   uint64_t partnum = (midr >> 4) & BITMASK(1 + 15 - 4);
@@ -177,6 +177,8 @@ static void device_ident(char* opt) {
   ensure_cpus_on();
   for (int cpu = 0; cpu < NO_CPUS; cpu++)
     run_on_cpu(cpu, __print_id_cpu, NULL);
+
+  abort();
 }
 
 static void n(char* x) {
@@ -230,8 +232,8 @@ argdef_t ARGS = (argdef_t){
     OPT(
       NULL,
       "--id",
-      device_ident,
-      "display device identification information\n"
+      device_ident_and_quit,
+      "display device identification information and quit\n"
       "\n"
       "shows the information for the current device, and all ID registers."
     ),
