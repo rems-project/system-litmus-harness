@@ -34,8 +34,9 @@
 #define INIT_ALIAS(var, othervar) &(init_varstate_t){#var, TYPE_ALIAS, {.aliasname=(const char*)#othervar}}
 #define INIT_PERMISSIONS(var, ap) &(init_varstate_t){#var, TYPE_AP, {ap}}
 #define INIT_UNMAPPED(var) &(init_varstate_t){#var, TYPE_UNMAPPED, {0}}
-#define INIT_REGION_PIN(var, othervar, relation) &(init_varstate_t){#var, TYPE_REGION, {.pinned_var_name=(const char*)#othervar, .pinned_level=relation}}
+#define INIT_REGION_PIN(var, othervar, relation) &(init_varstate_t){#var, TYPE_REGION_PIN, {.pinned_var_name=(const char*)#othervar, .pinned_level=relation}}
 #define INIT_REGION_OWN(var, ownty) &(init_varstate_t){#var, TYPE_REGION_OWN, {.ownership_level=ownty}}
+#define INIT_REGION_OFFSET(var, othervar, relation) &(init_varstate_t){#var, TYPE_REGION_OFFSET, {.offset_var_name=(const char*)#othervar, .offset_level=relation}}
 
 /** these are for building the asm blocks automatically
  * e.g.

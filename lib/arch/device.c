@@ -42,6 +42,9 @@ void init_device(void* fdt) {
     __cache_line_size = 4 * (1 << dminline);
     __cache_line_shift = log2(__cache_line_size);
 
+    LEVEL_SIZES[REGION_CACHE_LINE] = __cache_line_size;
+    LEVEL_SHIFTS[REGION_CACHE_LINE] = __cache_line_shift;
+
     uint64_t dczvid = read_sysreg(dczid_el0);
     __dc_zero_allow = (dczvid >> 4) == 0;
     __dc_zero_block_width = 4 * (1 << (dczvid & 0xf));

@@ -14,20 +14,31 @@ typedef enum {
   TYPE_UNMAPPED,
   TYPE_ALIAS,
   TYPE_AP,
-  TYPE_REGION,
   TYPE_REGION_OWN,
+  TYPE_REGION_PIN,
+  TYPE_REGION_OFFSET,
 } init_type_t;
 
 typedef enum {
-  REGION_SAME_VAR,  /* unused, but for completeness of type */
-  REGION_SAME_CACHE_LINE, /* both in the same cache line */
-  REGION_SAME_PAGE, /* both in the same 4k page but not the same cache-line */
-  REGION_SAME_PMD,  /* both in the same 2M region but not the same 4k page */
-  REGION_SAME_PUD,  /* both in the same 1G region but not the same 4k page */
-  REGION_SAME_PGD,  /* unused, too large */
+  REGION_SAME_VAR_OFFSET,         /* unused, but for completeness of type */
+  REGION_SAME_CACHE_LINE_OFFSET,  /* both have same lower CACHE_LINE_SHIFT bits */
+  REGION_SAME_PAGE_OFFSET,        /* both have same offset into the page, aka bits 12-0 */
+  REGION_SAME_PMD_OFFSET,         /* both have same offset into the 2M pmd region aka bits 20-12 */
+  REGION_SAME_PUD_OFFSET,         /* both have same offset into the 1G pud region aka bits 29-20 */
+  REGION_SAME_PGD_OFFSET,         /* unused; too large */
+} rel_offset_t;
+
+typedef enum {
+  REGION_SAME_VAR,                /* unused */
+  REGION_SAME_CACHE_LINE,         /* both in the same cache line */
+  REGION_SAME_PAGE,               /* both in same 4k page */
+  REGION_SAME_PMD,                /* both same 2M region */
+  REGION_SAME_PUD,                /* both same 1G region */
+  REGION_SAME_PGD,                /* unused; too large */
 } pin_level_t;
 
 char* pin_level_to_str(pin_level_t lvl);
+char* rel_offset_to_str(rel_offset_t lvl);
 
 #define NUM_PIN_LEVELS 6
 
@@ -51,6 +62,10 @@ typedef struct {
     struct {
       const char* pinned_var_name;
       pin_level_t pinned_level;
+    };
+    struct {
+      const char* offset_var_name;
+      rel_offset_t offset_level;
     };
     own_level_t ownership_level;
   };

@@ -13,27 +13,29 @@ typedef struct {
   uint64_t init_ap;
   uint64_t init_unmapped;
 
-
-  uint8_t init_region_pinned;
+  uint8_t init_pinned_region;
+  uint8_t init_owns_region;
   union {
-    /** if the region is pinned then this var is pinned to another var with some region offset */
-    struct {
-      const char* pin_region_var;
-      pin_level_t pin_region_level;
-    };
+    /** if not pinned, then this var owns a region */
+    own_level_t init_owned_region_size;
 
-    /** if not pinned, then this var can move about freely */
+    /** if the region is pinned then this var is pinned to another var within some offset */
     struct {
-      uint64_t curr_region;
+      int pin_region_var;
+      pin_level_t pin_region_level;
     };
   };
 
-  uint8_t init_owns_region;
-  own_level_t init_owned_region_size;
+  /* optionally each var may have a fixed offset in relation to 1 other var */
+  uint8_t init_region_offset;
+  struct {
+    int offset_var;
+    rel_offset_t offset_level;
+  };
 
   /** if aliased, the name of the variable this one aliases
    */
-  const char* alias;
+  int alias;
 
   /** array of pointers into memory region for each run
    *
