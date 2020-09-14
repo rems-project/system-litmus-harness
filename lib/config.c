@@ -102,47 +102,49 @@ static void version(char* opt) {
 }
 
 static void __print_id_cpu(int cpu, void* arg) {
-  printf("-- ID REGISTERS CPU%d --\n", cpu);
-  //printf("CCSIDR2_EL1: %p\n", read_sysreg(ccsidr2_el1));
-  printf("CCSIDR_EL1: %p\n", read_sysreg(ccsidr_el1));
-  printf("CLIDR_EL1: %p\n", read_sysreg(clidr_el1));
-  printf("CSSELR_EL1: %p\n", read_sysreg(csselr_el1));
-  printf("CTR_EL0: %p\n", read_sysreg(ctr_el0));
-  printf("DCZID_EL0: %p\n", read_sysreg(dczid_el0));
-  //printf("GMID_EL1: %p\n", read_sysreg(gmid_el1));
-  printf("ID_AA64AFR0_EL1: %p\n", read_sysreg(id_aa64afr0_el1));
-  printf("ID_AA64AFR1_EL1: %p\n", read_sysreg(id_aa64afr1_el1));
-  printf("ID_AA64DFR0_EL1: %p\n", read_sysreg(id_aa64dfr0_el1));
-  printf("ID_AA64DFR1_EL1: %p\n", read_sysreg(id_aa64dfr1_el1));
-  printf("ID_AA64ISAR0_EL1: %p\n", read_sysreg(id_aa64isar0_el1));
-  printf("ID_AA64ISAR1_EL1: %p\n", read_sysreg(id_aa64isar1_el1));
-  printf("ID_AA64MMFR0_EL1: %p\n", read_sysreg(id_aa64mmfr0_el1));
-  printf("ID_AA64MMFR1_EL1: %p\n", read_sysreg(id_aa64mmfr1_el1));
-  //printf("ID_AA64MMFR2_EL1: %p\n", read_sysreg(id_aa64mmfr2_el1));
-  printf("ID_AA64PFR0_EL1: %p\n", read_sysreg(id_aa64pfr0_el1));
-  printf("ID_AA64PFR1_EL1: %p\n", read_sysreg(id_aa64pfr1_el1));
-  printf("ID_AFR0_EL1: %p\n", read_sysreg(id_afr0_el1));
-  printf("ID_DFR0_EL1: %p\n", read_sysreg(id_dfr0_el1));
-  //printf("ID_DFR1_EL1: %p\n", read_sysreg(id_dfr1_el1));
-  printf("ID_ISAR0_EL1: %p\n", read_sysreg(id_isar0_el1));
-  printf("ID_ISAR1_EL1: %p\n", read_sysreg(id_isar1_el1));
-  printf("ID_ISAR2_EL1: %p\n", read_sysreg(id_isar2_el1));
-  printf("ID_ISAR3_EL1: %p\n", read_sysreg(id_isar3_el1));
-  printf("ID_ISAR4_EL1: %p\n", read_sysreg(id_isar4_el1));
-  printf("ID_ISAR5_EL1: %p\n", read_sysreg(id_isar5_el1));
-  //printf("ID_ISAR6_EL1: %p\n", read_sysreg(id_isar6_el1));
-  printf("ID_MMFR0_EL1: %p\n", read_sysreg(id_mmfr0_el1));
-  printf("ID_MMFR1_EL1: %p\n", read_sysreg(id_mmfr1_el1));
-  printf("ID_MMFR2_EL1: %p\n", read_sysreg(id_mmfr2_el1));
-  printf("ID_MMFR3_EL1: %p\n", read_sysreg(id_mmfr3_el1));
-  printf("ID_MMFR4_EL1: %p\n", read_sysreg(id_mmfr4_el1));
-  //printf("ID_MMFR5_EL1: %p\n", read_sysreg(id_mmfr5_el1));
-  printf("ID_PFR0_EL1: %p\n", read_sysreg(id_pfr0_el1));
-  printf("ID_PFR1_EL1: %p\n", read_sysreg(id_pfr1_el1));
-  //printf("ID_PFR2_EL1: %p\n", read_sysreg(id_pfr2_el1));
-  printf("MIDR_EL1: %p\n", read_sysreg(midr_el1));
-  printf("MPIDR_EL1: %p\n", read_sysreg(mpidr_el1));
-  printf("REVIDR_EL1: %p\n", read_sysreg(revidr_el1));
+  char** outs = arg;
+  int i = 0;
+
+#define __IDREG(r) sprintf(outs[i++], #r ": %p", read_sysreg(r))
+  __IDREG(CCSIDR_EL1);
+  __IDREG(CLIDR_EL1);
+  __IDREG(CSSELR_EL1);
+  __IDREG(CTR_EL0);
+  __IDREG(DCZID_EL0);
+  //__IDREG(GMID_EL1);
+  __IDREG(ID_AA64AFR0_EL1);
+  __IDREG(ID_AA64AFR1_EL1);
+  __IDREG(ID_AA64DFR0_EL1);
+  __IDREG(ID_AA64DFR1_EL1);
+  __IDREG(ID_AA64ISAR0_EL1);
+  __IDREG(ID_AA64ISAR1_EL1);
+  __IDREG(ID_AA64MMFR0_EL1);
+  __IDREG(ID_AA64MMFR1_EL1);
+  //__IDREG(ID_AA64MMFR2_EL1);
+  __IDREG(ID_AA64PFR0_EL1);
+  __IDREG(ID_AA64PFR1_EL1);
+  __IDREG(ID_AFR0_EL1);
+  __IDREG(ID_DFR0_EL1);
+  //__IDREG(ID_DFR1_EL1);
+  __IDREG(ID_ISAR0_EL1);
+  __IDREG(ID_ISAR1_EL1);
+  __IDREG(ID_ISAR2_EL1);
+  __IDREG(ID_ISAR3_EL1);
+  __IDREG(ID_ISAR4_EL1);
+  __IDREG(ID_ISAR5_EL1);
+  //__IDREG(ID_ISAR6_EL1);
+  __IDREG(ID_MMFR0_EL1);
+  __IDREG(ID_MMFR1_EL1);
+  __IDREG(ID_MMFR2_EL1);
+  __IDREG(ID_MMFR3_EL1);
+  __IDREG(ID_MMFR4_EL1);
+  //__IDREG(ID_MMFR5_EL1);
+  __IDREG(ID_PFR0_EL1);
+  __IDREG(ID_PFR1_EL1);
+  //__IDREG(ID_PFR2_EL1);
+  __IDREG(MIDR_EL1);
+  __IDREG(MPIDR_EL1);
+  __IDREG(REVIDR_EL1);
 }
 
 static void device_ident_and_quit(char* opt) {
@@ -167,16 +169,82 @@ static void device_ident_and_quit(char* opt) {
     [0x51] = "Intel Corporation",
   };
 
-  printf("-- MIDR --\n");
   printf("Implementor: %s\n", impl_names[impl]);
   printf("Variant: %p\n", variant);
   printf("Revision: %p\n", rev);
   printf("PartNum: %p\n", partnum);
 
+  char** cpu_outs[4];
+  for (int i = 0; i < 4; i++) {
+    cpu_outs[i] = ALLOC_MANY(char*, 100);
+
+    for (int j = 0; j < 100; j++) {
+      cpu_outs[i][j] = ALLOC_MANY(char, 1024);
+      cpu_outs[i][j][0] = '\0';
+    }
+  }
+
   ENABLE_PGTABLE = 0; /* pgtable may not be setup yet, so dont try use it on the other booted CPUs */
   ensure_cpus_on();
   for (int cpu = 0; cpu < NO_CPUS; cpu++)
-    run_on_cpu(cpu, __print_id_cpu, NULL);
+    run_on_cpu(cpu, __print_id_cpu, &cpu_outs[cpu][0]);
+
+  /* each line from each CPU is of the form "ID_REG_NAME: 0x000ABC" */
+
+  /* first calculate the maximum length of the ID lines */
+  int maxlinelen = 0;
+  for (int i = 0; i < 100; i++) {
+    for (int cpu = 0; cpu < 4; cpu++) {
+      maxlinelen = MAX(maxlinelen, strlen(cpu_outs[cpu][i]));
+    }
+  }
+
+  /* we want to print a header
+   * so first we work out the length of the indent for the title
+   *      indent
+   * vvvvvvvvvvvvvvvvvvvv
+   *                      ID REGISTERS PER CPU                    <- title
+   *            CPU0          CPU1            CPU2          CPU3  <- headers
+   */
+  int indent_width = ((maxlinelen+2)*4 - 22) / 2;
+  for (int i = 0; i < indent_width; i++)
+    printf(" ");
+  printf(" ID REGISTERS PER CPU\n");
+
+  /* now the headers
+   * each right-aligned with the columns of the table
+   *        CPU0        CPU1    ...       <- headers
+   *    ID0: 0x0    ID0: 0x2    ...
+   *    ID1: 0x1    ID1: 0x3    ...
+   */
+  for (int cpu = 0; cpu < 4; cpu++) {
+    for (int i = 0; i < 2+maxlinelen-4; i++)
+      printf(" ");
+
+    printf("CPU%d", cpu);
+  }
+  printf("\n");
+
+  /* and finally print each line, right-aligned in columns
+   * underneath each header
+   */
+  for (int i = 0; i < 100; i++) {
+    for (int cpu = 0; cpu < 4; cpu++) {
+      char* line = cpu_outs[cpu][i];
+
+      /* empty string means we ran off the end
+       * and are at the end, so just abort
+       * no need to cleanup */
+      if (strcmp(line, ""))
+        abort();
+
+      int len = strlen(line);
+      for (int i = 0; i < 2+maxlinelen-len; i++)
+        printf(" ");
+      printf("%s", line);
+    }
+    printf("\n");
+  }
 
   abort();
 }
