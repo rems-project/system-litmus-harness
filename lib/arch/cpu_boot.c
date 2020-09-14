@@ -25,6 +25,7 @@ void cpu_boot(uint64_t cpu) {
 void run_on_cpu_async(uint64_t cpu, async_fn_t* fn, void* arg) {
   while (!cpu_data[cpu].started) wfe();
 
+  cpu_data[cpu].finished = 0;
   cpu_data[cpu].arg = arg;
   dmb();
   cpu_data[cpu].to_execute = fn;
@@ -33,9 +34,13 @@ void run_on_cpu_async(uint64_t cpu, async_fn_t* fn, void* arg) {
 }
 
 void run_on_cpu(uint64_t cpu, async_fn_t* fn, void* arg) {
-  int count = cpu_data[cpu].count;
-  run_on_cpu_async(cpu, fn, arg);
-  while (cpu_data[cpu].count == count) wfe();
+  uint64_t cur_cpu = get_cpu();
+  if (cpu == cur_cpu) {
+    fn(cpu, arg);
+  } else {
+    run_on_cpu_async(cpu, fn, arg);
+    while (! cpu_data[cpu].finished) wfe();
+  }
 }
 
 void run_on_cpus(async_fn_t* fn, void* arg) {
@@ -44,20 +49,18 @@ void run_on_cpus(async_fn_t* fn, void* arg) {
   for (int i = 0; i < 4; i++)
     while (!cpu_data[i].started) wfe();
 
-  int counts[4] = { 0 };
   for (int i = 0; i < 4; i++) {
-    counts[i] = cpu_data[i].count;
     if (i != cur_cpu) {
       run_on_cpu_async(i, fn, arg);
     }
   }
 
   fn(cur_cpu, arg);
-  cpu_data[cur_cpu].count++;
+  cpu_data[cur_cpu].finished = 1;
   sev();
 
   for (int i = 0; i < 4; i++) {
-    while (cpu_data[i].count == counts[i]) wfe();
+    while (! cpu_data[i].finished) wfe();
   }
 }
 
@@ -73,7 +76,8 @@ void secondary_idle_loop(int cpu) {
       async_fn_t* fn = (async_fn_t*)cpu_data[cpu].to_execute;
       cpu_data[cpu].to_execute = 0;
       fn(cpu, cpu_data[cpu].arg);
-      cpu_data[cpu].count++;
+      cpu_data[cpu].finished = 1;
+      sev();
     } else {
       wfe();
     }

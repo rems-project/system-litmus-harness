@@ -81,6 +81,10 @@ void setup(char* fdtloc) {
   printf("#concretize: %s\n", concretize_type_to_str(LITMUS_CONCRETIZATION_TYPE));
   printf("#runner: %s\n", runner_type_to_str(LITMUS_RUNNER_TYPE));
 
+  ensure_cpus_on();
+}
+
+void ensure_cpus_on(void) {
   debug("setting up CPU0\n");
   cpu_data_init();
   per_cpu_setup(0);
@@ -89,8 +93,11 @@ void setup(char* fdtloc) {
   cpu_boot(1);
   cpu_boot(2);
   cpu_boot(3);
+  debug("started boot.\n");
 
-  debug("booted.\n");
+  for (int i = 0; i < 4; i++) {
+    while (! cpu_data[i].started) wfe();
+  }
 }
 
 void per_cpu_setup(int cpu) {
@@ -116,6 +123,9 @@ void per_cpu_setup(int cpu) {
   cpu_data[cpu].to_execute = 0;
   dmb();
   cpu_data[cpu].started = 1;
+
+  /* wake other threads waiting */
+  sev();
 
   /* ensure setup of sys registers are visible to harness as well as tests */
   isb();

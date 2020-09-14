@@ -47,6 +47,7 @@ typedef struct grp {
 
 /** one-time setup */
 void setup(char* fdt);
+void ensure_cpus_on(void);
 void per_cpu_setup(int cpu);
 
 /* secondary entry data */
@@ -56,7 +57,7 @@ typedef struct {
     async_fn_t* to_execute;
     void* arg;
     uint64_t started;
-    int count;
+    volatile int finished;
 } cpu_data_t;
 
 cpu_data_t cpu_data[4];
