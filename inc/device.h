@@ -8,12 +8,14 @@ extern uint64_t __cache_line_size;  /* cache line of minimum size */
 extern uint64_t __cache_line_shift;  /* cache line of minimum size */
 #define CACHE_LINE_SIZE __cache_line_size
 #define CACHE_LINE_SHIFT __cache_line_shift
-#define PAGE_SIZE 4096
+#define PAGE_SIZE 4096L
 #define PAGE_SHIFT 12
-#define PMD_SIZE 2*1024*1024
+#define PMD_SIZE (PAGE_SIZE * 512)
 #define PMD_SHIFT 22
-#define PUD_SIZE 1024*1024*1024
+#define PUD_SIZE (PMD_SIZE * 512)
 #define PUD_SHIFT 31
+#define PGD_SIZE (PUD_SIZE * 512)
+#define PGD_SHIFT 39
 
 extern uint8_t __dc_zero_allow;  /* DC ZVA allow ? */
 extern uint64_t __dc_zero_block_width;  /* size of DC ZVA block */
