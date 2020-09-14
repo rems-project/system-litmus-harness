@@ -88,6 +88,8 @@ GDB = gdb-multiarch  --eval-command "set arch aarch64"
 # cross-compilation tools on the local machine
 NO_CHECK = 0
 
+DEBUG = 1
+
 ifeq ($(NO_CHECK),0)
 else ifeq ($(NO_CHECK),1)
 else
@@ -179,7 +181,7 @@ OTHER_INCLUDES =  # set for unittests
 _HEAD_COMMIT_SHA = $(shell git rev-parse --short HEAD -n1)
 _DATE_VERSION = $(shell date '+%y.%m')
 CFLAGS = -O0 -nostdlib \
-		-g -gdwarf-4 \
+		$(if $(DEBUG),-g -gdwarf-4,) \
 		$(foreach DIR,$(INC_DIRS),-I $(DIR)) \
 		$(foreach DIR,$(OTHER_INCLUDES),-I $(DIR)) \
 		-ffreestanding -fomit-frame-pointer -fno-pie -fno-pic \
@@ -188,7 +190,7 @@ CFLAGS = -O0 -nostdlib \
 		-DCOMMITHASH="\"$(_HEAD_COMMIT_SHA)\""
 
 LDFLAGS = -nostdlib -n -static -pie
-OBJDUMPFLAGS = -g -l -r
+OBJDUMPFLAGS = $(if $(DEBUG),-g -l -r,)
 SSHFLAGS =
 
 ifeq ($(findstring clean,$(MAKECMDGOALS)),clean)
