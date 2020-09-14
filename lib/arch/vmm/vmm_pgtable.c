@@ -119,7 +119,7 @@ uint64_t* vmm_alloc_new_idmap_4k(void) {
   ptable_set_idrange(root_ptable, BOT_OF_STACK, TOP_OF_STACK, PROT_MEMTYPE_NORMAL | PROT_RW_RWX);
 
   /* heap */
-  ptable_set_idrange(root_ptable, BOT_OF_HEAP, TOP_OF_MEM, PROT_MEMTYPE_NORMAL | PROT_RW_RWX);
+  ptable_set_idrange(root_ptable, BOT_OF_HEAP, TOP_OF_MEM, PROT_DEFAULT_HEAP);
 
   return root_ptable;
 }
