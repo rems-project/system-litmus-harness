@@ -101,6 +101,84 @@ static void version(char* opt) {
   abort();
 }
 
+static void __print_id_cpu(int cpu, void* arg) {
+  printf("-- ID REGISTERS CPU%d --\n", cpu);
+  //printf("CCSIDR2_EL1: %p\n", read_sysreg(ccsidr2_el1));
+  printf("CCSIDR_EL1: %p\n", read_sysreg(ccsidr_el1));
+  printf("CLIDR_EL1: %p\n", read_sysreg(clidr_el1));
+  printf("CSSELR_EL1: %p\n", read_sysreg(csselr_el1));
+  printf("CTR_EL0: %p\n", read_sysreg(ctr_el0));
+  printf("DCZID_EL0: %p\n", read_sysreg(dczid_el0));
+  //printf("GMID_EL1: %p\n", read_sysreg(gmid_el1));
+  printf("ID_AA64AFR0_EL1: %p\n", read_sysreg(id_aa64afr0_el1));
+  printf("ID_AA64AFR1_EL1: %p\n", read_sysreg(id_aa64afr1_el1));
+  printf("ID_AA64DFR0_EL1: %p\n", read_sysreg(id_aa64dfr0_el1));
+  printf("ID_AA64DFR1_EL1: %p\n", read_sysreg(id_aa64dfr1_el1));
+  printf("ID_AA64ISAR0_EL1: %p\n", read_sysreg(id_aa64isar0_el1));
+  printf("ID_AA64ISAR1_EL1: %p\n", read_sysreg(id_aa64isar1_el1));
+  printf("ID_AA64MMFR0_EL1: %p\n", read_sysreg(id_aa64mmfr0_el1));
+  printf("ID_AA64MMFR1_EL1: %p\n", read_sysreg(id_aa64mmfr1_el1));
+  //printf("ID_AA64MMFR2_EL1: %p\n", read_sysreg(id_aa64mmfr2_el1));
+  printf("ID_AA64PFR0_EL1: %p\n", read_sysreg(id_aa64pfr0_el1));
+  printf("ID_AA64PFR1_EL1: %p\n", read_sysreg(id_aa64pfr1_el1));
+  printf("ID_AFR0_EL1: %p\n", read_sysreg(id_afr0_el1));
+  printf("ID_DFR0_EL1: %p\n", read_sysreg(id_dfr0_el1));
+  //printf("ID_DFR1_EL1: %p\n", read_sysreg(id_dfr1_el1));
+  printf("ID_ISAR0_EL1: %p\n", read_sysreg(id_isar0_el1));
+  printf("ID_ISAR1_EL1: %p\n", read_sysreg(id_isar1_el1));
+  printf("ID_ISAR2_EL1: %p\n", read_sysreg(id_isar2_el1));
+  printf("ID_ISAR3_EL1: %p\n", read_sysreg(id_isar3_el1));
+  printf("ID_ISAR4_EL1: %p\n", read_sysreg(id_isar4_el1));
+  printf("ID_ISAR5_EL1: %p\n", read_sysreg(id_isar5_el1));
+  //printf("ID_ISAR6_EL1: %p\n", read_sysreg(id_isar6_el1));
+  printf("ID_MMFR0_EL1: %p\n", read_sysreg(id_mmfr0_el1));
+  printf("ID_MMFR1_EL1: %p\n", read_sysreg(id_mmfr1_el1));
+  printf("ID_MMFR2_EL1: %p\n", read_sysreg(id_mmfr2_el1));
+  printf("ID_MMFR3_EL1: %p\n", read_sysreg(id_mmfr3_el1));
+  printf("ID_MMFR4_EL1: %p\n", read_sysreg(id_mmfr4_el1));
+  //printf("ID_MMFR5_EL1: %p\n", read_sysreg(id_mmfr5_el1));
+  printf("ID_PFR0_EL1: %p\n", read_sysreg(id_pfr0_el1));
+  printf("ID_PFR1_EL1: %p\n", read_sysreg(id_pfr1_el1));
+  //printf("ID_PFR2_EL1: %p\n", read_sysreg(id_pfr2_el1));
+  printf("MIDR_EL1: %p\n", read_sysreg(midr_el1));
+  printf("MPIDR_EL1: %p\n", read_sysreg(mpidr_el1));
+  printf("REVIDR_EL1: %p\n", read_sysreg(revidr_el1));
+}
+
+static void device_ident(char* opt) {
+  uint64_t midr = read_sysreg(midr_el1);
+  uint64_t rev = midr & BITMASK(1 + 3 - 0);
+  uint64_t partnum = (midr >> 4) & BITMASK(1 + 15 - 4);
+  uint64_t variant = (midr >> 20) & BITMASK(1 + 23 - 20);
+  uint64_t impl = (midr >> 24) & BITMASK(1 + 31 - 24);
+
+  const char* impl_names[0x100] = {
+    [0x00] = "Reserved for software use Ampere Computing",
+    [0xC0] = "Arm Limited",
+    [0x41] = "Broadcom Corporation Cavium Inc.",
+    [0x42] = "Digital Equipment Corporation",
+    [0x43] = "Fujitsu Ltd.",
+    [0x44] = "Infineon Technologies AG",
+    [0x46] = "Motorola or Freescale Semiconductor Inc.",
+    [0x49] = "NVIDIA Corporation",
+    [0x4D] = "Applied Micro Circuits Corporation",
+    [0x4E] = "Qualcomm Inc.",
+    [0x50] = "Marvell International Ltd.",
+    [0x51] = "Intel Corporation",
+  };
+
+  printf("-- MIDR --\n");
+  printf("Implementor: %s\n", impl_names[impl]);
+  printf("Variant: %p\n", variant);
+  printf("Revision: %p\n", rev);
+  printf("PartNum: %p\n", partnum);
+
+  ENABLE_PGTABLE = 0; /* pgtable may not be setup yet, so dont try use it on the other booted CPUs */
+  ensure_cpus_on();
+  for (int cpu = 0; cpu < NO_CPUS; cpu++)
+    run_on_cpu(cpu, __print_id_cpu, NULL);
+}
+
 static void n(char* x) {
   int Xn = atoi(x);
   NUMBER_OF_RUNS = Xn;
@@ -148,6 +226,14 @@ argdef_t ARGS = (argdef_t){
       "display version information and quit\n"
       "\n"
       "displays full version info\n"
+    ),
+    OPT(
+      NULL,
+      "--id",
+      device_ident,
+      "display device identification information\n"
+      "\n"
+      "shows the information for the current device, and all ID registers."
     ),
     OPT(
       NULL,
