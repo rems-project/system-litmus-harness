@@ -17,6 +17,7 @@ void setup(char* fdtloc) {
   /* read passed args */
   init_args();
   read_args(__argc, __argv);
+  init_cfg_state();
 
   debug("setup\n");
 

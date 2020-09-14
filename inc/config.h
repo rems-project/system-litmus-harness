@@ -75,5 +75,6 @@ void display_test_help(void);
 
 /* read the input args and load the config vars */
 void read_args(int argc, char** argv);
+void init_cfg_state(void);
 
 #endif /* CONFIG_H */

@@ -277,6 +277,27 @@ static void conc_cfg(char* x) {
   valloc_memcpy(LITMUS_CONCRETIZATION_CFG, x, strlen(x));
 }
 
+/* this init_cfg_state function gets called
+ * after reading the args to do any housekeeping and cleanup
+ *
+ * e.g. checking mutual exclusive options and the like
+ * that the argparser itself does not do
+ */
+void init_cfg_state(void) {
+  /* ensure we use the correct runner for the given concretization algorithm */
+  switch (LITMUS_CONCRETIZATION_TYPE) {
+    case CONCRETE_RANDOM:
+      LITMUS_RUNNER_TYPE = RUNNER_EPHEMERAL;
+      break;
+    case CONCRETE_LINEAR:
+      LITMUS_RUNNER_TYPE = RUNNER_SEMI_ARRAY;
+      break;
+    case CONCRETE_FIXED:
+      LITMUS_RUNNER_TYPE = RUNNER_EPHEMERAL;
+      break;
+  }
+}
+
 argdef_t ARGS = (argdef_t){
   .args=(const argdef_arg_t*[]){
     OPT(
