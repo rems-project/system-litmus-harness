@@ -125,7 +125,8 @@ def write_table(grp_list, f, devices, includes=[], excludes=[], print_skips=True
         row = []
         group = groups[-1]
         row.append(group)
-        row.append(test_name)
+        # use verb to escape weird test names
+        row.append(f"\\verb|{test_name}|")
 
         for d in devices:
             total_observations, total_runs, running = tests[test_name][d]
