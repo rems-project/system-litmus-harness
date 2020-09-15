@@ -1,22 +1,21 @@
 define USAGE
 Simple Usage:
-   make			equivalent to `make all`
-   make all		equivalent to `make kvm qemu`
-   make qemu		builds bin/qemu_litmus.exe which runs QEMU
-   make kvm		builds bin/kvm_litmus.exe which uses KVM
+   make	litmus		builds bin/qemu_litmus.exe and bin/kvm_litmus.exe
    make run 		runs `make qemu` then runs all tests
    make clean		remove built files in bin/
    make deepclean	clean everything. No really.
    make publish		publish doc/ folder to gh-pages
    make hw-results	collect hardware results from known sources
+endef
 
+define ADV_USAGE
 Advanced Usage:
    make run -- args args args
    	run local qemu with args
    	e.g. make run -- MP+pos -n500 --pgtable
    make debug GDB="gdb-exe"
    	Runs `make run` in the background and attaches gdb
-   make ssh SSH_NAME="ssh-name" BIN_ARGS="bin-args"
+   make ssh-litmus SSH_NAME="ssh-name" BIN_ARGS="bin-args"
    	Runs `make kvm` and then scp's the kvm_litmus.exe file over
    	to ssh-name where it is ran with argv bin-args.
    make unittests
@@ -67,9 +66,16 @@ Options:
    	This option is disabled if TEST_DISCOVER=0
 endef
 
+.PHONY: shorthelp
+shorthelp:
+	$(info $(USAGE))
+	@echo 'Run `make help` for more info'
+
 .PHONY: help
 help:
 	$(info $(USAGE))
+	$(info )
+	$(info $(ADV_USAGE))
 	@: # do nothing and do not echo
 
 # Compiler and tools options
@@ -159,7 +165,7 @@ unittests: OUT_NAME=bin/unittests.bin
 unittests: bin/qemu_unittests.exe
 	./bin/qemu_unittests.exe $(BIN_ARGS)
 
-ssh: bin/kvm_litmus.exe
+ssh-litmus: bin/kvm_litmus.exe
 	scp bin/kvm_litmus.exe $(SSH_NAME):litmus.exe
 	ssh $(SSHFLAGS) $(SSH_NAME) "./litmus.exe '$(BIN_ARGS)'"
 

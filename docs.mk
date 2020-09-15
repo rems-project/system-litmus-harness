@@ -1,7 +1,7 @@
-.PHONY: doc-publish
-doc-publish:
+.PHONY: publish
+publish:
 	$(MAKE) -C doc publish
 
-.PHONY: doc-hw-results
-doc-hw-results:
+.PHONY: hw-results
+hw-results:
 	$(MAKE) -C hw-results EXCLUDES=checks,errata
