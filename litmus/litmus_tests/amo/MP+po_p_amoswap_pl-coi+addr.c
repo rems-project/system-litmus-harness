@@ -49,7 +49,7 @@ static void P1(litmus_test_run* data) {
 
 
 litmus_test_t MP_pos = {
-  "AArch64 MP+po_p_amoswap_pl-coi+addr",
+  "MP+po_p_amoswap_pl-coi+addr",
   MAKE_THREADS(2),
   MAKE_VARS(VARS),
   MAKE_REGS(REGS),
