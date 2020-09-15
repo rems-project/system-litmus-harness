@@ -32,10 +32,12 @@ group.add_argument("--device", "-d", action="append")
 
 parser.add_argument(
     "--excludes",
+    nargs='+',
     help="Comma-separated list of excluded groups, e.g. --excludes=@grp1,@grp2",
 )
 parser.add_argument(
     "--includes",
+    nargs='+',
     help="Comma-separated list of included groups, e.g. --includes=@grp1,@grp2",
 )
 
@@ -87,12 +89,8 @@ def humanize(n):
 def write_table(grp_list, f, devices, includes=[], excludes=[], print_skips=True):
     filtered = []
 
-    # first we collect the list of tests we saw over all *devices*
-    tests = collections.defaultdict(
-        lambda: collections.defaultdict(
-            lambda: (0,0,[])
-        )
-    )
+    #  first we collect the list of tests we saw over all *devices*
+    tests = collections.defaultdict(lambda: collections.defaultdict(lambda: (0, 0, [])))
 
     for d, (results, running) in devices.items():
         for test_name in results:
@@ -101,47 +99,32 @@ def write_table(grp_list, f, devices, includes=[], excludes=[], print_skips=True
             drun = running[test_name]
 
             crun.extend(drun)
-            tests[test_name][d] = (cobs+dobs, ctotal+dtotal, crun)
+            tests[test_name][d] = (cobs + dobs, ctotal + dtotal, crun)
 
     # we assign orphaned tests a category
     orphans = tests.keys() - {t for (t, g) in grp_list}
     for orphan in orphans:
-        grp_list.append((orphan, ["all", "errata" if orphan.endswith(".errata") else "orhpan"]))
+        grp_list.append(
+            (orphan, ["all", "errata" if orphan.endswith(".errata") else "orhpan"])
+        )
 
     for (test_name, groups) in sorted(grp_list, key=lambda t: (t[1], t[0])):
-        if (
-            (includes and not any(g in includes for g in groups))
-            or (any(g in excludes for g in groups))
+        if (includes and not any(g in includes for g in groups)) or (
+            any(g in excludes for g in groups)
         ):
             if print_skips:
-                print('Skip ! {}'.format(test_name))
+                print("Skip ! {}".format(test_name))
             continue
         filtered.append((test_name, groups))
 
-    one_group = len(set(g for (_, grps) in filtered for g in grps if g != 'all')) == 1
+    one_group = len(set(g for (_, grps) in filtered for g in grps if g != "all")) == 1
 
     # Total/Distribution for each device
-    device_cols_ls = " | r r l"*(2*len(devices))
-    device_headers = " & ".join("\\multicolumn{3}{l}{\\textbf{%s}}" % d for d in devices)
-    device_cols_heads = " & ".join("\\textbf{Total} & \\textbf{Distribution} & " for _ in devices)
-
-    if one_group:
-        f.write("\\begin{tabular}{l %s}\n" % device_cols_ls)
-        f.write("\\textbf{Name} & %s \\\\\n" % device_headers)
-        f.write("& %s \\\\\n" % device_cols_heads)
-    else:
-        f.write("\\begin{tabular}{l l %s}\n" % device_cols_ls)
-        f.write("\\textbf{Type} & \\textbf{Name} & %s \\\\\n" % device_headers)
-        f.write("& & %s \\\\\n" % device_cols_heads)
-
+    rows = []
     for (test_name, groups) in filtered:
-        f.write("   ")  # padding for nice .tex
-
         row = []
         group = groups[-1]
-        if not one_group:
-            row.append(group)
-
+        row.append(group)
         row.append(test_name)
 
         for d in devices:
@@ -170,11 +153,74 @@ def write_table(grp_list, f, devices, includes=[], excludes=[], print_skips=True
                 row.append("")
                 row.append("")
 
-        for c in row:
-            f.write(f"{c}&")
+        rows.append(row)
+
+    maxcolrows = [max(len(r[i]) for r in rows) for i in range(len(rows[0]))]
+    if len("\\textbf{Type}") > maxcolrows[0]:
+        maxcolrows[0] = len("\\textbf{Type}")
+    if len("\\textbf{Name}") > maxcolrows[1]:
+        maxcolrows[1] = len("\\textbf{Name}")
+    for i, _ in enumerate(devices):
+        if len("\\textbf{Total}") > maxcolrows[2 + 3 * i]:
+            maxcolrows[2 + 3 * i] = len("\\textbf{Total}")
+    for i, _ in enumerate(devices):
+        if len("\\textbf{Distribution}") > maxcolrows[2 + 3 * i + 1]:
+            maxcolrows[2 + 3 * i + 1] = len("\\textbf{Distribution}")
+
+    device_headers = [
+        "\\multicolumn{3}{l}{\\textbf{%s}}".ljust(
+            3 + sum(maxcolrows[2 + 3 * i : 2 + 3 * i + 3])
+        )
+        % d
+        for i, d in enumerate(devices)
+    ]
+    device_cols_heads = []
+    for i, _ in enumerate(devices):
+        device_cols_heads.append("\\textbf{Total}".ljust(maxcolrows[2 + 3 * i]))
+        device_cols_heads.append(
+            "\\textbf{Distribution}".ljust(maxcolrows[2 + 3 * i + 1])
+        )
+        device_cols_heads.append("".ljust(maxcolrows[2 + 3 * i + 2]))
+
+    for i, hd in enumerate(device_cols_heads, start=2):
+        if len(hd) > maxcolrows[i]:
+            maxcolrows[i] = len(hd)
+
+    device_cols_ls = " | r r l" * len(devices)
+
+    if one_group:
+        f.write("\\begin{tabular}{l %s l}\n" % device_cols_ls)
+        f.write("   ")
+        f.write("\\textbf{Name}".ljust(maxcolrows[1]))
+        f.write(" & %s & \\\\\n" % " & ".join(device_headers))
+        f.write("   ")
+        f.write(
+            "".ljust(maxcolrows[1]) + " & %s & \\\\\n" % " & ".join(device_cols_heads)
+        )
+    else:
+        f.write("\\begin{tabular}{l l %s l}\n" % device_cols_ls)
+        f.write("   ")
+        f.write("\\textbf{Type}".ljust(maxcolrows[0]))
+        f.write(" & " + "\\textbf{Name}".ljust(maxcolrows[1]))
+        f.write(" & %s & \\\\\n" % " & ".join(device_headers))
+        f.write("   ")
+        f.write(
+            "".ljust(maxcolrows[0])
+            + " & "
+            + "".ljust(maxcolrows[1])
+            + " & "
+            + " & ".join(device_cols_heads)
+            + " & "
+        )
         f.write("\\\\\n")
-        f.write("\\hline\n")
-    f.write("\\hline\n")
+
+    for row in rows:
+        f.write("   ")
+        for i, (c, maxlen) in enumerate(zip(row, maxcolrows)):
+            if one_group and i == 0:
+                continue
+            f.write(f"{c!s:>{maxlen}} & ")
+        f.write("\\\\ \\hline \n")
     f.write("\\end{tabular}\n")
 
 
@@ -183,9 +229,10 @@ def collect_logs(d):
         if fname.suffix == ".log":
             yield str(fname.expanduser())
 
+
 def main(args):
-    excludes = [] if not args.excludes else args.excludes.split(",")
-    includes = [] if not args.includes else args.includes.split(",")
+    excludes = [] if not args.excludes else [a for exclargs in args.excludes for a in exclargs.split(",")]
+    includes = [] if not args.includes else [a for inclargs in args.includes for a in inclargs.split(",")]
 
     includes = [i.strip("@") for i in includes]
     excludes = [e.strip("@") for e in excludes]
@@ -195,7 +242,9 @@ def main(args):
         for device_dir in args.device:
             device_dir_path = root / "raw" / device_dir
             if not device_dir_path.is_dir():
-                raise ValueError("-d accepts directories not files: {}".format(device_dir_path))
+                raise ValueError(
+                    "-d accepts directories not files: {}".format(device_dir_path)
+                )
 
             logs = collect_logs(device_dir_path)
             devices[device_dir_path.stem] = collect_all(logs)
@@ -205,12 +254,18 @@ def main(args):
     with open(root.parent / "litmus" / "test_list.txt", "r") as f:
         group_list = []
         for line in f:
-            include, file_path, last_modified_timestamp, test_ident, test_name, *groups = line.split()
+            (_, _, _, _, test_name, *groups,) = line.split()
             group_list.append((test_name, groups))
 
     for d, (results, running) in devices.items():
         with open(root / f"results-{d!s}.tex", "w") as f:
-            write_table(group_list, f, {d: (results, running)}, includes=includes, excludes=excludes)
+            write_table(
+                group_list,
+                f,
+                {d: (results, running)},
+                includes=includes,
+                excludes=excludes,
+            )
 
     with open(root / f"results-all.tex", "w") as f:
         write_table(group_list, f, devices, includes=includes, excludes=excludes)
@@ -231,6 +286,7 @@ def main(args):
             for line in sio.getvalue().splitlines():
                 f.write(f"   {line}\n")
             f.write("\\end{document}\n")
+
 
 if __name__ == "__main__":
     args = parser.parse_args()

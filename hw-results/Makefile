@@ -6,9 +6,17 @@ spcae = " "
 include_args = $(subst $(space),$(comma),$(INCLUDES))
 exclude_args = $(subst $(space),$(comma),$(EXCLUDES))
 TABULAR_ARGS = -d rpi4b/ -d qemu/ -d rpi3bp/ -d graviton2/ $(if $(INCLUDES),--includes=$(include_args)) $(if $(EXCLUDES),--excludes=$(exclude_args))
+TAB = python3 tabular.py $(TABULAR_ARGS) --standalone
+
+PDF = pdflatex
+
+define makepdf
+   $(PDF) $1
+   $(PDF) $1
+endef
 
 .PHONY: all
-all: tabular top.pdf install clean
+all: results.pdf results-exceptions.pdf install clean
 
 .PHONY: fetch
 fetch:
@@ -28,21 +36,30 @@ fetch:
 	tar -vczf raw/rpi4b.tar.gz raw/rpi4b/
 	tar -vczf raw/graviton2.tar.gz raw/graviton2/
 
-.PHONY: tabular
-tabular:
-	python3 tabular.py $(TABULAR_ARGS) --standalone
+.PHONY: results.tex
+results.tex:
+	$(TAB) --excludes='@errata' --standalone-file='results.tex'
 
-top.pdf: top.tex
-	pdflatex top.tex
-	pdflatex top.tex
+.PHONY: results-exceptions.tex
+results-exceptions.tex:
+results-exceptions.tex:
+	$(TAB) --includes='@exc' --standalone-file='results-exceptions.tex'
+
+%.pdf: %.tex
+	$(call makepdf,$^)
 
 .PHONY: install
 install:
-	cp top.pdf built_doc/results.pdf
+	cp *.pdf built_doc/
+
+define RM
+	rm -f $1.tex
+	rm -f $1.aux
+	rm -f $1.log
+	rm -f $1.pdf
+endef
 
 .PHONY: clean
 clean:
-	rm -f top.tex
-	rm -f top.aux
-	rm -f top.log
-	rm -f top.pdf
+	$(call RM,results)
+	$(call RM,results-exceptions)
