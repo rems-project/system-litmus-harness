@@ -84,57 +84,96 @@ def humanize(n):
     return f"{n:.2f}"
 
 
-def write_one_table(grp_list, f, device, results, running, includes=[], excludes=[], print_skips=True):
+def write_table(grp_list, f, devices, includes=[], excludes=[], print_skips=True):
     filtered = []
 
-    orphans = results.keys() - {t for (t, g) in grp_list}
+    # first we collect the list of tests we saw over all *devices*
+    tests = collections.defaultdict(
+        lambda: collections.defaultdict(
+            lambda: (0,0,[])
+        )
+    )
+
+    for d, (results, running) in devices.items():
+        for test_name in results:
+            cobs, ctotal, crun = tests[test_name][d]
+            dobs, dtotal = results[test_name]
+            drun = running[test_name]
+
+            crun.extend(drun)
+            tests[test_name][d] = (cobs+dobs, ctotal+dtotal, crun)
+
+    # we assign orphaned tests a category
+    orphans = tests.keys() - {t for (t, g) in grp_list}
     for orphan in orphans:
-        grp_list.append((orphan, ["all", "errata"]))
+        grp_list.append((orphan, ["all", "errata" if orphan.endswith(".errata") else "orhpan"]))
 
     for (test_name, groups) in sorted(grp_list, key=lambda t: (t[1], t[0])):
         if (
             (includes and not any(g in includes for g in groups))
             or (any(g in excludes for g in groups))
-            or (test_name not in results)
         ):
             if print_skips:
-                print('Skip ! {}: {}'.format(device, test_name))
+                print('Skip ! {}'.format(test_name))
             continue
         filtered.append((test_name, groups))
 
     one_group = len(set(g for (_, grps) in filtered for g in grps if g != 'all')) == 1
 
+    # Total/Distribution for each device
+    device_cols_ls = " | r r l"*(2*len(devices))
+    device_headers = " & ".join("\\multicolumn{3}{l}{\\textbf{%s}}" % d for d in devices)
+    device_cols_heads = " & ".join("\\textbf{Total} & \\textbf{Distribution} & " for _ in devices)
+
     if one_group:
-        f.write("\\begin{tabular}{r l l l}\n")
-        f.write("\\textbf{Name} & \\textbf{Total} & \\textbf{Distribution} &\\\\\n")
+        f.write("\\begin{tabular}{l %s}\n" % device_cols_ls)
+        f.write("\\textbf{Name} & %s \\\\\n" % device_headers)
+        f.write("& %s \\\\\n" % device_cols_heads)
     else:
-        f.write("\\begin{tabular}{l r l l l}\n")
-        f.write("\\textbf{Type} & \\textbf{Name} & \\textbf{Total} & \\textbf{Distribution} &\\\\\n")
+        f.write("\\begin{tabular}{l l %s}\n" % device_cols_ls)
+        f.write("\\textbf{Type} & \\textbf{Name} & %s \\\\\n" % device_headers)
+        f.write("& & %s \\\\\n" % device_cols_heads)
 
     for (test_name, groups) in filtered:
-        total_observations, total_runs = results[test_name]
-        # assuming d is Poission distribution then var(d) = 1/n sum(d)
-        d = running[test_name]
-        u = math.sqrt(vari(d))
-        avg = sum(d) / len(d)
-        run = total_runs / len(d)
-
-        h_total_observations = humanize(total_observations)
-        h_total_runs = humanize(total_runs)
-        h_u = humanize(u)
-        h_avg = humanize(avg)
-        h_run = humanize(run)
-
-        group = groups[-1]
         f.write("   ")  # padding for nice .tex
-        if not one_group:
-            f.write(f"{group} &")
 
-        f.write(f"{test_name} & {h_total_observations}/{h_total_runs}")
-        if total_observations > 0:
-            f.write(f" & {h_avg}/{h_run} & $\\pm$ {h_u}/{h_run} \\\\\n")
-        else:
-            f.write(f" & & \\\\\n")
+        row = []
+        group = groups[-1]
+        if not one_group:
+            row.append(group)
+
+        row.append(test_name)
+
+        for d in devices:
+            total_observations, total_runs, running = tests[test_name][d]
+
+            if len(running) == 0:
+                u = 0
+                avg = 0
+                run = 0
+            else:
+                u = math.sqrt(vari(running))
+                avg = sum(running) / len(running)
+                run = total_runs / len(running)
+
+            h_total_observations = humanize(total_observations)
+            h_total_runs = humanize(total_runs)
+            h_u = humanize(u)
+            h_avg = humanize(avg)
+            h_run = humanize(run)
+
+            row.append(f"{h_total_observations}/{h_total_runs}")
+            if total_observations > 0:
+                row.append(f"{h_avg}/{h_run}")
+                row.append(f"$\\pm$ {h_u}/{h_run}")
+            else:
+                row.append("")
+                row.append("")
+
+        for c in row:
+            f.write(f"{c}&")
+        f.write("\\\\\n")
+        f.write("\\hline\n")
     f.write("\\hline\n")
     f.write("\\end{tabular}\n")
 
@@ -144,10 +183,7 @@ def collect_logs(d):
         if fname.suffix == ".log":
             yield str(fname.expanduser())
 
-
-if __name__ == "__main__":
-    args = parser.parse_args()
-
+def main(args):
     excludes = [] if not args.excludes else args.excludes.split(",")
     includes = [] if not args.includes else args.includes.split(",")
 
@@ -174,26 +210,28 @@ if __name__ == "__main__":
 
     for d, (results, running) in devices.items():
         with open(root / f"results-{d!s}.tex", "w") as f:
-            write_one_table(group_list, f, d, results, running, includes=includes, excludes=excludes)
+            write_table(group_list, f, {d: (results, running)}, includes=includes, excludes=excludes)
+
+    with open(root / f"results-all.tex", "w") as f:
+        write_table(group_list, f, devices, includes=includes, excludes=excludes)
 
     if args.standalone:
         with open(args.standalone_file, "w") as f:
             f.write("\\documentclass{standalone}\n")
             f.write("\\begin{document}\n")
-            for d, (results, running) in devices.items():
-                f.write(f"   \\textbf{{{d!s}}}\n")
-                sio = io.StringIO()
-                write_one_table(
-                    group_list,
-                    sio,
-                    d,
-                    results,
-                    running,
-                    includes=includes,
-                    excludes=excludes,
-                    print_skips=False,
-                )
-                for line in sio.getvalue().splitlines():
-                    f.write(f"   {line}\n")
-                f.write("   \\hspace{3cm}")
+            sio = io.StringIO()
+            write_table(
+                group_list,
+                sio,
+                devices,
+                includes=includes,
+                excludes=excludes,
+                print_skips=False,
+            )
+            for line in sio.getvalue().splitlines():
+                f.write(f"   {line}\n")
             f.write("\\end{document}\n")
+
+if __name__ == "__main__":
+    args = parser.parse_args()
+    main(args)

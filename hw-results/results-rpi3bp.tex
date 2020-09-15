@@ -1,212 +1,241 @@
-\begin{tabular}{l r l l l}
-\textbf{Type} & \textbf{Name} & \textbf{Total} & \textbf{Distribution} &\\
-   checks &check1 & 0/500K & & \\
-   checks &check2 & 0/500K & & \\
-   checks &check3 & 0/500K & & \\
-   checks &check4 & 0/500K & & \\
-   checks &check5 & 0/500K & & \\
-   checks &check6 & 0/500K & & \\
-   data &LB+pos & 0/500K & & \\
-   data &MP+dmbs & 0/500K & & \\
-   data &MP+po-data+dmb & 1.23K/500K & 1.23K/500K & $\pm$ 0.00/500K \\
-   data &MP+pos & 2.17K/500K & 2.17K/500K & $\pm$ 0.00/500K \\
-   data &MP+rfi-data+dmb & 7.31K/500K & 7.31K/500K & $\pm$ 0.00/500K \\
-   data &SB+dmbs & 0/500K & & \\
-   data &SB+pos & 67.40K/500K & 67.40K/500K & $\pm$ 0.00/500K \\
-   data &WRC+addrs & 0/500K & & \\
-   data &WRC+pos & 2/500K & 2.00/500K & $\pm$ 0.00/500K \\
-   errata &CoRT+dsb-isb.errata.errata & 938.22K/4.50M & 104.25K/500K & $\pm$ 5.50K/500K \\
-   errata &CoRT.errata.errata & 1.06M/4.50M & 118.27K/500K & $\pm$ 12.03K/500K \\
-   errata &CoTR+addr.errata.errata & 4/4.50M & 0.44/500K & $\pm$ 0.50/500K \\
-   errata &CoTR+dmb.errata.errata & 5/4.50M & 0.56/500K & $\pm$ 0.68/500K \\
-   errata &CoTR+dsb-isb.errata.errata & 3/4.50M & 0.33/500K & $\pm$ 0.47/500K \\
-   errata &CoTR+dsb.errata.errata & 4/4.50M & 0.44/500K & $\pm$ 0.50/500K \\
-   errata &CoTR.errata.errata & 0/4.50M & & \\
-   errata &CoTR.inv+dsb-isb.errata.errata & 0/4.50M & & \\
-   errata &CoTR.inv.errata.errata & 0/4.50M & & \\
-   errata &CoTR1+dsb-dc-dsb-tlbi-dsb-isb.errata.errata & 1/4.50M & 0.11/500K & $\pm$ 0.31/500K \\
-   errata &CoTR1+dsb-tlbi-dsb-isb.errata.errata & 2/4.50M & 0.22/500K & $\pm$ 0.42/500K \\
-   errata &CoTR1.tlbi+dsb-isb.errata.errata & 5/4.50M & 0.56/500K & $\pm$ 0.68/500K \\
-   errata &CoTT.errata.errata & 0/4.50M & & \\
-   errata &CoWR.alias.errata.errata & 0/2M & & \\
-   errata &CoWT+dsb-isb.errata.errata & 2.24M/4.50M & 248.79K/500K & $\pm$ 397.11/500K \\
-   errata &CoWT+dsb-svc-tlbi-dsb.errata.errata & 0/4.50M & & \\
-   errata &CoWT+dsb.errata.errata & 2.24M/4.50M & 248.66K/500K & $\pm$ 451.18/500K \\
-   errata &CoWT.errata.errata & 3.10M/4.50M & 344.59K/500K & $\pm$ 56.64K/500K \\
-   errata &CoWT.inv+dmb.errata.errata & 170.81K/3M & 28.47K/500K & $\pm$ 15.27K/500K \\
-   errata &CoWT.inv+dsb-isb.errata.errata & 0/3M & & \\
-   errata &CoWT.inv+dsb.errata.errata.errata & 0/3M & & \\
-   errata &CoWT.inv.errata.errata.errata & 1.26M/3M & 209.34K/500K & $\pm$ 93.74K/500K \\
-   errata &CoWT1+dsb-tlbi-dsb-isb.errata.errata & 0/4.50M & & \\
-   errata &CoWT1+dsb-tlbi-dsb.errata.errata & 0/4.50M & & \\
-   errata &CoWinvT+dsb-isb.errata.errata & 1.70M/3M & 282.82K/500K & $\pm$ 22.47K/500K \\
-   errata &CoWinvT.errata.errata & 1.71M/3M & 285.10K/500K & $\pm$ 22.73K/500K \\
-   errata &CoWinvT1+dsb-tlbi-dsb.errata.errata & 0/3M & & \\
-   errata &CoWinvWT1+dsb-tlbi-dsb-dsb-isb.errata.errata & 0/3M & & \\
-   errata &ISA2.TRR+dmb+po+dmb.errata.errata & 0/3M & & \\
-   errata &LB+R-svc-W+R-svc-W.errata.errata & 0/6M & & \\
-   errata &LB+pos.errata.errata & 0/6M & & \\
-   errata &MP+W-svc-W+addr.errata.errata & 7.79K/6M & 648.75/500K & $\pm$ 718.07/500K \\
-   errata &MP+dmb+R-svc-eret-R.errata.errata & 0/5.50M & & \\
-   errata &MP+dmb+eret.errata.errata & 0/5.50M & & \\
-   errata &MP+dmb+svc-R-eret-svc-R.errata.errata & 0/5M & & \\
-   errata &MP+dmb+svc-R-svc-R.errata.errata & 0/5M & & \\
-   errata &MP+dmb+svc-R-svc-eret-R.errata.errata & 0/5M & & \\
-   errata &MP+dmb+svc.errata.errata & 0/5M & & \\
-   errata &MP+dmb+svc2-R-eret-R.errata.errata & 0/5M & & \\
-   errata &MP+dmb-data+dmb.errata.errata & 0/1M & & \\
-   errata &MP+dmbs.errata.errata & 0/6M & & \\
-   errata &MP+po-data+dmb.errata.errata & 1.47K/1M & 734.00/500K & $\pm$ 164.00/500K \\
-   errata &MP+pos.errata.errata & 10.28K/6M & 857.00/500K & $\pm$ 497.53/500K \\
-   errata &MP+svc-W-eret-W+addr.errata.errata & 1.41K/5M & 141.10/500K & $\pm$ 366.32/500K \\
-   errata &MP.BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb.errata.errata & 1/14M & 0.04/500K & $\pm$ 0.19/500K \\
-   errata &MP.BBM1+dsb-tlbiis-dsb-dsb+dsb-isb.errata.errata & 3/14M & 0.11/500K & $\pm$ 0.31/500K \\
-   errata &MP.BBM1+dsb-tlbiis-dsb-dsb+dsb.errata.errata & 0/14M & & \\
-   errata &MP.BBM1+dsb-tlbiis-dsb-dsb-isb+dsb-isb.errata.errata & 1/14M & 0.04/500K & $\pm$ 0.19/500K \\
-   errata &MP.BBM1+dsb-tlbiis-dsb-dsb-isb+dsb.errata.errata & 3/14M & 0.11/500K & $\pm$ 0.31/500K \\
-   errata &MP.BBM1.id+dsb-tlbiis-dsb-dsb+dsb-isb.errata.errata & 22/14M & 0.79/500K & $\pm$ 0.41/500K \\
-   errata &MP.RT+svc-dsb-tlbi-dsb+dsb-isb.errata.errata & 0/3M & & \\
-   errata &MP.RT+svc-dsb-tlbiis-dsb+dsb-isb.errata.errata & 0/3M & & \\
-   errata &MP.RT.inv+dmb+addr.errata.errata.errata & 0/3M & & \\
-   errata &MP.RT.inv+dmb+po.errata.errata & 8/3M & 1.33/500K & $\pm$ 1.37/500K \\
-   errata &MP.RT1+[dmb.ld]-dmb+dsb-isb.errata.errata & 23.57K/12.50M & 942.96/500K & $\pm$ 280.44/500K \\
-   errata &MP.RT1+[dmb.ld]-dsb-tlbiis-dsb-isb+dmb.errata.errata & 0/12.50M & & \\
-   errata &MP.RT1+dc-dsb-tlbiall-dsb+dsb-isb.errata.errata & 6/12.50M & 0.24/500K & $\pm$ 0.43/500K \\
-   errata &MP.RT1+dc-dsb-tlbiall-dsb-isb+dsb-isb.errata.errata & 0/12.50M & & \\
-   errata &MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata.errata & 2/12.50M & 0.08/500K & $\pm$ 0.27/500K \\
-   errata &MP.RT1+dsb-tlbi-dsb+dsb-isb.errata.errata & 2/12.50M & 0.08/500K & $\pm$ 0.27/500K \\
-   errata &MP.RT1+dsb-tlbiall-dsb+dsb-isb.errata.errata & 1/12.50M & 0.04/500K & $\pm$ 0.20/500K \\
-   errata &MP.RT1+dsb-tlbiallis-dsb+dsb-isb.errata.errata & 1/12.50M & 0.04/500K & $\pm$ 0.20/500K \\
-   errata &MP.RT1+dsb-tlbiis-dsb+dsb-isb.errata.errata & 1/12.50M & 0.04/500K & $\pm$ 0.20/500K \\
-   errata &MP.RT1+dsb-tlbiis-dsb-isb+dmb.errata.errata & 3/12.50M & 0.12/500K & $\pm$ 0.32/500K \\
-   errata &MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb.errata.errata & 2/12.50M & 0.08/500K & $\pm$ 0.39/500K \\
-   errata &MP.RT1+dsb-tlbiis-dsb-tlbiis-dsb+dsb-isb.errata.errata & 3/12.50M & 0.12/500K & $\pm$ 0.32/500K \\
-   errata &MP.TT+Winv-dmb-Winv+tpo.errata.errata & 164.27K/2.50M & 32.85K/500K & $\pm$ 20.33K/500K \\
-   errata &MP.TT+dmb+dsb-isb.errata.errata & 242.45K/2.50M & 48.49K/500K & $\pm$ 8.81K/500K \\
-   errata &MP.TT+dmb+tpo.errata.errata & 342.87K/2.50M & 68.57K/500K & $\pm$ 14.08K/500K \\
-   errata &MP.TT.inv+dmb+dsb-isb.errata.errata.errata & 0/2.50M & & \\
-   errata &MP.TT.inv+dmb+tpo.errata.errata & 0/2.50M & & \\
-   errata &MP.alias+dmbs.errata.errata & 0/1M & & \\
-   errata &MP.alias2+dmb-data+dmb.errata.errata & 0/1M & & \\
-   errata &MP.alias2+po-data+dmb.errata.errata & 4.19K/1M & 2.09K/500K & $\pm$ 1.82K/500K \\
-   errata &MP.invRT+dsb+dsb-isb.errata.errata & 131.52K/2.50M & 26.30K/500K & $\pm$ 17.15K/500K \\
-   errata &MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb.errata.errata & 0/2.50M & & \\
-   errata &MP.invRT1+dsb-tlbiis-dsb+dsb-isb.errata.errata & 0/2.50M & & \\
-   errata &MP.invRT1+dsb-tlbiis-dsb+dsb.errata.errata & 0/2.50M & & \\
-   errata &SB+W-svc-R+W-svc-R.errata.errata & 45.94K/5M & 4.59K/500K & $\pm$ 2.56K/500K \\
-   errata &SB+dmbs.errata.errata & 0/6M & & \\
-   errata &SB+pos.errata.errata & 501.87K/6M & 41.82K/500K & $\pm$ 14.68K/500K \\
-   errata &SB+svc-erets.errata.errata & 35.32K/4.50M & 3.92K/500K & $\pm$ 2.43K/500K \\
-   errata &SB.alias+dmbs.errata.errata & 0/1M & & \\
-   errata &WRC+addrs.errata.errata & 0/6M & & \\
-   errata &WRC+pos.errata.errata & 9/6M & 0.75/500K & $\pm$ 0.92/500K \\
-   errata &WRC.AT+ctrl+dsb.errata.errata & 97.97K/2.50M & 19.59K/500K & $\pm$ 2.64K/500K \\
-   errata &WRC.TRR+addr+dmb.errata.errata & 0/2.50M & & \\
-   errata &WRC.TRR.inv+addrs.errata.errata & 0/2.50M & & \\
-   errata &WRC.TRT+addr+dmb.errata.errata & 68.17K/2.50M & 13.63K/500K & $\pm$ 8.35K/500K \\
-   errata &WRC.TRT+dmbs.errata.errata & 53.80K/2.50M & 10.76K/500K & $\pm$ 3.52K/500K \\
-   errata &WRC.TRT+dsb-isbs.errata.errata & 46K/2.50M & 9.20K/500K & $\pm$ 3.54K/500K \\
-   errata &WRC.TRT.inv+addrs.errata.errata & 0/2.50M & & \\
-   errata &WRC.TRT.inv+dsb-isbs.errata.errata & 0/2.50M & & \\
-   errata &WRC.TRT.inv+po+addr.errata.errata & 0/2.50M & & \\
-   errata &WRC.TRT.inv+po+dmb.errata.errata & 0/2M & & \\
-   errata &WRC.TRT1+dsb-tlbiis-dsb+dmb.errata.errata & 0/2.50M & & \\
-   errata &WRC.TRT1+dsb-tlbiis-dsb+dsb-isb.errata.errata & 0/2.50M & & \\
-   errata &check1.errata.errata & 0/6M & & \\
-   errata &check2.errata.errata & 0/6M & & \\
-   errata &check3.errata.errata & 0/6M & & \\
-   errata &check4.errata.errata & 0/6M & & \\
-   errata &check5.errata.errata & 0/2M & & \\
-   errata &check5.errata.errata.errata & 0/4M & & \\
-   errata &check6.errata.errata & 0/6M & & \\
-   exc &LB+R-svc-W+R-svc-W & 0/500K & & \\
-   exc &MP+W-svc-W+addr & 33/500K & 33.00/500K & $\pm$ 0.00/500K \\
-   exc &MP+dmb+R-svc-eret-R & 0/500K & & \\
-   exc &MP+dmb+eret & 0/500K & & \\
-   exc &MP+dmb+svc & 0/500K & & \\
-   exc &MP+dmb+svc-R-eret-svc-R & 0/500K & & \\
-   exc &MP+dmb+svc-R-svc-R & 0/500K & & \\
-   exc &MP+dmb+svc-R-svc-eret-R & 0/500K & & \\
-   exc &MP+dmb+svc2-R-eret-R & 0/500K & & \\
-   exc &MP+svc-W-eret-W+addr & 3/500K & 3.00/500K & $\pm$ 0.00/500K \\
-   exc &SB+W-svc-R+W-svc-R & 4.88K/500K & 4.88K/500K & $\pm$ 0.00/500K \\
-   exc &SB+svc-erets & 5.37K/500K & 5.37K/500K & $\pm$ 0.00/500K \\
-   pgtable &CoRT & 114.28K/500K & 114.28K/500K & $\pm$ 0.00/500K \\
-   pgtable &CoRT+dsb-isb & 64.59K/500K & 64.59K/500K & $\pm$ 0.00/500K \\
-   pgtable &CoTR & 0/500K & & \\
-   pgtable &CoTR+addr & 1/500K & 1.00/500K & $\pm$ 0.00/500K \\
-   pgtable &CoTR+dmb & 0/500K & & \\
-   pgtable &CoTR+dsb & 0/500K & & \\
-   pgtable &CoTR+dsb-isb & 0/500K & & \\
-   pgtable &CoTR.inv & 0/500K & & \\
-   pgtable &CoTR.inv+dsb-isb & 0/500K & & \\
-   pgtable &CoTR1+dsb-dc-dsb-tlbi-dsb-isb & 0/500K & & \\
-   pgtable &CoTR1+dsb-tlbi-dsb-isb & 0/500K & & \\
-   pgtable &CoTR1.tlbi+dsb-isb & 1/500K & 1.00/500K & $\pm$ 0.00/500K \\
-   pgtable &CoTT & 0/500K & & \\
-   pgtable &CoWT & 369.12K/500K & 369.12K/500K & $\pm$ 0.00/500K \\
-   pgtable &CoWT+dsb & 248.71K/500K & 248.71K/500K & $\pm$ 0.00/500K \\
-   pgtable &CoWT+dsb-isb & 249.23K/500K & 249.23K/500K & $\pm$ 0.00/500K \\
-   pgtable &CoWT+dsb-svc-tlbi-dsb & 0/500K & & \\
-   pgtable &CoWT.inv & 305.08K/500K & 305.08K/500K & $\pm$ 0.00/500K \\
-   pgtable &CoWT.inv+dmb & 45.59K/500K & 45.59K/500K & $\pm$ 0.00/500K \\
-   pgtable &CoWT.inv+dsb & 0/500K & & \\
-   pgtable &CoWT.inv+dsb-isb & 0/500K & & \\
-   pgtable &CoWT1+dsb-tlbi-dsb & 0/500K & & \\
-   pgtable &CoWT1+dsb-tlbi-dsb-isb & 0/500K & & \\
-   pgtable &CoWinvT & 293.49K/500K & 293.49K/500K & $\pm$ 0.00/500K \\
-   pgtable &CoWinvT+dsb-isb & 336.81K/500K & 336.81K/500K & $\pm$ 0.00/500K \\
-   pgtable &CoWinvT1+dsb-tlbi-dsb & 0/500K & & \\
-   pgtable &CoWinvWT1+dsb-tlbi-dsb-dsb-isb & 0/500K & & \\
-   pgtable &ISA2.TRR+dmb+po+dmb & 0/500K & & \\
-   pgtable &MP.BBM1+[dmb.ld]-tlbiis-dsb-isb-dsb-isb+dsb-isb & 0/1.06G & & \\
-   pgtable &MP.BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb & 0/500K & & \\
-   pgtable &MP.BBM1+dsb-tlbiis-dsb-dsb+dsb & 0/500K & & \\
-   pgtable &MP.BBM1+dsb-tlbiis-dsb-dsb+dsb-isb & 0/500K & & \\
-   pgtable &MP.BBM1+dsb-tlbiis-dsb-dsb-isb+dsb & 0/500K & & \\
-   pgtable &MP.BBM1+dsb-tlbiis-dsb-dsb-isb+dsb-isb & 0/500K & & \\
-   pgtable &MP.BBM1.id+dsb-tlbiis-dsb-dsb+dsb-isb & 0/500K & & \\
-   pgtable &MP.RT+svc-dsb-tlbi-dsb+dsb-isb & 0/500K & & \\
-   pgtable &MP.RT+svc-dsb-tlbiis-dsb+dsb-isb & 0/500K & & \\
-   pgtable &MP.RT.inv+dmb+addr & 0/500K & & \\
-   pgtable &MP.RT.inv+dmb+po & 0/500K & & \\
-   pgtable &MP.RT1+[dmb.ld]-dmb+dsb-isb & 986/500K & 986.00/500K & $\pm$ 0.00/500K \\
-   pgtable &MP.RT1+[dmb.ld]-dsb-tlbiis-dsb-isb+dmb & 0/500K & & \\
-   pgtable &MP.RT1+dc-dsb-tlbiall-dsb+dsb-isb & 1/500K & 1.00/500K & $\pm$ 0.00/500K \\
-   pgtable &MP.RT1+dc-dsb-tlbiall-dsb-isb+dsb-isb & 0/500K & & \\
-   pgtable &MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb & 0/500K & & \\
-   pgtable &MP.RT1+dsb-tlbi-dsb+dsb-isb & 0/500K & & \\
-   pgtable &MP.RT1+dsb-tlbiall-dsb+dsb-isb & 0/500K & & \\
-   pgtable &MP.RT1+dsb-tlbiallis-dsb+dsb-isb & 0/500K & & \\
-   pgtable &MP.RT1+dsb-tlbiis-dsb+dsb-isb & 0/500K & & \\
-   pgtable &MP.RT1+dsb-tlbiis-dsb-isb+dmb & 0/500K & & \\
-   pgtable &MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb & 0/500K & & \\
-   pgtable &MP.RT1+dsb-tlbiis-dsb-tlbiis-dsb+dsb-isb & 0/500K & & \\
-   pgtable &MP.TT+Winv-dmb-Winv+tpo & 57.63K/500K & 57.63K/500K & $\pm$ 0.00/500K \\
-   pgtable &MP.TT+dmb+dsb-isb & 59.96K/500K & 59.96K/500K & $\pm$ 0.00/500K \\
-   pgtable &MP.TT+dmb+tpo & 58.59K/500K & 58.59K/500K & $\pm$ 0.00/500K \\
-   pgtable &MP.TT.inv+dmb+dsb-isb & 0/500K & & \\
-   pgtable &MP.TT.inv+dmb+tpo & 0/500K & & \\
-   pgtable &MP.invRT+dsb+dsb-isb & 20.27K/500K & 20.27K/500K & $\pm$ 0.00/500K \\
-   pgtable &MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb & 0/500K & & \\
-   pgtable &MP.invRT1+dsb-tlbiis-dsb+dsb & 0/500K & & \\
-   pgtable &MP.invRT1+dsb-tlbiis-dsb+dsb-isb & 0/500K & & \\
-   pgtable &WRC.AT+ctrl+dsb & 19.30K/500K & 19.30K/500K & $\pm$ 0.00/500K \\
-   pgtable &WRC.TRR+addr+dmb & 0/500K & & \\
-   pgtable &WRC.TRR.inv+addrs & 0/500K & & \\
-   pgtable &WRC.TRT+addr+dmb & 17.92K/500K & 17.92K/500K & $\pm$ 0.00/500K \\
-   pgtable &WRC.TRT+dmbs & 22.64K/500K & 22.64K/500K & $\pm$ 0.00/500K \\
-   pgtable &WRC.TRT+dsb-isbs & 11.79K/500K & 11.79K/500K & $\pm$ 0.00/500K \\
-   pgtable &WRC.TRT.inv+addrs & 0/500K & & \\
-   aliasing &CoWR.alias & 0/1.50M & & \\
-   aliasing &MP+dmb-data+dmb & 0/1.50M & & \\
-   aliasing &MP.alias+dmbs & 0/1.50M & & \\
-   aliasing &MP.alias2+dmb-data+dmb & 0/1.50M & & \\
-   aliasing &MP.alias2+dmbs & 0/1.50M & & \\
-   aliasing &MP.alias2+po-data+dmb & 3.17K/1.50M & 1.06K/500K & $\pm$ 107.89/500K \\
-   aliasing &MP.alias3+rfi-data+dmb & 16/1.50M & 5.33/500K & $\pm$ 2.05/500K \\
-   aliasing &SB.alias+dmbs & 0/1M & & \\
-   aliasing &WRC.alias2+addrs & 0/43M & & \\
-   aliasing &WRC.alias2+dmbs & 0/43M & & \\
+\begin{tabular}{l l  | r r l | r r l}
+\textbf{Type} & \textbf{Name} & \multicolumn{3}{l}{\textbf{rpi3bp}} \\
+& & \textbf{Total} & \textbf{Distribution} &  \\
+   amo&AArch64&0/0&&&\\
+\hline
+   checks&check1&0/500K&&&\\
+\hline
+   checks&check2&0/500K&&&\\
+\hline
+   checks&check3&0/500K&&&\\
+\hline
+   checks&check4&0/500K&&&\\
+\hline
+   checks&check5&0/500K&&&\\
+\hline
+   checks&check6&0/500K&&&\\
+\hline
+   data&LB+pos&0/500K&&&\\
+\hline
+   data&MP+dmb+po&0/0&&&\\
+\hline
+   data&MP+dmbs&0/500K&&&\\
+\hline
+   data&MP+po+dmb&0/0&&&\\
+\hline
+   data&MP+po-data+dmb&1.23K/500K&1.23K/500K&$\pm$ 0.00/500K&\\
+\hline
+   data&MP+pos&2.17K/500K&2.17K/500K&$\pm$ 0.00/500K&\\
+\hline
+   data&MP+rfi-data+dmb&7.31K/500K&7.31K/500K&$\pm$ 0.00/500K&\\
+\hline
+   data&SB+dmbs&0/500K&&&\\
+\hline
+   data&SB+pos&67.40K/500K&67.40K/500K&$\pm$ 0.00/500K&\\
+\hline
+   data&WRC+addrs&0/500K&&&\\
+\hline
+   data&WRC+pos&2/500K&2.00/500K&$\pm$ 0.00/500K&\\
+\hline
+   exc&LB+R-svc-W+R-svc-W&0/500K&&&\\
+\hline
+   exc&MP+W-svc-W+addr&33/500K&33.00/500K&$\pm$ 0.00/500K&\\
+\hline
+   exc&MP+dmb+R-svc-eret-R&0/500K&&&\\
+\hline
+   exc&MP+dmb+eret&0/500K&&&\\
+\hline
+   exc&MP+dmb+svc&0/500K&&&\\
+\hline
+   exc&MP+dmb+svc-R-eret-svc-R&0/500K&&&\\
+\hline
+   exc&MP+dmb+svc-R-svc-R&0/500K&&&\\
+\hline
+   exc&MP+dmb+svc-R-svc-eret-R&0/500K&&&\\
+\hline
+   exc&MP+dmb+svc2-R-eret-R&0/500K&&&\\
+\hline
+   exc&MP+svc-W-eret-W+addr&3/500K&3.00/500K&$\pm$ 0.00/500K&\\
+\hline
+   exc&SB+W-svc-R+W-svc-R&4.88K/500K&4.88K/500K&$\pm$ 0.00/500K&\\
+\hline
+   exc&SB+svc-erets&5.37K/500K&5.37K/500K&$\pm$ 0.00/500K&\\
+\hline
+   pgtable&CoRT&114.28K/500K&114.28K/500K&$\pm$ 0.00/500K&\\
+\hline
+   pgtable&CoRT+dsb-isb&64.59K/500K&64.59K/500K&$\pm$ 0.00/500K&\\
+\hline
+   pgtable&CoTR&0/500K&&&\\
+\hline
+   pgtable&CoTR+addr&1/500K&1.00/500K&$\pm$ 0.00/500K&\\
+\hline
+   pgtable&CoTR+dmb&0/500K&&&\\
+\hline
+   pgtable&CoTR+dsb&0/500K&&&\\
+\hline
+   pgtable&CoTR+dsb-isb&0/500K&&&\\
+\hline
+   pgtable&CoTR.inv&0/500K&&&\\
+\hline
+   pgtable&CoTR.inv+dsb-isb&0/500K&&&\\
+\hline
+   pgtable&CoTR1+dsb-dc-dsb-tlbi-dsb-isb&0/500K&&&\\
+\hline
+   pgtable&CoTR1+dsb-tlbi-dsb-isb&0/500K&&&\\
+\hline
+   pgtable&CoTR1.tlbi+dsb-isb&1/500K&1.00/500K&$\pm$ 0.00/500K&\\
+\hline
+   pgtable&CoTT&0/500K&&&\\
+\hline
+   pgtable&CoWT&369.12K/500K&369.12K/500K&$\pm$ 0.00/500K&\\
+\hline
+   pgtable&CoWT+dsb&248.71K/500K&248.71K/500K&$\pm$ 0.00/500K&\\
+\hline
+   pgtable&CoWT+dsb-isb&249.23K/500K&249.23K/500K&$\pm$ 0.00/500K&\\
+\hline
+   pgtable&CoWT+dsb-svc-tlbi-dsb&0/500K&&&\\
+\hline
+   pgtable&CoWT.inv&305.08K/500K&305.08K/500K&$\pm$ 0.00/500K&\\
+\hline
+   pgtable&CoWT.inv+dmb&45.59K/500K&45.59K/500K&$\pm$ 0.00/500K&\\
+\hline
+   pgtable&CoWT.inv+dsb&0/500K&&&\\
+\hline
+   pgtable&CoWT.inv+dsb-isb&0/500K&&&\\
+\hline
+   pgtable&CoWT1+dsb-tlbi-dsb&0/500K&&&\\
+\hline
+   pgtable&CoWT1+dsb-tlbi-dsb-isb&0/500K&&&\\
+\hline
+   pgtable&CoWinvT&293.49K/500K&293.49K/500K&$\pm$ 0.00/500K&\\
+\hline
+   pgtable&CoWinvT+dsb-isb&336.81K/500K&336.81K/500K&$\pm$ 0.00/500K&\\
+\hline
+   pgtable&CoWinvT1+dsb-tlbi-dsb&0/500K&&&\\
+\hline
+   pgtable&CoWinvWT1+dsb-tlbi-dsb-dsb-isb&0/500K&&&\\
+\hline
+   pgtable&ISA2.TRR+dmb+po+dmb&0/500K&&&\\
+\hline
+   pgtable&MP.BBM1+[dmb.ld]-dsb-tlbiis-dsb-isb-dsb-isb+dsb-isb&0/0&&&\\
+\hline
+   pgtable&MP.BBM1+[dmb.ld]-tlbiis-dsb-isb-dsb-isb+dsb-isb&0/1.06G&&&\\
+\hline
+   pgtable&MP.BBM1+[po]-dsb-tlbiis-dsb-isb-dsb-isb+dsb-isb&0/0&&&\\
+\hline
+   pgtable&MP.BBM1+dsb-isb-tlbiis-dsb-isb-dsb-isb+dsb-isb&0/500K&&&\\
+\hline
+   pgtable&MP.BBM1+dsb-tlbiis-dsb-dsb+dsb&0/500K&&&\\
+\hline
+   pgtable&MP.BBM1+dsb-tlbiis-dsb-dsb+dsb-isb&0/500K&&&\\
+\hline
+   pgtable&MP.BBM1+dsb-tlbiis-dsb-dsb-isb+dsb&0/500K&&&\\
+\hline
+   pgtable&MP.BBM1+dsb-tlbiis-dsb-dsb-isb+dsb-isb&0/500K&&&\\
+\hline
+   pgtable&MP.BBM1+po-dsb-tlbiis-dsb-isb-dsb-isb+dsb-isb&0/0&&&\\
+\hline
+   pgtable&MP.BBM1.id+dsb-tlbiis-dsb-dsb+dsb-isb&0/500K&&&\\
+\hline
+   pgtable&MP.RT+svc-dsb-tlbi-dsb+dsb-isb&0/500K&&&\\
+\hline
+   pgtable&MP.RT+svc-dsb-tlbiis-dsb+dsb-isb&0/500K&&&\\
+\hline
+   pgtable&MP.RT.inv+dmb+addr&0/500K&&&\\
+\hline
+   pgtable&MP.RT.inv+dmb+po&0/500K&&&\\
+\hline
+   pgtable&MP.RT1+[dmb.ld]-dmb+dsb-isb&986/500K&986.00/500K&$\pm$ 0.00/500K&\\
+\hline
+   pgtable&MP.RT1+[dmb.ld]-dsb-isb-tlbiis-dsb-isb+dmb&0/0&&&\\
+\hline
+   pgtable&MP.RT1+[dmb.ld]-dsb-isb-tlbiis-dsb-isb+dsb-isb&0/0&&&\\
+\hline
+   pgtable&MP.RT1+[dmb.ld]-dsb-tlbiis-dsb-isb+dmb&0/500K&&&\\
+\hline
+   pgtable&MP.RT1+dc-dsb-tlbiall-dsb+dsb-isb&1/500K&1.00/500K&$\pm$ 0.00/500K&\\
+\hline
+   pgtable&MP.RT1+dc-dsb-tlbiall-dsb-isb+dsb-isb&0/500K&&&\\
+\hline
+   pgtable&MP.RT1+dsb-isb-tlbiis-dsb-isb+dsb-isb&0/500K&&&\\
+\hline
+   pgtable&MP.RT1+dsb-tlbi-dsb+dsb-isb&0/500K&&&\\
+\hline
+   pgtable&MP.RT1+dsb-tlbiall-dsb+dsb-isb&0/500K&&&\\
+\hline
+   pgtable&MP.RT1+dsb-tlbiallis-dsb+dsb-isb&0/500K&&&\\
+\hline
+   pgtable&MP.RT1+dsb-tlbiis-dsb+dsb-isb&0/500K&&&\\
+\hline
+   pgtable&MP.RT1+dsb-tlbiis-dsb-isb+dmb&0/500K&&&\\
+\hline
+   pgtable&MP.RT1+dsb-tlbiis-dsb-isb+dsb-isb&0/500K&&&\\
+\hline
+   pgtable&MP.RT1+dsb-tlbiis-dsb-tlbiis-dsb+dsb-isb&0/500K&&&\\
+\hline
+   pgtable&MP.TT+Winv-dmb-Winv+tpo&57.63K/500K&57.63K/500K&$\pm$ 0.00/500K&\\
+\hline
+   pgtable&MP.TT+dmb+dsb-isb&59.96K/500K&59.96K/500K&$\pm$ 0.00/500K&\\
+\hline
+   pgtable&MP.TT+dmb+tpo&58.59K/500K&58.59K/500K&$\pm$ 0.00/500K&\\
+\hline
+   pgtable&MP.TT.inv+dmb+dsb-isb&0/500K&&&\\
+\hline
+   pgtable&MP.TT.inv+dmb+tpo&0/500K&&&\\
+\hline
+   pgtable&MP.invRT+dsb+dsb-isb&20.27K/500K&20.27K/500K&$\pm$ 0.00/500K&\\
+\hline
+   pgtable&MP.invRT1+dsb-isb-tlbiis-dsb-isb+dsb-isb&0/500K&&&\\
+\hline
+   pgtable&MP.invRT1+dsb-tlbiis-dsb+dsb&0/500K&&&\\
+\hline
+   pgtable&MP.invRT1+dsb-tlbiis-dsb+dsb-isb&0/500K&&&\\
+\hline
+   pgtable&WRC.AT+ctrl+dsb&19.30K/500K&19.30K/500K&$\pm$ 0.00/500K&\\
+\hline
+   pgtable&WRC.TRR+addr+dmb&0/500K&&&\\
+\hline
+   pgtable&WRC.TRR.inv+addrs&0/500K&&&\\
+\hline
+   pgtable&WRC.TRT+addr+dmb&17.92K/500K&17.92K/500K&$\pm$ 0.00/500K&\\
+\hline
+   pgtable&WRC.TRT+dmbs&22.64K/500K&22.64K/500K&$\pm$ 0.00/500K&\\
+\hline
+   pgtable&WRC.TRT+dsb-isbs&11.79K/500K&11.79K/500K&$\pm$ 0.00/500K&\\
+\hline
+   pgtable&WRC.TRT.inv+addrs&0/500K&&&\\
+\hline
+   pgtable&WRC.TRT.inv+dsb-isbs&0/0&&&\\
+\hline
+   pgtable&WRC.TRT.inv+po+addr&0/0&&&\\
+\hline
+   pgtable&WRC.TRT.inv+po+dmb&0/0&&&\\
+\hline
+   pgtable&WRC.TRT1+dsb-tlbiis-dsb+dmb&0/0&&&\\
+\hline
+   pgtable&WRC.TRT1+dsb-tlbiis-dsb+dsb-isb&0/0&&&\\
+\hline
+   aliasing&CoWR.alias&0/1.50M&&&\\
+\hline
+   aliasing&MP+dmb-data+dmb&0/1.50M&&&\\
+\hline
+   aliasing&MP.alias+dmbs&0/1.50M&&&\\
+\hline
+   aliasing&MP.alias2+dmb-data+dmb&0/1.50M&&&\\
+\hline
+   aliasing&MP.alias2+dmbs&0/1.50M&&&\\
+\hline
+   aliasing&MP.alias2+po-data+dmb&3.17K/1.50M&1.06K/500K&$\pm$ 107.89/500K&\\
+\hline
+   aliasing&MP.alias3+rfi-data+dmb&16/1.50M&5.33/500K&$\pm$ 2.05/500K&\\
+\hline
+   aliasing&SB.alias+dmbs&0/1M&&&\\
+\hline
+   aliasing&WRC.alias2+addrs&0/43M&&&\\
+\hline
+   aliasing&WRC.alias2+dmbs&0/43M&&&\\
+\hline
+   timing&MP.times+pos&0/0&&&\\
+\hline
 \hline
 \end{tabular}
