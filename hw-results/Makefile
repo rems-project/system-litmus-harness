@@ -16,7 +16,7 @@ define makepdf
 endef
 
 .PHONY: all
-all: results.pdf results-exceptions.pdf install clean
+all: standalone-results.pdf standalone-results-exceptions.pdf install clean
 
 .PHONY: fetch
 fetch:
@@ -36,21 +36,25 @@ fetch:
 	tar -vczf raw/rpi4b.tar.gz raw/rpi4b/
 	tar -vczf raw/graviton2.tar.gz raw/graviton2/
 
-.PHONY: results.tex
-results.tex:
-	$(TAB) --excludes='@errata' --standalone-file='results.tex'
+.PHONY: standalone-results.tex
+standalone-results.tex:
+	$(TAB) --excludes='@errata' --standalone-file='standalone-results.tex' --all-file='results-all.tex'
 
-.PHONY: results-exceptions.tex
-results-exceptions.tex:
-results-exceptions.tex:
-	$(TAB) --includes='@exc' --standalone-file='results-exceptions.tex'
+.PHONY: standalone-results-exceptions.tex
+standalone-results-exceptions.tex:
+standalone-results-exceptions.tex:
+	$(TAB) --includes='@exc' --standalone-file='standalone-results-exceptions.tex' --all-file='results-all-exceptions.tex'
 
 %.pdf: %.tex
 	$(call makepdf,$^)
 
 .PHONY: install
 install:
-	cp *.pdf built_doc/
+	cp standalone-results.pdf built_doc/results.pdf || true
+	cp results-all.tex built_doc/ || true
+
+	cp standalone-results-exceptions.pdf built_doc/results-exceptions.pdf || true
+	cp results-all-exceptions.tex built_doc/ || true
 
 define RM
 	rm -f $1.tex
@@ -61,5 +65,7 @@ endef
 
 .PHONY: clean
 clean:
-	$(call RM,results)
-	$(call RM,results-exceptions)
+	$(call RM,standalone-results)
+	$(call RM,standalone-results-exceptions)
+	rm -f results-all.tex
+	rm -f results-all-exceptions.tex

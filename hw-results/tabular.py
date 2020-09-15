@@ -25,6 +25,7 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument("--standalone", action="store_true")
 parser.add_argument("--standalone-file", "-o", default="top.tex")
+parser.add_argument("--all-file", default="results-all.tex")
 
 group = parser.add_mutually_exclusive_group()
 group.add_argument("--file", "-f", action="append")
@@ -258,17 +259,7 @@ def main(args):
             (_, _, _, _, test_name, *groups,) = line.split()
             group_list.append((test_name, groups))
 
-    for d, (results, running) in devices.items():
-        with open(root / f"results-{d!s}.tex", "w") as f:
-            write_table(
-                group_list,
-                f,
-                {d: (results, running)},
-                includes=includes,
-                excludes=excludes,
-            )
-
-    with open(root / f"results-all.tex", "w") as f:
+    with open(root / args.all_file, "w") as f:
         write_table(group_list, f, devices, includes=includes, excludes=excludes)
 
     if args.standalone:
@@ -287,6 +278,16 @@ def main(args):
             for line in sio.getvalue().splitlines():
                 f.write(f"   {line}\n")
             f.write("\\end{document}\n")
+    else:
+        for d, (results, running) in devices.items():
+                with open(root / f"results-{d!s}.tex", "w") as f:
+                    write_table(
+                        group_list,
+                        f,
+                        {d: (results, running)},
+                        includes=includes,
+                        excludes=excludes,
+                    )
 
 
 if __name__ == "__main__":
