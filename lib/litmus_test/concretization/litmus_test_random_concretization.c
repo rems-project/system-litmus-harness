@@ -27,12 +27,13 @@ uint8_t overlaps_owned_region(concretization_st_t* st, var_info_t* var, var_info
     return 0;
   }
 
-  return 0;
-}
-
-uint8_t overlaps_owned_region(concretization_st_t* st, var_info_t* var, var_info_t* with) {
-  if (! with->init_owns_region) {
-    return 0;
+  /* if var overlaps, but is pinned to with
+   * then it doesn't count as overlapping
+   */
+  if (var->init_pinned_region && var->pin_region_var == with->varidx) {
+    if ((int)var->pin_region_level <= (int)with->init_owned_region_size) {
+      return 0;
+    }
   }
 
   uint64_t va = st->var_sts[var->varidx].va;
@@ -129,6 +130,15 @@ void* concretize_random_init(test_ctx_t* ctx, const litmus_test_t* cfg) {
   concretization_st_t* st = alloc(sizeof(concretization_st_t) + sizeof(var_st_t)*cfg->no_heap_vars);
   valloc_memset(st, 0, sizeof(concretization_st_t) + sizeof(var_st_t)*cfg->no_heap_vars);
 
+  for (int varidx = 0; varidx < cfg->no_heap_vars; varidx++) {
+    for (int i = 0; i < NUM_PIN_LEVELS; i++) {
+      var_st_t* var_st = &st->var_sts[varidx];
+      pin_st_t* pin_st = &var_st->pins[i];
+      pin_st->no_pins = 0;
+      pin_st->vars = ALLOC_MANY(var_info_t*, cfg->no_heap_vars);
+    }
+  }
+
   st->mem_lo = (uint64_t)ctx->heap_memory;
   st->mem_hi = st->mem_lo + sizeof(regions_t);
 
@@ -194,6 +204,13 @@ void concretize_random_all(test_ctx_t* ctx, const litmus_test_t* cfg, concretiza
   }
 }
 
-void concretize_random_finalize(test_ctx_t* ctx, const litmus_test_t* cfg, void* st) {
+void concretize_random_finalize(test_ctx_t* ctx, const litmus_test_t* cfg, concretization_st_t* st) {
+  for (int varidx = 0; varidx < ctx->cfg->no_heap_vars; varidx++) {
+    for (int i = 0; i < NUM_PIN_LEVELS; i++) {
+      var_st_t* var_st = &st->var_sts[varidx];
+      pin_st_t* pin_st = &var_st->pins[i];
+      free(pin_st->vars);
+    }
+  }
   free(st);
 }
