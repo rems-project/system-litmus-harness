@@ -17,20 +17,14 @@ typedef struct {
 } var_st_t;
 
 typedef struct {
-  region_trackers_t* trackers;
   uint64_t mem_hi;
   uint64_t mem_lo;
   var_st_t var_sts[];
 } concretization_st_t;
 
-uint8_t overlaps(tracker_loc_t* t1, tracker_loc_t* t2, own_level_t lvl) {
-  if (   (                               (t1->reg_ix == t2->reg_ix))
-      && (lvl > REGION_OWN_PMD        || (t1->dir_ix == t2->dir_ix))
-      && (lvl > REGION_OWN_PAGE       || (t1->page_ix == t2->page_ix))
-      && (lvl > REGION_OWN_CACHE_LINE || (t1->scl_ix == t2->scl_ix))
-      && (lvl > REGION_OWN_VAR        || (t1->val_ix == t2->val_ix))
-  ) {
-    return 1;
+uint8_t overlaps_owned_region(concretization_st_t* st, var_info_t* var, var_info_t* with) {
+  if (! with->init_owns_region) {
+    return 0;
   }
 
   return 0;
