@@ -24,12 +24,13 @@ echo "$filteredtestpairs" | while read line; do
     tests=$(echo $line | awk '{$1=""; print $0}')
     fname=$(echo $line | awk '{print $1}')
     no_tests=$(echo $tests | wc -w)
-    printf "(test_file_t){.name = \"$fname\"\n,.no_tests=$no_tests\n,.fns = (unit_test_t[]) {";
+    printf "  (test_file_t){\n    .name = \"$fname\",\n    .no_tests=$no_tests,\n    .fns = (unit_test_t*[]){";
     for t in $tests
     do
-        printf "(unit_test_t){.name=\"$t\",.fn=$t,.result=0},\n"
+        printf "      &(unit_test_t){\n        .name=\"$t\",\n        .fn=$t,\n        .result=0\n      },\n"
     done;
-    printf "}},";
+    printf "    }\n";
+    printf "  },\n"
 done > unittests/tests.cstruct
 
 echo "$filteredtestpairs" | wc -l

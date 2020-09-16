@@ -21,7 +21,7 @@ typedef struct {
 typedef struct {
     const char* name;
     int no_tests;
-    unit_test_t* fns;
+    unit_test_t** fns;
 } test_file_t;
 
 unit_test_t* current_test;
