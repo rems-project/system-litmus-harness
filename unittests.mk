@@ -1,3 +1,6 @@
+# this module exports the top-level unittests target
+.PHONY: unittests
+
 # list of tests
 TESTS = .
 
@@ -21,3 +24,13 @@ bin/unittests.elf: $(COMMON_BIN_FILES) $(unittests_BIN_FILES)
 bin/unittests.bin: bin/unittests.elf
 	$(call run_cmd,OBJCOPY,$@,\
 		$(OBJCOPY) -O binary bin/unittests.elf bin/unittests.bin)
+
+unittests: OUT_NAME=bin/unittests.bin
+unittests: bin/qemu_unittests.exe
+	./bin/qemu_unittests.exe $(BIN_ARGS)
+
+
+debug-unittests: bin/debug_unittests.exe
+	{ ./bin/debug_unittests.exe $(BIN_ARGS) & echo $$! > bin/.debug.pid; }
+	$(GDB) --eval-command "target remote localhost:1234"
+	{ cat bin/.debug.pid | xargs kill $$pid ; rm bin/.debug.pid; }

@@ -1,3 +1,11 @@
+# the top-level targets this file "exports"
+.PHONY: run
+.PHONY: ssh
+.PHONY: debug
+.PHONY: litmus
+.PHONY: lint
+.PHONY: litmus_tests
+
 # for `run` target allow -- as separator
 # e.g. make run -- arg0 arg1 arg2
 # to be equivalent to make run BIN_ARGS="arg0 arg1 arg2"
@@ -21,7 +29,6 @@ endif
 # or if TEST_DISCOVER=0  then just try compile *all* .c files inside litmus/ and litmus/litmus_tests/**/
 # (but the user has to manually edit groups.c so the harness itself knows about them)
 ifeq ($(strip $(TEST_DISCOVER)),1)
-   ifneq ($(findstring litmus,$(MAKECMDGOALS)),)
    ifndef LITMUS_FILES
       # if fail, ignore
       out := $(shell ($(MAKE_TEST_LIST_CMD) $(quiet) $(LITMUS_TESTS) 2>/dev/null) || echo "FAIL")
@@ -47,33 +54,12 @@ ifeq ($(strip $(TEST_DISCOVER)),1)
    	  litmus_test_list = $(shell awk '$$1==1 {print $$2}' litmus/test_list.txt)
    	  LITMUS_TEST_FILES ?= $(litmus_test_list)
    endif
-   endif
 else
    LITMUS_TEST_FILES ?= $(wildcard litmus/litmus_tests/**/*.c)
 endif
 
 LITMUS_FILES := $(wildcard litmus/*.c) $(LITMUS_TEST_FILES)
 litmus_BIN_FILES := $(addprefix bin/,$(LITMUS_FILES:.c=.o))
-
-# Linting
-
-LINTER = python3 litmus/linter.py
-NO_LINT = 0
-
-.PHONY: lint
-lint:
-	@$(LINTER) $(LITMUS_TEST_FILES)
-
-.PHONY: litmus_tests
-litmus_tests:
-	$(call run_cmd,make,Collecting new tests,\
-		 $(MAKE_TEST_LIST_CMD) $(quiet) $(LITMUS_TESTS) || { \
-			echo "Warning: failed to update groups.c. test listing may be out-of-sync." 1>&2 ; \
-			( which python3 &> /dev/null ) && echo "litmus_tests target requires python3." 1>&2 ; \
-		};\
-	)
-	@echo 're-run `make` to compile any new or updated litmus tests'
-
 
 bin/litmus/%.o: litmus/%.c | check_cross_tools_exist
 	$(run_cc)
@@ -104,3 +90,29 @@ bin/litmus.elf: bin/lib/version.o $(ELF_PREREQ)
 bin/litmus.bin: bin/litmus.elf
 	$(call run_cmd,OBJCOPY,$@,\
 		$(OBJCOPY) -O binary bin/litmus.elf bin/litmus.bin)
+
+lint:
+	@$(LINTER) $(LITMUS_TEST_FILES)
+
+litmus_tests:
+	$(call run_cmd,make,Collecting new tests,\
+		 $(MAKE_TEST_LIST_CMD) $(quiet) $(LITMUS_TESTS) || { \
+			echo "Warning: failed to update groups.c. test listing may be out-of-sync." 1>&2 ; \
+			( which python3 &> /dev/null ) && echo "litmus_tests target requires python3." 1>&2 ; \
+		};\
+	)
+	@echo 're-run `make` to compile any new or updated litmus tests'
+
+run: bin/qemu_litmus.exe
+	./bin/qemu_litmus.exe $(BIN_ARGS)
+
+debug: bin/debug_litmus.exe
+	{ ./bin/debug_litmus.exe $(BIN_ARGS) & echo $$! > bin/.debug.pid; }
+	$(GDB) --eval-command "target remote localhost:1234"
+	{ cat bin/.debug.pid | xargs kill $$pid ; rm bin/.debug.pid; }
+
+ssh: bin/kvm_litmus.exe
+	scp bin/kvm_litmus.exe $(SSH_NAME):litmus.exe
+	ssh $(SSHFLAGS) $(SSH_NAME) "./litmus.exe '$(BIN_ARGS)'"
+
+litmus: bin/kvm_litmus.exe bin/qemu_litmus.exe

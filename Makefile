@@ -15,7 +15,7 @@ Advanced Usage:
    	e.g. make run -- MP+pos -n500 --pgtable
    make debug GDB="gdb-exe"
    	Runs `make run` in the background and attaches gdb
-   make ssh-litmus SSH_NAME="ssh-name" BIN_ARGS="bin-args"
+   make ssh SSH_NAME="ssh-name" BIN_ARGS="bin-args"
    	Runs `make kvm` and then scp's the kvm_litmus.exe file over
    	to ssh-name where it is ran with argv bin-args.
    make unittests
@@ -149,25 +149,8 @@ LITMUS_TESTS = # which litmus tests to collect
 TEST_DISCOVER = 1
 MAKE_TEST_LIST_CMD = python3 litmus/makegroups.py
 
-.PHONY: litmus
-litmus: bin/kvm_litmus.exe bin/qemu_litmus.exe
-
-.PHONY: run
-run: bin/qemu_litmus.exe
-	./bin/qemu_litmus.exe $(BIN_ARGS)
-
-debug: bin/debug_litmus.exe
-	{ ./bin/debug_litmus.exe $(BIN_ARGS) & echo $$! > bin/.debug.pid; }
-	$(GDB) --eval-command "target remote localhost:1234"
-	{ cat bin/.debug.pid | xargs kill $$pid ; rm bin/.debug.pid; }
-
-unittests: OUT_NAME=bin/unittests.bin
-unittests: bin/qemu_unittests.exe
-	./bin/qemu_unittests.exe $(BIN_ARGS)
-
-ssh-litmus: bin/kvm_litmus.exe
-	scp bin/kvm_litmus.exe $(SSH_NAME):litmus.exe
-	ssh $(SSHFLAGS) $(SSH_NAME) "./litmus.exe '$(BIN_ARGS)'"
+LINTER = python3 litmus/linter.py
+NO_LINT = 0
 
 .PHONY: clean
 clean:
@@ -212,9 +195,23 @@ ifneq ($(findstring deepclean,$(MAKECMDGOALS)),)
    endif
 endif
 
+# determine whether we have a target that requires building litmus
+ifneq ($(findstring litmus,$(MAKECMDGOALS)),)
+else ifneq ($(findstring ssh,$(MAKECMDGOALS)),)
+else ifneq ($(findstring run,$(MAKECMDGOALS)),)
+else ifneq ($(findstring lint,$(MAKECMDGOALS)),)
+else ifneq ($(findstring debug,$(MAKECMDGOALS)),)
+else
+  no_run_litmus = 1
+endif
+
 include deepclean.mk
 include docs.mk
 include qemu.mk
 include build.mk
-include litmus.mk
+
+ifndef no_run_litmus
+  include litmus.mk
+endif
+
 include unittests.mk
