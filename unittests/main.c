@@ -23,6 +23,7 @@ void main(void) {
       valloc_mempool pool = mem;
       unit_test_t* fn = f->fns[tidx];
       current_test = fn;
+      trace("# %s\n", fn->name);
       fn->fn();
       if (ENABLE_PGTABLE) {
         vmm_switch_ttable(vmm_pgtable);
@@ -36,6 +37,8 @@ void main(void) {
         total_failure++;
         printf("F");
       }
+      if (TRACE)
+        printf("\n");
     }
 
     printf("\n");
