@@ -68,51 +68,63 @@ void __print_heap_flat(void) {
   printf("\n");
 }
 
+/** for a 12-bit aligned page VA *pg*
+ * print out a line like:
+ *
+ * 0xPGADDR000: [0xPGADDR123: 32, 0xPGADDR456: 72]
+ *
+ * this indicates that in the page 0xPGADDR000 has 2 chunks of allocated space in it
+ *  the first starting at offset 0x123, with 32-bytes of allocation
+ *  then the next at offset 0x456 with 72 bytes.
+ */
 void __print_heap_page(uint64_t pg) {
-  uint64_t was_free = 1;
-  uint64_t chunk = 0;
   uint64_t total_alloc = 0;
-  printf("%p: ");
-  for (uint64_t i = 0; i < 4096; i++) {
-    if (pg+i > TOP_OF_MEM)
-      break;
+  printf("%p: \n");
 
-    uint64_t is_free = valloc_is_free((void*)(pg+i));
-    if (! is_free) {
-      total_alloc++;
-    }
+  int va = pg + 0;
 
-    if (is_free != was_free) {
-      if (! was_free) {
-        printf("[%p: %ld]", pg+i-chunk, chunk);
+  while (va < pg + 4096) {
+    valloc_alloc_chunk* chk = valloc_alloclist_find_alloc_chunk(&mem, va);
+
+    if (chk == NULL) {
+      va += 1;
+    } else {
+      char time_str[128];
+      sprint_time(&time_str[0], chk->meta.ts, SPRINT_TIME_HHMMSSCLK);
+
+      printf("   ");
+
+      if (chk->start < pg) {
+        printf("...");
       }
 
-      chunk = 0;
+      printf("[%p: %p @ %s]\n", chk->start, chk->size, &time_str[0]);
+      va += chk->size;
+      total_alloc += chk->size;
+
+      if (chk->start < pg) {
+        total_alloc -= (pg - chk->start);
+      }
     }
-
-    chunk++;
-    was_free = is_free;
   }
 
-  if (chunk != 0) {
-    printf("[%p: %ld]", pg+1024-chunk, chunk);
-  }
-
-  printf(" (%ld B) \n", total_alloc);
+  printf("   (%ld/4096 B allocated) \n", total_alloc);
 }
 
 void __print_heap_pages(void) {
-  for (uint64_t i = ALIGN_TO(mem.top, 12); i < TOP_OF_MEM; i += 4096UL) {
+  for (uint64_t i = ALIGN_TO(TOP_OF_MEM, 12); i >= ALIGN_TO(mem.top, 12); i -= 4096UL) {
     __print_heap_page(i);
   }
 }
 
 void __print_freelist(void) {
   valloc_free_chunk* fblk = mem.freelist;
+  printf("[%p]\n", fblk);
   while (fblk != NULL) {
-    printf("[%p -> %p] -> ", (uint64_t)fblk, (uint64_t)fblk+fblk->size);
+    printf(" [%p -> %p (%ld B)]\n", (uint64_t)fblk, (uint64_t)fblk+fblk->size, fblk->size);
     fblk = fblk->next;
   }
+  printf("[end of freelist]\n");
   printf("\n");
 }
 
@@ -120,7 +132,7 @@ void __print_freelist(void) {
 void debug_show_valloc_mem(void)  {
   printf("* HEAP:\n");
   __print_heap_pages();
-  printf("**FREELIST: ");
+  printf("**FREELIST:\n");
   __print_freelist();
 }
 
