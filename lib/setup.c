@@ -14,12 +14,20 @@ void setup(char* fdtloc) {
   init_device(fdt);
   init_valloc();
 
+  INIT_CLOCK = read_clk();
+  TICKS_PER_SEC = read_clk_freq();
+
   /* read passed args */
   init_args();
   read_args(__argc, __argv);
   init_cfg_state();
 
   debug("setup\n");
+  if (INITIAL_SEED == 0) {
+    uint64_t seed = read_clk();
+    INITIAL_SEED = seed;
+    debug("set initial seed = 0x%lx\n", seed);
+  }
 
   char c = 'm';
   char seps [] = { c, c, c, c, c, c, c, c, c, c, c, c, c, '\0' };
@@ -51,15 +59,6 @@ void setup(char* fdtloc) {
       vmm_update_mapping(vmm_pgtable, vector_base_addr_rw+i*4096, vector_base_pa+i*4096, PROT_PGTABLE);
     }
   }
-
-  if (INITIAL_SEED == 0) {
-    uint64_t seed = read_clk();
-    INITIAL_SEED = seed;
-    debug("set initial seed = 0x%lx\n", seed);
-  }
-
-  INIT_CLOCK = read_clk();
-  TICKS_PER_SEC = read_clk_freq();
 
   printf("#build: (%s)\n", version_string());
   printf("#output: ");
@@ -99,6 +98,8 @@ void ensure_cpus_on(void) {
   for (int i = 0; i < 4; i++) {
     while (! cpu_data[i].started) wfe();
   }
+
+  debug("booted all CPUs\n");
 }
 
 void per_cpu_setup(int cpu) {
