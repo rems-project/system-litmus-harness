@@ -37,7 +37,7 @@ int main(int argc, char** argv) {
 
   uint64_t time = read_clk();
   char time_str[100];
-  sprint_time((char*)&time_str, time);
+  sprint_time((char*)&time_str, time, SPRINT_TIME_HHMMSS);
   /* always show, even when not in verbose mode
    * this will make it easier to do retrospective performance
    * evaluations in future */

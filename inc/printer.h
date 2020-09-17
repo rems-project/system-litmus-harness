@@ -18,6 +18,9 @@ void trace(const char* fmt, ...);
 void verbose(const char* fmt, ...);
 /* debug() declared in debug.h */
 
-char* sprint_time(char* out, uint64_t clk);
+#define SPRINT_TIME_HHMMSS 0
+#define SPRINT_TIME_HHMMSSCLK 1
+
+char* sprint_time(char* out, uint64_t clk, int mode);
 
 #endif /* PRINTER_H */

@@ -235,12 +235,13 @@ void _debug(const char* filename, const int line, const char* func, const char* 
 
 
 /** printing times */
-char* sprint_time(char* out, uint64_t clk) {
+char* sprint_time(char* out, uint64_t clk, int mode) {
 	/* clk is absolute */
 	/* theoretically INIT_CLOCK is ~0, but we cannot be sure */
 	clk = clk - INIT_CLOCK;
 
 	uint64_t tot_secs = clk / TICKS_PER_SEC;
+	uint64_t rem_ticks = clk % TICKS_PER_SEC;
 	uint64_t rem_secs = tot_secs;
 	uint64_t rem_hours = rem_secs / (60*60);
 	rem_secs = rem_secs % (60*60);
@@ -267,6 +268,10 @@ char* sprint_time(char* out, uint64_t clk) {
 		out = sprintf(out, "0%d", rem_secs);
 	} else {
 		out = sprintf(out, "%d", rem_secs);
+	}
+
+	if ((mode & 1) == 1) {
+		out = sprintf(out, ":%ld", rem_ticks);
 	}
 
 	return out;
