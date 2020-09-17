@@ -66,6 +66,7 @@ valloc_alloc_chunk* valloc_alloclist_alloc(valloc_mempool* pool, uint64_t addr, 
     fail("! err: cannot alloc any more chunks\n");
   }
 
+  head->meta.ts = read_clk();
   head->start = addr;
   head->size = size;
   move_to_alloc(pool, head);

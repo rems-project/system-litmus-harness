@@ -11,11 +11,16 @@ typedef struct __free_chunk {
     struct __free_chunk* next;
 } valloc_free_chunk;
 
+typedef struct {
+    uint64_t ts; /* timestamp of allocation */
+} valloc_alloc_chunk_debug_metadata;
+
 typedef struct __alloc {
     uint64_t start;
     uint64_t size;
     struct __alloc* prev;
     struct __alloc* next;
+    valloc_alloc_chunk_debug_metadata meta;
 } valloc_alloc_chunk;
 
 
