@@ -12,11 +12,9 @@ uint64_t* __var(test_ctx_t* ctx, uint64_t r, const char* varname) {
 }
 #define VAR(ctx, r, var) __var(ctx, r, var)
 
-void concretize_linear_all(test_ctx_t* ctx, const litmus_test_t* cfg, void* st, int no_runs);
-void* concretize_linear_init(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs);
-
 UNIT_TEST(test_concretization_linear_default_diff_pages)
-void test_concretization_linear_default_diff_pages(void) {
+UNIT_TEST(test_concretization_random_default_diff_pages)
+void __test_concretization_default_diff_pages(concretize_type_t conc_type) {
   litmus_test_t test = {
     "test",
     0,NULL,
@@ -27,10 +25,10 @@ void test_concretization_linear_default_diff_pages(void) {
   test_ctx_t ctx;
 
   init_test_ctx(&ctx, &test, SIZE_OF_TEST);
-  regions_t* region = alloc(sizeof(regions_t));
+  regions_t* region = ALLOC_ONE(regions_t);
   ctx.heap_memory = region;
-  void* st = concretize_linear_init(&ctx, ctx.cfg, ctx.no_runs);
-  concretize_linear_all(&ctx, ctx.cfg, st, ctx.no_runs);
+  void* st = concretize_init(conc_type, &ctx, ctx.cfg, ctx.no_runs);
+  concretize(conc_type, &ctx, ctx.cfg, st, ctx.no_runs);
 
   /* each var must be in its own page */
   for (int r = 0; r < ctx.no_runs; r++) {
@@ -42,8 +40,17 @@ void test_concretization_linear_default_diff_pages(void) {
   }
 }
 
+void test_concretization_linear_default_diff_pages(void) {
+  __test_concretization_default_diff_pages(CONCRETE_LINEAR);
+}
+
+void test_concretization_random_default_diff_pages(void) {
+  __test_concretization_default_diff_pages(CONCRETE_RANDOM);
+}
+
 UNIT_TEST(test_concretization_linear_own_pmd)
-void test_concretization_linear_own_pmd(void) {
+UNIT_TEST(test_concretization_random_own_pmd)
+void __test_concretization_own_pmd(concretize_type_t conc_type) {
   litmus_test_t test = {
     "test",
     0,NULL,
@@ -59,19 +66,28 @@ void test_concretization_linear_own_pmd(void) {
   test_ctx_t ctx;
 
   init_test_ctx(&ctx, &test, SIZE_OF_TEST);
-  regions_t* region = alloc(sizeof(regions_t));
+  regions_t* region = ALLOC_ONE(regions_t);
   ctx.heap_memory = region;
-  void* st = concretize_linear_init(&ctx, ctx.cfg, ctx.no_runs);
-  concretize_linear_all(&ctx, ctx.cfg, st, ctx.no_runs);
+  void* st = concretize_init(conc_type, &ctx, ctx.cfg, ctx.no_runs);
+  concretize(conc_type, &ctx, ctx.cfg, st, ctx.no_runs);
 
   for (int r = 0; r < ctx.no_runs; r++) {
     ASSERT(PMD(ctx.heap_vars[0].values[r]) != PMD(ctx.heap_vars[1].values[r]));
   }
 }
 
+void test_concretization_linear_own_pmd(void) {
+  __test_concretization_own_pmd(CONCRETE_LINEAR);
+}
+
+void test_concretization_random_own_pmd(void) {
+  __test_concretization_own_pmd(CONCRETE_RANDOM);
+}
+
 
 UNIT_TEST(test_concretization_linear_same_page)
-void test_concretization_linear_same_page(void) {
+UNIT_TEST(test_concretization_random_same_page)
+void __test_concretization_same_page(concretize_type_t conc_type) {
   litmus_test_t test = {
     "test",
     0,NULL,
@@ -80,17 +96,17 @@ void test_concretization_linear_same_page(void) {
     INIT_STATE(
       2,
       INIT_REGION_OWN(x, REGION_OWN_PAGE),
-      INIT_REGION_PIN(y, x, REGION_SAME_PAGE_OFFSET),
+      INIT_REGION_PIN(y, x, REGION_SAME_PAGE),
     )
   };
 
   test_ctx_t ctx;
 
   init_test_ctx(&ctx, &test, SIZE_OF_TEST);
-  regions_t* region = alloc(sizeof(regions_t));
+  regions_t* region = ALLOC_ONE(regions_t);
   ctx.heap_memory = region;
-  void* st = concretize_linear_init(&ctx, ctx.cfg, ctx.no_runs);
-  concretize_linear_all(&ctx, ctx.cfg, st, ctx.no_runs);
+  void* st = concretize_init(conc_type, &ctx, ctx.cfg, ctx.no_runs);
+  concretize(conc_type, &ctx, ctx.cfg, st, ctx.no_runs);
 
   /* x and y must be in the same page */
   for (int r = 0; r < ctx.no_runs; r++) {
@@ -98,9 +114,18 @@ void test_concretization_linear_same_page(void) {
   }
 }
 
+void test_concretization_linear_same_page(void) {
+  __test_concretization_same_page(CONCRETE_LINEAR);
+}
 
-UNIT_TEST(test_concretization_separate_roots)
-void test_concretization_separate_roots(void) {
+void test_concretization_random_same_page(void) {
+  __test_concretization_same_page(CONCRETE_RANDOM);
+}
+
+
+UNIT_TEST(test_concretization_linear_separate_roots)
+UNIT_TEST(test_concretization_random_separate_roots)
+void __test_concretization_separate_roots(concretize_type_t conc_type) {
   litmus_test_t test = {
     "test",
     0,NULL,
@@ -118,10 +143,10 @@ void test_concretization_separate_roots(void) {
   test_ctx_t ctx;
 
   init_test_ctx(&ctx, &test, SIZE_OF_TEST);
-  regions_t* region = alloc(sizeof(regions_t));
+  regions_t* region = ALLOC_ONE(regions_t);
   ctx.heap_memory = region;
-  void* st = concretize_linear_init(&ctx, ctx.cfg, ctx.no_runs);
-  concretize_linear_all(&ctx, ctx.cfg, st, ctx.no_runs);
+  void* st = concretize_init(conc_type, &ctx, ctx.cfg, ctx.no_runs);
+  concretize(conc_type, &ctx, ctx.cfg, st, ctx.no_runs);
 
   for (int r = 0; r < ctx.no_runs; r++) {
     ASSERT(PAGE(VAR(&ctx, r, "x")) == PAGE(VAR(&ctx, r, "a")), "x not same page as a");
@@ -130,9 +155,17 @@ void test_concretization_separate_roots(void) {
   }
 }
 
+void test_concretization_linear_separate_roots(void) {
+  __test_concretization_separate_roots(CONCRETE_LINEAR);
+}
 
-UNIT_TEST(test_concretization_aliased)
-void test_concretization_aliased(void) {
+void test_concretization_random_separate_roots(void) {
+  __test_concretization_separate_roots(CONCRETE_RANDOM);
+}
+
+UNIT_TEST(test_concretization_linear_aliased)
+UNIT_TEST(test_concretization_random_aliased)
+void __test_concretization_aliased(concretize_type_t conc_type) {
   litmus_test_t test = {
     "test",
     0,NULL,
@@ -148,10 +181,10 @@ void test_concretization_aliased(void) {
   test_ctx_t ctx;
 
   init_test_ctx(&ctx, &test, SIZE_OF_TEST);
-  regions_t* region = alloc(sizeof(regions_t));
+  regions_t* region = ALLOC_ONE(regions_t);
   ctx.heap_memory = region;
-  void* st = concretize_linear_init(&ctx, ctx.cfg, ctx.no_runs);
-  concretize_linear_all(&ctx, ctx.cfg, st, ctx.no_runs);
+  void* st = concretize_init(conc_type, &ctx, ctx.cfg, ctx.no_runs);
+  concretize(conc_type, &ctx, ctx.cfg, st, ctx.no_runs);
 
   for (int r = 0; r < ctx.no_runs; r++) {
     /* aliased things cannot be in the same page */
@@ -160,9 +193,17 @@ void test_concretization_aliased(void) {
   }
 }
 
+void test_concretization_linear_aliased(void) {
+  __test_concretization_aliased(CONCRETE_LINEAR);
+}
 
-UNIT_TEST(test_concretization_unrelated_aliased)
-void test_concretization_unrelated_aliased(void) {
+void test_concretization_random_aliased(void) {
+  __test_concretization_aliased(CONCRETE_RANDOM);
+}
+
+UNIT_TEST(test_concretization_linear_unrelated_aliased)
+UNIT_TEST(test_concretization_random_unrelated_aliased)
+void __test_concretization_unrelated_aliased(concretize_type_t conc_type) {
   litmus_test_t test = {
     "test",
     0,NULL,
@@ -179,10 +220,10 @@ void test_concretization_unrelated_aliased(void) {
   test_ctx_t ctx;
 
   init_test_ctx(&ctx, &test, SIZE_OF_TEST);
-  regions_t* region = alloc(sizeof(regions_t));
+  regions_t* region = ALLOC_ONE(regions_t);
   ctx.heap_memory = region;
-  void* st = concretize_linear_init(&ctx, ctx.cfg, ctx.no_runs);
-  concretize_linear_all(&ctx, ctx.cfg, st, ctx.no_runs);
+  void* st = concretize_init(conc_type, &ctx, ctx.cfg, ctx.no_runs);
+  concretize(conc_type, &ctx, ctx.cfg, st, ctx.no_runs);
 
   for (int r = 0; r < ctx.no_runs; r++) {
     ASSERT(PAGE(VAR(&ctx, r, "x")) != PAGE(VAR(&ctx, r, "y")), "x in same page as y");
@@ -193,9 +234,18 @@ void test_concretization_unrelated_aliased(void) {
   }
 }
 
+void test_concretization_linear_unrelated_aliased(void) {
+  __test_concretization_unrelated_aliased(CONCRETE_LINEAR);
+}
 
-UNIT_TEST(test_concretization_unmapped)
-void test_concretization_unmapped(void) {
+void test_concretization_random_unrelated_aliased(void) {
+  __test_concretization_unrelated_aliased(CONCRETE_RANDOM);
+}
+
+
+UNIT_TEST(test_concretization_linear_unmapped)
+UNIT_TEST(test_concretization_random_unmapped)
+void __test_concretization_unmapped(concretize_type_t conc_type) {
   litmus_test_t test = {
     "test",
     0,NULL,
@@ -212,10 +262,10 @@ void test_concretization_unmapped(void) {
   test_ctx_t ctx;
 
   init_test_ctx(&ctx, &test, SIZE_OF_TEST);
-  regions_t* region = alloc(sizeof(regions_t));
+  regions_t* region = ALLOC_ONE(regions_t);
   ctx.heap_memory = region;
-  void* st = concretize_linear_init(&ctx, ctx.cfg, ctx.no_runs);
-  concretize_linear_all(&ctx, ctx.cfg, st, ctx.no_runs);
+  void* st = concretize_init(conc_type, &ctx, ctx.cfg, ctx.no_runs);
+  concretize(conc_type, &ctx, ctx.cfg, st, ctx.no_runs);
 
   for (int r = 0; r < ctx.no_runs; r++) {
     /* no other var on any other run got given the same page as x on this run */
@@ -228,4 +278,12 @@ void test_concretization_unmapped(void) {
       }
     }
   }
+}
+
+void test_concretization_linear_unmapped(void) {
+  __test_concretization_unmapped(CONCRETE_LINEAR);
+}
+
+void test_concretization_random_unmapped(void) {
+  __test_concretization_unmapped(CONCRETE_RANDOM);
 }
