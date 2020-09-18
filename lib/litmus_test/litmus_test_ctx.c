@@ -137,7 +137,6 @@ const char* regname_from_idx(test_ctx_t* ctx, uint64_t idx) {
   return 0;
 }
 
-
 uint64_t idx_from_regname(test_ctx_t* ctx, const char* varname) {
   for (int i = 0; i < ctx->cfg->no_regs; i++) {
     if (strcmp(ctx->cfg->reg_names[i], varname)) {
@@ -165,15 +164,15 @@ void free_test_ctx(test_ctx_t* ctx) {
     free(ctx->heap_vars[v].values);
   }
 
-  free(ctx->heap_vars);
-  free(ctx->out_regs);
-  free((bar_t*)ctx->initial_sync_barrier);
-  free((bar_t*)ctx->start_of_run_barriers);
-  free((bar_t*)ctx->concretize_barriers);
-  free((bar_t*)ctx->start_barriers);
-  free((bar_t*)ctx->end_barriers);
-  free((bar_t*)ctx->cleanup_barriers);
-  free((bar_t*)ctx->final_barrier);
-  free(ctx->shuffled_ixs);
   free((int*)ctx->affinity);
+  free(ctx->shuffled_ixs);
+  free((bar_t*)ctx->final_barrier);
+  free((bar_t*)ctx->cleanup_barriers);
+  free((bar_t*)ctx->concretize_barriers);
+  free((bar_t*)ctx->end_barriers);
+  free((bar_t*)ctx->start_barriers);
+  free((bar_t*)ctx->start_of_run_barriers);
+  free((bar_t*)ctx->initial_sync_barrier);
+  free(ctx->out_regs);
+  free(ctx->heap_vars);
 }
