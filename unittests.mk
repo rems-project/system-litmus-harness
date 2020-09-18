@@ -13,7 +13,7 @@ bin/unittests/%.o: unittests/%.c | check_cross_tools_exist
 
 # this is ugly
 .PHONY: unittests/main.c
-bin/unittests/main.o: CFLAGS+=-DNO_TEST_FILES=$(strip $(shell ./unittests/getunittests.sh $(TESTS)))
+bin/unittests/main.o: CFLAGS+=-DNO_TEST_FILES="$(strip $(shell ./unittests/getunittests.sh $(TESTS) | awk '{print $$2}'))"
 
 bin/unittests.elf: $(COMMON_BIN_FILES) $(unittests_BIN_FILES)
 	$(call run_cmd,LD,$@,\

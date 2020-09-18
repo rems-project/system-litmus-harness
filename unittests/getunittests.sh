@@ -1,7 +1,7 @@
 filtertests=$*
 test_files=0
 
-testpairs=`find unittests/ -name '*.c'  | while read f; do
+testpairs=`find unittests -name '*.c'  | while read f; do
     tests=$(grep $f -e "^UNIT_TEST([a-zA-Z0-9\_]*)$" | sed 's/UNIT_TEST(\([a-zA-Z0-9\_]*\))/\1/')
     echo $f $tests
 done`
@@ -13,11 +13,22 @@ echo "$testpairs" | while read line; do
 done > unittests/tests.externs
 
 filter=$(echo $filtertests | sed 's/ /\|/g')
-filteredtestpairs=`find unittests/ -name '*.c'  | while read f; do
+filteredtestpairs=`find unittests -name '*.c'  | while read f; do
     tests="$(grep $f -e '^UNIT_TEST([a-zA-Z0-9\_]*)$' | grep -e "$filter" | sed 's/UNIT_TEST(\([a-zA-Z0-9\_]*\))/\1/')"
     if [ ! -z "$tests" ]; then
         echo $f $tests
     fi
+done`
+
+echo "$filteredtestpairs" | while read line; do
+    echo "$(echo $line | awk '{print $1}'):"
+    for t in `echo $line | awk '{$1=""; print $0}'`; do
+        echo " $t"
+    done
+done > unittests/tests.list
+
+filteredtestfiles=`echo "$filteredtestpairs" | while read line; do
+    echo "$(echo $line | awk '{print $1}'):"
 done`
 
 echo "$filteredtestpairs" | while read line; do
@@ -33,4 +44,4 @@ echo "$filteredtestpairs" | while read line; do
     printf "  },\n"
 done > unittests/tests.cstruct
 
-echo "$filteredtestpairs" | wc -l
+echo `echo $filteredtestpairs | wc -w` `echo $filteredtestfiles | wc -w`
