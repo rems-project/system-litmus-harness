@@ -2,9 +2,9 @@
 .PHONY: run
 .PHONY: ssh
 .PHONY: debug
-.PHONY: litmus
+.PHONY: build
 .PHONY: lint
-.PHONY: litmus_tests
+.PHONY: collect_litmus_tests
 
 # for `run` target allow -- as separator
 # e.g. make run -- arg0 arg1 arg2
@@ -24,14 +24,14 @@ else
 endif
 
 # can pass LITMUS_FILES manually to supply a space-separated list of all the .c files to compile and link in the litmus/ directory
-# otherwise the Makefile will try auto-discover the litmus/*.c files and the litmus/litmus_tests/ files
-#	(according to either the supplied LITMUS_TESTS or checking against previous runs)
-# or if TEST_DISCOVER=0  then just try compile *all* .c files inside litmus/ and litmus/litmus_tests/**/
+# otherwise the Makefile will try auto-discover the litmus/*.c files and the litmus/TESTS/ files
+#	(according to either the supplied TESTS or checking against previous runs)
+# or if TEST_DISCOVER=0  then just try compile *all* .c files inside litmus/ and litmus/TESTS/**/
 # (but the user has to manually edit groups.c so the harness itself knows about them)
 ifeq ($(strip $(TEST_DISCOVER)),1)
    ifndef LITMUS_FILES
       # if fail, ignore
-      out := $(shell ($(MAKE_TEST_LIST_CMD) $(quiet) $(LITMUS_TESTS) 2>/dev/null) || echo "FAIL")
+      out := $(shell ($(MAKE_TEST_LIST_CMD) $(quiet) $(TESTS) 2>/dev/null) || echo "FAIL")
 
       # if the script that generates groups.c fails
       # then if there is no groups.c copy one from the backup
@@ -55,7 +55,7 @@ ifeq ($(strip $(TEST_DISCOVER)),1)
    	  LITMUS_TEST_FILES ?= $(litmus_test_list)
    endif
 else
-   LITMUS_TEST_FILES ?= $(wildcard litmus/litmus_tests/**/*.c)
+   LITMUS_TEST_FILES ?= $(wildcard litmus/TESTS/**/*.c)
 endif
 
 LITMUS_FILES := $(wildcard litmus/*.c) $(LITMUS_TEST_FILES)
@@ -94,14 +94,14 @@ bin/litmus.bin: bin/litmus.elf
 lint:
 	@$(LINTER) $(LITMUS_TEST_FILES)
 
-litmus_tests:
+collect_litmus_tests:
 	$(call run_cmd,make,Collecting new tests,\
-		 $(MAKE_TEST_LIST_CMD) $(quiet) $(LITMUS_TESTS) || { \
+		 $(MAKE_TEST_LIST_CMD) $(quiet) $(TESTS) || { \
 			echo "Warning: failed to update groups.c. test listing may be out-of-sync." 1>&2 ; \
-			( which python3 &> /dev/null ) && echo "litmus_tests target requires python3." 1>&2 ; \
+			( which python3 &> /dev/null ) && echo "TESTS target requires python3." 1>&2 ; \
 		};\
 	)
-	@echo 're-run `make` to compile any new or updated litmus tests'
+	@echo 're-run `make build` to compile any new or updated litmus tests'
 
 run: bin/qemu_litmus.exe
 	./bin/qemu_litmus.exe $(BIN_ARGS)
@@ -115,4 +115,4 @@ ssh: bin/kvm_litmus.exe
 	scp bin/kvm_litmus.exe $(SSH_NAME):litmus.exe
 	ssh $(SSHFLAGS) $(SSH_NAME) "./litmus.exe '$(BIN_ARGS)'"
 
-litmus: bin/kvm_litmus.exe bin/qemu_litmus.exe
+build: bin/kvm_litmus.exe bin/qemu_litmus.exe

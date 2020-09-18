@@ -1,5 +1,6 @@
 # this module exports the top-level unittests target
 .PHONY: unittests
+.PHONY: collect_unittests
 
 # list of tests
 TESTS = .
@@ -29,6 +30,14 @@ unittests: OUT_NAME=bin/unittests.bin
 unittests: bin/qemu_unittests.exe
 	./bin/qemu_unittests.exe $(BIN_ARGS)
 
+collect_unittests:
+	@{ out=`$(SH) ./unittests/getunittests.sh $(TESTS)` ; \
+	   numTests=`echo $$out | awk '{print $$1}'` ; \
+	   numFiles=`echo $$out | awk '{print $$2}'` ; \
+	   echo "Found:" ; \
+	   cat ./unittests/tests.list ; \
+	   echo "Collected $${numTests} unit tests over $${numFiles} files" ; }
+	@echo 're-run `make unittests` to compile and run any new or updated unit tests'
 
 debug-unittests: bin/debug_unittests.exe
 	{ ./bin/debug_unittests.exe $(BIN_ARGS) & echo $$! > bin/.debug.pid; }

@@ -1,6 +1,6 @@
 define USAGE
 Simple Usage:
-   make	litmus		builds bin/qemu_litmus.exe and bin/kvm_litmus.exe
+   make	build		builds bin/qemu_litmus.exe and bin/kvm_litmus.exe
    make run 		runs `make qemu` then runs all tests
    make clean		remove built files in bin/
    make deepclean	clean everything. No really.
@@ -23,9 +23,9 @@ Advanced Usage:
    make lint
    	Runs automated linter against all litmus test C files and quits
    	See LINTER option below
-   make litmus_tests LITMUS_TESTS="litmus-test-list"
+   make collect_tests TESTS="litmus-test-list"
    	Runs $$(MAKE_TEST_LIST_CMD) to build groups.c
-   	See LITMUS_TESTS and MAKE_TEST_LIST_CMD options below
+   	See TESTS and MAKE_TEST_LIST_CMD options below
    make cleanlibs
    	remove built harness objects but leave compiled tests alone
    make cleantests
@@ -58,12 +58,13 @@ Options:
    make [...] MAKE_TEST_LIST_CMD="cmd-exe"
    	Use cmd-exe to build groups.c from given litmus test files.
    	This option is disabled if TEST_DISCOVER=0
-   make [...] LITMUS_TESTS="litmus-tests-list"
+   make collect_tets [...] TESTS="litmus-tests-list"
    	Only compile tests in litmus-tests-list
    	Whitespace separated list of groups or test names.
    	Can use - to negate match.
-   	example: LITMUS_TESTS="@all -@data"
+   	example: TESTS="@all -@data"
    	This option is disabled if TEST_DISCOVER=0
+   	Note: meaning of $$(TESTS) depends on whether target is unittests or litmus
 endef
 
 .PHONY: shorthelp
@@ -196,7 +197,7 @@ ifneq ($(findstring deepclean,$(MAKECMDGOALS)),)
 endif
 
 # determine whether we have a target that requires building litmus
-ifneq ($(findstring litmus,$(MAKECMDGOALS)),)
+ifneq ($(findstring build,$(MAKECMDGOALS)),)
 else ifneq ($(findstring ssh,$(MAKECMDGOALS)),)
 else ifneq ($(findstring run,$(MAKECMDGOALS)),)
 else ifneq ($(findstring lint,$(MAKECMDGOALS)),)
@@ -214,4 +215,10 @@ ifndef no_run_litmus
   include litmus.mk
 endif
 
-include unittests.mk
+
+ifneq ($(findstring unittests,$(MAKECMDGOALS)),)
+  ifndef no_run_litmus
+    $(error Cannot build both unittests and litmus binaries at the same time)
+  endif
+  include unittests.mk
+endif
