@@ -145,13 +145,6 @@ void read_init_region_own(const litmus_test_t* cfg, var_info_t* infos, const cha
 void read_init_region(const litmus_test_t* cfg, var_info_t* infos, const char* varname, const char* pinned_var_name, pin_level_t pin_level) {
   uint64_t idx = idx_from_varname_infos(cfg, infos, varname);
 
-  if (pin_level >= NR_REGIONS) {
-    fail("! error: in test %s, variable '%s' specified an invalid region.\n",
-      cfg->name,
-      varname
-    );
-  }
-
   infos[idx].init_pinned_region = 1;
   infos[idx].pin_region_var = idx_from_varname_infos(cfg, infos, pinned_var_name);
   infos[idx].pin_region_level = pin_level;
