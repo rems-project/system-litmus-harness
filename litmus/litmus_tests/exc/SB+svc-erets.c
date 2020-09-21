@@ -26,7 +26,7 @@ static void P0(litmus_test_run* data) {
 
     /* extract values */
     "str x2, [%[outp0r2]]\n\t"
-  : 
+  :
   : ASM_VARS(data, VARS),
     ASM_REGS(data, REGS)
   : "cc", "memory", "x0", "x1", "x2", "x3"
@@ -47,17 +47,15 @@ static void P1(litmus_test_run* data) {
 
     /* extract values */
     "str x2, [%[outp1r2]]\n\t"
-  : 
+  :
   : ASM_VARS(data, VARS),
     ASM_REGS(data, REGS)
   : "cc", "memory", "x0", "x1", "x2", "x3"
   );
 }
 
-
-
 litmus_test_t SB_svcerets = {
-  "SB+svc-erets",
+  "SB+svc-erets", /* aka SB+W-svc-eret-R+W-svc-eret-R */
   MAKE_THREADS(2),
   MAKE_VARS(VARS),
   MAKE_REGS(REGS),
@@ -75,4 +73,7 @@ litmus_test_t SB_svcerets = {
       /* p1:x2 =*/0,
   },
   .no_sc_results=3,
+  .expected_allowed = (arch_allow_st[]) {
+    {"armv8", OUTCOME_UNKNOWN},
+  }
 };
