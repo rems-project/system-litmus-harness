@@ -24,6 +24,11 @@
 #define VAR_DESCs(data, ...) VAR_FNs_UNKNOWN(var_desc, data,desc, __VA_ARGS__)
 #define VAR_PAGEs(data, ...) VAR_FNs_UNKNOWN(var_page, data,page, __VA_ARGS__)
 
+#define VAR_PMDs(data, ...) VAR_FNs_UNKNOWN(var_pmd, data,pmd, __VA_ARGS__)
+#define VAR_PUDs(data, ...) VAR_FNs_UNKNOWN(var_pud, data,pud, __VA_ARGS__)
+#define VAR_PMDDESCs(data, ...) VAR_FNs_UNKNOWN(var_pmddesc, data,pmddesc, __VA_ARGS__)
+#define VAR_PUDDESCs(data, ...) VAR_FNs_UNKNOWN(var_puddesc, data,puddesc, __VA_ARGS__)
+
 #define REG_FNs_1(data, a, ...) [IDENT(a)] "r" (out_reg(data,HUMAN(a)))
 #define REG_FNs_2(data, a, ...) REG_FNs_1(data, a), REG_FNs_1(data, __VA_ARGS__)
 #define REG_FNs_3(data, a, ...) REG_FNs_1(data, a), REG_FNs_2(data, __VA_ARGS__)

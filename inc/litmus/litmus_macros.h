@@ -78,6 +78,14 @@
 #define ASM_VAR_PAGEs(data, ...) VAR_PAGEs(data, __VA_ARGS__)
 #define ASM_VAR_DESCs(data, ...) VAR_DESCs(data, __VA_ARGS__)
 #define ASM_VAR_PTE_LEVELs(data, level, ...) VAR_PTE_LEVEL(data, level, __VA_ARGS__)
+#define ASM_VAR_DESCs(data, ...) VAR_DESCs(data, __VA_ARGS__)
+
+#define ASM_VAR_PMDs(data, ...) VAR_PMDs(data, __VA_ARGS__)
+#define ASM_VAR_PUDs(data, ...) VAR_PUDs(data, __VA_ARGS__)
+#define ASM_VAR_PMDDESCs(data, ...) VAR_PMDDESCs(data, __VA_ARGS__)
+#define ASM_VAR_PUDDESCs(data, ...) VAR_PUDDESCs(data, __VA_ARGS__)
+
+
 
 /** Generates the asm sequence to do an exception return to the _next_ instruction
  *

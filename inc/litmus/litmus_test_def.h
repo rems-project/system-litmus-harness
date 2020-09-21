@@ -80,8 +80,9 @@ typedef struct {
   uint64_t** va;
   uint64_t** out_reg;
   uint64_t* pa;
-  uint64_t*** pte_descs;
-  uint64_t* desc;
+
+  uint64_t*** tt_entries;
+  uint64_t** tt_descs;
 } litmus_test_run;
 
 typedef void th_f(litmus_test_run* data);
@@ -90,12 +91,16 @@ uint64_t* var_va(litmus_test_run* data, const char* name);
 uint64_t var_pa(litmus_test_run* data, const char* name);
 uint64_t* var_pte(litmus_test_run* data, const char* name);
 uint64_t* var_pte_level(litmus_test_run* data, const char* name, int level);
-uint64_t* var_pte_level0(litmus_test_run* data, const char* name);
-uint64_t* var_pte_level1(litmus_test_run* data, const char* name);
-uint64_t* var_pte_level2(litmus_test_run* data, const char* name);
-uint64_t* var_pte_level3(litmus_test_run* data, const char* name);
+uint64_t* var_pmd(litmus_test_run* data, const char* name);
+uint64_t* var_pud(litmus_test_run* data, const char* name);
+uint64_t* var_pgd(litmus_test_run* data, const char* name);
 
 uint64_t var_desc(litmus_test_run* data, const char* name);
+uint64_t var_desc_level(litmus_test_run* data, const char* name, int leve);
+uint64_t var_ptedesc(litmus_test_run* data, const char* name);
+uint64_t var_pmddesc(litmus_test_run* data, const char* name);
+uint64_t var_puddesc(litmus_test_run* data, const char* name);
+uint64_t var_pgddesc(litmus_test_run* data, const char* name);
 uint64_t var_page(litmus_test_run* data, const char* name);
 uint64_t* out_reg(litmus_test_run* data, const char* name);
 
