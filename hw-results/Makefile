@@ -25,9 +25,9 @@ fetch:
 	mkdir -p raw/rpi3bp/
 	mkdir -p raw/graviton2/
 
-	scp 'rpi4:overnights/*.log' raw/rpi4b/
-	scp 'rpi3:overnights/*.log' raw/rpi3bp/
-	scp 'aws:*.log' raw/graviton2/
+	scp 'rpi4:overnights/*.log' 'rpi4:overnights/id.txt' raw/rpi4b/
+	scp 'rpi3:overnights/*.log' 'rpi3:overnights/id.txt' raw/rpi3bp/
+	scp 'aws:*.log' 'aws:id.txt' raw/graviton2/
 
 	python3 filter_erratas.py || echo failed to filter errata
 
@@ -35,6 +35,8 @@ fetch:
 	tar -vczf raw/rpi3bp.tar.gz raw/rpi3bp/
 	tar -vczf raw/rpi4b.tar.gz raw/rpi4b/
 	tar -vczf raw/graviton2.tar.gz raw/graviton2/
+
+	cp raw/*.tar.gz .
 
 .PHONY: standalone-results.tex
 standalone-results.tex:
