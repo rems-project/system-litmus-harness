@@ -390,3 +390,66 @@ void test_concretization_linear_relpmdoverlap(void) {
 void test_concretization_random_relpmdoverlap(void) {
   __test_concretization_relpmdoverlap(CONCRETE_RANDOM);
 }
+
+
+UNIT_TEST(test_concretization_linear_multi_pmd_pin)
+UNIT_TEST(test_concretization_random_multi_pmd_pin)
+void __test_concretization_multi_pmd_pin(concretize_type_t conc_type) {
+  litmus_test_t test = {
+    "test",
+    0,NULL,
+    3,(const char*[]){"x", "y", "z"},
+    0,NULL,
+    INIT_STATE(
+      8,
+      INIT_VAR(x, 0),
+      INIT_VAR(y, 1),
+      INIT_VAR(z, 2),
+      INIT_REGION_OWN(x, REGION_OWN_PMD),
+      INIT_REGION_PIN(y, x, REGION_SAME_PMD),
+      INIT_REGION_OFFSET(y, x, REGION_SAME_PAGE_OFFSET),
+      INIT_REGION_OWN(z, REGION_OWN_PMD),
+      INIT_REGION_OFFSET(z, x, REGION_SAME_PMD_OFFSET),
+    ),
+  };
+
+  test_ctx_t ctx;
+
+  init_test_ctx(&ctx, &test, SIZE_OF_TEST);
+  regions_t* region = ALLOC_ONE(regions_t);
+  ctx.heap_memory = region;
+  void* st = concretize_init(conc_type, &ctx, ctx.cfg, ctx.no_runs);
+  concretize(conc_type, &ctx, ctx.cfg, st, ctx.no_runs);
+
+  for (run_idx_t r = 0; r < ctx.no_runs; r++) {
+    /* no other var on any other run got given the same page as x on this run */
+    uint64_t* x = VAR(&ctx, r, "x");
+    uint64_t* y = VAR(&ctx, r, "y");
+    uint64_t* z = VAR(&ctx, r, "z");
+
+    uint64_t xpmd = PMD(x);
+    uint64_t ypmd = PMD(y);
+    uint64_t zpmd = PMD(z);
+
+    uint64_t xpmdoff = PMDOFF(x);
+    uint64_t zpmdoff = PMDOFF(z);
+
+    uint64_t xpageoffs = PAGEOFF(x);
+    uint64_t ypageoffs = PAGEOFF(y);
+    uint64_t zpageoffs = PAGEOFF(z);
+
+    ASSERT(xpmd != zpmd, "x (%p) and z (%p) were placed in same pmd", x, z);
+    ASSERT(xpmd == ypmd, "x and y were not pinned to the same pmd");
+    ASSERT(xpmdoff == zpmdoff, "x and z did not have same pmd offset");
+    ASSERT(xpageoffs == ypageoffs, "x and y did not have same page offset");
+    ASSERT(xpageoffs == zpageoffs, "x and z did not have same page offset");
+  }
+}
+
+void test_concretization_linear_multi_pmd_pin(void) {
+  __test_concretization_multi_pmd_pin(CONCRETE_LINEAR);
+}
+
+void test_concretization_random_multi_pmd_pin(void) {
+  __test_concretization_multi_pmd_pin(CONCRETE_RANDOM);
+}
