@@ -117,16 +117,14 @@ void per_cpu_setup(int cpu) {
     vmm_set_id_translation(vmm_pgtable);
   }
 
-  if (ENABLE_PERF_COUNTS) {
-    /* enable virtual/physical timers */
-    write_sysreg((1 << 0) | (1 << 1), cntkctl_el1);
+  /* enable virtual/physical timers */
+  write_sysreg((1 << 0) | (1 << 1), cntkctl_el1);
 
-    /* enable PMU cycle counter */
-    write_sysreg((1UL << 27), pmccfiltr_el0);
-    write_sysreg((1UL << 6) | (1UL << 0), pmcr_el0);  /* reset to 0 */
-    write_sysreg((1 << 31), pmcntenset_el0);
-    write_sysreg((1 << 0), pmuserenr_el0);
-  }
+  /* enable PMU cycle counter */
+  write_sysreg((1UL << 27), pmccfiltr_el0);
+  write_sysreg((1UL << 6) | (1UL << 0), pmcr_el0);  /* reset to 0 */
+  write_sysreg((1 << 31), pmcntenset_el0);
+  write_sysreg((1 << 0), pmuserenr_el0);
 
   current_thread_info()->locking_enabled = 1;
 
