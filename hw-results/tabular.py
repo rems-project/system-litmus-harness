@@ -125,8 +125,8 @@ def write_table(grp_list, f, devices, includes=[], excludes=[], print_skips=True
     for (test_name, groups) in filtered:
         row = []
         group = groups[-1]
-        row.append(group)
-        # use verb to escape weird test names
+        # use verb to escape test and group names with symbols
+        row.append(f"\\verb|{group}|")
         row.append(f"\\verb|{test_name}|")
 
         for d in devices:
