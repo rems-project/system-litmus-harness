@@ -11,9 +11,9 @@ extern uint64_t __cache_line_shift;  /* cache line of minimum size */
 #define PAGE_SIZE 4096L
 #define PAGE_SHIFT 12
 #define PMD_SIZE (PAGE_SIZE * 512)
-#define PMD_SHIFT 22
+#define PMD_SHIFT 21
 #define PUD_SIZE (PMD_SIZE * 512)
-#define PUD_SHIFT 31
+#define PUD_SHIFT 30
 #define PGD_SIZE (PUD_SIZE * 512)
 #define PGD_SHIFT 39
 
