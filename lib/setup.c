@@ -71,7 +71,15 @@ void setup(char* fdtloc) {
   } else {
     printf("quiet");
   }
+
   printf("\n");
+
+  printf("#test_patterns: ");
+  for (int i = 0; i < collected_tests_count; i++) {
+    printf("%s ", collected_tests[i]);
+  }
+  printf("\n");
+  printf("#seed: %ld\n", INITIAL_SEED);
   printf("#pgtable: %ld\n", ENABLE_PGTABLE);
   printf("#timing: %ld\n", ENABLE_PERF_COUNTS);
   printf("#no_runs: %ld\n", NUMBER_OF_RUNS);
