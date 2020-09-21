@@ -36,8 +36,6 @@ fetch:
 	tar -vczf raw/rpi4b.tar.gz raw/rpi4b/
 	tar -vczf raw/graviton2.tar.gz raw/graviton2/
 
-	cp raw/*.tar.gz .
-
 .PHONY: standalone-results.tex
 standalone-results.tex:
 	$(TAB) --excludes='@errata' --standalone-file='standalone-results.tex' --all-file='results-all.tex'
