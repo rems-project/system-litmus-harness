@@ -11,7 +11,7 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
   bar_t* conc_bars = ALLOC_MANY(bar_t, 512);
   bar_t* clean_bars = ALLOC_MANY(bar_t, no_runs);
   bar_t* final_barrier = ALLOC_ONE(bar_t);
-  int* shuffled = ALLOC_MANY(int, no_runs);
+  run_idx_t* shuffled = ALLOC_MANY(run_idx_t, no_runs);
   int* affinity = ALLOC_MANY(int, NO_CPUS);
 
   for (int v = 0; v < cfg->no_heap_vars; v++) {
@@ -21,13 +21,13 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
 
   read_var_infos(ctx, cfg, var_infos, no_runs);
 
-  for (int r = 0; r < cfg->no_regs; r++) {
+  for (reg_idx_t r = 0; r < cfg->no_regs; r++) {
     uint64_t* out_reg = ALLOC_MANY(uint64_t, no_runs);
     out_regs[r] = out_reg;
   }
 
-  for (int i = 0; i < no_runs; i++) {
-    for (int r = 0; r < cfg->no_regs; r++) {
+  for (run_idx_t i = 0; i < no_runs; i++) {
+    for (reg_idx_t r = 0; r < cfg->no_regs; r++) {
       out_regs[r][i] = 0;
     }
 
@@ -35,7 +35,7 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
     shuffled[i] = i;
   }
 
-  shuffle(shuffled, sizeof(int), no_runs);
+  shuffle(shuffled, sizeof(run_idx_t), no_runs);
 
   for (int i = 0; i < 512; i++) {
     start_run_bars[i] = (bar_t){0};
@@ -96,8 +96,8 @@ uint64_t* ctx_pte(test_ctx_t* ctx, uint64_t va) {
 }
 
 
-const char* varname_from_idx(test_ctx_t* ctx, uint64_t idx) {
-  for (int i = 0; i < ctx->cfg->no_heap_vars; i++) {
+const char* varname_from_idx(test_ctx_t* ctx, var_idx_t idx) {
+  for (var_idx_t i = 0; i < ctx->cfg->no_heap_vars; i++) {
     if (idx == i)
       return ctx->cfg->heap_var_names[i];
   }
@@ -106,8 +106,8 @@ const char* varname_from_idx(test_ctx_t* ctx, uint64_t idx) {
   return 0;
 }
 
-uint64_t idx_from_varname_infos(const litmus_test_t* cfg, var_info_t* infos, const char* varname) {
-  for (int i = 0; i < cfg->no_heap_vars; i++) {
+var_idx_t idx_from_varname_infos(const litmus_test_t* cfg, var_info_t* infos, const char* varname) {
+  for (var_idx_t i = 0; i < cfg->no_heap_vars; i++) {
     if (strcmp(infos[i].name, varname)) {
       return i;
     }
@@ -116,8 +116,8 @@ uint64_t idx_from_varname_infos(const litmus_test_t* cfg, var_info_t* infos, con
   return cfg->no_heap_vars;
 }
 
-uint64_t idx_from_varname(test_ctx_t* ctx, const char* varname) {
-  for (int i = 0; i < ctx->cfg->no_heap_vars; i++) {
+var_idx_t idx_from_varname(test_ctx_t* ctx, const char* varname) {
+  for (var_idx_t i = 0; i < ctx->cfg->no_heap_vars; i++) {
     if (strcmp(ctx->heap_vars[i].name, varname)) {
       return i;
     }
@@ -127,7 +127,7 @@ uint64_t idx_from_varname(test_ctx_t* ctx, const char* varname) {
   return 0;
 }
 
-const char* regname_from_idx(test_ctx_t* ctx, uint64_t idx) {
+const char* regname_from_idx(test_ctx_t* ctx, var_idx_t idx) {
   for (int i = 0; i < ctx->cfg->no_regs; i++) {
     if (idx == i)
       return ctx->cfg->reg_names[i];
@@ -137,8 +137,8 @@ const char* regname_from_idx(test_ctx_t* ctx, uint64_t idx) {
   return 0;
 }
 
-uint64_t idx_from_regname(test_ctx_t* ctx, const char* varname) {
-  for (int i = 0; i < ctx->cfg->no_regs; i++) {
+reg_idx_t idx_from_regname(test_ctx_t* ctx, const char* varname) {
+  for (reg_idx_t i = 0; i < ctx->cfg->no_regs; i++) {
     if (strcmp(ctx->cfg->reg_names[i], varname)) {
       return i;
     }

@@ -6,10 +6,11 @@
 #define SIZE_OF_TEST 100
 
 
-uint64_t* __var(test_ctx_t* ctx, uint64_t r, const char* varname) {
-  uint64_t idx = idx_from_varname(ctx, varname);
+uint64_t* __var(test_ctx_t* ctx, run_idx_t r, const char* varname) {
+  var_idx_t idx = idx_from_varname(ctx, varname);
   return ctx->heap_vars[idx].values[r];
 }
+
 #define VAR(ctx, r, var) __var(ctx, r, var)
 
 UNIT_TEST(test_concretization_linear_default_diff_pages)
@@ -54,8 +55,8 @@ void __test_concretization_own_pmd(concretize_type_t conc_type) {
   litmus_test_t test = {
     "test",
     0,NULL,
-    3,(const char*[]){"x","y","z","a"},
-    3,(const char*[]){"r", "s", "t"},
+    2,(const char*[]){"x","y"},
+    0,(const char*[]){},
     INIT_STATE(
       2,
       INIT_REGION_OWN(x, REGION_OWN_PMD),
@@ -71,8 +72,14 @@ void __test_concretization_own_pmd(concretize_type_t conc_type) {
   void* st = concretize_init(conc_type, &ctx, ctx.cfg, ctx.no_runs);
   concretize(conc_type, &ctx, ctx.cfg, st, ctx.no_runs);
 
-  for (int r = 0; r < ctx.no_runs; r++) {
-    ASSERT(PMD(ctx.heap_vars[0].values[r]) != PMD(ctx.heap_vars[1].values[r]));
+  for (run_idx_t r = 0; r < ctx.no_runs; r++) {
+    uint64_t* x = VAR(&ctx, r, "x");
+    uint64_t* y = VAR(&ctx, r, "y");
+
+    uint64_t xpmd = PMD(x);
+    uint64_t ypmd = PMD(y);
+
+    ASSERT(xpmd != ypmd, "x (%p) and y (%p) were placed in the same pmd", x, y);
   }
 }
 
@@ -109,7 +116,7 @@ void __test_concretization_same_page(concretize_type_t conc_type) {
   concretize(conc_type, &ctx, ctx.cfg, st, ctx.no_runs);
 
   /* x and y must be in the same page */
-  for (int r = 0; r < ctx.no_runs; r++) {
+  for (run_idx_t r = 0; r < ctx.no_runs; r++) {
     ASSERT(PAGE(ctx.heap_vars[0].values[r]) == PAGE(ctx.heap_vars[1].values[r]));
   }
 }
@@ -148,7 +155,7 @@ void __test_concretization_separate_roots(concretize_type_t conc_type) {
   void* st = concretize_init(conc_type, &ctx, ctx.cfg, ctx.no_runs);
   concretize(conc_type, &ctx, ctx.cfg, st, ctx.no_runs);
 
-  for (int r = 0; r < ctx.no_runs; r++) {
+  for (run_idx_t r = 0; r < ctx.no_runs; r++) {
     ASSERT(PAGE(VAR(&ctx, r, "x")) == PAGE(VAR(&ctx, r, "a")), "x not same page as a");
     ASSERT(PAGE(VAR(&ctx, r, "y")) == PAGE(VAR(&ctx, r, "b")), "y not same page as b");
     ASSERT(PAGE(VAR(&ctx, r, "x")) != PAGE(VAR(&ctx, r, "y")), "x and y were same page");
@@ -186,7 +193,7 @@ void __test_concretization_aliased(concretize_type_t conc_type) {
   void* st = concretize_init(conc_type, &ctx, ctx.cfg, ctx.no_runs);
   concretize(conc_type, &ctx, ctx.cfg, st, ctx.no_runs);
 
-  for (int r = 0; r < ctx.no_runs; r++) {
+  for (run_idx_t r = 0; r < ctx.no_runs; r++) {
     /* aliased things cannot be in the same page */
     ASSERT(PAGE(VAR(&ctx, r, "x")) != PAGE(VAR(&ctx, r, "y")), "x in same page as y");
     ASSERT(PAGEOFF(VAR(&ctx, r, "x")) == PAGEOFF(VAR(&ctx, r, "y")), "x and y not same offset in pages");
@@ -225,7 +232,7 @@ void __test_concretization_unrelated_aliased(concretize_type_t conc_type) {
   void* st = concretize_init(conc_type, &ctx, ctx.cfg, ctx.no_runs);
   concretize(conc_type, &ctx, ctx.cfg, st, ctx.no_runs);
 
-  for (int r = 0; r < ctx.no_runs; r++) {
+  for (run_idx_t r = 0; r < ctx.no_runs; r++) {
     ASSERT(PAGE(VAR(&ctx, r, "x")) != PAGE(VAR(&ctx, r, "y")), "x in same page as y");
     ASSERT(PAGE(VAR(&ctx, r, "x")) != PAGE(VAR(&ctx, r, "z")), "x in same page as z");
     ASSERT(PAGE(VAR(&ctx, r, "y")) != PAGE(VAR(&ctx, r, "z")), "y in same page as z");
@@ -267,13 +274,16 @@ void __test_concretization_unmapped(concretize_type_t conc_type) {
   void* st = concretize_init(conc_type, &ctx, ctx.cfg, ctx.no_runs);
   concretize(conc_type, &ctx, ctx.cfg, st, ctx.no_runs);
 
-  for (int r = 0; r < ctx.no_runs; r++) {
+  for (run_idx_t r = 0; r < ctx.no_runs; r++) {
     /* no other var on any other run got given the same page as x on this run */
-    uint64_t xpage = PAGE(VAR(&ctx, r, "x"));
-    for (int varidx = 0; varidx < ctx.cfg->no_heap_vars; varidx++) {
+    uint64_t* x = VAR(&ctx, r, "x");
+    uint64_t xpage = PAGE(x);
+    for (var_idx_t varidx = 0; varidx < ctx.cfg->no_heap_vars; varidx++) {
       if (varidx != idx_from_varname(&ctx, "x")) {
-        for (int r2 = 0; r2 < ctx.no_runs; r2++) {
-          ASSERT(PAGE(ctx.heap_vars[varidx].values[r2]) != xpage, "x and %s had same page", ctx.heap_vars[varidx].name);
+        for (run_idx_t r2 = 0; r2 < ctx.no_runs; r2++) {
+          uint64_t* v2 = ctx.heap_vars[varidx].values[r2];
+          uint64_t v2page = PAGE(v2);
+          ASSERT(v2page != xpage, "x (%p) and %s (%p) had same page", x, ctx.heap_vars[varidx].name, v2);
         }
       }
     }

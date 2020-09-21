@@ -1,6 +1,6 @@
 #include "lib.h"
 
-static void fail_postcheck(test_ctx_t* ctx, const litmus_test_t* cfg, int run, const char* fmt, ...) {
+static void fail_postcheck(test_ctx_t* ctx, const litmus_test_t* cfg, run_idx_t run, const char* fmt, ...) {
   char buffer[1024];
   char* out = &buffer[0];
   va_list ap;
@@ -18,7 +18,7 @@ void concretization_precheck(test_ctx_t* ctx, const litmus_test_t* cfg, var_info
 /* if var A owns a region R, and var B is not pinned to A but is also in region R
  * then fail
  */
-static void concretize_postcheck_no_overlap_owned(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, int run) {
+static void concretize_postcheck_no_overlap_owned(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, run_idx_t run) {
   var_info_t* var;
   FOREACH_HEAP_VAR(ctx, var) {
     if (var->init_owns_region) {
@@ -42,7 +42,7 @@ static void concretize_postcheck_no_overlap_owned(test_ctx_t* ctx, const litmus_
 
 /* if var A states an offset from var B,  check that the last N bits of the VAs actually match!
  */
-static void concretize_postcheck_related_same_bits(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, int run) {
+static void concretize_postcheck_related_same_bits(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, run_idx_t run) {
   var_info_t* var;
   FOREACH_HEAP_VAR(ctx, var) {
     if (var->init_region_offset) {
@@ -69,7 +69,7 @@ static void concretize_postcheck_related_same_bits(test_ctx_t* ctx, const litmus
 
 /* if var A states an offset from var B,  check that the last N bits of the VAs actually match!
  */
-static void concretize_postcheck_aligned(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, int run) {
+static void concretize_postcheck_aligned(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, run_idx_t run) {
   var_info_t* var;
   FOREACH_HEAP_VAR(ctx, var) {
     uint64_t va = (uint64_t)var->values[run];
@@ -87,7 +87,7 @@ static void concretize_postcheck_aligned(test_ctx_t* ctx, const litmus_test_t* c
  *
  * this runs _after_ concretization to make sure it's valid
  */
-void concretization_postcheck(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, int run) {
+void concretization_postcheck(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, run_idx_t run) {
   concretize_postcheck_no_overlap_owned(ctx, cfg, infos, run);
   concretize_postcheck_related_same_bits(ctx, cfg, infos, run);
   concretize_postcheck_aligned(ctx, cfg, infos, run);

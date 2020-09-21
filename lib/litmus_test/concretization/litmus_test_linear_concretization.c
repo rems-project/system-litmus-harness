@@ -38,7 +38,7 @@
 
 #include "lib.h"
 
-int __count_fit(uint64_t x, uint64_t bound) {
+int count_fit(uint64_t x, uint64_t bound) {
   int count = 0;
 
   while (bound >= x) {
@@ -48,11 +48,8 @@ int __count_fit(uint64_t x, uint64_t bound) {
   return count;
 }
 
-/* how many x fit into bound ? */
-#define COUNT_FIT(x, bound) __count_fit((uint64_t)x, (uint64_t)bound)
-
 typedef struct {
-  int no_pins;
+  var_idx_t no_pins;
   var_info_t** vars;
 } pin_st_t;
 
@@ -73,7 +70,7 @@ concretization_st_t* init_st(test_ctx_t* ctx) {
   st->offsets_allocd = ALLOC_MANY(uint8_t, ctx->cfg->no_heap_vars);
   st->var_sts = ALLOC_MANY(var_st_t, NUM_PIN_LEVELS);
 
-  for (int varidx = 0; varidx < ctx->cfg->no_heap_vars; varidx++) {
+  for (var_idx_t varidx = 0; varidx < ctx->cfg->no_heap_vars; varidx++) {
     for (int i = 0; i < NUM_PIN_LEVELS; i++) {
       var_st_t* var_st = &st->var_sts[varidx];
       pin_st_t* pin_st = &var_st->pins[i];
@@ -88,7 +85,7 @@ concretization_st_t* init_st(test_ctx_t* ctx) {
 }
 
 void free_st(test_ctx_t* ctx, concretization_st_t* st) {
-  for (int varidx = 0; varidx < ctx->cfg->no_heap_vars; varidx++) {
+  for (var_idx_t varidx = 0; varidx < ctx->cfg->no_heap_vars; varidx++) {
     for (int i = 0; i < NUM_PIN_LEVELS; i++) {
       var_st_t* var_st = &st->var_sts[varidx];
       pin_st_t* pin_st = &var_st->pins[i];
@@ -189,7 +186,7 @@ static uint8_t __same_region(uint64_t* va1, uint64_t* va2, pin_level_t lvl) {
   return __region(va1, lvl) == __region(va2, lvl);
 }
 
-static uint64_t __aligned(test_ctx_t* ctx,  const litmus_test_t* cfg, concretization_st_t* st, var_info_t* rootvar, int run) {
+static uint64_t __aligned(test_ctx_t* ctx,  const litmus_test_t* cfg, concretization_st_t* st, var_info_t* rootvar, run_idx_t run) {
   uint64_t* rootva = rootvar->values[run];
 
   /* check all the things pinned to var are in the same region */

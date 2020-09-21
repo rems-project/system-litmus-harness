@@ -11,8 +11,8 @@ typedef struct {
 } test_result_t;
 
 typedef struct {
-    int allocated;
-    int limit;
+    uint64_t allocated;
+    uint64_t limit;
     test_result_t** lut;
     test_result_t* results[];
 } test_hist_t;
@@ -22,6 +22,6 @@ typedef struct {
 void print_results(test_hist_t* results, test_ctx_t* ctx);
 
 /* save the result from a run */
-void handle_new_result(test_ctx_t* ctx, int i, int run);
+void handle_new_result(test_ctx_t* ctx, run_idx_t idx, run_count_t run);
 
 #endif /* LITMUS_TEST_RESULTS_H */

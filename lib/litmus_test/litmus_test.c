@@ -13,8 +13,8 @@ static void end_of_test(test_ctx_t* ctx);
 static void start_of_test(test_ctx_t* ctx);
 static void end_of_thread(test_ctx_t* ctx, int cpu);
 static void start_of_thread(test_ctx_t* ctx, int cpu);
-static void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i, int r);
-static void start_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i, int r);
+static void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, run_idx_t i, run_count_t r);
+static void start_of_run(test_ctx_t* ctx, int cpu, int vcpu, run_idx_t i, run_count_t r);
 
 /* entry point */
 void run_test(const litmus_test_t* cfg) {
@@ -57,11 +57,11 @@ void run_test(const litmus_test_t* cfg) {
   end_of_test(&ctx);
 }
 
-uint64_t* ctx_heap_var_va(test_ctx_t* ctx, uint64_t varidx, uint64_t i) {
+uint64_t* ctx_heap_var_va(test_ctx_t* ctx, uint64_t varidx, run_idx_t i) {
   return ctx->heap_vars[varidx].values[i];
 }
 
-uint64_t ctx_initial_heap_value(test_ctx_t* ctx, uint64_t idx) {
+uint64_t ctx_initial_heap_value(test_ctx_t* ctx, run_idx_t idx) {
   return ctx->heap_vars[idx].init_value;
 }
 
@@ -112,11 +112,13 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
 
     switch (LITMUS_SHUFFLE_TYPE) {
       case SHUF_NONE:
-        i = j;
+        i = (run_idx_t)j;
         break;
       case SHUF_RAND:
         i = ctx->shuffled_ixs[j];
         break;
+      default:
+        fail("! unknown LITMUS_SHUFFLE_TYPE: %d/%s\n", LITMUS_SHUFFLE_TYPE, shuff_type_to_str(LITMUS_SHUFFLE_TYPE));
     }
 
     if (LITMUS_AFF_TYPE == AFF_RAND) {
@@ -154,7 +156,7 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
 
     bwait(vcpu, i % ctx->cfg->no_threads, &ctx->concretize_barriers[i % 512], ctx->cfg->no_threads);
 
-    for (int v = 0; v < ctx->cfg->no_heap_vars; v++) {
+    for (var_idx_t v = 0; v < ctx->cfg->no_heap_vars; v++) {
       uint64_t* p = ctx_heap_var_va(ctx, v, i);
       heaps[v] = p;
       if (ENABLE_PGTABLE) {
@@ -168,7 +170,7 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
       }
     }
 
-    for (int r = 0; r < ctx->cfg->no_regs; r++) {
+    for (reg_idx_t r = 0; r < ctx->cfg->no_regs; r++) {
       regs[r] = &ctx->out_regs[r][i];
     }
 
@@ -243,8 +245,8 @@ run_thread_after_execution:
   }
 }
 
-static void prefetch(test_ctx_t* ctx, int i, int r) {
-  for (int v = 0; v < ctx->cfg->no_heap_vars; v++) {
+static void prefetch(test_ctx_t* ctx, run_idx_t i, run_count_t r) {
+  for (var_idx_t v = 0; v < ctx->cfg->no_heap_vars; v++) {
     /* TODO: read initial state */
     lock(&__harness_lock);
     uint64_t is_valid = vmm_pte_valid(ctx->ptable, ctx_heap_var_va(ctx, v, i));
@@ -275,7 +277,7 @@ static void resetsp(void) {
   }
 }
 
-static void start_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i, int r) {
+static void start_of_run(test_ctx_t* ctx, int cpu, int vcpu, run_idx_t i, run_count_t r) {
   /* do not prefetch anymore .. not safe! */
   prefetch(ctx, i, r);
   if (! ctx->cfg->start_els || ctx->cfg->start_els[vcpu] == 0) {
@@ -290,7 +292,7 @@ static void reshuffle(test_ctx_t* ctx) {
   debug("set affinity = %Ad\n", ctx->affinity, NO_CPUS);
 }
 
-static void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, int i, int r) {
+static void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, run_idx_t i, run_count_t r) {
   if (! ctx->cfg->start_els || ctx->cfg->start_els[vcpu] == 0)
     raise_to_el1();
 

@@ -10,7 +10,7 @@ void read_init_pte(const litmus_test_t* cfg, var_info_t* infos, const char* varn
 void read_init_heap(const litmus_test_t* cfg, var_info_t* infos, const char* varname, uint64_t value);
 
 void read_var_infos(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, int no_runs) {
-  for (int v = 0; v < cfg->no_heap_vars; v++) {
+  for (var_idx_t v = 0; v < cfg->no_heap_vars; v++) {
     infos[v].varidx = v;
     infos[v].name = cfg->heap_var_names[v];
   }
@@ -47,11 +47,11 @@ void read_var_infos(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos
   }
 
   /* fill defaults:
-   * if a var does not specify a pinned offset from another var
+  * if a var does not specify a pinned offset from another var
    * then assume they're pinned to the page offset of the first var
    */
   var_info_t* first = NULL;
-  for (int v = 0; v < cfg->no_heap_vars; v++) {
+  for (var_idx_t v = 0; v < cfg->no_heap_vars; v++) {
     var_info_t* vinfo = &infos[v];
     if (vinfo->init_owns_region && !vinfo->init_pinned_region) {
       first = vinfo;
@@ -78,13 +78,13 @@ void read_var_infos(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos
     }
   }
 
-  for (int v = 0; v < cfg->no_heap_vars; v++) {
+  for (var_idx_t v = 0; v < cfg->no_heap_vars; v++) {
     var_info_t* vinfo = &infos[v];
 
     if (vinfo->varidx == first->varidx)
       continue;
 
-    if (! vinfo->init_pinned_region && ! vinfo->init_owns_region) {
+    if ((! vinfo->init_pinned_region) && (! vinfo->init_owns_region)) {
       vinfo->init_owns_region = 1;
       vinfo->init_pinned_region = 0;
       vinfo->init_owned_region_size = REGION_OWN_PAGE;
@@ -95,7 +95,7 @@ void read_var_infos(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos
     }
   }
 
-  for (int v = 0; v < cfg->no_heap_vars; v++) {
+  for (var_idx_t v = 0; v < cfg->no_heap_vars; v++) {
     var_info_t* vinfo = &infos[v];
     debug("varinfo[%d] = {\n", v);
     debug(" .name=\"%s\"\n", vinfo->name);
@@ -125,25 +125,27 @@ void read_var_infos(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos
 }
 
 void read_init_unmapped(const litmus_test_t* cfg, var_info_t* infos, const char* varname) {
-  uint64_t idx = idx_from_varname_infos(cfg, infos, varname);
+  var_idx_t idx = idx_from_varname_infos(cfg, infos, varname);
   infos[idx].init_unmapped = 1;
 }
 
 void read_init_region_offs(const litmus_test_t* cfg, var_info_t* infos, const char* varname, const char* offsvarname, rel_offset_t offs) {
-  uint64_t idx = idx_from_varname_infos(cfg, infos, varname);
+  var_idx_t idx = idx_from_varname_infos(cfg, infos, varname);
+  var_idx_t offsvaridx = idx_from_varname_infos(cfg, infos, offsvarname);
+
   infos[idx].init_region_offset = 1;
-  infos[idx].offset_var = idx_from_varname_infos(cfg, infos, offsvarname);
+  infos[idx].offset_var = offsvaridx;
   infos[idx].offset_level = offs;
 }
 
 void read_init_region_own(const litmus_test_t* cfg, var_info_t* infos, const char* varname, own_level_t region) {
-  uint64_t idx = idx_from_varname_infos(cfg, infos, varname);
+  var_idx_t idx = idx_from_varname_infos(cfg, infos, varname);
   infos[idx].init_owns_region = 1;
   infos[idx].init_owned_region_size = region;
 }
 
 void read_init_region(const litmus_test_t* cfg, var_info_t* infos, const char* varname, const char* pinned_var_name, pin_level_t pin_level) {
-  uint64_t idx = idx_from_varname_infos(cfg, infos, varname);
+  var_idx_t idx = idx_from_varname_infos(cfg, infos, varname);
 
   infos[idx].init_pinned_region = 1;
   infos[idx].pin_region_var = idx_from_varname_infos(cfg, infos, pinned_var_name);
@@ -151,12 +153,12 @@ void read_init_region(const litmus_test_t* cfg, var_info_t* infos, const char* v
 }
 
 void read_init_alias(const litmus_test_t* cfg, var_info_t* infos, const char* varname, const char* aliasname) {
-  uint64_t idx = idx_from_varname_infos(cfg, infos, varname);
+  var_idx_t idx = idx_from_varname_infos(cfg, infos, varname);
   infos[idx].alias = idx_from_varname_infos(cfg, infos, aliasname);
 }
 
 void read_init_ap(const litmus_test_t* cfg, var_info_t* infos, const char* varname, uint64_t ap) {
-  uint64_t idx = idx_from_varname_infos(cfg, infos, varname);
+  var_idx_t idx = idx_from_varname_infos(cfg, infos, varname);
   infos[idx].init_ap = ap;
 }
 
@@ -165,6 +167,6 @@ void read_init_pte(const litmus_test_t* cfg, var_info_t* infos, const char* varn
 }
 
 void read_init_heap(const litmus_test_t* cfg, var_info_t* infos, const char* varname, uint64_t value) {
-  uint64_t idx = idx_from_varname_infos(cfg, infos, varname);
+  var_idx_t idx = idx_from_varname_infos(cfg, infos, varname);
   infos[idx].init_value = value;
 }

@@ -6,7 +6,7 @@
 #include "lib.h"
 
 void* concretize_random_init(test_ctx_t* ctx, const litmus_test_t* cfg);
-void concretize_random_one(test_ctx_t* ctx, const litmus_test_t* cfg, void* st, int run);
+void concretize_random_one(test_ctx_t* ctx, const litmus_test_t* cfg, void* st, run_idx_t run);
 void concretize_random_finalize(test_ctx_t* ctx, const litmus_test_t* cfg, void* st);
 
 void __set_var(test_ctx_t* ctx, const litmus_test_t* cfg, char* var, char* val) {
@@ -77,17 +77,17 @@ void concretized_fixed_init(test_ctx_t* ctx, const litmus_test_t* cfg) {
   printf("#vas: %s\n", &cfg_format[0]);
 }
 
-void concretize_fixed_one(test_ctx_t* ctx, const litmus_test_t* cfg, int run) {
+void concretize_fixed_one(test_ctx_t* ctx, const litmus_test_t* cfg, run_idx_t run) {
   var_info_t* var;
   FOREACH_HEAP_VAR(ctx, var) {
     var->values[run] = var->values[0];
   }
 }
 
-void concretize_fixed_all(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
+void concretize_fixed_all(test_ctx_t* ctx, const litmus_test_t* cfg, run_idx_t no_runs) {
   concretized_fixed_init(ctx, cfg);
 
-  for (uint64_t i = 0; i < ctx->no_runs; i++) {
+  for (run_idx_t i = 0; i < ctx->no_runs; i++) {
     concretize_fixed_one(ctx, cfg, i);
   }
 }

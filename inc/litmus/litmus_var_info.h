@@ -1,13 +1,14 @@
 #ifndef LITMUS_VAR_INFO_H
 #define LITMUS_VAR_INFO_H
 
+#include "litmus_idxs.h"
 #include "config.h"
 
 /** heap var info
  *
  */
 typedef struct {
-  int varidx;
+  var_idx_t varidx;
   const char* name;
   uint64_t init_value;
   uint64_t init_ap;
@@ -21,7 +22,7 @@ typedef struct {
 
     /** if the region is pinned then this var is pinned to another var within some offset */
     struct {
-      int pin_region_var;
+      var_idx_t pin_region_var;
       pin_level_t pin_region_level;
     };
   };
@@ -29,13 +30,13 @@ typedef struct {
   /* optionally each var may have a fixed offset in relation to 1 other var */
   uint8_t init_region_offset;
   struct {
-    int offset_var;
+    var_idx_t offset_var;
     rel_offset_t offset_level;
   };
 
   /** if aliased, the name of the variable this one aliases
    */
-  int alias;
+  var_idx_t alias;
 
   /** array of pointers into memory region for each run
    *

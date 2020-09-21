@@ -1,6 +1,7 @@
 #ifndef LITMUS_CTX_H
 #define LITMUS_CTX_H
 
+#include "litmus_idxs.h"
 #include "litmus_regions.h"
 #include "litmus_concretization.h"
 #include "litmus_var_info.h"
@@ -14,7 +15,7 @@
  * as well as a reference to the static test configuration (the litmus_test_t)
  */
 struct test_ctx {
-  uint64_t no_runs;
+  run_idx_t no_runs;
   regions_t* heap_memory;       /* pointer to set of regions */
   var_info_t* heap_vars;        /* set of heap variables: x, y, z etc */
   uint64_t** out_regs;          /* set of output register values: P1:x1,  P2:x3 etc */
@@ -25,11 +26,11 @@ struct test_ctx {
   bar_t* end_barriers;
   bar_t* cleanup_barriers;
   bar_t* final_barrier;
-  int* shuffled_ixs;
+  run_idx_t* shuffled_ixs;
   volatile int* affinity;
   test_hist_t* hist;
+  run_idx_t current_run;
   uint64_t* ptable;
-  uint64_t current_run;
   uint64_t current_EL;
   uint64_t privileged_harness;  /* require harness to run at EL1 between runs ? */
   uint64_t last_tick; /* clock ticks since last verbose print */
@@ -41,16 +42,15 @@ struct test_ctx {
 void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs);
 void free_test_ctx(test_ctx_t* ctx);
 
-
 /* helper functions */
 uint64_t ctx_pa(test_ctx_t* ctx, uint64_t va);
 uint64_t* ctx_pte(test_ctx_t* ctx, uint64_t va);
 
-uint64_t idx_from_varname_infos(const litmus_test_t* cfg, var_info_t* infos, const char* varname);
-uint64_t idx_from_varname(test_ctx_t* ctx, const char* varname);
-uint64_t idx_from_regname(test_ctx_t* ctx, const char* regname);
-const char* varname_from_idx(test_ctx_t* ctx, uint64_t idx);
-const char* regname_from_idx(test_ctx_t* ctx, uint64_t idx);
+var_idx_t idx_from_varname_infos(const litmus_test_t* cfg, var_info_t* infos, const char* varname);
+var_idx_t idx_from_varname(test_ctx_t* ctx, const char* varname);
+reg_idx_t idx_from_regname(test_ctx_t* ctx, const char* regname);
+const char* varname_from_idx(test_ctx_t* ctx, var_idx_t idx);
+const char* regname_from_idx(test_ctx_t* ctx, var_idx_t idx);
 
 /* for loading var_info_t */
 void read_var_infos(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, int no_runs);

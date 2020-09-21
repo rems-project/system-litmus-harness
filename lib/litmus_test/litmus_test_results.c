@@ -1,7 +1,7 @@
 #include "lib.h"
 
-static int matches(test_result_t* result, test_ctx_t* ctx, int run) {
-  for (int reg = 0; reg < ctx->cfg->no_regs; reg++) {
+static int matches(test_result_t* result, test_ctx_t* ctx, run_idx_t run) {
+  for (reg_idx_t reg = 0; reg < ctx->cfg->no_regs; reg++) {
     if (result->values[reg] != ctx->out_regs[reg][run]) {
       return 0;
     }
@@ -39,9 +39,9 @@ static int matches_interesting(test_hist_t* res, test_ctx_t* ctx, test_result_t*
   return 0;
 }
 
-static int ix_from_values(test_ctx_t* ctx, int run) {
+static int ix_from_values(test_ctx_t* ctx, run_idx_t run) {
   int val = 0;
-  for (int reg = 0; reg < ctx->cfg->no_regs; reg++) {
+  for (reg_idx_t reg = 0; reg < ctx->cfg->no_regs; reg++) {
     uint64_t v = ctx->out_regs[reg][run];
     if (v < 4) {
       val *= 4;
@@ -54,7 +54,7 @@ static int ix_from_values(test_ctx_t* ctx, int run) {
 }
 
 
-static void add_results(test_hist_t* res, test_ctx_t* ctx, int run) {
+static void add_results(test_hist_t* res, test_ctx_t* ctx, run_idx_t run) {
   /* fast case: check lut */
   test_result_t** lut = res->lut;
   int ix = ix_from_values(ctx, run);
@@ -86,7 +86,8 @@ static void add_results(test_hist_t* res, test_ctx_t* ctx, int run) {
       abort();
     }
     test_result_t* new_res = res->results[res->allocated];
-    for (int reg = 0; reg < ctx->cfg->no_regs; reg++) {
+
+    for (reg_idx_t reg = 0; reg < ctx->cfg->no_regs; reg++) {
       new_res->values[reg] = ctx->out_regs[reg][run];
     }
     new_res->counter = 1;
@@ -101,9 +102,9 @@ static void add_results(test_hist_t* res, test_ctx_t* ctx, int run) {
 }
 
 
-static void print_single_result(test_ctx_t* ctx, int i) {
+static void print_single_result(test_ctx_t* ctx, run_count_t i) {
   printf("* ");
-  for (int r = 0; r < ctx->cfg->no_regs; r++) {
+  for (reg_idx_t r = 0; r < ctx->cfg->no_regs; r++) {
     printf(" %s=%d", ctx->cfg->reg_names[r], ctx->out_regs[r][i]);
   }
 
@@ -113,12 +114,13 @@ static void print_single_result(test_ctx_t* ctx, int i) {
 
 /** store or print the result from the previous run
  */
-void handle_new_result(test_ctx_t* ctx, int i, int run) {
+void handle_new_result(test_ctx_t* ctx, run_idx_t idx, run_count_t r) {
     if (ENABLE_RESULTS_HIST) {
       test_hist_t* res = ctx->hist;
-      add_results(res, ctx, i);
+      add_results(res, ctx, idx);
     } else {
-      print_single_result(ctx, run);
+      /* TODO: why does this use a run_count_t rather than the run_idx_t ? */
+      print_single_result(ctx, r);
     }
 }
 
@@ -131,7 +133,7 @@ void print_results(test_hist_t* res, test_ctx_t* ctx) {
   for (int r = 0; r < res->allocated; r++) {
     int was_interesting = res->results[r]->is_relaxed;
 
-    for (int reg = 0; reg < ctx->cfg->no_regs; reg++) {
+    for (reg_idx_t reg = 0; reg < ctx->cfg->no_regs; reg++) {
       printf(" %s=%d ", ctx->cfg->reg_names[reg], res->results[r]->values[reg]);
     }
 

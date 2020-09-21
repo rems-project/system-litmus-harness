@@ -119,9 +119,9 @@ typedef struct {
 
   int no_threads;
   th_f** threads;
-  int no_heap_vars;
+  var_idx_t no_heap_vars;
   const char** heap_var_names;
-  int no_regs;
+  reg_idx_t no_regs;
   const char** reg_names;
 
   uint64_t* interesting_result;    /* interesting (relaxed) result to highlight */
