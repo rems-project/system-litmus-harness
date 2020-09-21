@@ -106,6 +106,7 @@ void pick_one(test_ctx_t* ctx, concretization_st_t* st, var_info_t* var, own_lev
     if (st->var_sts[othervaridx].picked) {
       uint64_t othershift = LEVEL_SHIFTS[var->offset_level];
       uint64_t otherva = st->var_sts[othervaridx].va;
+
       va &= ~BITMASK(othershift);
       va |= otherva & BITMASK(othershift);
     }
