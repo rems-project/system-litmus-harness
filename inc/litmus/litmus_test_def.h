@@ -107,11 +107,16 @@ uint64_t* out_reg(litmus_test_run* data, const char* name);
 /* for annotating the outcome of a test
  * whether it's allowed under certain models or not
  */
-#define MODEL_FORBID 0
-#define MODEL_ALLOW 1
+typedef enum {
+  OUTCOME_FORBIDDEN,     /* this test outcome is forbidden by this model */
+  OUTCOME_ALLOWED,      /* this test outcome is allowed by this model */
+  OUTCOME_UNKNOWN,    /* it is not known whether this outcome is allowed in this model */
+  OUTCOME_UNDEFINED,  /* the model does not define an outcome for this test */
+} arch_model_status_t;
+
 typedef struct {
   const char* model_name;
-  uint8_t allowed;
+  arch_model_status_t allowed;
 } arch_allow_st;
 
 /**
@@ -152,9 +157,9 @@ typedef struct {
    * e.g.
    * {
    *    ...
-   *    .expected_allowed={
-   *      {"armv8", MODEL_FORBID},
-   *      {"armv8-cseh", MODEL_ALLOW},
+   *    .expected_allowed = (arch_allow_st[]) {
+   *      {"armv8", OUTCOME_FORBIDDEN},
+   *      {"armv8-cseh", OUTCOME_ALLOWED},
    *    }
    * }
    */
