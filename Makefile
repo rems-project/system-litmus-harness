@@ -99,6 +99,9 @@ SHOW_PREPROCESSED_OUTPUT = 0
 DEBUG = 0
 # TODO: finish this
 
+DEBUG_FLAGS =
+DEBUG_CFLAGS = $(patsubst %,-DDEBUG_%=1,$(DEBUG_FLAGS))
+
 # if NO_CHECK=1 then do not check for existence of the above
 # cross-compilation tools on the local machine
 NO_CHECK = 0
@@ -136,7 +139,8 @@ CFLAGS = -O0 -nostdlib \
 		-ffreestanding -fomit-frame-pointer -fno-pie -fno-pic \
 		-Wall $(addprefix -Wno-,$(CCNOWARN)) $(addprefix -Werror=,$(CCERRORS)) \
 		-D__VERSION_STR__="\"$(_DATE_VERSION)\"" \
-		-DCOMMITHASH="\"$(_HEAD_COMMIT_SHA)\""
+		-DCOMMITHASH="\"$(_HEAD_COMMIT_SHA)\"" \
+		$(DEBUG_CFLAGS)
 
 LDFLAGS = -nostdlib -n -static -pie
 OBJDUMPFLAGS = $(if $(DEBUG),-g -l -r,)
