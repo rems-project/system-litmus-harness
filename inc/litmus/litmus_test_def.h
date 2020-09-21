@@ -99,6 +99,16 @@ uint64_t var_desc(litmus_test_run* data, const char* name);
 uint64_t var_page(litmus_test_run* data, const char* name);
 uint64_t* out_reg(litmus_test_run* data, const char* name);
 
+/* for annotating the outcome of a test
+ * whether it's allowed under certain models or not
+ */
+#define MODEL_FORBID 0
+#define MODEL_ALLOW 1
+typedef struct {
+  const char* model_name;
+  uint8_t allowed;
+} arch_allow_st;
+
 /**
  * definition of a litmus test
  *
@@ -132,7 +142,18 @@ typedef struct {
   uint8_t requires_pgtable;  /* requires --pgtable */
   uint8_t requires_perf;     /* requires --perf */
   uint8_t requires_debug;    /* requires -d */
-} litmus_test_t;
 
+  /* annotate the test with whether it's allowed for certain models or not
+   * e.g.
+   * {
+   *    ...
+   *    .expected_allowed={
+   *      {"armv8", MODEL_FORBID},
+   *      {"armv8-cseh", MODEL_ALLOW},
+   *    }
+   * }
+   */
+  arch_allow_st* expected_allowed;
+} litmus_test_t;
 
 #endif /* LITMUS_TEST_DEF_H */
