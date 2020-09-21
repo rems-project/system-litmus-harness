@@ -89,9 +89,13 @@ void read_var_infos(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos
       vinfo->init_pinned_region = 0;
       vinfo->init_owned_region_size = REGION_OWN_PAGE;
 
-      vinfo->init_region_offset = 1;
-      vinfo->offset_var = first->varidx;
-      vinfo->offset_level = REGION_SAME_PAGE_OFFSET;
+      /* if the var DID have a INIT_REGION_OFFSET then keep that
+       */
+      if (! vinfo->init_region_offset) {
+        vinfo->init_region_offset = 1;
+        vinfo->offset_var = first->varidx;
+        vinfo->offset_level = REGION_SAME_PAGE_OFFSET;
+      }
     }
   }
 
