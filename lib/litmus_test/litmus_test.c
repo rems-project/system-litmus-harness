@@ -32,7 +32,7 @@ void run_test(const litmus_test_t* cfg) {
 
   /* first-time intiialisation, create the region */
   if (region == NULL) {
-    region = alloc(sizeof(regions_t));
+    region = ALLOC_ONE(regions_t);
   }
 
   /* create test context obj */
@@ -81,14 +81,13 @@ static void go_cpus(int cpu, void* a) {
 
 /** reset the pagtable back to the state it was before the test
  */
-static void _check_ptes(test_ctx_t* ctx, uint64_t n, uint64_t** vas,
-                        uint64_t** ptes[4], uint64_t* original[4]) {
+static void _check_ptes(test_ctx_t* ctx, litmus_test_run* data) {
   for (int lvl = 0; lvl < 4; lvl++) {
-    for (int i = 0; i < n; i++) {
-      *ptes[lvl][i] = original[lvl][i];
+    for (var_idx_t i = 0; i < ctx->cfg->no_heap_vars; i++) {
+      *data->tt_entries[i][lvl] = data->tt_descs[i][lvl];
 
       if (lvl == 3 && LITMUS_SYNC_TYPE == SYNC_VA) {
-        tlbi_va((uint64_t)vas[i]);
+        tlbi_va((uint64_t)data->va[i]);
       }
     }
   }
@@ -107,14 +106,21 @@ static void _check_ptes(test_ctx_t* ctx, uint64_t n, uint64_t** vas,
  */
 static void run_thread(test_ctx_t* ctx, int cpu) {
   uint64_t* heaps[ctx->cfg->no_heap_vars];
-  uint64_t* ptes[4][ctx->cfg->no_heap_vars];
   uint64_t pas[ctx->cfg->no_heap_vars];
   uint64_t* regs[ctx->cfg->no_regs];
-  uint64_t descs[ctx->cfg->no_heap_vars];
-  uint64_t saved_ptes[4][ctx->cfg->no_heap_vars];
 
-  for (int j = 0; j < ctx->no_runs; j++) {
-    int i;
+  /* we save the entry and descriptor for each level
+   * so we can recall them in a test
+   */
+  uint64_t* ptes[ctx->cfg->no_heap_vars][4];
+  uint64_t descs[ctx->cfg->no_heap_vars][4];
+
+  /* which gets mangled into the linked form the test data expects */
+  uint64_t** tt_entries[ctx->cfg->no_heap_vars];
+  uint64_t* tt_descs[ctx->cfg->no_heap_vars];
+
+  for (run_count_t j = 0; j < ctx->no_runs; j++) {
+    run_idx_t i;
     int vcpu;
 
     switch (LITMUS_SHUFFLE_TYPE) {
@@ -156,8 +162,10 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     if (vcpu == 0 && LITMUS_RUNNER_TYPE != RUNNER_ARRAY) {
       if (LITMUS_RUNNER_TYPE == RUNNER_EPHEMERAL) {
         concretize_one(LITMUS_CONCRETIZATION_TYPE, ctx, ctx->cfg, ctx->concretization_st, i);
-      } else if (LITMUS_RUNNER_TYPE == RUNNER_SEMI_ARRAY) {
-        init_vars(ctx, ctx->cfg, i);
+      }
+
+      if (LITMUS_RUNNER_TYPE == RUNNER_SEMI_ARRAY || LITMUS_RUNNER_TYPE == RUNNER_EPHEMERAL) {
+        write_init_state(ctx, ctx->cfg, i);
       }
     }
 
@@ -166,13 +174,13 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     for (var_idx_t v = 0; v < ctx->cfg->no_heap_vars; v++) {
       uint64_t* p = ctx_heap_var_va(ctx, v, i);
       heaps[v] = p;
+
       if (ENABLE_PGTABLE) {
         for (int lvl = 0; lvl < 4; lvl++) {
-          ptes[lvl][v] = vmm_pte_at_level(ctx->ptable, (uint64_t)p, lvl);
-          saved_ptes[lvl][v] = *ptes[lvl][v];
+          ptes[v][lvl] = vmm_pte_at_level(ctx->ptable, (uint64_t)p, lvl);
+          descs[v][lvl] = *ptes[v][lvl];
         }
 
-        descs[v] = *ptes[3][v];
         pas[v] = ctx_pa(ctx, (uint64_t)p);
       }
     }
@@ -185,21 +193,20 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     uint32_t* old_sync_handler_el1 = NULL;
     uint32_t* old_sync_handler_el1_spx = NULL;
 
-    uint64_t** pte_descs[4];
-    uint64_t* saved_pte_descs[4];
-    for (int lvl = 0; lvl < 4; lvl++) {
-      pte_descs[lvl] = &ptes[lvl][0];
-      saved_pte_descs[lvl] = &saved_ptes[lvl][0];
+    /* turn arrays into actual pointer structures */
+    for (var_idx_t v = 0; v < ctx->cfg->no_heap_vars; v++) {
+      tt_descs[v] = &descs[v][0];
+      tt_entries[v] = &ptes[v][0];
     }
 
     litmus_test_run run = {
       .ctx = ctx,
       .i = (uint64_t)i,
       .va = heaps,
-      .pte_descs = pte_descs,
       .pa = pas,
       .out_reg = regs,
-      .desc = descs,
+      .tt_entries = &tt_entries[0],
+      .tt_descs = &tt_descs[0],
     };
 
     th_f* pre = ctx->cfg->setup_fns == NULL ? NULL : ctx->cfg->setup_fns[vcpu];
@@ -241,7 +248,7 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     end_of_run(ctx, cpu, vcpu, i, j);
 
     if (ENABLE_PGTABLE && LITMUS_RUNNER_TYPE != RUNNER_ARRAY) {
-      _check_ptes(ctx, ctx->cfg->no_heap_vars, heaps, pte_descs, saved_pte_descs);
+      _check_ptes(ctx, &run);
     }
 
     if (LITMUS_SYNC_TYPE == SYNC_ASID)
@@ -315,7 +322,6 @@ static void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, run_idx_t i, run_coun
       ctx->last_tick = time;
     }
 
-    uint64_t r = ctx->current_run++;
     handle_new_result(ctx, i, r);
 
     /* progress indicator */
@@ -369,6 +375,7 @@ static void start_of_test(test_ctx_t* ctx) {
   ctx->concretization_st = concretize_init(LITMUS_CONCRETIZATION_TYPE, ctx, ctx->cfg, ctx->no_runs);
   if (LITMUS_RUNNER_TYPE != RUNNER_EPHEMERAL) {
     concretize(LITMUS_CONCRETIZATION_TYPE, ctx, ctx->cfg, ctx->concretization_st, ctx->no_runs);
+    write_init_states(ctx, ctx->cfg, ctx->no_runs);
   }
 
   trace("====== %s ======\n", ctx->cfg->name);
