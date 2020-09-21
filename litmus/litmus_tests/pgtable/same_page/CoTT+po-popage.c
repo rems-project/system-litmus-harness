@@ -26,8 +26,8 @@ static void P0(litmus_test_run* data) {
   );
 }
 
-litmus_test_t CoTT2_popo = {
-  "CoTT2+po-po",
+litmus_test_t CoTT_popopage = {
+  "CoTT+po-popage",
   MAKE_THREADS(1),
   MAKE_VARS(VARS),
   MAKE_REGS(REGS),
