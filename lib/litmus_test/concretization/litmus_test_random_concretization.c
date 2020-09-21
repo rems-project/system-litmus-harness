@@ -112,6 +112,9 @@ void pick_one(test_ctx_t* ctx, concretization_st_t* st, var_info_t* var, own_lev
     }
   }
 
+  st->var_sts[var->varidx].va = va;
+  st->var_sts[var->varidx].picked = 1;
+
   /* for each pinned var, pick a VA for it too */
   var_st_t* varst = &st->var_sts[var->varidx];
   for (pin_level_t lvl = REGION_SAME_VAR; lvl < REGION_SAME_PGD; lvl++) {
@@ -122,9 +125,6 @@ void pick_one(test_ctx_t* ctx, concretization_st_t* st, var_info_t* var, own_lev
       pick_pin(ctx, st, var, va, pinnedvar);
     }
   }
-
-  st->var_sts[var->varidx].va = va;
-  st->var_sts[var->varidx].picked = 1;
 }
 
 void* concretize_random_init(test_ctx_t* ctx, const litmus_test_t* cfg) {
