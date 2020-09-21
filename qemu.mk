@@ -1,9 +1,11 @@
+QEMU_MEM = 1G
+
 RUN_CMD_HOST_GIC = 	\
 	$(QEMU) \
 		-nodefaults -machine virt,gic-version=host --enable-kvm -cpu host \
 		-device virtio-serial-device -device virtconsole \
 		-display none -serial stdio \
-		-m 1G \
+		-m $(QEMU_MEM) \
 		-kernel $(OUT_NAME) -smp 4 -append "$$*"
 
 RUN_CMD_HOST_NO_GIC = 	\
@@ -11,7 +13,7 @@ RUN_CMD_HOST_NO_GIC = 	\
 		-nodefaults -machine virt --enable-kvm -cpu host \
 		-device virtio-serial-device -device virtconsole \
 		-display none -serial stdio \
-		-m 1G \
+		-m $(QEMU_MEM) \
 		-kernel $(OUT_NAME) -smp 4 -append "$$*"
 
 RUN_CMD_LOCAL = 	\
@@ -19,7 +21,7 @@ RUN_CMD_LOCAL = 	\
 		-nodefaults -machine virt -cpu cortex-a57 \
 		-device virtio-serial-device \
 		-display none -serial stdio \
-		-m 1G \
+		-m $(QEMU_MEM) \
 		-kernel $(OUT_NAME) -smp 4 -append "$$*"
 
 # default HOST uses the gic
