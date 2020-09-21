@@ -297,3 +297,96 @@ void test_concretization_linear_unmapped(void) {
 void test_concretization_random_unmapped(void) {
   __test_concretization_unmapped(CONCRETE_RANDOM);
 }
+
+
+UNIT_TEST(test_concretization_linear_twopage)
+UNIT_TEST(test_concretization_random_twopage)
+void __test_concretization_twopage(concretize_type_t conc_type) {
+  litmus_test_t test = {
+    "test",
+    0,NULL,
+    4,(const char*[]){"a1", "a2", "b1", "b2"},
+    0,NULL,
+    INIT_STATE(
+      4,
+      INIT_REGION_OWN(a1, REGION_OWN_PAGE),
+      INIT_REGION_OWN(b1, REGION_OWN_PAGE),
+      INIT_REGION_PIN(a2, a1, REGION_SAME_PAGE),
+      INIT_REGION_PIN(b2, b1, REGION_SAME_PAGE),
+    ),
+  };
+
+  test_ctx_t ctx;
+
+  init_test_ctx(&ctx, &test, SIZE_OF_TEST);
+  regions_t* region = ALLOC_ONE(regions_t);
+  ctx.heap_memory = region;
+  void* st = concretize_init(conc_type, &ctx, ctx.cfg, ctx.no_runs);
+  concretize(conc_type, &ctx, ctx.cfg, st, ctx.no_runs);
+
+  for (run_idx_t r = 0; r < ctx.no_runs; r++) {
+    /* no other var on any other run got given the same page as x on this run */
+    uint64_t a1page = PAGE(VAR(&ctx, r, "a1"));
+    uint64_t a2page = PAGE(VAR(&ctx, r, "a2"));
+    uint64_t b1page = PAGE(VAR(&ctx, r, "b1"));
+    uint64_t b2page = PAGE(VAR(&ctx, r, "b2"));
+
+    ASSERT(a1page==a2page, "a1 and a2 weren't same page");
+    ASSERT(b1page==b2page, "b1 and b2 weren't same page");
+    ASSERT(a1page!=b1page, "b1 and a1 were same page");
+  }
+}
+
+void test_concretization_linear_twopage(void) {
+  __test_concretization_twopage(CONCRETE_LINEAR);
+}
+
+void test_concretization_random_twopage(void) {
+  __test_concretization_twopage(CONCRETE_RANDOM);
+}
+
+
+
+UNIT_TEST(test_concretization_linear_relpmdoverlap)
+UNIT_TEST(test_concretization_random_relpmdoverlap)
+void __test_concretization_relpmdoverlap(concretize_type_t conc_type) {
+  litmus_test_t test = {
+    "test",
+    0,NULL,
+    2,(const char*[]){"x", "y"},
+    0,NULL,
+    INIT_STATE(
+      2,
+      INIT_REGION_OWN(x, REGION_OWN_PMD),
+      INIT_REGION_OFFSET(y, x, REGION_SAME_PMD_OFFSET),
+    ),
+  };
+
+  test_ctx_t ctx;
+
+  init_test_ctx(&ctx, &test, SIZE_OF_TEST);
+  regions_t* region = ALLOC_ONE(regions_t);
+  ctx.heap_memory = region;
+  void* st = concretize_init(conc_type, &ctx, ctx.cfg, ctx.no_runs);
+  concretize(conc_type, &ctx, ctx.cfg, st, ctx.no_runs);
+
+  for (run_idx_t r = 0; r < ctx.no_runs; r++) {
+    /* no other var on any other run got given the same page as x on this run */
+    uint64_t xpmd = PMD(VAR(&ctx, r, "x"));
+    uint64_t ypmd = PMD(VAR(&ctx, r, "y"));
+
+    uint64_t xpmdoff = PMDOFF(VAR(&ctx, r, "x"));
+    uint64_t ypmdoff = PMDOFF(VAR(&ctx, r, "y"));
+
+    ASSERT(xpmd != ypmd, "x and y were same pmd");
+    ASSERT(xpmdoff == ypmdoff, "x and y had different offsets");
+  }
+}
+
+void test_concretization_linear_relpmdoverlap(void) {
+  __test_concretization_relpmdoverlap(CONCRETE_LINEAR);
+}
+
+void test_concretization_random_relpmdoverlap(void) {
+  __test_concretization_relpmdoverlap(CONCRETE_RANDOM);
+}
