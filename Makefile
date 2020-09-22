@@ -210,19 +210,18 @@ else
   no_run_litmus = 1
 endif
 
-include deepclean.mk
-include docs.mk
-include qemu.mk
-include build.mk
+include mk/deepclean.mk
+include mk/docs.mk
+include mk/qemu.mk
+include mk/build.mk
 
 ifndef no_run_litmus
-  include litmus.mk
+  include mk/litmus.mk
 endif
-
 
 ifneq ($(findstring unittests,$(MAKECMDGOALS)),)
   ifndef no_run_litmus
     $(error Cannot build both unittests and litmus binaries at the same time)
   endif
-  include unittests.mk
+  include mk/unittests.mk
 endif
