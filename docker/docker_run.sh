@@ -8,11 +8,12 @@ source "$SCRIPTS_DIR/common.sh"
 
 
 usage() {
-  echo "Usage: docker_run.sh [-i]"
+  echo "Usage: docker_run.sh litmus|unittests|interactive"
   echo
   echo "Creates and starts a docker container with a built version of system-litmus-harness."
-  echo " with -i:    Attaches stdin/stdout to a shell in the container."
-  echo " without -i: Runs @all"
+  echo "litmus:  runs the litmus tests and exits."
+  echo "unittests:  runs the unittests and exits."
+  echo "interactice: starts an interactive session in the system-litmus-harness directory."
 }
 
 no_image() {
@@ -30,27 +31,27 @@ create() {
   # Run the image interactively
   cid=$(
   docker create \
-    --name "${NAME}" \
+    --name "${DOCKER_CONTAINER_NAME}" \
     --workdir /home/${DOCKER_USER}/system-litmus-harness \
     -i -t \
     "${DOCKER_IMAGE_NAME}"
   )
-  echo "created container ${NAME}/${cid}"
+  echo "created container ${DOCKER_CONTAINER_NAME}/${cid}"
 
   docker start ${cid}
-  echo "started container ${NAME}/${cid}"
+  echo "started container ${DOCKER_CONTAINER_NAME}/${cid}"
 }
 
 run() {
   if [ "$1"="unittests" ] ; then
-    CMD='make unittests | tee unittests-output.log'
+    CMD='make unittests BIN_ARGS="-t" | tee unittests-output.log'
   else
     CMD='make build && ./bin/qemu_litmus.exe | tee litmus-output.log'
   fi
 
   # Run the image non-interactively
   docker run \
-    --name "${NAME}" \
+    --name "${DOCKER_CONTAINER_NAME}" \
     --workdir /home/${DOCKER_USER}/system-litmus-harness \
     -t -i \
     --rm \
@@ -65,22 +66,20 @@ if [[ "$#" -lt 0 ]] ; then
   exit 1;
 fi
 
-readonly NAME="${DOCKER_IMAGE_NAME}-container"
-
 if [[ -z "$(docker images --all -q --filter "reference=${DOCKER_IMAGE_NAME}")" ]] ; then
   no_image;
   exit 1;
 fi
 
-echo "Found ${NAME}"
+echo "Found ${DOCKER_CONTAINER_NAME}"
 
-if [[ "$(docker container ls --all --quiet --filter "name=^${NAME}$")" ]] ; then
-  echo "Container ${NAME} already exists.";
+if [[ "$(docker container ls --all --quiet --filter "name=^${DOCKER_CONTAINER_NAME}$")" ]] ; then
+  echo "Container ${DOCKER_CONTAINER_NAME} already exists.";
   read -p "Attach? (y/n/remove) " yn;
   case $yn in
     y)
       echo "attach" ;
-      cid=$(docker container ls --all --quiet --filter "name=^${NAME}$")
+      cid=$(docker container ls --all --quiet --filter "name=^${DOCKER_CONTAINER_NAME}$")
       attach ${cid}
       exit 0
       ;;
@@ -88,9 +87,9 @@ if [[ "$(docker container ls --all --quiet --filter "name=^${NAME}$")" ]] ; then
       exit 0
       ;;
     rm|remove)
-      echo "Removing ${NAME}"
-      docker stop "${NAME}"
-      docker rm "${NAME}"
+      echo "Removing ${DOCKER_CONTAINER_NAME}"
+      docker stop "${DOCKER_CONTAINER_NAME}"
+      docker rm "${DOCKER_CONTAINER_NAME}"
       ;;
     *)
       echo "Unknown option ${yn}. Please enter y or n."
@@ -101,11 +100,10 @@ fi
 
 # Remove old running containers, if exist ...
 # TODO: if running ASK then if Y then KILL else STOP
-[[ -z "$(docker container ls --all --quiet --filter "name=^${NAME}$")" ]] || docker rm "${NAME}"
+[[ -z "$(docker container ls --all --quiet --filter "name=^${DOCKER_CONTAINER_NAME}$")" ]] || docker rm "${DOCKER_CONTAINER_NAME}"
 
 if [[ "$#" -lt 1 ]] ; then
-  echo "Usage: docker_run.sh litmus|unittests|interactive"
-  echo
+  usage
   exit 1
 else
   case "$1" in
