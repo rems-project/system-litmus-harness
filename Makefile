@@ -214,6 +214,7 @@ include mk/deepclean.mk
 include mk/docs.mk
 include mk/qemu.mk
 include mk/build.mk
+include mk/docker.mk
 
 ifndef no_run_litmus
   include mk/litmus.mk

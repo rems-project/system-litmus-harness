@@ -42,15 +42,22 @@ create() {
 }
 
 run() {
+  if [ "$1"="unittests" ] ; then
+    CMD='make unittests | tee unittests-output.log'
+  else
+    CMD='make build && ./bin/qemu_litmus.exe | tee litmus-output.log'
+  fi
+
   # Run the image non-interactively
   docker run \
     --name "${NAME}" \
     --workdir /home/${DOCKER_USER}/system-litmus-harness \
-    -t \
+    -t -i \
+    --rm \
     "${DOCKER_IMAGE_NAME}" \
     'bash' \
     '-c' \
-    'make build && ./bin/qemu_litmus.exe @all | tee output.log'
+    "$CMD"
 }
 
 if [[ "$#" -lt 0 ]] ; then
@@ -97,12 +104,20 @@ fi
 [[ -z "$(docker container ls --all --quiet --filter "name=^${NAME}$")" ]] || docker rm "${NAME}"
 
 if [[ "$#" -lt 1 ]] ; then
-  echo "Running @all"
-  echo " ... use ./docker_run.sh -i to run interactively"
-  run
+  echo "Usage: docker_run.sh litmus|unittests|interactive"
+  echo
+  exit 1
 else
   case "$1" in
-    -i)
+    litmus)
+      echo "Running @all"
+      run qemu_litmus.exe
+      ;;
+    unittests)
+      echo "Running unittests"
+      run qemu_unittests.exe
+      ;;
+    interactive)
       create
 
       # Overwrite system-litmus-harness/ dir
