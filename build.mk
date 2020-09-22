@@ -64,7 +64,7 @@ ifeq ($(NO_CHECK),0)
 
 ifeq ($(NO_LINT),0)
 	$(call run_cmd,CHECK,LINTER,\
-		if ! $(LINTER) "$(find litmus/litmus_tests -name '*.c' | head -n1)" &>/dev/null; then \
+		if ! $(LINTER) `find litmus/litmus_tests -name '*.c' | head -n1 &>/dev/null` ; then \
 			echo error: Linter not functional!; \
 			echo Run again with NO_LINT=1 to disable linting; \
 			exit 1; \
