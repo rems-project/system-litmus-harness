@@ -44,9 +44,9 @@ create() {
 
 run() {
   if [ "$1"="unittests" ] ; then
-    CMD='make unittests BIN_ARGS="-t" | tee unittests-output.log'
+    CMD="make unittests BIN_ARGS='${BIN_ARGS}' TESTS='${TESTS}' | tee unittests-output.log"
   else
-    CMD='make build && ./bin/qemu_litmus.exe | tee litmus-output.log'
+    CMD="make build && ./bin/qemu_litmus.exe BIN_ARGS='${BIN_ARGS}' LITMUS_TESTS='${TESTS}' | tee litmus-output.log"
   fi
 
   # Run the image non-interactively
@@ -108,10 +108,30 @@ if [[ "$#" -lt 1 ]] ; then
 else
   case "$1" in
     litmus)
-      echo "Running @all"
+      if [[ "$#" -lt 2 ]] ; then
+        readonly TESTS="@all"
+        readonly BIN_ARGS=""
+      elif [[ "$#" -lt 3 ]] ; then
+        readonly TESTS="@all"
+        readonly BIN_ARGS="$2"
+      else
+        readonly TESTS="$2"
+        readonly BIN_ARGS="$3"
+      fi
+      echo "Running litmus tests"
       run qemu_litmus.exe
       ;;
     unittests)
+      if [[ "$#" -lt 2 ]] ; then
+        readonly TESTS="."
+        readonly BIN_ARGS=""
+      elif [[ "$#" -lt 3 ]] ; then
+        readonly TESTS="."
+        readonly BIN_ARGS="$2"
+      else
+        readonly TESTS="$2"
+        readonly BIN_ARGS="$3"
+      fi
       echo "Running unittests"
       run qemu_unittests.exe
       ;;

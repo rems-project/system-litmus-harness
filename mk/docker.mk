@@ -8,7 +8,7 @@ docker-build:
 	./docker/docker_build.sh litmus -d .
 
 docker-unittests: docker-build
-	./docker/docker_run.sh unittests
+	./docker/docker_run.sh unittests "$(TESTS)" "$(BIN_ARGS)"
 
 docker-litmus: docker-build
 	./docker/docker_run.sh litmus
