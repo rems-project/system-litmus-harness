@@ -104,14 +104,15 @@ Running the tool
 Once the binary has been built there are primarily two modes of operation,
 the build script generates two executables:
 
-* ``bin/qemu_litmus.exe`` for local QEMU emulation
-* ``bin/kvm_litmus.exe`` for remote KVM execution
+* ``./qemu_litmus`` for local QEMU emulation
+* ``./kvm_litmus`` for remote KVM execution
 
-To run the local version there is a shorthand:
+To run the local version simply build and run the qemu executable:
 
 .. code-block:: none
 
-    $ make run -- MP+pos
+    $ make build
+    $ ./qemu_litmus MP+pos
     Test MP+pos:
      p1:x0=1  p1:x2=1  : 1240
      p1:x0=0  p1:x2=0  : 1395
@@ -123,7 +124,7 @@ To run it on the remote device (e.g. via SSH to a Raspberry Pi 4B+):
 .. code-block:: none
 
     $ make
-    $ scp bin/kvm_litmus.exe rpi4b:litmus.exe
+    $ scp kvm_litmus rpi4b:litmus.exe
     $ ssh rpi4b './litmus.exe MP+pos'
     Test MP+pos:
      p1:x0=1  p1:x2=1  : 2346

@@ -168,18 +168,15 @@
 <h1>Customizing the Build<a class="headerlink" href="#customizing-the-build" title="Permalink to this headline">¶</a></h1>
 <p>system-litmus-harness comes with many options to customize the built binary.</p>
 <p>To see them in full run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">help</span></code> to see all options available to you:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make help
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make
 Simple Usage:
-  make              equivalent to `make all`
-  make all          equivalent to `make kvm qemu`
-  make qemu         builds bin/qemu_litmus.exe which runs QEMU
-  make kvm          builds bin/kvm_litmus.exe which uses KVM
-  make run          runs `make qemu` then runs all tests
-  make clean        remove built files in bin/
-  make cleantests   remove auto-generated test files in litmus/
-
-  Advanced Usage:
-    [...]
+make build           builds qemu and kvm targets
+make docker          builds docker container and runs the unittests
+make clean           remove built files in bin/
+make deepclean       clean everything. No really.
+make publish         publish doc/ folder to gh-pages
+make hw-results      collect hardware results from known sources
+Run `make help` for more info
 </pre></div>
 </div>
 <div class="section" id="changing-the-compiler">
@@ -188,7 +185,7 @@ Simple Usage:
 the ELF (and the eventual <code class="docutils literal notranslate"><span class="pre">.exe</span></code> that can be run on the target machine).</p>
 <p>The tools the harness uses can be changed with the <code class="docutils literal notranslate"><span class="pre">PREFIX</span></code> argument to the makefile,
 e.g. to use the <code class="docutils literal notranslate"><span class="pre">aarch64-none-elf</span></code> toolchain simply do:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make PREFIX=&quot;aarch64-none-elf-&quot;
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make build PREFIX=&quot;aarch64-none-elf-&quot;
 </pre></div>
 </div>
 </div>
@@ -200,9 +197,9 @@ See <a class="reference internal" href="customizing_litmus.html"><span class="do
 <p>The compiled binary contains the set of compiled litmus tests.
 To change the set of litmus tests to compile use the <code class="docutils literal notranslate"><span class="pre">LITMUS_TESTS</span></code> argument:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span># build the groups and test listing
-$ make litmus_tests LITMUS_TESTS=MP+pos,MP+dmbs
+$ make collect-litmus LITMUS_TESTS=MP+pos,MP+dmbs
 # then compile them
-$ make
+$ make build
 </pre></div>
 </div>
 <p>Tests are arranged into groups and you can supply group listings,
@@ -221,14 +218,12 @@ it’s designed for emulation or execution as a KVM guest.</p>
 </ul>
 <p>the executable files are identical except for the final QEMU call in each that supplies
 different baked-in arguments.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make build
 # ... run local with QEMU emulation
-$ ./bin/qemu_litmus.exe -h
-# shorthand:
-$ make run -- -h
+$ ./qemu_litmus -h
 
-# ... or remotely
-$ scp bin/kvm_litmus.exe rpi4:litmus.exe
+# ... or remotely with KVM
+$ scp kvm_litmus rpi4:litmus.exe
 $ ssh rpi4 &#39;./litmus.exe -h&#39;
 </pre></div>
 </div>

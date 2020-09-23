@@ -173,15 +173,24 @@ device and executed.  This executable accepts arguments</p>
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
 <p>Usage: <code class="docutils literal notranslate"><span class="pre">litmus.exe</span> <span class="pre">[OPTION]...</span> <span class="pre">[TEST]...</span></code></p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Options:
-    -h --help:                 display this help text and quit.
-    -nX:                       set number of runs to X (default: 10000)
-    -d --debug:                enable debug output.
-    -t --trace:                enable trace output.
-    --verbose / --no-verbose:  enabled/disable verbose output.
-    --pgtable / --no-pgtable:  enabled/disable pagetable tests.
-    --no-hist:                 disable histogram output and print results as they are collected
-    --show:                    display the list of tests and quit
-    -sX                        initial seed (default: none)
+-h, --help, --help=X            display this help text and quit
+-VX, --version=X                display version information and quit
+--id=X                          display device identification information and quit
+--show                          show list of tests and quit
+-nX                             number of runs per test
+-p, --pgtable/--no-pgtable      enable/disable pagetable tests (default: 1)
+--perf/--no-perf                enable/disable performance tests (default: 0)
+-t, --trace/--no-trace          enable/disable tracing (default: 0)
+-d, --debug/--no-debug          enable/disable debugging (default: 0)
+--verbose/--no-verbose          enable/disable verbose output (default: 1)
+-q, --quiet                     quiet mode
+--hist/--no-hist                enable/disable results histogram collection (default: 1)
+-sX, --seed=X                   initial seed
+--tlbsync=X                     type of tlb synchronization  (options: {none,asid,va,all})
+--aff=X                         type of affinity control  (options: {none,rand})
+--shuffle=X                     type of shuffle control  (options: {none,rand})
+--concretize=X                  test concretization algorithml  (options: {linear,random,fixed})
+--config-concretize=X           concretization-specific configuration
 </pre></div>
 </div>
 </div>

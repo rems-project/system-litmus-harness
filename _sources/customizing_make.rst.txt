@@ -7,18 +7,15 @@ To see them in full run ``make help`` to see all options available to you:
 
 .. code-block:: none
 
-    $ make help
+    $ make
     Simple Usage:
-      make              equivalent to `make all`
-      make all          equivalent to `make kvm qemu`
-      make qemu         builds bin/qemu_litmus.exe which runs QEMU
-      make kvm          builds bin/kvm_litmus.exe which uses KVM
-      make run          runs `make qemu` then runs all tests
-      make clean        remove built files in bin/
-      make cleantests   remove auto-generated test files in litmus/
-
-      Advanced Usage:
-        [...]
+    make build           builds qemu and kvm targets
+    make docker          builds docker container and runs the unittests
+    make clean           remove built files in bin/
+    make deepclean       clean everything. No really.
+    make publish         publish doc/ folder to gh-pages
+    make hw-results      collect hardware results from known sources
+    Run `make help` for more info
 
 
 Changing the compiler
@@ -32,7 +29,7 @@ e.g. to use the ``aarch64-none-elf`` toolchain simply do:
 
 .. code-block:: none
 
-    $ make PREFIX="aarch64-none-elf-"
+    $ make build PREFIX="aarch64-none-elf-"
 
 
 Changing the litmus tests
@@ -48,9 +45,9 @@ To change the set of litmus tests to compile use the ``LITMUS_TESTS`` argument:
 .. code-block:: none
 
     # build the groups and test listing
-    $ make litmus_tests LITMUS_TESTS=MP+pos,MP+dmbs
+    $ make collect-litmus LITMUS_TESTS=MP+pos,MP+dmbs
     # then compile them
-    $ make
+    $ make build
 
 Tests are arranged into groups and you can supply group listings,
 as well as test names,  using ``-`` s to exclude tests or test groups instead of including them:
@@ -58,7 +55,7 @@ as well as test names,  using ``-`` s to exclude tests or test groups instead of
 .. code-block: none
 
     # builds all tests except those in the @amo group
-    $ make LITMUS_TESTS=@all,-@amo
+    $ make build LITMUS_TESTS=@all,-@amo
 
 
 Building for KVM
@@ -79,12 +76,10 @@ different baked-in arguments.
 
 .. code-block:: none
 
-    $ make
+    $ make build
     # ... run local with QEMU emulation
-    $ ./bin/qemu_litmus.exe -h
-    # shorthand:
-    $ make run -- -h
+    $ ./qemu_litmus -h
 
-    # ... or remotely
-    $ scp bin/kvm_litmus.exe rpi4:litmus.exe
+    # ... or remotely with KVM
+    $ scp kvm_litmus rpi4:litmus.exe
     $ ssh rpi4 './litmus.exe -h'

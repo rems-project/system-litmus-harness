@@ -284,8 +284,10 @@ is loaded when the tool starts.</p>
 <li><dl class="simple">
 <dt>the initial state, which is one of the following:</dt><dd><ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">INIT_VAR(x,</span> <span class="pre">v)</span></code> to set the initial value of memory location <code class="docutils literal notranslate"><span class="pre">x</span></code> to <code class="docutils literal notranslate"><span class="pre">v</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">INIT_PTE(x,</span> <span class="pre">p)</span></code> to set the initial descriptor of <code class="docutils literal notranslate"><span class="pre">x</span></code> in the pagetable to <code class="docutils literal notranslate"><span class="pre">p</span></code>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">INIT_UNMAPPED(x)</span></code> to ensure the memory location <code class="docutils literal notranslate"><span class="pre">x</span></code> starts out unmapped and accesses to it generate translation faults.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">INIT_REGION_OWN(x,</span> <span class="pre">r)</span></code> ensures no vars unrelated to <code class="docutils literal notranslate"><span class="pre">x</span></code> will be placed into the same region of size <code class="docutils literal notranslate"><span class="pre">r</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">INIT_REGION_PIN(x,</span> <span class="pre">y,</span> <span class="pre">r)</span></code> ensures <code class="docutils literal notranslate"><span class="pre">x</span></code> is placed into the same region of size <code class="docutils literal notranslate"><span class="pre">r</span></code> as <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">INIT_REGION_OFFSET(x,</span> <span class="pre">y,</span> <span class="pre">o)</span></code> ensures <code class="docutils literal notranslate"><span class="pre">x</span></code> has the same offset into a region of size <code class="docutils literal notranslate"><span class="pre">r</span></code> as <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p></li>
 </ul>
 </dd>
 </dl>
@@ -310,18 +312,24 @@ is loaded when the tool starts.</p>
 
   <span class="cm">/** there are 5 initial state entries and they are:</span>
 <span class="cm">   * x starts unmapped</span>
-<span class="cm">   * y starts as 0</span>
-<span class="cm">   * z starts as 1</span>
-<span class="cm">   * a starts as 0</span>
-<span class="cm">   * b starts as 0</span>
+<span class="cm">   * y starts as 0 and is placed in its own 2M-aligned region</span>
+<span class="cm">   * z starts as 1 and is forcibly placed in the same 2M-aligned region as y</span>
+<span class="cm">   * a starts as 0 and is placed in the same 4k-aligned region as x</span>
+<span class="cm">   * b starts as 0 and is placed at a location such that the VAs of b and y</span>
+<span class="cm">   *    share the same lower 21 bits.</span>
+<span class="cm">   *    i.e. b[20:0] == x[20:0]</span>
 <span class="cm">   */</span>
   <span class="n">INIT_STATE</span><span class="p">(</span>
-      <span class="mi">5</span><span class="p">,</span>
+      <span class="mi">10</span><span class="p">,</span>
       <span class="n">INIT_UNMAPPED</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
       <span class="n">INIT_VAR</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+      <span class="n">INIT_REGION_OWN</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">REGION_OWN_PMD</span><span class="p">),</span>
       <span class="n">INIT_VAR</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+      <span class="n">INIT_REGION_PIN</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">REGION_SAME_PMD</span><span class="p">),</span>
       <span class="n">INIT_VAR</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+      <span class="n">INIT_REGION_PIN</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">REGION_SAME_PAGE</span><span class="p">),</span>
       <span class="n">INIT_VAR</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+      <span class="n">INIT_REGION_OFFSET</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">REGION_SAME_PMD_OFFSET</span><span class="p">),</span>
   <span class="p">),</span>
 
   <span class="cm">/** there are 2 interesting results</span>
@@ -379,6 +387,17 @@ is loaded when the tool starts.</p>
 <span class="cm">   * e.g. &quot;Warning on MP.BBM1+[dmb.ld]-dsb-tlbiis-[dmb.ld]-dsb-dsb+dsb-isb: saw 5 SC results but expected 14&quot;</span>
 <span class="cm">   */</span>
   <span class="p">.</span><span class="n">no_sc_results</span> <span class="o">=</span> <span class="mi">14</span><span class="p">,</span>
+
+  <span class="cm">/** this test&#39;s specified outcome(s) are allowed</span>
+<span class="cm">   * in the armv8-cseh model but forbidden in the armv8 model</span>
+<span class="cm">   *</span>
+<span class="cm">   * this field is not read or used by the test harness</span>
+<span class="cm">   * and is only there for external tools and documentation of the test</span>
+<span class="cm">   */</span>
+  <span class="p">.</span><span class="n">expected_allowed</span> <span class="o">=</span> <span class="p">(</span><span class="n">arch_allow_st</span><span class="p">[]){</span>
+     <span class="p">{</span><span class="s">&quot;armv8&quot;</span><span class="p">,</span> <span class="n">OUTCOME_FORBIDDEN</span><span class="p">},</span>
+     <span class="p">{</span><span class="s">&quot;armv8-cseh&quot;</span><span class="p">,</span> <span class="n">OUTCOME_FORBIDDEN</span><span class="p">},</span>
+  <span class="p">},</span>
 <span class="p">};</span>
 </pre></div>
 </div>

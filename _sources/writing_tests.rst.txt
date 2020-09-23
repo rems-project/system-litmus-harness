@@ -159,8 +159,10 @@ It contains the following information:
 * the exception handlers for each thread.
 * the initial state, which is one of the following:
     * ``INIT_VAR(x, v)`` to set the initial value of memory location ``x`` to ``v``.
-    * ``INIT_PTE(x, p)`` to set the initial descriptor of ``x`` in the pagetable to ``p``.
     * ``INIT_UNMAPPED(x)`` to ensure the memory location ``x`` starts out unmapped and accesses to it generate translation faults.
+    * ``INIT_REGION_OWN(x, r)`` ensures no vars unrelated to ``x`` will be placed into the same region of size ``r``.
+    * ``INIT_REGION_PIN(x, y, r)`` ensures ``x`` is placed into the same region of size ``r`` as ``y``.
+    * ``INIT_REGION_OFFSET(x, y, o)`` ensures ``x`` has the same offset into a region of size ``r`` as ``y``.
 * the interesting result(s) to flag up in the final output.
 * the number of non-interesting results, for sanity checking.
 
@@ -186,18 +188,24 @@ An example that uses all the above features is given below, with comments:
 
       /** there are 5 initial state entries and they are:
        * x starts unmapped
-       * y starts as 0
-       * z starts as 1
-       * a starts as 0
-       * b starts as 0
+       * y starts as 0 and is placed in its own 2M-aligned region
+       * z starts as 1 and is forcibly placed in the same 2M-aligned region as y
+       * a starts as 0 and is placed in the same 4k-aligned region as x
+       * b starts as 0 and is placed at a location such that the VAs of b and y
+       *    share the same lower 21 bits.
+       *    i.e. b[20:0] == x[20:0]
        */
       INIT_STATE(
-          5,
+          10,
           INIT_UNMAPPED(x),
           INIT_VAR(y, 0),
+          INIT_REGION_OWN(y, REGION_OWN_PMD),
           INIT_VAR(z, 1),
+          INIT_REGION_PIN(z, y, REGION_SAME_PMD),
           INIT_VAR(a, 0),
+          INIT_REGION_PIN(a, x, REGION_SAME_PAGE),
           INIT_VAR(b, 0),
+          INIT_REGION_OFFSET(b, y, REGION_SAME_PMD_OFFSET),
       ),
 
       /** there are 2 interesting results
@@ -255,4 +263,15 @@ An example that uses all the above features is given below, with comments:
        * e.g. "Warning on MP.BBM1+[dmb.ld]-dsb-tlbiis-[dmb.ld]-dsb-dsb+dsb-isb: saw 5 SC results but expected 14"
        */
       .no_sc_results = 14,
+
+      /** this test's specified outcome(s) are allowed
+       * in the armv8-cseh model but forbidden in the armv8 model
+       *
+       * this field is not read or used by the test harness
+       * and is only there for external tools and documentation of the test
+       */
+      .expected_allowed = (arch_allow_st[]){
+         {"armv8", OUTCOME_FORBIDDEN},
+         {"armv8-cseh", OUTCOME_FORBIDDEN},
+      },
     };

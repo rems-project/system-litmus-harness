@@ -178,7 +178,7 @@ then QEMU may either not terminate or try emulate it generating a warning.</p>
 <li><p>qemu-system-aarch64: warning: gic-version=host not relevant with kernel-irqchip=off as only userspace GICv2 is supported. Using v2 …</p></li>
 </ul>
 <p>Use <code class="docutils literal notranslate"><span class="pre">HOST=no-gic</span></code> as an option to the makefile</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make HOST=no-gic
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make kvm HOST=no-gic
 </pre></div>
 </div>
 </div>
@@ -189,7 +189,7 @@ then QEMU may either not terminate or try emulate it generating a warning.</p>
 debug the guest binary.  GDB can either be used to debug the local emulated
 binary, or the remote one running in KVM:</p>
 <p>Debugging the local emulated version:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make debug GDB=aarch64-none-elf-gdb
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make debug-litmus
 [...]
 </pre></div>
 </div>

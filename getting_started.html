@@ -255,11 +255,12 @@ $ cd system-litmus-harness
 <p>Once the binary has been built there are primarily two modes of operation,
 the build script generates two executables:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">bin/qemu_litmus.exe</span></code> for local QEMU emulation</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">bin/kvm_litmus.exe</span></code> for remote KVM execution</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">./qemu_litmus</span></code> for local QEMU emulation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">./kvm_litmus</span></code> for remote KVM execution</p></li>
 </ul>
-<p>To run the local version there is a shorthand:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make run -- MP+pos
+<p>To run the local version simply build and run the qemu executable:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make build
+$ ./qemu_litmus MP+pos
 Test MP+pos:
  p1:x0=1  p1:x2=1  : 1240
  p1:x0=0  p1:x2=0  : 1395
@@ -269,7 +270,7 @@ Observation MP+pos: 0 (of 10000)
 </div>
 <p>To run it on the remote device (e.g. via SSH to a Raspberry Pi 4B+):</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make
-$ scp bin/kvm_litmus.exe rpi4b:litmus.exe
+$ scp kvm_litmus rpi4b:litmus.exe
 $ ssh rpi4b &#39;./litmus.exe MP+pos&#39;
 Test MP+pos:
  p1:x0=1  p1:x2=1  : 2346
