@@ -48,6 +48,17 @@ int count_fit(uint64_t x, uint64_t bound) {
   return count;
 }
 
+void __check_no_overspill(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* rootvar, run_idx_t run) {
+  uint64_t va = (uint64_t)rootvar->values[run];
+
+  uint64_t start = (uint64_t)ctx->heap_memory;
+  uint64_t end = start + sizeof(regions_t);
+
+  if (! (start <= va && va < end)) {
+    fail("! linear concretization: ran out of space to allocate %s (@ %p) on run %ld\n", rootvar->name, va, run);
+  }
+}
+
 typedef struct {
   var_idx_t no_pins;
   var_info_t** vars;
@@ -189,6 +200,8 @@ static uint8_t __same_region(uint64_t* va1, uint64_t* va2, pin_level_t lvl) {
 static uint64_t __aligned(test_ctx_t* ctx,  const litmus_test_t* cfg, concretization_st_t* st, var_info_t* rootvar, run_idx_t run) {
   uint64_t* rootva = rootvar->values[run];
 
+  __check_no_overspill(ctx, cfg, rootvar, run);
+
   /* check all the things pinned to var are in the same region */
   uint64_t diff = 0;
   for (pin_level_t lvl = REGION_SAME_CACHE_LINE; lvl <= REGION_SAME_PGD; lvl++) {
@@ -196,6 +209,7 @@ static uint64_t __aligned(test_ctx_t* ctx,  const litmus_test_t* cfg, concretiza
     for (int pinidx = 0; pinidx < pin_st->no_pins; pinidx++) {
       var_info_t* pin_var = pin_st->vars[pinidx];
       uint64_t* pinva = pin_var->values[run];
+      __check_no_overspill(ctx, cfg, pin_var, run);
 
       if (! __same_region(rootva, pinva, lvl)) {
         diff = MAX(
@@ -213,6 +227,7 @@ static uint64_t __aligned(test_ctx_t* ctx,  const litmus_test_t* cfg, concretiza
   dir_tracker_t* dir = tracker_dir(ctx->heap_memory, &st->trackers, rootva);
   page_tracker_t* pg = tracker_page(ctx->heap_memory, &st->trackers, rootva);
   cache_line_tracker_t* cl = tracker_cache_line(ctx->heap_memory, &st->trackers, rootva);
+
   if (dir->exclusive_owner != NULL && dir->exclusive_owner != rootvar->name) {
     diff = MAX(
       diff,
