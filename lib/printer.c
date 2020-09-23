@@ -9,6 +9,10 @@ char* sputc(char* out, const char c) {
 }
 
 char* sputs(char* out, const char* s) {
+	if (! s) {
+		return sputs(out, "NULL");
+	}
+
 	while (*s) {
 		out = sputc(out, *s++);
 	}
@@ -211,7 +215,7 @@ void trace(const char* fmt, ...) {
 void verbose(const char* fmt, ...) {
 	if (VERBOSE) {
 		char new_fmt[100];
-		sprintf(new_fmt, "#%s", fmt);
+		sprintf(new_fmt, "##%s", fmt);
 
 		va_list ap;
 		va_start(ap, fmt);
