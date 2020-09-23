@@ -26,7 +26,7 @@ trap '' 2
 make html
 git add -f .
 git commit -m "tmp" || git reset
-STASH="$(git stash)" || git reset HEAD^
+STASH="$(git stash --all)" || git reset HEAD^
 pushd ..
 git checkout gh-pages
 git restore --source=${BRANCH} doc || restore-from-gh
