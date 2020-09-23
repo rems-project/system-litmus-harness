@@ -157,6 +157,17 @@ MAKE_TEST_LIST_CMD = python3 litmus/makegroups.py
 LINTER = python3 litmus/linter.py
 NO_LINT = 0
 
+ifneq ($(findstring help,$(filter-out --%,$(MAKECMDGOALS))),)
+   TARGET_HELP = 1
+endif
+
+ifneq ($(findstring deepclean,$(MAKECMDGOALS)),)
+   TARGET_DEEPCLEAN = 1
+   ifneq ($(MAKECMDGOALS),deepclean)
+      $(error deepclean target must be the only target)
+   endif
+endif
+
 .PHONY: clean
 clean:
 	rm -rf bin/
@@ -188,17 +199,6 @@ cleantests:
 FORCE:
 bin/kvm_litmus.exe: FORCE
 bin/qemu_litmus.exe: FORCE
-
-ifneq ($(findstring help,$(filter-out --%,$(MAKECMDGOALS))),)
-   TARGET_HELP = 1
-endif
-
-ifneq ($(findstring deepclean,$(MAKECMDGOALS)),)
-   TARGET_DEEPCLEAN = 1
-   ifneq ($(MAKECMDGOALS),deepclean)
-      $(error deepclean target must be the only target)
-   endif
-endif
 
 # determine whether we have a target that requires building litmus
 ifneq ($(findstring build,$(MAKECMDGOALS)),)
