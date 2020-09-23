@@ -17,7 +17,7 @@ Use ``HOST=no-gic`` as an option to the makefile
 
 .. code-block:: none
 
-    $ make HOST=no-gic
+    $ make kvm HOST=no-gic
 
 Using GDB
 ---------
@@ -30,7 +30,7 @@ Debugging the local emulated version:
 
 .. code-block:: none
 
-    $ make debug GDB=aarch64-none-elf-gdb
+    $ make debug-litmus
     [...]
 
 Or on the target machine

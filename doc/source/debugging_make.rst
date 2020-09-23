@@ -26,7 +26,7 @@ it then you can tell the makefile to use that prefix directly:
 
 .. code-block:: none
 
-    $ make PREFIX="aarch64-none-elf-"
+    $ make build PREFIX="aarch64-none-elf-"
 
 error: Command 'cmd' not found!
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
