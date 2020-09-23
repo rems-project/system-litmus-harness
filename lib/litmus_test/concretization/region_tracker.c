@@ -1,43 +1,30 @@
 #include "lib.h"
 
+/** calculate the offset this region is at in the regions_t
+ */
 static uint64_t __region_offset(regions_t* regions, region_trackers_t* trackers, uint64_t* va) {
-  uint64_t offset = (uint64_t)va - (uint64_t)regions;
-  offset = offset >> PMD_SHIFT;
-  offset = offset / NR_DIRS_PER_REGION;
-  return offset;
+  return BIT_SLICE((uint64_t)va, 38, 30) - BIT_SLICE((uint64_t)regions, 38, 30);
 }
 
+/** calculate the offset this dir is into the region
+ */
 static uint64_t __dir_offset(regions_t* regions, region_trackers_t* trackers, uint64_t* va) {
-  uint64_t reg_off = __region_offset(regions, trackers, va);
-  uint64_t offset = (uint64_t)va - (uint64_t)regions - (reg_off*REGION_SIZE*sizeof(uint64_t));
-  offset = offset >> PAGE_SHIFT;
-  offset = offset / NR_PAGES_PER_DIR;
-  return offset;
+  /* since the region isn't aligned on a 1G boundary
+   * but is aligned on a 2M boundary
+   * we work out the offset from the start of the regions.
+   */
+  return BIT_SLICE((uint64_t)va, 29, 21) - BIT_SLICE((uint64_t)regions, 29, 21);
 }
 
 static uint64_t __page_offset(regions_t* regions, region_trackers_t* trackers, uint64_t* va) {
-  uint64_t reg_off = __region_offset(regions, trackers, va);
-  uint64_t dir_off = __dir_offset(regions, trackers, va);
-  uint64_t offset = (uint64_t)va - (uint64_t)regions - (reg_off*REGION_SIZE*sizeof(uint64_t)) - (dir_off*DIR_SIZE*sizeof(uint64_t));
-  offset = offset >> CACHE_LINE_SHIFT;
-  offset = offset / NR_CACHE_LINES_PER_PAGE;
-  return offset;
+  return BIT_SLICE((uint64_t)va, 20, 12);
 }
 
 static uint64_t __cache_line_offset(regions_t* regions, region_trackers_t* trackers, uint64_t* va) {
-  uint64_t reg_off = __region_offset(regions, trackers, va);
-  uint64_t dir_off = __dir_offset(regions, trackers, va);
-  uint64_t pg_off = __dir_offset(regions, trackers, va);
-  uint64_t offset =
-    (uint64_t)va
-    - (uint64_t)regions
-    - (reg_off*REGION_SIZE)
-    - (dir_off*DIR_SIZE)
-    - (pg_off*PAGE_SIZE);
-
-  offset = offset >> CACHE_LINE_SHIFT;
-  offset = offset / NR_CACHE_LINES_PER_PAGE;
-  return offset;
+  /* the cache-line-of-minimum-size is not fixed in the architecture
+   * but it must be a power of 2
+   */
+  return BIT_SLICE((uint64_t)va, 11, CACHE_LINE_SHIFT);
 }
 
 // static uint64_t __value_offset(regions_t* regions, region_trackers_t* trackers, uint64_t* va) {
