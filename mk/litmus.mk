@@ -61,12 +61,28 @@ endif
 LITMUS_FILES := $(wildcard litmus/*.c) $(LITMUS_TEST_FILES)
 litmus_BIN_FILES := $(addprefix bin/,$(LITMUS_FILES:.c=.o))
 
-bin/litmus/%.o: litmus/%.c | check_cross_tools_exist
-	$(run_cc)
+# determine if we should run the linter
+# or not
 ifeq ($(quiet),0)
 ifeq ($(NO_LINT),0)
-	@$(LINTER) $<
+  litmus_run_linter = 1
 endif
+endif
+
+# running the linter on all the files at the same time
+# so that we cut down on the startup time of the linter script
+# but also it allows the linter to check for consistency between tests
+# e.g. uniqueness of C idents
+ifdef litmus_run_linter
+bin/litmus/%.o: linted_file := $(shell $(LINTER) $(LITMUS_TEST_FILES) &> litmus/linter.log)
+endif
+
+
+bin/litmus/%.o: litmus/%.c | check_cross_tools_exist
+	$(run_cc)
+ifdef litmus_run_linter
+# grep through pre-computed lints
+	@grep -e '$^' litmus/linter.log || true
 endif
 
 # remove bin/lib/version.o and let that build separately
@@ -91,8 +107,11 @@ bin/litmus.bin: bin/litmus.elf
 	$(call run_cmd,OBJCOPY,$@,\
 		$(OBJCOPY) -O binary bin/litmus.elf bin/litmus.bin)
 
+# re-run the linter but with verbose output
+# technically this means if we run `make build lint` we run the linter twice
+# but that's alright I guess
 lint:
-	@$(LINTER) $(LITMUS_TEST_FILES)
+	@$(LINTER) $(LITMUS_TEST_FILES) --verbose
 
 collect_litmus_tests:
 	$(call run_cmd,make,Collecting new tests,\

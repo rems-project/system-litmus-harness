@@ -191,6 +191,7 @@ endif
 cleantests:
 	rm -f litmus/test_list.txt
 	rm -f litmus/group_list.txt
+	rm -f litmus/linter.log
 
 # always re-build *_litmus.exe
 # this ensures the changes to the QEMU flags
