@@ -90,7 +90,7 @@ If you want to just build with defaults you can just run the makefile:
 
 .. code-block:: none
 
-  $ make
+  $ make build
 
 If that does not work, see :doc:`debugging_make`.
 
@@ -123,7 +123,7 @@ To run it on the remote device (e.g. via SSH to a Raspberry Pi 4B+):
 
 .. code-block:: none
 
-    $ make
+    $ make build
     $ scp kvm_litmus rpi4b:litmus.exe
     $ ssh rpi4b './litmus.exe MP+pos'
     Test MP+pos:
