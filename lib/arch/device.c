@@ -28,6 +28,7 @@ void init_device(void* fdt) {
 
     TOP_OF_TEXT = (uint64_t)&__ld_end_text;
     BOT_OF_HEAP = (uint64_t)&__ld_end_sections;
+    BOT_OF_TEXT = (uint64_t)&__ld_begin_text;
 
     BOT_OF_RDONLY = (uint64_t)&__ld_start_ro;
     TOP_OF_RDONLY = (uint64_t)&__ld_end_ro;

@@ -54,6 +54,7 @@ uint64_t BOT_OF_STACK;
 uint64_t BOT_OF_RDONLY;
 uint64_t TOP_OF_RDONLY;
 uint64_t TOP_OF_TEXT;
+uint64_t BOT_OF_TEXT;
 uint64_t TOP_OF_DATA;
 
 /**
