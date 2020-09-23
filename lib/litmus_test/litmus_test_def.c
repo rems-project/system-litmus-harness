@@ -76,17 +76,17 @@ uint64_t* out_reg(litmus_test_run* data, const char* name) {
 char* pin_level_to_str(pin_level_t lvl) {
     switch (lvl) {
         case REGION_SAME_VAR_OFFSET:
-            return "REGION_SAME_VAR_OFFSET";
+            return "REGION_SAME_VAR";
         case REGION_SAME_CACHE_LINE_OFFSET:
-            return "REGION_SAME_CACHE_LINE_OFFSET";
+            return "REGION_SAME_CACHE_LINE";
         case REGION_SAME_PAGE_OFFSET:
-            return "REGION_SAME_PAGE_OFFSET";
+            return "REGION_SAME_PAGE";
         case REGION_SAME_PMD_OFFSET:
-            return "REGION_SAME_PMD_OFFSET";
+            return "REGION_SAME_PMD";
         case REGION_SAME_PUD_OFFSET:
-            return "REGION_SAME_PUD_OFFSET";
+            return "REGION_SAME_PUD";
         case REGION_SAME_PGD_OFFSET:
-            return "REGION_SAME_PGD_OFFSET";
+            return "REGION_SAME_PGD";
         default:
             return "<unknown pin_level_t>";
     }
