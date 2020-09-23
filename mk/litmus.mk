@@ -126,12 +126,12 @@ debug-litmus: bin/debug_litmus.exe
 	{ cat bin/.debug.pid | xargs kill $$pid ; rm bin/.debug.pid; }
 
 # top-level targets
-qemu_litmus.exe: bin/qemu_litmus.exe
+qemu_litmus: bin/qemu_litmus.exe
 	$(call run_cmd,INSTALL,./$@, \
 		cp bin/qemu_litmus.exe qemu_litmus)
 
-kvm_litmus.exe: bin/kvm_litmus.exe
+kvm_litmus: bin/kvm_litmus.exe
 	$(call run_cmd,INSTALL,./$@, \
 		cp bin/kvm_litmus.exe kvm_litmus)
 
-build-litmus: kvm_litmus.exe qemu_litmus.exe
+build-litmus: kvm_litmus qemu_litmus

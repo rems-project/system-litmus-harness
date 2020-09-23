@@ -214,10 +214,10 @@ include mk/litmus.mk
 include mk/unittests.mk
 
 .PHONY: qemu
-qemu: qemu_litmus.exe qemu_unittests.exe
+qemu: qemu_litmus qemu_unittests
 
 .PHONY: kmv
-kvm: kvm_litmus.exe kvm_unittests.exe
+kvm: kvm_litmus kvm_unittests
 
 .PHONY: build
 build: qemu kvm
