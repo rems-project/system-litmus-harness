@@ -244,7 +244,7 @@ $ cd system-litmus-harness
 </pre></div>
 </div>
 <p>If you want to just build with defaults you can just run the makefile:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make build
 </pre></div>
 </div>
 <p>If that does not work, see <a class="reference internal" href="debugging_make.html"><span class="doc">Debugging a Failing Build</span></a>.</p>
@@ -269,7 +269,7 @@ Observation MP+pos: 0 (of 10000)
 </pre></div>
 </div>
 <p>To run it on the remote device (e.g. via SSH to a Raspberry Pi 4B+):</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ make build
 $ scp kvm_litmus rpi4b:litmus.exe
 $ ssh rpi4b &#39;./litmus.exe MP+pos&#39;
 Test MP+pos:
