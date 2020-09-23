@@ -336,6 +336,10 @@ void concretize_linear_all(test_ctx_t* ctx, const litmus_test_t* cfg, concretiza
 
       /* check alignments */
       FOREACH_HEAP_VAR(ctx, var) {
+        /* __aligned checks pins for us */
+        if (! var->init_owns_region)
+          continue;
+
         uint64_t diff = __aligned(ctx, cfg, st, var, i);
         if (diff > 0) {
           start += diff - 8;
