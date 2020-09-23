@@ -1,10 +1,26 @@
-bin/
-litmus/groups.c
-litmus/test_list.txt
-litmus/group_list.txt
+# bin/ stores the intermediate built files
+/bin/
+
+# built executables
+/qemu_litmus.exe/
+/qemu_unittests.exe/
+/kvm_litmus.exe/
+/kvm_unittests.exe/
+
+# persistent state of the build
+/litmus/groups.c
+/litmus/test_list.txt
+/litmus/group_list.txt
+/litmus/linter.log
 
 # specifically un-ignore the interesting dirs
-!lib/
-!inc/
-!unittests/
-!litmus/
+# to overrule any global .gitignores
+!/lib/
+!/inc/
+!/unittests/
+!/litmus/
+!/doc/
+!/mk/
+!/docker/
+!/hw-results/
+!/elfs/
