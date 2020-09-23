@@ -259,7 +259,7 @@ def _lint_many(lits):
     run_lint(check_uniq_names, lits)
 
     for l in lits:
-        if args.debug:
+        if args.verbose or args.debug:
             print('[{}]'.format(l['path']))
         _lint(l)
 
@@ -279,6 +279,7 @@ if __name__ == "__main__":
     p.add_argument('-s', '--quiet', action='store_true')
     p.add_argument('--warn-old-style', action='store_true')
     p.add_argument('-d', '--debug', action='store_true')
+    p.add_argument('-v', '--verbose', action='store_true')
     args = p.parse_args()
 
     try:
