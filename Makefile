@@ -1,7 +1,7 @@
 define USAGE
 Simple Usage:
-   make	build		builds bin/qemu_litmus.exe and bin/kvm_litmus.exe
-   make run 		runs `make qemu` then runs all tests
+   make	build		builds qemu and kvm targets
+   make docker		builds docker container and runs the unittests
    make clean		remove built files in bin/
    make deepclean	clean everything. No really.
    make publish		publish doc/ folder to gh-pages
@@ -10,26 +10,27 @@ endef
 
 define ADV_USAGE
 Advanced Usage:
-   make run -- args args args
-   	run local qemu with args
-   	e.g. make run -- MP+pos -n500 --pgtable
-   make debug GDB="gdb-exe"
-   	Runs `make run` in the background and attaches gdb
-   make ssh SSH_NAME="ssh-name" BIN_ARGS="bin-args"
-   	Runs `make kvm` and then scp's the kvm_litmus.exe file over
-   	to ssh-name where it is ran with argv bin-args.
-   make unittests
-   	Builds the unittests and runs them in QEMU
+   make debug-litmus GDB="gdb-exe"
+   	Runs qemu_litmus.exe in the background and attaches gdb
+   make debug-unittests GDB="gdb-exe"
+   	Runs qemu_unittests.exe in the background and attaches gdb
+   make build-unittests
+   	Builds the unittests and generates qemu_unittests.exe
    make lint
    	Runs automated linter against all litmus test C files and quits
    	See LINTER option below
-   make collect_tests TESTS="litmus-test-list"
+   make collect-litmus LITMUS_TESTS="litmus-test-list"
    	Runs $$(MAKE_TEST_LIST_CMD) to build groups.c
-   	See TESTS and MAKE_TEST_LIST_CMD options below
+   	See LITMUS_TESTS and MAKE_TEST_LIST_CMD options below
    make cleanlibs
    	remove built harness objects but leave compiled tests alone
    make cleantests
    	remove auto-generated test files in litmus/
+   make docker-interact
+   	start the docker container but attach a tty.
+   make docker-litmus BIN_ARGS="args"
+   	start the docker container but run the litmus tests, passing
+   	BIN_ARGS to the qemu_litmus executable.
 Options:
    make [...] -q
    	Show minimal/no output
@@ -47,8 +48,8 @@ Options:
    	Disable litmus test discovery.
    	This disables generation of groups.c, so the user must manage
    	groups.c manually with this option.
-   make unittests [...] TESTS="test-regexp"
-   	Only run test cases matching test-regexp.
+   make [...] TESTS="test-regexp"
+   	Only run unittests whose names match test-regexp.
    make [...] LINTER="linter-exe"
    	Use linter-exe as the linter.
    	The Makefile will call `linter-exe file.c` for each
@@ -58,13 +59,12 @@ Options:
    make [...] MAKE_TEST_LIST_CMD="cmd-exe"
    	Use cmd-exe to build groups.c from given litmus test files.
    	This option is disabled if TEST_DISCOVER=0
-   make collect_tets [...] TESTS="litmus-tests-list"
+   make collect-litmus [...] LITMUS_TESTS="litmus-tests-list"
    	Only compile tests in litmus-tests-list
    	Whitespace separated list of groups or test names.
    	Can use - to negate match.
    	example: TESTS="@all -@data"
    	This option is disabled if TEST_DISCOVER=0
-   	Note: meaning of $$(TESTS) depends on whether target is unittests or litmus
 endef
 
 .PHONY: shorthelp
@@ -171,6 +171,11 @@ endif
 .PHONY: clean
 clean:
 	rm -rf bin/
+	rm -f qemu_litmus
+	rm -f qemu_unittests
+	rm -f kvm_litmus
+	rm -f kvm_unittests
+
 ifeq ($(strip $(TEST_DISCOVER)),1)
 	rm -f litmus/groups.c
 endif
@@ -193,37 +198,26 @@ cleantests:
 	rm -f litmus/group_list.txt
 	rm -f litmus/linter.log
 
-# always re-build *_litmus.exe
+# always re-build *exe.exe
 # this ensures the changes to the QEMU flags
 # are seen by the rebuild
 .PHONY: FORCE
 FORCE:
-bin/kvm_litmus.exe: FORCE
-bin/qemu_litmus.exe: FORCE
-
-# determine whether we have a target that requires building litmus
-ifneq ($(findstring build,$(MAKECMDGOALS)),)
-else ifneq ($(findstring ssh,$(MAKECMDGOALS)),)
-else ifneq ($(findstring run,$(MAKECMDGOALS)),)
-else ifneq ($(findstring lint,$(MAKECMDGOALS)),)
-else ifneq ($(findstring debug,$(MAKECMDGOALS)),)
-else
-  no_run_litmus = 1
-endif
+bin/qemu_%.exe: FORCE
 
 include mk/deepclean.mk
 include mk/docs.mk
 include mk/qemu.mk
 include mk/build.mk
 include mk/docker.mk
+include mk/litmus.mk
+include mk/unittests.mk
 
-ifndef no_run_litmus
-  include mk/litmus.mk
-endif
+.PHONY: qemu
+qemu: qemu_litmus.exe qemu_unittests.exe
 
-ifneq ($(findstring unittests,$(MAKECMDGOALS)),)
-  ifndef no_run_litmus
-    $(error Cannot build both unittests and litmus binaries at the same time)
-  endif
-  include mk/unittests.mk
-endif
+.PHONY: kmv
+kvm: kvm_litmus.exe kvm_unittests.exe
+
+.PHONY: build
+build: qemu kvm

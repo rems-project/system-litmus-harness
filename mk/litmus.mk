@@ -1,37 +1,34 @@
 # the top-level targets this file "exports"
-.PHONY: run
-.PHONY: ssh
-.PHONY: debug
-.PHONY: build
+.PHONY: build-litmus
+.PHONY: debug-litmus
 .PHONY: lint
-.PHONY: collect_litmus_tests
+.PHONY: collect-litmus
 
-# for `run` target allow -- as separator
-# e.g. make run -- arg0 arg1 arg2
-# to be equivalent to make run BIN_ARGS="arg0 arg1 arg2"
-ifeq ($(word 1,$(MAKECMDGOALS)),run)
-  define leading
-    $(if $(findstring run,$(firstword $1)),sep $(firstword $1),\
-      $(firstword $1) $(call leading, $(wordlist 2,$(words $1),$1)))
-  endef
-  # assume format of command is `make [opt...] run -- cmds`
-  BIN_ARGS = $(wordlist $(words $(call leading,$(MAKECMDGOALS))),$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
-  # make dummy targets for BIN_ARGS so Make doesn't try run them
-  # see https://stackoverflow.com/questions/2214575/passing-arguments-to-make-run
-  $(eval $(BIN_ARGS):;@:)
+# determine whether we have a target that requires collecting the litmus tests
+# e.g. the top-level qemu/kvm/build targets
+ifneq ($(filter build,$(MAKECMDGOALS)),)
+else ifneq ($(filter qemu,$(MAKECMDGOALS)),)
+else ifneq ($(filter kvm,$(MAKECMDGOALS)),)
+# or the specific litmus.mk targets
+else ifneq ($(filter build-litmus,$(MAKECMDGOALS)),)
+else ifneq ($(filter debug-litmus,$(MAKECMDGOALS)),)
+else ifneq ($(filter lint,$(MAKECMDGOALS)),)
+# or any target that mentions the litmus/ dir
+else ifneq ($(findstring litmus/,$(MAKECMDGOALS)),)
 else
-  BIN_ARGS =
+  no_collect_tests = 1
 endif
 
 # can pass LITMUS_FILES manually to supply a space-separated list of all the .c files to compile and link in the litmus/ directory
-# otherwise the Makefile will try auto-discover the litmus/*.c files and the litmus/TESTS/ files
-#	(according to either the supplied TESTS or checking against previous runs)
-# or if TEST_DISCOVER=0  then just try compile *all* .c files inside litmus/ and litmus/TESTS/**/
+# otherwise the Makefile will try auto-discover the litmus/*.c files and the litmus/litmus_tests/ files
+#	(according to either the supplied LITMUS_TESTS or checking against previous runs)
+# or if TEST_DISCOVER=0  then just try compile *all* .c files inside litmus/ and litmus/litmus_tests/**/
 # (but the user has to manually edit groups.c so the harness itself knows about them)
 ifeq ($(strip $(TEST_DISCOVER)),1)
    ifndef LITMUS_FILES
+   ifndef no_collect_tests
       # if fail, ignore
-      out := $(shell ($(MAKE_TEST_LIST_CMD) $(quiet) $(TESTS) 2>/dev/null) || echo "FAIL")
+      out := $(shell ($(MAKE_TEST_LIST_CMD) $(quiet) $(LITMUS_TESTS) 2>/dev/null) || echo "FAIL")
 
       # if the script that generates groups.c fails
       # then if there is no groups.c copy one from the backup
@@ -54,8 +51,9 @@ ifeq ($(strip $(TEST_DISCOVER)),1)
    	  litmus_test_list = $(shell awk '$$1==1 {print $$2}' litmus/test_list.txt)
    	  LITMUS_TEST_FILES ?= $(litmus_test_list)
    endif
+   endif
 else
-   LITMUS_TEST_FILES ?= $(wildcard litmus/TESTS/**/*.c)
+   LITMUS_TEST_FILES ?= $(wildcard litmus/litmus_tests/**/*.c)
 endif
 
 LITMUS_FILES := $(wildcard litmus/*.c) $(LITMUS_TEST_FILES)
@@ -113,25 +111,27 @@ bin/litmus.bin: bin/litmus.elf
 lint:
 	@$(LINTER) $(LITMUS_TEST_FILES) --verbose
 
-collect_litmus_tests:
+collect-litmus:
 	$(call run_cmd,make,Collecting new tests,\
-		 $(MAKE_TEST_LIST_CMD) $(quiet) $(TESTS) || { \
+		 $(MAKE_TEST_LIST_CMD) $(quiet) $(LITMUS_TESTS) || { \
 			echo "Warning: failed to update groups.c. test listing may be out-of-sync." 1>&2 ; \
-			( which python3 &> /dev/null ) && echo "TESTS target requires python3." 1>&2 ; \
+			( which python3 &> /dev/null ) && echo "LITMUS_TESTS target requires python3." 1>&2 ; \
 		};\
 	)
 	@echo 're-run `make build` to compile any new or updated litmus tests'
 
-run: bin/qemu_litmus.exe
-	./bin/qemu_litmus.exe $(BIN_ARGS)
-
-debug: bin/debug_litmus.exe
+debug-litmus: bin/debug_litmus.exe
 	{ ./bin/debug_litmus.exe $(BIN_ARGS) & echo $$! > bin/.debug.pid; }
 	$(GDB) --eval-command "target remote localhost:1234"
 	{ cat bin/.debug.pid | xargs kill $$pid ; rm bin/.debug.pid; }
 
-ssh: bin/kvm_litmus.exe
-	scp bin/kvm_litmus.exe $(SSH_NAME):litmus.exe
-	ssh $(SSHFLAGS) $(SSH_NAME) "./litmus.exe '$(BIN_ARGS)'"
+# top-level targets
+qemu_litmus.exe: bin/qemu_litmus.exe
+	$(call run_cmd,INSTALL,./$@, \
+		cp bin/qemu_litmus.exe qemu_litmus)
 
-build: bin/kvm_litmus.exe bin/qemu_litmus.exe
+kvm_litmus.exe: bin/kvm_litmus.exe
+	$(call run_cmd,INSTALL,./$@, \
+		cp bin/kvm_litmus.exe kvm_litmus)
+
+build-litmus: kvm_litmus.exe qemu_litmus.exe
