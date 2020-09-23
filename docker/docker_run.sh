@@ -43,7 +43,7 @@ create() {
 }
 
 run() {
-  if [ "$1"="unittests" ] ; then
+  if [ "$1" == "qemu_unittests.exe" ] ; then
     CMD="make unittests BIN_ARGS='${BIN_ARGS}' TESTS='${TESTS}' | tee unittests-output.log"
   else
     CMD="make build && ./bin/qemu_litmus.exe BIN_ARGS='${BIN_ARGS}' LITMUS_TESTS='${TESTS}' | tee litmus-output.log"
