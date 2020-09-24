@@ -44,6 +44,7 @@
 #define PROT_RW_RWX (write_attrs((attrs_t){.AP=PROT_AP_RW_RWX}))
 #define PROT_MEMTYPE_DEVICE (write_attrs((attrs_t){.attr=PROT_ATTR_DEVICE_nGnRnE}))
 #define PROT_MEMTYPE_NORMAL (write_attrs((attrs_t){.attr=PROT_ATTR_NORMAL_RA_WA}))
+#define PROT_MEMTYPE_NONCACHING (write_attrs((attrs_t){.attr=PROT_ATTR_NORMAL_NC}))
 #define PROT_PGTABLE ( PROT_MEMTYPE_NORMAL | PROT_RW_RWX )
 
 /* default for all heap attrs */
