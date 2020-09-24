@@ -6,6 +6,7 @@
 #include <stdarg.h>
 #include <str.h>
 
+#include "macros.h"
 #include "abort.h"
 #include "thread_info.h"
 #include "argc.h"
