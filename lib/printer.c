@@ -215,7 +215,7 @@ void trace(const char* fmt, ...) {
 void verbose(const char* fmt, ...) {
 	if (VERBOSE) {
 		char new_fmt[100];
-		sprintf(new_fmt, "##%s", fmt);
+		sprintf(new_fmt, "#%s", fmt);
 
 		va_list ap;
 		va_start(ap, fmt);
