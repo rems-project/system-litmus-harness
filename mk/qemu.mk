@@ -1,4 +1,9 @@
+# amount of memory for QEMU to allocate
 QEMU_MEM = 1G
+
+# default HOST uses the gic
+# otherwise can pass no-gic to use emulated irqchip
+HOST = gic
 
 RUN_CMD_HOST_GIC = 	\
 	$(QEMU) \
@@ -16,6 +21,12 @@ RUN_CMD_HOST_NO_GIC = 	\
 		-m $(QEMU_MEM) \
 		-kernel $(OUT_NAME) -smp 4 -append "$$*"
 
+RUN_CMD_HOST = \
+	$(if $(filter gic,$(HOST)),$(RUN_CMD_HOST_GIC),\
+		$(if $(filter no-gic,$(HOST)),$(RUN_CMD_HOST_NO_GIC),\
+			$(info $(USAGE)) \
+  			$(error Unexpected HOST="$(HOST)" param)))
+
 RUN_CMD_LOCAL = 	\
 	$(QEMU) \
 		-nodefaults -machine virt -cpu cortex-a57 \
@@ -23,16 +34,3 @@ RUN_CMD_LOCAL = 	\
 		-display none -serial stdio \
 		-m $(QEMU_MEM) \
 		-kernel $(OUT_NAME) -smp 4 -append "$$*"
-
-# default HOST uses the gic
-# otherwise can pass no-gic to use emulated irqchip
-HOST = gic
-
-ifeq ($(HOST),gic)
-  RUN_CMD_HOST = $(RUN_CMD_HOST_GIC)
-else ifeq ($(HOST),no-gic)
-  RUN_CMD_HOST = $(RUN_CMD_HOST_NO_GIC)
-else
-  $(info $(USAGE))
-  $(error Unexpected HOST="$(HOST)" param)
-endif
