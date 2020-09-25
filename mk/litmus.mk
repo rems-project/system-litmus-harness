@@ -1,18 +1,11 @@
 # the top-level targets this file "exports"
-.PHONY: build-litmus
-.PHONY: debug-litmus
 .PHONY: lint
+.PHONY: debug-litmus
 .PHONY: collect-litmus
 
-# determine whether we have a target that requires collecting the litmus tests
-# e.g. the top-level qemu/kvm/build targets
-ifneq ($(filter build,$(MAKECMDGOALS)),)
-else ifneq ($(filter qemu,$(MAKECMDGOALS)),)
-else ifneq ($(filter kvm,$(MAKECMDGOALS)),)
-# or the specific litmus.mk targets
-else ifneq ($(filter build-litmus,$(MAKECMDGOALS)),)
-else ifneq ($(filter debug-litmus,$(MAKECMDGOALS)),)
-else ifneq ($(filter lint,$(MAKECMDGOALS)),)
+LITMUS_TARGETS += lint collect-litmus debug-litmus
+
+ifneq ($(strip $(foreach lt,$(LITMUS_TARGETS),$(foreach g,$(MAKECMDGOALS),$(filter $(lt),$(g))))),)
 # or any target that mentions the litmus/ dir
 else ifneq ($(findstring litmus/,$(MAKECMDGOALS)),)
 else
@@ -124,14 +117,3 @@ debug-litmus: bin/debug_litmus.exe
 	{ ./bin/debug_litmus.exe $(BIN_ARGS) & echo $$! > bin/.debug.pid; }
 	$(GDB) --eval-command "target remote localhost:1234"
 	{ cat bin/.debug.pid | xargs kill $$pid ; rm bin/.debug.pid; }
-
-# top-level targets
-qemu_litmus: bin/qemu_litmus.exe
-	$(call run_cmd,INSTALL,./$@, \
-		cp bin/qemu_litmus.exe qemu_litmus)
-
-kvm_litmus: bin/kvm_litmus.exe
-	$(call run_cmd,INSTALL,./$@, \
-		cp bin/kvm_litmus.exe kvm_litmus)
-
-build-litmus: kvm_litmus qemu_litmus

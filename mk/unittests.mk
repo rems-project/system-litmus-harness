@@ -43,16 +43,5 @@ bin/unittests.bin: bin/unittests.elf
 
 bin/qemu_unittests.exe: OUT_NAME=bin/unittests.bin
 
-# top-level targets
-qemu_unittests: bin/qemu_unittests.exe
-	$(call run_cmd,INSTALL,./$@, \
-		@cp bin/qemu_unittests.exe qemu_unittests)
-
-kvm_unittests: bin/kvm_unittests.exe
-	$(call run_cmd,INSTALL,./$@, \
-		@cp bin/kvm_unittests.exe kvm_unittests)
-
-build-unittests: qemu_unittests kvm_unittests
-
 run-unittests: qemu_unittests
 	./qemu_unittests.exe $(BIN_ARGS)

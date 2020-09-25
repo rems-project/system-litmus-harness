@@ -79,6 +79,10 @@ help:
 	$(info $(ADV_USAGE))
 	@: # do nothing and do not echo
 
+# possible combinations of targets
+PREFIXES = kvm qemu
+BINTARGETS = litmus unittests
+
 # Compiler and tools options
 KNOWN_PREFIXES = aarch64-linux-gnu- aarch64-none-elf-
 PREFIX = $(word 1, $(foreach PRF,$(KNOWN_PREFIXES),$(if $(shell which $(PRF)gcc),$(PRF),)))
@@ -168,16 +172,28 @@ ifneq ($(findstring deepclean,$(MAKECMDGOALS)),)
    endif
 endif
 
+include mk/deepclean.mk
+include mk/docs.mk
+include mk/qemu.mk
+include mk/build.mk
+include mk/docker.mk
+
+define INSTALL
+$(call run_cmd,INSTALL,./$(2),\
+	cp $(1) $(2))
+endef
+
+define CLEAN
+$(call run_cmd,CLEAN,./$(2),\
+	rm $(1) $(2))
+endef
+
 .PHONY: clean
 clean:
-	rm -rf bin/
-	rm -f qemu_litmus
-	rm -f qemu_unittests
-	rm -f kvm_litmus
-	rm -f kvm_unittests
+	$(call CLEAN,-rf,bin/)
 
 ifeq ($(strip $(TEST_DISCOVER)),1)
-	rm -f litmus/groups.c
+	$(call CLEAN,-f,litmus/groups.c)
 endif
 ifndef TARGET_DEEPCLEAN
 	@echo 'run `make cleantests` to remove test and group lists too'
@@ -185,18 +201,18 @@ endif
 
 .PHONY: cleanlibs
 cleanlibs:
-	rm -f bin/*.o
-	rm -f bin/litmus.*
-	rm -rf bin/lib/
+	$(call CLEAN,-f,bin/*.o)
+	$(call CLEAN,-f,bin/litmus.*)
+	$(call CLEAN,-rf,bin/lib/)
 ifndef TARGET_DEEPCLEAN
 	@echo 'run `make clean` to remove compiled tests too'
 endif
 
 .PHONY: cleantests
 cleantests:
-	rm -f litmus/test_list.txt
-	rm -f litmus/group_list.txt
-	rm -f litmus/linter.log
+	$(call CLEAN,-f,litmus/test_list.txt)
+	$(call CLEAN,-f,litmus/group_list.txt)
+	$(call CLEAN,-f,litmus/linter.log)
 
 # always re-build *exe.exe
 # this ensures the changes to the QEMU flags
@@ -205,19 +221,128 @@ cleantests:
 FORCE:
 bin/qemu_%.exe: FORCE
 
-include mk/deepclean.mk
-include mk/docs.mk
-include mk/qemu.mk
-include mk/build.mk
-include mk/docker.mk
+# top-level executables
+# these are not PHONY since they
+# are real files !
+./qemu_litmus: bin/qemu_litmus.exe
+	$(call run_cmd,INSTALL,./$@, \
+		cp bin/qemu_litmus.exe qemu_litmus)
+
+./kvm_litmus: bin/kvm_litmus.exe
+	$(call run_cmd,INSTALL,./$@, \
+		cp bin/kvm_litmus.exe kvm_litmus)
+
+./qemu_unittests: bin/qemu_unittests.exe
+	$(call run_cmd,INSTALL,./$@, \
+		@cp bin/qemu_unittests.exe qemu_unittests)
+
+./kvm_unittests: bin/kvm_unittests.exe
+	$(call run_cmd,INSTALL,./$@, \
+		@cp bin/kvm_unittests.exe kvm_unittests)
+
+# list of PHONY targets that will need
+# files in the litmus/litmus_tests/ dir
+# for auto-discovery.
+#
+# this gets added to as we add new targets
+LITMUS_TARGETS = qemu_litmus kvm_litmus
+
+# per device targets
+# if we have target build-litmus
+# then we generate the build-litmus-rpi3 and build-litmus-rpi4 etc targets
+# which run build-litmus with the configuration for that device
+# and then copies the top-level exes over
+# so we end up with ./rpi3_qemu_litmus and ./rpi4_qemu_litmus etc
+# rather than the ./qemu_litmus executable
+
+# $(call stem,...) turns "-x" into "x"
+# and "x" into "x"
+# and "" into ""
+stem = $(if $(1),$(patsubst -%,%,$(strip $(1))),default)
+
+# auto-generate targets for the different variations of the build
+define build-target
+
+# this inserts spurious whitespace but since it's a single
+# space char per loop it does not matter as make will ignore it
+ $(foreach d,$(strip $(2)),\
+build-qemu-litmus-$(call stem,$(1)): $(d)
+  build-kvm-litmus-$(call stem,$(1)): $(d)
+  build-qemu-unittests-$(call stem,$(1)): $(d)
+  build-kvm-unittests-$(call stem,$(1)): $(d)
+)
+
+# generate all the build-PREFIX-TARGET-DEVICE targets
+# e.g. build-kvm-litmus-rpi4
+#
+# we patsubst to remove the leading - if it exists and put a underscore suffix
+# this ensures that $ (call build-target,,,) generates plain ./$(p)_$(t) targets
+# whereas a $ (call build-target,-prefix,) generates ./prefix_$(p)_$(t)
+#
+# p.s. ignore the space between $ and call, if it wasn't there then this comment
+# in this define would be expanded and the makefile wouldn't terminate
+$(foreach p,$(PREFIXES),\
+$(foreach t,$(BINTARGETS),\
+.PHONY: build-$(p)-$(t)-$(call stem,$(1))
+build-$(p)-$(t)-$(call stem,$(1)): bin/$(p)_$(t).exe
+	$(call INSTALL,bin/$(p)_$(t).exe,$(p)_$(t))
+)
+)
+
+# now generate all the build-PREFIX-DEVICE targets
+# e.g. build-kvm-rpi3
+$(foreach p,$(PREFIXES),\
+LITMUS_TARGETS += build-$(p)-litmus-$(call stem,$(1))
+LITMUS_TARGETS += build-$(p)-$(call stem,$(1))
+.PHONY: build-$(p)-$(call stem,$(1))
+build-$(p)-$(call stem,$(1)): $(foreach t,$(BINTARGETS),bin/$(p)_$(t).exe) $(foreach t,$(BINTARGETS),build-$(p)-$(t)-$(call stem,$(1)))
+)
+
+# and the build-TARGET-DEVICE targets
+# e.g. build-litmus-graviton2
+$(foreach t,$(BINTARGETS),\
+.PHONY: build-$(t)-$(call stem,$(1))
+$(if $(filter litmus,$(t)),\
+LITMUS_TARGETS += build-$(t)-$(call stem,$(1))
+)
+build-$(t)-$(call stem,$(1)): $(foreach p,$(PREFIXES),bin/$(p)_$(t).exe) $(foreach p,$(PREFIXES),build-$(p)-$(t)-$(call stem,$(1)))
+)
+
+# finally put them together into a build-DEVICE target
+# e.g. build-rpi3
+LITMUS_TARGETS += build-$(call stem,$(1))
+.PHONY: build-$(call stem,$(1))
+build-$(call stem,$(1)): $(foreach t,$(BINTARGETS),$(foreach p,$(PREFIXES),bin/$(p)_$(t).exe)) $(foreach t,$(BINTARGETS),$(foreach p,$(PREFIXES),build-$(p)-$(t)-$(call stem,$(1))))
+
+# add a cleanup target
+.PHONY: clean-$(call stem,$(1))
+clean-$(call stem,$(1)):
+$(call run_cmd,CLEAN,$(call stem,$(1)) binaries,\
+	{\
+$(foreach p,$(PREFIXES),\
+$(foreach t,$(BINTARGETS),\
+rm -f $(patsubst -%,%_,$(strip $(1)))$(p)_$(t) ;\
+)\
+)\
+}
+	)
+
+# add our new cleanup target as a prerequesite to the basic 'clean'
+# so `make clean` also hits these targets
+clean: | clean-$(call stem,$(1))
+endef
+
+# # populate the targets
+$(eval $(call build-target,,))
+$(eval $(call build-target, -rpi3, HOST=no-gic QEMU_MEM=512M))
+$(eval $(call build-target, -rpi4, HOST=gic QEMU_MEM=1G))
+$(eval $(call build-target, -graviton2, HOST=gic QEMU_MEM=1G))
+
 include mk/litmus.mk
 include mk/unittests.mk
 
-.PHONY: qemu
-qemu: qemu_litmus qemu_unittests
-
-.PHONY: kmv
-kvm: kvm_litmus kvm_unittests
-
 .PHONY: build
-build: qemu kvm
+# instead of building provide a list of the potential makefile targets
+build:
+	@echo 'Please choose from the following targets:'
+	@$(MAKE) -prRq -f $(firstword $(MAKEFILE_LIST)) : 2>/dev/null | grep -o '^build[^:]*' | grep -o '^[^$$]*$$' | sort
