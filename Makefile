@@ -285,34 +285,34 @@ $(foreach p,$(PREFIXES),\
 $(foreach t,$(BINTARGETS),\
 .PHONY: build-$(p)-$(t)-$(call stem,$(1))
 build-$(p)-$(t)-$(call stem,$(1)): bin/$(p)_$(t).exe
-	$(call INSTALL,bin/$(p)_$(t).exe,$(p)_$(t))
+	$(call INSTALL,bin/$(p)_$(t).exe,$(patsubst -%,%_,$(strip $(1)))$(p)_$(t))
 )
 )
 
 # now generate all the build-PREFIX-DEVICE targets
 # e.g. build-kvm-rpi3
 $(foreach p,$(PREFIXES),\
-LITMUS_TARGETS += build-$(p)-litmus-$(call stem,$(1))
-LITMUS_TARGETS += build-$(p)-$(call stem,$(1))
 .PHONY: build-$(p)-$(call stem,$(1))
 build-$(p)-$(call stem,$(1)): $(foreach t,$(BINTARGETS),bin/$(p)_$(t).exe) $(foreach t,$(BINTARGETS),build-$(p)-$(t)-$(call stem,$(1)))
+LITMUS_TARGETS += build-$(p)-litmus-$(call stem,$(1))
+LITMUS_TARGETS += build-$(p)-$(call stem,$(1))
 )
 
 # and the build-TARGET-DEVICE targets
 # e.g. build-litmus-graviton2
 $(foreach t,$(BINTARGETS),\
 .PHONY: build-$(t)-$(call stem,$(1))
+build-$(t)-$(call stem,$(1)): $(foreach p,$(PREFIXES),bin/$(p)_$(t).exe) $(foreach p,$(PREFIXES),build-$(p)-$(t)-$(call stem,$(1)))
 $(if $(filter litmus,$(t)),\
 LITMUS_TARGETS += build-$(t)-$(call stem,$(1))
 )
-build-$(t)-$(call stem,$(1)): $(foreach p,$(PREFIXES),bin/$(p)_$(t).exe) $(foreach p,$(PREFIXES),build-$(p)-$(t)-$(call stem,$(1)))
 )
 
 # finally put them together into a build-DEVICE target
 # e.g. build-rpi3
-LITMUS_TARGETS += build-$(call stem,$(1))
 .PHONY: build-$(call stem,$(1))
 build-$(call stem,$(1)): $(foreach t,$(BINTARGETS),$(foreach p,$(PREFIXES),bin/$(p)_$(t).exe)) $(foreach t,$(BINTARGETS),$(foreach p,$(PREFIXES),build-$(p)-$(t)-$(call stem,$(1))))
+LITMUS_TARGETS += build-$(call stem,$(1))
 
 # add a cleanup target
 .PHONY: clean-$(call stem,$(1))
@@ -338,11 +338,15 @@ $(eval $(call build-target, -rpi3, HOST=no-gic QEMU_MEM=512M))
 $(eval $(call build-target, -rpi4, HOST=gic QEMU_MEM=1G))
 $(eval $(call build-target, -graviton2, HOST=gic QEMU_MEM=1G))
 
+.PHONY: build
+build: build-default
+LITMUS_TARGETS += build
+
 include mk/litmus.mk
 include mk/unittests.mk
 
-.PHONY: build
-# instead of building provide a list of the potential makefile targets
-build:
+# provide a list of all the potential build- targets
+.PHONY: list
+list:
 	@echo 'Please choose from the following targets:'
 	@$(MAKE) -prRq -f $(firstword $(MAKEFILE_LIST)) : 2>/dev/null | grep -o '^build[^:]*' | grep -o '^[^$$]*$$' | sort
