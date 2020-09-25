@@ -260,16 +260,35 @@ LITMUS_TARGETS = qemu_litmus kvm_litmus
 # and "" into ""
 stem = $(if $(1),$(patsubst -%,%,$(strip $(1))),default)
 
+# exe_prefix turns "-x" into "x_"
+# "x" into "x"
+# and "" into ""
+exe_prefix = $(patsubst -%,%_,$(strip $(1)))
+
 # auto-generate targets for the different variations of the build
 define build-target
 
 # this inserts spurious whitespace but since it's a single
 # space char per loop it does not matter as make will ignore it
- $(foreach d,$(strip $(2)),\
-build-qemu-litmus-$(call stem,$(1)): $(d)
-  build-kvm-litmus-$(call stem,$(1)): $(d)
-  build-qemu-unittests-$(call stem,$(1)): $(d)
-  build-kvm-unittests-$(call stem,$(1)): $(d)
+ $(foreach d,$(strip $(3)),\
+ $(foreach p,$(PREFIXES),\
+ $(foreach t,$(BINTARGETS),\
+bin/$(call exe_prefix,$(1))$(p)_$(t).exe: $(d)
+)))
+
+
+# build separate bin/ exes for each
+# so we can make sure they get the right options
+$(foreach t,$(BINTARGETS),\
+bin/$(call exe_prefix,$(1))qemu_$(t).exe: bin/$(t).bin
+	$$(call run_cmd,BUILD_EXE,$$@,\
+		$$(call make_exe,$(RUN_CMD_LOCAL) $${QEMU_ARGS})\
+	)
+
+bin/$(call exe_prefix,$(1))kvm_$(t).exe: bin/$(t).bin
+	$$(call run_cmd,BUILD_EXE,$$@,\
+		$$(call make_exe,$(RUN_CMD_HOST) $${QEMU_ARGS})\
+	)
 )
 
 # generate all the build-PREFIX-TARGET-DEVICE targets
@@ -284,8 +303,8 @@ build-qemu-litmus-$(call stem,$(1)): $(d)
 $(foreach p,$(PREFIXES),\
 $(foreach t,$(BINTARGETS),\
 .PHONY: build-$(p)-$(t)-$(call stem,$(1))
-build-$(p)-$(t)-$(call stem,$(1)): bin/$(p)_$(t).exe
-	$(call INSTALL,bin/$(p)_$(t).exe,$(patsubst -%,%_,$(strip $(1)))$(p)_$(t))
+build-$(p)-$(t)-$(call stem,$(1)): bin/$(call exe_prefix,$(1))$(p)_$(t).exe
+	$$(call INSTALL,bin/$(call exe_prefix,$(1))$(p)_$(t).exe,$(call exe_prefix,$(1))$(p)_$(t))
 )
 )
 
@@ -293,7 +312,7 @@ build-$(p)-$(t)-$(call stem,$(1)): bin/$(p)_$(t).exe
 # e.g. build-kvm-rpi3
 $(foreach p,$(PREFIXES),\
 .PHONY: build-$(p)-$(call stem,$(1))
-build-$(p)-$(call stem,$(1)): $(foreach t,$(BINTARGETS),bin/$(p)_$(t).exe) $(foreach t,$(BINTARGETS),build-$(p)-$(t)-$(call stem,$(1)))
+build-$(p)-$(call stem,$(1)): $(foreach t,$(BINTARGETS),bin/$(call exe_prefix,$(1))$(p)_$(t).exe) $(foreach t,$(BINTARGETS),build-$(p)-$(t)-$(call stem,$(1)))
 LITMUS_TARGETS += build-$(p)-litmus-$(call stem,$(1))
 LITMUS_TARGETS += build-$(p)-$(call stem,$(1))
 )
@@ -302,7 +321,7 @@ LITMUS_TARGETS += build-$(p)-$(call stem,$(1))
 # e.g. build-litmus-graviton2
 $(foreach t,$(BINTARGETS),\
 .PHONY: build-$(t)-$(call stem,$(1))
-build-$(t)-$(call stem,$(1)): $(foreach p,$(PREFIXES),bin/$(p)_$(t).exe) $(foreach p,$(PREFIXES),build-$(p)-$(t)-$(call stem,$(1)))
+build-$(t)-$(call stem,$(1)): $(foreach p,$(PREFIXES),bin/$(call exe_prefix,$(1))$(p)_$(t).exe) $(foreach p,$(PREFIXES),build-$(p)-$(t)-$(call stem,$(1)))
 $(if $(filter litmus,$(t)),\
 LITMUS_TARGETS += build-$(t)-$(call stem,$(1))
 )
@@ -311,17 +330,19 @@ LITMUS_TARGETS += build-$(t)-$(call stem,$(1))
 # finally put them together into a build-DEVICE target
 # e.g. build-rpi3
 .PHONY: build-$(call stem,$(1))
-build-$(call stem,$(1)): $(foreach t,$(BINTARGETS),$(foreach p,$(PREFIXES),bin/$(p)_$(t).exe)) $(foreach t,$(BINTARGETS),$(foreach p,$(PREFIXES),build-$(p)-$(t)-$(call stem,$(1))))
+build-$(call stem,$(1)): $(foreach t,$(BINTARGETS),$(foreach p,$(PREFIXES),bin/$(call exe_prefix,$(1))$(p)_$(t).exe)) $(foreach t,$(BINTARGETS),$(foreach p,$(PREFIXES),build-$(p)-$(t)-$(call stem,$(1))))
 LITMUS_TARGETS += build-$(call stem,$(1))
 
 # add a cleanup target
+# n.b. No need to remove bin/*exe files
+# as clean target already clears all of bin/
 .PHONY: clean-$(call stem,$(1))
 clean-$(call stem,$(1)):
-$(call run_cmd,CLEAN,$(call stem,$(1)) binaries,\
+$(call run_cmd,CLEAN,. ($(call stem,$(1)) binaries),\
 	{\
 $(foreach p,$(PREFIXES),\
 $(foreach t,$(BINTARGETS),\
-rm -f $(patsubst -%,%_,$(strip $(1)))$(p)_$(t) ;\
+rm -f $(call exe_prefix,$(1))$(p)_$(t) ;\
 )\
 )\
 }
@@ -334,9 +355,9 @@ endef
 
 # # populate the targets
 $(eval $(call build-target,,))
-$(eval $(call build-target, -rpi3, HOST=no-gic QEMU_MEM=512M))
-$(eval $(call build-target, -rpi4, HOST=gic QEMU_MEM=1G))
-$(eval $(call build-target, -graviton2, HOST=gic QEMU_MEM=1G))
+$(eval $(call build-target,-rpi3,HOST=no-gic QEMU_MEM=512M))
+$(eval $(call build-target,-rpi4,HOST=gic QEMU_MEM=1G))
+$(eval $(call build-target,-graviton2,HOST=gic QEMU_MEM=1G))
 
 .PHONY: build
 build: build-default

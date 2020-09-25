@@ -8,6 +8,8 @@ ASM_FILES := $(TOP_ASM_FILES)
 C_FILES := $(LIB_FILES) $(TOP_C_FILES)
 COMMON_BIN_FILES := $(addprefix bin/,$(C_FILES:.c=.o) $(ASM_FILES:.S=.o))
 
+RUN_CMD =
+
 # defines a helper run_cmd
 # this helper displays nice text and handles VERBOSE/quiet modes gracefully
 # Usage: $(call run_cmd,SHORTHAND,ARGNAME,SHCOMMAND)
@@ -96,22 +98,10 @@ bin/cpu_entry.o:  cpu_entry.S
 bin/vector_table.o:  vector_table.S
 	$(run_cc)
 
-# generic executable file builders
+# generic executable file builder
 
 bin/debug_%.exe: OUT_NAME=$$tmp
 bin/debug_%.exe: bin/%.bin
 	$(call run_cmd,BUILD_EXE,$@,\
 		$(call make_exe,$(RUN_CMD_LOCAL) -S -s)\
-	)
-
-bin/qemu_%.exe: OUT_NAME=$$tmp
-bin/qemu_%.exe: bin/%.bin
-	$(call run_cmd,BUILD_EXE,$@,\
-		$(call make_exe,$(RUN_CMD_LOCAL) $${QEMU_ARGS})\
-	)
-
-bin/kvm_%.exe: OUT_NAME=$$tmp
-bin/kvm_%.exe: bin/%.bin
-	$(call run_cmd,BUILD_EXE,$@,\
-		$(call make_exe,$(RUN_CMD_HOST) $${QEMU_ARGS})\
 	)
