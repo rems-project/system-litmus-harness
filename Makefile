@@ -214,13 +214,6 @@ cleantests:
 	$(call CLEAN,-f,litmus/group_list.txt)
 	$(call CLEAN,-f,litmus/linter.log)
 
-# always re-build *exe.exe
-# this ensures the changes to the QEMU flags
-# are seen by the rebuild
-.PHONY: FORCE
-FORCE:
-bin/qemu_%.exe: FORCE
-
 # top-level executables
 # these are not PHONY since they
 # are real files !
@@ -270,7 +263,7 @@ define build-target
 
 # this inserts spurious whitespace but since it's a single
 # space char per loop it does not matter as make will ignore it
- $(foreach d,$(strip $(3)),\
+ $(foreach d,$(strip $(2)),\
  $(foreach p,$(PREFIXES),\
  $(foreach t,$(BINTARGETS),\
 bin/$(call exe_prefix,$(1))$(p)_$(t).exe: $(d)
@@ -280,14 +273,18 @@ bin/$(call exe_prefix,$(1))$(p)_$(t).exe: $(d)
 # build separate bin/ exes for each
 # so we can make sure they get the right options
 $(foreach t,$(BINTARGETS),\
+bin/$(call exe_prefix,$(1))qemu_$(t).exe: OUT_NAME=$$$$tmp
 bin/$(call exe_prefix,$(1))qemu_$(t).exe: bin/$(t).bin
-	$$(call run_cmd,BUILD_EXE,$$@,\
-		$$(call make_exe,$(RUN_CMD_LOCAL) $${QEMU_ARGS})\
+	$$(call run_cmd,BUILD_EXE,$$@, \
+		$$(call make_exe,$$(RUN_CMD_LOCAL) $${QEMU_ARGS}) \
 	)
+)
 
+$(foreach t,$(BINTARGETS),\
+bin/$(call exe_prefix,$(1))kvm_$(t).exe: OUT_NAME=$$$$tmp
 bin/$(call exe_prefix,$(1))kvm_$(t).exe: bin/$(t).bin
 	$$(call run_cmd,BUILD_EXE,$$@,\
-		$$(call make_exe,$(RUN_CMD_HOST) $${QEMU_ARGS})\
+		$$(call make_exe,$$(RUN_CMD_HOST) $${QEMU_ARGS}) \
 	)
 )
 
@@ -338,14 +335,13 @@ LITMUS_TARGETS += build-$(call stem,$(1))
 # as clean target already clears all of bin/
 .PHONY: clean-$(call stem,$(1))
 clean-$(call stem,$(1)):
-$(call run_cmd,CLEAN,. ($(call stem,$(1)) binaries),\
-	{\
-$(foreach p,$(PREFIXES),\
-$(foreach t,$(BINTARGETS),\
-rm -f $(call exe_prefix,$(1))$(p)_$(t) ;\
-)\
-)\
-}
+	$$(call run_cmd,CLEAN,. ($(call stem,$(1)) binaries), \
+		{	$(foreach p,$(PREFIXES), \
+				$(foreach t,$(BINTARGETS), \
+					rm -f $(call exe_prefix,$(1))$(p)_$(t) ; \
+				) \
+			) \
+		} \
 	)
 
 # add our new cleanup target as a prerequesite to the basic 'clean'
@@ -353,7 +349,7 @@ rm -f $(call exe_prefix,$(1))$(p)_$(t) ;\
 clean: | clean-$(call stem,$(1))
 endef
 
-# # populate the targets
+# populate the targets
 $(eval $(call build-target,,))
 $(eval $(call build-target,-rpi3,HOST=no-gic QEMU_MEM=512M))
 $(eval $(call build-target,-rpi4,HOST=gic QEMU_MEM=1G))
