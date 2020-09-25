@@ -10,6 +10,10 @@ TAB = python3 tabular.py $(TABULAR_ARGS) --standalone
 
 PDF = pdflatex
 
+# time to wait (in seconds) for ssh/scp before giving up and moving onto next device
+# when fetching
+TIMEOUT = 2
+
 define makepdf
    $(PDF) $1
    $(PDF) $1
@@ -25,9 +29,9 @@ fetch:
 	mkdir -p raw/rpi3bp/
 	mkdir -p raw/graviton2/
 
-	scp 'rpi4:overnights/*.log' 'rpi4:overnights/id.txt' raw/rpi4b/
-	scp 'rpi3:overnights/*.log' 'rpi3:overnights/id.txt' raw/rpi3bp/
-	scp 'aws:*.log' 'aws:id.txt' raw/graviton2/
+	scp -o ConnectTimeout=$(TIMEOUT) 'rpi4:overnights/*.log' 'rpi4:overnights/id.txt' raw/rpi4b/ || true
+	scp -o ConnectTimeout=$(TIMEOUT) 'rpi3:overnights/*.log' 'rpi3:overnights/id.txt' raw/rpi3bp/ || true
+	scp -o ConnectTimeout=$(TIMEOUT) 'aws:*.log' 'aws:id.txt' raw/graviton2/ || true
 
 	python3 filter_erratas.py || echo failed to filter errata
 
