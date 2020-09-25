@@ -214,31 +214,12 @@ cleantests:
 	$(call CLEAN,-f,litmus/group_list.txt)
 	$(call CLEAN,-f,litmus/linter.log)
 
-# top-level executables
-# these are not PHONY since they
-# are real files !
-./qemu_litmus: bin/qemu_litmus.exe
-	$(call run_cmd,INSTALL,./$@, \
-		cp bin/qemu_litmus.exe qemu_litmus)
-
-./kvm_litmus: bin/kvm_litmus.exe
-	$(call run_cmd,INSTALL,./$@, \
-		cp bin/kvm_litmus.exe kvm_litmus)
-
-./qemu_unittests: bin/qemu_unittests.exe
-	$(call run_cmd,INSTALL,./$@, \
-		@cp bin/qemu_unittests.exe qemu_unittests)
-
-./kvm_unittests: bin/kvm_unittests.exe
-	$(call run_cmd,INSTALL,./$@, \
-		@cp bin/kvm_unittests.exe kvm_unittests)
-
 # list of PHONY targets that will need
 # files in the litmus/litmus_tests/ dir
 # for auto-discovery.
 #
 # this gets added to as we add new targets
-LITMUS_TARGETS = qemu_litmus kvm_litmus
+LITMUS_TARGETS =
 
 # per device targets
 # if we have target build-litmus
@@ -288,7 +269,7 @@ bin/$(call exe_prefix,$(1))kvm_$(t).exe: bin/$(t).bin
 	)
 )
 
-# generate all the build-PREFIX-TARGET-DEVICE targets
+# generate all the build targets
 # e.g. build-kvm-litmus-rpi4
 #
 # we patsubst to remove the leading - if it exists and put a underscore suffix
@@ -299,9 +280,15 @@ bin/$(call exe_prefix,$(1))kvm_$(t).exe: bin/$(t).bin
 # in this define would be expanded and the makefile wouldn't terminate
 $(foreach p,$(PREFIXES),\
 $(foreach t,$(BINTARGETS),\
-.PHONY: build-$(p)-$(t)-$(call stem,$(1))
-build-$(p)-$(t)-$(call stem,$(1)): bin/$(call exe_prefix,$(1))$(p)_$(t).exe
+./$(call exe_prefix,$(1))$(p)_$(t): bin/$(call exe_prefix,$(1))$(p)_$(t).exe
 	$$(call INSTALL,bin/$(call exe_prefix,$(1))$(p)_$(t).exe,$(call exe_prefix,$(1))$(p)_$(t))
+)
+)
+
+$(foreach p,$(PREFIXES),\
+$(foreach t,$(BINTARGETS),\
+.PHONY: build-$(p)-$(t)-$(call stem,$(1))
+build-$(p)-$(t)-$(call stem,$(1)): ./$(call exe_prefix,$(1))$(p)_$(t)
 )
 )
 
@@ -310,6 +297,7 @@ build-$(p)-$(t)-$(call stem,$(1)): bin/$(call exe_prefix,$(1))$(p)_$(t).exe
 $(foreach p,$(PREFIXES),\
 .PHONY: build-$(p)-$(call stem,$(1))
 build-$(p)-$(call stem,$(1)): $(foreach t,$(BINTARGETS),bin/$(call exe_prefix,$(1))$(p)_$(t).exe) $(foreach t,$(BINTARGETS),build-$(p)-$(t)-$(call stem,$(1)))
+LITMUS_TARGETS += $(call exe_prefix,$(1))$(p)_litmus
 LITMUS_TARGETS += build-$(p)-litmus-$(call stem,$(1))
 LITMUS_TARGETS += build-$(p)-$(call stem,$(1))
 )
