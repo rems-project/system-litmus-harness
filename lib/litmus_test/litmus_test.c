@@ -233,6 +233,7 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     th_f* func = ctx->cfg->threads[vcpu];
     th_f* post = ctx->cfg->teardown_fns == NULL ? NULL : ctx->cfg->teardown_fns[vcpu];
 
+
     start_of_run(ctx, cpu, vcpu, i, j);
 
     if (pre != NULL)
