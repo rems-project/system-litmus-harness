@@ -45,5 +45,5 @@ litmus_test_t check6 = {
     (uint64_t[]){
       /* p0:x0 =*/ 1,
     },
-
+  .requires_pgtable=1,
 };
