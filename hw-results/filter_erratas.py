@@ -33,16 +33,17 @@ def read_all_errata():
     with open("../errata.yaml", "r", encoding="utf-8") as f:
         content = yaml.load(f, Loader=yaml.SafeLoader)
 
-    errata = collections.defaultdict(set)
+    errata = collections.defaultdict(list)
+
     for item in content:
         date = parse_date(item["date"])
-        tests = [it["test"] for it in item["errata"]]
-        for test_list in tests:
-            if not test_list:
+
+        for it in item["errata"]:
+            if not it["test"]:
+                print("skipping entry for", date)
                 continue
 
-            for test in test_list.split():
-                errata[date].add(test)
+            errata[date].append(it)
 
     return errata
 
@@ -53,33 +54,46 @@ def subs(fpath, tests):
 
     for test in tests:
         if test.startswith("@"):
-            if test == "@all":
-                content = re.sub(
-                    r"Observation (.+):", r"Observation \g<1>.errata:", content
-                )
-            else:
-                sys.exit("unsupported errata for group {}".format(test))
+            for (tname, grps) in group_list:
+                if test[1:] in grps:
+                    content = content.replace(
+                        f"Observation {tname}:", f"Observation {tname}.errata:"
+                    )
         else:
             content = content.replace(
                 f"Observation {test}:", f"Observation {test}.errata:"
             )
 
     with open(fpath, "w", encoding="utf-8") as f:
-        f.write(content)
+       f.write(content)
 
 
 def filter_erratas(errata, dir):
     for f in dir.iterdir():
-        date = parse_file_date(f.name)
+        results_date = parse_file_date(f.name)
 
-        for d in errata.keys():
-            if date is None or date <= d:
-                subs(f, errata[d])
+        for errata_fixed_date, tests in errata.items():
+            for test in tests:
+                since_date = parse_date(test.get("since", "0001-1"))
+                if since_date is None:
+                    print('filter_erratas.py does not yet support "since" key with commit hash')
+                    sys.exit(1)
+                if results_date is None or since_date <= results_date <= errata_fixed_date:
+                    tests = test['test'].split()
+                    subs(f, tests)
 
 
-cwd = pathlib.Path(".")
+# get absolute path to this directory
+root = pathlib.Path(__file__).parent.resolve()
+
+with open(root.parent / "litmus" / "test_list.txt", "r") as f:
+    group_list = []
+    for line in f:
+        (_, _, _, _, test_name, *groups,) = line.split()
+        group_list.append((test_name, groups))
+
 
 errata = read_all_errata()
-filter_erratas(errata, cwd / "raw" / "rpi4b")
-filter_erratas(errata, cwd / "raw" / "rpi3bp")
-filter_erratas(errata, cwd / "raw" / "graviton2")
+filter_erratas(errata, root / "raw" / "rpi4b")
+filter_erratas(errata, root / "raw" / "rpi3bp")
+filter_erratas(errata, root / "raw" / "graviton2")

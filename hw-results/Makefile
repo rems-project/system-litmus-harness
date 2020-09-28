@@ -33,8 +33,13 @@ fetch:
 	scp -o ConnectTimeout=$(TIMEOUT) 'rpi3:overnights/*.log' 'rpi3:overnights/id.txt' raw/rpi3bp/ || true
 	scp -o ConnectTimeout=$(TIMEOUT) 'aws:*.log' 'aws:id.txt' raw/graviton2/ || true
 
+
+.PHONY: filter
+filter:
 	python3 filter_erratas.py || echo failed to filter errata
 
+.PHONY: package
+package:
 	tar -vczf raw/qemu.tar.gz raw/qemu/
 	tar -vczf raw/rpi3bp.tar.gz raw/rpi3bp/
 	tar -vczf raw/rpi4b.tar.gz raw/rpi4b/
