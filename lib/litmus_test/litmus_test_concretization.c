@@ -93,9 +93,16 @@ void set_init_pte(test_ctx_t* ctx, var_idx_t varidx, var_idx_t idx) {
     /* if the initial state specified access permissions
      * overwrite the default ones
      */
-    if (vinfo->init_ap != 0) {
+    if (vinfo->init_set_ap) {
       desc_t desc = read_desc(*pte, 3);
       desc.attrs.AP = vinfo->init_ap;
+      *pte = write_desc(desc);
+    }
+
+    /* also set the AttrIdx if it was set */
+    if (vinfo->init_set_attridx) {
+      desc_t desc = read_desc(*pte, 3);
+      desc.attrs.attr = vinfo->init_attridx;
       *pte = write_desc(desc);
     }
   }
