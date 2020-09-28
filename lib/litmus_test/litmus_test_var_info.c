@@ -127,7 +127,9 @@ void read_var_infos(const litmus_test_t* cfg, init_system_state_t* sys_st, var_i
       debug(" .offset_var=%s\n", infos[vinfo->offset_var].name);
       debug(" .offset_level=\"%s\"\n", rel_offset_to_str(vinfo->offset_level));
     }
-    debug(" .alias=\"%s\"\n", infos[vinfo->alias].name);
+    if (vinfo->is_alias) {
+      debug(" .alias=\"%s\"\n", infos[vinfo->alias].name);
+    }
     debug("}\n");
   }
 }
