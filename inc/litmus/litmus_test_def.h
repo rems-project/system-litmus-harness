@@ -59,18 +59,23 @@ typedef struct {
   const char* varname;
   init_type_t type;
   union {
+    uint64_t value;                     /* TYPE_HEAP, TYPE_PTE, TYPE_MAIR */
+    const char* aliasname;              /* TYPE_ALIAS */
     struct {                            /* TYPE_ATTRS */
       prot_type_t prot_type;
       uint64_t attr_value;
     };
+    struct {                            /* TYPE_REGION_PIN */
       const char* pinned_var_name;
       pin_level_t pinned_level;
     };
-    struct {
+    struct {                            /* TYPE_REGION_OFFSET */
       const char* offset_var_name;
       rel_offset_t offset_level;
     };
-    own_level_t ownership_level;
+    own_level_t ownership_level;        /* TYPE_REGION_OWN */
+
+    /* TYPE_UNMAPPED does not contain data, so this field is unused */
   };
 } init_varstate_t;
 
