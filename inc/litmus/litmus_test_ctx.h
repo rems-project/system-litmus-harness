@@ -5,6 +5,7 @@
 #include "litmus_regions.h"
 #include "litmus_concretization.h"
 #include "litmus_var_info.h"
+#include "litmus_ctx_system_state.h"
 
 #include "config.h"
 
@@ -18,6 +19,7 @@ struct test_ctx {
   run_idx_t no_runs;
   regions_t* heap_memory;       /* pointer to set of regions */
   var_info_t* heap_vars;        /* set of heap variables: x, y, z etc */
+  init_system_state_t* system_state;
   uint64_t** out_regs;          /* set of output register values: P1:x1,  P2:x3 etc */
   bar_t* initial_sync_barrier;
   bar_t* start_of_run_barriers;
@@ -53,6 +55,6 @@ const char* varname_from_idx(test_ctx_t* ctx, var_idx_t idx);
 const char* regname_from_idx(test_ctx_t* ctx, var_idx_t idx);
 
 /* for loading var_info_t */
-void read_var_infos(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, int no_runs);
+void read_var_infos(const litmus_test_t* cfg, init_system_state_t* sys_st, var_info_t* infos, int no_runs);
 
 #endif /* LITMUS_CTX_H */

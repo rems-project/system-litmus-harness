@@ -31,11 +31,16 @@
 #define PROT_ATTR_DEVICE_GRE    1
 #define PROT_ATTR_NORMAL_NC     2
 #define PROT_ATTR_NORMAL_RA_WA  3
+#define PROT_ATTR_UNUSED_1      4
+#define PROT_ATTR_UNUSED_2      5
+#define PROT_ATTR_UNUSED_3      6
+/* AttrIdx == #7 reserved for test usage */
+#define PROT_ATTR_TEST_ATTR     7
 
 #define MAIR_DEVICE_nGnRnE 0x00
 #define MAIR_DEVICE_GRE    0x0c
-#define MAIR_NORMAL_NC     0x44  /* Inner and Outer match */
-#define MAIR_NORMAL_RA_WA  0xff  /* Inner and Outer match */
+#define MAIR_NORMAL_NC     0x44
+#define MAIR_NORMAL_RA_WA  0xff
 
 /** Shorthand attributes
  */
@@ -45,7 +50,21 @@
 #define PROT_MEMTYPE_DEVICE (write_attrs((attrs_t){.attr=PROT_ATTR_DEVICE_nGnRnE}))
 #define PROT_MEMTYPE_NORMAL (write_attrs((attrs_t){.attr=PROT_ATTR_NORMAL_RA_WA}))
 #define PROT_MEMTYPE_NONCACHING (write_attrs((attrs_t){.attr=PROT_ATTR_NORMAL_NC}))
+#define PROT_MEMTYPE_TESTATTRS (write_attrs((attrs_t){.attr=PROT_ATTR_TEST_ATTR}))
 #define PROT_PGTABLE ( PROT_MEMTYPE_NORMAL | PROT_RW_RWX )
+
+/* masks for combining */
+#define PROT_WITH(attrs, prot, choice) ((attrs & BITMASK_PROT(prot)) | (choice << BITSTART_PROT_ ## prot))
+
+/* AttrIdx[0:2] == Desc[4:2] */
+#define BITSTART_PROT_ATTR 2
+#define BITWIDTH_PROT_ATTR 3
+
+/* AP[2:1] == Desc[9:8] */
+#define BITSTART_PROT_AP 6
+#define BITWIDTH_PROT_AP 2
+
+#define BITMASK_PROT(prot) ~(BITMASK(BITWIDTH_PROT_ ## prot) << BITSTART_PROT_ ## prot)
 
 /* default for all heap attrs */
 #define PROT_DEFAULT_HEAP (PROT_MEMTYPE_NORMAL | PROT_RW_RWX)

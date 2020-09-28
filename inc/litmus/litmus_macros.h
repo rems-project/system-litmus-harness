@@ -33,6 +33,7 @@
 #define INIT_PGT(var, value) &(init_varstate_t){#var, TYPE_PTE, {value}}
 #define INIT_ALIAS(var, othervar) &(init_varstate_t){#var, TYPE_ALIAS, {.aliasname=(const char*)#othervar}}
 #define INIT_PERMISSIONS(var, prot, value) &(init_varstate_t){#var, TYPE_ATTRS, {.prot_type=prot, .attr_value=value}}
+#define INIT_MAIR(value) &(init_varstate_t){NULL, TYPE_MAIR, {value}}
 #define INIT_UNMAPPED(var) &(init_varstate_t){#var, TYPE_UNMAPPED, {0}}
 #define INIT_REGION_PIN(var, othervar, relation) &(init_varstate_t){#var, TYPE_REGION_PIN, {.pinned_var_name=(const char*)#othervar, .pinned_level=relation}}
 #define INIT_REGION_OWN(var, ownty) &(init_varstate_t){#var, TYPE_REGION_OWN, {.ownership_level=ownty}}

@@ -102,6 +102,20 @@ static void _check_ptes(test_ctx_t* ctx, litmus_test_run* data) {
   }
 }
 
+static void reset_mair_attr7(test_ctx_t* ctx) {
+  if (ctx->system_state->enable_mair) {
+    uint64_t mair = read_sysreg(mair_el1);
+    uint64_t bm = ~(BITMASK(8) << 56);
+    write_sysreg((mair & bm) | (ctx->system_state->mair_attr7 << 56), mair_el1);
+  }
+}
+
+/** reset the sysregister state after each run
+ */
+static void _init_sys_state(test_ctx_t* ctx) {
+  reset_mair_attr7(ctx);
+}
+
 /** run the tests in a loop
  */
 static void run_thread(test_ctx_t* ctx, int cpu) {
@@ -158,6 +172,12 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
       ctx->asid = 1 + (j % 254);
       vmm_switch_asid(ctx->asid);
     }
+
+    /* set sysregs to what the test needs
+     * we do this before write_init_state to ensure
+     * changes to translation regime are picked up
+     */
+    _init_sys_state(ctx);
 
     if (vcpu == 0 && LITMUS_RUNNER_TYPE != RUNNER_ARRAY) {
       if (LITMUS_RUNNER_TYPE == RUNNER_EPHEMERAL) {

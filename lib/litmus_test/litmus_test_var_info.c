@@ -8,8 +8,9 @@ void read_init_alias(const litmus_test_t* cfg, var_info_t* infos, const char* va
 void read_init_ap(const litmus_test_t* cfg, var_info_t* infos, const char* varname, prot_type_t prot_type, uint64_t attr);
 void read_init_pte(const litmus_test_t* cfg, var_info_t* infos, const char* varname, uint64_t pte);
 void read_init_heap(const litmus_test_t* cfg, var_info_t* infos, const char* varname, uint64_t value);
+void read_init_mair(init_system_state_t* st, uint64_t mair_attr7);
 
-void read_var_infos(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, int no_runs) {
+void read_var_infos(const litmus_test_t* cfg, init_system_state_t* sys_st, var_info_t* infos, int no_runs) {
   for (var_idx_t v = 0; v < cfg->no_heap_vars; v++) {
     infos[v].varidx = v;
     infos[v].name = cfg->heap_var_names[v];
@@ -34,6 +35,8 @@ void read_var_infos(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos
       case (TYPE_ATTRS):
         read_init_ap(cfg, infos, name, var->prot_type, var->attr_value);
         break;
+      case (TYPE_MAIR):
+        read_init_mair(sys_st, var->value);
         break;
       case (TYPE_REGION_PIN):
         read_init_region(cfg, infos, name, var->pinned_var_name, var->pinned_level);
@@ -127,6 +130,11 @@ void read_var_infos(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos
     debug(" .alias=\"%s\"\n", infos[vinfo->alias].name);
     debug("}\n");
   }
+}
+
+void read_init_mair(init_system_state_t* st, uint64_t mair_attr7) {
+  st->enable_mair = 1;
+  st->mair_attr7 = mair_attr7;
 }
 
 void read_init_unmapped(const litmus_test_t* cfg, var_info_t* infos, const char* varname) {

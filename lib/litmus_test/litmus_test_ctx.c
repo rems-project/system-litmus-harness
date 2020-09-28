@@ -3,6 +3,7 @@
 void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
   var_info_t* var_infos = ALLOC_MANY(var_info_t, cfg->no_heap_vars);
   uint64_t** out_regs = ALLOC_MANY(uint64_t*, cfg->no_regs);
+  init_system_state_t* sys_st = ALLOC_ONE(init_system_state_t);
   bar_t* init_sync_bar = ALLOC_ONE(bar_t);
   /* we don't need millions of barriers, just a handful */
   bar_t* start_run_bars = ALLOC_MANY(bar_t, 512);
@@ -19,7 +20,8 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
     var_infos[v].values = ALLOC_MANY(uint64_t*, no_runs);
   }
 
-  read_var_infos(ctx, cfg, var_infos, no_runs);
+  sys_st->enable_mair = 0;
+  read_var_infos(cfg, sys_st, var_infos, no_runs);
 
   for (reg_idx_t r = 0; r < cfg->no_regs; r++) {
     uint64_t* out_reg = ALLOC_MANY(uint64_t, no_runs);
@@ -65,6 +67,7 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
 
   ctx->no_runs = no_runs;
   ctx->heap_vars = var_infos;
+  ctx->system_state = sys_st;
   ctx->out_regs = out_regs;
   ctx->initial_sync_barrier = init_sync_bar;
   ctx->start_of_run_barriers = start_run_bars;
@@ -174,5 +177,6 @@ void free_test_ctx(test_ctx_t* ctx) {
   free((bar_t*)ctx->start_of_run_barriers);
   free((bar_t*)ctx->initial_sync_barrier);
   free(ctx->out_regs);
+  free(ctx->system_state);
   free(ctx->heap_vars);
 }

@@ -18,6 +18,7 @@ typedef enum {
   TYPE_REGION_OWN,
   TYPE_REGION_PIN,
   TYPE_REGION_OFFSET,
+  TYPE_MAIR,            /* can set the test MAIR value */
 } init_type_t;
 
 typedef enum {

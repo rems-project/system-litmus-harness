@@ -123,6 +123,9 @@ void set_init_pte(test_ctx_t* ctx, var_idx_t varidx, var_idx_t idx) {
 
   /* flush TLB now
    * so that the po-later writes/reads to VA succeed
+   *
+   * N.B. if we want to set MAIR_EL1 or other registers that
+   * might get TLB cached we have to ensure we did so before this point.
    */
   if (LITMUS_SYNC_TYPE == SYNC_ALL) {
     vmm_flush_tlb();
