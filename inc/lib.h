@@ -16,6 +16,7 @@
 #include "valloc.h"
 #include "sync.h"
 #include "asm.h"
+#include "caches.h"
 #include "vmm.h"
 #include "exceptions.h"
 #include "rand.h"

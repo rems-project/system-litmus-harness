@@ -124,6 +124,18 @@ void set_init_pte(test_ctx_t* ctx, var_idx_t varidx, var_idx_t idx) {
   } else if (LITMUS_SYNC_TYPE == SYNC_VA) {
     vmm_flush_tlb_vaddr((uint64_t)va);
   }
+
+  /* we need to clean caches now
+   * since one of the mappings might require a NC mapping
+   * we have to ensure that it gets flushed out
+   *
+   * so the value we write in set_init_var becomes the coherent one
+   *
+   * TODO BS: is this true ?
+   */
+  dc_civac((uint64_t)va);
+
+  dsb();
 }
 
 /** given a var and an index perform the necessary initialization
