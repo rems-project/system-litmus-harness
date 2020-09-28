@@ -11,8 +11,14 @@ typedef struct {
   var_idx_t varidx;
   const char* name;
   uint64_t init_value;
+
+  uint8_t init_set_ap;
   uint64_t init_ap;
-  uint64_t init_unmapped;
+
+  uint8_t init_set_attridx;
+  uint64_t init_attridx;
+
+  uint8_t init_unmapped;
 
   uint8_t init_pinned_region;
   uint8_t init_owns_region;

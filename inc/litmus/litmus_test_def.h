@@ -3,6 +3,7 @@
 
 #include "lib.h"
 
+#include "litmus_prot.h"
 
 /* litmus_macros to help the user define a litmus test */
 #include "litmus_macros.h"
@@ -13,7 +14,7 @@ typedef enum {
   TYPE_PTE,
   TYPE_UNMAPPED,
   TYPE_ALIAS,
-  TYPE_AP,
+  TYPE_ATTRS,
   TYPE_REGION_OWN,
   TYPE_REGION_PIN,
   TYPE_REGION_OFFSET,
@@ -57,9 +58,10 @@ typedef struct {
   const char* varname;
   init_type_t type;
   union {
-    uint64_t value;
-    const char* aliasname;
-    struct {
+    struct {                            /* TYPE_ATTRS */
+      prot_type_t prot_type;
+      uint64_t attr_value;
+    };
       const char* pinned_var_name;
       pin_level_t pinned_level;
     };

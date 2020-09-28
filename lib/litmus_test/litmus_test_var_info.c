@@ -5,7 +5,7 @@ void read_init_region(const litmus_test_t* cfg, var_info_t* infos, const char* v
 void read_init_region_own(const litmus_test_t* cfg, var_info_t* infos, const char* varname, own_level_t region);
 void read_init_region_offs(const litmus_test_t* cfg, var_info_t* infos, const char* varname, const char* offsvarname, rel_offset_t offs);
 void read_init_alias(const litmus_test_t* cfg, var_info_t* infos, const char* varname, const char* aliasname);
-void read_init_ap(const litmus_test_t* cfg, var_info_t* infos, const char* varname, uint64_t ap);
+void read_init_ap(const litmus_test_t* cfg, var_info_t* infos, const char* varname, prot_type_t prot_type, uint64_t attr);
 void read_init_pte(const litmus_test_t* cfg, var_info_t* infos, const char* varname, uint64_t pte);
 void read_init_heap(const litmus_test_t* cfg, var_info_t* infos, const char* varname, uint64_t value);
 
@@ -31,8 +31,9 @@ void read_var_infos(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos
       case (TYPE_ALIAS):
         read_init_alias(cfg, infos, name, var->aliasname);
         break;
-      case (TYPE_AP):
-        read_init_ap(cfg, infos, name, var->value);
+      case (TYPE_ATTRS):
+        read_init_ap(cfg, infos, name, var->prot_type, var->attr_value);
+        break;
         break;
       case (TYPE_REGION_PIN):
         read_init_region(cfg, infos, name, var->pinned_var_name, var->pinned_level);
@@ -162,9 +163,19 @@ void read_init_alias(const litmus_test_t* cfg, var_info_t* infos, const char* va
   infos[idx].alias = idx_from_varname_infos(cfg, infos, aliasname);
 }
 
-void read_init_ap(const litmus_test_t* cfg, var_info_t* infos, const char* varname, uint64_t ap) {
+void read_init_ap(const litmus_test_t* cfg, var_info_t* infos, const char* varname, prot_type_t prot_type, uint64_t attr) {
   var_idx_t idx = idx_from_varname_infos(cfg, infos, varname);
-  infos[idx].init_ap = ap;
+
+  switch (prot_type) {
+    case PROT_AP:
+      infos[idx].init_set_ap = 1;
+      infos[idx].init_ap = attr;
+      break;
+    case PROT_ATTRIDX:
+      infos[idx].init_set_attridx = 1;
+      infos[idx].init_attridx = attr;
+      break;
+  }
 }
 
 void read_init_pte(const litmus_test_t* cfg, var_info_t* infos, const char* varname, uint64_t desc) {
