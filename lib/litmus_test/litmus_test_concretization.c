@@ -104,7 +104,7 @@ void set_init_pte(test_ctx_t* ctx, var_idx_t varidx, var_idx_t idx) {
   * this means we must ensure that all VAs for this idx are chosen
   * before attempting to set_init_var
   */
-  if (vinfo->alias) {
+  if (vinfo->is_alias) {
     var_idx_t otheridx = vinfo->alias;
     uint64_t otherva = (uint64_t )ctx->heap_vars[otheridx].values[idx];
 

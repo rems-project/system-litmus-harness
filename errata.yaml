@@ -31,3 +31,10 @@
         fixed case where if _both_ loads faulted then the second load's exception handler would also fault
         causing the entire harness to crash.
         More generally tests need to be more resilient to unexpected faults and have more detection.
+
+- date 2020-September-28
+  errata:
+    - test: @aliasing
+      since: 75bcacd7/2020-September-14
+      description: >
+        an alias of the first variable always resulted in no aliasing happening

@@ -158,6 +158,7 @@ void read_init_region(const litmus_test_t* cfg, var_info_t* infos, const char* v
 
 void read_init_alias(const litmus_test_t* cfg, var_info_t* infos, const char* varname, const char* aliasname) {
   var_idx_t idx = idx_from_varname_infos(cfg, infos, varname);
+  infos[idx].is_alias = 1;
   infos[idx].alias = idx_from_varname_infos(cfg, infos, aliasname);
 }
 

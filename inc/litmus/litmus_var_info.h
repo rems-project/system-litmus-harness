@@ -36,6 +36,7 @@ typedef struct {
 
   /** if aliased, the name of the variable this one aliases
    */
+  uint8_t is_alias;
   var_idx_t alias;
 
   /** array of pointers into memory region for each run
