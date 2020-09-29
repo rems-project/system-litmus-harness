@@ -66,7 +66,13 @@ endif
 # but also it allows the linter to check for consistency between tests
 # e.g. uniqueness of C idents
 ifdef litmus_run_linter
-bin/litmus/%.o: linted_file := $(shell $(LINTER) $(LITMUS_TEST_FILES) &> litmus/linter.log)
+bin/litmus/%.o: \
+   __linter_success := \
+      $(if $(shell $(LINTER) $(LITMUS_TEST_FILES) &> litmus/linter.log || echo FAIL), \
+           $(warning $$(LINTER) invokation failed) \
+		   $(warning Skipping LINT step for remaining litmus files...) \
+		   $(warning see error (base64): '$(shell cat litmus/linter.log | base64)'), \
+       )
 endif
 
 

@@ -63,16 +63,9 @@ ifeq ($(NO_CHECK),0)
 	$(call check_tool,CC,$(CC))
 	$(call check_tool,LD,$(LD))
 	$(call check_tool,OBJCOPY,$(OBJCOPY))
-
-ifeq ($(NO_LINT),0)
-	$(call run_cmd,CHECK,LINTER,\
-		if ! $(LINTER) `find litmus/litmus_tests -name '*.c' | head -n1 &>/dev/null` ; then \
-			echo error: Linter not functional!; \
-			echo Run again with NO_LINT=1 to disable linting; \
-			exit 1; \
-		fi \
-	)
-endif
+# we don't check for Linter here
+# instead we check on invokation of litmus.mk and selectively disable it
+# if we don't find it
 endif
 
 # Builds a standalone executable from the elf/bin file
