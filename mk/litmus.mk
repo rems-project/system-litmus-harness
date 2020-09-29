@@ -2,8 +2,9 @@
 .PHONY: lint
 .PHONY: debug-litmus
 .PHONY: collect-litmus
+.PHONY: count-litmus-tests
 
-LITMUS_TARGETS += lint collect-litmus debug-litmus
+LITMUS_TARGETS += lint collect-litmus debug-litmus count-litmus-tests
 
 ifneq ($(strip $(foreach lt,$(LITMUS_TARGETS),$(foreach g,$(MAKECMDGOALS),$(filter $(lt),$(g))))),)
 # or any target that mentions the litmus/ dir
@@ -117,3 +118,7 @@ debug-litmus: bin/debug_litmus.exe
 	{ ./bin/debug_litmus.exe $(BIN_ARGS) & echo $$! > bin/.debug.pid; }
 	$(GDB) --eval-command "target remote localhost:1234"
 	{ cat bin/.debug.pid | xargs kill $$pid ; rm bin/.debug.pid; }
+
+count-litmus-tests:
+	@echo Found `cat litmus/test_list.txt | wc -l` tests
+	@echo With `cat litmus/test_list.txt | awk '{print gensub(/^(.+\/)+(.+)\+(.+)$$/,"\\\\2","g",$$2)}' | sort | uniq | wc -l` unique shapes
