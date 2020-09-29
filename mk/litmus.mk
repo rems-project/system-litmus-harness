@@ -71,7 +71,9 @@ bin/litmus/%.o: \
       $(if $(shell $(LINTER) $(LITMUS_TEST_FILES) &> litmus/linter.log || echo FAIL), \
            $(warning $$(LINTER) invokation failed) \
 		   $(warning Skipping LINT step for remaining litmus files...) \
-		   $(warning see error (base64): '$(shell cat litmus/linter.log | base64)'), \
+		   $(if $(filter 1,$(firstword $(DEBUG))),\
+		     $(warning see error (base64): '$(shell cat litmus/linter.log | base64)'), \
+		   ) \
        )
 endif
 

@@ -77,7 +77,7 @@ ifeq ($(NO_ROOT_CHECK),0)
 else ifeq ($(NO_ROOT_CHECK),1)
   $(warning detected root, but NO_ROOT_CHECK=1 so ignoring)
 else
-  $(error Unknown NO_ROOT_CHECK value $(NO_ROOT_CHECK))
+  $(error Unknown NO_ROOT_CHECK value '$(NO_ROOT_CHECK)' (expected 0 or 1))
 endif
 endif
 
@@ -113,12 +113,21 @@ GDB = $(PREFIX)gdb
 SHOW_PREPROCESSED_OUTPUT = 0
 
 # will build with debugging symbols and dump
-# bin/litmus.elf.S if DEBUG=1
+# bin/litmus.elf.S with line numbers if DEBUG=1
 DEBUG = 0
-# TODO: finish this
 
 DEBUG_FLAGS =
-DEBUG_CFLAGS = $(patsubst %,-DDEBUG_%=1,$(DEBUG_FLAGS))
+DEBUG_CFLAGS =
+DEBUG_OBJDUMPFLAGS =
+
+ifeq ($(DEBUG),1)
+DEBUG_CLFAGS += -g -gdwarf-4
+DEBUG_CFLAGS += $(patsubst %,-DDEBUG_%=1,$(DEBUG_FLAGS))
+DEBUG_OBJDUMPFLAGS += -g -l -r
+else ifeq ($(DEBUG),0)
+else
+  $(error Unknown DEBUG value '$(DEBUG)' (expected 0 or 1))
+endif
 
 # if NO_CHECK=1 then do not check for existence of the above
 # cross-compilation tools on the local machine
@@ -151,7 +160,6 @@ OTHER_INCLUDES =  # set for unittests
 _HEAD_COMMIT_SHA = $(shell git rev-parse --short HEAD -n1)
 _DATE_VERSION = $(shell date '+%y.%m')
 CFLAGS = -O0 -nostdlib \
-		$(if $(DEBUG),-g -gdwarf-4,) \
 		$(foreach DIR,$(INC_DIRS),-I $(DIR)) \
 		$(foreach DIR,$(OTHER_INCLUDES),-I $(DIR)) \
 		-ffreestanding -fomit-frame-pointer -fno-pie -fno-pic \
@@ -161,7 +169,7 @@ CFLAGS = -O0 -nostdlib \
 		$(DEBUG_CFLAGS)
 
 LDFLAGS = -nostdlib -n -static -pie
-OBJDUMPFLAGS = $(if $(DEBUG),-g -l -r,)
+OBJDUMPFLAGS = $(DEBUG_OBJDUMPFLAGS)
 SSHFLAGS =
 
 LITMUS_TESTS = # which litmus tests to collect
