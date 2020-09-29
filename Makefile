@@ -67,6 +67,20 @@ Options:
    	This option is disabled if TEST_DISCOVER=0
 endef
 
+NO_ROOT_CHECK ?= 0
+
+ifeq ($(shell echo $${EUID}),0)
+ifeq ($(NO_ROOT_CHECK),0)
+  $(error You are running this makefile as root. \
+          if you really intend this then pass NO_ROOT_CHECK=1. \
+		  this makefile should not require root)
+else ifeq ($(NO_ROOT_CHECK),1)
+  $(warning detected root, but NO_ROOT_CHECK=1 so ignoring)
+else
+  $(error Unknown NO_ROOT_CHECK value $(NO_ROOT_CHECK))
+endif
+endif
+
 .PHONY: shorthelp
 shorthelp:
 	$(info $(USAGE))
