@@ -33,12 +33,12 @@ group.add_argument("--device", "-d", action="append")
 
 parser.add_argument(
     "--excludes",
-    nargs='+',
+    action='append',
     help="Comma-separated list of excluded groups, e.g. --excludes=@grp1,@grp2",
 )
 parser.add_argument(
     "--includes",
-    nargs='+',
+    action='append',
     help="Comma-separated list of included groups, e.g. --includes=@grp1,@grp2",
 )
 
@@ -238,6 +238,9 @@ def main(args):
 
     includes = [i.strip("@") for i in includes]
     excludes = [e.strip("@") for e in excludes]
+
+    includes = [i for i in includes if i]
+    excludes = [e for e in excludes if e]
 
     devices = {}
     if args.device:
