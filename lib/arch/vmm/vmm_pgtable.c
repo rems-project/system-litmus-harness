@@ -148,24 +148,26 @@ void vmm_set_id_translation(uint64_t* pgtable) {
   uint64_t asid = 0;
   uint64_t ttbr = TTBR0(pgtable, asid);
 
-  uint64_t tcr = (0L << 39) | /* HA, software access flag */
-                 (1L << 37) | /* TBI, top byte ignored. */
-                 (5L << 32) | /* IPS, 48-bit (I)PA. */
-                 (0 << 14) |  /* TG0, granule size, 4K. */
-                 (3 << 12) |  /* SH0, inner shareable. */
-                 (1 << 10) |  /* ORGN0, normal mem, WB RA WA Cacheable. */
-                 (1 << 8) |   /* IRGN0, normal mem, WB RA WA Cacheable. */
-                 (16 << 0) |  /* T0SZ, input address is 48 bits => VA[47:12] are
-                                 used for  translation starting at level 0. */
-                 0;
+  uint64_t tcr = \
+    0          |
+    (0L << 39) |  /* HA, software access flag */
+    (1L << 37) |  /* TBI, top byte ignored. */
+    (5L << 32) |  /* IPS, 48-bit (I)PA. */
+    (0 << 14)  |  /* TG0, granule size, 4K. */
+    (3 << 12)  |  /* SH0, inner shareable. */
+    (1 << 10)  |  /* ORGN0, normal mem, WB RA WA Cacheable. */
+    (1 << 8)   |  /* IRGN0, normal mem, WB RA WA Cacheable. */
+    (16 << 0)  ;  /* T0SZ, input address is 48 bits => VA[47:12] are
+                      used for  translation starting at level 0. */
 
 
   #define MAIR_ATTR(idx, attr)  ((attr) << (idx*8))
-  uint64_t mair = MAIR_ATTR(PROT_ATTR_DEVICE_nGnRnE, MAIR_DEVICE_nGnRnE)  |
-                  MAIR_ATTR(PROT_ATTR_DEVICE_GRE, MAIR_DEVICE_GRE)        |
-                  MAIR_ATTR(PROT_ATTR_NORMAL_NC, MAIR_NORMAL_NC)          |
-                  MAIR_ATTR(PROT_ATTR_NORMAL_RA_WA, MAIR_NORMAL_RA_WA)    |
-                  0;
+  uint64_t mair = \
+    MAIR_ATTR(PROT_ATTR_DEVICE_nGnRnE, MAIR_DEVICE_nGnRnE)  |
+    MAIR_ATTR(PROT_ATTR_DEVICE_GRE, MAIR_DEVICE_GRE)        |
+    MAIR_ATTR(PROT_ATTR_NORMAL_NC, MAIR_NORMAL_NC)          |
+    MAIR_ATTR(PROT_ATTR_NORMAL_RA_WA, MAIR_NORMAL_RA_WA)    |
+    0;
 
   set_new_ttable(ttbr, tcr, mair);
 }
