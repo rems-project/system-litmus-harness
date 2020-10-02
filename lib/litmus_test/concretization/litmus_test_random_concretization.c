@@ -17,8 +17,7 @@ typedef struct {
 } var_st_t;
 
 typedef struct {
-  uint64_t mem_hi;
-  uint64_t mem_lo;
+  uint64_t _;
   var_st_t var_sts[];
 } concretization_st_t;
 
@@ -73,33 +72,41 @@ uint8_t validate_selection(test_ctx_t* ctx, concretization_st_t* st, var_info_t*
   return 1;
 }
 
-void pick_pin(test_ctx_t* ctx, concretization_st_t* st, var_info_t* rootvar, uint64_t rootva, var_info_t* pinnedvar) {
-  uint64_t lvl = pinnedvar->pin_region_level;
-  uint64_t va_begin = rootva & ~BITMASK(LEVEL_SHIFTS[lvl]);
-  uint64_t va_end = va_begin + LEVEL_SIZES[lvl];
+region_idx_t rand_idx(region_idx_t start, region_idx_t end) {
+  uint64_t reg = randrange(start.reg_ix, end.reg_ix);
+  uint64_t offs = randrange(start.reg_offs, end.reg_offs);
+  offs = ALIGN_TO(offs, 4);  /* always allocated 64-bit aligned values */
+  return (region_idx_t){.reg_ix=reg, .reg_offs=offs};
+}
 
-  uint64_t va = randrange(va_begin, va_end);
-  va = ALIGN_TO(va, 4);  /* always allocated 64-bit aligned values */
+void pick_pin(test_ctx_t* ctx, concretization_st_t* st, var_info_t* rootvar, region_idx_t rootidx, var_info_t* pinnedvar) {
+  pin_level_t lvl = pinnedvar->pin_region_level;
+  region_idx_t va_begin = align_down_region_idx(rootidx, lvl);
+  region_idx_t va_end = align_up_region_idx(rootidx, lvl);
+  region_idx_t va_idx = rand_idx(va_begin, va_end);
 
   if (pinnedvar->init_region_offset) {
     uint64_t othervaridx = pinnedvar->offset_var;
     if (st->var_sts[othervaridx].picked) {
       uint64_t othershift = LEVEL_SHIFTS[pinnedvar->offset_level];
       uint64_t otherva = st->var_sts[othervaridx].va;
-      va &= ~BITMASK(othershift);
-      va |= otherva & BITMASK(othershift);
+
+      /* we assume we stay in the pin and check later */
+      va_idx.reg_offs &= ~BITMASK(othershift);
+      va_idx.reg_offs |= otherva & BITMASK(othershift);
     }
   }
 
-  st->var_sts[pinnedvar->varidx].va = va;
+  st->var_sts[pinnedvar->varidx].va = va_from_region_idx(ctx, va_idx);
   st->var_sts[pinnedvar->varidx].picked = 1;
 }
 
 /** select the VA for a var that OWNs a region
  */
 void pick_one(test_ctx_t* ctx, concretization_st_t* st, var_info_t* var, own_level_t lvl) {
-  uint64_t va = randrange(st->mem_lo, st->mem_hi);
-  va = ALIGN_TO(va, 4);  /* always allocated 64-bit aligned values */
+  region_idx_t va_begin = region_idx_bottom();
+  region_idx_t va_top = region_idx_top();
+  region_idx_t va_idx = rand_idx(va_begin, va_top);
 
   if (var->init_region_offset) {
     uint64_t othervaridx = var->offset_var;
@@ -107,12 +114,12 @@ void pick_one(test_ctx_t* ctx, concretization_st_t* st, var_info_t* var, own_lev
       uint64_t othershift = LEVEL_SHIFTS[var->offset_level];
       uint64_t otherva = st->var_sts[othervaridx].va;
 
-      va &= ~BITMASK(othershift);
-      va |= otherva & BITMASK(othershift);
+      va_idx.reg_offs &= ~BITMASK(othershift);
+      va_idx.reg_offs |= otherva & BITMASK(othershift);
     }
   }
 
-  st->var_sts[var->varidx].va = va;
+  st->var_sts[var->varidx].va = va_from_region_idx(ctx, va_idx);
   st->var_sts[var->varidx].picked = 1;
 
   /* for each pinned var, pick a VA for it too */
@@ -122,7 +129,7 @@ void pick_one(test_ctx_t* ctx, concretization_st_t* st, var_info_t* var, own_lev
     var_info_t** pinned_vars = varpin->vars;
     for (int pidx = 0; pidx < varpin->no_pins; pidx++) {
       var_info_t* pinnedvar = pinned_vars[pidx];
-      pick_pin(ctx, st, var, va, pinnedvar);
+      pick_pin(ctx, st, var, va_idx, pinnedvar);
     }
   }
 }
@@ -139,9 +146,6 @@ void* concretize_random_init(test_ctx_t* ctx, const litmus_test_t* cfg) {
       pin_st->vars = ALLOC_MANY(var_info_t*, cfg->no_heap_vars);
     }
   }
-
-  st->mem_lo = (uint64_t)ctx->heap_memory;
-  st->mem_hi = st->mem_lo + sizeof(regions_t);
 
   /* collect pins */
   var_info_t* var;
