@@ -37,8 +37,10 @@ void setup(char* fdtloc) {
     debug("\t%s\n", &seps[0]); seps[d] = c;  }
   debug("memory layout:\n");
   debug("--------------------------------\n");
-  debug("%p: TOP_OF_MEM\n", TOP_OF_MEM);
-  PR_BARS(TOP_OF_MEM, TOP_OF_STACK);
+  debug("%p: TOP_OF_MEM\n", TOP_OF_HEAP);
+  PR_BARS(TOP_OF_MEM, TOP_OF_HEAP);
+  debug("%p: TOP_OF_HEAP\n", TOP_OF_HEAP);
+  PR_BARS(TOP_OF_HEAP, TOP_OF_STACK);
   debug("%p: TOP_OF_STACK\n", TOP_OF_STACK);
   PR_BARS(TOP_OF_STACK, TOP_OF_TEXT);
   debug("%p: TOP_OF_TEXT\n", TOP_OF_TEXT);
@@ -51,7 +53,7 @@ void setup(char* fdtloc) {
 
   /* create pgtable */
   if (ENABLE_PGTABLE) {
-    vmm_pgtable = vmm_alloc_new_idmap_4k();
+    vmm_pgtable = vmm_alloc_new_4k_pgtable();
     /* re-map vector_base_addr to some non-executable mapping of the vector table
     */
     vector_base_addr_rw = (uint64_t)alloc(4096*4);

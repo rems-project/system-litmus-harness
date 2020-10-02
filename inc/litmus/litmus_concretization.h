@@ -4,6 +4,7 @@
 #include "litmus_idxs.h"
 #include "litmus_regions.h"
 #include "litmus_var_info.h"
+#include "litmus_regions_idxs.h"
 #include "config.h"
 
 /* useful macros */
@@ -55,14 +56,6 @@ typedef struct {
 typedef struct {
   region_tracker_t regions [NR_REGIONS];
 } region_trackers_t;
-
-typedef struct {
-  uint64_t reg_ix;
-  uint64_t dir_ix;
-  uint64_t page_ix;
-  uint64_t scl_ix;
-  uint64_t val_ix;
-} tracker_loc_t;
 
 region_tracker_t* tracker_region(regions_t* regions, region_trackers_t* trackers, uint64_t* va);
 dir_tracker_t* tracker_dir(regions_t* regions, region_trackers_t* trackers, uint64_t* va);

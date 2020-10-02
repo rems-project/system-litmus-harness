@@ -1,9 +1,10 @@
 #ifndef LITMUS_TEST_DEF_H
 #define LITMUS_TEST_DEF_H
 
-#include "lib.h"
+#include <stdint.h>
 
 #include "litmus_prot.h"
+#include "litmus_idxs.h"
 
 /* litmus_macros to help the user define a litmus test */
 #include "litmus_macros.h"

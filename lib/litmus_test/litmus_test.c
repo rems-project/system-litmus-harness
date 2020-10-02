@@ -28,13 +28,6 @@ void run_test(const litmus_test_t* cfg) {
   printf("\n");
   printf("Test %s:\n", cfg->name);
 
-  static regions_t* region = NULL;
-
-  /* first-time intiialisation, create the region */
-  if (region == NULL) {
-    region = ALLOC_ONE(regions_t);
-  }
-
   /* create test context obj */
   test_ctx_t ctx;
 
@@ -45,7 +38,7 @@ void run_test(const litmus_test_t* cfg) {
 
   /* create the dynamic configuration (context) from the static information (cfg) */
   init_test_ctx(&ctx, cfg, NUMBER_OF_RUNS);
-  ctx.heap_memory = region;
+  initialize_regions(&ctx.heap_memory);
 
   debug("done.  run the tests.\n");
   start_of_test(&ctx);
@@ -284,12 +277,14 @@ static void prefetch(test_ctx_t* ctx, run_idx_t i, run_count_t r) {
   for (var_idx_t v = 0; v < ctx->cfg->no_heap_vars; v++) {
     /* TODO: read initial state */
     lock(&__harness_lock);
-    uint64_t is_valid = vmm_pte_valid(ctx->ptable, ctx_heap_var_va(ctx, v, i));
+    uint64_t* va = ctx_heap_var_va(ctx, v, i);
+    uint64_t is_valid = vmm_pte_valid(ctx->ptable, va);
+    uint64_t* safe_va = (uint64_t*)SAFE_TESTDATA_VA((uint64_t)va);
     unlock(&__harness_lock);
-    if (randn() % 2 && is_valid && *ctx_heap_var_va(ctx, v, i) != ctx_initial_heap_value(ctx, v)) {
+    if (randn() % 2 && is_valid && *safe_va != ctx_initial_heap_value(ctx, v)) {
       fail(
           "! fatal: initial state for heap var \"%s\" on run %d was %ld not %ld\n",
-          varname_from_idx(ctx, v), r, *ctx_heap_var_va(ctx, v, i), ctx_initial_heap_value(ctx, v));
+          varname_from_idx(ctx, v), r, *safe_va, ctx_initial_heap_value(ctx, v));
     }
   }
 }
@@ -385,7 +380,7 @@ static void end_of_thread(test_ctx_t* ctx, int cpu) {
 
 static void start_of_test(test_ctx_t* ctx) {
   if (ENABLE_PGTABLE) {
-    ctx->ptable = vmm_alloc_new_idmap_4k();
+    ctx->ptable = vmm_alloc_new_4k_pgtable();
 
     /* need to add read/write mappings to the exception vector table */
     for (int i = 0; i < 4; i++) {

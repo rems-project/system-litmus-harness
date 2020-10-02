@@ -20,7 +20,10 @@ void init_device(void* fdt) {
     NO_CPUS = 4;
 
     /* read the memory region from the dtb */
-    TOP_OF_MEM = dtb_read_top_of_memory(fdt);
+    dtb_mem_t mem = dtb_read_memory(fdt);
+    TOP_OF_MEM = mem.top;
+    BOT_OF_MEM = mem.base;
+    TOTAL_MEM = mem.size;
 
     /* read regions from linker */
     TOP_OF_STACK = (uint64_t)&__ld_end_stack;
@@ -34,8 +37,17 @@ void init_device(void* fdt) {
     TOP_OF_RDONLY = (uint64_t)&__ld_end_ro;
 
     /* compute remaining friendly region names */
-    TOTAL_HEAP = TOP_OF_MEM - BOT_OF_HEAP;
+
+    /* we allocate 128M for the heap */
+    TOTAL_HEAP = 128 * MiB;
+    TOP_OF_HEAP = BOT_OF_HEAP + TOTAL_HEAP;
     TOP_OF_DATA = BOT_OF_STACK;
+
+    BOT_OF_TESTDATA = TOP_OF_HEAP;
+    TOP_OF_TESTDATA = TOP_OF_MEM;
+
+    HARNESS_MMAP = (uint64_t*)(64 * GiB);
+    TESTDATA_MMAP = (uint64_t*)(128 * GiB);
 
     /* read cache line of *minimum* size */
     uint64_t ctr = read_sysreg(ctr_el0);
@@ -535,7 +547,7 @@ char* dtb_bootargs(void* fdt) {
     return prop->data;
 }
 
-uint64_t dtb_read_top_of_memory(void* fdt) {
+dtb_mem_t dtb_read_memory(void* fdt) {
     /* find the first node with device_type: "memory" */
     fdt_structure_piece piece = fdt_find_node_with_prop_with_index(fdt, NULL, "device_type", "memory");
     fdt_structure_begin_node_header* node = (fdt_structure_begin_node_header*)piece.current;
@@ -544,7 +556,7 @@ uint64_t dtb_read_top_of_memory(void* fdt) {
     /* its reg is stored as big endian {u64_base, u64_size} */
     uint32_t blocks[4];
     for (int i = 0; i < 4; i++) {
-         blocks[i] = read_be(prop->data + i*4);
+      blocks[i] = read_be(prop->data + i*4);
     }
     uint64_t base = (uint64_t)blocks[0] << 32 | blocks[1];
     uint64_t size = (uint64_t)blocks[2] << 32 | blocks[3];
@@ -552,9 +564,10 @@ uint64_t dtb_read_top_of_memory(void* fdt) {
     /* check no other memory nodes (unsupported for now ...) */
     piece = fdt_find_node_with_prop_with_index(fdt, piece.next, "device_type", "memory");
     if (piece.current != NULL) {
-        fail("! dtb_read_top_of_memory: only expected 1 memory region in dtb, got '%s' too\n",
+        fail("! dtb_read_memory: only expected 1 memory region in dtb, got '%s' too\n",
             ((fdt_structure_begin_node_header*)piece.current)->name
         );
     }
-    return base+size;
+
+    return (dtb_mem_t){base, size, base+size};
 }

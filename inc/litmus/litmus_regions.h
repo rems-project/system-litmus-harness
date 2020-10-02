@@ -1,6 +1,10 @@
 #ifndef LITMUS_REGIONS_H
 #define LITMUS_REGIONS_H
 
+#include <stdint.h>
+
+#include "litmus_test_def.h"
+
 typedef enum {
   REGION_VAR,
   REGION_CACHE_LINE,
@@ -38,6 +42,7 @@ typedef struct {
  * are mapped in, allowing tests over a wider range of VAs.
  */
 #define NR_DIRS_PER_REGION 4
+#define REGION_SHIFT (2 + PMD_SHIFT)
 #define REGION_SIZE (NR_DIRS_PER_REGION * NR_PAGES_PER_DIR * PAGE_SIZE)
 typedef struct {
   dir_t dirs[NR_DIRS_PER_REGION];
@@ -45,13 +50,25 @@ typedef struct {
 
 /** heap variable data is split over regions
  *
- * each region covers a pud (or page-upper-directory)
+ * each region covers a different pud (or page-upper-directory)
+ * they may not cover an entire pud, and different regions may not be contiguous
+ * so here we store a reference to the start of each
+ *
+ * right now each region is 8M
+ * and we allocate 16 of them for the tests
+ * for a total of 64M of test data space to play with
  */
-#define NR_REGIONS 1
+#define NR_REGIONS 16
+#define NR_REGIONS_SHIFT 4
 typedef struct {
-  region_t regions[NR_REGIONS];
+  region_t* regions[NR_REGIONS];
 } regions_t;
 
+/**
+ * perform a static initialization of a regions_t
+ * with the known VA ranges for each region
+ */
+void initialize_regions(regions_t* r);
 
 uint8_t in_same_region(uint64_t va1, uint64_t va2, own_level_t size);
 

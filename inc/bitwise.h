@@ -3,8 +3,13 @@
 
 #include  <stdint.h>
 
-#define MIN(a, b) ((a) < (b) ? (a) : (b))
-#define MAX(a, b) ((a) < (b) ? (b) : (a))
+#define GiB (1024UL*1024UL*1024UL)
+#define MiB (       1024UL*1024UL)
+#define KiB (              1024UL)
+
+#define GiB_SHIFT (10+MiB_SHIFT)
+#define MiB_SHIFT (10+KiB_SHIFT)
+#define KiB_SHIFT (10)
 
 /* masks */
 #define BITMASK(n) (((uint64_t)(1) << (n)) - 1)

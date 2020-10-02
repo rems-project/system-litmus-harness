@@ -13,85 +13,106 @@ uint64_t vmm_make_desc(uint64_t pa, uint64_t prot, int level) {
   return write_desc(final);
 }
 
-static void set_block_or_page(uint64_t* root, uint64_t va, uint64_t pa, uint64_t prot, uint64_t desired_level) {
+static void set_block_or_page(uint64_t* root, uint64_t va, uint64_t pa, uint8_t unmap, uint64_t prot, uint64_t desired_level) {
   vmm_ensure_level(root, desired_level, va);
 
   desc_t desc = vmm_translation_walk(root, va);
-  *desc.src = vmm_make_desc(pa, prot, desc.level);
+
+  if (! unmap)
+    *desc.src = vmm_make_desc(pa, prot, desc.level);
+  else
+    *desc.src = 0;
 }
 
 void vmm_update_mapping(uint64_t* pgtable, uint64_t va, uint64_t pa, uint64_t prot) {
   debug("for VA=%p => PA=%p, prot=%p\n", va, pa, prot);
-  set_block_or_page(pgtable, va, pa, prot, 3);
+  set_block_or_page(pgtable, va, pa, 0, prot, 3);
 }
 
-
-// TODO: maybe this could be when va_start and pa_start aren't aligned.
-void ptable_set_idrange(uint64_t* root,
-                        uint64_t va_start, uint64_t va_end,
-                        uint64_t prot) {
+void __ptable_set_range(uint64_t* root,
+                      uint64_t pa_start,
+                      uint64_t va_start, uint64_t va_end,
+                      uint8_t unmap,
+                      uint64_t prot) {
   uint64_t level1 = 30, level2 = 21, level3 = 12;
 
-  debug("from %p -> %p, prot=%p\n", va_start, va_end, prot);
+  if (unmap) {
+    debug("unmap from %p -> %p\n", va_start, va_end);
+  } else {
+    debug("map %p -> %p, prot=%p\n", va_start, va_end, prot);
+  }
+
 
   if (!IS_ALIGNED(va_start, level3)) {
-    puts("! error: ptable_set_idrange: got unaligned va_start\n");
+    puts("! error: __ptable_set_range: got unaligned va_start\n");
     abort();
   }
 
   if (!IS_ALIGNED(va_end, level3)) {
-    puts("! error: ptable_set_idrange: got unaligned va_end\n");
+    puts("! error: __ptable_set_range: got unaligned va_end\n");
     abort();
   }
 
   uint64_t va = va_start; /* see above: must be aligned on a page */
+  uint64_t pa = pa_start;
 
-
-  for (; !IS_ALIGNED(va, level2) && va < va_end;
-       va += (1UL << level3))
+  for (; !IS_ALIGNED(va, level2) && va+(1UL << level3) < va_end;
+       va += (1UL << level3), pa += (1UL << level3))
     set_block_or_page(
-        root, va, va, prot,
+        root, va, pa, unmap, prot,
         3);  // allocate 4k regions up to the first 2M region
 
 
   debug("allocated lvl3 up to %p\n", va);
 
-  for (; !IS_ALIGNED(va, level1) && va < va_end;
-       va += (1UL << level2))
+  for (; !IS_ALIGNED(va, level1) && va+(1UL<<level2) < va_end;
+       va += (1UL << level2), pa += (1UL << level2))
     set_block_or_page(
-        root, va, va, prot,
+        root, va, pa, unmap, prot,
         2);  // allocate 2M regions up to the first 1G region
 
   debug("allocated lvl2 up to %p\n", va);
 
-  for (; va < ALIGN_TO(va_end, level1);
-       va += (1UL << level1))
-    set_block_or_page(root, va, va, prot,
+  for (; va < ALIGN_TO(va_end, level1) && va+(1UL << level1) < va_end;
+       va += (1UL << level1), pa += (1UL << level1))
+    set_block_or_page(root, va, pa, unmap, prot,
                                 1);  // Alloc as many 1G regions as possible
 
   debug("allocated lvl1 up to %p\n", va);
 
-  for (; va < ALIGN_TO(va_end, level2);
-       va += (1UL << level2))
+  for (; va < ALIGN_TO(va_end, level2) && va+(1UL << level2) < va_end;
+       va += (1UL << level2), pa += (1UL << level2))
     set_block_or_page(
-        root, va, va, prot,
+        root, va, pa, unmap, prot,
         2);  // allocate as much of what's left as 2MB regions
 
   debug("allocated lvl2 up to %p\n", va);
 
-  for (; va < va_end; va += (1UL << level3))
-    set_block_or_page(root, va, va, prot,
+  for (; va < va_end; va += (1UL << level3), pa += (1UL << level3))
+    set_block_or_page(root, va, pa, unmap, prot,
                                 3);  // allocate whatever remains as 4k pages.
 
   debug("allocated lvl3 up to %p\n", va);
 }
 
+void ptable_map_range(uint64_t* root,
+                      uint64_t pa_start,
+                      uint64_t va_start, uint64_t va_end,
+                      uint64_t prot) {
+    __ptable_set_range(root, pa_start, va_start, va_end, 0, prot);
+}
 
-uint64_t* vmm_alloc_new_idmap_4k(void) {
+void ptable_unmap_range(uint64_t* root,
+                      uint64_t pa_start,
+                      uint64_t va_start, uint64_t va_end) {
+    __ptable_set_range(root, pa_start, va_start, va_end, 1, 0);
+}
+
+
+uint64_t* vmm_alloc_new_4k_pgtable(void) {
   uint64_t* root_ptable = alloc(4096);
   valloc_memset(root_ptable, 0, 4096);
 
-  /* set ranges according to kvm-unit-tests/lib/arm/mmu.c */
   uint64_t phys_offs = (1UL << 30); /* first 1 GiB region */
 
   /* QEMU Memory Mapped I/O
@@ -104,22 +125,44 @@ uint64_t* vmm_alloc_new_idmap_4k(void) {
    *
    * Actual RAM is from
    * 0x40000000 -> RAM_END
-   *  where RAM_END is defined by the dtb (but is < 3GiB)
+   *  where RAM_END is defined by the dtb
    */
-  ptable_set_idrange(root_ptable, 0, phys_offs, PROT_MEMTYPE_DEVICE | PROT_RW_RWX);
+  ptable_map_range(root_ptable, 0, 0, phys_offs, PROT_MEMTYPE_DEVICE | PROT_RW_RWX);
+
+  /* fixed linker sections are identically mapped
+   */
 
   /* .text segment (code) */
   /* AArch64 requires that code executable at EL1 is not writable at EL0 */
-  ptable_set_idrange(root_ptable, phys_offs, TOP_OF_TEXT, PROT_MEMTYPE_NORMAL | PROT_RX_RX);
+  ptable_map_range(root_ptable, phys_offs, phys_offs, TOP_OF_TEXT, PROT_MEMTYPE_NORMAL | PROT_RX_RX);
 
   /* bss and other data segments */
-  ptable_set_idrange(root_ptable, BOT_OF_RDONLY, TOP_OF_RDONLY, PROT_MEMTYPE_NORMAL | PROT_RW_RWX);
+  ptable_map_range(root_ptable, BOT_OF_RDONLY, BOT_OF_RDONLY, TOP_OF_RDONLY, PROT_MEMTYPE_NORMAL | PROT_RW_RWX);
 
   /* stack */
-  ptable_set_idrange(root_ptable, BOT_OF_STACK, TOP_OF_STACK, PROT_MEMTYPE_NORMAL | PROT_RW_RWX);
+  ptable_map_range(root_ptable, BOT_OF_STACK, BOT_OF_STACK, TOP_OF_STACK, PROT_MEMTYPE_NORMAL | PROT_RW_RWX);
 
-  /* heap */
-  ptable_set_idrange(root_ptable, BOT_OF_HEAP, TOP_OF_MEM, PROT_DEFAULT_HEAP);
+  /* heap, for non-test data */
+  ptable_map_range(root_ptable, BOT_OF_HEAP, BOT_OF_HEAP, TOP_OF_HEAP, PROT_MEMTYPE_NORMAL | PROT_RW_RWX);
+
+  /* testdata physical address space itself is unmapped in the virtual space */
+  ptable_unmap_range(root_ptable, BOT_OF_TESTDATA, BOT_OF_TESTDATA, TOP_OF_TESTDATA);
+
+  /* the harness itself maps all of memory starting @ 64G
+   */
+  ptable_map_range(root_ptable, phys_offs, (uint64_t)HARNESS_MMAP, (uint64_t)HARNESS_MMAP+TOTAL_MEM, PROT_MEMTYPE_NORMAL | PROT_RW_RWX);
+
+  /* finally, the test data (variables etc) are placed into
+   * physical address space TOP_OF_HEAP -> TOP_OF_MEM
+   *
+   * we allocate 16 x 8M contiguous regions
+   * but spread evenly throughout the 128G VA space
+   */
+  for (int i = 0 ; i < NR_REGIONS; i++) {
+    uint64_t start_va = TESTDATA_MMAP_8M_VA_FROM_INDEX(i);
+    uint64_t start_pa = TESTDATA_MMAP_8M_PA_FROM_INDEX(i);
+    ptable_map_range(root_ptable, start_pa, start_va, start_va + REGION_SIZE, PROT_MEMTYPE_NORMAL | PROT_RW_RWX);
+  }
 
   return root_ptable;
 }

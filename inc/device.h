@@ -33,14 +33,25 @@ extern uint64_t __dc_zero_block_width;  /* size of DC ZVA block */
 /** number of physical hardware threads */
 uint64_t NO_CPUS;
 
-/* top of physical memory */
+/* top and bottom of physical memory */
 uint64_t TOP_OF_MEM;
+
+/* bottom of RAM, note: this does not include the 1GiB virt io region
+ * so starts from 1GiB onwards ...
+ */
+uint64_t BOT_OF_MEM;
+
+/* total amount of memory */
+uint64_t TOTAL_MEM;
 
 /* total allocated heap space */
 uint64_t TOTAL_HEAP;
 
-/* bottom of heap space */
+/* bottom and top of heap space
+ * used for non-test data
+ */
 uint64_t BOT_OF_HEAP;
+uint64_t TOP_OF_HEAP;
 
 /**
  * Top and Bottom of thread stacks
@@ -56,6 +67,22 @@ uint64_t TOP_OF_RDONLY;
 uint64_t TOP_OF_TEXT;
 uint64_t BOT_OF_TEXT;
 uint64_t TOP_OF_DATA;
+
+/** the harness maps all of memory starting at 64G
+ */
+uint64_t* HARNESS_MMAP;
+
+/** the tests themselves have a chunk of virtual address space allocated at
+ * 128G
+ *
+ * which may be fragmented over physical address space TOP_OF_HEAP -> TOP_OF_MEM
+ */
+uint64_t* TESTDATA_MMAP;
+
+/* top and bottom of physical regions for the testdata
+ */
+uint64_t BOT_OF_TESTDATA;
+uint64_t TOP_OF_TESTDATA;
 
 /**
  * from dtb
@@ -108,6 +135,13 @@ fdt_structure_property_header* fdt_read_prop(fdt_structure_begin_node_header* no
 fdt_structure_property_header* fdt_find_prop(char* fdt, char* node_name, char* prop_name);
 
 char* dtb_bootargs(void* fdt);
-uint64_t dtb_read_top_of_memory(void* fdt);
+
+typedef struct {
+  uint64_t base;
+  uint64_t size;
+  uint64_t top;  /* base+size */
+} dtb_mem_t;
+
+dtb_mem_t dtb_read_memory(void* fdt);
 
 #endif /* DEVICE_H */

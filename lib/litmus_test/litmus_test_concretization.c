@@ -166,10 +166,12 @@ void set_init_var(test_ctx_t* ctx, var_idx_t varidx, var_idx_t idx) {
   set_init_pte(ctx, varidx, idx);
 
   if (ENABLE_PGTABLE) {
-    attrs_t attrs = vmm_read_attrs(ctx->ptable, (uint64_t)va);
-    if (attrs.AP == PROT_AP_RW_RWX) {
-      *va = vinfo->init_value;
-    }
+    /* convert the VA to the PA
+     * then convert the PA to its location
+     * in the HARNESS MMAP to get reliable R/W mapping
+     */
+    uint64_t* safe_va = (uint64_t*)SAFE_TESTDATA_VA((uint64_t)va);
+    *safe_va = vinfo->init_value;
   } else {
     *va = vinfo->init_value;
   }

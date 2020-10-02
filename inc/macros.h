@@ -4,6 +4,9 @@
 /* miscellaneous useful C macros
  */
 
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+#define MAX(a, b) ((a) < (b) ? (b) : (a))
+
 #define __STR(x) #x
 
 /** expand a macro into a C string literal

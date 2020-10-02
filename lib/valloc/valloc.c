@@ -10,7 +10,7 @@ valloc_mempool mem;
 
 void init_valloc(void) {
   mem = (valloc_mempool){
-    .top = TOP_OF_MEM,
+    .top = TOP_OF_HEAP,
     .freelist = NULL,
     .chunks = { { 0, 0, NULL, NULL} },
     .chunk_alloc_list = NULL,

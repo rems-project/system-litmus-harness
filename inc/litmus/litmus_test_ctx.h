@@ -17,7 +17,7 @@
  */
 struct test_ctx {
   run_idx_t no_runs;
-  regions_t* heap_memory;       /* pointer to set of regions */
+  regions_t heap_memory;        /* pointers to set of regions */
   var_info_t* heap_vars;        /* set of heap variables: x, y, z etc */
   init_system_state_t* system_state;
   uint64_t** out_regs;          /* set of output register values: P1:x1,  P2:x3 etc */
