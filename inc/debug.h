@@ -2,7 +2,8 @@
 #define DEBUG_H
 #include <stdint.h>
 
-#include "debug_flags.h"
+#include "debugging/debug_flags.h"
+#include "debugging/tostr.h"
 
 #define debug(...) _debug(__FILE__, __LINE__, __FUNCTION__, __VA_ARGS__)
 

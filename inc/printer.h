@@ -23,4 +23,28 @@ void verbose(const char* fmt, ...);
 
 char* sprint_time(char* out, uint64_t clk, int mode);
 
+/* print macros */
+#define PRuint64_t "%lx"
+#define PRTyuint64_t val
+
+#define PRuint32_t "%x"
+#define PRTyuint32_t val
+
+#define PRuint8_t "%d"
+#define PRTyuint8_t val
+
+#define PRint "%d"
+#define PRTyint val
+
+#define PRstr "%s"
+#define PRTystr val
+
+#define PRptr "%p"
+#define PRTyptr val
+
+/** "obj" just means an ALLOC'd str that needs to
+ * be free'd. Usually from a call to REPR(t) */
+#define PRobj "%o"
+#define PRTyobj obj
+
 #endif /* PRINTER_H */

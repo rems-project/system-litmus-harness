@@ -13,6 +13,11 @@ typedef struct {
   uint64_t reg_ix;
   uint64_t reg_offs;
 } region_idx_t;
+#define REPR_ARGS_region_idx_t \
+  uint64_t, reg_ix,\
+  uint64_t, reg_offs
+#define PRregion_idx_t "%o"
+#define PRTyregion_idx_t obj
 
 region_idx_t align_down_region_idx(region_idx_t idx, pin_level_t alignment);
 region_idx_t align_up_region_idx(region_idx_t idx, pin_level_t alignment);

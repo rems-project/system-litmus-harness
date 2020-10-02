@@ -149,8 +149,12 @@ char* vsprintf(char* out, int mode, const char* fmt, va_list ap) {
 				}
 			} else if (c == 'c') {
 				out = sputc(out, va_arg(ap, int));
-			} else if (c == 's') {
-				out = sputs(out, va_arg(ap, char*));
+			} else if (c == 's' || c == 'o') {
+        char* sp = va_arg(ap, char*);
+				out = sputs(out, sp);
+        if (c == 'o') {
+          free(sp);
+        }
 			} else if (c == 'p') {
 				out = sputs(out, "0x");
 				out = sputhex(out, va_arg(ap, long));
