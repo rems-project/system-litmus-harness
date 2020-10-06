@@ -86,7 +86,7 @@ void set_init_pte(test_ctx_t* ctx, var_idx_t varidx, var_idx_t idx) {
   } else {
   /* otherwise we write the level3 descriptor for this VA
    */
-    uint64_t pg = PAGE(va) << PAGE_SHIFT;
+    uint64_t pg = TESTDATA_MMAP_VIRT_TO_PHYS(va) << PAGE_SHIFT;
     uint64_t default_desc = vmm_make_desc(pg, PROT_DEFAULT_HEAP, 3);
     *pte = default_desc;
 
@@ -114,10 +114,11 @@ void set_init_pte(test_ctx_t* ctx, var_idx_t varidx, var_idx_t idx) {
   if (vinfo->is_alias) {
     var_idx_t otheridx = vinfo->alias;
     uint64_t otherva = (uint64_t )ctx->heap_vars[otheridx].values[idx];
+    uint64_t otherpa = TESTDATA_MMAP_VIRT_TO_PHYS(otherva);
 
     /* do not copy attrs of otherpte */
     desc_t desc = read_desc(*pte, 3);
-    desc.oa = PAGE(otherva) << PAGE_SHIFT;
+    desc.oa = PAGE(otherpa) << PAGE_SHIFT;
     *pte = write_desc(desc);
   }
 
