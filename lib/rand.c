@@ -35,6 +35,12 @@ uint64_t randn(void) {
 
 uint64_t randrange(uint64_t low, uint64_t high) {
   uint64_t r = randn();
+  if (low == high)
+    return low;
+
+  if (high < low)
+    fail("! randrange, low (%ld) was larger than high (%ld)", low, high);
+
   return low + r % (high - low);
 }
 
