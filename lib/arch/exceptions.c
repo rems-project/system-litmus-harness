@@ -75,7 +75,8 @@ void* default_handler(uint64_t vec, uint64_t esr) {
     printf("  [DATA ABORT ISS]\n");
     printf("  [  FnV] %d\n", (iss >> 10) & 1);
     printf("  [  WnR] %d\n", (iss >> 6) & 1);
-    printf("  [  DFSC] %s\n", dabt_iss_dfsc[iss & BITMASK(6)]);
+    uint64_t dfsc = iss & BITMASK(6);
+    printf("  [  DFSC] 0x%lx (%s)\n", dfsc, dabt_iss_dfsc[dfsc]);
   }
   printf("  \n");
   unlock(&_EXC_PRINT_LOCK);
