@@ -2,8 +2,15 @@
 
 uint64_t* vmm_pgtable;
 
+lock_t _vmm_lock;
+
 void vmm_ensure_level(uint64_t* root, int desired_level, uint64_t va) {
   desc_t block_desc = { .level = 0 };
+
+  /** since multiple threads might want to vmm_ensure_level
+   * at the same time, we synchronize them
+   */
+  lock(&_vmm_lock);
 
   for (int level = 0; level <= desired_level - 1; level++) {
     uint64_t* p = root + OFFS(va, level);
@@ -47,6 +54,8 @@ void vmm_ensure_level(uint64_t* root, int desired_level, uint64_t va) {
     *p = write_desc(new_desc);
     root = pg;
   }
+
+  unlock(&_vmm_lock);
 }
 
 desc_t read_descptr(uint64_t* desc, int level) {
