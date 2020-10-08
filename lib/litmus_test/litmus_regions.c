@@ -23,7 +23,16 @@ region_idx_t align_down_region_idx(region_idx_t idx, pin_level_t alignment) {
 }
 
 region_idx_t align_up_region_idx(region_idx_t idx, pin_level_t alignment) {
-  return (region_idx_t){.reg_ix=idx.reg_ix, .reg_offs=ALIGN_UP_TO(idx.reg_offs, LEVEL_SHIFTS[alignment])};
+  return (region_idx_t){
+    .reg_ix=idx.reg_ix,
+    /* note that we do not map a whole region
+     * so we cut off at NR_DIRS_PER_REGION*DIR_SIZE
+     */
+    .reg_offs=MIN(
+      ALIGN_UP_TO(idx.reg_offs, LEVEL_SHIFTS[alignment]),
+      NR_DIRS_PER_REGION*DIR_SIZE
+    )
+  };
 }
 
 uint64_t va_from_region_idx(test_ctx_t* ctx, region_idx_t idx) {

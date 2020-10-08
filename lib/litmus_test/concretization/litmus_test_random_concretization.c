@@ -74,7 +74,7 @@ uint8_t validate_selection(test_ctx_t* ctx, concretization_st_t* st, var_info_t*
 
 region_idx_t rand_idx(region_idx_t start, region_idx_t end) {
   uint64_t reg = randrange(start.reg_ix, end.reg_ix);
-  uint64_t offs = randrange(start.reg_offs, end.reg_offs);
+  uint64_t offs = randrange(start.reg_offs, MIN(end.reg_offs, NR_DIRS_PER_REGION*DIR_SIZE));
   offs = ALIGN_TO(offs, 4);  /* always allocated 64-bit aligned values */
   return (region_idx_t){.reg_ix=reg, .reg_offs=offs};
 }
