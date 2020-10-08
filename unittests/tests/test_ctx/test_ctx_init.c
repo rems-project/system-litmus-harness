@@ -52,7 +52,7 @@ void test_free_test_ctx_and_page(void) {
   uint64_t space = valloc_free_size();
 
   init_test_ctx(&ctx, &big_test, 500000UL);
-  uint64_t* p = vmm_alloc_new_idmap_4k();
+  uint64_t* p = vmm_alloc_new_4k_pgtable();
   vmm_ensure_level(p, 3, 0x4008000UL);
   free_test_ctx(&ctx);
   vmm_free_pgtable(p);

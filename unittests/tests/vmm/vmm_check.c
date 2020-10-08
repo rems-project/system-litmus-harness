@@ -62,7 +62,7 @@ uint64_t translate4k(uint64_t* root, uint64_t vaddr) {
 
 UNIT_TEST(test_translate_correct)
 void test_translate_correct(void) {
-  uint64_t* pgtable = vmm_alloc_new_idmap_4k();
+  uint64_t* pgtable = vmm_alloc_new_4k_pgtable();
   ASSERT(translate4k(pgtable, 0x47FEE000UL) == (uint64_t)vmm_pa(pgtable, 0x47FEE000UL), "0x47FEE000");
   ASSERT(translate4k(pgtable, UART0_BASE) == (uint64_t)vmm_pa(pgtable, UART0_BASE), "UART0_BASE");
   ASSERT(translate4k(pgtable, 0x40081234UL) == (uint64_t)vmm_pa(pgtable, 0x40081234UL), "0x40081234");
@@ -70,7 +70,7 @@ void test_translate_correct(void) {
 
 UNIT_TEST(test_translate_identity)
 void test_translate_identity(void) {
-  uint64_t* pgtable = vmm_alloc_new_idmap_4k();
+  uint64_t* pgtable = vmm_alloc_new_4k_pgtable();
   ASSERT(0x47FEE000UL == (uint64_t)vmm_pa(pgtable, 0x47FEE000UL), "0x47FEE000");
   ASSERT(UART0_BASE == (uint64_t)vmm_pa(pgtable, UART0_BASE), "UART0_BASE");
   ASSERT(0x40081234UL == (uint64_t)vmm_pa(pgtable, 0x40081234UL), "0x40081234");
