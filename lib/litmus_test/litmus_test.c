@@ -326,7 +326,7 @@ static void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, run_idx_t i, run_coun
   if (! ctx->cfg->start_els || ctx->cfg->start_els[vcpu] == 0)
     raise_to_el1();
 
-  bwait(vcpu, i % ctx->cfg->no_threads, &ctx->end_barriers[i % 512], ctx->cfg->no_threads);
+  BWAIT(vcpu, i % ctx->cfg->no_threads, &ctx->end_barriers[i % 512], ctx->cfg->no_threads);
 
   /* only 1 thread should collect the results, else they will be duplicated */
   if (vcpu == 0) {
