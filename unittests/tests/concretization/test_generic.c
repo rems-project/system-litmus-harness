@@ -26,8 +26,7 @@ void __test_concretization_default_diff_pages(concretize_type_t conc_type) {
   test_ctx_t ctx;
 
   init_test_ctx(&ctx, &test, SIZE_OF_TEST);
-  regions_t* region = ALLOC_ONE(regions_t);
-  ctx.heap_memory = region;
+  initialize_regions(&ctx.heap_memory);
   void* st = concretize_init(conc_type, &ctx, ctx.cfg, ctx.no_runs);
   concretize(conc_type, &ctx, ctx.cfg, st, ctx.no_runs);
 
@@ -67,8 +66,7 @@ void __test_concretization_own_pmd(concretize_type_t conc_type) {
   test_ctx_t ctx;
 
   init_test_ctx(&ctx, &test, SIZE_OF_TEST);
-  regions_t* region = ALLOC_ONE(regions_t);
-  ctx.heap_memory = region;
+  initialize_regions(&ctx.heap_memory);
   void* st = concretize_init(conc_type, &ctx, ctx.cfg, ctx.no_runs);
   concretize(conc_type, &ctx, ctx.cfg, st, ctx.no_runs);
 
@@ -110,8 +108,7 @@ void __test_concretization_same_page(concretize_type_t conc_type) {
   test_ctx_t ctx;
 
   init_test_ctx(&ctx, &test, SIZE_OF_TEST);
-  regions_t* region = ALLOC_ONE(regions_t);
-  ctx.heap_memory = region;
+  initialize_regions(&ctx.heap_memory);
   void* st = concretize_init(conc_type, &ctx, ctx.cfg, ctx.no_runs);
   concretize(conc_type, &ctx, ctx.cfg, st, ctx.no_runs);
 
@@ -150,8 +147,7 @@ void __test_concretization_separate_roots(concretize_type_t conc_type) {
   test_ctx_t ctx;
 
   init_test_ctx(&ctx, &test, SIZE_OF_TEST);
-  regions_t* region = ALLOC_ONE(regions_t);
-  ctx.heap_memory = region;
+  initialize_regions(&ctx.heap_memory);
   void* st = concretize_init(conc_type, &ctx, ctx.cfg, ctx.no_runs);
   concretize(conc_type, &ctx, ctx.cfg, st, ctx.no_runs);
 
@@ -188,8 +184,7 @@ void __test_concretization_aliased(concretize_type_t conc_type) {
   test_ctx_t ctx;
 
   init_test_ctx(&ctx, &test, SIZE_OF_TEST);
-  regions_t* region = ALLOC_ONE(regions_t);
-  ctx.heap_memory = region;
+  initialize_regions(&ctx.heap_memory);
   void* st = concretize_init(conc_type, &ctx, ctx.cfg, ctx.no_runs);
   concretize(conc_type, &ctx, ctx.cfg, st, ctx.no_runs);
 
@@ -227,8 +222,7 @@ void __test_concretization_unrelated_aliased(concretize_type_t conc_type) {
   test_ctx_t ctx;
 
   init_test_ctx(&ctx, &test, SIZE_OF_TEST);
-  regions_t* region = ALLOC_ONE(regions_t);
-  ctx.heap_memory = region;
+  initialize_regions(&ctx.heap_memory);
   void* st = concretize_init(conc_type, &ctx, ctx.cfg, ctx.no_runs);
   concretize(conc_type, &ctx, ctx.cfg, st, ctx.no_runs);
 
@@ -269,8 +263,7 @@ void __test_concretization_unmapped(concretize_type_t conc_type) {
   test_ctx_t ctx;
 
   init_test_ctx(&ctx, &test, SIZE_OF_TEST);
-  regions_t* region = ALLOC_ONE(regions_t);
-  ctx.heap_memory = region;
+  initialize_regions(&ctx.heap_memory);
   void* st = concretize_init(conc_type, &ctx, ctx.cfg, ctx.no_runs);
   concretize(conc_type, &ctx, ctx.cfg, st, ctx.no_runs);
 
@@ -319,8 +312,7 @@ void __test_concretization_twopage(concretize_type_t conc_type) {
   test_ctx_t ctx;
 
   init_test_ctx(&ctx, &test, SIZE_OF_TEST);
-  regions_t* region = ALLOC_ONE(regions_t);
-  ctx.heap_memory = region;
+  initialize_regions(&ctx.heap_memory);
   void* st = concretize_init(conc_type, &ctx, ctx.cfg, ctx.no_runs);
   concretize(conc_type, &ctx, ctx.cfg, st, ctx.no_runs);
 
@@ -365,8 +357,7 @@ void __test_concretization_relpmdoverlap(concretize_type_t conc_type) {
   test_ctx_t ctx;
 
   init_test_ctx(&ctx, &test, SIZE_OF_TEST);
-  regions_t* region = ALLOC_ONE(regions_t);
-  ctx.heap_memory = region;
+  initialize_regions(&ctx.heap_memory);
   void* st = concretize_init(conc_type, &ctx, ctx.cfg, ctx.no_runs);
   concretize(conc_type, &ctx, ctx.cfg, st, ctx.no_runs);
 
@@ -416,8 +407,7 @@ void __test_concretization_multi_pmd_pin(concretize_type_t conc_type) {
   test_ctx_t ctx;
 
   init_test_ctx(&ctx, &test, SIZE_OF_TEST);
-  regions_t* region = ALLOC_ONE(regions_t);
-  ctx.heap_memory = region;
+  initialize_regions(&ctx.heap_memory);
   void* st = concretize_init(conc_type, &ctx, ctx.cfg, ctx.no_runs);
   concretize(conc_type, &ctx, ctx.cfg, st, ctx.no_runs);
 
