@@ -38,3 +38,11 @@
       since: 2020-September-14
       description: >
         an alias of the first variable always resulted in no aliasing happening
+
+- date: 2020-October-8
+  errata:
+  - test: '@pgtable'
+    description: >
+      insufficient locking around vmm_ensure_level meant that during per-thread initialization
+      of the state could mean we could have returned a pointer to an entry that was subsequently
+      overwritten by another vmm_ensure_level call leaving it dangling and irrelevant.
