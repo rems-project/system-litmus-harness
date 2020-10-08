@@ -26,6 +26,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--standalone", action="store_true")
 parser.add_argument("--standalone-file", "-o", default="top.tex")
 parser.add_argument("--all-file", default="results-all.tex")
+parser.add_argument("--macros", action="store_true")
 
 group = parser.add_mutually_exclusive_group()
 group.add_argument("--file", "-f", action="append")
@@ -85,6 +86,19 @@ def humanize(n):
         return str(n)
 
     return f"{n:.2f}"
+
+
+MACROS_TEX = r"""
+\newcommand\comment[3]{{%
+  \expandafter\renewcommand\csname #1\endcsname{{#2 & #3 &}}%
+}}
+
+\newcommand\shapemacro{{l}}
+\newcommand\headermacro{{DEFAULT HEADER}}
+\newcommand\titlemacro{{DEFAULT TITLE}}
+%% Auto generated
+{tests}
+"""
 
 
 def write_table(grp_list, f, devices, includes=[], excludes=[], print_skips=True):
@@ -155,6 +169,7 @@ def write_table(grp_list, f, devices, includes=[], excludes=[], print_skips=True
                 row.append("")
                 row.append("")
 
+        row.append(f"\\csname {test_name}\\endcsname")
         rows.append(row)
 
     maxcolrows = [max(len(r[i]) for r in rows) for i in range(len(rows[0]))]
@@ -189,37 +204,49 @@ def write_table(grp_list, f, devices, includes=[], excludes=[], print_skips=True
             maxcolrows[i] = len(hd)
 
     device_cols_ls = " | r r l" * len(devices)
+    tab_shape = "l "
+    if not one_group:
+        tab_shape += "l "
+    tab_shape += device_cols_ls
+    tab_shape += " l"
+    if args.macros:
+        tab_shape += " | \\shapemacro"
 
-    if one_group:
-        f.write("\\begin{tabular}{l %s l}\n" % device_cols_ls)
-        f.write("   ")
-        f.write("\\textbf{Name}".ljust(maxcolrows[1]))
-        f.write(" & %s & \\\\\n" % " & ".join(device_headers))
-        f.write("   ")
-        f.write(
-            "".ljust(maxcolrows[1]) + " & %s & \\\\\n" % " & ".join(device_cols_heads)
-        )
-    else:
-        f.write("\\begin{tabular}{l l %s l}\n" % device_cols_ls)
-        f.write("   ")
-        f.write("\\textbf{Type}".ljust(maxcolrows[0]))
-        f.write(" & " + "\\textbf{Name}".ljust(maxcolrows[1]))
-        f.write(" & %s & \\\\\n" % " & ".join(device_headers))
-        f.write("   ")
-        f.write(
-            "".ljust(maxcolrows[0])
-            + " & "
-            + "".ljust(maxcolrows[1])
-            + " & "
-            + " & ".join(device_cols_heads)
-            + " & "
-        )
-        f.write("\\\\\n")
+    if args.macros:
+        f.write("\\input{table_macros}")
+        with open("table_macros.tex", "w") as g:
+            test_macros = [f"\\expandafter\\newcommand\\csname {t}\\endcsname{{}}" for (t, _) in filtered]
+            g.write(MACROS_TEX.format(tests="\n".join(test_macros)))
+
+    f.write("\\begin{tabular}{%s}\n" % tab_shape)
+
+    # first line
+    #  Type  & Name & multicol{3}{rpi4}         &  multicol{3}{qemu} & etc
+    f.write("   ")
+    if not one_group:
+        f.write("\\textbf{Type}".ljust(maxcolrows[0]) + " & ")
+    f.write("\\textbf{Name}".ljust(maxcolrows[1]) + " & ")
+    f.write("%s & " % " & ".join(device_headers))
+    if args.macros:
+        f.write("\\headermacro{} & ".ljust(maxcolrows[-1]))
+    f.write("\\\\\n")
+    # second line
+    #               & total & distribution &   & total & distribution & ... & etc
+    f.write("   ")
+    if not one_group:
+        f.write("".ljust(maxcolrows[0]) + " & ")
+    f.write("".ljust(maxcolrows[1]) + " & ")
+    f.write("%s & " % " & ".join(device_cols_heads))
+    if args.macros:
+        f.write("\\titlemacro{} & ".ljust(maxcolrows[-1]))
+    f.write("\\\\\n")
 
     for row in rows:
         f.write("   ")
         for i, (c, maxlen) in enumerate(zip(row, maxcolrows)):
             if one_group and i == 0:
+                continue
+            if not args.macros and i == len(row) - 1:
                 continue
             f.write(f"{c!s:>{maxlen}} & ")
         f.write("\\\\ \\hline \n")
