@@ -33,20 +33,20 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
       out_regs[r][i] = 0;
     }
 
-    clean_bars[i] = (bar_t){0};
+    clean_bars[i] = EMPTY_BAR;
     shuffled[i] = i;
   }
 
   shuffle(shuffled, sizeof(run_idx_t), no_runs);
 
   for (int i = 0; i < 512; i++) {
-    start_run_bars[i] = (bar_t){0};
-    bars[i] = (bar_t){0};
-    end_bars[i] = (bar_t){0};
-    conc_bars[i] = (bar_t){0};
+    start_run_bars[i] = EMPTY_BAR;
+    bars[i] = EMPTY_BAR;
+    end_bars[i] = EMPTY_BAR;
+    conc_bars[i] = EMPTY_BAR;
   }
-  *final_barrier = (bar_t){0};
-  *init_sync_bar = (bar_t){0};
+  *final_barrier = EMPTY_BAR;
+  *init_sync_bar = EMPTY_BAR;
 
   for (int i = 0; i < NO_CPUS; i++) {
     affinity[i] = i;

@@ -60,6 +60,8 @@ typedef struct {
   uint8_t to_be_cleaned;
 } bar_t;
 
+#define EMPTY_BAR (bar_t){0,0,{1,1,1,1},0}
+
 void bwait(int cpu, int i, bar_t* barrier, int sz);
 
 #define BWAIT(cpu, i, barrier, sz) ({ \

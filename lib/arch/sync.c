@@ -121,28 +121,39 @@ void bwait(int vcpu, int i, bar_t* bar, int sz) {
   /* slow acquire */
   lock(&bwait_lock);
 
+  /* if any release flag is non-zero
+   * then one of the previous bwait() calls still
+   * hasn't been released
+   */
+  for (int i = 0; i < sz; i++) {
+    while (! bar->release_flags[i]) dmb();
+  }
+
   /* allow re-use of the same barrier */
   if (bar->to_be_cleaned) {
-    *bar = (bar_t){0};
+    *bar = EMPTY_BAR;
   }
 
   bar->counter++;
   if (bar->counter == sz) {
     bar->released = 1;
     bar->to_be_cleaned = 1;
-    dsb();
+    dmb();
     sev();
   }
   unlock(&bwait_lock);
 
   while (! bar->released) wfe();
+
   /** a slow bwait acquire section
    * this is to try reduce overhead and get all threads spinning at once
    * before releasing
    * N.B.  context switching kills this, it really needs a dedicated CPU.
+   *
+   * vcpus are labelled 0..N for N <= sz
    */
   bar->release_flags[vcpu] = 1;
-  dsb();
+  dmb();
 
   for (int i = 0; i < sz; i++) {
     while (! bar->release_flags[i]) dmb();
