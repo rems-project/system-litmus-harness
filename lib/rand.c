@@ -44,13 +44,13 @@ uint64_t randrange(uint64_t low, uint64_t high) {
   return low + r % (high - low);
 }
 
-void shuffle(void* p, int szof, int n) {
+void shuffle(void* p, uint64_t szof, uint64_t n) {
   char* arr = p;
 
-  for (int i = 0; i < n/szof; i++) {
+  for (int i = 0; i < n; i++) {
     char datum[szof];
-    int x = (randn() % n) * szof;
-    int y = (randn() % n) * szof;
+    uint64_t x = (randn() % n) * szof;
+    uint64_t y = (randn() % n) * szof;
 
     valloc_memcpy(datum, arr+x, szof);
     valloc_memcpy(arr+x, arr+y, szof);
