@@ -38,6 +38,20 @@ typedef struct {
 void lock(volatile lock_t* lock);
 void unlock(volatile lock_t* lock);
 
+#define LOCK(lockptr) ({ \
+  if (DEBUG_LOCKS) { \
+    debug("LOCK(%s=%p)\n", STR_LITERAL(lockptr), lockptr); \
+  } \
+  lock(lockptr); \
+})
+
+#define UNLOCK(lockptr) ({ \
+  if (DEBUG_LOCKS) { \
+    debug("UNLOCK(%s=%p)\n", STR_LITERAL(lockptr), lockptr); \
+  } \
+  unlock(lockptr); \
+})
+
 /* barrier */
 typedef struct {
   volatile uint64_t counter;
@@ -47,4 +61,12 @@ typedef struct {
 } bar_t;
 
 void bwait(int cpu, int i, bar_t* barrier, int sz);
+
+#define BWAIT(cpu, i, barrier, sz) ({ \
+  if (DEBUG_BWAITS) { \
+    debug("BWAIT(%s=%d, %s=%d, %s=%p, sz=%d)\n", STR_LITERAL(cpu), cpu, STR_LITERAL(i), i, STR_LITERAL(barrier), barrier, sz); \
+  } \
+  bwait(cpu, i, barrier, sz); \
+})
+
 #endif /* SYNC_H */

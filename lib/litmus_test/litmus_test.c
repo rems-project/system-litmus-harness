@@ -16,13 +16,6 @@ static void start_of_thread(test_ctx_t* ctx, int cpu);
 static void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, run_idx_t i, run_count_t r);
 static void start_of_run(test_ctx_t* ctx, int cpu, int vcpu, run_idx_t i, run_count_t r);
 
-#define BWAIT(cpu, i, barrier, sz) ({ \
-  if (DEBUG_BWAITS) { \
-    debug("bwait (%d, %d, %p)\n", cpu, i, barrier); \
-  } \
-  bwait(cpu, i, barrier, sz); \
-})
-
 /* entry point */
 void run_test(const litmus_test_t* cfg) {
   printf("\n");
