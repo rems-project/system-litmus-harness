@@ -74,7 +74,7 @@ static void p0_setup(litmus_test_run* data) {
     free(bar);
 
   bar = alloc(sizeof(bar_t));
-  *bar = (bar_t){0};
+  *bar = EMPTY_BAR;
 }
 
 static void teardown(litmus_test_run* data) {
