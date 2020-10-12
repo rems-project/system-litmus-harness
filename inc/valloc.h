@@ -71,6 +71,7 @@ void init_valloc(void);
 
 void* alloc_with_alignment(uint64_t size, uint64_t alignment);
 void* alloc(uint64_t size);
+void* realloc(void* p, uint64_t new_size);
 
 void free(void* p);
 void valloc_memset(void* p, uint64_t value, uint64_t size);

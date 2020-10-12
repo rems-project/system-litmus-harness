@@ -33,6 +33,14 @@ void init_valloc(void) {
   mem.chunk_unalloc_list = &mem.chunks[0];
 }
 
+void* realloc(void* p, uint64_t new_size) {
+  char* new_p = alloc(new_size);
+  valloc_alloc_chunk* chk = valloc_alloclist_find_alloc_chunk(&mem, (uint64_t)p);
+  valloc_memcpy(new_p, p, chk->size);
+  free(p);
+  return new_p;
+}
+
 static int is_pow2(uint64_t i) {
   while (i > 0) {
     if ((i % 2) == 1) {
