@@ -40,4 +40,12 @@
    #define DEBUG_CONCRETIZATION 0
 #endif
 
+/**
+ * if -DDEBUG_LOCKS=1 then --debug
+ * will output information when taking a lock
+ */
+#ifndef DEBUG_LOCKS
+   #define DEBUG_LOCKS 0
+#endif
+
 #endif /* DEBUG_FLAGS_H */
