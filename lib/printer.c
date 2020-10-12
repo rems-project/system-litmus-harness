@@ -3,6 +3,20 @@
 
 #include "lib.h"
 
+/* print buffer
+ * used to store results of non-(s)printf before writing
+ * is protected by __PR_LOCK
+ */
+static char __print_buf[1024];
+static volatile lock_t __PR_LOCK;
+
+/** print buffer used by verbose/debug/etc
+ * to store computed format strs
+ * protected by __PR_VERB_LOCK
+ */
+static char __verbose_print_buf[1024];
+static volatile lock_t __PR_VERB_LOCK;
+
 char* sputc(char* out, const char c) {
 	*out = c;
 	return out+1;
@@ -121,7 +135,6 @@ char* sputarray(char* out, char* fmt, void* p, int count) {
 	return out;
 }
 
-static volatile lock_t __PR_LOCK;
 char* vsprintf(char* out, int mode, const char* fmt, va_list ap) {
 	char* p = (char*)fmt;
 	while (*p) {
@@ -179,16 +192,21 @@ char* vsprintf(char* out, int mode, const char* fmt, va_list ap) {
 }
 
 void vprintf(int mode, const char* fmt, va_list ap) {
-	char s[1024];
-	char* out = &s[0];
+  lock(&__PR_LOCK);
+	char* out = &__print_buf[0];
+
 	if (mode == 0) {
 		for (int i = 0; i < get_cpu(); i++) {
 			out = sputs(out, "\t\t\t");
 		}
 	}
+
 	vsprintf(out, mode, fmt, ap);
-	lock(&__PR_LOCK);
-	puts(s);
+  if (strlen(__print_buf) > 1024) {
+    fail("! vprintf: overflow, format string too large.\n");
+  }
+
+	puts(__print_buf);
 	unlock(&__PR_LOCK);
 }
 
@@ -218,26 +236,34 @@ void trace(const char* fmt, ...) {
 
 void verbose(const char* fmt, ...) {
 	if (VERBOSE) {
-		char new_fmt[100];
-		sprintf(new_fmt, "#%s", fmt);
+    lock(&__PR_VERB_LOCK);
+		sprintf(__verbose_print_buf, "#%s", fmt);
+    if (strlen(__verbose_print_buf) > 100) {
+      fail("! verbose: overflow, format string too large.\n");
+    }
 
 		va_list ap;
 		va_start(ap, fmt);
-		vprintf(1, new_fmt, ap);
+		vprintf(1, __verbose_print_buf, ap);
 		va_end(ap);
+    unlock(&__PR_VERB_LOCK);
 	}
 }
 
 void _debug(const char* filename, const int line, const char* func, const char* fmt, ...) {
 	if (DEBUG) {
-		char new_fmt[100];
 		int cpu = get_cpu();
-		sprintf(new_fmt, "[%s:%d %s (CPU%d)] %s", filename, line, func, cpu, fmt);
+    lock(&__PR_VERB_LOCK);
+		sprintf(__verbose_print_buf, "[%s:%d %s (CPU%d)] %s", filename, line, func, cpu, fmt);
+    if (strlen(__verbose_print_buf) > 1024) {
+      fail("! debug: overflow, format string too large.\n");
+    }
 
 		va_list ap;
 		va_start(ap, fmt);
-		vprintf(1, new_fmt, ap);
+		vprintf(1, __verbose_print_buf, ap);
 		va_end(ap);
+    unlock(&__PR_VERB_LOCK);
 	}
 }
 
