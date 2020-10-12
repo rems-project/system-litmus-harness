@@ -374,7 +374,7 @@ static void end_of_thread(test_ctx_t* ctx, int cpu) {
     vmm_switch_ttable(vmm_pgtable);
   }
 
-  bwait(cpu, 0, ctx->final_barrier, NO_CPUS);
+  BWAIT(cpu, 0, ctx->final_barrier, NO_CPUS);
   trace("CPU%d: end of test\n", cpu);
 }
 
