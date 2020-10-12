@@ -27,11 +27,11 @@
 
 
 /* barriers and wrappers */
-#define wfe() do { asm volatile ("wfe"); } while (0)
-#define sev() do { asm volatile ("sev"); } while (0)
-#define dsb() do { asm volatile ("dsb sy"); } while (0)
-#define dmb() do { asm volatile ("dmb sy"); } while (0)
-#define isb() do { asm volatile ("isb"); } while (0)
+#define wfe() do { asm volatile ("wfe" ::: "memory"); } while (0)
+#define sev() do { asm volatile ("sev" ::: "memory"); } while (0)
+#define dsb() do { asm volatile ("dsb sy" ::: "memory"); } while (0)
+#define dmb() do { asm volatile ("dmb sy" ::: "memory"); } while (0)
+#define isb() do { asm volatile ("isb" ::: "memory"); } while (0)
 
 /* stores and loads */
 void writeb(uint8_t byte, uint64_t addr);
