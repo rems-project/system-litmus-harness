@@ -311,8 +311,10 @@ static void start_of_run(test_ctx_t* ctx, int cpu, int vcpu, run_idx_t i, run_co
 /** every N/10 runs we shuffle the CPUs about
  */
 static void reshuffle(test_ctx_t* ctx) {
-  shuffle((int*)ctx->affinity, sizeof(int), NO_CPUS);
-  debug("set affinity = %Ad\n", ctx->affinity, NO_CPUS);
+  if (LITMUS_AFF_TYPE != AFF_NONE) {
+    shuffle((int*)ctx->affinity, sizeof(int), NO_CPUS);
+    debug("set affinity = %Ad\n", ctx->affinity, NO_CPUS);
+  }
 }
 
 static void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, run_idx_t i, run_count_t r) {
