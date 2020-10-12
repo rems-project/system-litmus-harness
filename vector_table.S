@@ -21,6 +21,9 @@
     stp x26,    x27,    [sp, #208]
     stp x28,    x29,    [sp, #224]
     str x30,            [sp, #240]
+    mov x0, sp
+    add x0, x0, #288
+    str x0,             [sp, #248]
 .endm
 
 .macro restore_all_registers
@@ -58,39 +61,39 @@ asmprintchar:
         mul  x0, x10, x0
         add  x9, x9, x0
         br   x9
-        
+
 asmprintchar_table:
-        debug_letter_overwrites_x0_x1 48 // 0	
+        debug_letter_overwrites_x0_x1 48 // 0
 	ret
-        debug_letter_overwrites_x0_x1 49 // 1	
+        debug_letter_overwrites_x0_x1 49 // 1
 	ret
-        debug_letter_overwrites_x0_x1 50 // 2	
+        debug_letter_overwrites_x0_x1 50 // 2
 	ret
-        debug_letter_overwrites_x0_x1 51 // 3	
+        debug_letter_overwrites_x0_x1 51 // 3
 	ret
-        debug_letter_overwrites_x0_x1 52 // 4	
+        debug_letter_overwrites_x0_x1 52 // 4
 	ret
-        debug_letter_overwrites_x0_x1 53 // 5	
+        debug_letter_overwrites_x0_x1 53 // 5
 	ret
-        debug_letter_overwrites_x0_x1 54 // 6	
+        debug_letter_overwrites_x0_x1 54 // 6
 	ret
-        debug_letter_overwrites_x0_x1 55 // 7	
+        debug_letter_overwrites_x0_x1 55 // 7
 	ret
-        debug_letter_overwrites_x0_x1 56 // 8	
+        debug_letter_overwrites_x0_x1 56 // 8
 	ret
-        debug_letter_overwrites_x0_x1 57 // 9	
+        debug_letter_overwrites_x0_x1 57 // 9
 	ret
-        debug_letter_overwrites_x0_x1 65 // A	
+        debug_letter_overwrites_x0_x1 65 // A
 	ret
-        debug_letter_overwrites_x0_x1 66 // B	
+        debug_letter_overwrites_x0_x1 66 // B
 	ret
-        debug_letter_overwrites_x0_x1 67 // C	
+        debug_letter_overwrites_x0_x1 67 // C
 	ret
-        debug_letter_overwrites_x0_x1 68 // D	
+        debug_letter_overwrites_x0_x1 68 // D
 	ret
-        debug_letter_overwrites_x0_x1 69 // E	
+        debug_letter_overwrites_x0_x1 69 // E
 	ret
-        debug_letter_overwrites_x0_x1 70 // F	
+        debug_letter_overwrites_x0_x1 70 // F
 	ret
 
 asmphex_step:
@@ -98,14 +101,14 @@ asmphex_step:
     mov x0, x2
     lsr x0, x0, #60
     // x0 is 4 msb of x2
-    lsl x2, x2, #4  
+    lsl x2, x2, #4
     bl 	asmprintchar
     mov x30,x29
     ret
-        
+
 asmputhex:
     mov x28, x30
-        
+
     mov x2, x0
 
     bl asmphex_step
@@ -127,7 +130,7 @@ asmputhex:
 
     mov x30, x28
     ret
-        
+
 .macro handler, name, vec
 \name:
     save_all_registers

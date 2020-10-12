@@ -35,7 +35,8 @@ enum vec_entries {
 #define EC_DABT_EL1  0x25  /* Data Abort */
 
 typedef struct {
-    uint64_t x0, x1, x2, x3, x4, x5, x6, x7;
+    uint64_t gpr[30];
+    uint64_t sp;
 } regvals_t;
 
 /* Exception Vectors
@@ -44,11 +45,11 @@ typedef struct {
  *    SVC #10  will drop to EL0
  *    SVC #11  will raise to EL1
  *    SVC #12  will place CurrentEL in X0
- * 
+ *
  *  Other handlers can be installed with set_svc_handler(svc_no, ptr_to_func)
  */
 
-void* default_handler(uint64_t vec, uint64_t esr);
+void* default_handler(uint64_t vec, uint64_t esr, regvals_t* regs);
 typedef void* exception_vector_fn(uint64_t esr, regvals_t* regs);
 
 exception_vector_fn* table[4][4][64];

@@ -58,7 +58,7 @@ static const char* dabt_iss_dfsc[0x40] = {
   [0b110000] = "DABT_DFSC_TLB",
 };
 
-void* default_handler(uint64_t vec, uint64_t esr) {
+void* default_handler(uint64_t vec, uint64_t esr, regvals_t* regs) {
   uint64_t ec = esr >> 26;
   uint64_t iss = esr & BITMASK(26);
   uint64_t cpu = get_cpu();
@@ -78,6 +78,11 @@ void* default_handler(uint64_t vec, uint64_t esr) {
     uint64_t dfsc = iss & BITMASK(6);
     printf("  [  DFSC] 0x%lx (%s)\n", dfsc, dabt_iss_dfsc[dfsc]);
   }
+  printf("  [REGISTERS]\n");
+  for (int i = 0; i < 30; i++) {
+    printf("  [  x%d] 0x%lx\n", i, regs->gpr[i]);
+  }
+  printf("  [   SP] 0x%lx\n", regs->sp);
   printf("  \n");
   unlock(&_EXC_PRINT_LOCK);
   abort();
@@ -177,7 +182,7 @@ static void* default_svc_handler(uint64_t vec, uint64_t esr, regvals_t* regs) {
     else if (imm == 12)
       return default_svc_read_currentel(vec, esr, regs);
     else
-      return default_handler(vec, esr);
+      return default_handler(vec, esr, regs);
   else
     return (void*)table_svc[cpu][imm](esr, regs);
 }
@@ -188,7 +193,7 @@ static void* default_pgfault_handler(uint64_t vec, uint64_t esr,
   int cpu = get_cpu();
   uint64_t imm = far % 127;
   if (table_pgfault[cpu][imm] == NULL)
-    return default_handler(vec, esr);
+    return default_handler(vec, esr, regs);
   else
     return (void*)table_pgfault[cpu][imm](esr, regs);
 }
@@ -204,7 +209,7 @@ void* handle_exception(uint64_t vec, uint64_t esr, regvals_t* regs) {
   } else if ((ec | 1) == 0x25) {
     return default_pgfault_handler(vec, esr, regs);
   } else {
-    return default_handler(vec, esr);
+    return default_handler(vec, esr, regs);
   }
 }
 
