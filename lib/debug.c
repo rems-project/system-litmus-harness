@@ -89,7 +89,7 @@ void __print_heap_page(uint64_t pg) {
     if (chk == NULL) {
       va += 1;
     } else {
-      char time_str[128];
+      char* time_str = alloc(128);
       sprint_time(&time_str[0], chk->meta.ts, SPRINT_TIME_HHMMSSCLK);
 
       printf("   ");
@@ -99,6 +99,7 @@ void __print_heap_page(uint64_t pg) {
       }
 
       printf("[%p: %p @ %s]\n", chk->start, chk->size, &time_str[0]);
+      free(time_str);
       va += chk->size;
       total_alloc += chk->size;
 

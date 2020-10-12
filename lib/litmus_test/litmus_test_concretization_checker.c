@@ -1,13 +1,12 @@
 #include "lib.h"
 
 static void fail_postcheck(test_ctx_t* ctx, const litmus_test_t* cfg, run_idx_t run, const char* fmt, ...) {
-  char buffer[1024];
-  char* out = &buffer[0];
+  char* buf = ALLOC_MANY(char, 1024);
   va_list ap;
   va_start(ap, fmt);
-  vsprintf(out, 1, fmt, ap);
+  vsprintf(buf, 1, fmt, ap);
   va_end(ap);
-  fail("! error: concretization of test %s failed on run %d: %s\n", cfg->name, run, &buffer[0]);
+  fail("! error: concretization of test %s failed on run %d: %s\n", cfg->name, run, buf);
 }
 
 /** check for nonsensical (bad) configurations */
