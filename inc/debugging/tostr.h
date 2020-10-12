@@ -14,7 +14,7 @@
 #define __REPR_SPRINTF_FMT_9(ty, name, ...) __REPR_SPRINTF_FMT_1(ty, name) ", " __REPR_SPRINTF_FMT_8(__VA_ARGS__)
 #define __REPR_SPRINTF_FMT_10(ty, name, ...) __REPR_SPRINTF_FMT_1(ty, name) ", " __REPR_SPRINTF_FMT_9(__VA_ARGS__)
 
-#define __REPR_SPRINTF_ARG_ONE_obj(ty, name) (REPR(ty)(x->name))
+#define __REPR_SPRINTF_ARG_ONE_obj(ty, name) (TOSTR(ty, x->name))
 #define __REPR_SPRINTF_ARG_ONE_val(ty, name) x->name
 #define __PRTY(kind, ty, name) __REPR_SPRINTF_ARG_ONE_##kind(ty, name)
 #define _PRTY(kind, ty, name) __PRTY(kind, ty, name)
@@ -63,6 +63,9 @@
   ({ ty* x = (v); \
     char* s = alloc(1024); \
     sprintf(s, _MAKE_REPR_SPRINTF(ty, REPR_ARGS_##ty), _MAKE_REPR_SPRINTF_ARGS(REPR_ARGS_##ty)); \
+    if (strlen(s) > 1024) { \
+      fail("! TOSTR(" STR_LITERAL(ty) ") failed, overrun string buffer."); \
+    } \
     s; })
 
 #endif /* TOSTR_H */
