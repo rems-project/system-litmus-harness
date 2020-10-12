@@ -85,6 +85,10 @@ ifdef litmus_run_linter
 	@grep -e '$^' litmus/linter.log || true
 endif
 
+# Disable debug object symbols for litmus tests themselves
+# this just makes everything so big and slow ...
+bin/litmus/litmus_tests/%.o: DEBUG_CFLAGS=
+
 # remove bin/lib/version.o and let that build separately
 # so any change to any of the other prerequesites will
 # force a re-fresh of version.o containing the version string
