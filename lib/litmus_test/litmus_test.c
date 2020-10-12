@@ -21,8 +21,11 @@ void run_test(const litmus_test_t* cfg) {
   printf("\n");
   printf("Test %s:\n", cfg->name);
 
-  /* create test context obj */
-  test_ctx_t ctx;
+  /* create test context obj
+   * make sure it's on the heap
+   * if we're passing to another thread
+   */
+  test_ctx_t* ctx = ALLOC_ONE(test_ctx_t);
 
   /* use same seed for each test
    * this means we can re-run just 1 test from whole batch
@@ -30,11 +33,11 @@ void run_test(const litmus_test_t* cfg) {
   reset_seed();
 
   /* create the dynamic configuration (context) from the static information (cfg) */
-  init_test_ctx(&ctx, cfg, NUMBER_OF_RUNS);
-  initialize_regions(&ctx.heap_memory);
+  init_test_ctx(ctx, cfg, NUMBER_OF_RUNS);
+  initialize_regions(&ctx->heap_memory);
 
   debug("done.  run the tests.\n");
-  start_of_test(&ctx);
+  start_of_test(ctx);
 
   /* run it */
   trace("%s\n", "Running Tests ...");
@@ -44,10 +47,10 @@ void run_test(const litmus_test_t* cfg) {
     }
     printf("\n");
   }
-  run_on_cpus((async_fn_t*)go_cpus, (void*)&ctx);
+  run_on_cpus((async_fn_t*)go_cpus, (void*)ctx);
 
   /* clean up and display results */
-  end_of_test(&ctx);
+  end_of_test(ctx);
 }
 
 uint64_t* ctx_heap_var_va(test_ctx_t* ctx, uint64_t varidx, run_idx_t i) {
@@ -366,7 +369,7 @@ static void start_of_thread(test_ctx_t* ctx, int cpu) {
 static void end_of_thread(test_ctx_t* ctx, int cpu) {
   if (ENABLE_PGTABLE) {
     /* restore global non-test pgtable */
-    vmm_switch_ttable(vmm_pgtable);
+    vmm_switch_ttable(vmm_pgtables[cpu]);
   }
 
   BWAIT(cpu, 0, ctx->final_barrier, NO_CPUS);
@@ -377,7 +380,9 @@ static void start_of_test(test_ctx_t* ctx) {
   if (ENABLE_PGTABLE) {
     ctx->ptable = vmm_alloc_new_4k_pgtable();
 
-    /* need to add read/write mappings to the exception vector table */
+    /* need to add read/write mappings to the exception vector table
+     * so we can write from EL0
+     */
     for (int i = 0; i < 4; i++) {
       vmm_update_mapping(ctx->ptable, vector_base_addr_rw+i*4096, vector_base_pa+i*4096, PROT_PGTABLE);
     }
@@ -402,6 +407,7 @@ static void end_of_test(test_ctx_t* ctx) {
 
   concretize_finalize(LITMUS_CONCRETIZATION_TYPE, ctx, ctx->cfg, ctx->no_runs, ctx->concretization_st);
   free_test_ctx(ctx);
+  free(ctx);
 
   if (ENABLE_PGTABLE)
     vmm_free_pgtable(ctx->ptable);

@@ -10,7 +10,7 @@
 #include "sync.h"
 
 /* global pagetable */
-extern uint64_t* vmm_pgtable;
+extern uint64_t** vmm_pgtables;
 
 /* translation functions */
 
@@ -58,6 +58,7 @@ void vmm_mmu_on(void);
 
 void vmm_set_id_translation(uint64_t* pgtable);
 void vmm_update_mapping(uint64_t* pgtable, uint64_t va, uint64_t pa, uint64_t prot);
+void vmm_unmap_page(uint64_t* pgtable, uint64_t va);
 void vmm_switch_ttable(uint64_t* new_table);
 void vmm_switch_asid(uint64_t asid);
 

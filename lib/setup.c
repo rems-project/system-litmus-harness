@@ -5,6 +5,8 @@
 extern uint64_t __argc;
 extern char*    __argv[100];
 
+extern char* stackptr;
+
 void setup(char* fdtloc) {
   fdt = fdtloc;
 
@@ -53,13 +55,8 @@ void setup(char* fdtloc) {
 
   /* create pgtable */
   if (ENABLE_PGTABLE) {
-    vmm_pgtable = vmm_alloc_new_4k_pgtable();
-    /* re-map vector_base_addr to some non-executable mapping of the vector table
-    */
+    vmm_pgtables = alloc(sizeof(uint64_t*)*NO_CPUS);
     vector_base_addr_rw = (uint64_t)alloc(4096*4);
-    for (int i = 0; i < 4; i++) {
-      vmm_update_mapping(vmm_pgtable, vector_base_addr_rw+i*4096, vector_base_pa+i*4096, PROT_PGTABLE);
-    }
   }
 
   printf("#build: (%s)\n", version_string());
@@ -116,7 +113,25 @@ void per_cpu_setup(int cpu) {
   current_thread_info()->mmu_enabled = 0;
 
   if (ENABLE_PGTABLE) {
+    uint64_t* vmm_pgtable = vmm_alloc_new_4k_pgtable();
+    vmm_pgtables[cpu] = vmm_pgtable;
+
     vmm_set_id_translation(vmm_pgtable);
+
+    /* re-map vector_base_addr to some non-executable mapping of the vector table
+    */
+    vmm_update_mapping(vmm_pgtable, vector_base_addr_rw+cpu*4096, vector_base_pa+cpu*4096, PROT_PGTABLE);
+
+    /* unmap other threads' stack space
+     * each thread has a 4k stack
+     * so 1 page and we make sure this thread cannot access it
+     */
+    for (int i = 0; i < NO_CPUS; i++) {
+      if (i == cpu)
+        continue;
+
+      vmm_unmap_page(vmm_pgtable, (uint64_t)&stackptr + 4096*i);
+    }
   }
 
   /* enable virtual/physical timers */

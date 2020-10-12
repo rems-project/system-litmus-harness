@@ -19,4 +19,5 @@
 
 
 #define OFFS(va, lvl) BIT_SLICE(va, OFFSTOP(lvl), OFFSBOT(lvl))
+
 #endif /* VMM_TABLES_H */

@@ -29,6 +29,11 @@ void vmm_update_mapping(uint64_t* pgtable, uint64_t va, uint64_t pa, uint64_t pr
   set_block_or_page(pgtable, va, pa, 0, prot, 3);
 }
 
+void vmm_unmap_page(uint64_t* pgtable, uint64_t va) {
+  debug("unmap VA=%p\n", va);
+  set_block_or_page(pgtable, va, 0, 1, 0, 0);
+}
+
 void __ptable_set_range(uint64_t* root,
                       uint64_t pa_start,
                       uint64_t va_start, uint64_t va_end,

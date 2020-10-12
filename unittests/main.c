@@ -26,7 +26,7 @@ void main(void) {
       trace("# %s\n", fn->name);
       fn->fn();
       if (ENABLE_PGTABLE) {
-        vmm_switch_ttable(vmm_pgtable);
+        vmm_switch_ttable(vmm_pgtables[0]);
       }
       mem = pool;
       total_count++;

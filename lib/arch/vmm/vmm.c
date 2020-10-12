@@ -1,6 +1,14 @@
 #include "lib.h"
 
-uint64_t* vmm_pgtable;
+/** each hardware thread
+ * has its own pagetable
+ * for running the harness in
+ *
+ * note that there is a singular global
+ * *test* translation table stored in the test_ctx_t
+ */
+
+uint64_t** vmm_pgtables;
 
 lock_t _vmm_lock;
 
