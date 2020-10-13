@@ -44,9 +44,9 @@ create() {
 
 run() {
   if [ "$1" == "qemu_unittests.exe" ] ; then
-    CMD="make unittests BIN_ARGS='${BIN_ARGS}' TESTS='${TESTS}' | tee unittests-output.log"
+    CMD="make build TESTS='${TESTS}' && ./bin/qemu_unittests.exe ${BIN_ARGS} | tee unittests-output.log"
   else
-    CMD="make build && ./bin/qemu_litmus.exe BIN_ARGS='${BIN_ARGS}' LITMUS_TESTS='${TESTS}' | tee litmus-output.log"
+    CMD="make build && ./bin/qemu_litmus.exe ${BIN_ARGS} ${TESTS} | tee litmus-output.log"
   fi
 
   # Run the image non-interactively
