@@ -11,5 +11,4 @@ docker rm "${DOCKER_CONTAINER_NAME}" || true
 echo "Removing ${DOCKER_IMAGE_NAME}"
 docker image rm "${DOCKER_IMAGE_NAME}" || true
 
-# prune what remains
-docker system prune -f
+echo "Run docker system prune to remove hanging images"
