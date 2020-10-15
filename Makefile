@@ -159,7 +159,7 @@ LIB_DIRS = lib lib/arch lib/arch/vmm lib/valloc lib/re lib/drivers/qemu lib/litm
 OTHER_INCLUDES =  # set for unittests
 _HEAD_COMMIT_SHA = $(shell git rev-parse --short HEAD -n1)
 _DATE_VERSION = $(shell date '+%y.%m')
-_MINOR_VERSION = $(shell git log HEAD --since=$(_DATE_VERSION).01 --pretty=format:%ci | wc -l)
+_MINOR_VERSION = $(shell git log HEAD --since=`date '+%Y-%m'`-01 --pretty=format:%ci | wc -l)
 _VERSION = $(_DATE_VERSION).$(_MINOR_VERSION)
 CFLAGS = -O0 -nostdlib \
 		$(foreach DIR,$(INC_DIRS),-I $(DIR)) \
