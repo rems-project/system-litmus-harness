@@ -257,8 +257,9 @@ def write_test_list_txt(tg):
             f.write(f"{include} {fname} {modified} {ident} {test_name} {groups}\n")
 
 if __name__ == "__main__":
-    root = pathlib.Path(__file__).parent
-
+    litmus_dir = pathlib.Path(__file__).parent
+    sys_harness_root = litmus_dir.parent
+    root = litmus_dir.relative_to(sys_harness_root)
     quiet = int(sys.argv[1])
     includes = set(sys.argv[2:])
     force = bool(includes)
