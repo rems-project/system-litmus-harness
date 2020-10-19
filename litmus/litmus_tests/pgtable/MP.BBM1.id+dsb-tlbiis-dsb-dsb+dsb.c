@@ -14,7 +14,6 @@ static void P0(litmus_test_run* data) {
     "mov x4, %[xpte]\n\t"
     "mov x5, #1\n\t"
     "mov x6, %[y]\n\t"
-
     /* test payload */
     "str x0,[x1]\n\t"
     "dsb sy\n\t"
@@ -46,7 +45,6 @@ static void P1(litmus_test_run* data) {
       /* test */
       "ldr x0,[x1]\n\t"
       "dsb sy\n\t"
-      "isb\n\t"
       "ldr x2,[x3]\n\t"
       /* output */
       "str x0, [%[outp1r0]]\n\t"
@@ -58,8 +56,10 @@ static void P1(litmus_test_run* data) {
   );
 }
 
-litmus_test_t BBM1id_dsbtlbiisdsbdsb_dsbisb = {
-  "MP.BBM1.id+dsb-tlbiis-dsb-dsb+dsb-isb",
+
+
+litmus_test_t BBM1id_dsbtlbiisdsbdsb_dsb = {
+  "MP.BBM1.id+dsb-tlbiis-dsb-dsb+dsb",
   MAKE_THREADS(2),
   MAKE_VARS(VARS),
   MAKE_REGS(REGS),
