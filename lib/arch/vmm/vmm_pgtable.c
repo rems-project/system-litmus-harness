@@ -113,8 +113,7 @@ void ptable_unmap_range(uint64_t* root,
     __ptable_set_range(root, pa_start, va_start, va_end, 1, 0);
 }
 
-
-uint64_t* vmm_alloc_new_4k_pgtable(void) {
+static uint64_t* __vmm_alloc_table(uint8_t is_test) {
   uint64_t* root_ptable = alloc(4096);
   valloc_memset(root_ptable, 0, 4096);
 
@@ -150,12 +149,17 @@ uint64_t* vmm_alloc_new_4k_pgtable(void) {
   /* heap, for non-test data */
   ptable_map_range(root_ptable, BOT_OF_HEAP, BOT_OF_HEAP, TOP_OF_HEAP, PROT_MEMTYPE_NORMAL | PROT_RW_RWX);
 
-  /* testdata physical address space itself is unmapped in the virtual space */
-  ptable_unmap_range(root_ptable, BOT_OF_TESTDATA, BOT_OF_TESTDATA, TOP_OF_TESTDATA);
+  /* testdata physical address space itself is mapped in the virtual space
+   * this is for tests that might want to have a INIT_IDENTITY_MAP(x)
+   */
+  ptable_map_range(root_ptable, BOT_OF_TESTDATA, BOT_OF_TESTDATA, TOP_OF_TESTDATA, PROT_MEMTYPE_NORMAL | PROT_RW_RWX);
 
   /* the harness itself maps all of memory starting @ 64G
    */
   ptable_map_range(root_ptable, phys_offs, (uint64_t)HARNESS_MMAP, (uint64_t)HARNESS_MMAP+TOTAL_MEM, PROT_MEMTYPE_NORMAL | PROT_RW_RWX);
+
+  if (! is_test)
+    return root_ptable;
 
   /* finally, the test data (variables etc) are placed into
    * physical address space TOP_OF_HEAP -> TOP_OF_MEM
@@ -170,6 +174,14 @@ uint64_t* vmm_alloc_new_4k_pgtable(void) {
   }
 
   return root_ptable;
+}
+
+uint64_t* vmm_alloc_new_4k_pgtable(void) {
+  return __vmm_alloc_table(0);
+}
+
+uint64_t* vmm_alloc_new_test_pgtable(void) {
+  return __vmm_alloc_table(1);
 }
 
 static void set_new_ttable(uint64_t ttbr, uint64_t tcr, uint64_t mair) {

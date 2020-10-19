@@ -62,8 +62,21 @@
     + __TESTDATA_MMAP_8M_RESIDUE(__TESTDATA_MMAP_OFFSET_VA_FROM_BASE(v)))
 
 
-/* convert a test VA to a safe VA in the HARNESS MMAP region
+/** returns true if the given va is in the TESTDATA mapped region starting at 64GiB
  */
-#define SAFE_TESTDATA_VA(va) HARNESS_MMAP_PHYS_TO_VIRT(TESTDATA_MMAP_VIRT_TO_PHYS(va))
+#define IN_TESTDATA_RANGE(va) ((TESTDATA_MMAP_BASE <= (va)) && ((va) < (TESTDATA_MMAP_BASE+TESTDATA_MMAP_SIZE)))
+
+/* convert a test VA to a safe VA in the HARNESS MMAP region
+ * the VA is either in the TESTDATA range, or in the normal heap range
+ * if in the heap range then assume identically mapped and move the VA up into the safe range
+ * if in the testdata range, work out the PA then do the same moving up into the safe range
+ */
+#define SAFE_TESTDATA_VA(va) \
+  ( (! IN_TESTDATA_RANGE(va)) ? HARNESS_MMAP_PHYS_TO_VIRT(va) \
+                              : HARNESS_MMAP_PHYS_TO_VIRT(TESTDATA_MMAP_VIRT_TO_PHYS(va)) )
+
+#define SAFE_TESTDATA_PA(va) \
+  ( (! IN_TESTDATA_RANGE(va)) ? va \
+                              : TESTDATA_MMAP_VIRT_TO_PHYS(va) )
 
 #endif /* VMM_REGIONS_H */

@@ -378,7 +378,7 @@ static void end_of_thread(test_ctx_t* ctx, int cpu) {
 
 static void start_of_test(test_ctx_t* ctx) {
   if (ENABLE_PGTABLE) {
-    ctx->ptable = vmm_alloc_new_4k_pgtable();
+    ctx->ptable = vmm_alloc_new_test_pgtable();
 
     /* need to add read/write mappings to the exception vector table
      * so we can write from EL0

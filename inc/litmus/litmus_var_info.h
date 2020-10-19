@@ -45,6 +45,11 @@ typedef struct {
   uint8_t is_alias;
   var_idx_t alias;
 
+  /* whether this variable is mapped by an identity mapping
+   * in the pagetable
+   */
+  uint8_t id_mapped;
+
   /** array of pointers into memory region for each run
    *
    * this is what actually defines the concrete tests

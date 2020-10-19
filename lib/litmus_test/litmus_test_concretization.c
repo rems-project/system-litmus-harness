@@ -86,7 +86,7 @@ void set_init_pte(test_ctx_t* ctx, var_idx_t varidx, var_idx_t idx) {
   } else {
   /* otherwise we write the level3 descriptor for this VA
    */
-    uint64_t pg = TESTDATA_MMAP_VIRT_TO_PHYS(va) & ~BITMASK(PAGE_SHIFT);
+    uint64_t pg = SAFE_TESTDATA_PA((uint64_t)va) & ~BITMASK(PAGE_SHIFT);
     uint64_t default_desc = vmm_make_desc(pg, PROT_DEFAULT_HEAP, 3);
     *pte = default_desc;
 
@@ -168,9 +168,9 @@ void set_init_var(test_ctx_t* ctx, var_idx_t varidx, var_idx_t idx) {
 
   if (ENABLE_PGTABLE) {
     /* convert the VA to the PA
-     * then convert the PA to its location
-     * in the HARNESS MMAP to get reliable R/W mapping
-     */
+    * then convert the PA to its location
+    * in the HARNESS MMAP to get reliable R/W mapping
+    */
     uint64_t* safe_va = (uint64_t*)SAFE_TESTDATA_VA((uint64_t)va);
     *safe_va = vinfo->init_value;
   } else {

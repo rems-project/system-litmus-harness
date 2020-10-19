@@ -49,6 +49,7 @@ uint64_t vmm_make_desc(uint64_t pa, uint64_t prot, int level);
 attrs_t vmm_read_attrs(uint64_t* root, uint64_t va);
 
 uint64_t* vmm_alloc_new_4k_pgtable(void);
+uint64_t* vmm_alloc_new_test_pgtable(void);
 void vmm_free_pgtable(uint64_t* root);
 void vmm_mmu_off(void);
 void vmm_mmu_on(void);

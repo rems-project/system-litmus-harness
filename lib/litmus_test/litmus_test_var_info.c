@@ -9,6 +9,7 @@ void read_init_ap(const litmus_test_t* cfg, var_info_t* infos, const char* varna
 void read_init_pte(const litmus_test_t* cfg, var_info_t* infos, const char* varname, uint64_t pte);
 void read_init_heap(const litmus_test_t* cfg, var_info_t* infos, const char* varname, uint64_t value);
 void read_init_mair(init_system_state_t* st, uint64_t mair_attr7);
+void read_init_idmap(const litmus_test_t* cfg, var_info_t* infos, const char* varname);
 
 void read_var_infos(const litmus_test_t* cfg, init_system_state_t* sys_st, var_info_t* infos, int no_runs) {
   for (var_idx_t v = 0; v < cfg->no_heap_vars; v++) {
@@ -28,6 +29,9 @@ void read_var_infos(const litmus_test_t* cfg, init_system_state_t* sys_st, var_i
         break;
       case (TYPE_UNMAPPED):
         read_init_unmapped(cfg, infos, name);
+        break;
+      case (TYPE_IDENTITY_MAP):
+        read_init_idmap(cfg, infos, name);
         break;
       case (TYPE_ALIAS):
         read_init_alias(cfg, infos, name, var->aliasname);
@@ -142,6 +146,11 @@ void read_init_mair(init_system_state_t* st, uint64_t mair_attr7) {
 void read_init_unmapped(const litmus_test_t* cfg, var_info_t* infos, const char* varname) {
   var_idx_t idx = idx_from_varname_infos(cfg, infos, varname);
   infos[idx].init_unmapped = 1;
+}
+
+void read_init_idmap(const litmus_test_t* cfg, var_info_t* infos, const char* varname) {
+  var_idx_t idx = idx_from_varname_infos(cfg, infos, varname);
+  infos[idx].id_mapped = 1;
 }
 
 void read_init_region_offs(const litmus_test_t* cfg, var_info_t* infos, const char* varname, const char* offsvarname, rel_offset_t offs) {

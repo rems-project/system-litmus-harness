@@ -35,9 +35,15 @@ region_idx_t align_up_region_idx(region_idx_t idx, pin_level_t alignment) {
   };
 }
 
-uint64_t va_from_region_idx(test_ctx_t* ctx, region_idx_t idx) {
+uint64_t va_from_region_idx(test_ctx_t* ctx, var_info_t* var, region_idx_t idx) {
   uint64_t reg_start = (uint64_t)ctx->heap_memory.regions[idx.reg_ix];
-  return reg_start + idx.reg_offs;
+  uint64_t va = reg_start + idx.reg_offs;
+
+  if (var->id_mapped) {
+    va = TESTDATA_MMAP_VIRT_TO_PHYS(va);
+  }
+
+  return va;
 }
 
 region_idx_t region_idx_bottom() {
