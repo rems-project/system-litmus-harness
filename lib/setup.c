@@ -110,6 +110,7 @@ void ensure_cpus_on(void) {
 }
 
 void per_cpu_setup(int cpu) {
+  current_thread_info()->cpu_no = cpu;
   current_thread_info()->mmu_enabled = 0;
 
   if (ENABLE_PGTABLE) {
