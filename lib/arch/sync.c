@@ -128,7 +128,7 @@ void __atomic_dec(volatile uint64_t* va) {
   );
 }
 
-void bwait(int vcpu, int i, bar_t* bar, int sz) {
+void bwait(int vcpu, bar_t* bar, int sz) {
   if (! current_thread_info()->locking_enabled) {
     fail("bwait needs locking enabled\n");
   }
