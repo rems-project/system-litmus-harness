@@ -213,7 +213,7 @@ def write_table(grp_list, f, devices, includes=[], excludes=[], print_skips=True
         tab_shape += " | \\shapemacro"
 
     if args.macros:
-        f.write("\\input{table_macros}")
+        f.write("\\input{table_macros}\n")
         with open("table_macros.tex", "w") as g:
             test_macros = [f"\\expandafter\\newcommand\\csname {t}\\endcsname{{}}" for (t, _) in filtered]
             g.write(MACROS_TEX.format(tests="\n".join(test_macros)))
