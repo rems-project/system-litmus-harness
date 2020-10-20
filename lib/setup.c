@@ -26,10 +26,9 @@ void setup(char* fdtloc) {
 
   debug("setup\n");
   if (INITIAL_SEED == 0) {
-    uint64_t seed = read_clk();
-    INITIAL_SEED = seed;
-    debug("set initial seed = 0x%lx\n", seed);
+    init_seed();
   }
+  reset_seed();
 
   char c = 'm';
   char seps [] = { c, c, c, c, c, c, c, c, c, c, c, c, c, '\0' };

@@ -7,6 +7,12 @@ volatile uint64_t SEED = 0;
 
 volatile lock_t __rnd_lock;
 
+void init_seed(void) {
+  uint64_t seed = read_clk();
+  INITIAL_SEED = seed;
+  debug("set initial seed = 0x%lx\n", seed);
+}
+
 void reset_seed(void) {
   lock(&__rnd_lock);
   SEED = INITIAL_SEED;
@@ -14,6 +20,7 @@ void reset_seed(void) {
 }
 
 void rand_seed(uint64_t seed) {
+  debug("set seed = 0x%lx\n", seed);
   SEED = seed;
 }
 
