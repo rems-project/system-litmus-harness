@@ -6,6 +6,8 @@ Simple Usage:
    make deepclean	clean everything. No really.
    make publish		publish doc/ folder to gh-pages
    make hw-results	collect hardware results from known sources
+   make test		run the unittests in QEMU
+   make run			run the litmus tests in QEMU
 endef
 
 define ADV_USAGE
@@ -372,6 +374,14 @@ $(eval $(call build-target,-graviton2,HOST=gic QEMU_MEM=1G))
 .PHONY: build
 build: build-default
 LITMUS_TARGETS += build
+
+test: ./qemu_unittests
+test:
+	./qemu_unittests
+
+run: ./qemu_litmus
+	./qemu_litmus
+LITMUS_TARGETS += run
 
 include mk/litmus.mk
 include mk/unittests.mk
