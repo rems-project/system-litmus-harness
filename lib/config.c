@@ -7,6 +7,7 @@
 uint64_t NUMBER_OF_RUNS = 10000UL;
 uint8_t ENABLE_PGTABLE = 1;  /* start enabled */
 uint8_t ENABLE_PERF_COUNTS = 0;
+uint8_t RUN_FOREVER = 0;
 
 uint8_t ENABLE_RESULTS_HIST = 1;
 
@@ -334,6 +335,12 @@ argdef_t ARGS = (argdef_t){
       "\n"
       "displays the complete list of the compiled tests and their groups, then quits.",
       .only_action=1
+    ),
+    FLAG(
+      NULL,
+      "--run-forever",
+      RUN_FOREVER,
+      "repeat test runs indefinitely\n"
     ),
     OPT(
       "-n",

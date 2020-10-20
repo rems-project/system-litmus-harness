@@ -7,6 +7,7 @@
 extern uint64_t NUMBER_OF_RUNS;
 extern uint8_t ENABLE_PGTABLE;
 extern uint8_t ENABLE_PERF_COUNTS;
+extern uint8_t RUN_FOREVER;
 
 /** enable/disable collecting results histogram
  * and (if -t) print results direct to serial */
