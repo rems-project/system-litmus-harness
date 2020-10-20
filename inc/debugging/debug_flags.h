@@ -48,4 +48,11 @@
    #define DEBUG_LOCKS 0
 #endif
 
+/**
+ * if -DDEBUG_DISABLE_WFE=1 then nop wfe/sev
+ */
+#ifndef DEBUG_DISABLE_WFE
+   #define DEBUG_DISABLE_WFE 0
+#endif
+
 #endif /* DEBUG_FLAGS_H */
