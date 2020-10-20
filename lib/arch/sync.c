@@ -113,6 +113,21 @@ void mutex_unlock(volatile mutex_t* mut) {
 
 lock_t bwait_lock;
 
+void __atomic_dec(volatile uint64_t* va) {
+  /* atomic decrement
+   */
+  asm volatile(
+    "0:\n"
+    "ldxr x0, [%[va]]\n"
+    "sub x0, x0, #1\n"
+    "stxr w1, x0, [%[va]]\n"
+    "cbnz w1, 0b\n"
+    :
+    : [va] "r" (va)
+    : "memory", "x0", "x1"
+  );
+}
+
 void bwait(int vcpu, int i, bar_t* bar, int sz) {
   if (! current_thread_info()->locking_enabled) {
     fail("bwait needs locking enabled\n");
@@ -121,41 +136,36 @@ void bwait(int vcpu, int i, bar_t* bar, int sz) {
   /* slow acquire */
   lock(&bwait_lock);
 
-  /* if any release flag is non-zero
-   * then one of the previous bwait() calls still
-   * hasn't been released
+  /* if waiting is non-zero then
+   * then we're still waiting for the release of one of the previous
+   * bwait()s
    */
-  for (int i = 0; i < sz; i++) {
-    while (! bar->release_flags[i]) dmb();
+  if (bar->current_state == 1) {
+    while (bar->waiting != 0) dmb();
+
+    bar->iteration++;
+    bar->current_state = 0;
   }
 
-  /* allow re-use of the same barrier */
-  if (bar->to_be_cleaned) {
-    *bar = EMPTY_BAR;
-  }
-
-  bar->counter++;
-  if (bar->counter == sz) {
-    bar->released = 1;
-    bar->to_be_cleaned = 1;
+  bar->waiting++;
+  if (bar->waiting == sz) {
+    bar->current_state = 1;
     dmb();
     sev();
   }
   unlock(&bwait_lock);
 
-  while (! bar->released) wfe();
+  /* wait for the last one to arrive and flip the current state */
+  uint64_t iter = bar->iteration;
+  while (bar->current_state == 0) wfe();
+  __atomic_dec(&bar->waiting);
 
-  /** a slow bwait acquire section
+  /** a slow bwait release section
    * this is to try reduce overhead and get all threads spinning at once
    * before releasing
    * N.B.  context switching kills this, it really needs a dedicated CPU.
    *
    * vcpus are labelled 0..N for N <= sz
    */
-  bar->release_flags[vcpu] = 1;
-  dmb();
-
-  for (int i = 0; i < sz; i++) {
-    while (! bar->release_flags[i]) dmb();
-  }
+  while (bar->iteration == iter && bar->waiting != 0) dmb();
 }

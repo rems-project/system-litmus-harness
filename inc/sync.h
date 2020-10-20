@@ -54,13 +54,12 @@ void unlock(volatile lock_t* lock);
 
 /* barrier */
 typedef struct {
-  volatile uint64_t counter;
-  uint64_t released;
-  uint8_t release_flags[4];
-  uint8_t to_be_cleaned;
+  volatile uint64_t iteration;
+  volatile uint64_t waiting;
+  uint8_t current_state;
 } bar_t;
 
-#define EMPTY_BAR (bar_t){0,0,{1,1,1,1},0}
+#define EMPTY_BAR (bar_t){0,0,0}
 
 void bwait(int cpu, int i, bar_t* barrier, int sz);
 
