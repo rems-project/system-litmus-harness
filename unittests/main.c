@@ -27,6 +27,7 @@ void main(void) {
       fn->fn();
       if (ENABLE_PGTABLE) {
         vmm_switch_ttable(vmm_pgtables[0]);
+        vmm_mmu_on(); /* ensure mmu is on */
       }
       mem = pool;
       total_count++;
