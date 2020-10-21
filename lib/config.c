@@ -7,8 +7,11 @@
 uint64_t NUMBER_OF_RUNS = 10000UL;
 uint8_t ENABLE_PGTABLE = 1;  /* start enabled */
 uint8_t ENABLE_PERF_COUNTS = 0;
+uint8_t RUN_FOREVER = 0;
 
 uint8_t ENABLE_RESULTS_HIST = 1;
+uint8_t ENABLE_RESULTS_OUTREG_PRINT = 1;
+uint8_t ENABLE_RESULTS_MISSING_SC_WARNING = 1;
 
 uint8_t VERBOSE = 1;  /* start verbose */
 uint8_t TRACE = 0;
@@ -335,6 +338,12 @@ argdef_t ARGS = (argdef_t){
       "displays the complete list of the compiled tests and their groups, then quits.",
       .only_action=1
     ),
+    FLAG(
+      NULL,
+      "--run-forever",
+      RUN_FOREVER,
+      "repeat test runs indefinitely\n"
+    ),
     OPT(
       "-n",
       NULL,
@@ -394,6 +403,18 @@ argdef_t ARGS = (argdef_t){
       "--hist",
       ENABLE_RESULTS_HIST,
       "enable/disable results histogram collection\n"
+    ),
+    FLAG(
+      NULL,
+      "--print-outcome-breakdown",
+      ENABLE_RESULTS_OUTREG_PRINT,
+      "prints the breakdown of observed outcomes (default: on)\n"
+    ),
+    FLAG(
+      NULL,
+      "--print-missing-warning",
+      ENABLE_RESULTS_MISSING_SC_WARNING,
+      "prints a warning if an expected outcome is not observed (default: on)\n"
     ),
     OPT(
       "-s",

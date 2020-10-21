@@ -150,7 +150,7 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
      *
      * this bwait ensures that does not happen and that all affinity assignments are per-run
      */
-    BWAIT(cpu, 0, &ctx->start_of_run_barriers[i % 512], NO_CPUS);
+    BWAIT(cpu, &ctx->start_of_run_barriers[i % 512], NO_CPUS);
 
     if (vcpu >= ctx->cfg->no_threads) {
       goto run_thread_after_execution;
@@ -178,7 +178,7 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
       }
     }
 
-    BWAIT(vcpu, i % ctx->cfg->no_threads, &ctx->concretize_barriers[i % 512], ctx->cfg->no_threads);
+    BWAIT(vcpu, &ctx->concretize_barriers[i % 512], ctx->cfg->no_threads);
 
     for (var_idx_t v = 0; v < ctx->cfg->no_heap_vars; v++) {
       uint64_t* p = ctx_heap_var_va(ctx, v, i);
@@ -239,7 +239,7 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     }
 
     /* this barrier must be last thing before running function */
-    BWAIT(vcpu, i % ctx->cfg->no_threads, &ctx->start_barriers[i % 512], ctx->cfg->no_threads);
+    BWAIT(vcpu, &ctx->start_barriers[i % 512], ctx->cfg->no_threads);
     func(&run);
 
     if (ctx->cfg->thread_sync_handlers) {
@@ -265,7 +265,7 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
       vmm_switch_asid(0);
 
 run_thread_after_execution:
-    BWAIT(cpu, i % NO_CPUS, &ctx->cleanup_barriers[i], NO_CPUS);
+    BWAIT(cpu, &ctx->cleanup_barriers[i], NO_CPUS);
   }
 }
 
@@ -324,7 +324,7 @@ static void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, run_idx_t i, run_coun
   if (! ctx->cfg->start_els || ctx->cfg->start_els[vcpu] == 0)
     raise_to_el1();
 
-  BWAIT(vcpu, i % ctx->cfg->no_threads, &ctx->end_barriers[i % 512], ctx->cfg->no_threads);
+  BWAIT(vcpu, &ctx->end_barriers[i % 512], ctx->cfg->no_threads);
 
   /* only 1 thread should collect the results, else they will be duplicated */
   if (vcpu == 0) {
@@ -352,7 +352,7 @@ static void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, run_idx_t i, run_coun
 static void start_of_thread(test_ctx_t* ctx, int cpu) {
   /* ensure initial state gets propagated to all cores before continuing ...
   */
-  bwait(cpu, 0, ctx->initial_sync_barrier, NO_CPUS);
+  bwait(cpu, ctx->initial_sync_barrier, NO_CPUS);
 
   /* turn on MMU and switch to new pagetable */
   if (ENABLE_PGTABLE) {
@@ -372,7 +372,7 @@ static void end_of_thread(test_ctx_t* ctx, int cpu) {
     vmm_switch_ttable(vmm_pgtables[cpu]);
   }
 
-  BWAIT(cpu, 0, ctx->final_barrier, NO_CPUS);
+  BWAIT(cpu, ctx->final_barrier, NO_CPUS);
   trace("CPU%d: end of test\n", cpu);
 }
 

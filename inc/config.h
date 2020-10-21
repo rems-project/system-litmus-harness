@@ -7,10 +7,19 @@
 extern uint64_t NUMBER_OF_RUNS;
 extern uint8_t ENABLE_PGTABLE;
 extern uint8_t ENABLE_PERF_COUNTS;
+extern uint8_t RUN_FOREVER;
 
 /** enable/disable collecting results histogram
  * and (if -t) print results direct to serial */
 extern uint8_t ENABLE_RESULTS_HIST;
+
+/** enable/disable printing of breakdown of register state
+ * at end of test */
+extern uint8_t ENABLE_RESULTS_OUTREG_PRINT;
+
+/** enable/disable printing of warning of missing expected
+ * outcomes */
+extern uint8_t ENABLE_RESULTS_MISSING_SC_WARNING;
 
 extern uint8_t VERBOSE;
 extern uint8_t TRACE;

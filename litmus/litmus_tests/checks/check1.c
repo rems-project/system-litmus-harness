@@ -78,7 +78,7 @@ static void p0_setup(litmus_test_run* data) {
 }
 
 static void teardown(litmus_test_run* data) {
-  bwait(get_vcpu(), data->i % 3, bar, 3);
+  bwait(get_vcpu(), bar, 3);
   if (get_vcpu() == 0) {
     *data->tt_entries[0][3] = 0;
   }

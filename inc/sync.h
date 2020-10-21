@@ -61,13 +61,13 @@ typedef struct {
 
 #define EMPTY_BAR (bar_t){0,0,0}
 
-void bwait(int cpu, int i, bar_t* barrier, int sz);
+void bwait(int cpu, bar_t* barrier, int sz);
 
-#define BWAIT(cpu, i, barrier, sz) ({ \
+#define BWAIT(cpu, barrier, sz) ({ \
   if (DEBUG_BWAITS) { \
-    debug("BWAIT(%s=%d, %s=%d, %s=%p, sz=%d)\n", STR_LITERAL(cpu), cpu, STR_LITERAL(i), i, STR_LITERAL(barrier), barrier, sz); \
+    debug("BWAIT(%s=%d, %s=%p, sz=%d)\n", STR_LITERAL(cpu), cpu, STR_LITERAL(barrier), barrier, sz); \
   } \
-  bwait(cpu, i, barrier, sz); \
+  bwait(cpu, barrier, sz); \
 })
 
 #endif /* SYNC_H */

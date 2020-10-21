@@ -6,6 +6,8 @@ Simple Usage:
    make deepclean	clean everything. No really.
    make publish		publish doc/ folder to gh-pages
    make hw-results	collect hardware results from known sources
+   make test		run the unittests in QEMU
+   make run			run the litmus tests in QEMU
 endef
 
 define ADV_USAGE
@@ -158,6 +160,8 @@ INC_DIRS = inc inc/litmus inc/vmm inc/re
 LIB_DIRS = lib lib/arch lib/arch/vmm lib/valloc lib/re lib/drivers/qemu lib/litmus_test lib/litmus_test/concretization
 OTHER_INCLUDES =  # set for unittests
 _HEAD_COMMIT_SHA = $(shell git rev-parse --short HEAD -n1)
+_HEAD_STATUS = $(shell git status -s)
+_HEAD_COMMIT_HASH = $(_HEAD_COMMIT_SHA)$(if $(_HEAD_STATUS),!,)
 _DATE_VERSION = $(shell date '+%y.%m')
 _MINOR_VERSION = $(shell git log HEAD --since=`date '+%Y-%m'`-01 --pretty=format:%ci | wc -l)
 _VERSION = $(_DATE_VERSION).$(_MINOR_VERSION)
@@ -167,7 +171,7 @@ CFLAGS = -O0 -nostdlib \
 		-ffreestanding -fomit-frame-pointer -fno-pie -fno-pic \
 		-Wall $(addprefix -Wno-,$(CCNOWARN)) $(addprefix -Werror=,$(CCERRORS)) \
 		-D__VERSION_STR__="\"$(_VERSION)\"" \
-		-DCOMMITHASH="\"$(_HEAD_COMMIT_SHA)\"" \
+		-DCOMMITHASH="\"$(_HEAD_COMMIT_HASH)\"" \
 		$(DEBUG_CFLAGS)
 
 LDFLAGS = -nostdlib -n -static -pie
@@ -370,6 +374,14 @@ $(eval $(call build-target,-graviton2,HOST=gic QEMU_MEM=1G))
 .PHONY: build
 build: build-default
 LITMUS_TARGETS += build
+
+test: ./qemu_unittests
+test:
+	./qemu_unittests
+
+run: ./qemu_litmus
+	./qemu_litmus
+LITMUS_TARGETS += run
 
 include mk/litmus.mk
 include mk/unittests.mk

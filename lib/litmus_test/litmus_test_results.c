@@ -133,20 +133,24 @@ void print_results(test_hist_t* res, test_ctx_t* ctx) {
   for (int r = 0; r < res->allocated; r++) {
     int was_interesting = res->results[r]->is_relaxed;
 
-    for (reg_idx_t reg = 0; reg < ctx->cfg->no_regs; reg++) {
-      printf(" %s=%d ", ctx->cfg->reg_names[reg], res->results[r]->values[reg]);
+    if (ENABLE_RESULTS_OUTREG_PRINT) {
+      for (reg_idx_t reg = 0; reg < ctx->cfg->no_regs; reg++) {
+        printf(" %s=%d ", ctx->cfg->reg_names[reg], res->results[r]->values[reg]);
+      }
     }
 
     if (was_interesting) {
       marked += res->results[r]->counter;
-      printf(" : %d *\n", res->results[r]->counter);
+      if (ENABLE_RESULTS_OUTREG_PRINT)
+        printf(" : %d *\n", res->results[r]->counter);
     } else {
       no_sc_results_seen++;
-      printf(" : %d\n", res->results[r]->counter);
+      if (ENABLE_RESULTS_OUTREG_PRINT)
+        printf(" : %d\n", res->results[r]->counter);
     }
   }
   printf("Observation %s: %d (of %d)\n", ctx->cfg->name, marked, ctx->no_runs);
-  if (ctx->cfg->no_sc_results > 0 && no_sc_results_seen != ctx->cfg->no_sc_results) {
+  if (ctx->cfg->no_sc_results > 0 && no_sc_results_seen != ctx->cfg->no_sc_results && ENABLE_RESULTS_MISSING_SC_WARNING) {
     printf("Warning on %s: saw %d SC results but expected %d\n", ctx->cfg->name, no_sc_results_seen, ctx->cfg->no_sc_results);
   }
 }

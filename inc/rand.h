@@ -5,6 +5,7 @@
 extern volatile uint64_t INITIAL_SEED;
 extern volatile uint64_t SEED;
 
+void init_seed(void);
 void reset_seed(void);
 void rand_seed(uint64_t seed);
 uint64_t randn(void);

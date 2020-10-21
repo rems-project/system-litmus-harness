@@ -19,7 +19,7 @@ void cpu_boot(uint64_t cpu) {
   debug("boot CPU%d ...\n", cpu);
   psci_cpu_on(cpu);
   while (!cpu_data[cpu].started) wfe();
-  debug("... booted.\n", cpu);
+  debug("... booted CPU%d.\n", cpu);
 }
 
 void run_on_cpu_async(uint64_t cpu, async_fn_t* fn, void* arg) {
