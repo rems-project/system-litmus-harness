@@ -17,12 +17,15 @@ int main(int argc, char** argv) {
     return 0;
   }
 
+  uint64_t initial_time = read_clk();
+
   do {
     /* each run uses a different start seed
      * but then each test in that run uses the same seed
      */
     INITIAL_SEED = randn();
     debug("next seed = 0x%lx\n", INITIAL_SEED);
+    uint64_t start_time = read_clk();
 
     if (collected_tests_count == 0) {
         re_t* re = re_compile("@all");
@@ -42,13 +45,18 @@ int main(int argc, char** argv) {
         }
       }
 
-      uint64_t time = read_clk();
+      uint64_t end_time = read_clk();
+
       char time_str[100];
-      sprint_time((char*)&time_str, time, SPRINT_TIME_HHMMSS);
+      sprint_time(time_str, end_time - start_time, SPRINT_TIME_HHMMSS);
       /* always show, even when not in verbose mode
       * this will make it easier to do retrospective performance
       * evaluations in future */
-      printf("#elapsed time: %s\n", time_str);
+      printf("#duration: %s\n", time_str);
+
+      char cum_time_str[100];
+      sprint_time(cum_time_str, end_time - initial_time, SPRINT_TIME_HHMMSS);
+      printf("#time: %s\n", cum_time_str);
   } while (RUN_FOREVER);
 
   return 0;
