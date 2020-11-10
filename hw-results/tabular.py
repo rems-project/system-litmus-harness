@@ -17,7 +17,9 @@ import sys
 import math
 import pathlib
 import argparse
+import functools
 import collections
+import dataclasses
 
 root = pathlib.Path(__file__).parent.absolute()
 
@@ -43,27 +45,154 @@ parser.add_argument(
     help="Comma-separated list of included groups, e.g. --includes=@grp1,@grp2",
 )
 
+# the results are a set of tests, each with a set of results
+# where each result is a multiset of outcomes, where some outcomes
+# are specially marked to be recorded
 
-def collect_all(fnames):
-    results = collections.defaultdict(lambda: (0, 0))
-    running = collections.defaultdict(list)
+@dataclasses.dataclass(frozen=True)
+class Device:
+    name: "str"
+    dir: "str"
+
+@dataclasses.dataclass
+class RunResult:
+    regvals: str
+    count: int
+    is_marked: "bool" = False
+
+@dataclasses.dataclass
+class Hist:
+    test_name: str
+    results: "List[RunResult]"
+
+    def merge(self) -> "Mapping[str, int]":
+        rs = collections.defaultdict(int)
+
+        for r in self.results:
+            rs[r.regvals] += r.count
+
+        return rs
+
+    def update(self, other: "Hist") -> None:
+        if other.test_name != self.test_name:
+            raise ValueError(f"not same test name, self={self.test_name}, other={other.test_name}")
+
+        self.results.extend(other.results)
+
+TestName = str
+
+@dataclasses.dataclass
+class LogFileResult:
+    """we collect all of the results of a .log file into a LogFileResult
+    """
+    device: "Device"
+    results: "List[Hist]"
+    total: "Mapping[TestName, Hist]"
+
+
+@dataclasses.dataclass
+class FilteredLog:
+    """the result for a particular test on a particular device
+    after filtering
+    """
+    device: Device
+    test_name: TestName
+    results: "List[Hist]" = dataclasses.field(default_factory=list)
+    total: (int, int) = (0, 0)   # (count_observations, total)
+    running: "List[int]" = dataclasses.field(default_factory=list) # [obs_in_500k, obs_in_500k, ...]
+    distribution: (int, int) = (0,0) # (avg_in_500k, variance_in_500k)
+    batch_size: int = 500_000
+
+    def merge(self):
+        """take all of the Hists and merge them into one Hist
+        """
+        return Hist(self.test_name, [rr for r in self.results for rr in r.results]).merge()
+
+@dataclasses.dataclass
+class FilteredTest:
+    """the results for a test over many devices
+    """
+    test_name: TestName
+    groups: "List[str]"
+    results: "Mapping[Device, FilteredLog]"
+
+
+def read_test_file(device: Device, fname: str) -> LogFileResult:
+    with open(fname, "r") as f:
+        total = {}
+        lfr = LogFileResult(device, [], total)
+
+        recorded_test = []
+        current_test = None
+
+        # Assume entry looks like:
+        # Test MP+dmb+svc-R-svc-R:
+        #  p1:x0=0  p1:x2=1  : 35620
+        #  p1:x0=0  p1:x2=0  : 919
+        #  p1:x0=1  p1:x2=1  : 463461
+        # Observation MP+dmb+svc-R-svc-R: 0 (of 500000)
+
+        for line in f:
+            line = line.strip()
+
+            # first "Test ....:" line
+            _, prefix, name = line.partition("Test ")
+            if prefix:
+                name, _, _ = name.partition(":")
+                current_test = name
+                continue
+
+            # for each " pN:xM=K other_reg=L..." line
+            m = re.match(
+                r"\s*((.+=\d+)\s+)+\s*:\s*\d+",
+                line,
+            )
+
+            if m:
+                regpairs, _, count = line.rpartition(":")
+                count, is_marked, _ = count.partition("*")
+                rr = RunResult(regpairs.strip(), int(count), bool(is_marked))
+                recorded_test.append(rr)
+                continue
+
+            m = re.match(
+                r"Observation (?P<tname>.+?): (?P<obs>\d+) \(of (?P<total>\d+)\)",
+                line,
+            )
+            if m:
+                test_name = m.group("tname")
+                h = Hist(test_name, recorded_test)
+                lfr.results += [h]
+                if test_name not in lfr.total:
+                    lfr.total[test_name] = Hist(test_name, [])
+                lfr.total[test_name].update(h)
+                recorded_test = []
+                continue
+
+            # catch Exception as special outcome
+            m = re.match(
+                r"\s*Unhandled Exception",
+                line
+            )
+
+            if m:
+                rr = RunResult("*exception*:1", 1)
+                test_name = current_test
+                h = Hist(test_name, recorded_test + [rr])
+                lfr.results += [h]
+                if test_name not in lfr.total:
+                    lfr.total[test_name] = Hist(test_name, [])
+                lfr.total[test_name].update(h)
+                recorded_test = []
+
+    return lfr
+
+
+def collect_all(d: Device, fnames) -> 'Mapping[TestName, TestLog]':
     for fname in fnames:
-        print(f"Collecting ... {fname}")
-        with open(fname, "r") as f:
-            for line in f:
-                line = line.strip()
-                m = re.match(
-                    r"Observation (?P<tname>.+?): (?P<obs>\d+) \(of (?P<total>\d+)\)",
-                    line,
-                )
-                if m:
-                    test_name = m.group("tname")
-                    observations = int(m.group("obs"))
-                    total = int(m.group("total"))
-                    (old_obs, old_total) = results[test_name]
-                    results[test_name] = (old_obs + observations, old_total + total)
-                    running[test_name].append(observations)
-    return results, running
+        print(f"-- Collecting {fname}")
+
+        yield read_test_file(d, fname)
 
 
 def vari(xs):
@@ -100,43 +229,148 @@ MACROS_TEX = r"""
 {tests}
 """
 
+def accumulate(l: FilteredLog, h: Hist) -> None:
+    # may be < 500k if test failed due to exception
+    assert sum(r.count for r in h.results) <= 500_000
+    l.results += [h]
+    c, t = l.total
+    for r in h.results:
+        if r.is_marked:
+            c += r.count
+            l.running += [r.count]
+        t += r.count
+    l.total = (c, t)
+    l.batch_size = 500_000
 
-def write_table(grp_list, f, devices, includes=[], excludes=[], print_skips=True):
-    filtered = []
+def filter_devices(grp_list, devices: "Mapping[Device, List[LogFileResult]]", includes=[], excludes=[], print_skips=False):
+    """given the collection of log results
+    filter out the excluded tests and create
+    a FilteredLog for each test
+    """
+    #  first we collect the list of tests we saw over all devices
+    # this is a
+    tests : "Mapping[TestName, FilteredTest]" = {}
+    test_names = set()
 
-    #  first we collect the list of tests we saw over all *devices*
-    tests = collections.defaultdict(lambda: collections.defaultdict(lambda: (0, 0, [])))
+    for d, lfr_list in devices.items():
+        for lfr in lfr_list:
+            for r in lfr.results:
+                test_name = r.test_name
+                test_names.add(test_name)
+                if test_name not in tests:
+                    tests[test_name] = FilteredTest(test_name, [], {})
+                if d not in tests[test_name].results:
+                    tests[test_name].results[d] = FilteredLog(
+                        device=d,
+                        test_name=test_name,
+                        results=[],
+                        total=(0,0),
+                        running=[],
+                        distribution=(0,0),
+                    )
+                accumulate(tests[test_name].results[d], r)
 
-    for d, (results, running) in devices.items():
-        for test_name in results:
-            cobs, ctotal, crun = tests[test_name][d]
-            dobs, dtotal = results[test_name]
-            drun = running[test_name]
-
-            crun.extend(drun)
-            tests[test_name][d] = (cobs + dobs, ctotal + dtotal, crun)
+    for ftest in tests.values():
+        for d, flog in ftest.results.items():
+            r = flog.running
+            if len(r) == 0:
+                u = 0
+                sd = 0
+            else:
+                u = sum(r) / len(r)
+                sd = math.sqrt(vari(r))
+            flog.distribution = (u, sd)
 
     # we assign orphaned tests a category
-    orphans = tests.keys() - {t for (t, g) in grp_list}
+    orphans = test_names - {t for (t, g) in grp_list}
     for orphan in orphans:
         grp_list.append(
             (orphan, ["all", "errata" if orphan.endswith(".errata") else "orhpan"])
         )
 
     for (test_name, groups) in sorted(grp_list, key=lambda t: (t[1], t[0])):
+        # not all tests in the test list will necessarily have results
+        if test_name in tests:
+            tests[test_name].groups = groups
+
         if (includes and not any(g in includes for g in groups)) or (
             any(g in excludes for g in groups)
         ):
             if print_skips:
                 print("Skip ! {}".format(test_name))
-            continue
-        filtered.append((test_name, groups))
 
-    one_group = len(set(g for (_, grps) in filtered for g in grps if g != "all")) == 1
+            # just remove from the test dictionary directly
+            # we do a little redundant work up to this point
+            # but it makes the above code simpler
+            del tests[test_name]
+            continue
+
+    return tests
+
+def write_explicit_table(grp_list, f, devices, includes=[], excludes=[]):
+    """write out an explicit table of results
+    with the histogram given for each result in full
+
+    for now just ascii text
+    """
+
+    filtered_tests = filter_devices(grp_list, devices, includes, excludes)
+
+    table = []
+    widths = []
+
+    def _append_to_row(value):
+        n = len(row)
+        if n == len(widths):
+            widths.append(0)
+        row.append(value)
+        widths[n] = max(widths[n], len(value))
+
+    for ftest in filtered_tests.values():
+        test_name = ftest.test_name
+        groups = ftest.groups
+
+        row = []
+        group = groups[-1]
+        # use verb to escape test and group names with symbols
+        _append_to_row(f"{group}")
+        _append_to_row(f"{test_name}")
+
+        for d in devices:
+            # hack: insert zero'd entry
+            if d not in filtered_tests[test_name].results:
+                filtered_tests[test_name].results[d] = FilteredLog(d, test_name)
+
+            flog = filtered_tests[test_name].results[d]
+            total_obs, total_runs = flog.total
+            _append_to_row(f"{humanize(total_obs)}/{humanize(total_runs)}")
+
+            for r, c in flog.merge().items():
+                _append_to_row(f"{humanize(c)} *")
+                _append_to_row(f"{{{','.join(r.split())}}}")
+
+        table.append(row)
+
+    # whitespace align everything
+    for row in table:
+        for ci, c in enumerate(row):
+            row[ci] = c.rjust(widths[ci])
+
+        f.write("\t".join(row) + "\n")
+
+def write_combo_table(grp_list, f, devices: "Mapping[Device, List[LogFileResult]]", includes=[], excludes=[], print_skips=True):
+    """write out a standard table of results for all the devices
+    """
+    filtered_tests = filter_devices(grp_list, devices, includes, excludes)
+    all_groups = set(g for ftest in filtered_tests.values() for g in ftest.groups if g != "all")
+    one_group = len(all_groups) == 1
 
     # Total/Distribution for each device
     rows = []
-    for (test_name, groups) in filtered:
+    for ftest in filtered_tests.values():
+        test_name = ftest.test_name
+        groups = ftest.groups
+
         row = []
         group = groups[-1]
         # use verb to escape test and group names with symbols
@@ -144,25 +378,22 @@ def write_table(grp_list, f, devices, includes=[], excludes=[], print_skips=True
         row.append(f"\\verb|{test_name}|")
 
         for d in devices:
-            total_observations, total_runs, running = tests[test_name][d]
+            # hack: insert zero'd entry
+            if test_name not in filtered_tests[test_name].results:
+                filtered_tests[test_name].results[d] = FilteredLog(d, test_name)
 
-            if len(running) == 0:
-                u = 0
-                avg = 0
-                run = 0
-            else:
-                u = math.sqrt(vari(running))
-                avg = sum(running) / len(running)
-                run = total_runs / len(running)
-
-            h_total_observations = humanize(total_observations)
+            flog = filtered_tests[test_name].results[d]
+            total_obs, total_runs = flog.total
+            avg, u = flog.distribution
+            run = flog.batch_size
+            h_total_observations = humanize(total_obs)
             h_total_runs = humanize(total_runs)
             h_u = humanize(u)
             h_avg = humanize(avg)
             h_run = humanize(run)
 
             row.append(f"{h_total_observations}/{h_total_runs}")
-            if total_observations > 0:
+            if total_obs > 0:
                 row.append(f"{h_avg}/{h_run}")
                 row.append(f"$\\pm$ {h_u}/{h_run}")
             else:
@@ -279,9 +510,10 @@ def main(args):
                 )
 
             logs = collect_logs(device_dir_path)
-            devices[device_dir_path.stem] = collect_all(logs)
+            d = Device(device_dir_path.stem, device_dir_path)
+            devices[d] = list(collect_all(d, logs))
     elif args.file:
-        devices["all"] = collect_all(args.file)
+        devices["all"] = list(collect_all(Device("all", "."), args.file))
 
     with open(root.parent / "litmus" / "test_list.txt", "r") as f:
         group_list = []
@@ -290,14 +522,17 @@ def main(args):
             group_list.append((test_name, groups))
 
     with open(root / args.all_file, "w") as f:
-        write_table(group_list, f, devices, includes=includes, excludes=excludes)
+        write_combo_table(group_list, f, devices, includes=includes, excludes=excludes)
+
+    with open(root / "results-breakdown.txt", "w") as f:
+        write_explicit_table(group_list, f, devices, includes=includes, excludes=excludes)
 
     if args.standalone:
         with open(args.standalone_file, "w") as f:
             f.write("\\documentclass{standalone}\n")
             f.write("\\begin{document}\n")
             sio = io.StringIO()
-            write_table(
+            write_combo_table(
                 group_list,
                 sio,
                 devices,
@@ -311,7 +546,7 @@ def main(args):
     else:
         for d, (results, running) in devices.items():
                 with open(root / f"results-{d!s}.tex", "w") as f:
-                    write_table(
+                    write_combo_table(
                         group_list,
                         f,
                         {d: (results, running)},
