@@ -77,6 +77,8 @@ install:
 
 	cp table_macros.tex built_doc/ || true
 
+	cp results-breakdown.txt built_doc/ || true
+
 define RM
 	rm -f $1.tex
 	rm -f $1.aux
@@ -91,3 +93,4 @@ clean:
 	rm -f results-all.tex
 	rm -f results-all-exceptions.tex
 	rm -f table_macros.tex
+	rm -f results-breakdown.txt
