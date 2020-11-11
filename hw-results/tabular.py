@@ -18,6 +18,7 @@ import math
 import pathlib
 import argparse
 import functools
+import contextlib
 import collections
 import dataclasses
 
@@ -318,45 +319,143 @@ def write_explicit_table(grp_list, f, devices, includes=[], excludes=[]):
 
     table = []
     widths = []
+    headings = {}
+    next_level_widths = {}
+    next_level_headings = {}
 
-    def _append_to_row(value):
-        n = len(row)
-        if n == len(widths):
-            widths.append(0)
-        row.append(value)
-        widths[n] = max(widths[n], len(value))
+    def merge(l1, l2):
+        if l1 is None:
+            return l2
+
+        if l2 is None:
+            return l1
+
+        l1, l2 = (l1, l2) if len(l1) < len(l2) else (l2, l1)
+        return l1 + l2[len(l1):]
+
+    @contextlib.contextmanager
+    def next_row():
+        row = []
+
+        def _append(v, heading=None, next_level_heading=None):
+            if not v:
+                return
+
+            i = len(row)
+            headings[i] = merge(headings.get(i, ""), heading)
+            next_level_headings[i] = merge(next_level_headings.get(i, []), next_level_heading)
+            row.append(v)
+
+        yield _append
+
+        for i, v in enumerate(row):
+            if i == len(widths):
+                widths.append(0)
+
+            if isinstance(v, list):
+                # multicol
+                if i not in next_level_widths:
+                    next_level_widths[i] = [0]*len(v)
+
+                for j, w in enumerate(v):
+                    if j == len(next_level_widths[i]):
+                        next_level_widths[i].append(0)
+
+                    next_level_widths[i][j] = max(next_level_widths[i][j], len(w))
+                    if next_level_headings[i][j]:
+                        next_level_widths[i][j] = max(next_level_widths[i][j], len(next_level_headings[i][j]))
+
+                widths[i] = max(widths[i], len(next_level_widths[i]) + sum(next_level_widths[i]))
+            else:
+                widths[i] = max(widths[i], len(v))
+
+            if headings[i]:
+                widths[i] = max(widths[i], len(headings[i]))
+
+        if row:
+            table.append(row)
+
+    @contextlib.contextmanager
+    def new_multicol(r, heading=None):
+        c = []
+        next_level_heading = []
+        def _append(v, heading=None):
+            if not v:
+                return
+            next_level_heading.append(heading)
+            c.append(v)
+        yield _append
+
+        if c:
+            r(c, heading=heading, next_level_heading=next_level_heading)
 
     for ftest in filtered_tests.values():
         test_name = ftest.test_name
         groups = ftest.groups
 
-        row = []
-        group = groups[-1]
-        # use verb to escape test and group names with symbols
-        _append_to_row(f"{group}")
-        _append_to_row(f"{test_name}")
+        with next_row() as row:
+            group = groups[-1]
+            # use verb to escape test and group names with symbols
+            row(f"{group}", heading="group")
+            row(f"{test_name}", heading="test")
 
-        for d in devices:
-            # hack: insert zero'd entry
-            if d not in filtered_tests[test_name].results:
-                filtered_tests[test_name].results[d] = FilteredLog(d, test_name)
+            for d in devices:
+                with new_multicol(row, heading=f"{d.name}") as mcol:
+                    # hack: insert zero'd entry
+                    if d not in filtered_tests[test_name].results:
+                        filtered_tests[test_name].results[d] = FilteredLog(d, test_name)
 
-            flog = filtered_tests[test_name].results[d]
-            total_obs, total_runs = flog.total
-            _append_to_row(f"{humanize(total_obs)}/{humanize(total_runs)}")
+                    flog = filtered_tests[test_name].results[d]
+                    total_obs, total_runs = flog.total
+                    mcol(f"{humanize(total_obs)}/{humanize(total_runs)}", heading="total")
 
-            for r, c in flog.merge().items():
-                _append_to_row(f"{humanize(c)} *")
-                _append_to_row(f"{{{','.join(r.split())}}}")
+                    for oi, (r, c) in enumerate(flog.merge().items()):
+                        mcol(f"{humanize(c)}*{{{','.join(r.split())}}}", heading=f"outcome#{oi}")
 
-        table.append(row)
+    # write header
+    for i, v in sorted(headings.items()):
+        v = v.ljust(widths[i])
+        f.write(f"{v} ")
+    f.write("\n")
+
+    for i, h in sorted(next_level_headings.items()):
+        if not isinstance(h, list):
+            f.write(" "*(1+widths[i]))
+        else:
+            tot = 0
+            print((), i, h)
+            for j, v in enumerate(h):
+                w = next_level_widths[i][j]
+                tot += w
+                if not v:
+                    f.write(" "*(1+w))
+                else:
+                    f.write(v.rjust(w) + " ")
+            f.write(" "*(widths[i]-tot))
+    f.write("\n")
+    for i, v in sorted(headings.items()):
+        w = widths[i]
+        f.write("-"*w)
+        if i < len(headings):
+            f.write("+")
+    f.write("\n")
 
     # whitespace align everything
     for row in table:
         for ci, c in enumerate(row):
-            row[ci] = c.rjust(widths[ci])
+            if isinstance(c, list):
+                tot = 0
+                for mci, mc in enumerate(c):
+                    w = next_level_widths[ci][mci]
+                    tot += w+1
+                    mc = mc.rjust(w)
+                    f.write(mc + " ")
+                f.write(" "*(widths[ci]-tot))
+            else:
+                c = c.rjust(widths[ci])
+                f.write(c + " ")
 
-        f.write("\t".join(row) + "\n")
+        f.write("\n")
 
 def write_combo_table(grp_list, f, devices: "Mapping[Device, List[LogFileResult]]", includes=[], excludes=[], print_skips=True):
     """write out a standard table of results for all the devices
