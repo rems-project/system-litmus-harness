@@ -17,6 +17,7 @@ import sys
 import math
 import pathlib
 import argparse
+import operator
 import functools
 import contextlib
 import collections
@@ -409,7 +410,7 @@ def write_explicit_table(grp_list, f, devices, includes=[], excludes=[]):
                     total_obs, total_runs = flog.total
                     mcol(f"{humanize(total_obs)}/{humanize(total_runs)}", heading="total")
 
-                    for oi, (r, c) in enumerate(flog.merge().items()):
+                    for oi, (r, c) in enumerate(sorted(flog.merge().items(), reverse=True, key=operator.itemgetter(1))):
                         mcol(f"{humanize(c)}*{{{','.join(r.split())}}}", heading=f"outcome#{oi}")
 
     # write header
@@ -423,10 +424,10 @@ def write_explicit_table(grp_list, f, devices, includes=[], excludes=[]):
             f.write(" "*(1+widths[i]))
         else:
             tot = 0
-            print((), i, h)
+
             for j, v in enumerate(h):
                 w = next_level_widths[i][j]
-                tot += w
+                tot += w+1
                 if not v:
                     f.write(" "*(1+w))
                 else:
