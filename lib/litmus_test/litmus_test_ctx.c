@@ -80,6 +80,7 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, int r
   ctx->shuffled_ixs = shuffled;
   ctx->shuffled_ixs_inverse = rev_lookup;
   ctx->affinity = affinity;
+  ctx->batch_size = runs_in_batch;
   ctx->last_tick = 0;
   ctx->hist = hist;
   ctx->ptables = ptables;
@@ -87,6 +88,9 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, int r
   ctx->privileged_harness = 0;
   ctx->cfg = cfg;
   ctx->concretization_st = NULL;
+
+  debug("initialized test ctx @ %p\n", ctx);
+  DEBUG(DEBUG_ALLOCS, "now using %ld/%ld alloc chunks\n", valloc_alloclist_count_chunks(), NUM_ALLOC_CHUNKS);
 }
 
 uint64_t ctx_pa(test_ctx_t* ctx, run_idx_t run, uint64_t va) {
