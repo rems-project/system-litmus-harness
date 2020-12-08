@@ -149,7 +149,14 @@ void bwait(int vcpu, bar_t* bar, int sz) {
    * bwait()s
    */
   if (bar->current_state == 1) {
-    while (bar->waiting != 0) dmb();
+    while (bar->waiting != 0) {
+      /* because another thread may be waiting on a *different* BWAIT
+       * at the same time, we have to ensure it gets a chance to finish and reach this BWAIT too
+       */
+      UNLOCK(&bwait_lock);
+      dmb();
+      LOCK(&bwait_lock);
+    }
 
     bar->iteration++;
     bar->current_state = 0;
