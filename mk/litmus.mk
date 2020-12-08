@@ -126,10 +126,11 @@ collect-litmus:
 	)
 	@echo 're-run `make build` to compile any new or updated litmus tests'
 
-debug-litmus: bin/debug_litmus.exe
-	{ ./bin/debug_litmus.exe $(BIN_ARGS) & echo $$! > bin/.debug.pid; }
+debug-litmus: qemu_litmus
+	{ QEMU_ARGS='-s -S' ./bin/qemu_litmus.exe $(BIN_ARGS) & echo $$! > bin/.debug.pid; }
+	echo PID=`cat bin/.debug.pid`
 	$(GDB) --eval-command "target remote localhost:1234"
-	{ cat bin/.debug.pid | xargs kill $$pid ; rm bin/.debug.pid; }
+	{ cat bin/.debug.pid | xargs kill -9 ; rm bin/.debug.pid; }
 
 count-litmus-tests:
 	@echo Found `cat litmus/test_list.txt | wc -l` tests

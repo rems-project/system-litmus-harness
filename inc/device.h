@@ -2,6 +2,16 @@
 #define DEVICE_H
 #include <stdint.h>
 
+/* see vmm_pgtable.c for memory layout */
+
+/* the stack space vaddr starts at 16GiB
+ * and lasts for 2 MiB
+ *
+ * this space maps to the phsycial space
+ * that .stack lives in
+ */
+#define STACK_BASE_ADDR (16 * GiB)
+
 void init_device(void* fdt);
 
 extern uint64_t __cache_line_size;  /* cache line of minimum size */
@@ -23,12 +33,17 @@ extern uint64_t __dc_zero_block_width;  /* size of DC ZVA block */
 #define DCZVA_ALLOW __dc_zero_allow
 #define DCZVA_BLOCK_WIDTH __dc_zero_block_width
 
+extern uint64_t __asid_size;
+#define ASID_SIZE __asid_size
+
 /** PSCI Mandatory Functions
  * While these are defined in the psci node of the dtb
  * they are architecturally hard-coded to the following values in PSCIv0.2 */
 #define PSCI_SYSTEM_OFF 0x84000008UL
 #define PSCI_CPU_ON 0xC4000003UL  /* SMC64 starts at 0xC4... */
 #define PSCI_CPU_OFF 0x84000002UL
+
+#define MAX_CPUS 4
 
 /** number of physical hardware threads */
 uint64_t NO_CPUS;
@@ -53,17 +68,37 @@ uint64_t TOTAL_HEAP;
 uint64_t BOT_OF_HEAP;
 uint64_t TOP_OF_HEAP;
 
-/**
- * Top and Bottom of thread stacks
+/** per-thread stack size
  */
-uint64_t TOP_OF_STACK;
-uint64_t BOT_OF_STACK;
+#define STACK_SIZE (2 * MiB)
+
+/**
+ * Top and Bottom of thread stack PA space
+ */
+uint64_t TOP_OF_STACK_PA;
+uint64_t BOT_OF_STACK_PA;
+
+/** each thread gets 2 2M regions for its stack
+ * the first for EL0 and the second for EL1
+ *
+ * for CPU#3 with STACK bottom of 0x1000_0000
+ *  EL0 is from [0x1200_0000 -> 0x1000_0000]
+ *  EL1 is from [0x1400_0000 -> 0x1200_0000]
+ */
+#define STACK_PYS_THREAD_TOP_ELx(cpu,el) (BOT_OF_STACK_PA + (1+cpu)*2*STACK_SIZE - STACK_SIZE*(1-el))
+#define STACK_PYS_THREAD_BOT_ELx(cpu,el) (STACK_PYS_THREAD_TOP_ELx(cpu,el) - STACK_SIZE)
+
+#define STACK_PYS_THREAD_TOP_EL0(cpu) STACK_PYS_THREAD_TOP_ELx(cpu, 0)
+#define STACK_PYS_THREAD_TOP_EL1(cpu) STACK_PYS_THREAD_TOP_ELx(cpu, 1)
+
+#define STACK_PYS_THREAD_BOT_EL0(cpu) STACK_PYS_THREAD_BOT_ELx(cpu, 0)
+#define STACK_PYS_THREAD_BOT_EL1(cpu) STACK_PYS_THREAD_BOT_ELx(cpu, 1)
 
 /**
  * Sections from linker
  */
-uint64_t BOT_OF_RDONLY;
-uint64_t TOP_OF_RDONLY;
+uint64_t BOT_OF_DATA;
+uint64_t TOP_OF_DATA;
 uint64_t TOP_OF_TEXT;
 uint64_t BOT_OF_TEXT;
 uint64_t TOP_OF_DATA;
@@ -83,6 +118,15 @@ uint64_t* TESTDATA_MMAP;
  */
 uint64_t BOT_OF_TESTDATA;
 uint64_t TOP_OF_TESTDATA;
+
+/**
+ * physical adddress the vector tables are located at
+ *
+ * this is the start of a NO_CPUS*VTABLE_SIZE region
+ * where each VTABLE_SIZE (aka PAGE_SIZE) space is
+ * one thread's exception vector table
+ */
+uint64_t vector_base_pa;
 
 /**
  * from dtb

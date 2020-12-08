@@ -123,7 +123,8 @@ DEBUG_CFLAGS =
 DEBUG_OBJDUMPFLAGS =
 
 ifeq ($(DEBUG),1)
-DEBUG_CFLAGS += -g -gdwarf-4
+DEBUG_CFLAGS += -g -gdwarf-4 \
+	-fno-omit-frame-pointer
 DEBUG_CFLAGS += $(patsubst %,-DDEBUG_%=1,$(DEBUG_FLAGS))
 DEBUG_OBJDUMPFLAGS += -g -l -r
 else ifeq ($(DEBUG),0)
@@ -170,6 +171,7 @@ CFLAGS = -O0 -nostdlib \
 		$(foreach DIR,$(OTHER_INCLUDES),-I $(DIR)) \
 		-ffreestanding -fomit-frame-pointer -fno-pie -fno-pic \
 		-Wall $(addprefix -Wno-,$(CCNOWARN)) $(addprefix -Werror=,$(CCERRORS)) \
+		-Wshadow \
 		-D__VERSION_STR__="\"$(_VERSION)\"" \
 		-DCOMMITHASH="\"$(_HEAD_COMMIT_HASH)\"" \
 		$(DEBUG_CFLAGS)
@@ -285,7 +287,7 @@ $(foreach t,$(BINTARGETS),\
 bin/$(call exe_prefix,$(1))qemu_$(t).exe: OUT_NAME=$$$$tmp
 bin/$(call exe_prefix,$(1))qemu_$(t).exe: bin/$(t).bin
 	$$(call run_cmd,BUILD_EXE,$$@, \
-		$$(call make_exe,$$(RUN_CMD_LOCAL) $${QEMU_ARGS}) \
+		$$(call make_exe,$$(RUN_CMD_LOCAL) $$$${QEMU_ARGS}) \
 	)
 )
 
@@ -293,7 +295,7 @@ $(foreach t,$(BINTARGETS),\
 bin/$(call exe_prefix,$(1))kvm_$(t).exe: OUT_NAME=$$$$tmp
 bin/$(call exe_prefix,$(1))kvm_$(t).exe: bin/$(t).bin
 	$$(call run_cmd,BUILD_EXE,$$@,\
-		$$(call make_exe,$$(RUN_CMD_HOST) $${QEMU_ARGS}) \
+		$$(call make_exe,$$(RUN_CMD_HOST) $$$${QEMU_ARGS}) \
 	)
 )
 
@@ -377,10 +379,10 @@ LITMUS_TARGETS += build
 
 test: ./qemu_unittests
 test:
-	./qemu_unittests
+	./qemu_unittests $(BIN_ARGS)
 
 run: ./qemu_litmus
-	./qemu_litmus
+	./qemu_litmus $(BIN_ARGS)
 LITMUS_TARGETS += run
 
 include mk/litmus.mk

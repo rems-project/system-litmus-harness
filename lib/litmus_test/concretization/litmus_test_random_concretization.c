@@ -99,6 +99,9 @@ void pick_pin(test_ctx_t* ctx, concretization_st_t* st, var_info_t* rootvar, reg
 
   st->var_sts[pinnedvar->varidx].va = va_from_region_idx(ctx, pinnedvar, va_idx);
   st->var_sts[pinnedvar->varidx].picked = 1;
+
+
+  DEBUG(DEBUG_CONCRETIZATION, "picked! %s => %p\n", pinnedvar->name, st->var_sts[pinnedvar->varidx].va);
 }
 
 /** select the VA for a var that OWNs a region
@@ -107,6 +110,8 @@ void pick_one(test_ctx_t* ctx, concretization_st_t* st, var_info_t* var, own_lev
   region_idx_t va_begin = region_idx_bottom();
   region_idx_t va_top = region_idx_top();
   region_idx_t va_idx = rand_idx(va_begin, va_top);
+
+  DEBUG(DEBUG_CONCRETIZATION, "for var=%s,  between [%o, %o) = %o\n", var->name, TOSTR(region_idx_t, &va_begin), TOSTR(region_idx_t, &va_top), TOSTR(region_idx_t, &va_idx));
 
   if (var->init_region_offset) {
     uint64_t othervaridx = var->offset_var;
@@ -122,10 +127,13 @@ void pick_one(test_ctx_t* ctx, concretization_st_t* st, var_info_t* var, own_lev
   st->var_sts[var->varidx].va = va_from_region_idx(ctx, var, va_idx);
   st->var_sts[var->varidx].picked = 1;
 
+  DEBUG(DEBUG_CONCRETIZATION, "picked! %s => %p\n", var->name, st->var_sts[var->varidx].va);
+
+
   /* for each pinned var, pick a VA for it too */
   var_st_t* varst = &st->var_sts[var->varidx];
-  for (pin_level_t lvl = REGION_SAME_VAR; lvl < REGION_SAME_PGD; lvl++) {
-    pin_st_t* varpin = &varst->pins[lvl];
+  for (pin_level_t pin_lvl = REGION_SAME_VAR; pin_lvl < REGION_SAME_PGD; pin_lvl++) {
+    pin_st_t* varpin = &varst->pins[pin_lvl];
     var_info_t** pinned_vars = varpin->vars;
     for (int pidx = 0; pidx < varpin->no_pins; pidx++) {
       var_info_t* pinnedvar = pinned_vars[pidx];
@@ -136,7 +144,6 @@ void pick_one(test_ctx_t* ctx, concretization_st_t* st, var_info_t* var, own_lev
 
 void* concretize_random_init(test_ctx_t* ctx, const litmus_test_t* cfg) {
   concretization_st_t* st = alloc(sizeof(concretization_st_t) + sizeof(var_st_t)*cfg->no_heap_vars);
-  valloc_memset(st, 0, sizeof(concretization_st_t) + sizeof(var_st_t)*cfg->no_heap_vars);
 
   for (int varidx = 0; varidx < cfg->no_heap_vars; varidx++) {
     for (int i = 0; i < NUM_PIN_LEVELS; i++) {
@@ -219,8 +226,8 @@ void concretize_random_finalize(test_ctx_t* ctx, const litmus_test_t* cfg, concr
     for (int i = 0; i < NUM_PIN_LEVELS; i++) {
       var_st_t* var_st = &st->var_sts[varidx];
       pin_st_t* pin_st = &var_st->pins[i];
-      free(pin_st->vars);
+      FREE(pin_st->vars);
     }
   }
-  free(st);
+  FREE(st);
 }

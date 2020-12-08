@@ -6,6 +6,8 @@ uint64_t __cache_line_shift;  /* log2(__cache_line_size) */
 uint8_t __dc_zero_allow;  /* DC ZVA allow ? */
 uint64_t __dc_zero_block_width;  /* size of DC ZVA block */
 
+uint64_t __asid_size;  /* number of ASID bits */
+
 extern char* __ld_begin_text;
 extern char* __ld_end_text;
 extern char* __ld_begin_reloc;
@@ -13,8 +15,8 @@ extern char* __ld_end_reloc;
 extern char* __ld_begin_stack;
 extern char* __ld_end_stack;
 extern char* __ld_end_sections;
-extern char* __ld_start_ro;
-extern char* __ld_end_ro;
+extern char* __ld_begin_data;
+extern char* __ld_end_data;
 
 void init_device(void* fdt) {
     NO_CPUS = 4;
@@ -26,22 +28,22 @@ void init_device(void* fdt) {
     TOTAL_MEM = mem.size;
 
     /* read regions from linker */
-    TOP_OF_STACK = (uint64_t)&__ld_end_stack;
-    BOT_OF_STACK = (uint64_t)&__ld_begin_stack;
-
     TOP_OF_TEXT = (uint64_t)&__ld_end_text;
     BOT_OF_HEAP = (uint64_t)&__ld_end_sections;
     BOT_OF_TEXT = (uint64_t)&__ld_begin_text;
-
-    BOT_OF_RDONLY = (uint64_t)&__ld_start_ro;
-    TOP_OF_RDONLY = (uint64_t)&__ld_end_ro;
+    BOT_OF_DATA = (uint64_t)&__ld_begin_data;
+    TOP_OF_DATA = (uint64_t)&__ld_end_data;
 
     /* compute remaining friendly region names */
 
     /* we allocate 128M for the heap */
     TOTAL_HEAP = 128 * MiB;
     TOP_OF_HEAP = BOT_OF_HEAP + TOTAL_HEAP;
-    TOP_OF_DATA = BOT_OF_STACK;
+
+    BOT_OF_STACK_PA = (uint64_t)&__ld_begin_stack;
+    BOT_OF_STACK_PA = ALIGN_UP(BOT_OF_STACK_PA, PMD_SHIFT);
+    TOP_OF_STACK_PA = (uint64_t)&__ld_end_stack;
+    TOP_OF_STACK_PA = ALIGN_TO(TOP_OF_STACK_PA, PMD_SHIFT);
 
     BOT_OF_TESTDATA = TOP_OF_HEAP;
     TOP_OF_TESTDATA = TOP_OF_MEM;
@@ -57,6 +59,10 @@ void init_device(void* fdt) {
 
     LEVEL_SIZES[REGION_CACHE_LINE] = __cache_line_size;
     LEVEL_SHIFTS[REGION_CACHE_LINE] = __cache_line_shift;
+
+    uint64_t mmfr0 = read_sysreg(id_aa64mmfr0_el1);
+    uint64_t asidbits = BIT_SLICE(mmfr0, 7, 4);
+    __asid_size = asidbits == 0 ? 8 : 16;
 
     uint64_t dczvid = read_sysreg(dczid_el0);
     __dc_zero_allow = (dczvid >> 4) == 0;

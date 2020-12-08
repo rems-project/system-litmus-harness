@@ -59,18 +59,31 @@ void valloc_alloclist_dealloc(valloc_mempool* pool, uint64_t addr) {
   move_to_dealloc(pool, alloced_chunk);
 }
 
+#if DEBUG_ALLOC_META
+char __valloc_alloclist_stack_buf[1024];
+#endif
+
 valloc_alloc_chunk* valloc_alloclist_alloc(valloc_mempool* pool, uint64_t addr, uint64_t size) {
   /* assume addr not already allocated */
   valloc_alloc_chunk* head = pool->chunk_unalloc_list;
   if (head == NULL) {
+    if (DEBUG && DEBUG_ALLOC_META)
+      debug_show_valloc_mem();
     fail("! err: cannot alloc any more chunks\n");
   }
 
-  head->meta.ts = read_clk();
   head->start = addr;
   head->size = size;
-  move_to_alloc(pool, head);
 
+#if DEBUG_ALLOC_META
+  stack_t* stack_buf = (stack_t*)__valloc_alloclist_stack_buf;
+  walk_stack(stack_buf);
+  head->meta.where = stack_buf->frames[3].ret;
+  head->meta.ts = read_clk();
+#endif
+
+  move_to_alloc(pool, head);
+  DEBUG(DEBUG_ALLOC_META, "alloc new chunk for %p with size = %ld (chunk @ %p)\n", addr, size, head);
   return head;
 }
 

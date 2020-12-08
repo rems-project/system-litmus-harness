@@ -54,6 +54,6 @@ UNIT_TEST(test_valloc_free_pgtable)
 void test_valloc_free_pgtable(void) {
   uint64_t space = valloc_free_size();
   uint64_t* p = vmm_alloc_new_4k_pgtable();
-  vmm_free_pgtable(p);
+  vmm_free_generic_pgtable(p);
   ASSERT(space == valloc_free_size());
 }

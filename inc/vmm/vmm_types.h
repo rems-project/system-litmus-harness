@@ -9,6 +9,11 @@ enum DescType {
 };
 
 typedef struct {
+  /* upper attrs */
+  unsigned int XN:1;
+  unsigned int PXN:1;
+
+  /* lower attrs */
   unsigned int nT:1;
   unsigned int OA:4;
   unsigned int nG:1;

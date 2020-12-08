@@ -29,8 +29,8 @@ static void concretize_postcheck_no_overlap_owned(test_ctx_t* ctx, const litmus_
         uint64_t va1 = (uint64_t)var->values[run];
         uint64_t va2 = (uint64_t)othervar->values[run];
         if (in_same_region(va1, va2, var->init_owned_region_size)
-           && (!othervar->init_pinned_region
-              || othervar->pin_region_var != var->varidx)
+            && (  !othervar->init_pinned_region
+                || othervar->pin_region_var != var->varidx)
         ) {
           fail_postcheck(ctx, cfg, run, "%s (%p) and %s (%p) overlap but one is not pinned to the other\n", var->name, va1, othervar->name, va2);
         }

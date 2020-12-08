@@ -21,4 +21,15 @@
  */
 #define STR_LITERAL(x) __STR(x)
 
+/* for expansion and catenation */
+
+/* this will not expand x or y on substitution since
+ * there is a ## between x and y.
+ *
+ * to ensure expansion, use CONCAT_MACROS
+ */
+#define CONCAT_NOEXPAND(x, y) x##y
+
+#define CONCAT_MACROS(x,y) CONCAT_NOEXPAND(x,y)
+
 #endif /* MACROS_H */

@@ -2,8 +2,6 @@
 
 #include "lib.h"
 
-static lock_t _EXC_PRINT_LOCK;
-
 static const char* vec_names[16] = {
   "VEC_EL1T_SYNC",
   "VEC_EL1T_IRQ",
@@ -58,15 +56,47 @@ static const char* dabt_iss_dfsc[0x40] = {
   [0b110000] = "DABT_DFSC_TLB",
 };
 
+/** a dispatch table, for per-CPU different exception vector handlers
+ *
+ * vtable[cpu][vector][EC] = *fn
+ */
+exception_vector_fn* vtable[4][4][64] = { NULL };
+exception_vector_fn* vtable_svc[4][64] = { NULL };  /* 64 SVC handlers */
+exception_vector_fn* vtable_pgfault[4][128] = { NULL };
+
+/* a buffer to write exception messages into
+ * protected by _EXC_PRINT_LOCK
+ *
+ * note that nested exceptions during a default exception handler
+ * may deadlock and cause weird issues here
+ */
+static char __exc_buffer[4096];
+static char __exc_stack_buf[1024];
+static lock_t _EXC_PRINT_LOCK;
+
+static void _print_stack_trace(int el, uint64_t fp) {
+  stack_t* stack = (stack_t*)__exc_stack_buf;
+  walk_stack_from((uint64_t*)fp, stack);
+
+  char* out = __exc_buffer;
+  out = sprintf(out, "  [ STRACE SP_%d] ", el, stack->no_frames);
+  for (int i = 0; i < stack->no_frames; i++) {
+    out = sprintf(out, ":%p", stack->frames[i].ret);
+  }
+  printf("%s\n", __exc_buffer);
+}
+
 void* default_handler(uint64_t vec, uint64_t esr, regvals_t* regs) {
+  uint64_t spsr = read_sysreg(spsr_el1);
   uint64_t ec = esr >> 26;
   uint64_t iss = esr & BITMASK(26);
   uint64_t cpu = get_cpu();
-  lock(&_EXC_PRINT_LOCK);
+  LOCK(&_EXC_PRINT_LOCK);
 
   printf("Unhandled Exception (CPU%d): \n", cpu);
   printf("  [VBAR: 0x%lx]\n", read_sysreg(VBAR_EL1));
   printf("  [Vector: 0x%lx (%s)]\n", vec, vec_names[vec]);
+  printf("  [FROM: EL%d]\n", BIT_SLICE(spsr, 3, 2));
   printf("  [EC: 0x%lx (%s)]\n", ec, ec_names[ec]);
   printf("  [ESR_EL1: 0x%lx]\n", esr);
   printf("  [FAR_EL1: 0x%lx]\n", read_sysreg(far_el1));
@@ -79,26 +109,66 @@ void* default_handler(uint64_t vec, uint64_t esr, regvals_t* regs) {
     printf("  [  DFSC] 0x%lx (%s)\n", dfsc, dabt_iss_dfsc[dfsc]);
   }
   printf("  [REGISTERS]\n");
-  for (int i = 0; i < 30; i++) {
+  for (int i = 0; i < 31; i++) {
     printf("  [  x%d] 0x%lx\n", i, regs->gpr[i]);
   }
-  printf("  [   SP] 0x%lx\n", regs->sp);
+
+  /* the stack that was previously in-use may have been different
+   * to the one being used here
+   *
+   * typically it would be SP_EL0 but if we took an exception during a handler
+   * then it might've been SP_EL1
+   */
+  printf("  [STACK TRACE]\n");
+  if (BIT(spsr, 0) == 0) {
+    /* came from code using SP_EL0
+     * and we are not using SP_EL0
+     * so we can access it:
+     */
+    printf("  [ SP_EL0] 0x%lx\n", read_sysreg(sp_el0));
+  } else {
+    /* otherwise we are using SP_EL1
+     * but we cannot access via sp_el1 register
+     * we must use the sp register...
+     * but as it was when we took the exception
+     */
+    printf("  [ SP_EL1] 0x%lx\n", regs->sp);
+  }
+
+  /* we check x29, which, if we were executing C code
+   * is the frame pointer which lets us walk the stack
+   * which resulted in the exception (hopefully!)
+   *
+   * this doesn't work if the exception happened outside of C code
+   * in which case the frame pointer will eventually wander outside the desginated
+   * stack space and stack_walk* functions will exit early, and the STRACE field
+   * will not contain anything meaningful but shouldn't cause any other problems
+   */
+  uint64_t fp = regs->gpr[29];
+  _print_stack_trace(BIT(spsr, 0), fp);
+
+  if ((BIT(spsr, 0) == 1) && (BIT_SLICE(spsr, 3, 2) == 1)) {
+    /* if coming from EL1 using SP_EL1, assume this was a run-on from an exception
+     * using SP_EL0 */
+    _print_stack_trace(0, read_sysreg(sp_el0));
+  }
+
   printf("  \n");
-  unlock(&_EXC_PRINT_LOCK);
   abort();
 
   /* unreachable */
+  UNLOCK(&_EXC_PRINT_LOCK);
   return NULL;
 }
 
 void set_handler(uint64_t vec, uint64_t ec, exception_vector_fn* fn) {
   int cpu = get_cpu();
-  table[cpu][vec][ec] = fn;
+  vtable[cpu][vec][ec] = fn;
 }
 
 void reset_handler(uint64_t vec, uint64_t ec) {
   int cpu = get_cpu();
-  table[cpu][vec][ec] = NULL;
+  vtable[cpu][vec][ec] = NULL;
 }
 
 void drop_to_el0(void) {
@@ -174,7 +244,7 @@ static void* default_svc_read_currentel(uint64_t vec, uint64_t esr,
 static void* default_svc_handler(uint64_t vec, uint64_t esr, regvals_t* regs) {
   uint64_t imm = esr & 0xffffff;
   int cpu = get_cpu();
-  if (table_svc[cpu][imm] == NULL)
+  if (vtable_svc[cpu][imm] == NULL)
     if (imm == 10)
       return default_svc_drop_el0(vec, esr, regs);
     else if (imm == 11)
@@ -184,7 +254,7 @@ static void* default_svc_handler(uint64_t vec, uint64_t esr, regvals_t* regs) {
     else
       return default_handler(vec, esr, regs);
   else
-    return (void*)table_svc[cpu][imm](esr, regs);
+    return (void*)vtable_svc[cpu][imm](esr, regs);
 }
 
 static void* default_pgfault_handler(uint64_t vec, uint64_t esr,
@@ -192,16 +262,16 @@ static void* default_pgfault_handler(uint64_t vec, uint64_t esr,
   uint64_t far = read_sysreg(far_el1);
   int cpu = get_cpu();
   uint64_t imm = far % 127;
-  if (table_pgfault[cpu][imm] == NULL)
+  if (vtable_pgfault[cpu][imm] == NULL)
     return default_handler(vec, esr, regs);
   else
-    return (void*)table_pgfault[cpu][imm](esr, regs);
+    return (void*)vtable_pgfault[cpu][imm](esr, regs);
 }
 
 void* handle_exception(uint64_t vec, uint64_t esr, regvals_t* regs) {
   uint64_t ec = esr >> 26;
   int cpu = get_cpu();
-  exception_vector_fn* fn = table[cpu][vec][ec];
+  exception_vector_fn* fn = vtable[cpu][vec][ec];
   if (fn) {
     return fn(esr, regs);
   } else if (ec == 0x15) {
@@ -215,29 +285,29 @@ void* handle_exception(uint64_t vec, uint64_t esr, regvals_t* regs) {
 
 void set_svc_handler(uint64_t svc_no, exception_vector_fn* fn) {
   int cpu = get_cpu();
-  table_svc[cpu][svc_no] = fn;
+  vtable_svc[cpu][svc_no] = fn;
 }
 
 void reset_svc_handler(uint64_t svc_no) {
   int cpu = get_cpu();
-  table_svc[cpu][svc_no] = NULL;
+  vtable_svc[cpu][svc_no] = NULL;
 }
 
 void set_pgfault_handler(uint64_t va, exception_vector_fn* fn) {
   int cpu = get_cpu();
   int idx = va % 127;
-  if (table_pgfault[cpu][idx] != NULL) {
+  if (vtable_pgfault[cpu][idx] != NULL) {
     puts("! err: cannot set pagefault handler for same page twice.\n");
     abort();
   }
 
-  table_pgfault[cpu][idx] = fn;
+  vtable_pgfault[cpu][idx] = fn;
   dsb();
 }
 
 void reset_pgfault_handler(uint64_t va) {
   int cpu = get_cpu();
-  table_pgfault[cpu][va % 127] = NULL;
+  vtable_pgfault[cpu][va % 127] = NULL;
 }
 
 /** flush the icache for this threads' vector table entries
@@ -247,8 +317,8 @@ void reset_pgfault_handler(uint64_t va) {
  * but rather have to invalidate the actual VA/PA that is used during execution
  */
 static void flush_icache_vector_entries(void) {
-  uint64_t vbar_start = vector_base_addr_rw + (4096*get_cpu());
-  uint64_t vbar_pa_start = vector_base_pa + (4096*get_cpu());
+  uint64_t vbar_start = (uint64_t)THR_VTABLE_VA(get_cpu());
+  uint64_t vbar_pa_start = (uint64_t)THR_VTABLE_PA(get_cpu());
 
   uint64_t iline = 1 << BIT_SLICE(read_sysreg(ctr_el0), 3, 0);
   uint64_t dline = 1 << BIT_SLICE(read_sysreg(ctr_el0), 19, 16);
@@ -279,7 +349,8 @@ static void flush_icache_vector_entries(void) {
 
 uint32_t* hotswap_exception(uint64_t vector_slot, uint32_t data[32]) {
   uint32_t* p = alloc(sizeof(uint32_t) * 32);
-  uint32_t* vbar = (uint32_t*)(vector_base_addr_rw + (4096*get_cpu()) + vector_slot);
+  uint32_t* vbar = (uint32_t*)(((uint64_t)THR_VTABLE_VA(get_cpu())) + vector_slot);
+  debug("hotswap exception for vbar=%p slot 0x%lx : %p\n", vbar, vector_slot, &data[0]);
   for (int i = 0; i < 32; i++) {
     p[i] = *(vbar + i);
     *(vbar + i) = data[i];
@@ -291,7 +362,7 @@ uint32_t* hotswap_exception(uint64_t vector_slot, uint32_t data[32]) {
 }
 
 void restore_hotswapped_exception(uint64_t vector_slot, uint32_t* ptr) {
-  uint32_t* vbar = (uint32_t*)(vector_base_addr_rw + (4096*get_cpu() + vector_slot));
+  uint32_t* vbar = (uint32_t*)(((uint64_t)THR_VTABLE_VA(get_cpu())) + vector_slot);
 
   for (int i = 0; i < 32; i++) {
     *(vbar + i) = ptr[i];
@@ -299,5 +370,5 @@ void restore_hotswapped_exception(uint64_t vector_slot, uint32_t* ptr) {
 
   flush_icache_vector_entries();
 
-  free(ptr);
+  FREE(ptr);
 }

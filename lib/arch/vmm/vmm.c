@@ -18,24 +18,34 @@ void vmm_ensure_level(uint64_t* root, int desired_level, uint64_t va) {
   /** since multiple threads might want to vmm_ensure_level
    * at the same time, we synchronize them
    */
-  lock(&_vmm_lock);
+  LOCK(&_vmm_lock);
+
+  DEBUG(DEBUG_TRACE_VMM_ENSURES, "ensuring va=%p to level %d for pgtable %p\n", va, desired_level, root);
+
+  uint64_t* current = root;
 
   for (int level = 0; level <= desired_level - 1; level++) {
-    uint64_t* p = root + OFFS(va, level);
+    uint64_t* p = current + OFFS(va, level);
     desc_t desc = read_desc(*p, level);
+    DEBUG(DEBUG_TRACE_VMM_ENSURES, ".. at level %d, entry=%p desc=0x%lx\n", level, p, *p);
     desc_t new_desc;
 
     if (desc.type == Table) {
-      root = (uint64_t*)desc.table_addr;
+      current = (uint64_t*)desc.table_addr;
       continue;
     }
 
     uint64_t* pg = alloc(4096);
-    debug("ensure %p level%d alloc new @ %p\n", va, level, pg);
-    valloc_memset(pg, 0, 4096);
+
+    if (level == desired_level - 1) {
+      debug("ensuring new entry for %p at level %d in pagetable rooted at %p\n", va, desired_level, root);
+    }
+
+    DEBUG(DEBUG_TRACE_VMM_ENSURES, "ensure %p to level%d alloc new level%d @ %p\n", va, desired_level, level, pg);
     for (int i = 0; i < 512; i++) {
       switch (desc.type) {
         case Invalid:
+          DEBUG(DEBUG_TRACE_VMM_ENSURES, "writeback invalid %p = 0x%lx\n", &pg[i], write_desc(new_desc));
           pg[i] = write_desc(desc);
           break;
 
@@ -47,6 +57,8 @@ void vmm_ensure_level(uint64_t* root, int desired_level, uint64_t va) {
           new_desc.oa = desc.oa + (i << OFFSBOT(level+1));
           new_desc.level = level+1;
           new_desc.attrs = block_desc.attrs;
+          DEBUG(DEBUG_TRACE_VMM_ENSURES, "writeback block %p = 0x%lx\n", &pg[i], write_desc(new_desc));
+
           pg[i] = write_desc(new_desc);
           break;
 
@@ -59,11 +71,12 @@ void vmm_ensure_level(uint64_t* root, int desired_level, uint64_t va) {
     new_desc.level = level;
     new_desc.table_addr = (uint64_t)pg;
     new_desc.attrs = (attrs_t){0};
+    DEBUG(DEBUG_TRACE_VMM_ENSURES, "writeback table %p = 0x%lx\n", p, write_desc(new_desc));
     *p = write_desc(new_desc);
-    root = pg;
+    current = pg;
   }
 
-  unlock(&_vmm_lock);
+  UNLOCK(&_vmm_lock);
 }
 
 desc_t read_descptr(uint64_t* desc, int level) {
@@ -111,10 +124,14 @@ int vmm_level(uint64_t* root, uint64_t va) {
   return desc.level;
 }
 
-uint64_t* vmm_pte_at_level(uint64_t* root, uint64_t va, int level) {
-  vmm_ensure_level(root, 3, va);
-  desc_t desc = vmm_translation_walk_to_level(root, va, level);
+uint64_t* vmm_desc_at_level(uint64_t* root, uint64_t va, int ensure_level, int desc_level) {
+  vmm_ensure_level(root, ensure_level, va);
+  desc_t desc = vmm_translation_walk_to_level(root, va, desc_level);
   return desc.src;
+}
+
+uint64_t* vmm_pte_at_level(uint64_t* root, uint64_t va, int level) {
+  return vmm_desc_at_level(root, va, 3, level);
 }
 
 uint64_t* vmm_pte(uint64_t* root, uint64_t va) {

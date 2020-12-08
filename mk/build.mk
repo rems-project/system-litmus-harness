@@ -91,6 +91,9 @@ bin/cpu_entry.o:  cpu_entry.S
 bin/vector_table.o:  vector_table.S
 	$(run_cc)
 
+bin/asm_debug.o:  asm_debug.S
+	$(run_cc)
+
 # generic executable file builder
 
 bin/debug_%.exe: OUT_NAME=$$tmp

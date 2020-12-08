@@ -31,7 +31,7 @@ void unlock(volatile lock_t* lock) {
 */
 int get_ticket(volatile lamport_lock_t* lock) {
   unsigned int max_ticket = 0;
-  for (int j = 0; j < num_of_threads; j++) {
+  for (int j = 0; j < NO_CPUS; j++) {
     if (max_ticket < lock->number[j]) {
       max_ticket = lock->number[j];
     }
@@ -50,7 +50,7 @@ void lamport_lock(volatile lamport_lock_t* lock) {
   lock->entering[i] = 1;
   lock->number[i] = get_ticket(lock);
   lock->entering[i] = 0;
-  for (int j = 0; j < num_of_threads; j++) {
+  for (int j = 0; j < NO_CPUS; j++) {
     while (lock->entering[j]) {
       /* nothing */
     }
@@ -71,26 +71,27 @@ void lamport_unlock(volatile lamport_lock_t* lock) {
 /** arm64 atomic lock
  */
 
-void __atomic_wait_and_set(volatile uint64_t* va, uint64_t v) {
+void __atomic_cas(volatile uint64_t* va, uint64_t old, uint64_t new) {
   /* atomic test and update
    * equivalent to an atomic:
-   * <while (!*va); *va = v>;
+   * <while (*va != old); *va = new>;
    */
   asm volatile(
-    "0:\n"
-    "ldxr w0, [%[va]]\n"
-    "cbnz w0, 0b\n"
+    "0:\n\t"
+    "ldxr x0, [%[va]]\n\t"
+    "cmp x0, %[old]\n\t"
+    "b.ne 0b\n\t"
     "stxr w1, %[val], [%[va]]\n"
     "cbnz w1, 0b\n"
     :
-    : [va] "r" (va), [val] "r" (v)
+    : [va] "r" (va), [val] "r" (new), [old] "r" (old)
     : "memory", "x0", "x1"
   );
 }
 
 void mutex_lock(volatile mutex_t* mut) {
   /* acquire mutex */
-  __atomic_wait_and_set(&mut->locked, 1);
+  __atomic_cas(&mut->locked, 0, 1);
 
   /* ensure critical section waits */
   dmb();
@@ -101,7 +102,14 @@ void mutex_unlock(volatile mutex_t* mut) {
   dmb();
 
   /* release the mutex */
-  mut->locked = 0;
+  /* NB: A53 errata 855872
+   * since the .data section is mapped inner/outer writeback and cacheable
+   * we must use an atomic store exclusive here rather than a plain store
+   *
+   * for simplicitly we use the helper __atomic_cas
+   * which also ensures UNLOCK() requires a LOCK()d mutex first.
+   */
+  __atomic_cas(&mut->locked, 1, 0);
 }
 
 /**
@@ -134,7 +142,7 @@ void bwait(int vcpu, bar_t* bar, int sz) {
   }
 
   /* slow acquire */
-  lock(&bwait_lock);
+  LOCK(&bwait_lock);
 
   /* if waiting is non-zero then
    * then we're still waiting for the release of one of the previous
@@ -153,7 +161,7 @@ void bwait(int vcpu, bar_t* bar, int sz) {
     dmb();
     sev();
   }
-  unlock(&bwait_lock);
+  UNLOCK(&bwait_lock);
 
   /* wait for the last one to arrive and flip the current state */
   uint64_t iter = bar->iteration;

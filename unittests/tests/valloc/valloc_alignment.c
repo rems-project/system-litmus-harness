@@ -7,6 +7,6 @@
 UNIT_TEST(test_valloc_alloc_aligned)
 void test_valloc_alloc_aligned(void) {
   char* p = alloc(1024);
-  free(p);
+  FREE(p);
   ASSERT(IS_ALIGNED((uint64_t)p, 10));
 }

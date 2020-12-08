@@ -14,9 +14,11 @@ void vprintf(int mode, const char* fmt, va_list ap);
 char* sprintf(char* out, const char* fmt, ...);
 char* vsprintf(char* out, int mode, const char* fmt, va_list ap);
 void printf(const char* fmt, ...);
+void printf_with_fileloc(const char* level_name, int mode, const char* filename, const int line, const char* func, const char* fmt, ...);
 void trace(const char* fmt, ...);
 void verbose(const char* fmt, ...);
 /* debug() declared in debug.h */
+
 
 #define SPRINT_TIME_HHMMSS 0
 #define SPRINT_TIME_HHMMSSCLK 1

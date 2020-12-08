@@ -1,14 +1,15 @@
 #ifndef SYNC_H
 #define SYNC_H
-#define num_of_threads 4
+
+#include "device.h"
 
 /** before the MMU is turned on
  * cannot use exclusives for atomic lock
  * so use lamport bakery algorithm instead
  */
 typedef struct {
-  int entering[num_of_threads];
-  unsigned int number[num_of_threads];
+  int entering[MAX_CPUS];
+  unsigned int number[MAX_CPUS];
 } lamport_lock_t;
 
 /* mutex */
@@ -39,16 +40,12 @@ void lock(volatile lock_t* lock);
 void unlock(volatile lock_t* lock);
 
 #define LOCK(lockptr) ({ \
-  if (DEBUG_LOCKS) { \
-    debug("LOCK(%s=%p)\n", STR_LITERAL(lockptr), lockptr); \
-  } \
+  DEBUG(DEBUG_LOCKS, "LOCK(%s=%p)\n", STR_LITERAL(lockptr), lockptr); \
   lock(lockptr); \
 })
 
 #define UNLOCK(lockptr) ({ \
-  if (DEBUG_LOCKS) { \
-    debug("UNLOCK(%s=%p)\n", STR_LITERAL(lockptr), lockptr); \
-  } \
+  DEBUG(DEBUG_LOCKS, "UNLOCK(%s=%p)\n", STR_LITERAL(lockptr), lockptr); \
   unlock(lockptr); \
 })
 
@@ -64,9 +61,7 @@ typedef struct {
 void bwait(int cpu, bar_t* barrier, int sz);
 
 #define BWAIT(cpu, barrier, sz) ({ \
-  if (DEBUG_BWAITS) { \
-    debug("BWAIT(%s=%d, %s=%p, sz=%d)\n", STR_LITERAL(cpu), cpu, STR_LITERAL(barrier), barrier, sz); \
-  } \
+  DEBUG(DEBUG_BWAITS, "BWAIT(%s=%d, %s=%p, sz=%d)\n", STR_LITERAL(cpu), cpu, STR_LITERAL(barrier), barrier, sz); \
   bwait(cpu, barrier, sz); \
 })
 

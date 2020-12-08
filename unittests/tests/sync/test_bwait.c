@@ -11,7 +11,7 @@ typedef struct {
 void test_bwaits_cpu(int cpu, void* arg) {
   bar_test_t* test = arg;
   if (cpu < test->sz)
-    bwait(cpu, test->bar, test->sz);
+    BWAIT(cpu, test->bar, test->sz);
 }
 
 UNIT_TEST(test_bwaits_nodeadlock)

@@ -26,11 +26,22 @@ uint64_t __total_free(void) {
   return s;
 }
 
+uint64_t __total_alloc(void) {
+  uint64_t s = 0;
+  valloc_alloc_chunk* next = mem.chunk_alloc_list;
+  while (next != NULL) {
+    s += next->size;
+    next = next->next;
+  }
+  return s;
+}
+
 void debug_valloc_status(void) {
   if (DEBUG) {
     uint64_t free_chunks = __count_free_chunks();
     uint64_t free_mem = __total_free();
-    printf("(valloc)  top=0x%lx,  #free_chunks=0x%lx (with %p B)\n", mem.top, free_chunks, free_mem);
+    uint64_t total_alloc = __total_alloc();
+    printf("(valloc)  top=0x%lx, #total_used=0x%lx B #free_chunks=0x%lx (with %p B)\n", mem.top, total_alloc, free_chunks, free_mem);
   }
 }
 
@@ -77,6 +88,14 @@ void __print_heap_flat(void) {
  *  the first starting at offset 0x123, with 32-bytes of allocation
  *  then the next at offset 0x456 with 72 bytes.
  */
+
+/** buffer in which to store the time information
+ * from the alloc chunk's metadata
+ *
+ * this is unprotected, since __print_heap_page does not take locks
+ */
+char __debug_print_heap_page_time_buf[64];
+
 void __print_heap_page(uint64_t pg) {
   uint64_t total_alloc = 0;
   printf("%p: \n");
@@ -89,8 +108,10 @@ void __print_heap_page(uint64_t pg) {
     if (chk == NULL) {
       va += 1;
     } else {
-      char* time_str = alloc(128);
-      sprint_time(&time_str[0], chk->meta.ts, SPRINT_TIME_HHMMSSCLK);
+#if DEBUG_ALLOC_META
+      char* time_str = __debug_print_heap_page_time_buf;
+      valloc_alloc_chunk_debug_metadata* meta = &chk->meta;
+      sprint_time(&time_str[0], meta->ts, SPRINT_TIME_HHMMSSCLK);
 
       printf("   ");
 
@@ -98,8 +119,10 @@ void __print_heap_page(uint64_t pg) {
         printf("...");
       }
 
-      printf("[%p: %p @ %s]\n", chk->start, chk->size, &time_str[0]);
-      free(time_str);
+      printf("[%p: %p @ %s from %p]\n", chk->start, chk->size, &time_str[0], meta->where);
+#else
+      printf("[%p: %p]\n", chk->start, chk->size);
+#endif
       va += chk->size;
       total_alloc += chk->size;
 
@@ -113,7 +136,7 @@ void __print_heap_page(uint64_t pg) {
 }
 
 void __print_heap_pages(void) {
-  for (uint64_t i = ALIGN_TO(TOP_OF_MEM, 12); i >= ALIGN_TO(mem.top, 12); i -= 4096UL) {
+  for (uint64_t i = ALIGN_TO(TOP_OF_HEAP, 12); i >= ALIGN_TO(mem.top, 12); i -= 4096UL) {
     __print_heap_page(i);
   }
 }

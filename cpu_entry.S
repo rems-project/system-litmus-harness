@@ -54,7 +54,21 @@ _start:
 	b 1b
 
 1:
+    /* zero the bss */
+	adrp	x10, __ld_begin_bss
+	add     x10, x10, :lo12:__ld_begin_bss
+	adrp	x11, __ld_end_bss
+	add     x11, x11, :lo12:__ld_end_bss
+1:
+    sub x12, x11, x10
+    cbz x12, 1f
+    strb wzr, [x10]
+    add x10, x10, #1
+    b 1b
+
+1:
 	/* setup CPU0 */
+	mov x29, #0    /* init frame pointer to NULL */
 	bl init_cpu
 	bl setup
 
@@ -71,6 +85,7 @@ _start:
 
 .globl cpu_entry
 cpu_entry:
+	mov x29, #0  /* init frame pointer to NULL */
 	bl init_cpu
 
 	mov x0, x9
@@ -81,28 +96,43 @@ cpu_entry:
 .globl init_cpu
 init_cpu:
 	/* each thread has page desginated for stack space
-	 * located at stackptr + 4096*cpuid */
+	 * located at __ld_begin_stack + STACK_SIZE*(1+cpuid) -> __ld_begin_stack + STACK_SIZE*cpuid
+     */
 	mrs x9, mpidr_el1
 	and x9, x9, #0xff
 	msr tpidr_el0, x9
 
-	mov x10, #4096
-	mul x10, x9, x10
-	adrp x11, stackptr
-	add x11, x11, :lo12:stackptr
-	add x11, x10, x11
+    /* x11 = BOT_OF_STACK */
+	adrp x11, __ld_begin_stack
+	add x11, x11, :lo12:__ld_begin_stack
+    /* x10 = 2MiB = STACK_SIZE */
+	mov x10, #2
+	lsl x10,x10,#20
+    /* align BOT_OF_STACK _up_ to 2M */
+    add x11, x10, x11
+    sub x15, x10, #1
+    neg x15, x15
+    and x11, x11, x15
+    /* x15 = TOP_OF_STACK_EL0 */
+    /* x16 = TOP_OF_STACK_EL1 */
+	add x15,x9,#1
+    lsl x15,x15,#1
+    mul x15,x15,x10
+    mov x16,x15
+    sub x15,x15,x10
+    add x15,x15,x11
+    add x16,x16,x11
 
 	mov x12, #SCTLR_HI
 	lsl x12, x12, #12
 	add x12, x12, #SCTLR_LO
 	msr sctlr_el1, x12
 
-
-	/* setup stack */
-	mov	x4, #0  /* use SP_EL0 everywhere */
-	msr	spsel, x4
-	isb
-	mov sp, x11
+    /* setup stacks */
+    mov sp, x16
+    msr sp_el0, x15
+    mov x4, #0
+    msr spsel, x4  /* and use SP_EL0 outside of exception handlers */
 
 	/* enable FP/ASIMD (for printf/varargs) */
 	mov	x4, #(3 << 20)

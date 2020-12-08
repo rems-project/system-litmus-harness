@@ -17,12 +17,12 @@ static volatile lock_t __PR_LOCK;
 static char __verbose_print_buf[1024];
 static volatile lock_t __PR_VERB_LOCK;
 
-char* sputc(char* out, const char c) {
+char* sputc(char* out, char c) {
   *out = c;
   return out + 1;
 }
 
-char* sputs(char* out, const char* s) {
+char* sputs(char* out, char* s) {
   if (!s) {
     return sputs(out, "NULL");
   }
@@ -88,6 +88,10 @@ char* sputhex(char* out, uint64_t n) {
 
   for (i--; i >= 0; i--) {
     out = sputc(out, _hex[i]);
+
+    /* group 2-byte sequences */
+    if (((i % 4) == 0) && (i > 0))
+      out = sputc(out, '_');
   }
 
   return out;
@@ -171,9 +175,9 @@ char* vsprintf(char* out, int mode, const char* fmt, va_list ap) {
         out = sputs(out, "0x");
         out = sputhex(out, va_arg(ap, long));
       } else if (c == 'A') {
-        char fmt[10];
-        sprintf(fmt, "%%%c", *(p + 1));
-        out = sputarray(out, fmt, va_arg(ap, void*), va_arg(ap, int));
+        char arr_item_fmt[10];
+        sprintf(arr_item_fmt, "%%%c", *(p + 1));
+        out = sputarray(out, arr_item_fmt, va_arg(ap, void*), va_arg(ap, int));
         p++;
       } else {
         puts("!! printf: unknown symbol: ");
@@ -249,21 +253,72 @@ void verbose(const char* fmt, ...) {
   }
 }
 
-void _debug(const char* filename, const int line, const char* func, const char* fmt, ...) {
-  if (DEBUG) {
-    int cpu = get_cpu();
-    lock(&__PR_VERB_LOCK);
-    sprintf(__verbose_print_buf, "[%s:%d %s (CPU%d)] %s", filename, line, func, cpu, fmt);
-    if (strlen(__verbose_print_buf) > 1024) {
-      fail("! debug: overflow, format string too large.\n");
-    }
+/** print buffer used for the stack output
+ * protected by __PR_VERB_LOCK
+ */
+static char __debug_frame_buf[1024];
+static char __debug_stack_buf[1024];
+static char __debug_time_buf[1024];
 
-    va_list ap;
-    va_start(ap, fmt);
-    vprintf(1, __verbose_print_buf, ap);
-    va_end(ap);
-    unlock(&__PR_VERB_LOCK);
+void __print_frame_unwind(char* out, int skip) {
+  stack_t* stack = (stack_t*)__debug_stack_buf;
+  walk_stack(stack);
+
+  for (int i = skip; i < stack->no_frames; i++) {
+    stack_frame_t* frame = &stack->frames[i];
+    out = sprintf(out, "%p", frame->ret);
+    if (i < stack->no_frames - 1) {
+      out = sprintf(out, ":");
+    }
   }
+
+  out = sprintf(out, ""); /* put a NUL at the end always, even if no frames */
+}
+
+void printf_with_fileloc(const char* level, int mode, const char* filename, const int line, const char* func, const char* fmt, ...) {
+  int cpu = get_cpu();
+  lock(&__PR_VERB_LOCK);
+  __print_frame_unwind(__debug_frame_buf, 2);
+
+  if (strlen(__debug_frame_buf) > 1024) {
+    /* can't use fail() here
+     * so call abort() manually */
+    printf("! printf_with_fileloc: overflow, unwound frame string too large.\n");
+    raise_to_el1();
+    abort();
+  }
+
+  sprint_time(__debug_time_buf, read_clk(), SPRINT_TIME_HHMMSSCLK);
+  sprintf(__verbose_print_buf, "(%s) CPU%d:%s:[%s:%s:%d (%s)] %s", __debug_time_buf, cpu, level, __debug_frame_buf, filename, line, func, fmt);
+
+  if (strlen(__verbose_print_buf) > 1024) {
+    /* can't use fail() here
+     * so call abort() manually */
+    printf("! printf_with_fileloc: overflow, format string too large.\n");
+    raise_to_el1();
+    abort();
+  }
+
+  va_list ap;
+  va_start(ap, fmt);
+  vprintf(mode, __verbose_print_buf, ap);
+  va_end(ap);
+  unlock(&__PR_VERB_LOCK);
+}
+
+void _fail(const char* filename, const int line, const char* func, const char* fmt, ...) {
+  int cpu = get_cpu();
+  lock(&__PR_VERB_LOCK);
+  sprintf(__verbose_print_buf, "[%s:%d %s (CPU%d)] %s", filename, line, func, cpu, fmt);
+  if (strlen(__verbose_print_buf) > 1024) {
+    fail("! debug: overflow, format string too large.\n");
+  }
+
+  va_list ap;
+  va_start(ap, fmt);
+  vprintf(1, __verbose_print_buf, ap);
+  va_end(ap);
+  unlock(&__PR_VERB_LOCK);
 }
 
 /** printing times */

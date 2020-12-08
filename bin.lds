@@ -3,27 +3,48 @@
  */
 SECTIONS
 {
-    /* place .text into whole 4k page chunks
+    /* on the rpi4 and in QEMU's mach-virt implementation
+     * RAM starts from physical address 0x40000000
+     *
+     * then the bootloader will load _start at address 0x40080000
+     *
+     * so if we wish to place a section @ 0x40ABCDEF
+     * then we have to place it at location 0x0ABCDEF - 0x80000
+     * in the linker script
      */
-    . = ALIGN(4k);
-    PROVIDE(__ld_begin_text = .);
-    .text : {
+    OFFSET = 0x80000;
+
+    /* place all the shared data in the next 1G region
+     * this is data that will be mapped and
+     * note that 0x4000000 is the bootloader itself which does not actually need to be mapped
+     * (since it is used before we install the pgtable) so we can consider 0x40000000 -> ... as one big
+     * code segment
+     */
+    .text 0x00000000 : {
+        PROVIDE(__ld_begin_text = .);
         *(.init) *(.text) *(.text.*) *(.exc_table)
+
+        . = ALIGN(4k);
+        PROVIDE(__ld_end_text = .);
     }
-    . = ALIGN(4k);
-    PROVIDE(__ld_end_text = .);
 
     /* relocations must be exactly marked
-     * so don't align
+     * so don't align any more than needed
      */
+    . = ALIGN(4k);
     .rela.dyn : {
         PROVIDE(__ld_begin_reloc = .);
         *(.rela.dyn)
+        /* PROVIDE(__ld_end_reloc = .); */
     }
+    /* TODO: this seems to need to go after the .rela.dyn section
+     * but it should be fine to put it after the *(.rela.dyn) above
+     * but it doesn't work ?
+     */
     PROVIDE(__ld_end_reloc = .);
 
     . = ALIGN(4k);
-    PROVIDE(__ld_start_ro = .);
+    PROVIDE(__ld_begin_data = .);
     .dynsym   : { *(.dynsym) }
     .dynstr   : { *(.dynstr) }
     .hash     : { *(.hash) }
@@ -33,11 +54,37 @@ SECTIONS
 
     .rodata   : { *(.rodata*) }
     .data     : { *(.data) }
-    .bss      : { *(.bss) }
+    .bss      : {
+        PROVIDE(__ld_begin_bss = .);
+        *(.bss)
+        PROVIDE(__ld_end_bss = .);
+    }
     . = ALIGN(4k);
-    PROVIDE(__ld_end_ro = .);
+    PROVIDE(__ld_end_data = .);
 
-    . = ALIGN(64K);
+    /*
+     * we ensure at least 2 2M pmd for each thread's stack
+     * (one for EL0 and one for EL1)
+     *
+     * see device.h
+     */
+    . = ALIGN(4K);
+    .stack : {
+        PROVIDE(__ld_begin_stack = .);
+        . += 2M;  /* alignment space */
+        . += 16M;
+        PROVIDE(__ld_end_stack = .);
+    }
+
+    /DISCARD/ : {
+        *(.note*)
+        *(.interp)
+        *(.comment)
+        *(.dynamic)
+    }
+
+    PROVIDE(__ld_end_sections = .);
+
     /* from default linker script: `aarch64-none-elf-ld --verbose`
      * DWARF debug sections.
      * Symbols in the DWARF debugging sections are relative to the beginning
@@ -67,28 +114,6 @@ SECTIONS
     .debug_macro    0 : { *(.debug_macro) }
     .debug_addr     0 : { *(.debug_addr) }
     /* end debug sections */
-
-    /*
-     * stack depth is 16K for arm and PAGE_SIZE for arm64, see THREAD_SIZE
-     * sp must be 16 byte aligned for arm64, and 8 byte aligned for arm
-     * sp must always be strictly less than the true stacktop
-     */
-    .stack : {
-        PROVIDE(__ld_begin_stack = .);
-        . += 64K;
-        . = ALIGN(64K);
-        PROVIDE(stackptr = . - 16);
-        PROVIDE(__ld_end_stack = .);
-    }
-
-    /DISCARD/ : {
-        *(.note*)
-        *(.interp)
-        *(.comment)
-        *(.dynamic)
-    }
-
-    PROVIDE(__ld_end_sections = .);
 }
 
 ENTRY(_start)

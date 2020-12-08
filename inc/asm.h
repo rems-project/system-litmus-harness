@@ -32,6 +32,7 @@
 #else
 #define wfe() do { asm volatile ("wfe" ::: "memory"); } while (0)
 #define sev() do { asm volatile ("sev" ::: "memory"); } while (0)
+#define sevl() do { asm volatile ("sevl" ::: "memory"); } while (0)
 #endif
 #define dsb() do { asm volatile ("dsb sy" ::: "memory"); } while (0)
 #define dmb() do { asm volatile ("dmb sy" ::: "memory"); } while (0)
@@ -39,6 +40,10 @@
 
 /* stores and loads */
 void writeb(uint8_t byte, uint64_t addr);
+void writew(uint32_t word, uint64_t addr);
+
+uint8_t  readb(uint64_t addr);
+uint32_t readw(uint64_t addr);
 
 /* register read/write */
 #define read_sysreg(r) ({  \

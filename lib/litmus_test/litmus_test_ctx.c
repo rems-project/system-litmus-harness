@@ -1,27 +1,33 @@
 #include "lib.h"
 
-void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
+void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, int runs_in_batch) {
   var_info_t* var_infos = ALLOC_MANY(var_info_t, cfg->no_heap_vars);
   uint64_t** out_regs = ALLOC_MANY(uint64_t*, cfg->no_regs);
   init_system_state_t* sys_st = ALLOC_ONE(init_system_state_t);
-  bar_t* init_sync_bar = ALLOC_ONE(bar_t);
-  /* we don't need millions of barriers, just a handful */
-  bar_t* start_run_bars = ALLOC_MANY(bar_t, 512);
-  bar_t* bars = ALLOC_MANY(bar_t, 512);
-  bar_t* end_bars = ALLOC_MANY(bar_t, 512);
-  bar_t* conc_bars = ALLOC_MANY(bar_t, 512);
-  bar_t* clean_bars = ALLOC_MANY(bar_t, no_runs);
-  bar_t* final_barrier = ALLOC_ONE(bar_t);
+  bar_t* generic_cpu_bar = ALLOC_ONE(bar_t);
+  bar_t* generic_vcpu_bar = ALLOC_ONE(bar_t);
+  /* TODO: instead of asids/runs_in_batch everywhere, have proper batch type
+   */
+  bar_t* bars = ALLOC_MANY(bar_t, runs_in_batch);
   run_idx_t* shuffled = ALLOC_MANY(run_idx_t, no_runs);
+  run_count_t* rev_lookup = ALLOC_MANY(run_count_t, no_runs);
   int* affinity = ALLOC_MANY(int, NO_CPUS);
+  uint64_t** ptables = ALLOC_MANY(uint64_t*, 1+runs_in_batch);
 
   for (int v = 0; v < cfg->no_heap_vars; v++) {
-    valloc_memset(&var_infos[v], 0, sizeof(var_info_t));
     var_infos[v].values = ALLOC_MANY(uint64_t*, no_runs);
   }
 
   sys_st->enable_mair = 0;
   read_var_infos(cfg, sys_st, var_infos, no_runs);
+
+  debug("thread_sync_handlers = {\n");
+  if (cfg->thread_sync_handlers != NULL) {
+    for (int i = 0; i < cfg->no_threads; i++) {
+      debug(" [%d] = {%p, %p}\n", i, cfg->thread_sync_handlers[i][0], cfg->thread_sync_handlers[i][1]);
+    }
+  }
+  debug("}\n");
 
   for (reg_idx_t r = 0; r < cfg->no_regs; r++) {
     uint64_t* out_reg = ALLOC_MANY(uint64_t, no_runs);
@@ -33,20 +39,19 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
       out_regs[r][i] = 0;
     }
 
-    clean_bars[i] = EMPTY_BAR;
     shuffled[i] = i;
   }
 
   shuffle(shuffled, sizeof(run_idx_t), no_runs);
-
-  for (int i = 0; i < 512; i++) {
-    start_run_bars[i] = EMPTY_BAR;
-    bars[i] = EMPTY_BAR;
-    end_bars[i] = EMPTY_BAR;
-    conc_bars[i] = EMPTY_BAR;
+  for (run_count_t i = 0; i < no_runs; i++) {
+    rev_lookup[shuffled[i]] = i;
   }
-  *final_barrier = EMPTY_BAR;
-  *init_sync_bar = EMPTY_BAR;
+
+  for (int i = 0; i < runs_in_batch; i++) {
+    bars[i] = EMPTY_BAR;
+  }
+  *generic_cpu_bar = EMPTY_BAR;
+  *generic_vcpu_bar = EMPTY_BAR;
 
   for (int i = 0; i < NO_CPUS; i++) {
     affinity[i] = i;
@@ -69,33 +74,30 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs) {
   ctx->heap_vars = var_infos;
   ctx->system_state = sys_st;
   ctx->out_regs = out_regs;
-  ctx->initial_sync_barrier = init_sync_bar;
-  ctx->start_of_run_barriers = start_run_bars;
-  ctx->concretize_barriers = conc_bars;
   ctx->start_barriers = bars;
-  ctx->end_barriers = end_bars;
-  ctx->cleanup_barriers = clean_bars;
-  ctx->final_barrier = final_barrier;
+  ctx->generic_cpu_barrier = generic_cpu_bar;
+  ctx->generic_vcpu_barrier = generic_vcpu_bar;
   ctx->shuffled_ixs = shuffled;
+  ctx->shuffled_ixs_inverse = rev_lookup;
   ctx->affinity = affinity;
   ctx->last_tick = 0;
   ctx->hist = hist;
-  ctx->ptable = NULL;
+  ctx->ptables = ptables;
   ctx->current_run = 0;
   ctx->privileged_harness = 0;
   ctx->cfg = cfg;
   ctx->concretization_st = NULL;
 }
 
-uint64_t ctx_pa(test_ctx_t* ctx, uint64_t va) {
+uint64_t ctx_pa(test_ctx_t* ctx, run_idx_t run, uint64_t va) {
   /* return the PA associated with the given va in a particular iteration */
-  return (uint64_t)vmm_pa(ctx->ptable, va);
+  return (uint64_t)vmm_pa(ptable_from_run(ctx, run), va);
 }
 
-uint64_t* ctx_pte(test_ctx_t* ctx, uint64_t va) {
+uint64_t* ctx_pte(test_ctx_t* ctx, run_idx_t run, uint64_t va) {
   /* return the VA at which the pte lives for the given va in a particular
    * iteration */
-  return vmm_pte(ctx->ptable, va);
+  return vmm_pte(ptable_from_run(ctx, run), va);
 }
 
 
@@ -151,32 +153,47 @@ reg_idx_t idx_from_regname(test_ctx_t* ctx, const char* varname) {
   return 0;
 }
 
+/** return the loop counter that links to this run index offset
+ */
+run_count_t run_count_from_idx(test_ctx_t* ctx, run_idx_t idx) {
+  return ctx->shuffled_ixs_inverse[idx];
+}
+
+uint64_t asid_from_run_count(test_ctx_t* ctx, run_count_t r) {
+  /* reserve ASID 0 for harness */
+  return 1 + (r % ctx->batch_size);
+}
+
+uint64_t* ptable_from_run(test_ctx_t* ctx, run_idx_t i) {
+  run_count_t r = run_count_from_idx(ctx, i);
+  uint64_t asid = asid_from_run_count(ctx, r);
+  return ctx->ptables[asid];
+}
+
 void free_test_ctx(test_ctx_t* ctx) {
   for (int t = 0; t < ctx->hist->limit; t++) {
-    free(ctx->hist->results[t]);
+    FREE(ctx->hist->results[t]);
   }
 
-  free(ctx->hist->lut);
-  free(ctx->hist);
+  FREE(ctx->hist->lut);
+  FREE(ctx->hist);
 
   for (int r = 0; r < ctx->cfg->no_regs; r++) {
-    free(ctx->out_regs[r]);
+    FREE(ctx->out_regs[r]);
   }
 
   for (int v = 0; v < ctx->cfg->no_heap_vars; v++) {
-    free(ctx->heap_vars[v].values);
+    FREE(ctx->heap_vars[v].values);
   }
 
-  free((int*)ctx->affinity);
-  free(ctx->shuffled_ixs);
-  free((bar_t*)ctx->final_barrier);
-  free((bar_t*)ctx->cleanup_barriers);
-  free((bar_t*)ctx->concretize_barriers);
-  free((bar_t*)ctx->end_barriers);
-  free((bar_t*)ctx->start_barriers);
-  free((bar_t*)ctx->start_of_run_barriers);
-  free((bar_t*)ctx->initial_sync_barrier);
-  free(ctx->out_regs);
-  free(ctx->system_state);
-  free(ctx->heap_vars);
+  FREE((int*)ctx->affinity);
+  FREE(ctx->shuffled_ixs_inverse);
+  FREE(ctx->shuffled_ixs);
+  FREE((bar_t*)ctx->start_barriers);
+  FREE((bar_t*)ctx->generic_cpu_barrier);
+  FREE((bar_t*)ctx->generic_vcpu_barrier);
+  FREE(ctx->ptables);
+  FREE(ctx->out_regs);
+  FREE(ctx->system_state);
+  FREE(ctx->heap_vars);
 }

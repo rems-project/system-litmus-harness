@@ -55,4 +55,55 @@
    #define DEBUG_DISABLE_WFE 0
 #endif
 
+/**
+ * if -DDEBUG_PTABLE=1 then
+ * pagetable range set functions will
+ * dump more information
+ */
+#ifndef DEBUG_PTABLE
+   #define DEBUG_PTABLE 0
+#endif
+
+/**
+ * if -DDEBUG_PTABLE_DUMP_TABLES=1 then
+ * after allocating a new pagetable, dump the table to the serial bus
+ * in a human-readable format
+ */
+#ifndef DEBUG_PTABLE_DUMP_TABLES
+   #define DEBUG_PTABLE_DUMP_TABLES 0
+#endif
+
+/**
+ * if -DDEBUG_TRACE_RUN_LOOP=1 then
+ * each step of the main run loop will be traced
+ */
+#ifndef DEBUG_TRACE_RUN_LOOP
+   #define DEBUG_TRACE_RUN_LOOP 0
+#endif
+
+/**
+ * if -DDEBUG_ALLOC_META=1 then
+ * each ALLOC() stores some metadata about time/place of allocation
+ */
+#ifndef DEBUG_ALLOC_META
+   #define DEBUG_ALLOC_META 0
+#endif
+
+/**
+ * if -DDEBUG_TRACE_VMM_ENSURES=1 then
+ * each vmm_ensure_level() traces each access
+ * (Warning: lots of output!)
+ */
+#ifndef DEBUG_TRACE_VMM_ENSURES
+   #define DEBUG_TRACE_VMM_ENSURES 0
+#endif
+
+/**
+ * if -DDEBUG_TRACE_BOOT=1 then
+ * trace through the initial boot sequence in detail
+ */
+#ifndef DEBUG_TRACE_BOOT
+   #define DEBUG_TRACE_BOOT 1
+#endif
+
 #endif /* DEBUG_FLAGS_H */

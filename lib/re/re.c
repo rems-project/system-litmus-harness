@@ -46,7 +46,7 @@ re_t* re_compile(char* s) {
 }
 
 void re_free(re_t* re) {
-    free(re);
+    FREE(re);
 }
 
 typedef struct {
@@ -71,14 +71,12 @@ re_ctx_t _build_ctx(re_t* re, const char* input) {
     };
 }
 
-int _at_end_of_stream(re_ctx_t* ctx) {
-    if (ctx->pos.current == NULL) {
-        if (ctx->pos.idx == strlen(ctx->input)) {
-            return 1;
-        }
-    }
+int _no_more_regex(re_ctx_t* ctx) {
+  return (ctx->pos.current == NULL);
+}
 
-     return 0;
+int _at_end_of_stream(re_ctx_t* ctx) {
+  return (ctx->pos.idx == strlen(ctx->input));
 }
 
 int _would_accept_char(re_ctx_t* ctx, re_st_t* st, int idx) {
@@ -117,8 +115,8 @@ int re_matches(re_t* re, const char* input) {
     re_ctx_backtrack_t backtrack_stack[100];
 
     while (1) {
-        if (_at_end_of_stream(&ctx)) {
-            return 1;
+        if (_at_end_of_stream(&ctx) || _no_more_regex(&ctx)) {
+            return _at_end_of_stream(&ctx) && _no_more_regex(&ctx);
         } else if (_accepts_next_char(&ctx)) {
             _accept_and_step(&ctx);
         } else if (_is_wildcard(&ctx)) {

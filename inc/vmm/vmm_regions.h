@@ -4,6 +4,43 @@
 #include "litmus_regions.h"
 #include "device.h"
 
+/* at 16G starts the STACK va space */
+#define STACK_MMAP_BASE (16 * GiB)
+#define STACK_MMAP_SIZE (4 * STACK_SIZE)
+
+/* thread0.EL0 is (16G+  STACK_SIZE -> 16G           )
+ * thread0.EL1 is (16G+2*STACK_SIZE -> 16G+STACK_SIZE)
+ * etc
+ */
+#define STACK_MMAP_THREAD_TOP_EL0(cpu) (STACK_MMAP_BASE + (1+(cpu))*2*STACK_SIZE - STACK_SIZE)
+#define STACK_MMAP_THREAD_TOP_EL1(cpu) (STACK_MMAP_BASE + (1+(cpu))*2*STACK_SIZE)
+
+#define STACK_MMAP_THREAD_BOT_EL0(cpu) (STACK_MMAP_THREAD_TOP_EL0(cpu) - STACK_SIZE)
+#define STACK_MMAP_THREAD_BOT_EL1(cpu) (STACK_MMAP_THREAD_TOP_EL1(cpu) - STACK_SIZE)
+
+#define IN_STACK_MMAP_SPACE(va) ((STACK_MMAP_BASE <= (va)) && ((va) <= STACK_MMAP_BASE+1*GiB))
+#define STACK_MMAP_VA_TO_PA(va) ((uint64_t)(va) - STACK_MMAP_BASE + BOT_OF_STACK_PA)
+
+/** convert a stack PA/VA to the safe PA addr
+ */
+#define STACK_SAFE_PA(va) \
+  (! IN_STACK_MMAP_SPACE(va) \
+      ? va \
+      : STACK_MMAP_VA_TO_PA(va))
+
+
+/* at 17G starts the VECTOR TABLE va space
+ * which is an EL0 R/W mapping to the vtable
+ *
+ * VTABLE_MMAP_BASE + get_cpu()*PAGE_SIZE ==
+ *  R/W Mapping to TTBR for this thread
+ */
+#define VTABLE_MMAP_BASE (17 * GiB)
+#define VTABLE_MMAP_SIZE (16 * KiB)
+
+#define THR_VTABLE_VA(t) ((uint64_t*)(VTABLE_MMAP_BASE + PAGE_SIZE*t))
+#define THR_VTABLE_PA(t) ((uint64_t*)(vector_base_pa + PAGE_SIZE*t))
+
 /* size of TESTDATA VA space */
 #define TESTDATA_MMAP_SIZE (64 * GiB)
 #define TESTDATA_MMAP_SIZE_SHIFT (6 + GiB_SHIFT)

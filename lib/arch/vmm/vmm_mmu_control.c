@@ -1,6 +1,8 @@
 #include "lib.h"
 
 void vmm_mmu_off(void) {
+  switch_to_pys_stack();
+
   asm volatile(
       "mrs x18, SCTLR_EL1\n"
       "mov x19, #0\n"
@@ -29,4 +31,6 @@ void vmm_mmu_on(void) {
 
   thread_infos[get_cpu()].mmu_enabled = 1;
   thread_infos[get_cpu()].locking_enabled = 1;
+
+  switch_to_vm_stack();
 }

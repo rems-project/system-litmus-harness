@@ -71,7 +71,7 @@ static void handler(void) {
 static bar_t* bar = NULL;
 static void p0_setup(litmus_test_run* data) {
   if (bar != NULL)
-    free(bar);
+    FREE(bar);
 
   bar = alloc(sizeof(bar_t));
   *bar = EMPTY_BAR;

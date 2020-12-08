@@ -5,9 +5,22 @@
 #include "debugging/debug_flags.h"
 #include "debugging/tostr.h"
 
-#define debug(...) _debug(__FILE__, __LINE__, __FUNCTION__, __VA_ARGS__)
 
-void _debug(const char* file, const int line, const char* func, const char* fmt, ...);
+#define debug(...) \
+  do { \
+    if (DEBUG) {\
+      printf_with_fileloc("DEBUG", 1, __FILE__, __LINE__, __FUNCTION__, __VA_ARGS__); \
+    } \
+  } while (0)
+
+
+#define DEBUG(flag, ...) \
+  do { \
+    if (DEBUG && flag) { \
+      printf_with_fileloc(#flag, 1, __FILE__, __LINE__, __FUNCTION__, __VA_ARGS__); \
+    } \
+  } while (0)
+
 
 void debug_show_valloc_mem(void);
 void debug_vmm_show_walk(uint64_t* pgtable, uint64_t va);

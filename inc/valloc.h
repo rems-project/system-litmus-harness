@@ -11,16 +11,21 @@ typedef struct __free_chunk {
     struct __free_chunk* next;
 } valloc_free_chunk;
 
+#if DEBUG_ALLOC_META
 typedef struct {
-    uint64_t ts; /* timestamp of allocation */
+    uint64_t ts;    /* timestamp of allocation */
+    uint64_t where; /* address of ALLOC() call */
 } valloc_alloc_chunk_debug_metadata;
+#endif
 
 typedef struct __alloc {
     uint64_t start;
     uint64_t size;
     struct __alloc* prev;
     struct __alloc* next;
+#if DEBUG_ALLOC_META
     valloc_alloc_chunk_debug_metadata meta;
+#endif
 } valloc_alloc_chunk;
 
 
@@ -57,24 +62,33 @@ void valloc_freelist_allocate_free_chunk(uint64_t addr, uint64_t size);
 void valloc_freelist_remove_chunk(valloc_free_chunk* chunk);
 void valloc_freelist_compact_chunk(valloc_free_chunk* chunk);
 
+#define ALLOC_SIZE(p) \
+  (valloc_alloclist_find_alloc_chunk(&mem, (uint64_t)(p))->size)
+
 void init_valloc(void);
 
-#define ALLOC_MANY(ty, count) ({ \
-  void* v = alloc_with_alignment((sizeof(ty))*count, sizeof(ty)); \
-  if (DEBUG_ALLOCS) { \
-    debug("alloc %ldx %s @ %p\n", count, #ty, v); \
-  } \
-  v; \
+#define __ALLOC_MANY(var, ty, count) ({ \
+  void* var = alloc_with_alignment((sizeof(ty)*(count)), sizeof(ty)); \
+  DEBUG(DEBUG_ALLOCS, "alloc %ldx %s @ %p (%ld B)\n", (count), #ty, var, ALLOC_SIZE(var)); \
+  var; \
 })
 
+#define ALLOC_MANY(ty, count) \
+  __ALLOC_MANY(CONCAT_MACROS(v, __COUNTER__), ty, count)
+
 #define ALLOC_ONE(ty) ALLOC_MANY(ty, 1)
+
+#define FREE(p) ({ \
+  DEBUG(DEBUG_ALLOCS, "free %p (chk @ %p)\n", (p), valloc_alloclist_find_alloc_chunk(&mem, (uint64_t)(p))); \
+  free((p)); \
+})
 
 void* alloc_with_alignment(uint64_t size, uint64_t alignment);
 void* alloc(uint64_t size);
 void* realloc(void* p, uint64_t new_size);
 
 void free(void* p);
-void valloc_memset(void* p, uint64_t value, uint64_t size);
+void valloc_memset(void* p, uint8_t value, uint64_t size);
 void valloc_memcpy(void* dest, void* src, uint64_t size);
 
 uint64_t valloc_free_size(void);
@@ -87,5 +101,11 @@ int valloc_is_free(void* p);
 /* useful functions for touching a valloc_free_chunk */
 uint64_t valloc_freelist_start_of_chunk(valloc_free_chunk*);
 uint64_t valloc_freelist_chunk_size(valloc_free_chunk* chunk);
+
+/* debugging functions */
+
+/** count the number of currently allocated chunks
+ */
+uint64_t valloc_alloclist_count_chunks(void);
 
 #endif /* VALLOC_H */

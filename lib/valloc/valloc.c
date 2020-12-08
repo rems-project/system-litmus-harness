@@ -53,7 +53,7 @@ static int is_pow2(uint64_t i) {
   return 0;
 }
 
-static uint64_t nearest_pow2(uint64_t i) {
+static uint64_t next_largest_pow2(uint64_t i) {
   int hi=0;
   while (i > 0) {
     hi++;
@@ -63,21 +63,13 @@ static uint64_t nearest_pow2(uint64_t i) {
   return (1UL << hi);
 }
 
-void* alloc_with_alignment(uint64_t size, uint64_t alignment) {
-  /* minimum allocation */
-  if (size < sizeof(valloc_free_chunk)) {
-    size = nearest_pow2(sizeof(valloc_free_chunk));
-    alignment = size;
-  }
-
-  lock(&__valloc_lock);
-
+static void* __alloc_with_alignment(uint64_t size, uint64_t alignment) {
   valloc_free_chunk* free_chunk = valloc_freelist_find_best(size, alignment);
   if (free_chunk != NULL) {
+    DEBUG(DEBUG_ALLOC_META, "for alloc size=%ld with alignment=0x%lx,best free chunk = %p\n", size, alignment, free_chunk);
     free_chunk = valloc_freelist_split_alignment(free_chunk, size, alignment);
     valloc_alloclist_alloc(&mem, (uint64_t)free_chunk, size);
     valloc_freelist_remove_chunk(free_chunk);
-    unlock(&__valloc_lock);
     return free_chunk;
   }
 
@@ -96,21 +88,56 @@ void* alloc_with_alignment(uint64_t size, uint64_t alignment) {
 
   mem.top = new_top;
   valloc_alloclist_alloc(&mem, allocated_space_vaddr, size);
-  unlock(&__valloc_lock);
+
   return (void*)allocated_space_vaddr;
 }
 
-void* alloc(uint64_t size) {
-  if (! is_pow2(size))
-    size = nearest_pow2(size);
+void* alloc_with_alignment(uint64_t size, uint64_t alignment) {
+  LOCK(&__valloc_lock);
 
-  /* no point aligning on anything bigger than a whole page */
-  uint64_t alignment = size <= 4096 ? size : 4096;
-  return alloc_with_alignment(size, alignment);
+  /* minimum allocation */
+  if (size < sizeof(valloc_free_chunk)) {
+    size = next_largest_pow2(sizeof(valloc_free_chunk));
+  }
+
+  void* ptr = __alloc_with_alignment(size, alignment);
+
+  /* always zero */
+  valloc_memset(ptr, 0, size);
+
+  UNLOCK(&__valloc_lock);
+  return ptr;
+}
+
+void* alloc(uint64_t size) {
+  uint64_t alignment;
+
+  if (! is_pow2(size))
+    size = next_largest_pow2(size);
+
+  /* minimum allocation */
+  if (size < sizeof(valloc_free_chunk)) {
+    size = next_largest_pow2(sizeof(valloc_free_chunk));
+    alignment = size;
+  }
+
+  /* no point aligning on anything bigger than a 64-bit pointer
+   * for more explicit alignments use alloc_with_alignment
+   */
+  alignment = alignment <= 8 ? alignment : 8;
+
+  LOCK(&__valloc_lock);
+  void* ptr = __alloc_with_alignment(size, size);
+
+  /* always zero */
+  valloc_memset(ptr, 0, size);
+
+  UNLOCK(&__valloc_lock);
+  return ptr;
 }
 
 void free(void* p) {
-  lock(&__valloc_lock);
+  LOCK(&__valloc_lock);
   valloc_alloc_chunk* chk = valloc_alloclist_find_alloc_chunk(&mem, (uint64_t)p);
   if (! chk) {
     fail("! err: free %p (double free?)\n", p);
@@ -120,7 +147,7 @@ void free(void* p) {
   valloc_alloclist_dealloc(&mem, (uint64_t)p);
   valloc_freelist_allocate_free_chunk((uint64_t)p, size);
   valloc_freelist_compact_chunk(mem.freelist);
-  unlock(&__valloc_lock);
+  UNLOCK(&__valloc_lock);
 }
 
 void free_all(void) {
@@ -157,7 +184,7 @@ static void __zero_all(void* p, uint64_t size) {
   }
 }
 
-void valloc_memset(void* p, uint64_t value, uint64_t size) {
+void valloc_memset(void* p, uint8_t value, uint64_t size) {
   if (value == 0 && DCZVA_ALLOW && MMU_ON && 0) {
     __zero_all(p, size);
     return;
@@ -217,4 +244,19 @@ void valloc_memcpy(void* dest, void* src, uint64_t size) {
 
 void memcpy(void* dest, void* src, size_t size) {
   valloc_memcpy(dest, src, (uint64_t)size);
+}
+
+
+/* debugging functions */
+uint64_t valloc_alloclist_count_chunks(void) {
+  valloc_mempool* pool = &mem;
+
+  uint64_t counter = 0;
+  valloc_alloc_chunk* chunk = pool->chunk_alloc_list;
+  while (chunk != NULL) {
+    counter += 1;
+    chunk = chunk->next;
+  }
+
+  return counter;
 }

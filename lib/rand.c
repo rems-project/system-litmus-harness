@@ -14,9 +14,9 @@ void init_seed(void) {
 }
 
 void reset_seed(void) {
-  lock(&__rnd_lock);
+  LOCK(&__rnd_lock);
   SEED = INITIAL_SEED;
-  unlock(&__rnd_lock);
+  UNLOCK(&__rnd_lock);
 }
 
 void rand_seed(uint64_t seed) {
@@ -25,7 +25,7 @@ void rand_seed(uint64_t seed) {
 }
 
 uint64_t randn(void) {
-  lock(&__rnd_lock);
+  LOCK(&__rnd_lock);
   uint64_t st = 1;
 
   for (int i = 0; i < 64; i++) {
@@ -36,7 +36,7 @@ uint64_t randn(void) {
   }
   uint64_t new_seed = (SEED << 1) + st;
   SEED = new_seed;
-  unlock(&__rnd_lock);
+  UNLOCK(&__rnd_lock);
   return new_seed;
 }
 

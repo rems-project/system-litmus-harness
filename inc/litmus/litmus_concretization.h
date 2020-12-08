@@ -8,9 +8,12 @@
 #include "config.h"
 
 /* useful macros */
-#define FOREACH_HEAP_VAR(ctx, el) \
+#define __FOREACH_HEAP_VAR(var, ctx, el) \
     el = &ctx->heap_vars[0]; \
-    for (int __v##__COUNTER__ = 0; __v##__COUNTER__ < ctx->cfg->no_heap_vars; __v##__COUNTER__++, el++)
+    for (int var = 0; var < ctx->cfg->no_heap_vars; var++, el++)
+
+#define FOREACH_HEAP_VAR(ctx, el) \
+  __FOREACH_HEAP_VAR(CONCAT_MACROS(v, __COUNTER__), ctx, el)
 
 /* asks if var_info_t* v owns a own_level_t r */
 #define OWNS_REGION(v, r) ((v)->init_owns_region && (v)->init_owned_region_size == (r))

@@ -5,6 +5,7 @@
 
 /* global configuration options + default values */
 uint64_t NUMBER_OF_RUNS = 10000UL;
+uint64_t RUNS_IN_BATCH = 1;
 uint8_t ENABLE_PGTABLE = 1;  /* start enabled */
 uint8_t ENABLE_PERF_COUNTS = 0;
 uint8_t RUN_FOREVER = 0;
@@ -22,7 +23,7 @@ uint8_t ONLY_SHOW_MATCHES = 0;
 char* collected_tests[100];
 int   collected_tests_count;
 
-sync_type_t LITMUS_SYNC_TYPE = SYNC_ALL;
+sync_type_t LITMUS_SYNC_TYPE = SYNC_ASID;
 aff_type_t LITMUS_AFF_TYPE = AFF_RAND;
 shuffle_type_t LITMUS_SHUFFLE_TYPE = SHUF_RAND;
 concretize_type_t LITMUS_CONCRETIZATION_TYPE = CONCRETE_RANDOM;
@@ -242,7 +243,7 @@ static void device_ident_and_quit(char* opt) {
         abort();
 
       int len = strlen(line);
-      for (int i = 0; i < 2+maxlinelen-len; i++)
+      for (int j = 0; j < 2+maxlinelen-len; j++)
         printf(" ");
       printf("%s", line);
     }
@@ -255,6 +256,11 @@ static void device_ident_and_quit(char* opt) {
 static void n(char* x) {
   int Xn = atoi(x);
   NUMBER_OF_RUNS = Xn;
+}
+
+static void b(char* x) {
+  int Xn = atoi(x);
+  RUNS_IN_BATCH = Xn;
 }
 
 static void s(char* x) {
@@ -359,6 +365,17 @@ argdef_t ARGS = (argdef_t){
       "\n"
       "Note that currently 1M is likely to fail due to over-allocation of results.\n"
     ),
+    OPT(
+      "-b",
+      "--batch-size",
+      b,
+      "number of runs per batch\n"
+      "\n"
+      "sets the number of runs per batch\n"
+      "X must be an integer (default: 1).\n"
+      "up to maximum number of ASIDs (e.g. 2^8).\n"
+      "If not using --tlbsync=ASID then this must be 1\n"
+    ),
     FLAG(
       "-p",
       "--pgtable",
@@ -437,7 +454,7 @@ argdef_t ARGS = (argdef_t){
       "none:  no synchronization of the TLB (incompatible with --pgtable).\n"
       "all: always flush the entire TLB in-between tests.\n"
       "va: (EXPERIMENTAL) only flush test data VAs\n"
-      "asid: (EXPERIMENTAL) assign each test run an ASID and only flush that \n"
+      "asid: assign each test run an ASID and run in batches \n"
     ),
     ENUMERATE(
       "--aff",

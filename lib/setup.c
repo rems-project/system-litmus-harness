@@ -5,8 +5,6 @@
 extern uint64_t __argc;
 extern char*    __argv[100];
 
-extern char* stackptr;
-
 void setup(char* fdtloc) {
   fdt = fdtloc;
 
@@ -33,29 +31,55 @@ void setup(char* fdtloc) {
   char c = 'm';
   char seps [] = { c, c, c, c, c, c, c, c, c, c, c, c, c, '\0' };
 #define PR_BARS(top, bot) \
-  { uint64_t diff = top-bot; int d = log2(diff)/5; \
-    seps[d] = 0; for (int i = 0; i < (diff/(1<<(5*d))); i++) \
-    debug("\t%s\n", &seps[0]); seps[d] = c;  }
+  { uint64_t diff##__COUNTER__ = top-bot; int d##__COUNTER__ = log2(diff##__COUNTER__)/5; \
+    seps[d##__COUNTER__] = 0; for (int i##__COUNTER__ = 0; i##__COUNTER__ < (diff##__COUNTER__/(1<<(5*d##__COUNTER__))); i##__COUNTER__++) \
+    debug("\t%s\n", &seps[0]); seps[d##__COUNTER__] = c;  }
   debug("memory layout:\n");
   debug("--------------------------------\n");
   debug("%p: TOP_OF_MEM\n", TOP_OF_HEAP);
-  PR_BARS(TOP_OF_MEM, TOP_OF_HEAP);
-  debug("%p: TOP_OF_HEAP\n", TOP_OF_HEAP);
-  PR_BARS(TOP_OF_HEAP, TOP_OF_STACK);
-  debug("%p: TOP_OF_STACK\n", TOP_OF_STACK);
-  PR_BARS(TOP_OF_STACK, TOP_OF_TEXT);
-  debug("%p: TOP_OF_TEXT\n", TOP_OF_TEXT);
-  PR_BARS(TOP_OF_TEXT, 0);
+  typedef struct {
+    const char* name;
+    uint64_t bottom;
+    uint64_t top;
+  } bar_region_t;
+
+  bar_region_t bars[] = {
+    {"TEXT", BOT_OF_TEXT, TOP_OF_TEXT},
+    {"STACK", BOT_OF_STACK_PA, TOP_OF_STACK_PA},
+    {"DATA", BOT_OF_DATA, TOP_OF_DATA},
+    {"HEAP", BOT_OF_HEAP, TOP_OF_HEAP},
+    {"MEM", TOP_OF_HEAP, TOP_OF_MEM},
+  };
+
+  /* sort */
+  int no_bars = sizeof(bars)/sizeof(bar_region_t);
+  for (int i = 0; i < no_bars; i++) {
+    for (int j = i; j < no_bars; j++) {
+      if (bars[i].top < bars[j].top) {
+        bar_region_t tmp = bars[i];
+        bars[i] = bars[j];
+        bars[j] = tmp;
+      }
+    }
+  }
+
+  for (int j = 0; j < no_bars; j++) {
+    debug("%p: TOP_OF_%s\n", bars[j].top, bars[j].name);
+  }
+  debug("%p: TOP_OF_IO\n", GiB);
   debug("0x0: BOTTOM_OF_MEMORY\n");
   debug("--------------------------------\n");
 
+  for (int i = 0; i < NO_CPUS; i++) {
+    debug("CPU%d STACK EL1 : [%p -> %p => %p -> %p]\n", i, STACK_MMAP_THREAD_TOP_EL1(i), STACK_MMAP_THREAD_BOT_EL1(i), STACK_PYS_THREAD_TOP_EL1(i), STACK_PYS_THREAD_BOT_EL1(i));
+    debug("CPU%d STACK EL0 : [%p -> %p => %p -> %p]\n", i, STACK_MMAP_THREAD_TOP_EL0(i), STACK_MMAP_THREAD_BOT_EL0(i), STACK_PYS_THREAD_TOP_EL0(i), STACK_PYS_THREAD_BOT_EL0(i));
+  }
+
   vector_base_pa = (uint64_t)&el1_exception_vector_table_p0;
-  vector_base_addr_rw = vector_base_pa;
 
   /* create pgtable */
   if (ENABLE_PGTABLE) {
     vmm_pgtables = alloc(sizeof(uint64_t*)*NO_CPUS);
-    vector_base_addr_rw = (uint64_t)alloc(4096*4);
   }
 
   printf("#build: (%s)\n", version_string());
@@ -117,21 +141,7 @@ void per_cpu_setup(int cpu) {
     vmm_pgtables[cpu] = vmm_pgtable;
 
     vmm_set_id_translation(vmm_pgtable);
-
-    /* re-map vector_base_addr to some non-executable mapping of the vector table
-    */
-    vmm_update_mapping(vmm_pgtable, vector_base_addr_rw+cpu*4096, vector_base_pa+cpu*4096, PROT_PGTABLE);
-
-    /* unmap other threads' stack space
-     * each thread has a 4k stack
-     * so 1 page and we make sure this thread cannot access it
-     */
-    for (int i = 0; i < NO_CPUS; i++) {
-      if (i == cpu)
-        continue;
-
-      vmm_unmap_page(vmm_pgtable, (uint64_t)&stackptr + 4096*i);
-    }
+    debug("set new pgtable for CPU%d\n", cpu);
   }
 
   /* enable virtual/physical timers */

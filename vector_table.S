@@ -1,10 +1,6 @@
 .section .exc_table
 
 .macro save_all_registers
-    msr spsel,  #0  /* use SP_EL0 always */
-    dsb nsh
-    isb
-
     stp x0,     x1,     [sp, #-288]!
     stp x2,     x3,     [sp, #16]
     stp x4,     x5,     [sp, #32]
@@ -45,99 +41,20 @@
     ldp x0,     x1,     [sp], #288
 .endm
 
-
-.macro debug_letter_overwrites_x0_x1 , char
-        movz    x0, #0x900, lsl #16
-        mov     x1, #\char
-        str     x1, [x0]
-.endm
-
-.global asmprintchar
-asmprintchar:
-        adrp x9, asmprintchar_table
-        add  x9, x9, :lo12:asmprintchar_table
-
-        mov  x10, #16
-        mul  x0, x10, x0
-        add  x9, x9, x0
-        br   x9
-
-asmprintchar_table:
-        debug_letter_overwrites_x0_x1 48 // 0
-	ret
-        debug_letter_overwrites_x0_x1 49 // 1
-	ret
-        debug_letter_overwrites_x0_x1 50 // 2
-	ret
-        debug_letter_overwrites_x0_x1 51 // 3
-	ret
-        debug_letter_overwrites_x0_x1 52 // 4
-	ret
-        debug_letter_overwrites_x0_x1 53 // 5
-	ret
-        debug_letter_overwrites_x0_x1 54 // 6
-	ret
-        debug_letter_overwrites_x0_x1 55 // 7
-	ret
-        debug_letter_overwrites_x0_x1 56 // 8
-	ret
-        debug_letter_overwrites_x0_x1 57 // 9
-	ret
-        debug_letter_overwrites_x0_x1 65 // A
-	ret
-        debug_letter_overwrites_x0_x1 66 // B
-	ret
-        debug_letter_overwrites_x0_x1 67 // C
-	ret
-        debug_letter_overwrites_x0_x1 68 // D
-	ret
-        debug_letter_overwrites_x0_x1 69 // E
-	ret
-        debug_letter_overwrites_x0_x1 70 // F
-	ret
-
-asmphex_step:
-    mov x29, x30
-    mov x0, x2
-    lsr x0, x0, #60
-    // x0 is 4 msb of x2
-    lsl x2, x2, #4
-    bl 	asmprintchar
-    mov x30,x29
-    ret
-
-asmputhex:
-    mov x28, x30
-
-    mov x2, x0
-
-    bl asmphex_step
-    bl asmphex_step
-    bl asmphex_step
-    bl asmphex_step
-    bl asmphex_step
-    bl asmphex_step
-    bl asmphex_step
-    bl asmphex_step
-    bl asmphex_step
-    bl asmphex_step
-    bl asmphex_step
-    bl asmphex_step
-    bl asmphex_step
-    bl asmphex_step
-    bl asmphex_step
-    bl asmphex_step
-
-    mov x30, x28
-    ret
-
 .macro handler, name, vec
 \name:
     save_all_registers
     mov x0, #\vec
-    mrs x1, ESR_EL1
+    mrs x1, esr_el1
     mov x2, sp
+
+    /* make fake stack frame
+     * which directs to the faulty instruction
+     */
+    mrs x3, elr_el1
+    stp x2, x3, [sp, #-0x10]!
     bl handle_exception
+    add sp, sp, #0x10
 
     restore_all_registers
     eret
