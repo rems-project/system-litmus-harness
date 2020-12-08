@@ -164,7 +164,12 @@ char* vsprintf(char* out, int mode, const char* fmt, va_list ap) {
           p++;
         }
       } else if (c == 'c') {
-        out = sputc(out, va_arg(ap, int));
+        /* Note that char/u8/etc gets promoted to 'int'
+         * on passing through varargs
+         * so we want to take a whole int here
+         */
+        int arg = va_arg(ap, int);
+        out = sputc(out, (char)arg);
       } else if (c == 's' || c == 'o') {
         char* sp = va_arg(ap, char*);
         out = sputs(out, sp);
