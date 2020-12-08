@@ -54,7 +54,7 @@
 #define HARNESS_MMAP_PHYS_TO_VIRT(p) \
     (HARNESS_MMAP_BASE + __HARNESS_MMAP_OFFSET(p))
 
-#define __HARNESS_MMAP_OFFSET(p) (p - 1*GiB)
+#define __HARNESS_MMAP_OFFSET(p) ((uint64_t)(p) - BOT_OF_MEM)
 
 /*
  * converts any physical (or identically mapped virtual) address

@@ -1,16 +1,7 @@
 #define __ASSEMBLY__
 #include "asm.h"
 
-.section .init
-
-.global debug_letter_overites_x0_x1
-
-.macro debug_letter_overwrites_x0_x1 , char
-        movz    x0, #0x900, lsl #16
-        mov     x1, #\char
-        str     x1, [x0]
-.endm
-
+.section .init.boot
 .globl _start
 _start:
 	/* get address this was loaded at */
@@ -67,6 +58,20 @@ _start:
     b 1b
 
 1:
+    /* for spin-table implementations
+     * this CPU might not be CPU 0
+     * so we divert non-0 CPUs to
+     * the spinner
+     *
+     * this must happen after the previous relocations
+     * but it is safe to duplicate that work
+     * so we just do this after.
+
+	mrs x9, mpidr_el1
+	and x9, x9, #0xff
+    cbnz x9, cpu_entry
+    */
+
 	/* setup CPU0 */
 	mov x29, #0    /* init frame pointer to NULL */
 	bl init_cpu

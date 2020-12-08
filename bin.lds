@@ -3,17 +3,6 @@
  */
 SECTIONS
 {
-    /* on the rpi4 and in QEMU's mach-virt implementation
-     * RAM starts from physical address 0x40000000
-     *
-     * then the bootloader will load _start at address 0x40080000
-     *
-     * so if we wish to place a section @ 0x40ABCDEF
-     * then we have to place it at location 0x0ABCDEF - 0x80000
-     * in the linker script
-     */
-    OFFSET = 0x80000;
-
     /* place all the shared data in the next 1G region
      * this is data that will be mapped and
      * note that 0x4000000 is the bootloader itself which does not actually need to be mapped
@@ -22,7 +11,12 @@ SECTIONS
      */
     .text 0x00000000 : {
         PROVIDE(__ld_begin_text = .);
-        *(.init) *(.text) *(.text.*) *(.exc_table)
+        /* ensure boot section from cpu_entry.S appears first */
+        *(.init.boot)
+        *(.init) *(.text) *(.text.*)
+
+        . = ALIGN(4k);
+        *(.exc_table)
 
         . = ALIGN(4k);
         PROVIDE(__ld_end_text = .);
@@ -51,7 +45,6 @@ SECTIONS
     .gnu.hash : { *(.gnu.hash) }
     .got      : { *(.got) *(.got.plt) }
     .eh_frame : { *(.eh_frame) }
-
     .rodata   : { *(.rodata*) }
     .data     : { *(.data) }
     .bss      : {

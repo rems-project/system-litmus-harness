@@ -17,7 +17,17 @@ void cpu_data_init(void) {
 
 void cpu_boot(uint64_t cpu) {
   debug("boot CPU%d ...\n", cpu);
-  psci_cpu_on(cpu);
+  switch (boot_data.kind) {
+    case BOOT_KIND_PSCI:
+      psci_cpu_on(cpu);
+      break;
+    case BOOT_KIND_SPIN:
+      spin_cpu_on(cpu);
+      break;
+    default:
+      fail("cannot boot CPU%d : unknown boot kind '%ld'\n", cpu, boot_data.kind);
+  }
+
   while (!cpu_data[cpu].started) wfe();
   debug("... booted CPU%d.\n", cpu);
 }
@@ -58,7 +68,7 @@ void run_on_cpus(async_fn_t* fn, void* arg) {
   fn(cur_cpu, arg);
   cpu_data[cur_cpu].finished = 1;
   sev();
-
+  sevl();
   for (int i = 0; i < 4; i++) {
     while (! cpu_data[i].finished) wfe();
   }

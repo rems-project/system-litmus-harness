@@ -18,14 +18,17 @@ extern char* __ld_end_sections;
 extern char* __ld_begin_data;
 extern char* __ld_end_data;
 
+boot_data_t boot_data;
+
 void init_device(void* fdt) {
     NO_CPUS = 4;
+    init_driver();
 
     /* read the memory region from the dtb */
-    dtb_mem_t mem = dtb_read_memory(fdt);
-    TOP_OF_MEM = mem.top;
-    BOT_OF_MEM = mem.base;
-    TOTAL_MEM = mem.size;
+    dtb_mem_t mem_region = dtb_read_memory(fdt);
+    TOP_OF_MEM = mem_region.top;
+    BOT_OF_MEM = mem_region.base;
+    TOTAL_MEM = mem_region.size;
 
     /* read regions from linker */
     TOP_OF_TEXT = (uint64_t)&__ld_end_text;
@@ -36,8 +39,8 @@ void init_device(void* fdt) {
 
     /* compute remaining friendly region names */
 
-    /* we allocate 128M for the heap */
-    TOTAL_HEAP = 128 * MiB;
+    /* we allocate between 12.5% of DRAM up to 128MiB max for heap space */
+    TOTAL_HEAP = MIN(128*MiB, ((TOP_OF_MEM - BOT_OF_MEM) / 8));
     TOP_OF_HEAP = BOT_OF_HEAP + TOTAL_HEAP;
 
     BOT_OF_STACK_PA = (uint64_t)&__ld_begin_stack;
@@ -50,6 +53,10 @@ void init_device(void* fdt) {
 
     HARNESS_MMAP = (uint64_t*)(64 * GiB);
     TESTDATA_MMAP = (uint64_t*)(128 * GiB);
+
+    mem_region = dtb_read_ioregion(fdt);
+    BOT_OF_IO = ALIGN_TO(mem_region.base, PAGE_SHIFT);
+    TOP_OF_IO = ALIGN_UP(mem_region.top, PAGE_SHIFT);
 
     /* read cache line of *minimum* size */
     uint64_t ctr = read_sysreg(ctr_el0);
@@ -70,7 +77,7 @@ void init_device(void* fdt) {
 }
 
 /* dtb location */
-char* fdt;
+char* fdt_load_addr;
 
 #define FDT_BEGIN_NODE (0x00000001)
 #define FDT_END_NODE (0x00000002)
@@ -85,20 +92,43 @@ char* fdt;
  *
  * So this has to be a compile-time option
  */
-//#define __DEVICE_DEBUG__ 1
-#ifdef __DEVICE_DEBUG__
+#define __DEVICE_DEBUG__ 0
+#if __DEVICE_DEBUG__
 #define DDEBUG(...) printf(__VA_ARGS__)
 #else
 #define DDEBUG(...)
 #endif
 
 static uint32_t read_be(char* p) {
-    uint8_t* pc = (uint8_t*)p;
-    uint8_t b0 = *pc;
-    uint8_t b1 = *(pc+1);
-    uint8_t b2 = *(pc+2);
-    uint8_t b3 = *(pc+3);
-    return ((uint32_t)b0<<24) + ((uint32_t)b1<<16) + ((uint32_t)b2<<8) + (uint32_t)b3;
+  uint8_t* pc = (uint8_t*)p;
+  uint8_t b0 = *pc;
+  uint8_t b1 = *(pc+1);
+  uint8_t b2 = *(pc+2);
+  uint8_t b3 = *(pc+3);
+  return ((uint32_t)b0<<24) + ((uint32_t)b1<<16) + ((uint32_t)b2<<8) + (uint32_t)b3;
+}
+
+static uint64_t read_be64(char* p) {
+  uint8_t* pc = (uint8_t*)p;
+
+  uint8_t bs[] = {
+    *(pc+7),
+    *(pc+6),
+    *(pc+5),
+    *(pc+4),
+    *(pc+3),
+    *(pc+2),
+    *(pc+1),
+    *(pc+0)
+  };
+
+  uint64_t x = 0;
+  for (int i = 7; i >= 0; i--) {
+    x <<= 8;
+    x += bs[i];
+    DDEBUG("[read_be64: %p => %d]\n", pc+i, bs[i]);
+  }
+  return x;
 }
 
 char* dtb_read_str(char* fdt, uint32_t nameoff) {
@@ -153,7 +183,6 @@ fdt_structure_piece dtb_read_piece(char* p) {
     return piece;
 }
 
-
 fdt_structure_begin_node_header* fdt_find_node(char* fdt, char* node_name) {
     fdt_header* hd = (fdt_header*)fdt;
     char* struct_block = (char*)((uint64_t)fdt + read_be((char*)&hd->fdt_off_dt_struct));
@@ -189,7 +218,7 @@ fdt_structure_begin_node_header* fdt_find_node(char* fdt, char* node_name) {
     return NULL;
 }
 
-fdt_structure_begin_node_header* fdt_read_node(fdt_structure_begin_node_header* node, char* node_name) {
+fdt_structure_begin_node_header* fdt_read_node(char* fdt, fdt_structure_begin_node_header* node, char* node_name) {
     char* top_node_name = node->name;
     char* struct_block = (char*)node;
     char* current_node = NULL;
@@ -204,7 +233,7 @@ fdt_structure_begin_node_header* fdt_read_node(fdt_structure_begin_node_header* 
                 namestack[namestackdepth] = current_node;
                 namestackdepth++;
                 current_node = struct_block+sizeof(fdt_structure_begin_node_header);
-                if (strcmp(current_node, node_name)) {
+                if (strcmp(node_name, current_node)) {
                     return (fdt_structure_begin_node_header*)struct_block;
                 }
                 break;
@@ -236,7 +265,7 @@ fdt_structure_begin_node_header* fdt_read_node(fdt_structure_begin_node_header* 
     return NULL;
 }
 
-fdt_structure_property_header* fdt_read_prop(fdt_structure_begin_node_header* node, char* prop_name) {
+fdt_structure_property_header* fdt_read_prop(char* fdt, fdt_structure_begin_node_header* node, char* prop_name) {
     char* top_node_name = node->name;
     char* struct_block = (char*)node;
     char* current_node = NULL;
@@ -265,7 +294,7 @@ fdt_structure_property_header* fdt_read_prop(fdt_structure_begin_node_header* no
 
             case FDT_PROP:
                 prop = dtb_read_str(fdt, read_be(struct_block+8));
-                if (namestackdepth == 1 && strcmp(prop_name, prop)) {
+                if (namestackdepth == 1 && strcmp(prop, prop_name)) {
                     return (fdt_structure_property_header*)struct_block;
                 }
                 break;
@@ -297,7 +326,7 @@ fdt_structure_piece fdt_find_node_with_prop_with_index(char* fdt, char* index, c
         struct_block = index;
 
     char* current_node = NULL;
-    char* prop;
+    char* current_prop_name;
 
     char* namestack[100];  /* max-depth = 100 */
     int namestackdepth = 0;
@@ -318,8 +347,8 @@ fdt_structure_piece fdt_find_node_with_prop_with_index(char* fdt, char* index, c
                 break;
 
             case FDT_PROP:
-                prop = dtb_read_str(fdt, read_be(struct_block+8));
-                if (strcmp(prop, prop_name)) {
+                current_prop_name = dtb_read_str(fdt, read_be(struct_block+8));
+                if (strcmp(prop_name, current_prop_name)) {
                     fdt_structure_property_header* prop = (fdt_structure_property_header*)struct_block;
                     if (strcmp(prop->data, expected_value)) {
                         return (fdt_structure_piece){.current=(char*)curr_header, .token=FDT_PROP, .next=piece.next};;
@@ -366,7 +395,7 @@ fdt_structure_property_header* fdt_find_prop(char* fdt, char* node_name, char* p
 
             case FDT_PROP:
                 prop = dtb_read_str(fdt, read_be(struct_block+8));
-                if (strcmp(node_name, current_node) && strcmp(prop_name, prop)) {
+                if (strcmp(current_node, node_name) && strcmp(prop_name, prop)) {
                     return (fdt_structure_property_header*)struct_block;
                 }
                 break;
@@ -386,7 +415,7 @@ fdt_structure_property_header* fdt_find_prop(char* fdt, char* node_name, char* p
     return NULL;
 }
 
-void fdt_debug_print_node(fdt_structure_begin_node_header* node, int indent) {
+void fdt_debug_print_node(char* fdt, fdt_structure_begin_node_header* node, int indent) {
     char* struct_block = (char*)node;
 
     char* current_node = NULL;
@@ -507,10 +536,10 @@ void dtb_check_psci(char* fdt) {
 void dtb_read_cpu_enable(char* fdt) {
     fdt_structure_begin_node_header* cpus = fdt_find_node(fdt, "cpus");
 
-    fdt_structure_begin_node_header* cpu0 = fdt_read_node(cpus, "cpu@0");
-    fdt_structure_begin_node_header* cpu1 = fdt_read_node(cpus, "cpu@1");
-    fdt_structure_begin_node_header* cpu2 = fdt_read_node(cpus, "cpu@2");
-    fdt_structure_begin_node_header* cpu3 = fdt_read_node(cpus, "cpu@3");
+    fdt_structure_begin_node_header* cpu0 = fdt_read_node(fdt, cpus, "cpu@0");
+    fdt_structure_begin_node_header* cpu1 = fdt_read_node(fdt, cpus, "cpu@1");
+    fdt_structure_begin_node_header* cpu2 = fdt_read_node(fdt, cpus, "cpu@2");
+    fdt_structure_begin_node_header* cpu3 = fdt_read_node(fdt, cpus, "cpu@3");
 
     if (cpu0 == NULL) {
         fail("Malformed dtb: no cpu@0 node\n");
@@ -522,14 +551,29 @@ void dtb_read_cpu_enable(char* fdt) {
         fail("FDT: Could not find CPU 3.\n");
     }
 
-    fdt_structure_property_header* cpu0_enable = fdt_read_prop(cpu0, "enable-method");
+    fdt_structure_property_header* cpu0_enable = fdt_read_prop(fdt, cpu0, "enable-method");
     if (cpu0_enable == NULL) {
         fail("FDT: CPU0 did not have an enable-method property.\n");
     }
 
     if (strcmp(cpu0_enable->data, "psci")) {
-        DDEBUG("Use PSCI to boot\n");
-        dtb_check_psci(fdt);
+      DDEBUG("Use PSCI to boot\n");
+      boot_data.kind = BOOT_KIND_PSCI;
+    } else if (strcmp(cpu0_enable->data, "spin-table")) {
+      DDEBUG("Using SPIN-TABLE to boot\n");
+
+      boot_data.kind = BOOT_KIND_SPIN;
+      fdt_structure_property_header* cpu0_rel_addr = fdt_read_prop(fdt, cpu0, "cpu-release-addr");
+      fdt_structure_property_header* cpu1_rel_addr = fdt_read_prop(fdt, cpu1, "cpu-release-addr");
+      fdt_structure_property_header* cpu2_rel_addr = fdt_read_prop(fdt, cpu2, "cpu-release-addr");
+      fdt_structure_property_header* cpu3_rel_addr = fdt_read_prop(fdt, cpu3, "cpu-release-addr");
+
+      DDEBUG("CPU release-addr(s)  : %p %p %p %p\n", cpu0_rel_addr, cpu1_rel_addr, cpu2_rel_addr, cpu3_rel_addr);
+
+      boot_data.spin_base[0] = read_be64(cpu0_rel_addr->data);
+      boot_data.spin_base[1] = read_be64(cpu1_rel_addr->data);
+      boot_data.spin_base[2] = read_be64(cpu2_rel_addr->data);
+      boot_data.spin_base[3] = read_be64(cpu3_rel_addr->data);
     } else {
         fail("FDT: (cpu@0) cpu-enable expected \"psci\" but got \"%s\"\n", cpu0_enable->data);
     }
@@ -537,7 +581,7 @@ void dtb_read_cpu_enable(char* fdt) {
 
 
 char* dtb_bootargs(void* fdt) {
-#ifdef __DEVICE_DEBUG__
+#if __DEVICE_DEBUG__
     fdt_debug_print_all(fdt);
 #endif
 
@@ -557,15 +601,7 @@ dtb_mem_t dtb_read_memory(void* fdt) {
     /* find the first node with device_type: "memory" */
     fdt_structure_piece piece = fdt_find_node_with_prop_with_index(fdt, NULL, "device_type", "memory");
     fdt_structure_begin_node_header* node = (fdt_structure_begin_node_header*)piece.current;
-    fdt_structure_property_header* prop = fdt_read_prop(node, "reg");
-
-    /* its reg is stored as big endian {u64_base, u64_size} */
-    uint32_t blocks[4];
-    for (int i = 0; i < 4; i++) {
-      blocks[i] = read_be(prop->data + i*4);
-    }
-    uint64_t base = (uint64_t)blocks[0] << 32 | blocks[1];
-    uint64_t size = (uint64_t)blocks[2] << 32 | blocks[3];
+    fdt_structure_property_header* prop = fdt_read_prop(fdt, node, "reg");
 
     /* check no other memory nodes (unsupported for now ...) */
     piece = fdt_find_node_with_prop_with_index(fdt, piece.next, "device_type", "memory");
@@ -575,5 +611,52 @@ dtb_mem_t dtb_read_memory(void* fdt) {
         );
     }
 
+    uint32_t len = read_be((char*)&prop->len);
+    uint64_t base;
+    uint64_t size;
+
+    /* its reg is stored as big endian {u64_base, u64_size} */
+    if (len == 16) {
+      uint32_t blocks[4];
+      for (int i = 0; i < 4; i++) {
+        blocks[i] = read_be(prop->data + i*4);
+      }
+      base = (uint64_t)blocks[0] << 32 | blocks[1];
+      size = (uint64_t)blocks[2] << 32 | blocks[3];
+    } else if (len == 8) {
+      /* stored as {u32_base, u32_size} */
+      uint32_t blocks[2];
+      for (int i = 0; i < 2; i++) {
+        blocks[i] = read_be(prop->data + i*4);
+      }
+
+      base = (uint64_t)blocks[0];
+      size = (uint64_t)blocks[1];
+    } else {
+      fail("! dtb_read_memory: unsupported size (%d) for memory node reg\n", prop->len);
+    }
+
     return (dtb_mem_t){base, size, base+size};
+}
+
+dtb_mem_t dtb_read_ioregion(void* fdt) {
+  /* look for pl011@9000000
+   * which is what mach-virt adds to the DTB
+   */
+  fdt_structure_begin_node_header* pl011 = fdt_find_node(fdt, "pl011@9000000");
+  if (pl011 != NULL)
+    return (dtb_mem_t){0x9000000, PAGE_SIZE, 0x9001000};
+
+  /* look for SoC-specific settings */
+  fdt_structure_begin_node_header* soc = fdt_find_node(fdt, "soc");
+  if (soc == NULL)
+    fail("! unsupported architecture: no /soc or /pl011@9000000 nodes in dtb\n");
+
+  /* now check to see if we have a serial @ 0x7e215040 */
+  fdt_structure_begin_node_header* serial = fdt_read_node(fdt, soc, "serial@7e215040");
+
+  if (serial == NULL)
+    fail("! unsupported architecture: no /pl011@9000000 /soc/serial@7e215040 nodes in dtb\n");
+
+  return (dtb_mem_t){0x3F000000UL, PAGE_SIZE, 0x3F001000UL};
 }

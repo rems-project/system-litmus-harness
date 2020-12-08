@@ -51,8 +51,7 @@ uint64_t NO_CPUS;
 /* top and bottom of physical memory */
 uint64_t TOP_OF_MEM;
 
-/* bottom of RAM, note: this does not include the 1GiB virt io region
- * so starts from 1GiB onwards ...
+/* bottom of RAM, note: this does not include any IO or bootloader sections
  */
 uint64_t BOT_OF_MEM;
 
@@ -67,6 +66,14 @@ uint64_t TOTAL_HEAP;
  */
 uint64_t BOT_OF_HEAP;
 uint64_t TOP_OF_HEAP;
+
+/* bot and top of memory mapped I/O section
+ *
+ * in practice this is just the physical page the memory-mapped serial
+ * controls are located in
+ */
+uint64_t BOT_OF_IO;
+uint64_t TOP_OF_IO;
 
 /** per-thread stack size
  */
@@ -131,7 +138,7 @@ uint64_t vector_base_pa;
 /**
  * from dtb
  */
-extern char* fdt;
+extern char* fdt_load_addr;
 
 /**
  * see https://github.com/devicetree-org/devicetree-specification/blob/master/source/flattened-format.rst
@@ -174,8 +181,8 @@ typedef struct {
 
 fdt_structure_piece fdt_find_node_with_prop_with_index(char* fdt, char* index, char* prop_name, char* expected_value);
 fdt_structure_begin_node_header* fdt_find_node(char* fdt, char* node_name);
-fdt_structure_begin_node_header* fdt_read_node(fdt_structure_begin_node_header* node, char* node_name);
-fdt_structure_property_header* fdt_read_prop(fdt_structure_begin_node_header* node, char* prop_name);
+fdt_structure_begin_node_header* fdt_read_node(char* fdt, fdt_structure_begin_node_header* node, char* node_name);
+fdt_structure_property_header* fdt_read_prop(char* fdt, fdt_structure_begin_node_header* node, char* prop_name);
 fdt_structure_property_header* fdt_find_prop(char* fdt, char* node_name, char* prop_name);
 
 char* dtb_bootargs(void* fdt);
@@ -187,5 +194,6 @@ typedef struct {
 } dtb_mem_t;
 
 dtb_mem_t dtb_read_memory(void* fdt);
+dtb_mem_t dtb_read_ioregion(void* fdt);
 
 #endif /* DEVICE_H */
