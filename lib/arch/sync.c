@@ -77,12 +77,28 @@ void __atomic_cas(volatile uint64_t* va, uint64_t old, uint64_t new) {
    * <while (*va != old); *va = new>;
    */
   asm volatile(
-    "0:\n\t"
-    "ldxr x0, [%[va]]\n\t"
-    "cmp x0, %[old]\n\t"
-    "b.ne 0b\n\t"
+    /* dont wait on first read */
+    "sevl\n"
+
+    /* skip to first read */
+    "b 1f\n"
+    "0:\n"
+    /* if the load-exclusive failed to read old,
+     * then clear the exclusives manually, so as not to
+     * block any other read/write
+     */
+    "clrex\n"
+    "1:\n"
+    "wfe\n"
+    "ldxr x0, [%[va]]\n"
+    "cmp x0, %[old]\n"
+    "b.ne 0b\n"
+    "dsb sy\n"
     "stxr w1, %[val], [%[va]]\n"
-    "cbnz w1, 0b\n"
+    "cbnz w1, 1b\n"
+
+    "1:\n"
+    "sev\n"
     :
     : [va] "r" (va), [val] "r" (new), [old] "r" (old)
     : "memory", "x0", "x1"
@@ -92,15 +108,9 @@ void __atomic_cas(volatile uint64_t* va, uint64_t old, uint64_t new) {
 void mutex_lock(volatile mutex_t* mut) {
   /* acquire mutex */
   __atomic_cas(&mut->locked, 0, 1);
-
-  /* ensure critical section waits */
-  dmb();
 }
 
 void mutex_unlock(volatile mutex_t* mut) {
-  /* wait for critical section to finish */
-  dmb();
-
   /* release the mutex */
   /* NB: A53 errata 855872
    * since the .data section is mapped inner/outer writeback and cacheable
@@ -125,11 +135,23 @@ void __atomic_dec(volatile uint64_t* va) {
   /* atomic decrement
    */
   asm volatile(
+    /* dont wait on initial attempt */
+    "sevl\n"
+
+    /* try decrement */
     "0:\n"
+    "wfe\n"
     "ldxr x0, [%[va]]\n"
     "sub x0, x0, #1\n"
+    "dsb sy\n\t"
     "stxr w1, x0, [%[va]]\n"
+    /*
+     * try again if another thread intervened
+     */
     "cbnz w1, 0b\n"
+    "1:"
+    /* decremented */
+    "sev\n"
     :
     : [va] "r" (va)
     : "memory", "x0", "x1"
@@ -163,11 +185,17 @@ void bwait(int vcpu, bar_t* bar, int sz) {
   }
 
   bar->waiting++;
+
+
   if (bar->waiting == sz) {
+    /* release them all */
     bar->current_state = 1;
     dmb();
     sev();
+  } else {
+    sevl();
   }
+
   UNLOCK(&bwait_lock);
 
   /* wait for the last one to arrive and flip the current state */
