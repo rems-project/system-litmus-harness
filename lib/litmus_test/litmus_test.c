@@ -446,6 +446,9 @@ static void resetsp(void) {
 
 static void start_of_run(test_ctx_t* ctx, int cpu, int vcpu, run_idx_t i, run_count_t r) {
   prefetch(ctx, i, r);
+
+  if (vcpu == 0 && TRACE)
+    trace("\rrun %ld/%ld ...", r, ctx->no_runs);
 }
 
 static void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, run_idx_t i, run_count_t r) {
