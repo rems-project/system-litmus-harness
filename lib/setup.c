@@ -105,6 +105,7 @@ void setup(char* fdtloc) {
   printf("#pgtable: %ld\n", ENABLE_PGTABLE);
   printf("#timing: %ld\n", ENABLE_PERF_COUNTS);
   printf("#no_runs: %ld\n", NUMBER_OF_RUNS);
+  printf("#batch_size: %ld\n", RUNS_IN_BATCH);
   printf("#tlbsync: %s\n", sync_type_to_str(LITMUS_SYNC_TYPE));
   printf("#aff: %s\n", aff_type_to_str(LITMUS_AFF_TYPE));
   printf("#shuffle: %s\n", aff_type_to_str(LITMUS_SHUFFLE_TYPE));

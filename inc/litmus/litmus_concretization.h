@@ -74,6 +74,12 @@ void concretization_postcheck(test_ctx_t*, const litmus_test_t* cfg, var_info_t*
 void concretize_one(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, void* st, run_idx_t run);
 void concretize(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, void* st, run_idx_t no_runs);
 
+/** concretize a whole batch at once
+ * assuming the pagetables on each batch does not interfere
+ * but that the PAs cannot overlap
+ */
+void concretize_batch(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, run_count_t batch_start_idx, run_count_t batch_end_idx);
+
 void write_init_state(test_ctx_t* ctx, const litmus_test_t* cfg, run_idx_t run);
 void write_init_states(test_ctx_t* ctx, const litmus_test_t* cfg, run_idx_t no_runs);
 

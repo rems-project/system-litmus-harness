@@ -157,10 +157,16 @@ reg_idx_t idx_from_regname(test_ctx_t* ctx, const char* varname) {
   return 0;
 }
 
-/** return the loop counter that links to this run index offset
- */
 run_count_t run_count_from_idx(test_ctx_t* ctx, run_idx_t idx) {
   return ctx->shuffled_ixs_inverse[idx];
+}
+
+uint64_t* ctx_heap_var_va(test_ctx_t* ctx, uint64_t varidx, run_idx_t i) {
+  return ctx->heap_vars[varidx].values[i];
+}
+
+uint64_t ctx_initial_heap_value(test_ctx_t* ctx, run_idx_t idx) {
+  return ctx->heap_vars[idx].init_value;
 }
 
 uint64_t asid_from_run_count(test_ctx_t* ctx, run_count_t r) {

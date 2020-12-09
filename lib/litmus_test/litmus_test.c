@@ -53,14 +53,6 @@ void run_test(const litmus_test_t* cfg) {
   end_of_test(ctx);
 }
 
-uint64_t* ctx_heap_var_va(test_ctx_t* ctx, uint64_t varidx, run_idx_t i) {
-  return ctx->heap_vars[varidx].values[i];
-}
-
-uint64_t ctx_initial_heap_value(test_ctx_t* ctx, run_idx_t idx) {
-  return ctx->heap_vars[idx].init_value;
-}
-
 static void go_cpus(int cpu, void* a) {
   test_ctx_t* ctx = (test_ctx_t*)a;
   start_of_thread(ctx, cpu);
@@ -85,7 +77,7 @@ static void _init_sys_state(test_ctx_t* ctx) {
 /** convert the top-level loop counter index into the
  * run offset into the tables
  */
-static run_idx_t count_to_run_index(test_ctx_t* ctx, run_count_t i) {
+run_idx_t count_to_run_index(test_ctx_t* ctx, run_count_t i) {
   switch (LITMUS_SHUFFLE_TYPE) {
     case SHUF_NONE:
       return (run_idx_t)i;
@@ -130,13 +122,13 @@ static void allocate_data_for_batch(test_ctx_t* ctx, uint64_t vcpu, run_count_t 
     }
 
     if (LITMUS_RUNNER_TYPE != RUNNER_ARRAY) {
+      if (LITMUS_RUNNER_TYPE == RUNNER_EPHEMERAL) {
+        concretize_batch(LITMUS_CONCRETIZATION_TYPE, ctx, ctx->cfg, batch_start_idx, batch_end_idx);
+      }
+
+      /* initialise the memory and pagetables */
       for (run_count_t r = batch_start_idx; r < batch_end_idx; r++) {
         run_idx_t i = count_to_run_index(ctx, r);
-
-        if (LITMUS_RUNNER_TYPE == RUNNER_EPHEMERAL) {
-          concretize_one(LITMUS_CONCRETIZATION_TYPE, ctx, ctx->cfg, ctx->concretization_st, i);
-        }
-
         if (LITMUS_RUNNER_TYPE == RUNNER_SEMI_ARRAY || LITMUS_RUNNER_TYPE == RUNNER_EPHEMERAL) {
           write_init_state(ctx, ctx->cfg, i);
         }

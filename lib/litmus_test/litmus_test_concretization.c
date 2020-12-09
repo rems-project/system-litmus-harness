@@ -139,7 +139,10 @@ void set_init_pte(test_ctx_t* ctx, var_idx_t varidx, run_idx_t run) {
   }
 
   attrs_t attrs = vmm_read_attrs(ptable, (uint64_t)va);
-  if (attrs.AP == PROT_AP_RW_RWX) {
+
+  /* TODO: this definitely cannot be here if using SYNC_ASID !
+   */
+  if (attrs.AP == PROT_AP_RW_RWX && LITMUS_SYNC_TYPE != SYNC_ASID) {
     /* we need to clean caches now
     * since one of the mappings might require a NC mapping
     * we have to ensure that it gets flushed out
@@ -237,6 +240,42 @@ void concretize(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cf
     default:
       fail("! concretize: got unexpected concretization type: %s (%s)\n", LITMUS_CONCRETIZATION_TYPE, (LITMUS_CONCRETIZATION_TYPE));
       break;
+  }
+}
+
+void concretize_batch(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, run_count_t batch_start_idx, run_count_t batch_end_idx) {
+  for (run_count_t r = batch_start_idx; r < batch_end_idx; r++) {
+    run_idx_t i = count_to_run_index(ctx, r);
+repeat_loop:
+    concretize_one(type, ctx, ctx->cfg, ctx->concretization_st, i);
+
+    /* we can assume that for a single concretizate_one it doesn't overlap
+      * but we cannot assume that different calls don't overlap
+      *
+      * so we check whether the one we just allocated overlaps with previous ones
+      * and if it does, we try again.
+      */
+    for (run_count_t r0 = batch_start_idx; r0 < r; r0++) {
+      run_idx_t i0 = count_to_run_index(ctx, r0);
+      var_info_t* v1;
+      var_info_t* v2;
+      FOREACH_HEAP_VAR(ctx, v1) {
+        /* foreach VA we just allocated */
+        uint64_t va1 = (uint64_t)ctx_heap_var_va(ctx, v1->varidx, i);
+        uint64_t pa1 = SAFE_TESTDATA_PA(va1);
+
+        FOREACH_HEAP_VAR(ctx, v2) {
+          /* foreach VA we allocated in previous run r0 */
+          uint64_t va2 = (uint64_t)ctx_heap_var_va(ctx, v2->varidx, i0);
+          uint64_t pa2 = SAFE_TESTDATA_PA(va1);
+
+          /* if they overlap, try allocate the last VAs again */
+          if (pa1 == pa2) {
+            goto repeat_loop;
+          }
+        }
+      }
+    }
   }
 }
 
