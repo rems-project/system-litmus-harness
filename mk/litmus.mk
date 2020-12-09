@@ -129,7 +129,7 @@ collect-litmus:
 debug-litmus: qemu_litmus
 	{ QEMU_ARGS='-s -S' ./bin/qemu_litmus.exe $(BIN_ARGS) & echo $$! > bin/.debug.pid; }
 	echo PID=`cat bin/.debug.pid`
-	$(GDB) --eval-command "target remote localhost:1234"
+	$(GDB) bin/litmus.elf.debug --eval-command "target remote localhost:1234" --eval-command "add-symbol-file bin/litmus.elf.debug 0x40080000"
 	{ cat bin/.debug.pid | xargs kill -9 ; rm bin/.debug.pid; }
 
 count-litmus-tests:
