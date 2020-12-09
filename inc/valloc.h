@@ -74,7 +74,7 @@ void init_valloc(void);
 })
 
 #define ALLOC_MANY(ty, count) \
-  __ALLOC_MANY(CONCAT_MACROS(v, __COUNTER__), ty, count)
+  __ALLOC_MANY(FRESH_VAR, ty, count)
 
 #define ALLOC_ONE(ty) ALLOC_MANY(ty, 1)
 

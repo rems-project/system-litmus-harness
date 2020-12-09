@@ -32,4 +32,7 @@
 
 #define CONCAT_MACROS(x,y) CONCAT_NOEXPAND(x,y)
 
+#define FRESH_VAR \
+  CONCAT_MACROS(__fresh_var_v, __COUNTER__)
+
 #endif /* MACROS_H */
