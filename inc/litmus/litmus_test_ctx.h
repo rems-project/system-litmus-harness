@@ -66,4 +66,16 @@ uint64_t asid_from_run_count(test_ctx_t* ctx, run_count_t r);
 /* for loading var_info_t */
 void read_var_infos(const litmus_test_t* cfg, init_system_state_t* sys_st, var_info_t* infos, int no_runs);
 
+/** convert the loop count into an randomized index
+ */
+run_idx_t count_to_run_index(test_ctx_t* ctx, run_count_t i);
+
+/** given a variable, return the VA for a given run index
+ */
+uint64_t* ctx_heap_var_va(test_ctx_t* ctx, uint64_t varidx, run_idx_t i);
+
+/** given a variagble return the initial heap value for a given run index
+ */
+uint64_t ctx_initial_heap_value(test_ctx_t* ctx, run_idx_t idx);
+
 #endif /* LITMUS_CTX_H */
