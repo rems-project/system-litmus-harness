@@ -26,9 +26,9 @@ extern uint8_t VERBOSE;
 extern uint8_t TRACE;
 extern uint8_t DEBUG;
 
-extern char*  collected_tests[100];
-extern int    collected_tests_count;
-extern uint8_t ONLY_SHOW_MATCHES;
+extern char*    collected_tests[100];
+extern uint64_t collected_tests_count;
+extern uint8_t  ONLY_SHOW_MATCHES;
 
 /* litmus-specific options */
 typedef enum {

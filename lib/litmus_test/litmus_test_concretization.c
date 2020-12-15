@@ -267,7 +267,7 @@ repeat_loop:
         FOREACH_HEAP_VAR(ctx, v2) {
           /* foreach VA we allocated in previous run r0 */
           uint64_t va2 = (uint64_t)ctx_heap_var_va(ctx, v2->varidx, i0);
-          uint64_t pa2 = SAFE_TESTDATA_PA(va1);
+          uint64_t pa2 = SAFE_TESTDATA_PA(va2);
 
           /* if they overlap, try allocate the last VAs again */
           if (pa1 == pa2) {

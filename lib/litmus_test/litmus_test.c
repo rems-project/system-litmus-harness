@@ -446,6 +446,9 @@ static void resetsp(void) {
 
 static void start_of_run(test_ctx_t* ctx, int cpu, int vcpu, run_idx_t i, run_count_t r) {
   prefetch(ctx, i, r);
+
+  if (vcpu == 0 && TRACE)
+    trace("\rrun %ld/%ld ...", r, ctx->no_runs);
 }
 
 static void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, run_idx_t i, run_count_t r) {
@@ -455,7 +458,7 @@ static void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, run_idx_t i, run_coun
     if (time - ctx->last_tick > 10*TICKS_PER_SEC || ctx->last_tick == 0) {
       char time_str[100];
       sprint_time((char*)&time_str, time, SPRINT_TIME_HHMMSS);
-      verbose("  [%s] %d/%d\n", time_str, r, ctx->no_runs);
+      verbose("  [%s] completed %d/%d runs\n", time_str, r, ctx->no_runs);
       ctx->last_tick = time;
     }
 

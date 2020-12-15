@@ -20,14 +20,14 @@ uint8_t DEBUG = 0;
 
 uint8_t ONLY_SHOW_MATCHES = 0;
 
-char* collected_tests[100];
-int   collected_tests_count;
+char* collected_tests[100] = { NULL };
+uint64_t collected_tests_count = 0;
 
 sync_type_t LITMUS_SYNC_TYPE = SYNC_ASID;
 aff_type_t LITMUS_AFF_TYPE = AFF_RAND;
 shuffle_type_t LITMUS_SHUFFLE_TYPE = SHUF_RAND;
 concretize_type_t LITMUS_CONCRETIZATION_TYPE = CONCRETE_RANDOM;
-char LITMUS_CONCRETIZATION_CFG[1024];
+char LITMUS_CONCRETIZATION_CFG[1024] = { '\0' };
 litmus_runner_type_t LITMUS_RUNNER_TYPE = RUNNER_EPHEMERAL;
 
 char* sync_type_to_str(sync_type_t ty) {

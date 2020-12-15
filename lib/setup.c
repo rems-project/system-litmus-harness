@@ -5,13 +5,23 @@
 extern uint64_t __argc;
 extern char*    __argv[100];
 
+/** setup is called very early
+ * before the UART is enabled
+ */
 void setup(char* fdtloc) {
-  fdt = fdtloc;
+  fdt_load_addr = fdtloc;
 
   current_thread_info()->mmu_enabled = 0;
   current_thread_info()->locking_enabled = 0;
 
-  init_device(fdt);
+  /** at the beginning of time the contents of
+   * caches (including the TLBs) are UNKNOWN
+   *
+   * so we force a clean before we do any multiprocessor stuff
+   */
+  flush_all_UNKNOWN_reset_caches();
+
+  init_device(fdt_load_addr);
   init_valloc();
 
   INIT_CLOCK = read_clk();
@@ -28,35 +38,43 @@ void setup(char* fdtloc) {
   }
   reset_seed();
 
-  char c = 'm';
-  char seps [] = { c, c, c, c, c, c, c, c, c, c, c, c, c, '\0' };
-#define PR_BARS(top, bot) \
-  { uint64_t diff##__COUNTER__ = top-bot; int d##__COUNTER__ = log2(diff##__COUNTER__)/5; \
-    seps[d##__COUNTER__] = 0; for (int i##__COUNTER__ = 0; i##__COUNTER__ < (diff##__COUNTER__/(1<<(5*d##__COUNTER__))); i##__COUNTER__++) \
-    debug("\t%s\n", &seps[0]); seps[d##__COUNTER__] = c;  }
   debug("memory layout:\n");
   debug("--------------------------------\n");
-  debug("%p: TOP_OF_MEM\n", TOP_OF_HEAP);
   typedef struct {
     const char* name;
     uint64_t bottom;
     uint64_t top;
   } bar_region_t;
 
-  bar_region_t bars[] = {
+  typedef struct {
+    const char* name;
+    uint8_t  is_top;
+    uint64_t data;
+  } region_border_t;
+
+  bar_region_t regs[] = {
+    {"DRAM", BOT_OF_MEM, TOP_OF_MEM},
     {"TEXT", BOT_OF_TEXT, TOP_OF_TEXT},
     {"STACK", BOT_OF_STACK_PA, TOP_OF_STACK_PA},
     {"DATA", BOT_OF_DATA, TOP_OF_DATA},
     {"HEAP", BOT_OF_HEAP, TOP_OF_HEAP},
-    {"MEM", TOP_OF_HEAP, TOP_OF_MEM},
+    {"IO", BOT_OF_IO, TOP_OF_IO},
   };
 
+  const uint64_t reg_count = sizeof(regs)/sizeof(bar_region_t);
+  region_border_t bars[2*reg_count] ;
+  for (int i = 0; i < reg_count; i++) {
+    bar_region_t* r = &regs[i];
+    bars[2*i + 0] = (region_border_t){r->name, 0, r->bottom};
+    bars[2*i + 1] = (region_border_t){r->name, 1, r->top};
+  }
+
   /* sort */
-  int no_bars = sizeof(bars)/sizeof(bar_region_t);
+  int no_bars = sizeof(bars)/sizeof(region_border_t);
   for (int i = 0; i < no_bars; i++) {
     for (int j = i; j < no_bars; j++) {
-      if (bars[i].top < bars[j].top) {
-        bar_region_t tmp = bars[i];
+      if (bars[i].data < bars[j].data) {
+        region_border_t tmp = bars[i];
         bars[i] = bars[j];
         bars[j] = tmp;
       }
@@ -64,18 +82,23 @@ void setup(char* fdtloc) {
   }
 
   for (int j = 0; j < no_bars; j++) {
-    debug("%p: TOP_OF_%s\n", bars[j].top, bars[j].name);
+    if (bars[j].is_top) {
+      debug("%p: TOP_OF_%s\n", bars[j].data, bars[j].name);
+    } else {
+      debug("%p: BOT_OF_%s\n", bars[j].data, bars[j].name);
+    }
   }
-  debug("%p: TOP_OF_IO\n", GiB);
-  debug("0x0: BOTTOM_OF_MEMORY\n");
   debug("--------------------------------\n");
-
   for (int i = 0; i < NO_CPUS; i++) {
     debug("CPU%d STACK EL1 : [%p -> %p => %p -> %p]\n", i, STACK_MMAP_THREAD_TOP_EL1(i), STACK_MMAP_THREAD_BOT_EL1(i), STACK_PYS_THREAD_TOP_EL1(i), STACK_PYS_THREAD_BOT_EL1(i));
     debug("CPU%d STACK EL0 : [%p -> %p => %p -> %p]\n", i, STACK_MMAP_THREAD_TOP_EL0(i), STACK_MMAP_THREAD_BOT_EL0(i), STACK_PYS_THREAD_TOP_EL0(i), STACK_PYS_THREAD_BOT_EL0(i));
   }
 
   vector_base_pa = (uint64_t)&el1_exception_vector_table_p0;
+
+  for (int i = 0; i < NO_CPUS; i++) {
+    debug("CPU%d VTABLE : %p\n", i, vector_base_pa+4096*i);
+  }
 
   /* create pgtable */
   if (ENABLE_PGTABLE) {
@@ -136,6 +159,25 @@ void ensure_cpus_on(void) {
 void per_cpu_setup(int cpu) {
   current_thread_info()->cpu_no = cpu;
   current_thread_info()->mmu_enabled = 0;
+
+  uint64_t el = read_sysreg(currentel) >> 2;
+
+  if (el == 2) {
+    uint64_t spsr = \
+      SPSR_FIELD(SPSR_EL, 1) | /* drop to EL1 */
+      SPSR_FIELD(SPSR_SP, 0) | /* using SP_EL0 */
+      0 ;
+    uint64_t elr = (uint64_t)&&begin_el1; /* and 'return' to begin_el1 */
+
+    write_sysreg(spsr, spsr_el2);
+    write_sysreg(elr, elr_el2);
+    debug("dropping to EL1 (with SPSR=%p) and ELR=%p\n", spsr, elr);
+    eret();
+  }
+
+begin_el1:
+  debug("Running at EL = %p\n", read_sysreg(currentel) >> 2);
+  debug("VBAR = %p\n", read_sysreg(vbar_el1));
 
   if (ENABLE_PGTABLE) {
     uint64_t* vmm_pgtable = vmm_alloc_new_4k_pgtable();

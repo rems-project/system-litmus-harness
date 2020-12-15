@@ -14,6 +14,20 @@ void dc_civac(uint64_t addr) {
   );
 }
 
+/** perform an IC ALLUIS
+ *
+ * invalidating all entries in all instruction caches
+ */
+void ic_ialluis(void) {
+  asm volatile (
+    "ic ialluis\n"
+  :
+  :
+  : "memory"
+  );
+}
+
+
 /** flush data caches for an entire range
  */
 void flush_data_cache(char* start_addr, char* end_addr) {
@@ -26,4 +40,12 @@ void flush_data_cache(char* start_addr, char* end_addr) {
   /* ensure po-later memory events wait for cache clean+invalidates to finish
    */
   dsb();
+}
+
+void flush_all_UNKNOWN_reset_caches(void) {
+  /* XXX: there is no data cache invalidate+clean all
+   * so just assume data cache is clean on reset
+   */
+  ic_ialluis();
+  tlbi_all();
 }

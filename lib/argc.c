@@ -9,10 +9,12 @@ char*  __argv[1024];
 uint64_t    __argc;
 
 void init_args(void) {
-    char* bootargs = dtb_bootargs(fdt);
+    char* bootargs = dtb_bootargs(fdt_load_addr);
 
     /* make copy */
-    valloc_memcpy(__copy, bootargs, strlen(bootargs));
+    uint64_t len = MIN(1020, strlen(bootargs));
+    valloc_memcpy(__copy, bootargs, len);
+    __copy[len] = '\0';  /* if we cut off early, we might skip the real NUL */
     bootargs = __copy;
 
     char* word = bootargs;

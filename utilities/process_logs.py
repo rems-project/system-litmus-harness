@@ -24,6 +24,7 @@ except ImportError:
 parser = argparse.ArgumentParser()
 parser.add_argument("--color", choices=["auto", "on", "none"], default="auto")
 parser.add_argument("--lma", default=0x4008_0000, type=integer)
+parser.add_argument("--hide-header", action="store_true", default=False)
 args = parser.parse_args()
 
 if args.color == "none":
@@ -163,6 +164,7 @@ def build_new_stack(stack, labels):
 
 
 def build_msg(m, labels):
+    time = m.group("time")
     cpu = m.group("cpu")
     level = m.group("level")
     stack = m.group("stack")
@@ -171,10 +173,14 @@ def build_msg(m, labels):
 
     bold = colorama.Style.BRIGHT if colorama is not None else ""
     style = colorama.Fore.MAGENTA if colorama is not None else ""
+    grey = colorama.Fore.LIGHTBLACK_EX if colorama is not None else ""
     reset = colorama.Style.RESET_ALL if colorama is not None else ""
 
     new_stack = build_new_stack(stack, labels)
-    new_msg = f"{style}CPU{cpu}:{level} [{new_stack}:{bold}{loc}{reset}{style}]\n\t{msg}{reset}\n\n"
+    if not args.hide_header:
+        new_msg = f"{bold}{grey}[{time}]{reset} {style}CPU{cpu}:{level} [{new_stack}:{bold}{loc}{reset}{style}]\n\t{msg}{reset}\n\n"
+    else:
+        new_msg = f"{msg}\n"
     return new_msg
 
 
@@ -202,45 +208,44 @@ def forever(root):
         if not line:
             break
 
-        if line.startswith("CPU"):
-            #  might be a debug line
-            m = re.fullmatch(
-                r"CPU(?P<cpu>\d)"
-                r":"
-                r"(?P<level>.+?)"
-                r":"
-                r"\["
-                r"(?P<stack>(0x(.+?):)+)"
-                r"(?P<loc>.+?)"
-                r"\]"
-                r" "
-                r"(?P<msg>.+?)"
-                r"\s*",
-                line,
-            )
+        #  might be a debug line
+        m = re.fullmatch(
+            r"(?P<time>\(\d+:\d+:\d+(:\d+)?)\)\s*"
+            r"CPU(?P<cpu>\d)"
+            r":"
+            r"(?P<level>.+?)"
+            r":"
+            r"\["
+            r"(?P<stack>(0x(.+?):)+)"
+            r"(?P<loc>.+?)"
+            r"\]"
+            r" "
+            r"(?P<msg>.+?)"
+            r"\s*",
+            line,
+        )
 
-            if m:
-                try:
-                    msg = build_msg(m, labels)
-                except ValueError as e:
-                    print(e)
-                    print(repr(line))
-                    raise
-                sys.stdout.write(msg)
-            else:
-                sys.stdout.write(line)
-        elif "[ STRACE" in line:
-            m = re.fullmatch(
-                r"(?P<indent>\s*)\[ STRACE (?P<el>.+?)\] (?P<addrs>.+)\s*", line
-            )
+        if m:
+            try:
+                msg = build_msg(m, labels)
+            except ValueError as e:
+                print(e)
+                print(repr(line))
+                raise
+            sys.stdout.write(msg)
+            continue
 
-            if m:
-                msg = build_strace(m, labels)
-                sys.stdout.write(msg)
-            else:
-                sys.stdout.write(line)
-        else:
-            sys.stdout.write(line)
+
+        m = re.fullmatch(
+            r"(?P<indent>\s*)\[ STRACE (?P<el>.+?)\] (?P<addrs>.+)\s*", line
+        )
+
+        if m:
+            msg = build_strace(m, labels)
+            sys.stdout.write(msg)
+            continue
+
+        sys.stdout.write(line)
 
 
 if __name__ == "__main__":

@@ -42,6 +42,17 @@
 #define MAIR_NORMAL_NC     0x44
 #define MAIR_NORMAL_RA_WA  0xff
 
+/* for e.g. exclusives to work
+ * we need to make sure the memory attributes for that page
+ * is "Inner Shareable, Inner Write-Back, Outer Write-Back
+ *     Normal memory with Read allocation hints and
+ *     Write allocation hints and not transient." (B2.9)
+ *
+ * this is what MAIR_NORMAL_RA_WA corresponds to
+ * and therefore, sections containing mutexes must be mapped
+ * with MAIR_NORMAL_RA_WA attributes
+ */
+
 /** Shorthand attributes
  */
 #define PROT_RX_X (write_attrs((attrs_t){.AP=PROT_AP_RX_X}))
