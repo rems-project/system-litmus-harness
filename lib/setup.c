@@ -14,6 +14,13 @@ void setup(char* fdtloc) {
   current_thread_info()->mmu_enabled = 0;
   current_thread_info()->locking_enabled = 0;
 
+  /** at the beginning of time the contents of
+   * caches (including the TLBs) are UNKNOWN
+   *
+   * so we force a clean before we do any multiprocessor stuff
+   */
+  flush_all_UNKNOWN_reset_caches();
+
   init_device(fdt_load_addr);
   init_valloc();
 

@@ -11,4 +11,9 @@ void dc_civac(uint64_t addr);
  */
 void flush_data_cache(char* start_addr, char* end_addr);
 
+/** flush all caches that may contain stale
+ * values on reset
+ */
+void flush_all_UNKNOWN_reset_caches(void);
+
 #endif /* CACHES_H */
