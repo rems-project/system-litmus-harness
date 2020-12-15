@@ -24,6 +24,11 @@
 
 #define SCTLR ((SCTLR_HI << 12) | SCTLR_LO))
 
+#define SPSR_EL 2
+#define SPSR_SP 0
+
+#define SPSR_FIELD(field, val) ((val) << (field))
+
 #ifndef __ASSEMBLY__
 #include <stdint.h>
 
@@ -39,6 +44,7 @@
 #define dsb() do { asm volatile ("dsb sy" ::: "memory"); } while (0)
 #define dmb() do { asm volatile ("dmb sy" ::: "memory"); } while (0)
 #define isb() do { asm volatile ("isb" ::: "memory"); } while (0)
+#define eret() do { asm volatile ("eret" ::: "memory"); } while (0)
 
 /* stores and loads */
 void writeb(uint8_t byte, uint64_t addr);

@@ -160,6 +160,23 @@ void per_cpu_setup(int cpu) {
   current_thread_info()->cpu_no = cpu;
   current_thread_info()->mmu_enabled = 0;
 
+  uint64_t el = read_sysreg(currentel) >> 2;
+
+  if (el == 2) {
+    uint64_t spsr = \
+      SPSR_FIELD(SPSR_EL, 1) | /* drop to EL1 */
+      SPSR_FIELD(SPSR_SP, 0) | /* using SP_EL0 */
+      0 ;
+    uint64_t elr = (uint64_t)&&begin_el1; /* and 'return' to begin_el1 */
+
+    write_sysreg(spsr, spsr_el2);
+    write_sysreg(elr, elr_el2);
+    debug("dropping to EL1 (with SPSR=%p) and ELR=%p\n", spsr, elr);
+    eret();
+  }
+
+begin_el1:
+  debug("Running at EL = %p\n", read_sysreg(currentel) >> 2);
   debug("VBAR = %p\n", read_sysreg(vbar_el1));
 
   if (ENABLE_PGTABLE) {
