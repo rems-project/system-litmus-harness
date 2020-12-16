@@ -34,6 +34,7 @@ void run_test(const litmus_test_t* cfg) {
 
   /* create the dynamic configuration (context) from the static information (cfg) */
   init_test_ctx(ctx, cfg, NUMBER_OF_RUNS, RUNS_IN_BATCH);
+  ctx->valloc_ptable_chkpnt = valloc_ptable_checkpoint();
   initialize_regions(&ctx->heap_memory);
 
   debug("done.  run the tests.\n");
@@ -111,12 +112,11 @@ static void allocate_data_for_batch(test_ctx_t* ctx, uint64_t vcpu, run_count_t 
     if (ENABLE_PGTABLE) {
       for (run_count_t r = batch_start_idx; r < batch_end_idx; r++) {
         uint64_t asid = asid_from_run_count(ctx, r);
-        /* cleanup the previous if it exists */
-        if (ctx->ptables[asid] != NULL) {
-          vmm_free_test_pgtable(ctx->ptables[asid]);
+
+        if (ctx->ptables[asid] == NULL) {
+          ctx->ptables[asid] = vmm_alloc_new_test_pgtable();
         }
 
-        ctx->ptables[asid] = vmm_alloc_new_test_pgtable();
         debug("allocated pgtable for batch_start=%ld, ASID=%ld at %p\n", batch_start_idx, asid, ctx->ptables[asid]);
       }
     }
@@ -186,6 +186,23 @@ static void setup_run_data(test_ctx_t* ctx, uint64_t vcpu, run_count_t batch_sta
 static void clean_run_data(test_ctx_t* ctx, uint64_t vcpu, run_count_t batch_start_idx, run_count_t batch_end_idx, litmus_test_run* runs) {
   int idx;
   run_count_t r;
+
+  /* after each run, reset the pagetables back to what they were before
+   * we ran the test function
+   *
+   * this means we do not need to keep allocating new pagetables each time
+   *
+   * NOTE: this does not mean reset pagetables back to the initial state
+   * -- the refreshed tables will still contain level3 entries for the
+   * allocated pages.
+   */
+  for (idx = 0, r = batch_start_idx; r < batch_end_idx; r++, idx++) {
+    for (var_idx_t v = 0; v < ctx->cfg->no_heap_vars; v++) {
+      for (int l = 0; l < 4; l++) {
+        *runs[idx].tt_entries[v][l] = runs[idx].tt_descs[v][l];
+      }
+    }
+  }
 
   for (idx = 0, r = batch_start_idx; r < batch_end_idx; r++, idx++) {
     for (var_idx_t v = 0; v < ctx->cfg->no_heap_vars; v++) {
@@ -446,9 +463,6 @@ static void resetsp(void) {
 
 static void start_of_run(test_ctx_t* ctx, int cpu, int vcpu, run_idx_t i, run_count_t r) {
   prefetch(ctx, i, r);
-
-  if (vcpu == 0 && TRACE)
-    trace("\rrun %ld/%ld ...", r, ctx->no_runs);
 }
 
 static void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, run_idx_t i, run_count_t r) {
@@ -458,7 +472,7 @@ static void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, run_idx_t i, run_coun
     if (time - ctx->last_tick > 10*TICKS_PER_SEC || ctx->last_tick == 0) {
       char time_str[100];
       sprint_time((char*)&time_str, time, SPRINT_TIME_HHMMSS);
-      verbose("  [%s] completed %d/%d runs\n", time_str, r, ctx->no_runs);
+      verbose("  [%s] %d/%d\n", time_str, r, ctx->no_runs);
       ctx->last_tick = time;
     }
 
@@ -515,18 +529,9 @@ static void end_of_test(test_ctx_t* ctx) {
 
   trace("Finished test %s\n", ctx->cfg->name);
 
-  /* since we allocate ptables in batches
-   * and only free them on the next batch,
-   * we must make sure we free'd the pagetables in use
-   * for this batch as there is no next batch
-   */
-  for (uint64_t asid = 1; asid < 1+ctx->batch_size; asid++) {
-    if (ctx->ptables[asid] != NULL) {
-      vmm_free_test_pgtable(ctx->ptables[asid]);
-    }
-  }
-
   concretize_finalize(LITMUS_CONCRETIZATION_TYPE, ctx, ctx->cfg, ctx->no_runs, ctx->concretization_st);
+
+  valloc_ptable_restore(ctx->valloc_ptable_chkpnt);
   free_test_ctx(ctx);
   FREE(ctx);
 }

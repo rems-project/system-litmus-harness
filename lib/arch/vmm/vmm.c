@@ -35,7 +35,7 @@ void vmm_ensure_level(uint64_t* root, int desired_level, uint64_t va) {
       continue;
     }
 
-    uint64_t* pg = alloc(4096);
+    uint64_t* pg = zalloc_ptable();
 
     if (level == desired_level - 1) {
       debug("ensuring new entry for %p at level %d in pagetable rooted at %p\n", va, desired_level, root);

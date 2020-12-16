@@ -101,18 +101,20 @@ cpu_entry:
 .globl init_cpu
 init_cpu:
 	/* each thread has page desginated for stack space
-	 * located at __ld_begin_stack + STACK_SIZE*(1+cpuid) -> __ld_begin_stack + STACK_SIZE*cpuid
+     * where BOT_OF_STACK = ALIGN_UP(__ld_end_sections, 2MiB)
+	 * located at BOT_OF_STACK + STACK_SIZE*(1+cpuid) -> BOT_OF_STACK + STACK_SIZE*cpuid
      */
 	mrs x9, mpidr_el1
 	and x9, x9, #0xff
 	msr tpidr_el0, x9
 
     /* x11 = BOT_OF_STACK */
-	adrp x11, __ld_begin_stack
-	add x11, x11, :lo12:__ld_begin_stack
+	adrp x11, __ld_end_sections
+	add x11, x11, :lo12:__ld_end_sections
+    mov x12, #1
     /* x10 = 2MiB = STACK_SIZE */
-	mov x10, #2
-	lsl x10,x10,#20
+	mov x10, #1
+	lsl x10,x10,#21
     /* align BOT_OF_STACK _up_ to 2M */
     add x11, x10, x11
     sub x15, x10, #1

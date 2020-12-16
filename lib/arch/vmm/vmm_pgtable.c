@@ -57,7 +57,7 @@
  *   threads can use for shared data allocation)
  *  --------------- 0x4880_0000  (1 GiB + 8 MiB + 128 MiB)
  * |
- * |  HEAP
+ * |  HEAP+PTABLES
  * |
  *  --------------- 0x4060_0000
  *
@@ -241,6 +241,20 @@ void vmm_ptable_unmap(uint64_t* pgtable, VMRegion reg) {
   set_block_or_page(pgtable, reg.va_start, 0, 1, 0, level);
 }
 
+const char* VMRegionTag_names[] = {
+  "VM_MMAP_IO",
+  "VM_TEXT",
+  "VM_DATA",
+  "VM_STACK",
+  "VM_HEAP",
+  "VM_PTABLES",
+  "VM_TESTDATA",
+  "VM_MMAP_HARNESS",
+  "VM_MMAP_STACK_EL0",
+  "VM_MMAP_STACK_EL1",
+  "VM_MMAP_VTABLE",
+};
+
 static void update_table_from_vmregion_map(uint64_t* table, VMRegions regs) {
   VMRegion* map = regs.regions;
 
@@ -257,6 +271,7 @@ static void update_table_from_vmregion_map(uint64_t* table, VMRegions regs) {
     else if (r.va_start < r_prev.va_start)
       fail("! %o's region comes after a later region %o\n", r, r_prev);
 
+    debug("map [%s] %p -> %p\n", VMRegionTag_names[i], r.va_start, r.va_end);
     vmm_ptable_map(table, r);
   }
 }
@@ -285,7 +300,6 @@ static void __vm_alloc_shared_2g_region(uint64_t* root_pgtable) {
      *  where RAM_END is defined by the dtb
      */
     [VM_MMAP_IO] = {VMREGION_VALID, BOT_OF_IO, TOP_OF_IO, PROT_MEMTYPE_DEVICE, PROT_RW_RW},
-
     /* linker .text section
      * this contains the harness, litmus and unittest code segments as well
      * as the initial boot segment that occurs before BOT_OF_TEXT
@@ -299,7 +313,11 @@ static void __vm_alloc_shared_2g_region(uint64_t* root_pgtable) {
      * if we're allocating a pagetable to be shared between test threads then we map the entire 2M stack space
      */
     [VM_STACK] = {VMREGION_VALID, BOT_OF_STACK_PA, TOP_OF_STACK_PA, PROT_MEMTYPE_NORMAL, PROT_RW_RWX},
-    /* for various run-time allocations
+    /* for pagetable allocations at runtime
+     * they get contiguously allocated in this region
+     */
+    [VM_PTABLES] = {VMREGION_VALID, BOT_OF_PTABLES, TOP_OF_PTABLES, PROT_MEMTYPE_NORMAL, PROT_RW_RWX},
+    /* for various non-pagetable run-time allocations
      * we have a heap that ALLOC() makes use of
      */
     [VM_HEAP] = {VMREGION_VALID, BOT_OF_HEAP, TOP_OF_HEAP, PROT_MEMTYPE_NORMAL, PROT_RW_RWX},
@@ -310,7 +328,7 @@ static void __vm_alloc_shared_2g_region(uint64_t* root_pgtable) {
 }
 
 static uint64_t* __vm_alloc_base_map(void) {
-  uint64_t* root_ptable = alloc_with_alignment(4096, 4096);
+  uint64_t* root_ptable = zalloc_ptable();
   __vm_alloc_shared_2g_region(root_ptable);
   TRACE_PTABLE("allocated shared 2g @ %p\n", root_ptable);
 

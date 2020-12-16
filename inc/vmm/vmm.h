@@ -64,6 +64,7 @@ typedef enum {
   VM_DATA,
   VM_STACK,
   VM_HEAP,
+  VM_PTABLES,
   VM_TESTDATA,
   VM_MMAP_HARNESS,
   VM_MMAP_STACK_EL0,

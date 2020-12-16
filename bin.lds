@@ -55,20 +55,6 @@ SECTIONS
     . = ALIGN(4k);
     PROVIDE(__ld_end_data = .);
 
-    /*
-     * we ensure at least 2 2M pmd for each thread's stack
-     * (one for EL0 and one for EL1)
-     *
-     * see device.h
-     */
-    . = ALIGN(4K);
-    .stack : {
-        PROVIDE(__ld_begin_stack = .);
-        . += 2M;  /* alignment space */
-        . += 16M;
-        PROVIDE(__ld_end_stack = .);
-    }
-
     /DISCARD/ : {
         *(.note*)
         *(.interp)

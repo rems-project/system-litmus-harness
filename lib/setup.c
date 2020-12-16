@@ -21,13 +21,20 @@ void setup(char* fdtloc) {
    */
   flush_all_UNKNOWN_reset_caches();
 
+  /* read device tree and linker regions */
   init_device(fdt_load_addr);
+
+  /* initialise the allocators */
   init_valloc();
+  init_valloc_ptable();
 
   INIT_CLOCK = read_clk();
   TICKS_PER_SEC = read_clk_freq();
 
-  /* read passed args */
+  /* read passed args
+   *
+   *  it is only after this point that we can use debug() and related macros
+   */
   init_args();
   read_args(__argc, __argv);
   init_cfg_state();
@@ -54,7 +61,9 @@ void setup(char* fdtloc) {
 
   bar_region_t regs[] = {
     {"DRAM", BOT_OF_MEM, TOP_OF_MEM},
+    {"TESTDATA", BOT_OF_TESTDATA, TOP_OF_TESTDATA},
     {"TEXT", BOT_OF_TEXT, TOP_OF_TEXT},
+    {"PTABLES", BOT_OF_PTABLES, TOP_OF_PTABLES},
     {"STACK", BOT_OF_STACK_PA, TOP_OF_STACK_PA},
     {"DATA", BOT_OF_DATA, TOP_OF_DATA},
     {"HEAP", BOT_OF_HEAP, TOP_OF_HEAP},

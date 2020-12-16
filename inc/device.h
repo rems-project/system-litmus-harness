@@ -61,11 +61,20 @@ uint64_t TOTAL_MEM;
 /* total allocated heap space */
 uint64_t TOTAL_HEAP;
 
+/* total allocated space for pagetables */
+uint64_t TOTAL_TABLE_SPACE;
+
 /* bottom and top of heap space
  * used for non-test data
  */
 uint64_t BOT_OF_HEAP;
 uint64_t TOP_OF_HEAP;
+
+/* bottom and top of pagetable space
+ * used for test pagetables
+ */
+uint64_t BOT_OF_PTABLES;
+uint64_t TOP_OF_PTABLES;
 
 /* bot and top of memory mapped I/O section
  *

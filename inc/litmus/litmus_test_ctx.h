@@ -43,6 +43,12 @@ struct test_ctx {
   uint64_t privileged_harness;  /* require harness to run at EL1 between runs ? */
   uint64_t last_tick; /* clock ticks since last verbose print */
   void* concretization_st; /* current state of the concretizer */
+
+  /** checkpoint to restore the ptable allocator back to at the end
+   */
+  valloc_ptable_mem valloc_ptable_chkpnt;
+
+  /* the static configuration of the current test */
   const litmus_test_t* cfg;
 };
 

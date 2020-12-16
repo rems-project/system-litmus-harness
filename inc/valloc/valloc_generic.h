@@ -2,6 +2,11 @@
 #define VALLOC_H
 #include <stdint.h>
 
+/* generic allocator
+ *
+ * used for allocating non-pagetable data during execution of the harness
+ */
+
 #define UNSET(a,b) do{if (a) {a->b=NULL;}} while (0);
 #define SET(a,b,c) do{if (a) {a->b=(c);}} while (0);
 

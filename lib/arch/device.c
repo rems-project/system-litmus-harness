@@ -12,8 +12,6 @@ extern char* __ld_begin_text;
 extern char* __ld_end_text;
 extern char* __ld_begin_reloc;
 extern char* __ld_end_reloc;
-extern char* __ld_begin_stack;
-extern char* __ld_end_stack;
 extern char* __ld_end_sections;
 extern char* __ld_begin_data;
 extern char* __ld_end_data;
@@ -32,23 +30,59 @@ void init_device(void* fdt) {
 
     /* read regions from linker */
     TOP_OF_TEXT = (uint64_t)&__ld_end_text;
-    BOT_OF_HEAP = (uint64_t)&__ld_end_sections;
     BOT_OF_TEXT = (uint64_t)&__ld_begin_text;
     BOT_OF_DATA = (uint64_t)&__ld_begin_data;
     TOP_OF_DATA = (uint64_t)&__ld_end_data;
 
     /* compute remaining friendly region names */
 
-    /* we allocate between 12.5% of DRAM up to 128MiB max for heap space */
-    TOTAL_HEAP = MIN(128*MiB, ((TOP_OF_MEM - BOT_OF_MEM) / 8));
-    TOP_OF_HEAP = BOT_OF_HEAP + TOTAL_HEAP;
+    /* we try make a memory layout like so:
+     *  ------- TOP
+     *    |
+     *    |      TEST DATA
+     *    |
+     *  ~~~~~~~~ 2M
+     *    |
+     *    |       PAGETABLE ALLOC REGION
+     *    |
+     *  ------- 4k
+     *    |
+     *    |       HEAP
+     *    |
+     *  ------- 4k
+     *    |
+     *    |       STACK
+     *    |
+     *  ~~~~~~~~ 2M
+     *  ~~~~~~~~
+     *    TEXT + DATA
+     *  ~~~~~~~
+     *     |
+     *  ~~~~~~~
+     *  ------- BOT
+     *
+     * by fitting things onto 2M regions we reduce the number of entries the pagetable requires
+     */
 
-    BOT_OF_STACK_PA = (uint64_t)&__ld_begin_stack;
-    BOT_OF_STACK_PA = ALIGN_UP(BOT_OF_STACK_PA, PMD_SHIFT);
-    TOP_OF_STACK_PA = (uint64_t)&__ld_end_stack;
-    TOP_OF_STACK_PA = ALIGN_TO(TOP_OF_STACK_PA, PMD_SHIFT);
+    uint64_t end_of_loaded_sections = (uint64_t)&__ld_end_sections;
 
-    BOT_OF_TESTDATA = TOP_OF_HEAP;
+    /* we align the stack up to the nearest 2M */
+    BOT_OF_STACK_PA = ALIGN_UP(end_of_loaded_sections, PMD_SHIFT);
+    TOP_OF_STACK_PA = BOT_OF_STACK_PA + 2*MAX_CPUS*STACK_SIZE;
+
+    /* we allocate between 12.5% of DRAM up to 64 MiB max for heap space */
+    TOTAL_HEAP = MIN(64*MiB, ((TOP_OF_MEM - BOT_OF_MEM) / 8));
+    BOT_OF_HEAP = TOP_OF_STACK_PA;
+    TOP_OF_HEAP = BOT_OF_HEAP + ALIGN_UP(TOTAL_HEAP, PAGE_SHIFT);
+
+    /* we then allocate up to 32 MiB for the pagetables */
+    TOTAL_TABLE_SPACE = MIN(32*MiB, ((TOP_OF_MEM - BOT_OF_MEM) / 8));
+    BOT_OF_PTABLES = TOP_OF_HEAP;
+    TOP_OF_PTABLES = BOT_OF_PTABLES + ALIGN_UP(TOTAL_TABLE_SPACE, PAGE_SHIFT);
+
+    /* finally we allocate whatever is left for the actual test data variables
+     */
+    BOT_OF_TESTDATA = ALIGN_UP(TOP_OF_PTABLES, PMD_SHIFT);
     TOP_OF_TESTDATA = TOP_OF_MEM;
 
     HARNESS_MMAP = (uint64_t*)(64 * GiB);
