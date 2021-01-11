@@ -41,7 +41,7 @@
     ldp x0,     x1,     [sp], #288
 .endm
 
-.macro handler, name, vec
+.macro handler1, name, vec
 \name:
     save_all_registers
     mov x0, #\vec
@@ -60,6 +60,26 @@
     eret
 .endm
 
+.macro handler2, name, vec
+\name:
+    save_all_registers
+    mov x0, #\vec
+    mrs x1, esr_el2
+    mov x2, sp
+
+    /* make fake stack frame
+     * which directs to the faulty instruction
+     */
+    mrs x3, elr_el2
+    stp x2, x3, [sp, #-0x10]!
+    bl handle_exception
+    add sp, sp, #0x10
+
+    restore_all_registers
+    eret
+.endm
+
+
 .macro restore_other_registers
     ldp x8,     x9,     [sp, #64]
     ldp x10,    x11,    [sp, #80]
@@ -76,32 +96,36 @@
     add sp, sp, #288
 .endm
 
-handler el1_sp0_sync,           0
-handler el1_sp0_irq,            1
-handler el1_sp0_fiq,            2
-handler el1_sp0_serror,         3
-
-handler el1_spx_sync,           4
-handler el1_spx_irq,            5
-handler el1_spx_fiq,            6
-handler el1_spx_serror,         7
-
-handler el0_64_sync,            8
-handler el0_64_irq,             9
-handler el0_64_fiq,            10
-handler el0_64_serror,         11
-
-handler el0_32_sync,           12
-handler el0_32_irq,            13
-handler el0_32_fiq,            14
-handler el0_32_serror,         15
-
 .macro vectorjmp, name
 .align 7
 b \name
 .endm
 
-.macro vector_table, name
+/** =============================
+             EL1 Table
+    ============================= **/
+
+handler1 el1_sp0_sync,           0
+handler1 el1_sp0_irq,            1
+handler1 el1_sp0_fiq,            2
+handler1 el1_sp0_serror,         3
+
+handler1 el1_spx_sync,           4
+handler1 el1_spx_irq,            5
+handler1 el1_spx_fiq,            6
+handler1 el1_spx_serror,         7
+
+handler1 el0_64_sync,            8
+handler1 el0_64_irq,             9
+handler1 el0_64_fiq,            10
+handler1 el0_64_serror,         11
+
+handler1 el0_32_sync,           12
+handler1 el0_32_irq,            13
+handler1 el0_32_fiq,            14
+handler1 el0_32_serror,         15
+
+.macro vector_table_el1, name
 .global \name
 .align 12  /* align to a page so that we can do pagetable trickery later */
 \name:
@@ -127,7 +151,62 @@ b \name
 .endm
 
 /* Each PE has its own table */
-vector_table el1_exception_vector_table_p0
-vector_table el1_exception_vector_table_p1
-vector_table el1_exception_vector_table_p2
-vector_table el1_exception_vector_table_p3
+vector_table_el1 el1_exception_vector_table_p0
+vector_table_el1 el1_exception_vector_table_p1
+vector_table_el1 el1_exception_vector_table_p2
+vector_table_el1 el1_exception_vector_table_p3
+
+/** =============================
+             EL2 Table
+    ============================= **/
+
+handler2 el2_sp0_sync,           0
+handler2 el2_sp0_irq,            1
+handler2 el2_sp0_fiq,            2
+handler2 el2_sp0_serror,         3
+
+handler2 el2_spx_sync,           4
+handler2 el2_spx_irq,            5
+handler2 el2_spx_fiq,            6
+handler2 el2_spx_serror,         7
+
+handler2 el01_64_sync,            8
+handler2 el01_64_irq,             9
+handler2 el01_64_fiq,            10
+handler2 el01_64_serror,         11
+
+handler2 el01_32_sync,           12
+handler2 el01_32_irq,            13
+handler2 el01_32_fiq,            14
+handler2 el01_32_serror,         15
+
+.macro vector_table_el2, name
+.global \name
+.align 12  /* align to a page so that we can do pagetable trickery later */
+\name:
+    vectorjmp el2_sp0_sync
+    vectorjmp el2_sp0_irq
+    vectorjmp el2_sp0_fiq
+    vectorjmp el2_sp0_serror
+
+    vectorjmp el2_spx_sync
+    vectorjmp el2_spx_irq
+    vectorjmp el2_spx_fiq
+    vectorjmp el2_spx_serror
+
+    vectorjmp el01_64_sync
+    vectorjmp el01_64_irq
+    vectorjmp el01_64_fiq
+    vectorjmp el01_64_serror
+
+    vectorjmp el01_32_sync
+    vectorjmp el01_32_irq
+    vectorjmp el01_32_fiq
+    vectorjmp el01_32_serror
+.endm
+
+/* Each PE has its own table */
+vector_table_el2 el2_exception_vector_table_p0
+vector_table_el2 el2_exception_vector_table_p1
+vector_table_el2 el2_exception_vector_table_p2
+vector_table_el2 el2_exception_vector_table_p3

@@ -86,21 +86,21 @@ static void _print_stack_trace(int el, uint64_t fp) {
   printf("%s\n", __exc_buffer);
 }
 
-void* default_handler(uint64_t vec, uint64_t esr, regvals_t* regs) {
-  uint64_t spsr = read_sysreg(spsr_el1);
+void* default_handler(uint64_t el, uint64_t vec, uint64_t esr, regvals_t* regs) {
+  uint64_t spsr = read_sysreg_el(SYS_SPSR, el);
   uint64_t ec = esr >> 26;
   uint64_t iss = esr & BITMASK(26);
   uint64_t cpu = get_cpu();
   LOCK(&_EXC_PRINT_LOCK);
 
   printf("Unhandled Exception (CPU%d): \n", cpu);
-  printf("  [VBAR: 0x%lx]\n", read_sysreg(VBAR_EL1));
+  printf("  [VBAR: 0x%lx]\n", read_sysreg_el(SYS_VBAR, el));
   printf("  [Vector: 0x%lx (%s)]\n", vec, vec_names[vec]);
   printf("  [FROM: EL%d]\n", BIT_SLICE(spsr, 3, 2));
   printf("  [EC: 0x%lx (%s)]\n", ec, ec_names[ec]);
   printf("  [ESR_EL1: 0x%lx]\n", esr);
-  printf("  [FAR_EL1: 0x%lx]\n", read_sysreg(far_el1));
-  printf("  [ELR_EL1: 0x%lx]\n", read_sysreg(elr_el1));
+  printf("  [FAR_EL1: 0x%lx]\n", read_sysreg_el(SYS_FAR, el));
+  printf("  [ELR_EL1: 0x%lx]\n", read_sysreg_el(SYS_ELR, el));
   if (ec == 0x24 || ec == 0x25) {
     printf("  [DATA ABORT ISS]\n");
     printf("  [  FnV] %d\n", (iss >> 10) & 1);
@@ -180,7 +180,7 @@ void drop_to_el0(void) {
   );
 }
 
-void raise_to_el1(void) {
+void switch_to_el1(void) {
   asm volatile("svc #11\n\t"
                :
                :
@@ -189,97 +189,97 @@ void raise_to_el1(void) {
   );
 }
 
-static void* default_svc_drop_el0(uint64_t vec, uint64_t esr, regvals_t* regs) {
-  asm volatile(
-    "mrs x18, spsr_el1\n"
+void switch_to_el2(void) {
+  asm volatile("svc #12\n\t"
+               :
+               :
+               : "x0", "x1", "x2", "x3", "x4", "x5", "x6",
+                 "x7" /* dont touch parameter registers */
+  );
+}
 
-    /* zero SPSR_EL1[0:3] */
-    "lsr x18, x18, #4\n"
-    "lsl x18, x18, #4\n"
-
-    /* write back to SPSR */
-    "msr spsr_el1, x18\n"
-    "dsb nsh\n"
-    "isb\n"
-    :
-    :
-    : "memory", "x18");
-
+static void* default_svc_drop_el0(uint64_t el, uint64_t vec, uint64_t esr, regvals_t* regs) {
+  uint64_t spsr = read_sysreg_el(SYS_SPSR, el);
+  spsr &= ~0xfUL;
+  write_sysreg_el(spsr, SYS_SPSR, el);
+  isb();
   return NULL;
 }
 
-static void* default_svc_raise_el1(uint64_t vec, uint64_t esr,
+static void* default_svc_raise_el1(uint64_t el, uint64_t vec, uint64_t esr,
                                    regvals_t* regs) {
-  /* raise to EL1h */
-  asm volatile(
-      "mrs x18, spsr_el1\n"
-
-      /* zero SPSR_EL1[0:3] */
-      "lsr x18, x18, #4\n"
-      "lsl x18, x18, #4\n"
-
-      /* add targetEL and writeback */
-      "add x18, x18, #4\n" /* EL1 */
-      "add x18, x18, #0\n" /* h */
-      "msr spsr_el1, x18\n"
-      "dsb nsh\n"
-      "isb\n"
-      :
-      :
-      : "memory", "x18");
+  /* switch to EL1h */
+  uint64_t spsr = read_sysreg_el(SYS_SPSR, el);
+  spsr &= ~0xfUL;
+  spsr |= (1 << 2);
+  write_sysreg_el(spsr, SYS_SPSR, el);
+  isb();
   return NULL;
 }
 
-static void* default_svc_read_currentel(uint64_t vec, uint64_t esr,
-                                        regvals_t* regs) {
-  /* read CurrentEL via SPSPR */
-  uint64_t cel;
-  asm volatile(
-      "mrs %[cel], SPSR_EL1\n"
-      "and %[cel], %[cel], #12\n"
-      : [cel] "=r"(cel));
-  return (void*)cel;
+static void* default_svc_raise_el2(uint64_t el, uint64_t vec, uint64_t esr,
+                                   regvals_t* regs) {
+
+  if (el != 2) {
+    fail("! cannot raise to EL2 from EL1 handler.\n");
+  }
+
+  /* switch to EL2h */
+  uint64_t spsr = read_sysreg_el(SYS_SPSR, el);
+  spsr &= ~0xfUL;
+  spsr |= (2 << 2);
+  write_sysreg_el(spsr, SYS_SPSR, el);
+  isb();
+  return NULL;
 }
 
-static void* default_svc_handler(uint64_t vec, uint64_t esr, regvals_t* regs) {
+static void* default_svc_read_currentel(uint64_t el, uint64_t vec, uint64_t esr,
+                                        regvals_t* regs) {
+  /* read SPSR.CurrentEL */
+  uint64_t spsr = read_sysreg_el(SYS_SPSR, el);
+  return (void*)(spsr & 0xeUL);
+}
+
+static void* default_svc_handler(uint64_t el, uint64_t vec, uint64_t esr, regvals_t* regs) {
   uint64_t imm = esr & 0xffffff;
   int cpu = get_cpu();
   if (vtable_svc[cpu][imm] == NULL)
     if (imm == 10)
-      return default_svc_drop_el0(vec, esr, regs);
+      return default_svc_drop_el0(el, vec, esr, regs);
     else if (imm == 11)
-      return default_svc_raise_el1(vec, esr, regs);
+      return default_svc_raise_el1(el, vec, esr, regs);
     else if (imm == 12)
-      return default_svc_read_currentel(vec, esr, regs);
+      return default_svc_raise_el2(el, vec, esr, regs);
+    else if (imm == 13)
+      return default_svc_read_currentel(el, vec, esr, regs);
     else
-      return default_handler(vec, esr, regs);
+      return default_handler(el, vec, esr, regs);
   else
     return (void*)vtable_svc[cpu][imm](esr, regs);
 }
 
-static void* default_pgfault_handler(uint64_t vec, uint64_t esr,
-                                     regvals_t* regs) {
-  uint64_t far = read_sysreg(far_el1);
+static void* default_pgfault_handler(uint64_t el, uint64_t vec, uint64_t esr, regvals_t* regs) {
+  uint64_t far = read_sysreg_el(SYS_FAR, el);
   int cpu = get_cpu();
   uint64_t imm = far % 127;
   if (vtable_pgfault[cpu][imm] == NULL)
-    return default_handler(vec, esr, regs);
+    return default_handler(el, vec, esr, regs);
   else
     return (void*)vtable_pgfault[cpu][imm](esr, regs);
 }
 
-void* handle_exception(uint64_t vec, uint64_t esr, regvals_t* regs) {
+void* handle_exception(uint64_t el, uint64_t vec, uint64_t esr, regvals_t* regs) {
   uint64_t ec = esr >> 26;
   int cpu = get_cpu();
   exception_vector_fn* fn = vtable[cpu][vec][ec];
   if (fn) {
     return fn(esr, regs);
   } else if (ec == 0x15) {
-    return default_svc_handler(vec, esr, regs);
+    return default_svc_handler(el, vec, esr, regs);
   } else if ((ec | 1) == 0x25) {
-    return default_pgfault_handler(vec, esr, regs);
+    return default_pgfault_handler(el, vec, esr, regs);
   } else {
-    return default_handler(vec, esr, regs);
+    return default_handler(el, vec, esr, regs);
   }
 }
 

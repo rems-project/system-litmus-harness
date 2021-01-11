@@ -32,7 +32,7 @@
 
 const char* version_string(void);
 
-#define unreachable() do {printf("! unreachable: [%s] %s %d\n", __FILE__, __FUNCTION__, __LINE__); raise_to_el1(); abort();} while (1);
+#define unreachable() do {printf("! unreachable: [%s] %s %d\n", __FILE__, __FUNCTION__, __LINE__); switch_to_el1(); abort();} while (1);
 
 /* some str functions not in <string.h> */
 int strstartswith(char* s1, char* prefix);

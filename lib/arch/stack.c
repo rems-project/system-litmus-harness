@@ -14,7 +14,7 @@ static uint64_t _stack_range_top(uint64_t fp) {
 
   uint64_t stack_end;
   for (int i = 0; i < NO_CPUS; i++) {
-    for (int el = 0; el < 2; el++) {
+    for (int el = 0; el < 3; el++) {
       uint64_t _stack_start, _stack_end;
       _stack_start = STACK_PYS_THREAD_BOT_ELx(i, el);
       _stack_end = STACK_PYS_THREAD_TOP_ELx(i, el);

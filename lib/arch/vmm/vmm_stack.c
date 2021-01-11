@@ -10,10 +10,23 @@
  */
 
 void switch_to_vm_stack(void) {
+  puts("[switching to vm stack]\n");
   uint64_t cpu = get_cpu();
   uint64_t sp = read_reg(sp);
   uint64_t new_sp = sp - STACK_PYS_THREAD_BOT_EL0(cpu) + STACK_MMAP_THREAD_BOT_EL0(cpu);
+  printf("old sp = %p\n", sp);
+  printf("new sp = %p\n", new_sp);
   write_reg(new_sp, sp);
+
+  int x = 42;
+  puts("set ");
+  puts("&x=");
+  puthex(&x);
+  puts(" x=");
+  puthex(x);
+  puts("\n");
+
+  printf("set! %d\n", x);
 }
 
 void switch_to_pys_stack(void) {

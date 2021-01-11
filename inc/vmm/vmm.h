@@ -69,6 +69,7 @@ typedef enum {
   VM_MMAP_HARNESS,
   VM_MMAP_STACK_EL0,
   VM_MMAP_STACK_EL1,
+  VM_MMAP_STACK_EL2,
   VM_MMAP_VTABLE,
 } VMRegionTag;
 

@@ -94,21 +94,24 @@ uint64_t TOP_OF_IO;
 uint64_t TOP_OF_STACK_PA;
 uint64_t BOT_OF_STACK_PA;
 
-/** each thread gets 2 2M regions for its stack
+/** each thread gets 3 2M regions for its stack
  * the first for EL0 and the second for EL1
  *
  * for CPU#3 with STACK bottom of 0x1000_0000
  *  EL0 is from [0x1200_0000 -> 0x1000_0000]
  *  EL1 is from [0x1400_0000 -> 0x1200_0000]
+ *  EL2 is from [0x1600_0000 -> 0x1400_0000]
  */
-#define STACK_PYS_THREAD_TOP_ELx(cpu,el) (BOT_OF_STACK_PA + (1+cpu)*2*STACK_SIZE - STACK_SIZE*(1-el))
+#define STACK_PYS_THREAD_TOP_ELx(cpu,el) (BOT_OF_STACK_PA + (1+cpu)*3*STACK_SIZE - STACK_SIZE*(1-el))
 #define STACK_PYS_THREAD_BOT_ELx(cpu,el) (STACK_PYS_THREAD_TOP_ELx(cpu,el) - STACK_SIZE)
 
 #define STACK_PYS_THREAD_TOP_EL0(cpu) STACK_PYS_THREAD_TOP_ELx(cpu, 0)
 #define STACK_PYS_THREAD_TOP_EL1(cpu) STACK_PYS_THREAD_TOP_ELx(cpu, 1)
+#define STACK_PYS_THREAD_TOP_EL2(cpu) STACK_PYS_THREAD_TOP_ELx(cpu, 2)
 
 #define STACK_PYS_THREAD_BOT_EL0(cpu) STACK_PYS_THREAD_BOT_ELx(cpu, 0)
 #define STACK_PYS_THREAD_BOT_EL1(cpu) STACK_PYS_THREAD_BOT_ELx(cpu, 1)
+#define STACK_PYS_THREAD_BOT_EL2(cpu) STACK_PYS_THREAD_BOT_ELx(cpu, 2)
 
 /**
  * Sections from linker

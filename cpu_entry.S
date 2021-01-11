@@ -4,9 +4,14 @@
 .section .init.boot
 .globl _start
 _start:
+  /* x0 was pointer to fdt
+   * save it off, so we can pass it in later once setup is done
+   */
+  mov x28, x0
+
 	/* get address this was loaded at */
 	adrp	x9, _start
-	add     x9, x9, :lo12:_start
+	add x9, x9, :lo12:_start
 
 	/*
 	 * Since QEMU virt-machine will load the ELF at address 0x40080000  (or wherever...)
@@ -73,8 +78,10 @@ _start:
     */
 
 	/* setup CPU0 */
-	mov x29, #0    /* init frame pointer to NULL */
 	bl init_cpu
+
+  mov x29, #0    /* init frame pointer to NULL */
+  mov x0, x28    /* arg0 == fdt pointer */
 	bl setup
 
 	/* call main */
@@ -90,70 +97,13 @@ _start:
 
 .globl cpu_entry
 cpu_entry:
-	mov x29, #0  /* init frame pointer to NULL */
 	bl init_cpu
 
-	mov x0, x9
+	mrs x0, tpidr_el0
+  mov x29, #0  /* init frame pointer to NULL */
 	bl secondary_init
 	bl secondary_idle_loop
 	b halt
-
-.globl init_cpu
-init_cpu:
-	/* each thread has page desginated for stack space
-     * where BOT_OF_STACK = ALIGN_UP(__ld_end_sections, 2MiB)
-	 * located at BOT_OF_STACK + STACK_SIZE*(1+cpuid) -> BOT_OF_STACK + STACK_SIZE*cpuid
-     */
-	mrs x9, mpidr_el1
-	and x9, x9, #0xff
-	msr tpidr_el0, x9
-
-    /* x11 = BOT_OF_STACK */
-	adrp x11, __ld_end_sections
-	add x11, x11, :lo12:__ld_end_sections
-    mov x12, #1
-    /* x10 = 2MiB = STACK_SIZE */
-	mov x10, #1
-	lsl x10,x10,#21
-    /* align BOT_OF_STACK _up_ to 2M */
-    add x11, x10, x11
-    sub x15, x10, #1
-    neg x15, x15
-    and x11, x11, x15
-    /* x15 = TOP_OF_STACK_EL0 */
-    /* x16 = TOP_OF_STACK_EL1 */
-	add x15,x9,#1
-    lsl x15,x15,#1
-    mul x15,x15,x10
-    mov x16,x15
-    sub x15,x15,x10
-    add x15,x15,x11
-    add x16,x16,x11
-
-	mov x12, #SCTLR_HI
-	lsl x12, x12, #12
-	add x12, x12, #SCTLR_LO
-	msr sctlr_el1, x12
-
-    /* setup stacks */
-    mov sp, x16
-    msr sp_el0, x15
-    mov x4, #0
-    msr spsel, x4  /* and use SP_EL0 outside of exception handlers */
-
-	/* enable FP/ASIMD (for printf/varargs) */
-	mov	x4, #(3 << 20)
-	msr	cpacr_el1, x4
-
-	/* set VBAR */
-	adrp x14, el1_exception_vector_table_p0
-	add x14, x14, :lo12:el1_exception_vector_table_p0
-	mov x13, #4096
-	mul x13, x13, x9
-	add x14, x14, x13
-    msr vbar_el1, x14
-	isb
-	ret
 
 .globl halt
 halt:

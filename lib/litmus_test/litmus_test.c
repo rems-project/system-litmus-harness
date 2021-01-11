@@ -307,7 +307,7 @@ static void return_to_harness_context(test_ctx_t* ctx, uint64_t cpu, uint64_t vc
   restore_old_sync_exception_handlers(ctx, vcpu, handlers);
 
   if (! ctx->cfg->start_els || ctx->cfg->start_els[vcpu] == 0) {
-    raise_to_el1();
+    switch_to_el1();
   }
 
   if (LITMUS_SYNC_TYPE == SYNC_ASID) {

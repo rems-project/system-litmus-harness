@@ -289,7 +289,7 @@ void printf_with_fileloc(const char* level, int mode, const char* filename, cons
     /* can't use fail() here
      * so call abort() manually */
     printf("! printf_with_fileloc: overflow, unwound frame string too large.\n");
-    raise_to_el1();
+    switch_to_el1();
     abort();
   }
 
@@ -300,7 +300,7 @@ void printf_with_fileloc(const char* level, int mode, const char* filename, cons
     /* can't use fail() here
      * so call abort() manually */
     printf("! printf_with_fileloc: overflow, format string too large.\n");
-    raise_to_el1();
+    switch_to_el1();
     abort();
   }
 

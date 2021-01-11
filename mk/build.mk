@@ -88,6 +88,9 @@ bin/lib/%.o: lib/%.c | check_cross_tools_exist
 bin/cpu_entry.o:  cpu_entry.S
 	$(run_cc)
 
+bin/init.o:  init.S
+	$(run_cc)
+
 bin/vector_table.o:  vector_table.S
 	$(run_cc)
 

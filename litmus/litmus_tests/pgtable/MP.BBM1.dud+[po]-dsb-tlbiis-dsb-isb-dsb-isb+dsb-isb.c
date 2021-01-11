@@ -125,5 +125,5 @@ litmus_test_t BBM1dud_podetourdsbtlbiisdsbisbdsbisb_dsbisb = {
      (uint32_t*[]){NULL, NULL},
     },
   .requires_pgtable=1,
-  .no_sc_results = 12,
+  .no_sc_results = 10,
 };

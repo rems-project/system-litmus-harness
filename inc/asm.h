@@ -53,6 +53,11 @@ void writew(uint32_t word, uint64_t addr);
 uint8_t  readb(uint64_t addr);
 uint32_t readw(uint64_t addr);
 
+#define SYS_SPSR spsr
+#define SYS_ELR elr
+#define SYS_VBAR vbar
+#define SYS_FAR far
+
 /* register read/write */
 #define read_sysreg(r) ({  \
     uint64_t reg;  \
@@ -60,8 +65,32 @@ uint32_t readw(uint64_t addr);
     reg;  \
 })
 
+#define read_sysreg_el1(r) read_sysreg(r##_el1)
+#define read_sysreg_el2(r) read_sysreg(r##_el2)
+
+#define __read_sysreg_el(reg, r, el) ({ \
+  uint64_t reg; \
+  if (el == 1)  \
+    reg = read_sysreg_el1(r); \
+  else  \
+    reg = read_sysreg_el2(r); \
+  reg;  \
+})
+
+#define read_sysreg_el(r, el) __read_sysreg_el(FRESH_VAR, r, el)
+
 #define write_sysreg(v, r) do {  \
     asm volatile("msr " #r ", %[reg]" : : [reg] "rZ" (v));  \
+} while (0)
+
+#define write_sysreg_el1(v, r) write_sysreg(v, r##_el1)
+#define write_sysreg_el2(v, r) write_sysreg(v, r##_el2)
+
+#define write_sysreg_el(v, r, el) do { \
+  if (el == 1)  \
+    write_sysreg_el1(v, r); \
+  else  \
+    write_sysreg_el2(v, r); \
 } while (0)
 
 #define read_reg(r) ({  \

@@ -80,7 +80,7 @@ static void add_results(test_hist_t* res, test_ctx_t* ctx, run_idx_t run) {
   /* if not found, insert it */
   if (missing) {
     if (res->allocated >= res->limit) {
-      raise_to_el1(); /* can only abort at EL1 */
+      switch_to_el1(); /* can only abort at EL1 */
       printf("! fatal:  overallocated results\n");
       printf("this probably means the test had too many outcomes\n");
       abort();

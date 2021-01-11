@@ -99,6 +99,7 @@ void setup(char* fdtloc) {
   }
   debug("--------------------------------\n");
   for (int i = 0; i < NO_CPUS; i++) {
+    debug("CPU%d STACK EL2 : [%p -> %p => %p -> %p]\n", i, STACK_MMAP_THREAD_TOP_EL2(i), STACK_MMAP_THREAD_BOT_EL2(i), STACK_PYS_THREAD_TOP_EL2(i), STACK_PYS_THREAD_BOT_EL2(i));
     debug("CPU%d STACK EL1 : [%p -> %p => %p -> %p]\n", i, STACK_MMAP_THREAD_TOP_EL1(i), STACK_MMAP_THREAD_BOT_EL1(i), STACK_PYS_THREAD_TOP_EL1(i), STACK_PYS_THREAD_BOT_EL1(i));
     debug("CPU%d STACK EL0 : [%p -> %p => %p -> %p]\n", i, STACK_MMAP_THREAD_TOP_EL0(i), STACK_MMAP_THREAD_BOT_EL0(i), STACK_PYS_THREAD_TOP_EL0(i), STACK_PYS_THREAD_BOT_EL0(i));
   }
@@ -172,16 +173,8 @@ void per_cpu_setup(int cpu) {
   uint64_t el = read_sysreg(currentel) >> 2;
 
   if (el == 2) {
-    uint64_t spsr = \
-      SPSR_FIELD(SPSR_EL, 1) | /* drop to EL1 */
-      SPSR_FIELD(SPSR_SP, 0) | /* using SP_EL0 */
-      0 ;
-    uint64_t elr = (uint64_t)&&begin_el1; /* and 'return' to begin_el1 */
-
-    write_sysreg(spsr, spsr_el2);
-    write_sysreg(elr, elr_el2);
-    debug("dropping to EL1 (with SPSR=%p) and ELR=%p\n", spsr, elr);
-    eret();
+    debug("appear to be running at EL2, dropping to EL1\n");
+    switch_to_el1();
   }
 
 begin_el1:

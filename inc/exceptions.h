@@ -44,17 +44,18 @@ typedef struct {
  *  SVC has default handlers provided by the framework:
  *    SVC #10  will drop to EL0
  *    SVC #11  will raise to EL1
- *    SVC #12  will place CurrentEL in X0
+ *    SVC #12  will raise to EL2
+ *    SVC #13  will place CurrentEL in X0
  *
  *  Other handlers can be installed with set_svc_handler(svc_no, ptr_to_func)
  */
 
-void* default_handler(uint64_t vec, uint64_t esr, regvals_t* regs);
+void* default_handler(uint64_t el, uint64_t vec, uint64_t esr, regvals_t* regs);
 typedef void* exception_vector_fn(uint64_t esr, regvals_t* regs);
 
 void set_handler(uint64_t vec, uint64_t ec,  exception_vector_fn* fn);
 void reset_handler(uint64_t vec, uint64_t ec);
-void* handle_exception(uint64_t vec, uint64_t esr, regvals_t* regs);
+void* handle_exception(uint64_t el, uint64_t vec, uint64_t esr, regvals_t* regs);
 
 void set_svc_handler(uint64_t svc_no, exception_vector_fn* fn);
 void reset_svc_handler(uint64_t svc_no);
@@ -65,7 +66,8 @@ void reset_pgfault_handler(uint64_t va);
 /* not sure if these are a good idea or whether should just have boundaries at function calls */
 
 void drop_to_el0(void);
-void raise_to_el1(void);
+void switch_to_el1(void);
+void switch_to_el2(void);
 
 /**
  * hot swapping
