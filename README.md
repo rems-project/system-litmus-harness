@@ -109,3 +109,15 @@ Observation MP+pos: 1674 (of 10000)
 ```
 
 For more details, see the [documentation](https://rems-project.github.io/system-litmus-harness/).
+
+
+Funding
+-------
+
+This software was developed by the University of Cambridge Computer
+Laboratory (Department of Computer Science and Technology), in part
+funded by an Arm iCASE doctoral studentship (18000005, Simner) in part
+funded from the European Research Council (ERC) under the European
+Union’s Horizon 2020 research and innovation programme (grant
+agreement No 789108, "ELVER"), in part funded by Arm, and in part
+funded by Google.
