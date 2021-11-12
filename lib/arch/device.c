@@ -549,9 +549,11 @@ void fdt_debug_print_all(char* fdt) {
                 break;
 
             case FDT_END:
+                printf("<FDT_END>\n");
                 return;
 
             default:
+                printf("<unknown token %lx>\n", piece.token);
                 break;
         }
 
@@ -568,6 +570,12 @@ void dtb_check_psci(char* fdt) {
 }
 
 void dtb_read_cpu_enable(char* fdt) {
+    if (fdt == NULL) {
+        /* assume PSCI if no DTB */
+        boot_data.kind = BOOT_KIND_PSCI;
+        return;
+    }
+
     fdt_structure_begin_node_header* cpus = fdt_find_node(fdt, "cpus");
 
     fdt_structure_begin_node_header* cpu0 = fdt_read_node(fdt, cpus, "cpu@0");
@@ -615,12 +623,12 @@ void dtb_read_cpu_enable(char* fdt) {
 
 
 char* dtb_bootargs(void* fdt) {
-#if __DEVICE_DEBUG__
-    fdt_debug_print_all(fdt);
-#endif
-
     /* read CPU enable methods */
     dtb_read_cpu_enable(fdt);
+
+    if (fdt == NULL) {
+        return "";
+    }
 
     /* read cmd-line args passed as bootargs by QEMU */
     fdt_structure_property_header* prop = fdt_find_prop(fdt, "chosen", "bootargs");
@@ -632,6 +640,16 @@ char* dtb_bootargs(void* fdt) {
 }
 
 dtb_mem_t dtb_read_memory(void* fdt) {
+    if (fdt == NULL) {
+        /* if no given dtb then return default allocation region */
+        uint64_t end_of_loaded_sections = (uint64_t)&__ld_end_sections;
+        return (dtb_mem_t){end_of_loaded_sections, 1*GiB, end_of_loaded_sections+1*GiB};
+    }
+
+#if __DEVICE_DEBUG__
+    fdt_debug_print_all(fdt);
+#endif
+
     /* find the first node with device_type: "memory" */
     fdt_structure_piece piece = fdt_find_node_with_prop_with_index(fdt, NULL, "device_type", "memory");
     fdt_structure_begin_node_header* node = (fdt_structure_begin_node_header*)piece.current;
@@ -674,23 +692,28 @@ dtb_mem_t dtb_read_memory(void* fdt) {
 }
 
 dtb_mem_t dtb_read_ioregion(void* fdt) {
-  /* look for pl011@9000000
-   * which is what mach-virt adds to the DTB
-   */
-  fdt_structure_begin_node_header* pl011 = fdt_find_node(fdt, "pl011@9000000");
-  if (pl011 != NULL)
-    return (dtb_mem_t){0x9000000, PAGE_SIZE, 0x9001000};
+    if (fdt == NULL) {
+        /* if no DTB, assume rpi3 +0x3F00_0000 ... */
+        return (dtb_mem_t){0x3F000000UL, PAGE_SIZE, 0x3F001000UL};
+    }
 
-  /* look for SoC-specific settings */
-  fdt_structure_begin_node_header* soc = fdt_find_node(fdt, "soc");
-  if (soc == NULL)
-    fail("! unsupported architecture: no /soc or /pl011@9000000 nodes in dtb\n");
+    /* look for pl011@9000000
+    * which is what mach-virt adds to the DTB
+    */
+    fdt_structure_begin_node_header* pl011 = fdt_find_node(fdt, "pl011@9000000");
+    if (pl011 != NULL)
+        return (dtb_mem_t){0x9000000, PAGE_SIZE, 0x9001000};
 
-  /* now check to see if we have a serial @ 0x7e215040 */
-  fdt_structure_begin_node_header* serial = fdt_read_node(fdt, soc, "serial@7e215040");
+    /* look for SoC-specific settings */
+    fdt_structure_begin_node_header* soc = fdt_find_node(fdt, "soc");
+    if (soc == NULL)
+        fail("! unsupported architecture: no /soc or /pl011@9000000 nodes in dtb\n");
 
-  if (serial == NULL)
-    fail("! unsupported architecture: no /pl011@9000000 /soc/serial@7e215040 nodes in dtb\n");
+    /* now check to see if we have a serial @ 0x7e215040 */
+    fdt_structure_begin_node_header* serial = fdt_read_node(fdt, soc, "serial@7e215040");
 
-  return (dtb_mem_t){0x3F000000UL, PAGE_SIZE, 0x3F001000UL};
+    if (serial == NULL)
+        fail("! unsupported architecture: no /pl011@9000000 /soc/serial@7e215040 nodes in dtb\n");
+
+    return (dtb_mem_t){0x3F000000UL, PAGE_SIZE, 0x3F001000UL};
 }

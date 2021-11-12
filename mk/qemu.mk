@@ -27,10 +27,21 @@ RUN_CMD_HOST = \
 			$(info $(USAGE)) \
   			$(error Unexpected HOST="$(HOST)" param)))
 
-RUN_CMD_LOCAL = 	\
+RUN_CMD_LOCAL_VIRT = 	\
 	$(QEMU) \
-		-nodefaults -machine virt -cpu cortex-a57 \
+		-nodefaults -machine virt,secure=on -cpu cortex-a57 \
 		-device virtio-serial-device \
 		-display none -serial stdio \
 		-m $(QEMU_MEM) \
+		-bios BL1 -d unimp -semihosting-config enable,target=native \
 		-kernel $(OUT_NAME) -smp 4 -append "$$*"
+
+RUN_CMD_LOCAL_RPI3 = 	\
+	$(QEMU) \
+		-machine raspi3 \
+		-nographic \
+		-serial null -serial mon:stdio \
+		-m $(QEMU_MEM) \
+		-kernel $(OUT_NAME) -smp 4 -append "$$*"
+
+RUN_CMD_LOCAL = $(RUN_CMD_LOCAL_RPI3)

@@ -20,7 +20,7 @@ static void __delay(int count) {
 void init_uart(void) {
   /* set GPIO pins 14/15 to be the mini UART */
   uint32_t sel = readw(GPFSEL1);
-  sel &= ~(BITMASK(3) << GPFSEL1_FSEL_15);
+  sel &= ~(BITMASK(3) << GPFSEL1_FSEL_14);
   sel &= ~(BITMASK(3) << GPFSEL1_FSEL_15);
 
   writew(
@@ -44,11 +44,13 @@ void init_uart(void) {
   /* enable the mini UART
    * and configure it */
   writew(AUXENB_MiniUART_Enable, AUXENB);
+  writew(AUX_MU_IER_DISABLE_INTERRUPTS, AUX_MU_IER_REG);
   writew(0, AUX_MU_CNTL_REG);
   writew(AUX_MU_LCR_DATA_8BIT, AUX_MU_LCR_REG);
-  writew(AUX_MU_BAUD_115200, AUX_MU_BAUD_REG);
-  writew(3, AUX_MU_CNTL_REG);
-  writew(0, PERIPHERAL(0x7E215050UL));
+  writew(0, AUX_MU_MCR_REG);
+  writew(AUX_MU_IIR_CLEAR_RX_FIFO | AUX_MU_IIR_CLEAR_TX_FIFO, AUX_MU_IIR_REG);
+  writew(AUX_MU_BAUD_115200_250MHz, AUX_MU_BAUD_REG);
+  writew(AUX_MU_CNTL_RX_ENABLE | AUX_MU_CNTL_TX_ENABLE, AUX_MU_CNTL_REG);
 }
 
 void write_stdout(uint8_t c) {

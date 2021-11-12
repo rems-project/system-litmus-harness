@@ -9,6 +9,15 @@ extern char*    __argv[100];
  * before the UART is enabled
  */
 void setup(char* fdtloc) {
+  /* check validity of fdt
+   * if the first word is not the magic constant
+   * then this is not a valid dtb
+   */
+  if (*(uint32_t*)fdtloc != 0xd00dfeed) {
+    printf("INVALID fdt :: fdtloc *%p = 0x%lx\n", fdtloc, *(uint32_t*)fdtloc);
+    fdtloc = NULL;
+  }
+
   fdt_load_addr = fdtloc;
 
   current_thread_info()->mmu_enabled = 0;
