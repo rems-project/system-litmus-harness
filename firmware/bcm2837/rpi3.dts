@@ -1,0 +1,70 @@
+/dts-v1/;
+
+/memreserve/	0x0000000000000000 0x0000000000001000;
+/ {
+	compatible = "raspberrypi,3-model-b-plus\0brcm,bcm2837";
+	model = "Raspberry Pi 3 Model B+";
+	#address-cells = <0x01>;
+	#size-cells = <0x01>;
+
+	chosen {
+	};
+
+	soc {
+		#address-cells = <0x01>;
+		#size-cells = <0x01>;
+		ranges = <0x7e000000 0x3f000000 0x1000000 0x40000000 0x40000000 0x1000>;
+		dma-ranges = <0xc0000000 0x00 0x3f000000>;
+
+		serial@7e215040 {
+			compatible = "brcm,bcm2835-aux-uart";
+			reg = <0x7e215040 0x40>;
+			status = "okay";
+			pinctrl-names = "default";
+			pinctrl-0 = <0x11>;
+		};
+	};
+
+	cpus {
+		#address-cells = <0x01>;
+		#size-cells = <0x00>;
+		enable-method = "brcm,bcm2836-smp";
+
+		cpu@0 {
+			device_type = "cpu";
+			compatible = "arm,cortex-a53";
+			reg = <0x00>;
+			enable-method = "spin-table";
+			cpu-release-addr = <0x00 0x150>;
+		};
+
+		cpu@1 {
+			device_type = "cpu";
+			compatible = "arm,cortex-a53";
+			reg = <0x01>;
+			enable-method = "spin-table";
+			cpu-release-addr = <0x00 0x158>;
+		};
+
+		cpu@2 {
+			device_type = "cpu";
+			compatible = "arm,cortex-a53";
+			reg = <0x02>;
+			enable-method = "spin-table";
+			cpu-release-addr = <0x00 0x160>;
+		};
+
+		cpu@3 {
+			device_type = "cpu";
+			compatible = "arm,cortex-a53";
+			reg = <0x03>;
+			enable-method = "spin-table";
+			cpu-release-addr = <0x00 0x168>;
+		};
+	};
+
+	memory {
+		device_type = "memory";
+		reg = <0x00 0x40000000>;
+	};
+};
