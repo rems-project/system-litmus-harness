@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 
@@ -88,13 +87,13 @@ litmus_test_t WRCtrtinv_dsbisbs = {
     INIT_VAR(z, 1)
   ),
    .thread_sync_handlers =
-    (uint32_t**[]){
-     (uint32_t*[]){NULL, NULL},
-     (uint32_t*[]){(uint32_t*)sync_handler_1, NULL},
-     (uint32_t*[]){(uint32_t*)sync_handler_2, NULL},
+    (u32**[]){
+     (u32*[]){NULL, NULL},
+     (u32*[]){(u32*)sync_handler_1, NULL},
+     (u32*[]){(u32*)sync_handler_2, NULL},
     },
   .interesting_result =
-    (uint64_t[]){
+    (u64[]){
       /* p1:x2 =*/ 1,
       /* p2:x0 =*/ 1,
       /* p2:x2 =*/ 0,

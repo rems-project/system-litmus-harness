@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 
@@ -6,15 +5,15 @@
  * thread-unsafe functions for modifying the freelist
  */
 
-uint64_t valloc_freelist_chunk_size(valloc_free_chunk* chunk) {
+u64 valloc_freelist_chunk_size(valloc_free_chunk* chunk) {
   return chunk->size;
 }
 
-uint64_t valloc_freelist_start_of_chunk(valloc_free_chunk* chunk) {
-  return (uint64_t)chunk;
+u64 valloc_freelist_start_of_chunk(valloc_free_chunk* chunk) {
+  return (u64)chunk;
 }
 
-void valloc_freelist_allocate_free_chunk(uint64_t addr, uint64_t size) {
+void valloc_freelist_allocate_free_chunk(u64 addr, u64 size) {
   valloc_free_chunk* chunk = (valloc_free_chunk*)addr;
   chunk->size = size;
 
@@ -28,16 +27,16 @@ void valloc_freelist_allocate_free_chunk(uint64_t addr, uint64_t size) {
  * locate the smallest free chunk that this allocation
  * could fit into
  */
-valloc_free_chunk* valloc_freelist_find_best(uint64_t size, uint64_t alignment) {
+valloc_free_chunk* valloc_freelist_find_best(u64 size, u64 alignment) {
   valloc_free_chunk* cur = mem.freelist;
 
-  uint64_t smallest_space = ~0;
+  u64 smallest_space = ~0;
   valloc_free_chunk* best = NULL;
 
   while (cur != NULL) {
-    uint64_t start_of_chunk = valloc_freelist_start_of_chunk(cur);
-    uint64_t space_in_chunk = valloc_freelist_chunk_size(cur);
-    uint64_t align = ALIGN_UP_TO(start_of_chunk, alignment) - start_of_chunk;
+    u64 start_of_chunk = valloc_freelist_start_of_chunk(cur);
+    u64 space_in_chunk = valloc_freelist_chunk_size(cur);
+    u64 align = ALIGN_UP_TO(start_of_chunk, alignment) - start_of_chunk;
     if ((space_in_chunk > size + align)  && space_in_chunk < smallest_space) {
       smallest_space = space_in_chunk;
       best = cur;
@@ -59,9 +58,9 @@ valloc_free_chunk* valloc_freelist_find_best(uint64_t size, uint64_t alignment) 
  * into                 |  chunk1         | chunk2       | chunk3              |
  * and return a pointer to chunk2
  */
-valloc_free_chunk* valloc_freelist_split_alignment(valloc_free_chunk* chunk, uint64_t size, uint64_t alignment) {
-  uint64_t chunk_start = (uint64_t)chunk;
-  uint64_t chunk_alignment = ALIGN_UP_TO(chunk_start, alignment) - chunk_start;
+valloc_free_chunk* valloc_freelist_split_alignment(valloc_free_chunk* chunk, u64 size, u64 alignment) {
+  u64 chunk_start = (u64)chunk;
+  u64 chunk_alignment = ALIGN_UP_TO(chunk_start, alignment) - chunk_start;
   if (chunk->size < size + chunk_alignment) {
     fail("! valloc_freelist_split_alignment: cannot split a chunk that is not big enough");
   }
@@ -69,9 +68,9 @@ valloc_free_chunk* valloc_freelist_split_alignment(valloc_free_chunk* chunk, uin
   /* remove the chunk and add 1-3 new ones .. */
   valloc_freelist_remove_chunk(chunk);
 
-  uint64_t chunk1_size = chunk_alignment;
-  uint64_t chunk2_size = size;
-  uint64_t chunk3_size = chunk->size - chunk1_size - chunk2_size;
+  u64 chunk1_size = chunk_alignment;
+  u64 chunk2_size = size;
+  u64 chunk3_size = chunk->size - chunk1_size - chunk2_size;
 
   valloc_freelist_allocate_free_chunk(chunk_start+chunk_alignment, size);
 
@@ -105,8 +104,8 @@ static void __compact_together(valloc_free_chunk* chunk);
  * assuming valloc_freelist_start_of_chunk(chunk1) < valloc_freelist_start_of_chunk(chunk2)
  */
 static int __valloc_freelist_compact_chunk_possibility(valloc_free_chunk* chunk1, valloc_free_chunk* chunk2) {
-  uint64_t chunk1_end = valloc_freelist_start_of_chunk(chunk1) + valloc_freelist_chunk_size(chunk1);
-  uint64_t chunk2_start = valloc_freelist_start_of_chunk(chunk2);
+  u64 chunk1_end = valloc_freelist_start_of_chunk(chunk1) + valloc_freelist_chunk_size(chunk1);
+  u64 chunk2_start = valloc_freelist_start_of_chunk(chunk2);
 
   if (chunk1_end == chunk2_start) {
     /* either they touch */
@@ -147,7 +146,7 @@ static valloc_free_chunk* __next_free_chunk(void) {
 
   valloc_free_chunk* best = NULL;
   while (cur) {
-    if ((! best) || ((uint64_t)best > (uint64_t)cur)) {
+    if ((! best) || ((u64)best > (u64)cur)) {
       best = cur;
     }
     cur = cur->next;
@@ -166,8 +165,8 @@ static void __shift_top(void) {
     if (! next)
       break;
 
-    uint64_t chunk_start = valloc_freelist_start_of_chunk(next);
-    uint64_t chunk_end = chunk_start + next->size;
+    u64 chunk_start = valloc_freelist_start_of_chunk(next);
+    u64 chunk_end = chunk_start + next->size;
     if (valloc_is_region_allocated(&mem, mem.top, chunk_start)) {
       break;
     } else {

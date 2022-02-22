@@ -19,7 +19,7 @@ static void __delay(int count) {
 
 void init_uart(void) {
   /* set GPIO pins 14/15 to be the mini UART */
-  uint32_t sel = readw(GPFSEL1);
+  u32 sel = readw(GPFSEL1);
   sel &= ~(BITMASK(3) << GPFSEL1_FSEL_14);
   sel &= ~(BITMASK(3) << GPFSEL1_FSEL_15);
 
@@ -53,7 +53,7 @@ void init_uart(void) {
   writew(AUX_MU_CNTL_RX_ENABLE | AUX_MU_CNTL_TX_ENABLE, AUX_MU_CNTL_REG);
 }
 
-void write_stdout(uint8_t c) {
+void write_stdout(u8 c) {
   /* block until the transmit pin is empty
    * and able to accept another byte.
    */

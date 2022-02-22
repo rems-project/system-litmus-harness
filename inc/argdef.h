@@ -8,9 +8,9 @@
 typedef struct {
     char* short_name;
     char* long_name;
-    uint8_t* flag;
+    u8* flag;
     char* desc;
-    uint8_t no_negation;  /* disables --no-foo for option --foo */
+    u8 no_negation;  /* disables --no-foo for option --foo */
 } argdef_flag_t;
 
 typedef struct {
@@ -18,8 +18,8 @@ typedef struct {
     char* long_name;
     void (*action)(char* value);
     char* desc;
-    uint8_t only_action;
-    uint8_t show_help_both;
+    u8 only_action;
+    u8 show_help_both;
 } argdef_option_t;
 
 typedef struct {

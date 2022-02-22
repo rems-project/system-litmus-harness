@@ -4,31 +4,31 @@
 #include "argdef.h"
 
 /* global configuration */
-extern uint64_t NUMBER_OF_RUNS;
-extern uint64_t RUNS_IN_BATCH;
-extern uint8_t ENABLE_PGTABLE;
-extern uint8_t ENABLE_PERF_COUNTS;
-extern uint8_t RUN_FOREVER;
+extern u64 NUMBER_OF_RUNS;
+extern u64 RUNS_IN_BATCH;
+extern u8 ENABLE_PGTABLE;
+extern u8 ENABLE_PERF_COUNTS;
+extern u8 RUN_FOREVER;
 
 /** enable/disable collecting results histogram
  * and (if -t) print results direct to serial */
-extern uint8_t ENABLE_RESULTS_HIST;
+extern u8 ENABLE_RESULTS_HIST;
 
 /** enable/disable printing of breakdown of register state
  * at end of test */
-extern uint8_t ENABLE_RESULTS_OUTREG_PRINT;
+extern u8 ENABLE_RESULTS_OUTREG_PRINT;
 
 /** enable/disable printing of warning of missing expected
  * outcomes */
-extern uint8_t ENABLE_RESULTS_MISSING_SC_WARNING;
+extern u8 ENABLE_RESULTS_MISSING_SC_WARNING;
 
-extern uint8_t VERBOSE;
-extern uint8_t TRACE;
-extern uint8_t DEBUG;
+extern u8 VERBOSE;
+extern u8 TRACE;
+extern u8 DEBUG;
 
 extern char*    collected_tests[100];
-extern uint64_t collected_tests_count;
-extern uint8_t  ONLY_SHOW_MATCHES;
+extern u64 collected_tests_count;
+extern u8  ONLY_SHOW_MATCHES;
 
 /* litmus-specific options */
 typedef enum {

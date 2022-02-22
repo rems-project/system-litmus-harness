@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 
@@ -42,7 +41,7 @@ static void P1(litmus_test_run* data) {
 }
 
 static void P2(litmus_test_run* data) {
-  uint64_t _x2;
+  u64 _x2;
   asm volatile (
     "mov x10, %[exc]\n\t"
     "mov x1, %[y]\n\t"
@@ -96,15 +95,15 @@ litmus_test_t check1 = {
     INIT_VAR(y, 0)
   ),
   .interesting_result =
-    (uint64_t[]){
+    (u64[]){
       /* exc=*/ 1,
   },
   .start_els=(int[]){1,1,1},
   .thread_sync_handlers =
-    (uint32_t**[]){
-     (uint32_t*[]){NULL, (uint32_t*)handler},
-     (uint32_t*[]){NULL, (uint32_t*)handler},
-     (uint32_t*[]){NULL, (uint32_t*)handler},
+    (u32**[]){
+     (u32*[]){NULL, (u32*)handler},
+     (u32*[]){NULL, (u32*)handler},
+     (u32*[]){NULL, (u32*)handler},
     },
   .setup_fns = (th_f*[]){
     (th_f*)p0_setup,

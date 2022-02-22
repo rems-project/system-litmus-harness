@@ -29,7 +29,7 @@ struct test_ctx {
   regions_t heap_memory;        /* pointers to set of regions */
   var_info_t* heap_vars;        /* set of heap variables: x, y, z etc */
   init_system_state_t* system_state;
-  uint64_t** out_regs;          /* set of output register values: P1:x1,  P2:x3 etc */
+  u64** out_regs;          /* set of output register values: P1:x1,  P2:x3 etc */
   bar_t* generic_cpu_barrier;   /* generic wait-for-all-cpus */
   bar_t* generic_vcpu_barrier;  /* generic wait-for-all-vcpus */
   bar_t* start_barriers;        /* per-run barrier for start */
@@ -38,10 +38,10 @@ struct test_ctx {
   volatile int* affinity;
   test_hist_t* hist;
   run_idx_t current_run;
-  uint64_t** ptables;
-  uint64_t current_EL;
-  uint64_t privileged_harness;  /* require harness to run at EL1 between runs ? */
-  uint64_t last_tick; /* clock ticks since last verbose print */
+  u64** ptables;
+  u64 current_EL;
+  u64 privileged_harness;  /* require harness to run at EL1 between runs ? */
+  u64 last_tick; /* clock ticks since last verbose print */
   void* concretization_st; /* current state of the concretizer */
 
   /** checkpoint to restore the ptable allocator back to at the end
@@ -56,8 +56,8 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, int r
 void free_test_ctx(test_ctx_t* ctx);
 
 /* helper functions */
-uint64_t ctx_pa(test_ctx_t* ctx, run_idx_t run, uint64_t va);
-uint64_t* ctx_pte(test_ctx_t* ctx, run_idx_t run, uint64_t va);
+u64 ctx_pa(test_ctx_t* ctx, run_idx_t run, u64 va);
+u64* ctx_pte(test_ctx_t* ctx, run_idx_t run, u64 va);
 
 var_idx_t idx_from_varname_infos(const litmus_test_t* cfg, var_info_t* infos, const char* varname);
 var_idx_t idx_from_varname(test_ctx_t* ctx, const char* varname);
@@ -66,8 +66,8 @@ const char* varname_from_idx(test_ctx_t* ctx, var_idx_t idx);
 const char* regname_from_idx(test_ctx_t* ctx, var_idx_t idx);
 
 run_count_t run_count_from_idx(test_ctx_t* ctx, run_idx_t idx);
-uint64_t* ptable_from_run(test_ctx_t* ctx, run_idx_t i);
-uint64_t asid_from_run_count(test_ctx_t* ctx, run_count_t r);
+u64* ptable_from_run(test_ctx_t* ctx, run_idx_t i);
+u64 asid_from_run_count(test_ctx_t* ctx, run_count_t r);
 
 /* for loading var_info_t */
 void read_var_infos(const litmus_test_t* cfg, init_system_state_t* sys_st, var_info_t* infos, int no_runs);
@@ -78,10 +78,10 @@ run_idx_t count_to_run_index(test_ctx_t* ctx, run_count_t i);
 
 /** given a variable, return the VA for a given run index
  */
-uint64_t* ctx_heap_var_va(test_ctx_t* ctx, uint64_t varidx, run_idx_t i);
+u64* ctx_heap_var_va(test_ctx_t* ctx, u64 varidx, run_idx_t i);
 
 /** given a variagble return the initial heap value for a given run index
  */
-uint64_t ctx_initial_heap_value(test_ctx_t* ctx, run_idx_t idx);
+u64 ctx_initial_heap_value(test_ctx_t* ctx, run_idx_t idx);
 
 #endif /* LITMUS_CTX_H */

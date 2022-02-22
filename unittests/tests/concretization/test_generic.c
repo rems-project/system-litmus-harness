@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 #include "testlib.h"
@@ -6,7 +5,7 @@
 #define SIZE_OF_TEST 100
 
 
-uint64_t* __var(test_ctx_t* ctx, run_idx_t r, const char* varname) {
+u64* __var(test_ctx_t* ctx, run_idx_t r, const char* varname) {
   var_idx_t idx = idx_from_varname(ctx, varname);
   return ctx->heap_vars[idx].values[r];
 }
@@ -71,11 +70,11 @@ void __test_concretization_own_pmd(concretize_type_t conc_type) {
   concretize(conc_type, &ctx, ctx.cfg, st, ctx.no_runs);
 
   for (run_idx_t r = 0; r < ctx.no_runs; r++) {
-    uint64_t* x = VAR(&ctx, r, "x");
-    uint64_t* y = VAR(&ctx, r, "y");
+    u64* x = VAR(&ctx, r, "x");
+    u64* y = VAR(&ctx, r, "y");
 
-    uint64_t xpmd = PMD(x);
-    uint64_t ypmd = PMD(y);
+    u64 xpmd = PMD(x);
+    u64 ypmd = PMD(y);
 
     ASSERT(xpmd != ypmd, "x (%p) and y (%p) were placed in the same pmd", x, y);
   }
@@ -269,13 +268,13 @@ void __test_concretization_unmapped(concretize_type_t conc_type) {
 
   for (run_idx_t r = 0; r < ctx.no_runs; r++) {
     /* no other var on any other run got given the same page as x on this run */
-    uint64_t* x = VAR(&ctx, r, "x");
-    uint64_t xpage = PAGE(x);
+    u64* x = VAR(&ctx, r, "x");
+    u64 xpage = PAGE(x);
     for (var_idx_t varidx = 0; varidx < ctx.cfg->no_heap_vars; varidx++) {
       if (varidx != idx_from_varname(&ctx, "x")) {
         for (run_idx_t r2 = 0; r2 < ctx.no_runs; r2++) {
-          uint64_t* v2 = ctx.heap_vars[varidx].values[r2];
-          uint64_t v2page = PAGE(v2);
+          u64* v2 = ctx.heap_vars[varidx].values[r2];
+          u64 v2page = PAGE(v2);
           ASSERT(v2page != xpage, "x (%p) and %s (%p) had same page", x, ctx.heap_vars[varidx].name, v2);
         }
       }
@@ -318,10 +317,10 @@ void __test_concretization_twopage(concretize_type_t conc_type) {
 
   for (run_idx_t r = 0; r < ctx.no_runs; r++) {
     /* no other var on any other run got given the same page as x on this run */
-    uint64_t a1page = PAGE(VAR(&ctx, r, "a1"));
-    uint64_t a2page = PAGE(VAR(&ctx, r, "a2"));
-    uint64_t b1page = PAGE(VAR(&ctx, r, "b1"));
-    uint64_t b2page = PAGE(VAR(&ctx, r, "b2"));
+    u64 a1page = PAGE(VAR(&ctx, r, "a1"));
+    u64 a2page = PAGE(VAR(&ctx, r, "a2"));
+    u64 b1page = PAGE(VAR(&ctx, r, "b1"));
+    u64 b2page = PAGE(VAR(&ctx, r, "b2"));
 
     ASSERT(a1page==a2page, "a1 and a2 weren't same page");
     ASSERT(b1page==b2page, "b1 and b2 weren't same page");
@@ -363,11 +362,11 @@ void __test_concretization_relpmdoverlap(concretize_type_t conc_type) {
 
   for (run_idx_t r = 0; r < ctx.no_runs; r++) {
     /* no other var on any other run got given the same page as x on this run */
-    uint64_t xpmd = PMD(VAR(&ctx, r, "x"));
-    uint64_t ypmd = PMD(VAR(&ctx, r, "y"));
+    u64 xpmd = PMD(VAR(&ctx, r, "x"));
+    u64 ypmd = PMD(VAR(&ctx, r, "y"));
 
-    uint64_t xpmdoff = PMDOFF(VAR(&ctx, r, "x"));
-    uint64_t ypmdoff = PMDOFF(VAR(&ctx, r, "y"));
+    u64 xpmdoff = PMDOFF(VAR(&ctx, r, "x"));
+    u64 ypmdoff = PMDOFF(VAR(&ctx, r, "y"));
 
     ASSERT(xpmd != ypmd, "x and y were same pmd");
     ASSERT(xpmdoff == ypmdoff, "x and y had different offsets");
@@ -413,20 +412,20 @@ void __test_concretization_multi_pmd_pin(concretize_type_t conc_type) {
 
   for (run_idx_t r = 0; r < ctx.no_runs; r++) {
     /* no other var on any other run got given the same page as x on this run */
-    uint64_t* x = VAR(&ctx, r, "x");
-    uint64_t* y = VAR(&ctx, r, "y");
-    uint64_t* z = VAR(&ctx, r, "z");
+    u64* x = VAR(&ctx, r, "x");
+    u64* y = VAR(&ctx, r, "y");
+    u64* z = VAR(&ctx, r, "z");
 
-    uint64_t xpmd = PMD(x);
-    uint64_t ypmd = PMD(y);
-    uint64_t zpmd = PMD(z);
+    u64 xpmd = PMD(x);
+    u64 ypmd = PMD(y);
+    u64 zpmd = PMD(z);
 
-    uint64_t xpmdoff = PMDOFF(x);
-    uint64_t zpmdoff = PMDOFF(z);
+    u64 xpmdoff = PMDOFF(x);
+    u64 zpmdoff = PMDOFF(z);
 
-    uint64_t xpageoffs = PAGEOFF(x);
-    uint64_t ypageoffs = PAGEOFF(y);
-    uint64_t zpageoffs = PAGEOFF(z);
+    u64 xpageoffs = PAGEOFF(x);
+    u64 ypageoffs = PAGEOFF(y);
+    u64 zpageoffs = PAGEOFF(z);
 
     ASSERT(xpmd != zpmd, "x (%p) and z (%p) were placed in same pmd", x, z);
     ASSERT(xpmd == ypmd, "x and y were not pinned to the same pmd");

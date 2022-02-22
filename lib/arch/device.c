@@ -1,12 +1,12 @@
 #include "lib.h"
 
-uint64_t __cache_line_size;  /* cache line of maximum size */
-uint64_t __cache_line_shift;  /* log2(__cache_line_size) */
+u64 __cache_line_size;  /* cache line of maximum size */
+u64 __cache_line_shift;  /* log2(__cache_line_size) */
 
-uint8_t __dc_zero_allow;  /* DC ZVA allow ? */
-uint64_t __dc_zero_block_width;  /* size of DC ZVA block */
+u8 __dc_zero_allow;  /* DC ZVA allow ? */
+u64 __dc_zero_block_width;  /* size of DC ZVA block */
 
-uint64_t __asid_size;  /* number of ASID bits */
+u64 __asid_size;  /* number of ASID bits */
 
 extern char* __ld_begin_text;
 extern char* __ld_end_text;
@@ -29,10 +29,10 @@ void init_device(void* fdt) {
     TOTAL_MEM = mem_region.size;
 
     /* read regions from linker */
-    TOP_OF_TEXT = (uint64_t)&__ld_end_text;
-    BOT_OF_TEXT = (uint64_t)&__ld_begin_text;
-    BOT_OF_DATA = (uint64_t)&__ld_begin_data;
-    TOP_OF_DATA = (uint64_t)&__ld_end_data;
+    TOP_OF_TEXT = (u64)&__ld_end_text;
+    BOT_OF_TEXT = (u64)&__ld_begin_text;
+    BOT_OF_DATA = (u64)&__ld_begin_data;
+    TOP_OF_DATA = (u64)&__ld_end_data;
 
     /* compute remaining friendly region names */
 
@@ -64,7 +64,7 @@ void init_device(void* fdt) {
      * by fitting things onto 2M regions we reduce the number of entries the pagetable requires
      */
 
-    uint64_t end_of_loaded_sections = (uint64_t)&__ld_end_sections;
+    u64 end_of_loaded_sections = (u64)&__ld_end_sections;
 
     /* we align the stack up to the nearest 2M */
     BOT_OF_STACK_PA = ALIGN_UP(end_of_loaded_sections, PMD_SHIFT);
@@ -85,27 +85,27 @@ void init_device(void* fdt) {
     BOT_OF_TESTDATA = ALIGN_UP(TOP_OF_PTABLES, PMD_SHIFT);
     TOP_OF_TESTDATA = TOP_OF_MEM;
 
-    HARNESS_MMAP = (uint64_t*)(64 * GiB);
-    TESTDATA_MMAP = (uint64_t*)(128 * GiB);
+    HARNESS_MMAP = (u64*)(64 * GiB);
+    TESTDATA_MMAP = (u64*)(128 * GiB);
 
     mem_region = dtb_read_ioregion(fdt);
     BOT_OF_IO = ALIGN_TO(mem_region.base, PAGE_SHIFT);
     TOP_OF_IO = ALIGN_UP(mem_region.top, PAGE_SHIFT);
 
     /* read cache line of *minimum* size */
-    uint64_t ctr = read_sysreg(ctr_el0);
-    uint64_t dminline = (ctr >> 16) & 0b1111;
+    u64 ctr = read_sysreg(ctr_el0);
+    u64 dminline = (ctr >> 16) & 0b1111;
     __cache_line_size = 4 * (1 << dminline);
     __cache_line_shift = log2(__cache_line_size);
 
     LEVEL_SIZES[REGION_CACHE_LINE] = __cache_line_size;
     LEVEL_SHIFTS[REGION_CACHE_LINE] = __cache_line_shift;
 
-    uint64_t mmfr0 = read_sysreg(id_aa64mmfr0_el1);
-    uint64_t asidbits = BIT_SLICE(mmfr0, 7, 4);
+    u64 mmfr0 = read_sysreg(id_aa64mmfr0_el1);
+    u64 asidbits = BIT_SLICE(mmfr0, 7, 4);
     __asid_size = asidbits == 0 ? 8 : 16;
 
-    uint64_t dczvid = read_sysreg(dczid_el0);
+    u64 dczvid = read_sysreg(dczid_el0);
     __dc_zero_allow = (dczvid >> 4) == 0;
     __dc_zero_block_width = 4 * (1 << (dczvid & 0xf));
 }
@@ -133,19 +133,19 @@ char* fdt_load_addr;
 #define DDEBUG(...)
 #endif
 
-static uint32_t read_be(char* p) {
-  uint8_t* pc = (uint8_t*)p;
-  uint8_t b0 = *pc;
-  uint8_t b1 = *(pc+1);
-  uint8_t b2 = *(pc+2);
-  uint8_t b3 = *(pc+3);
-  return ((uint32_t)b0<<24) + ((uint32_t)b1<<16) + ((uint32_t)b2<<8) + (uint32_t)b3;
+static u32 read_be(char* p) {
+  u8* pc = (u8*)p;
+  u8 b0 = *pc;
+  u8 b1 = *(pc+1);
+  u8 b2 = *(pc+2);
+  u8 b3 = *(pc+3);
+  return ((u32)b0<<24) + ((u32)b1<<16) + ((u32)b2<<8) + (u32)b3;
 }
 
-static uint64_t read_be64(char* p) {
-  uint8_t* pc = (uint8_t*)p;
+static u64 read_be64(char* p) {
+  u8* pc = (u8*)p;
 
-  uint8_t bs[] = {
+  u8 bs[] = {
     *(pc+7),
     *(pc+6),
     *(pc+5),
@@ -156,7 +156,7 @@ static uint64_t read_be64(char* p) {
     *(pc+0)
   };
 
-  uint64_t x = 0;
+  u64 x = 0;
   for (int i = 7; i >= 0; i--) {
     x <<= 8;
     x += bs[i];
@@ -165,7 +165,7 @@ static uint64_t read_be64(char* p) {
   return x;
 }
 
-char* dtb_read_str(char* fdt, uint32_t nameoff) {
+char* dtb_read_str(char* fdt, u32 nameoff) {
     fdt_header* hd = (fdt_header*)fdt;
     char* name_start = fdt + read_be((char*)&hd->fdt_off_dt_strings) + nameoff;
     return name_start;
@@ -175,7 +175,7 @@ char* dtb_read_str(char* fdt, uint32_t nameoff) {
  * read it and return a pointer to the start of the next
  */
 fdt_structure_piece dtb_read_piece(char* p) {
-    uint32_t token = read_be(p);
+    u32 token = read_be(p);
     fdt_structure_piece piece;
     piece.current = p;
     piece.token = token;
@@ -213,13 +213,13 @@ fdt_structure_piece dtb_read_piece(char* p) {
             return piece;
     }
 
-    piece.next = (char*)FDT_ALIGN((uint64_t)next);
+    piece.next = (char*)FDT_ALIGN((u64)next);
     return piece;
 }
 
 fdt_structure_begin_node_header* fdt_find_node(char* fdt, char* node_name) {
     fdt_header* hd = (fdt_header*)fdt;
-    char* struct_block = (char*)((uint64_t)fdt + read_be((char*)&hd->fdt_off_dt_struct));
+    char* struct_block = (char*)((u64)fdt + read_be((char*)&hd->fdt_off_dt_struct));
     char* current_node = NULL;
 
     while (struct_block != NULL) {
@@ -355,7 +355,7 @@ fdt_structure_piece fdt_find_node_with_prop_with_index(char* fdt, char* index, c
     char* struct_block;
 
     if (index == NULL)
-        struct_block = (char*)((uint64_t)fdt + read_be((char*)&hd->fdt_off_dt_struct));
+        struct_block = (char*)((u64)fdt + read_be((char*)&hd->fdt_off_dt_struct));
     else
         struct_block = index;
 
@@ -406,7 +406,7 @@ fdt_structure_piece fdt_find_node_with_prop_with_index(char* fdt, char* index, c
 
 fdt_structure_property_header* fdt_find_prop(char* fdt, char* node_name, char* prop_name) {
     fdt_header* hd = (fdt_header*)fdt;
-    char* struct_block = (char*)((uint64_t)fdt + read_be((char*)&hd->fdt_off_dt_struct));
+    char* struct_block = (char*)((u64)fdt + read_be((char*)&hd->fdt_off_dt_struct));
     char* current_node = NULL;
     char* prop;
 
@@ -506,7 +506,7 @@ void fdt_debug_print_node(char* fdt, fdt_structure_begin_node_header* node, int 
 
 void fdt_debug_print_all(char* fdt) {
     fdt_header* hd = (fdt_header*)fdt;
-    char* struct_block = (char*)((uint64_t)fdt + read_be((char*)&hd->fdt_off_dt_struct));
+    char* struct_block = (char*)((u64)fdt + read_be((char*)&hd->fdt_off_dt_struct));
     char* current_node = NULL;
     char* prop;
     fdt_structure_property_header* prop_head;
@@ -642,7 +642,7 @@ char* dtb_bootargs(void* fdt) {
 dtb_mem_t dtb_read_memory(void* fdt) {
     if (fdt == NULL) {
         /* if no given dtb then return default allocation region */
-        uint64_t end_of_loaded_sections = (uint64_t)&__ld_end_sections;
+        u64 end_of_loaded_sections = (u64)&__ld_end_sections;
         return (dtb_mem_t){end_of_loaded_sections, 1*GiB, end_of_loaded_sections+1*GiB};
     }
 
@@ -663,27 +663,27 @@ dtb_mem_t dtb_read_memory(void* fdt) {
         );
     }
 
-    uint32_t len = read_be((char*)&prop->len);
-    uint64_t base;
-    uint64_t size;
+    u32 len = read_be((char*)&prop->len);
+    u64 base;
+    u64 size;
 
     /* its reg is stored as big endian {u64_base, u64_size} */
     if (len == 16) {
-      uint32_t blocks[4];
+      u32 blocks[4];
       for (int i = 0; i < 4; i++) {
         blocks[i] = read_be(prop->data + i*4);
       }
-      base = (uint64_t)blocks[0] << 32 | blocks[1];
-      size = (uint64_t)blocks[2] << 32 | blocks[3];
+      base = (u64)blocks[0] << 32 | blocks[1];
+      size = (u64)blocks[2] << 32 | blocks[3];
     } else if (len == 8) {
       /* stored as {u32_base, u32_size} */
-      uint32_t blocks[2];
+      u32 blocks[2];
       for (int i = 0; i < 2; i++) {
         blocks[i] = read_be(prop->data + i*4);
       }
 
-      base = (uint64_t)blocks[0];
-      size = (uint64_t)blocks[1];
+      base = (u64)blocks[0];
+      size = (u64)blocks[1];
     } else {
       fail("! dtb_read_memory: unsupported size (%d) for memory node reg\n", prop->len);
     }

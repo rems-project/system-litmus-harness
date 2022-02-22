@@ -5,7 +5,7 @@
 
 /** perform a DC CIVAC of the given addr
  */
-void dc_civac(uint64_t addr);
+void dc_civac(u64 addr);
 
 /** flush caches for an entire range
  */

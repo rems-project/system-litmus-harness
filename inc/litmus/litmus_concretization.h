@@ -36,23 +36,23 @@
 
 typedef struct {
   const char* exclusive_owner;  /* if some var owns this cache line, its name, otherwise NULL */
-  uint64_t curr_val_ix;
+  u64 curr_val_ix;
 } cache_line_tracker_t;
 
 typedef struct {
   const char* exclusive_owner;  /* if some var owns this page, its name, otherwise NULL */
-  uint64_t curr_scl_ix;
+  u64 curr_scl_ix;
   cache_line_tracker_t scl_ix [NR_CACHE_LINES_PER_PAGE];
 } page_tracker_t;
 
 typedef struct {
   const char* exclusive_owner;  /* if some var owns this dir, its name, otherwise NULL */
-  uint64_t curr_page_ix;
+  u64 curr_page_ix;
   page_tracker_t page_ixs [NR_PAGES_PER_DIR];
 } dir_tracker_t;
 
 typedef struct {
-  uint64_t curr_dir_ix;
+  u64 curr_dir_ix;
   dir_tracker_t dir_ixs [NR_DIRS_PER_REGION];
 } region_tracker_t;
 
@@ -60,10 +60,10 @@ typedef struct {
   region_tracker_t regions [NR_REGIONS];
 } region_trackers_t;
 
-region_tracker_t* tracker_region(regions_t* regions, region_trackers_t* trackers, uint64_t* va);
-dir_tracker_t* tracker_dir(regions_t* regions, region_trackers_t* trackers, uint64_t* va);
-page_tracker_t* tracker_page(regions_t* regions, region_trackers_t* trackers, uint64_t* va);
-cache_line_tracker_t* tracker_cache_line(regions_t* regions, region_trackers_t* trackers, uint64_t* va);
+region_tracker_t* tracker_region(regions_t* regions, region_trackers_t* trackers, u64* va);
+dir_tracker_t* tracker_dir(regions_t* regions, region_trackers_t* trackers, u64* va);
+page_tracker_t* tracker_page(regions_t* regions, region_trackers_t* trackers, u64* va);
+cache_line_tracker_t* tracker_cache_line(regions_t* regions, region_trackers_t* trackers, u64* va);
 
 /* generic concretization functions */
 

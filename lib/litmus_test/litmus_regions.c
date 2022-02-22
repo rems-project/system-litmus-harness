@@ -11,7 +11,7 @@ void initialize_regions(regions_t* r) {
    */
 
   for (int i = 0 ; i < NR_REGIONS; i++) {
-    uint64_t start_va = TESTDATA_MMAP_8M_VA_FROM_INDEX(i);
+    u64 start_va = TESTDATA_MMAP_8M_VA_FROM_INDEX(i);
     debug("r->regions[%d] = %p\n", i, start_va);
     r->regions[i] = (region_t*)start_va;
   }
@@ -35,9 +35,9 @@ region_idx_t align_up_region_idx(region_idx_t idx, pin_level_t alignment) {
   };
 }
 
-uint64_t va_from_region_idx(test_ctx_t* ctx, var_info_t* var, region_idx_t idx) {
-  uint64_t reg_start = (uint64_t)ctx->heap_memory.regions[idx.reg_ix];
-  uint64_t va = reg_start + idx.reg_offs;
+u64 va_from_region_idx(test_ctx_t* ctx, var_info_t* var, region_idx_t idx) {
+  u64 reg_start = (u64)ctx->heap_memory.regions[idx.reg_ix];
+  u64 va = reg_start + idx.reg_offs;
 
   if (var->id_mapped) {
     va = TESTDATA_MMAP_VIRT_TO_PHYS(va);

@@ -2,10 +2,10 @@
 #define LIB_H
 
 #include <stddef.h>
-#include <stdint.h>
 #include <stdarg.h>
 #include <str.h>
 
+#include "ints.h"
 #include "macros.h"
 #include "abort.h"
 #include "thread_info.h"
@@ -56,18 +56,18 @@ typedef void async_fn_t(int cpu, void* arg);
 typedef struct {
     async_fn_t* to_execute;
     void* arg;
-    uint64_t started;
+    u64 started;
     volatile int finished;
 } cpu_data_t;
 
 cpu_data_t cpu_data[4];
 
 void cpu_data_init(void);
-void cpu_boot(uint64_t cpu);
-void run_on_cpu(uint64_t cpu, async_fn_t* fn, void* arg);
+void cpu_boot(u64 cpu);
+void run_on_cpu(u64 cpu, async_fn_t* fn, void* arg);
 void run_on_cpus(async_fn_t* fn, void* arg);
 
 /* assorted numeric functions */
-int log2(uint64_t n);
+int log2(u64 n);
 
 #endif /* LIB_H */

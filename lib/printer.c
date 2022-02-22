@@ -1,5 +1,4 @@
 #include <stdarg.h>
-#include <stdint.h>
 
 #include "lib.h"
 
@@ -34,7 +33,7 @@ char* sputs(char* out, char* s) {
   return out;
 }
 
-char __get_hexchar(uint64_t n) {
+char __get_hexchar(u64 n) {
   if (n < 10) {
     return n + 48;
   } else if (n < 16) {
@@ -46,7 +45,7 @@ char __get_hexchar(uint64_t n) {
   return 0;
 }
 
-char* sputdec(char* out, uint64_t n) {
+char* sputdec(char* out, u64 n) {
   char digits[64];
   int i = 0;
   if (n == 0) {
@@ -55,7 +54,7 @@ char* sputdec(char* out, uint64_t n) {
   }
 
   while (n > 0) {
-    uint64_t mod = n % 10;
+    u64 mod = n % 10;
     n -= mod;
     n /= 10;
 
@@ -70,7 +69,7 @@ char* sputdec(char* out, uint64_t n) {
   return out;
 }
 
-char* sputhex(char* out, uint64_t n) {
+char* sputhex(char* out, u64 n) {
   char _hex[64];
   int i = 0;
   if (n == 0) {
@@ -78,7 +77,7 @@ char* sputhex(char* out, uint64_t n) {
     i++;
   }
   while (n > 0) {
-    uint64_t mod = n % 16;
+    u64 mod = n % 16;
     n -= mod;
     n /= 16;
 
@@ -106,7 +105,7 @@ void puts(const char* s) {
     putc(*s++);
 }
 
-void puthex(uint64_t n) {
+void puthex(u64 n) {
   char s[100];
   char* q = s;
   q = sputhex(q, n);
@@ -114,7 +113,7 @@ void puthex(uint64_t n) {
   puts(s);
 }
 
-void putdec(uint64_t n) {
+void putdec(u64 n) {
   char s[100];
   char* q = s;
   q = sputdec(q, n);
@@ -327,17 +326,17 @@ void _fail(const char* filename, const int line, const char* func, const char* f
 }
 
 /** printing times */
-char* sprint_time(char* out, uint64_t clk, int mode) {
+char* sprint_time(char* out, u64 clk, int mode) {
   /* clk is absolute */
   /* theoretically INIT_CLOCK is ~0, but we cannot be sure */
   clk = clk - INIT_CLOCK;
 
-  uint64_t tot_secs = clk / TICKS_PER_SEC;
-  uint64_t rem_ticks = clk % TICKS_PER_SEC;
-  uint64_t rem_secs = tot_secs;
-  uint64_t rem_hours = rem_secs / (60 * 60);
+  u64 tot_secs = clk / TICKS_PER_SEC;
+  u64 rem_ticks = clk % TICKS_PER_SEC;
+  u64 rem_secs = tot_secs;
+  u64 rem_hours = rem_secs / (60 * 60);
   rem_secs = rem_secs % (60 * 60);
-  uint64_t rem_mins = rem_secs / 60;
+  u64 rem_mins = rem_secs / 60;
   rem_secs = rem_secs % 60;
 
   if (rem_hours < 10) {

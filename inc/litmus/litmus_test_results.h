@@ -5,14 +5,14 @@
 
 /* test data */
 typedef struct {
-    uint64_t is_relaxed;
-    uint64_t counter;
-    uint64_t values[];
+    u64 is_relaxed;
+    u64 counter;
+    u64 values[];
 } test_result_t;
 
 typedef struct {
-    uint64_t allocated;
-    uint64_t limit;
+    u64 allocated;
+    u64 limit;
     test_result_t** lut;
     test_result_t* results[];
 } test_hist_t;

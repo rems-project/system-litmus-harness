@@ -1,8 +1,7 @@
-#include <stdint.h>
 
 #include "lib.h"
 
-void writeb(uint8_t byte, uint64_t addr) {
+void writeb(u8 byte, u64 addr) {
     asm volatile (
         "strb %w[byte], [%[addr]]\n\t"
     :
@@ -11,7 +10,7 @@ void writeb(uint8_t byte, uint64_t addr) {
     );
 }
 
-void writew(uint32_t word, uint64_t addr) {
+void writew(u32 word, u64 addr) {
     asm volatile (
         "str %w[word], [%[addr]]\n\t"
     :
@@ -20,8 +19,8 @@ void writew(uint32_t word, uint64_t addr) {
     );
 }
 
-uint8_t readb(uint64_t addr) {
-  uint8_t out;
+u8 readb(u64 addr) {
+  u8 out;
   asm volatile (
     "ldrb %w[out], [%[addr]]\n"
   : [out] "=&r" (out)
@@ -31,8 +30,8 @@ uint8_t readb(uint64_t addr) {
   return out;
 }
 
-uint32_t readw(uint64_t addr) {
-  uint32_t out;
+u32 readw(u64 addr) {
+  u32 out;
   asm volatile (
     "ldr %w[out], [%[addr]]\n"
   : [out] "=&r" (out)
@@ -42,11 +41,11 @@ uint32_t readw(uint64_t addr) {
   return out;
 }
 
-uint64_t get_cpu(void) {
+u64 get_cpu(void) {
     return read_sysreg(tpidr_el0) & 0xff;
 }
 
-uint64_t get_vcpu(void) {
+u64 get_vcpu(void) {
     return current_thread_info()->vcpu_no;
 }
 

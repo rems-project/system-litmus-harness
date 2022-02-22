@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 
@@ -36,7 +35,7 @@ litmus_test_t CoWRalias = {
     INIT_VAR(x, 0),
     INIT_ALIAS(y, x)
   ),
-  .interesting_result = (uint64_t[]){
+  .interesting_result = (u64[]){
       /* p0:x2 =*/0,
   },
   .requires_pgtable = 1,

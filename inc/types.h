@@ -1,6 +1,9 @@
 #ifndef TYPES_H
 #define TYPES_H
 
+/* type aliases for ints */
+#include "ints.h"
+
 /* helpers for defining types
  */
 

@@ -9,8 +9,8 @@
 #include "lib.h"
 
 typedef struct {
-  uint64_t next;
-  uint64_t ret;
+  u64 next;
+  u64 ret;
 } stack_frame_t;
 
 typedef struct {
@@ -18,7 +18,7 @@ typedef struct {
   stack_frame_t frames[];
 } stack_t;
 
-void walk_stack_from(uint64_t* fp, stack_t* buf);
+void walk_stack_from(u64* fp, stack_t* buf);
 void walk_stack(stack_t* buf);
 
 #endif /* STACK_H */

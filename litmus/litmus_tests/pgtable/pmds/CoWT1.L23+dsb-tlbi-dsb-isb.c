@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 
@@ -44,7 +43,7 @@ litmus_test_t CoWT1L23_dsbtlbidsbisb = {
     INIT_REGION_OWN(x, REGION_OWN_PMD),
     INIT_REGION_OFFSET(y, x, REGION_SAME_PMD_OFFSET),
   ),
-  .interesting_result = (uint64_t[]){
+  .interesting_result = (u64[]){
       /* p0:x2 =*/0,
   },
   .start_els = (int[]){1,}, /* start at El1 for TLBI */

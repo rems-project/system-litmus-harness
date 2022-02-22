@@ -15,7 +15,7 @@ void cpu_data_init(void) {
   }
 }
 
-void cpu_boot(uint64_t cpu) {
+void cpu_boot(u64 cpu) {
   debug("boot CPU%d ...\n", cpu);
   switch (boot_data.kind) {
     case BOOT_KIND_PSCI:
@@ -32,7 +32,7 @@ void cpu_boot(uint64_t cpu) {
   debug("... booted CPU%d.\n", cpu);
 }
 
-void run_on_cpu_async(uint64_t cpu, async_fn_t* fn, void* arg) {
+void run_on_cpu_async(u64 cpu, async_fn_t* fn, void* arg) {
   while (!cpu_data[cpu].started) wfe();
 
   cpu_data[cpu].finished = 0;
@@ -43,8 +43,8 @@ void run_on_cpu_async(uint64_t cpu, async_fn_t* fn, void* arg) {
   sev();
 }
 
-void run_on_cpu(uint64_t cpu, async_fn_t* fn, void* arg) {
-  uint64_t cur_cpu = get_cpu();
+void run_on_cpu(u64 cpu, async_fn_t* fn, void* arg) {
+  u64 cur_cpu = get_cpu();
   if (cpu == cur_cpu) {
     fn(cpu, arg);
   } else {
@@ -54,7 +54,7 @@ void run_on_cpu(uint64_t cpu, async_fn_t* fn, void* arg) {
 }
 
 void run_on_cpus(async_fn_t* fn, void* arg) {
-  uint64_t cur_cpu = get_cpu();
+  u64 cur_cpu = get_cpu();
 
   for (int i = 0; i < 4; i++)
     while (!cpu_data[i].started) wfe();

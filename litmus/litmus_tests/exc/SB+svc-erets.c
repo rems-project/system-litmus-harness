@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 
@@ -64,11 +63,11 @@ litmus_test_t SB_svcerets = {
     INIT_VAR(x, 0),
     INIT_VAR(y, 0)
   ),
-  .thread_sync_handlers = (uint32_t**[]){
-     (uint32_t*[]){(uint32_t*)svc_handler, NULL},
-     (uint32_t*[]){(uint32_t*)svc_handler, NULL},
+  .thread_sync_handlers = (u32**[]){
+     (u32*[]){(u32*)svc_handler, NULL},
+     (u32*[]){(u32*)svc_handler, NULL},
   },
-  .interesting_result = (uint64_t[]){
+  .interesting_result = (u64[]){
       /* p0:x2 =*/0,
       /* p1:x2 =*/0,
   },

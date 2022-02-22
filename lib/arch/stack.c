@@ -3,19 +3,19 @@
 void walk_stack(stack_t* buf) {
   /* with -fno-omit-frame-pointer the frame pointer gets put
    * in register x29 */
-  uint64_t init_fp = read_reg(x29);
-  uint64_t* fp = (uint64_t*)init_fp;
+  u64 init_fp = read_reg(x29);
+  u64* fp = (u64*)init_fp;
 
   walk_stack_from(fp, buf);
 }
 
-static uint64_t _stack_range_top(uint64_t fp) {
-  uint64_t init_fp = STACK_SAFE_PA(fp);
+static u64 _stack_range_top(u64 fp) {
+  u64 init_fp = STACK_SAFE_PA(fp);
 
-  uint64_t stack_end;
+  u64 stack_end;
   for (int i = 0; i < NO_CPUS; i++) {
     for (int el = 0; el < 2; el++) {
-      uint64_t _stack_start, _stack_end;
+      u64 _stack_start, _stack_end;
       _stack_start = STACK_PYS_THREAD_BOT_ELx(i, el);
       _stack_end = STACK_PYS_THREAD_TOP_ELx(i, el);
 
@@ -29,17 +29,17 @@ static uint64_t _stack_range_top(uint64_t fp) {
   return stack_end;
 }
 
-uint8_t stack_in_range(uint64_t fp, uint64_t stack_top) {
+u8 stack_in_range(u64 fp, u64 stack_top) {
   /* get PA */
   fp = STACK_SAFE_PA(fp);
   return (stack_top - STACK_SIZE) <= fp && fp < stack_top;
 }
 
-void walk_stack_from(uint64_t* fp, stack_t* buf) {
+void walk_stack_from(u64* fp, stack_t* buf) {
   int i = 0;
 
-  uint64_t init_fp = (uint64_t)fp;
-  uint64_t stack_top = _stack_range_top(init_fp);
+  u64 init_fp = (u64)fp;
+  u64 stack_top = _stack_range_top(init_fp);
 
   while (1) {
     /* each stack frame is
@@ -48,14 +48,14 @@ void walk_stack_from(uint64_t* fp, stack_t* buf) {
     * u64: ret
     */
 
-    if (! stack_in_range((uint64_t)fp, stack_top)) {
+    if (! stack_in_range((u64)fp, stack_top)) {
       break;
     }
 
-    uint64_t* prev_fp  = (uint64_t*)*fp;
-    uint64_t ret       = *(fp+1);
+    u64* prev_fp  = (u64*)*fp;
+    u64 ret       = *(fp+1);
     fp = prev_fp;
-    buf->frames[i  ].next = (uint64_t)fp;
+    buf->frames[i  ].next = (u64)fp;
     buf->frames[i++].ret  = ret;
 
     /* the frame pointer is initialised to 0

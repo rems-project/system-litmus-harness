@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 
@@ -40,7 +39,7 @@ litmus_test_t WRWARANC_dsb = {
     INIT_ALIAS(y, x),
     INIT_PERMISSIONS(y, PROT_ATTRIDX, PROT_ATTR_NORMAL_NC),
   ),
-  .interesting_result = (uint64_t[]){
+  .interesting_result = (u64[]){
       /* p0:x4 =*/0,
   },
   .requires_pgtable = 1,

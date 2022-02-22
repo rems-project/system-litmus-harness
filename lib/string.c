@@ -1,9 +1,9 @@
-#include <stdint.h>
 
+#include "types.h"
 #include "abort.h"
 
-uint64_t strlen(char* s) {
-  uint64_t i = 0;
+u64 strlen(char* s) {
+  u64 i = 0;
 
   while (*s != '\0') {
     s++;
@@ -48,7 +48,7 @@ int strpartition(char* outL, char* outR, char* s, char sep) {
   }
 }
 
-int strcmp(char* s1, char* s2) {
+u64 strcmp(char* s1, char* s2) {
   if (*s1 == '\0')
     return *s2 == '\0';
 
@@ -78,8 +78,8 @@ int ctoi(char c) {
   return 0;
 }
 
-uint64_t __atoi_hex(char* s) {
-  uint64_t x = 0;
+u64 __atoi_hex(char* s) {
+  u64 x = 0;
   /* skip 0x */
   s = s+2;
 
@@ -94,8 +94,8 @@ uint64_t __atoi_hex(char* s) {
   return x;
 }
 
-uint64_t __atoi_dec(char* s) {
-  uint64_t x = 0;
+u64 __atoi_dec(char* s) {
+  u64 x = 0;
   while (*s) {
     char c = *s;
     s++;
@@ -130,7 +130,7 @@ uint64_t __atoi_dec(char* s) {
   return x;
 }
 
-uint64_t atoi(char* s) {
+u64 atoi(char* s) {
   if (*s == '0' && *(s+1) == 'x')
     return __atoi_hex(s);
 

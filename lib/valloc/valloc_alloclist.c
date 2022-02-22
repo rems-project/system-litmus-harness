@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 
@@ -37,11 +36,11 @@ static void move_to_dealloc(valloc_mempool* pool, valloc_alloc_chunk* chunk) {
   swap(chunk, &pool->chunk_alloc_list, &pool->chunk_unalloc_list);
 }
 
-valloc_alloc_chunk* valloc_alloclist_find_alloc_chunk(valloc_mempool* pool, uint64_t addr) {
+valloc_alloc_chunk* valloc_alloclist_find_alloc_chunk(valloc_mempool* pool, u64 addr) {
   valloc_alloc_chunk* cur = pool->chunk_alloc_list;
   while (cur) {
-    uint64_t start = cur->start;
-    uint64_t end = start + cur->size;
+    u64 start = cur->start;
+    u64 end = start + cur->size;
     if (start <= addr && addr < end)
       return cur;
 
@@ -51,7 +50,7 @@ valloc_alloc_chunk* valloc_alloclist_find_alloc_chunk(valloc_mempool* pool, uint
   return NULL;
 }
 
-void valloc_alloclist_dealloc(valloc_mempool* pool, uint64_t addr) {
+void valloc_alloclist_dealloc(valloc_mempool* pool, u64 addr) {
   valloc_alloc_chunk* alloced_chunk = valloc_alloclist_find_alloc_chunk(pool, addr);
   if (! alloced_chunk) {
     fail("! err: valloc_alloclist_dealloc no alloc at %p (double free?)\n", addr);
@@ -63,7 +62,7 @@ void valloc_alloclist_dealloc(valloc_mempool* pool, uint64_t addr) {
 char __valloc_alloclist_stack_buf[1024];
 #endif
 
-valloc_alloc_chunk* valloc_alloclist_alloc(valloc_mempool* pool, uint64_t addr, uint64_t size) {
+valloc_alloc_chunk* valloc_alloclist_alloc(valloc_mempool* pool, u64 addr, u64 size) {
   /* assume addr not already allocated */
   valloc_alloc_chunk* head = pool->chunk_unalloc_list;
   if (head == NULL) {
@@ -90,11 +89,11 @@ valloc_alloc_chunk* valloc_alloclist_alloc(valloc_mempool* pool, uint64_t addr, 
 /** returns 1 if any of the region [start, end] (inclusive)
  * is allocated
  */
-uint8_t valloc_is_region_allocated(valloc_mempool* pool, uint64_t start, uint64_t end) {
+u8 valloc_is_region_allocated(valloc_mempool* pool, u64 start, u64 end) {
   valloc_alloc_chunk* cur = pool->chunk_alloc_list;
 
   while (cur) {
-    uint64_t blk_start = cur->start;
+    u64 blk_start = cur->start;
     if (start <= blk_start && blk_start <= end) {
       return 1;
     }

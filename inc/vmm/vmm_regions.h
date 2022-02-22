@@ -19,7 +19,7 @@
 #define STACK_MMAP_THREAD_BOT_EL1(cpu) (STACK_MMAP_THREAD_TOP_EL1(cpu) - STACK_SIZE)
 
 #define IN_STACK_MMAP_SPACE(va) ((STACK_MMAP_BASE <= (va)) && ((va) <= STACK_MMAP_BASE+1*GiB))
-#define STACK_MMAP_VA_TO_PA(va) ((uint64_t)(va) - STACK_MMAP_BASE + BOT_OF_STACK_PA)
+#define STACK_MMAP_VA_TO_PA(va) ((u64)(va) - STACK_MMAP_BASE + BOT_OF_STACK_PA)
 
 /** convert a stack PA/VA to the safe PA addr
  */
@@ -38,15 +38,15 @@
 #define VTABLE_MMAP_BASE (17 * GiB)
 #define VTABLE_MMAP_SIZE (16 * KiB)
 
-#define THR_VTABLE_VA(t) ((uint64_t*)(VTABLE_MMAP_BASE + PAGE_SIZE*t))
-#define THR_VTABLE_PA(t) ((uint64_t*)(vector_base_pa + PAGE_SIZE*t))
+#define THR_VTABLE_VA(t) ((u64*)(VTABLE_MMAP_BASE + PAGE_SIZE*t))
+#define THR_VTABLE_PA(t) ((u64*)(vector_base_pa + PAGE_SIZE*t))
 
 /* size of TESTDATA VA space */
 #define TESTDATA_MMAP_SIZE (64 * GiB)
 #define TESTDATA_MMAP_SIZE_SHIFT (6 + GiB_SHIFT)
 
-#define HARNESS_MMAP_BASE ((uint64_t)HARNESS_MMAP)
-#define TESTDATA_MMAP_BASE ((uint64_t)TESTDATA_MMAP)
+#define HARNESS_MMAP_BASE ((u64)HARNESS_MMAP)
+#define TESTDATA_MMAP_BASE ((u64)TESTDATA_MMAP)
 
 /** converts any physical (or identically mapped virtual) address
  * in the 1G -> TOP_OF_MEM region into a R/W mapping in the 64G+ memory map
@@ -54,7 +54,7 @@
 #define HARNESS_MMAP_PHYS_TO_VIRT(p) \
     (HARNESS_MMAP_BASE + __HARNESS_MMAP_OFFSET(p))
 
-#define __HARNESS_MMAP_OFFSET(p) ((uint64_t)(p) - BOT_OF_MEM)
+#define __HARNESS_MMAP_OFFSET(p) ((u64)(p) - BOT_OF_MEM)
 
 /*
  * converts any physical (or identically mapped virtual) address
@@ -81,10 +81,10 @@
 #define __TESTDATA_MMAP_GAP_SHIFT (TESTDATA_MMAP_SIZE_SHIFT - NR_REGIONS_SHIFT)
 #define __TESTDATA_MMAP_GAP (1UL << __TESTDATA_MMAP_GAP_SHIFT)
 
-#define __TESTDATA_MMAP_OFFSET_FROM_BASE(p) ((uint64_t)(p) - BOT_OF_TESTDATA)
+#define __TESTDATA_MMAP_OFFSET_FROM_BASE(p) ((u64)(p) - BOT_OF_TESTDATA)
 #define __TESTDATA_MMAP_8M_RESIDUE(p) ((p) & BITMASK(__MMAP_8M_SHIFT))
 #define __TESTDATA_MMAP_8M_INDEX(p) (__TESTDATA_MMAP_OFFSET_FROM_BASE(p) >> __MMAP_8M_SHIFT)
-#define __TESTDATA_MMAP_OFFSET_VA_FROM_BASE(v) ((uint64_t)(v) - TESTDATA_MMAP_BASE)
+#define __TESTDATA_MMAP_OFFSET_VA_FROM_BASE(v) ((u64)(v) - TESTDATA_MMAP_BASE)
 #define __TESTDATA_MMAP_8M_VA_INDEX(v) (__TESTDATA_MMAP_OFFSET_VA_FROM_BASE(v) >> __TESTDATA_MMAP_GAP_SHIFT)
 
 #define TESTDATA_MMAP_8M_VA_FROM_INDEX(idx) (TESTDATA_MMAP_BASE + ((idx) * __TESTDATA_MMAP_GAP))

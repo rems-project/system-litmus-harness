@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 
@@ -71,11 +70,11 @@ litmus_test_t LB_RsvcW_RsvcW = {
     INIT_VAR(y, 0)
   ),
   .thread_sync_handlers =
-    (uint32_t**[]){
-     (uint32_t*[]){(uint32_t*)svc_handler0, NULL},
-     (uint32_t*[]){(uint32_t*)svc_handler1, NULL},
+    (u32**[]){
+     (u32*[]){(u32*)svc_handler0, NULL},
+     (u32*[]){(u32*)svc_handler1, NULL},
     },
-  .interesting_result = (uint64_t[]){
+  .interesting_result = (u64[]){
       /* p0:x2 =*/1,
       /* p1:x2 =*/1,
   },

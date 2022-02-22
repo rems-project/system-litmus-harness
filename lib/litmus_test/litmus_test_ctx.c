@@ -2,7 +2,7 @@
 
 void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, int runs_in_batch) {
   var_info_t* var_infos = ALLOC_MANY(var_info_t, cfg->no_heap_vars);
-  uint64_t** out_regs = ALLOC_MANY(uint64_t*, cfg->no_regs);
+  u64** out_regs = ALLOC_MANY(u64*, cfg->no_regs);
   init_system_state_t* sys_st = ALLOC_ONE(init_system_state_t);
   bar_t* generic_cpu_bar = ALLOC_ONE(bar_t);
   bar_t* generic_vcpu_bar = ALLOC_ONE(bar_t);
@@ -12,10 +12,10 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, int r
   run_idx_t* shuffled = ALLOC_MANY(run_idx_t, no_runs);
   run_count_t* rev_lookup = ALLOC_MANY(run_count_t, no_runs);
   int* affinity = ALLOC_MANY(int, NO_CPUS);
-  uint64_t** ptables = ALLOC_MANY(uint64_t*, 1+runs_in_batch);
+  u64** ptables = ALLOC_MANY(u64*, 1+runs_in_batch);
 
   for (int v = 0; v < cfg->no_heap_vars; v++) {
-    var_infos[v].values = ALLOC_MANY(uint64_t*, no_runs);
+    var_infos[v].values = ALLOC_MANY(u64*, no_runs);
   }
 
   sys_st->enable_mair = 0;
@@ -30,7 +30,7 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, int r
   debug("}\n");
 
   for (reg_idx_t r = 0; r < cfg->no_regs; r++) {
-    uint64_t* out_reg = ALLOC_MANY(uint64_t, no_runs);
+    u64* out_reg = ALLOC_MANY(u64, no_runs);
     out_regs[r] = out_reg;
   }
 
@@ -65,7 +65,7 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, int r
 
   for (int t = 0; t < hist->limit; t++) {
     test_result_t* new_res =
-        alloc(sizeof(test_result_t) + sizeof(uint64_t) * cfg->no_regs);
+        alloc(sizeof(test_result_t) + sizeof(u64) * cfg->no_regs);
     hist->results[t] = new_res;
     lut[t] = NULL;
   }
@@ -93,12 +93,12 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, int r
   DEBUG(DEBUG_ALLOCS, "now using %ld/%ld alloc chunks\n", valloc_alloclist_count_chunks(), NUM_ALLOC_CHUNKS);
 }
 
-uint64_t ctx_pa(test_ctx_t* ctx, run_idx_t run, uint64_t va) {
+u64 ctx_pa(test_ctx_t* ctx, run_idx_t run, u64 va) {
   /* return the PA associated with the given va in a particular iteration */
-  return (uint64_t)vmm_pa(ptable_from_run(ctx, run), va);
+  return (u64)vmm_pa(ptable_from_run(ctx, run), va);
 }
 
-uint64_t* ctx_pte(test_ctx_t* ctx, run_idx_t run, uint64_t va) {
+u64* ctx_pte(test_ctx_t* ctx, run_idx_t run, u64 va) {
   /* return the VA at which the pte lives for the given va in a particular
    * iteration */
   return vmm_pte(ptable_from_run(ctx, run), va);
@@ -161,22 +161,22 @@ run_count_t run_count_from_idx(test_ctx_t* ctx, run_idx_t idx) {
   return ctx->shuffled_ixs_inverse[idx];
 }
 
-uint64_t* ctx_heap_var_va(test_ctx_t* ctx, uint64_t varidx, run_idx_t i) {
+u64* ctx_heap_var_va(test_ctx_t* ctx, u64 varidx, run_idx_t i) {
   return ctx->heap_vars[varidx].values[i];
 }
 
-uint64_t ctx_initial_heap_value(test_ctx_t* ctx, run_idx_t idx) {
+u64 ctx_initial_heap_value(test_ctx_t* ctx, run_idx_t idx) {
   return ctx->heap_vars[idx].init_value;
 }
 
-uint64_t asid_from_run_count(test_ctx_t* ctx, run_count_t r) {
+u64 asid_from_run_count(test_ctx_t* ctx, run_count_t r) {
   /* reserve ASID 0 for harness */
   return 1 + (r % ctx->batch_size);
 }
 
-uint64_t* ptable_from_run(test_ctx_t* ctx, run_idx_t i) {
+u64* ptable_from_run(test_ctx_t* ctx, run_idx_t i) {
   run_count_t r = run_count_from_idx(ctx, i);
-  uint64_t asid = asid_from_run_count(ctx, r);
+  u64 asid = asid_from_run_count(ctx, r);
   return ctx->ptables[asid];
 }
 

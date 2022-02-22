@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 
@@ -50,12 +49,12 @@ litmus_test_t CoWinvT1_dsbtlbidsb = {
     INIT_VAR(x, 0)
   ),
   .start_els=(int[]){1,},
-  .interesting_result = (uint64_t[]){
+  .interesting_result = (u64[]){
       /* p0:x2 =*/0,
   },
   .thread_sync_handlers =
-    (uint32_t**[]){
-     (uint32_t*[]){NULL, (uint32_t*)sync_handler},
+    (u32**[]){
+     (u32*[]){NULL, (u32*)sync_handler},
   },
   .requires_pgtable = 1,
   .no_sc_results = 1,

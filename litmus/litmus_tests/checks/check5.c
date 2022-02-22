@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 
@@ -36,12 +35,12 @@ litmus_test_t check5 = {
     INIT_VAR(x, 1)
   ),
   .interesting_result =
-    (uint64_t[]){
+    (u64[]){
       /* p0:x0 =*/ 0,
     },
   .thread_sync_handlers =
-    (uint32_t**[]){
-     (uint32_t*[]){(uint32_t*)handler, NULL},
+    (u32**[]){
+     (u32*[]){(u32*)handler, NULL},
     },
   .requires_pgtable=1,
 };

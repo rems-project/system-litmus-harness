@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 
@@ -75,7 +74,7 @@ litmus_test_t WRCalias2_addrs = {
     INIT_ALIAS(z, x),
   ),
   .interesting_result =
-    (uint64_t[]){
+    (u64[]){
       /* p1:x0 =*/ 1,
       /* p2:x0 =*/ 1,
       /* p2:x2 =*/ 0,

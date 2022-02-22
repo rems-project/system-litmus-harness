@@ -5,10 +5,10 @@ void read_init_region(const litmus_test_t* cfg, var_info_t* infos, const char* v
 void read_init_region_own(const litmus_test_t* cfg, var_info_t* infos, const char* varname, own_level_t region);
 void read_init_region_offs(const litmus_test_t* cfg, var_info_t* infos, const char* varname, const char* offsvarname, rel_offset_t offs);
 void read_init_alias(const litmus_test_t* cfg, var_info_t* infos, const char* varname, const char* aliasname);
-void read_init_ap(const litmus_test_t* cfg, var_info_t* infos, const char* varname, prot_type_t prot_type, uint64_t attr);
-void read_init_pte(const litmus_test_t* cfg, var_info_t* infos, const char* varname, uint64_t pte);
-void read_init_heap(const litmus_test_t* cfg, var_info_t* infos, const char* varname, uint64_t value);
-void read_init_mair(init_system_state_t* st, uint64_t mair_attr7);
+void read_init_ap(const litmus_test_t* cfg, var_info_t* infos, const char* varname, prot_type_t prot_type, u64 attr);
+void read_init_pte(const litmus_test_t* cfg, var_info_t* infos, const char* varname, u64 pte);
+void read_init_heap(const litmus_test_t* cfg, var_info_t* infos, const char* varname, u64 value);
+void read_init_mair(init_system_state_t* st, u64 mair_attr7);
 void read_init_idmap(const litmus_test_t* cfg, var_info_t* infos, const char* varname);
 
 void read_var_infos(const litmus_test_t* cfg, init_system_state_t* sys_st, var_info_t* infos, int no_runs) {
@@ -138,7 +138,7 @@ void read_var_infos(const litmus_test_t* cfg, init_system_state_t* sys_st, var_i
   }
 }
 
-void read_init_mair(init_system_state_t* st, uint64_t mair_attr7) {
+void read_init_mair(init_system_state_t* st, u64 mair_attr7) {
   st->enable_mair = 1;
   st->mair_attr7 = mair_attr7;
 }
@@ -182,7 +182,7 @@ void read_init_alias(const litmus_test_t* cfg, var_info_t* infos, const char* va
   infos[idx].alias = idx_from_varname_infos(cfg, infos, aliasname);
 }
 
-void read_init_ap(const litmus_test_t* cfg, var_info_t* infos, const char* varname, prot_type_t prot_type, uint64_t attr) {
+void read_init_ap(const litmus_test_t* cfg, var_info_t* infos, const char* varname, prot_type_t prot_type, u64 attr) {
   var_idx_t idx = idx_from_varname_infos(cfg, infos, varname);
 
   switch (prot_type) {
@@ -197,11 +197,11 @@ void read_init_ap(const litmus_test_t* cfg, var_info_t* infos, const char* varna
   }
 }
 
-void read_init_pte(const litmus_test_t* cfg, var_info_t* infos, const char* varname, uint64_t desc) {
+void read_init_pte(const litmus_test_t* cfg, var_info_t* infos, const char* varname, u64 desc) {
   fail("INIT_PTE unsupported, use INIT_UNMAPPED or INIT_AP\n");
 }
 
-void read_init_heap(const litmus_test_t* cfg, var_info_t* infos, const char* varname, uint64_t value) {
+void read_init_heap(const litmus_test_t* cfg, var_info_t* infos, const char* varname, u64 value) {
   var_idx_t idx = idx_from_varname_infos(cfg, infos, varname);
   infos[idx].init_value = value;
 }

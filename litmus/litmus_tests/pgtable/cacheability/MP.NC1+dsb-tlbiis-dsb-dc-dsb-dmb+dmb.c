@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 
@@ -70,7 +69,7 @@ litmus_test_t MPNC1_dsbtlbiisdsbdcdsbdmb_dmb = {
   ),
   .start_els=(int[]){1,0},
   .interesting_result =
-    (uint64_t[]){
+    (u64[]){
       /* p2:x0 =*/ 1,
       /* p2:x2 =*/ 0,
     },

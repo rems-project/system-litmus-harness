@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 
@@ -67,20 +66,20 @@ litmus_test_t MPBBM_dmbdmb_dmb = {
     INIT_VAR(z, 1)
   ),
   .no_interesting_results=2,
-  .interesting_results = (uint64_t*[]){
-    (uint64_t[]){
+  .interesting_results = (u64*[]){
+    (u64[]){
       /* p1:x0 =*/1,
       /* p1:x2 =*/0,  /* stale translation */
     },
-    (uint64_t[]){
+    (u64[]){
       /* p1:x0 =*/1,
       /* p1:x2 =*/2,  /* spurious abort */
     },
   },
   .thread_sync_handlers =
-    (uint32_t**[]){
-     (uint32_t*[]){NULL, NULL},
-     (uint32_t*[]){(uint32_t*)sync_handler, NULL},
+    (u32**[]){
+     (u32*[]){NULL, NULL},
+     (u32*[]){(u32*)sync_handler, NULL},
     },
   .requires_pgtable=1,
   .no_sc_results = 4,

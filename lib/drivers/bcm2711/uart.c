@@ -13,10 +13,10 @@
 #define UART_CR_TXE (1 << 8)
 
 void init_uart(void) {
-  volatile uint32_t* aux_enable = AUX_ENABLES;
+  volatile u32* aux_enable = AUX_ENABLES;
   *aux_enable = AUX_ENABLE_MINIUART;
 }
 
-void write_stdout(uint8_t c) {
+void write_stdout(u8 c) {
     writeb(c, MINIUART_IO_REG(MINIUART_IO_REG_TX));
 }

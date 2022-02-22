@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 
@@ -63,7 +62,7 @@ litmus_test_t WRC_pos = {
     INIT_VAR(y, 0)
   ),
   .interesting_result =
-    (uint64_t[]){
+    (u64[]){
       /* p1:x0 =*/ 1,
       /* p2:x0 =*/ 1,
       /* p2:x2 =*/ 0,

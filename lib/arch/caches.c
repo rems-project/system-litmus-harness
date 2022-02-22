@@ -5,7 +5,7 @@
  * cleaning and invalidating the line that holds addr
  * to the point of coherence.
  */
-void dc_civac(uint64_t addr) {
+void dc_civac(u64 addr) {
   asm volatile (
     "dc civac, %[va]\n\t"
   :
@@ -31,9 +31,9 @@ void ic_ialluis(void) {
 /** flush data caches for an entire range
  */
 void flush_data_cache(char* start_addr, char* end_addr) {
-  uint64_t dcacheline = CACHE_LINE_SIZE;
+  u64 dcacheline = CACHE_LINE_SIZE;
 
-  for (uint64_t va = (uint64_t)start_addr; va < (uint64_t)end_addr + dcacheline; va += dcacheline) {
+  for (u64 va = (u64)start_addr; va < (u64)end_addr + dcacheline; va += dcacheline) {
     dc_civac(va);
   }
 

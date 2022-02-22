@@ -1,14 +1,13 @@
-#include <stdint.h>
 
 #include "lib.h"
 
-void tlbi_va(uint64_t va) {
-  uint64_t page = va >> 12;
+void tlbi_va(u64 va) {
+  u64 page = va >> 12;
   asm volatile("tlbi vaae1is, %[va]\n" : : [va] "r" (page) : "memory");
 }
 
-void tlbi_asid(uint64_t asid) {
-  uint64_t reg = (asid & 0xff) << 48;
+void tlbi_asid(u64 asid) {
+  u64 reg = (asid & 0xff) << 48;
   asm volatile("tlbi aside1is, %[asid]\n" : : [asid] "r" (reg) : "memory");
 }
 
@@ -16,14 +15,14 @@ void tlbi_all(void) {
   asm volatile("tlbi vmalle1is\n" ::: "memory");
 }
 
-void vmm_flush_tlb_vaddr(uint64_t va) {
+void vmm_flush_tlb_vaddr(u64 va) {
   dsb();
   tlbi_va(va);
   dsb();
   isb();
 }
 
-void vmm_flush_tlb_asid(uint64_t asid) {
+void vmm_flush_tlb_asid(u64 asid) {
   dsb();
   tlbi_asid(asid);
   dsb();

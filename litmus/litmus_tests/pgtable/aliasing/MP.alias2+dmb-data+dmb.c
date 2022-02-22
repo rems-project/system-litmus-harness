@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 
@@ -59,7 +58,7 @@ litmus_test_t MPalias2_dmbdata_dmb = {
     INIT_ALIAS(z, x),
   ),
   .interesting_result =
-    (uint64_t[]){
+    (u64[]){
       /* p1:x0 =*/ 1,
       /* p1:x2 =*/ 0,
   },

@@ -21,7 +21,7 @@ void lamport_unlock(volatile lamport_lock_t* lock);
  * so switch to exclusives
  */
 typedef struct {
-  uint64_t locked;
+  u64 locked;
 } mutex_t;
 
 void mutex_lock(volatile mutex_t* lock);
@@ -51,9 +51,9 @@ void unlock(volatile lock_t* lock);
 
 /* barrier */
 typedef struct {
-  volatile uint64_t iteration;
-  volatile uint64_t waiting;
-  uint8_t current_state;
+  volatile u64 iteration;
+  volatile u64 waiting;
+  u8 current_state;
 } bar_t;
 
 #define EMPTY_BAR (bar_t){0,0,0}

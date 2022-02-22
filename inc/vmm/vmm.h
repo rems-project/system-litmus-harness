@@ -1,6 +1,5 @@
 #ifndef VMM_H
 #define VMM_H
-#include <stdint.h>
 
 #include "vmm_types.h"
 #include "vmm_tables.h"
@@ -10,50 +9,50 @@
 #include "sync.h"
 
 /* global pagetable */
-extern uint64_t** vmm_pgtables;
+extern u64** vmm_pgtables;
 
 /* translation functions */
 
 /* given a VA return a pointer to the last-level pagetable (descriptor) entry
  * that maps that VA
  */
-uint64_t* vmm_pte(uint64_t* root, uint64_t va);
+u64* vmm_pte(u64* root, u64 va);
 
 /** given a VA, returns a pointer to the desc_level entry
  * that translate VA in the root translation table
  *
  * ensuring that a block translation exists at level ensure_level
  */
-uint64_t* vmm_desc_at_level(uint64_t* root, uint64_t va, int ensure_level, int desc_level);
+u64* vmm_desc_at_level(u64* root, u64 va, int ensure_level, int desc_level);
 
 /** given a VA return a pointer to the given level's entry (or the first descriptor,
  * whichever is sooner in the translation) that maps that VA.
  */
-uint64_t* vmm_pte_at_level(uint64_t* root, uint64_t va, int level);
+u64* vmm_pte_at_level(u64* root, u64 va, int level);
 
 /* given a VA return the PA by performing a software translation table walk
  */
-uint64_t* vmm_pa(uint64_t* root, uint64_t va);
+u64* vmm_pa(u64* root, u64 va);
 
 /* returns 1 if the given addr is valid */
-int vmm_pte_valid(uint64_t* root, uint64_t* addr);
+int vmm_pte_valid(u64* root, u64* addr);
 
 /* ensure that the last-level entry for a given virtual address is at some desired level */
-void vmm_ensure_level(uint64_t* root, int desired_level, uint64_t va);
+void vmm_ensure_level(u64* root, int desired_level, u64 va);
 
-uint64_t* vmm_block(uint64_t* root, uint64_t va);
-int vmm_level(uint64_t* root, uint64_t va);
+u64* vmm_block(u64* root, u64 va);
+int vmm_level(u64* root, u64 va);
 
-desc_t vmm_translation_walk(uint64_t* root, uint64_t va);
+desc_t vmm_translation_walk(u64* root, u64 va);
 
 /** create a descriptor that maps to the given PA with the given protections
  * as an entry in a level 'level' table */
-uint64_t vmm_make_desc(uint64_t pa, uint64_t prot, int level);
+u64 vmm_make_desc(u64 pa, u64 prot, int level);
 
 /** given a va perform a translation table walk
  * and gather the attrs
  */
-attrs_t vmm_read_attrs(uint64_t* root, uint64_t va);
+attrs_t vmm_read_attrs(u64* root, u64 va);
 
 /** helpers for defining pagetable mappings
  */
@@ -78,12 +77,12 @@ typedef enum {
 } VMRegionValid;
 
 typedef struct {
-  uint8_t valid;
-  uint64_t va_start;
-  uint64_t va_end;
-  uint64_t memattr;
-  uint64_t prot;
-  uint64_t pa_start;
+  u8 valid;
+  u64 va_start;
+  u64 va_end;
+  u64 memattr;
+  u64 prot;
+  u64 pa_start;
 } VMRegion;
 
 typedef struct {
@@ -139,32 +138,32 @@ typedef struct {
 /** map a VMRegion
  * creating a new entry in the pagetable
  */
-void vmm_ptable_map(uint64_t* pgtable, VMRegion reg);
+void vmm_ptable_map(u64* pgtable, VMRegion reg);
 
 /** unmap a VMRegion
  */
-void vmm_ptable_unmap(uint64_t* pgtable, VMRegion reg);
+void vmm_ptable_unmap(u64* pgtable, VMRegion reg);
 
 /** create a new translation table to be used by the harness itself
  */
-uint64_t* vmm_alloc_new_4k_pgtable(void);
+u64* vmm_alloc_new_4k_pgtable(void);
 
 /** create a new translation table to be shared by test threads during test
  * execution
  */
-uint64_t* vmm_alloc_new_test_pgtable(void);
+u64* vmm_alloc_new_test_pgtable(void);
 
 /** free a given pagetable */
-void vmm_free_generic_pgtable(uint64_t* root);
-void vmm_free_test_pgtable(uint64_t* root);
+void vmm_free_generic_pgtable(u64* root);
+void vmm_free_test_pgtable(u64* root);
 
 typedef struct {
-  uint64_t start;
-  uint64_t end;
+  u64 start;
+  u64 end;
 } va_range;
 
-typedef void walker_cb_t(uint64_t* parent_table, int level, int index, uint64_t* entry, desc_t desc, int is_leaf, va_range range, void* data);
-void vmm_walk_table(uint64_t* root, walker_cb_t* cb_f, void* data);
+typedef void walker_cb_t(u64* parent_table, int level, int index, u64* entry, desc_t desc, int is_leaf, va_range range, void* data);
+void vmm_walk_table(u64* root, walker_cb_t* cb_f, void* data);
 
 /* MMU control */
 void vmm_mmu_off(void);
@@ -178,30 +177,30 @@ void switch_to_pys_stack(void);
 #define MMU_ON thread_infos[get_cpu()].mmu_enabled
 #define MMU_OFF (!thread_infos[get_cpu()].mmu_enabled)
 
-void vmm_set_id_translation(uint64_t* pgtable);
-void vmm_switch_ttable(uint64_t* new_table);
-void vmm_switch_asid(uint64_t asid);
-void vmm_switch_ttable_asid(uint64_t* new_table, uint64_t asid);
+void vmm_set_id_translation(u64* pgtable);
+void vmm_switch_ttable(u64* new_table);
+void vmm_switch_asid(u64 asid);
+void vmm_switch_ttable_asid(u64* new_table, u64 asid);
 
 /* unsynchronized TLB flushes */
-void tlbi_va(uint64_t va);
-void tlbi_asid(uint64_t asid);
+void tlbi_va(u64 va);
+void tlbi_asid(u64 asid);
 void tlbi_all(void);
 
 /* synchronized TLB flushes */
-void vmm_flush_tlb_vaddr(uint64_t va);
+void vmm_flush_tlb_vaddr(u64 va);
 void vmm_flush_tlb(void);
-void vmm_flush_tlb_asid(uint64_t asid);
+void vmm_flush_tlb_asid(u64 asid);
 
 
 /* for debugging and serializing */
 
 /** given a translation table
  * walk the table and dump all the entries */
-void vmm_dump_table(uint64_t* ptable);
+void vmm_dump_table(u64* ptable);
 
 /* count the number of other pagetables underneath this one
  */
-uint64_t vmm_count_subtables(uint64_t* ptable);
+u64 vmm_count_subtables(u64* ptable);
 
 #endif /* VMM_H */

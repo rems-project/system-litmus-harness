@@ -1,6 +1,6 @@
 #include "lib.h"
 
-int log2(uint64_t n) {
+int log2(u64 n) {
   int k = 0;
 
   if (n == 0)

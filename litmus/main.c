@@ -5,7 +5,7 @@
 extern litmus_test_group grp_all;
 
 /** if 1 then don't run just check */
-uint8_t dry_run = 0;
+u8 dry_run = 0;
 
 int main(int argc, char** argv) {
   if (ONLY_SHOW_MATCHES) {
@@ -17,7 +17,7 @@ int main(int argc, char** argv) {
     return 0;
   }
 
-  uint64_t initial_time = read_clk();
+  u64 initial_time = read_clk();
 
   do {
     /* each run uses a different start seed
@@ -25,7 +25,7 @@ int main(int argc, char** argv) {
      */
     INITIAL_SEED = randn();
     debug("next seed = 0x%lx\n", INITIAL_SEED);
-    uint64_t start_time = read_clk();
+    u64 start_time = read_clk();
 
     if (collected_tests_count == 0) {
         re_t* re = re_compile("@all");
@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
       } else {
         /* first do a dry run, without actually running the functions
           * just to validate the arguments */
-        for (uint8_t r = 0; r <= 1; r++) {
+        for (u8 r = 0; r <= 1; r++) {
           dry_run = 1 - r;
 
           for (int i = 0; i < collected_tests_count; i++) {
@@ -45,7 +45,7 @@ int main(int argc, char** argv) {
         }
       }
 
-      uint64_t end_time = read_clk();
+      u64 end_time = read_clk();
 
       char time_str[100];
       sprint_time(time_str, end_time - start_time, SPRINT_TIME_HHMMSS);

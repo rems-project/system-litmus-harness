@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 
@@ -63,8 +62,8 @@ static void go_cpus(int cpu, void* a) {
 
 static void reset_mair_attr7(test_ctx_t* ctx) {
   if (ctx->system_state->enable_mair) {
-    uint64_t mair = read_sysreg(mair_el1);
-    uint64_t bm = ~(BITMASK(8) << 56);
+    u64 mair = read_sysreg(mair_el1);
+    u64 bm = ~(BITMASK(8) << 56);
     write_sysreg((mair & bm) | (ctx->system_state->mair_attr7 << 56), mair_el1);
   }
 }
@@ -102,7 +101,7 @@ static void allocate_affinities(test_ctx_t* ctx) {
 
 /** run concretization and initialization for the runs of this batch
  */
-static void allocate_data_for_batch(test_ctx_t* ctx, uint64_t vcpu, run_count_t batch_start_idx, run_count_t batch_end_idx) {
+static void allocate_data_for_batch(test_ctx_t* ctx, u64 vcpu, run_count_t batch_start_idx, run_count_t batch_end_idx) {
   debug("vCPU%d allocating test data for batch starting %ld\n", vcpu, batch_start_idx);
 
   if (vcpu == 0) {
@@ -111,7 +110,7 @@ static void allocate_data_for_batch(test_ctx_t* ctx, uint64_t vcpu, run_count_t 
     */
     if (ENABLE_PGTABLE) {
       for (run_count_t r = batch_start_idx; r < batch_end_idx; r++) {
-        uint64_t asid = asid_from_run_count(ctx, r);
+        u64 asid = asid_from_run_count(ctx, r);
 
         if (ctx->ptables[asid] == NULL) {
           ctx->ptables[asid] = vmm_alloc_new_test_pgtable();
@@ -139,7 +138,7 @@ static void allocate_data_for_batch(test_ctx_t* ctx, uint64_t vcpu, run_count_t 
 
 /** initialise the litmus_test_run datas to pass as arguments
  */
-static void setup_run_data(test_ctx_t* ctx, uint64_t vcpu, run_count_t batch_start_idx, run_count_t batch_end_idx, litmus_test_run* runs) {
+static void setup_run_data(test_ctx_t* ctx, u64 vcpu, run_count_t batch_start_idx, run_count_t batch_end_idx, litmus_test_run* runs) {
   int idx;
   run_count_t r;
 
@@ -148,15 +147,15 @@ static void setup_run_data(test_ctx_t* ctx, uint64_t vcpu, run_count_t batch_sta
 
     runs[idx].ctx = ctx;
     runs[idx].i = i;
-    runs[idx].va = ALLOC_MANY(uint64_t*, ctx->cfg->no_heap_vars);
-    runs[idx].pa = ALLOC_MANY(uint64_t, ctx->cfg->no_heap_vars);
-    runs[idx].out_reg = ALLOC_MANY(uint64_t*, ctx->cfg->no_regs);
-    runs[idx].tt_descs = ALLOC_MANY(uint64_t*, ctx->cfg->no_heap_vars);
-    runs[idx].tt_entries = ALLOC_MANY(uint64_t**, ctx->cfg->no_heap_vars);
+    runs[idx].va = ALLOC_MANY(u64*, ctx->cfg->no_heap_vars);
+    runs[idx].pa = ALLOC_MANY(u64, ctx->cfg->no_heap_vars);
+    runs[idx].out_reg = ALLOC_MANY(u64*, ctx->cfg->no_regs);
+    runs[idx].tt_descs = ALLOC_MANY(u64*, ctx->cfg->no_heap_vars);
+    runs[idx].tt_entries = ALLOC_MANY(u64**, ctx->cfg->no_heap_vars);
 
     for (var_idx_t v = 0; v < ctx->cfg->no_heap_vars; v++) {
-      runs[idx].tt_descs[v] = ALLOC_MANY(uint64_t, 4);
-      runs[idx].tt_entries[v] = ALLOC_MANY(uint64_t*, 4);
+      runs[idx].tt_descs[v] = ALLOC_MANY(u64, 4);
+      runs[idx].tt_entries[v] = ALLOC_MANY(u64*, 4);
     }
   }
 
@@ -164,16 +163,16 @@ static void setup_run_data(test_ctx_t* ctx, uint64_t vcpu, run_count_t batch_sta
     run_idx_t i = count_to_run_index(ctx, r);
     litmus_test_run* run = &runs[idx];
     for (var_idx_t v = 0; v < ctx->cfg->no_heap_vars; v++) {
-      uint64_t* p = ctx_heap_var_va(ctx, v, i);
+      u64* p = ctx_heap_var_va(ctx, v, i);
       run->va[v] = p;
 
       if (ENABLE_PGTABLE) {
         for (int lvl = 0; lvl < 4; lvl++) {
-          run->tt_entries[v][lvl] = vmm_pte_at_level(ctx->ptables[asid_from_run_count(ctx, r)], (uint64_t)p, lvl);
+          run->tt_entries[v][lvl] = vmm_pte_at_level(ctx->ptables[asid_from_run_count(ctx, r)], (u64)p, lvl);
           run->tt_descs[v][lvl] = *run->tt_entries[v][lvl];
         }
 
-        run->pa[v] = ctx_pa(ctx, i, (uint64_t)p);
+        run->pa[v] = ctx_pa(ctx, i, (u64)p);
       }
     }
 
@@ -183,7 +182,7 @@ static void setup_run_data(test_ctx_t* ctx, uint64_t vcpu, run_count_t batch_sta
   }
 }
 
-static void clean_run_data(test_ctx_t* ctx, uint64_t vcpu, run_count_t batch_start_idx, run_count_t batch_end_idx, litmus_test_run* runs) {
+static void clean_run_data(test_ctx_t* ctx, u64 vcpu, run_count_t batch_start_idx, run_count_t batch_end_idx, litmus_test_run* runs) {
   int idx;
   run_count_t r;
 
@@ -223,7 +222,7 @@ static void clean_tlb_for_batch(test_ctx_t* ctx, run_count_t batch_start_idx, ru
   dsb();
 
   for (run_count_t r = batch_start_idx; r < batch_end_idx; r++) {
-    uint64_t asid = asid_from_run_count(ctx, r);
+    u64 asid = asid_from_run_count(ctx, r);
     tlbi_asid(asid);
   }
 
@@ -231,24 +230,24 @@ static void clean_tlb_for_batch(test_ctx_t* ctx, run_count_t batch_start_idx, ru
 }
 
 typedef struct {
-  uint32_t* el0;
-  uint32_t* el1_sp0;
-  uint32_t* el1_spx;
+  u32* el0;
+  u32* el1_sp0;
+  u32* el1_spx;
 } exception_handlers_refs_t;
 
-static void set_new_sync_exception_handlers(test_ctx_t* ctx, uint64_t vcpu, exception_handlers_refs_t* handlers) {
+static void set_new_sync_exception_handlers(test_ctx_t* ctx, u64 vcpu, exception_handlers_refs_t* handlers) {
   if (ctx->cfg->thread_sync_handlers) {
     if (ctx->cfg->thread_sync_handlers[vcpu][0] != NULL) {
-      handlers->el0 = hotswap_exception(0x400, (uint32_t*)ctx->cfg->thread_sync_handlers[vcpu][0]);
+      handlers->el0 = hotswap_exception(0x400, (u32*)ctx->cfg->thread_sync_handlers[vcpu][0]);
     }
     if (ctx->cfg->thread_sync_handlers[vcpu][1] != NULL) {
-      handlers->el1_sp0 = hotswap_exception(0x000, (uint32_t*)ctx->cfg->thread_sync_handlers[vcpu][1]);
-      handlers->el1_spx = hotswap_exception(0x200, (uint32_t*)ctx->cfg->thread_sync_handlers[vcpu][1]);
+      handlers->el1_sp0 = hotswap_exception(0x000, (u32*)ctx->cfg->thread_sync_handlers[vcpu][1]);
+      handlers->el1_spx = hotswap_exception(0x200, (u32*)ctx->cfg->thread_sync_handlers[vcpu][1]);
     }
   }
 }
 
-static void restore_old_sync_exception_handlers(test_ctx_t* ctx, uint64_t vcpu, exception_handlers_refs_t* handlers) {
+static void restore_old_sync_exception_handlers(test_ctx_t* ctx, u64 vcpu, exception_handlers_refs_t* handlers) {
   if (ctx->cfg->thread_sync_handlers) {
     if (handlers->el0 != NULL) {
       restore_hotswapped_exception(0x400, handlers->el0);
@@ -267,7 +266,7 @@ static void restore_old_sync_exception_handlers(test_ctx_t* ctx, uint64_t vcpu, 
 /** prepare the state for the following tests
  * e.g. clean TLBs and install exception handler
  */
-static void prepare_test_contexts(test_ctx_t* ctx, uint64_t vcpu, run_count_t batch_start_idx, run_count_t batch_end_idx, exception_handlers_refs_t* handlers) {
+static void prepare_test_contexts(test_ctx_t* ctx, u64 vcpu, run_count_t batch_start_idx, run_count_t batch_end_idx, exception_handlers_refs_t* handlers) {
   clean_tlb_for_batch(ctx, batch_start_idx, batch_end_idx);
 }
 
@@ -283,8 +282,8 @@ static void switch_to_test_context(test_ctx_t* ctx, int vcpu, run_count_t r, exc
   _init_sys_state(ctx);
 
   if (LITMUS_SYNC_TYPE == SYNC_ASID) {
-    uint64_t asid = asid_from_run_count(ctx, r);
-    uint64_t* ptable = ctx->ptables[asid];
+    u64 asid = asid_from_run_count(ctx, r);
+    u64* ptable = ctx->ptables[asid];
     debug("switching to ASID %ld, with ptable = %p\n", asid, ptable);
     vmm_switch_ttable_asid(ptable, asid);
   }
@@ -296,7 +295,7 @@ static void switch_to_test_context(test_ctx_t* ctx, int vcpu, run_count_t r, exc
   set_new_sync_exception_handlers(ctx, vcpu, handlers);
 }
 
-static void return_to_harness_context(test_ctx_t* ctx, uint64_t cpu, uint64_t vcpu, exception_handlers_refs_t* handlers) {
+static void return_to_harness_context(test_ctx_t* ctx, u64 cpu, u64 vcpu, exception_handlers_refs_t* handlers) {
   debug("return to harness context\n");
 
   /* have to restore the old handlers
@@ -317,14 +316,14 @@ static void return_to_harness_context(test_ctx_t* ctx, uint64_t cpu, uint64_t vc
 
 /** ensures all CPUs have an allocated affinity
  */
-static void ensure_new_affinity(test_ctx_t* ctx, uint64_t cpu) {
+static void ensure_new_affinity(test_ctx_t* ctx, u64 cpu) {
   if (LITMUS_AFF_TYPE != AFF_NONE)
     allocate_affinities(ctx);
 }
 
 /** get this physical CPU's allocation to a vCPU (aka test thread)
  */
-static uint64_t get_affinity(test_ctx_t* ctx, uint64_t cpu) {
+static u64 get_affinity(test_ctx_t* ctx, u64 cpu) {
   if (LITMUS_AFF_TYPE == AFF_RAND) {
     return ctx->affinity[cpu];
   } else if (LITMUS_AFF_TYPE == AFF_NONE) {
@@ -355,7 +354,7 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
    * then at the end of the batch, we clean all the ASIDS, free all the pagetables, flush any caches that may need flushing.
    */
   for (run_count_t j = 0; j < ctx->no_runs;) {
-    uint64_t vcpu;  /* the test thread this physical core will execute */
+    u64 vcpu;  /* the test thread this physical core will execute */
 
     run_count_t batch_start_idx = j;
     run_count_t batch_end_idx = MIN(batch_start_idx+ctx->batch_size, ctx->no_runs);
@@ -430,9 +429,9 @@ static void prefetch(test_ctx_t* ctx, run_idx_t i, run_count_t r) {
   debug("prefetching for run %ld\n", r);
   for (var_idx_t v = 0; v < ctx->cfg->no_heap_vars; v++) {
     LOCK(&__harness_lock);
-    uint64_t* va = ctx_heap_var_va(ctx, v, i);
-    uint64_t is_valid = vmm_pte_valid(ptable_from_run(ctx, i), va);
-    uint64_t* safe_va = (uint64_t*)SAFE_TESTDATA_VA((uint64_t)va);
+    u64* va = ctx_heap_var_va(ctx, v, i);
+    u64 is_valid = vmm_pte_valid(ptable_from_run(ctx, i), va);
+    u64* safe_va = (u64*)SAFE_TESTDATA_VA((u64)va);
 
     UNLOCK(&__harness_lock);
     if (randn() % 2 && is_valid && *safe_va != ctx_initial_heap_value(ctx, v)) {
@@ -445,7 +444,7 @@ static void prefetch(test_ctx_t* ctx, run_idx_t i, run_count_t r) {
 
 static void resetsp(void) {
   /* check and reset to SP_EL0 */
-  uint64_t currentsp;
+  u64 currentsp;
   asm volatile("mrs %[currentsp], SPSel\n" : [currentsp] "=r"(currentsp));
 
   if (currentsp == 0b1) { /* if not already using SP_EL0 */
@@ -468,7 +467,7 @@ static void start_of_run(test_ctx_t* ctx, int cpu, int vcpu, run_idx_t i, run_co
 static void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, run_idx_t i, run_count_t r) {
   /* only 1 thread should collect the results, else they will be duplicated */
   if (vcpu == 0) {
-    uint64_t time = read_clk();
+    u64 time = read_clk();
     if (time - ctx->last_tick > 10*TICKS_PER_SEC || ctx->last_tick == 0) {
       char time_str[100];
       sprint_time((char*)&time_str, time, SPRINT_TIME_HHMMSS);
@@ -479,7 +478,7 @@ static void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, run_idx_t i, run_coun
     handle_new_result(ctx, i, r);
 
     /* progress indicator */
-    uint64_t step = (ctx->no_runs / 10);
+    u64 step = (ctx->no_runs / 10);
     if (r % step == 0) {
       trace("[%d/%d]\n", r, ctx->no_runs);
     } else if (r == ctx->no_runs - 1) {

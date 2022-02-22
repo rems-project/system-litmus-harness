@@ -13,10 +13,10 @@ void __set_var(test_ctx_t* ctx, const litmus_test_t* cfg, char* var, char* val) 
   if (strcmp(var, "") || strcmp(val, ""))
     return;
 
-  uint64_t value = atoi(val);
-  uint64_t varidx = idx_from_varname(ctx, var);
+  u64 value = atoi(val);
+  u64 varidx = idx_from_varname(ctx, var);
 
-  ctx->heap_vars[varidx].values[0] = (uint64_t*)value;
+  ctx->heap_vars[varidx].values[0] = (u64*)value;
 }
 
 void __read_from_argv(test_ctx_t* ctx, const litmus_test_t* cfg, char* arg) {

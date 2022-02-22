@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 
@@ -41,7 +40,7 @@ litmus_test_t CoTT_popopage = {
     INIT_REGION_PIN(y2, y1, REGION_SAME_PAGE),
     INIT_REGION_OFFSET(y2, x2, REGION_SAME_PAGE_OFFSET),
   ),
-  .interesting_result = (uint64_t[]){
+  .interesting_result = (u64[]){
       /* p0:x2 =*/1,
       /* p0:x4 =*/0,
   },

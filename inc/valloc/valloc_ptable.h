@@ -1,7 +1,6 @@
 #ifndef VALLOC_PTABLE_H
 #define VALLOC_PTABLE_H
 
-#include <stdint.h>
 
 /* allocator for contiguous page-sized chunks
  *
@@ -9,7 +8,7 @@
  */
 
 typedef struct {
-  uint64_t bot;
+  u64 bot;
 } valloc_ptable_mem;
 
 /** first-time initialise the pagetable allocator

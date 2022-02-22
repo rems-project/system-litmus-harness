@@ -2,7 +2,7 @@
 
 #include "vmm.h"
 
-extern uint64_t __argc;
+extern u64 __argc;
 extern char*    __argv[100];
 
 /** setup is called very early
@@ -13,8 +13,8 @@ void setup(char* fdtloc) {
    * if the first word is not the magic constant
    * then this is not a valid dtb
    */
-  if (*(uint32_t*)fdtloc != 0xd00dfeed) {
-    printf("INVALID fdt :: fdtloc *%p = 0x%lx\n", fdtloc, *(uint32_t*)fdtloc);
+  if (*(u32*)fdtloc != 0xd00dfeed) {
+    printf("INVALID fdt :: fdtloc *%p = 0x%lx\n", fdtloc, *(u32*)fdtloc);
     fdtloc = NULL;
   }
 
@@ -58,14 +58,14 @@ void setup(char* fdtloc) {
   debug("--------------------------------\n");
   typedef struct {
     const char* name;
-    uint64_t bottom;
-    uint64_t top;
+    u64 bottom;
+    u64 top;
   } bar_region_t;
 
   typedef struct {
     const char* name;
-    uint8_t  is_top;
-    uint64_t data;
+    u8  is_top;
+    u64 data;
   } region_border_t;
 
   bar_region_t regs[] = {
@@ -79,7 +79,7 @@ void setup(char* fdtloc) {
     {"IO", BOT_OF_IO, TOP_OF_IO},
   };
 
-  const uint64_t reg_count = sizeof(regs)/sizeof(bar_region_t);
+  const u64 reg_count = sizeof(regs)/sizeof(bar_region_t);
   region_border_t bars[2*reg_count] ;
   for (int i = 0; i < reg_count; i++) {
     bar_region_t* r = &regs[i];
@@ -112,7 +112,7 @@ void setup(char* fdtloc) {
     debug("CPU%d STACK EL0 : [%p -> %p => %p -> %p]\n", i, STACK_MMAP_THREAD_TOP_EL0(i), STACK_MMAP_THREAD_BOT_EL0(i), STACK_PYS_THREAD_TOP_EL0(i), STACK_PYS_THREAD_BOT_EL0(i));
   }
 
-  vector_base_pa = (uint64_t)&el1_exception_vector_table_p0;
+  vector_base_pa = (u64)&el1_exception_vector_table_p0;
 
   for (int i = 0; i < NO_CPUS; i++) {
     debug("CPU%d VTABLE : %p\n", i, vector_base_pa+4096*i);
@@ -120,7 +120,7 @@ void setup(char* fdtloc) {
 
   /* create pgtable */
   if (ENABLE_PGTABLE) {
-    vmm_pgtables = alloc(sizeof(uint64_t*)*NO_CPUS);
+    vmm_pgtables = alloc(sizeof(u64*)*NO_CPUS);
   }
 
   printf("#build: (%s)\n", version_string());
@@ -178,14 +178,14 @@ void per_cpu_setup(int cpu) {
   current_thread_info()->cpu_no = cpu;
   current_thread_info()->mmu_enabled = 0;
 
-  uint64_t el = read_sysreg(currentel) >> 2;
+  u64 el = read_sysreg(currentel) >> 2;
 
   if (el == 2) {
-    uint64_t spsr = \
+    u64 spsr = \
       SPSR_FIELD(SPSR_EL, 1) | /* drop to EL1 */
       SPSR_FIELD(SPSR_SP, 0) | /* using SP_EL0 */
       0 ;
-    uint64_t elr = (uint64_t)&&begin_el1; /* and 'return' to begin_el1 */
+    u64 elr = (u64)&&begin_el1; /* and 'return' to begin_el1 */
 
     write_sysreg(spsr, spsr_el2);
     write_sysreg(elr, elr_el2);
@@ -198,7 +198,7 @@ begin_el1:
   debug("VBAR = %p\n", read_sysreg(vbar_el1));
 
   if (ENABLE_PGTABLE) {
-    uint64_t* vmm_pgtable = vmm_alloc_new_4k_pgtable();
+    u64* vmm_pgtable = vmm_alloc_new_4k_pgtable();
     vmm_pgtables[cpu] = vmm_pgtable;
 
     vmm_set_id_translation(vmm_pgtable);

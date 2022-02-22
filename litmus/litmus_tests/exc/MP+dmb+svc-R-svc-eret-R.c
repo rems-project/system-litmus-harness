@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 
@@ -72,11 +71,11 @@ litmus_test_t MP_dmb_svcRsvceretR = {
     INIT_VAR(y, 0)
   ),
   .thread_sync_handlers =
-    (uint32_t**[]){
-     (uint32_t*[]){NULL, NULL},
-     (uint32_t*[]){(uint32_t*)svc_handler0, (uint32_t*)svc_handler1},
+    (u32**[]){
+     (u32*[]){NULL, NULL},
+     (u32*[]){(u32*)svc_handler0, (u32*)svc_handler1},
     },
-  .interesting_result = (uint64_t[]){
+  .interesting_result = (u64[]){
       /* p1:x0 =*/1,
       /* p1:x2 =*/0,
   },

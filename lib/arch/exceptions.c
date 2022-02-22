@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 
@@ -74,9 +73,9 @@ static char __exc_buffer[4096];
 static char __exc_stack_buf[1024];
 static lock_t _EXC_PRINT_LOCK;
 
-static void _print_stack_trace(int el, uint64_t fp) {
+static void _print_stack_trace(int el, u64 fp) {
   stack_t* stack = (stack_t*)__exc_stack_buf;
-  walk_stack_from((uint64_t*)fp, stack);
+  walk_stack_from((u64*)fp, stack);
 
   char* out = __exc_buffer;
   out = sprintf(out, "  [ STRACE SP_%d] ", el, stack->no_frames);
@@ -86,11 +85,11 @@ static void _print_stack_trace(int el, uint64_t fp) {
   printf("%s\n", __exc_buffer);
 }
 
-void* default_handler(uint64_t vec, uint64_t esr, regvals_t* regs) {
-  uint64_t spsr = read_sysreg(spsr_el1);
-  uint64_t ec = esr >> 26;
-  uint64_t iss = esr & BITMASK(26);
-  uint64_t cpu = get_cpu();
+void* default_handler(u64 vec, u64 esr, regvals_t* regs) {
+  u64 spsr = read_sysreg(spsr_el1);
+  u64 ec = esr >> 26;
+  u64 iss = esr & BITMASK(26);
+  u64 cpu = get_cpu();
   LOCK(&_EXC_PRINT_LOCK);
 
   printf("Unhandled Exception (CPU%d): \n", cpu);
@@ -105,7 +104,7 @@ void* default_handler(uint64_t vec, uint64_t esr, regvals_t* regs) {
     printf("  [DATA ABORT ISS]\n");
     printf("  [  FnV] %d\n", (iss >> 10) & 1);
     printf("  [  WnR] %d\n", (iss >> 6) & 1);
-    uint64_t dfsc = iss & BITMASK(6);
+    u64 dfsc = iss & BITMASK(6);
     printf("  [  DFSC] 0x%lx (%s)\n", dfsc, dabt_iss_dfsc[dfsc]);
   }
   printf("  [REGISTERS]\n");
@@ -144,7 +143,7 @@ void* default_handler(uint64_t vec, uint64_t esr, regvals_t* regs) {
    * stack space and stack_walk* functions will exit early, and the STRACE field
    * will not contain anything meaningful but shouldn't cause any other problems
    */
-  uint64_t fp = regs->gpr[29];
+  u64 fp = regs->gpr[29];
   _print_stack_trace(BIT(spsr, 0), fp);
 
   if ((BIT(spsr, 0) == 1) && (BIT_SLICE(spsr, 3, 2) == 1)) {
@@ -161,12 +160,12 @@ void* default_handler(uint64_t vec, uint64_t esr, regvals_t* regs) {
   return NULL;
 }
 
-void set_handler(uint64_t vec, uint64_t ec, exception_vector_fn* fn) {
+void set_handler(u64 vec, u64 ec, exception_vector_fn* fn) {
   int cpu = get_cpu();
   vtable[cpu][vec][ec] = fn;
 }
 
-void reset_handler(uint64_t vec, uint64_t ec) {
+void reset_handler(u64 vec, u64 ec) {
   int cpu = get_cpu();
   vtable[cpu][vec][ec] = NULL;
 }
@@ -189,7 +188,7 @@ void raise_to_el1(void) {
   );
 }
 
-static void* default_svc_drop_el0(uint64_t vec, uint64_t esr, regvals_t* regs) {
+static void* default_svc_drop_el0(u64 vec, u64 esr, regvals_t* regs) {
   asm volatile(
     "mrs x18, spsr_el1\n"
 
@@ -208,7 +207,7 @@ static void* default_svc_drop_el0(uint64_t vec, uint64_t esr, regvals_t* regs) {
   return NULL;
 }
 
-static void* default_svc_raise_el1(uint64_t vec, uint64_t esr,
+static void* default_svc_raise_el1(u64 vec, u64 esr,
                                    regvals_t* regs) {
   /* raise to EL1h */
   asm volatile(
@@ -230,10 +229,10 @@ static void* default_svc_raise_el1(uint64_t vec, uint64_t esr,
   return NULL;
 }
 
-static void* default_svc_read_currentel(uint64_t vec, uint64_t esr,
+static void* default_svc_read_currentel(u64 vec, u64 esr,
                                         regvals_t* regs) {
   /* read CurrentEL via SPSPR */
-  uint64_t cel;
+  u64 cel;
   asm volatile(
       "mrs %[cel], SPSR_EL1\n"
       "and %[cel], %[cel], #12\n"
@@ -241,8 +240,8 @@ static void* default_svc_read_currentel(uint64_t vec, uint64_t esr,
   return (void*)cel;
 }
 
-static void* default_svc_handler(uint64_t vec, uint64_t esr, regvals_t* regs) {
-  uint64_t imm = esr & 0xffffff;
+static void* default_svc_handler(u64 vec, u64 esr, regvals_t* regs) {
+  u64 imm = esr & 0xffffff;
   int cpu = get_cpu();
   if (vtable_svc[cpu][imm] == NULL)
     if (imm == 10)
@@ -257,19 +256,19 @@ static void* default_svc_handler(uint64_t vec, uint64_t esr, regvals_t* regs) {
     return (void*)vtable_svc[cpu][imm](esr, regs);
 }
 
-static void* default_pgfault_handler(uint64_t vec, uint64_t esr,
+static void* default_pgfault_handler(u64 vec, u64 esr,
                                      regvals_t* regs) {
-  uint64_t far = read_sysreg(far_el1);
+  u64 far = read_sysreg(far_el1);
   int cpu = get_cpu();
-  uint64_t imm = far % 127;
+  u64 imm = far % 127;
   if (vtable_pgfault[cpu][imm] == NULL)
     return default_handler(vec, esr, regs);
   else
     return (void*)vtable_pgfault[cpu][imm](esr, regs);
 }
 
-void* handle_exception(uint64_t vec, uint64_t esr, regvals_t* regs) {
-  uint64_t ec = esr >> 26;
+void* handle_exception(u64 vec, u64 esr, regvals_t* regs) {
+  u64 ec = esr >> 26;
   int cpu = get_cpu();
   exception_vector_fn* fn = vtable[cpu][vec][ec];
   if (fn) {
@@ -283,17 +282,17 @@ void* handle_exception(uint64_t vec, uint64_t esr, regvals_t* regs) {
   }
 }
 
-void set_svc_handler(uint64_t svc_no, exception_vector_fn* fn) {
+void set_svc_handler(u64 svc_no, exception_vector_fn* fn) {
   int cpu = get_cpu();
   vtable_svc[cpu][svc_no] = fn;
 }
 
-void reset_svc_handler(uint64_t svc_no) {
+void reset_svc_handler(u64 svc_no) {
   int cpu = get_cpu();
   vtable_svc[cpu][svc_no] = NULL;
 }
 
-void set_pgfault_handler(uint64_t va, exception_vector_fn* fn) {
+void set_pgfault_handler(u64 va, exception_vector_fn* fn) {
   int cpu = get_cpu();
   int idx = va % 127;
   if (vtable_pgfault[cpu][idx] != NULL) {
@@ -305,7 +304,7 @@ void set_pgfault_handler(uint64_t va, exception_vector_fn* fn) {
   dsb();
 }
 
-void reset_pgfault_handler(uint64_t va) {
+void reset_pgfault_handler(u64 va) {
   int cpu = get_cpu();
   vtable_pgfault[cpu][va % 127] = NULL;
 }
@@ -317,13 +316,13 @@ void reset_pgfault_handler(uint64_t va) {
  * but rather have to invalidate the actual VA/PA that is used during execution
  */
 static void flush_icache_vector_entries(void) {
-  uint64_t vbar_start = (uint64_t)THR_VTABLE_VA(get_cpu());
-  uint64_t vbar_pa_start = (uint64_t)THR_VTABLE_PA(get_cpu());
+  u64 vbar_start = (u64)THR_VTABLE_VA(get_cpu());
+  u64 vbar_pa_start = (u64)THR_VTABLE_PA(get_cpu());
 
-  uint64_t iline = 1 << BIT_SLICE(read_sysreg(ctr_el0), 3, 0);
-  uint64_t dline = 1 << BIT_SLICE(read_sysreg(ctr_el0), 19, 16);
+  u64 iline = 1 << BIT_SLICE(read_sysreg(ctr_el0), 3, 0);
+  u64 dline = 1 << BIT_SLICE(read_sysreg(ctr_el0), 19, 16);
 
-  for (uint64_t vbar_va = vbar_start; vbar_va < vbar_start+4096; vbar_va += 4*dline) {
+  for (u64 vbar_va = vbar_start; vbar_va < vbar_start+4096; vbar_va += 4*dline) {
     asm volatile (
       "dc cvau, %[va]\n\t"
     :
@@ -334,7 +333,7 @@ static void flush_icache_vector_entries(void) {
 
   dsb();
 
-  for (uint64_t vbar_pa = vbar_pa_start; vbar_pa < vbar_pa_start+4096; vbar_pa += 4*iline) {
+  for (u64 vbar_pa = vbar_pa_start; vbar_pa < vbar_pa_start+4096; vbar_pa += 4*iline) {
     asm volatile (
       "ic ivau, %[pa]\n\t"
     :
@@ -347,9 +346,9 @@ static void flush_icache_vector_entries(void) {
   isb();
 }
 
-uint32_t* hotswap_exception(uint64_t vector_slot, uint32_t data[32]) {
-  uint32_t* p = alloc(sizeof(uint32_t) * 32);
-  uint32_t* vbar = (uint32_t*)(((uint64_t)THR_VTABLE_VA(get_cpu())) + vector_slot);
+u32* hotswap_exception(u64 vector_slot, u32 data[32]) {
+  u32* p = alloc(sizeof(u32) * 32);
+  u32* vbar = (u32*)(((u64)THR_VTABLE_VA(get_cpu())) + vector_slot);
   debug("hotswap exception for vbar=%p slot 0x%lx : %p\n", vbar, vector_slot, &data[0]);
   for (int i = 0; i < 32; i++) {
     p[i] = *(vbar + i);
@@ -361,8 +360,8 @@ uint32_t* hotswap_exception(uint64_t vector_slot, uint32_t data[32]) {
   return p;
 }
 
-void restore_hotswapped_exception(uint64_t vector_slot, uint32_t* ptr) {
-  uint32_t* vbar = (uint32_t*)(((uint64_t)THR_VTABLE_VA(get_cpu())) + vector_slot);
+void restore_hotswapped_exception(u64 vector_slot, u32* ptr) {
+  u32* vbar = (u32*)(((u64)THR_VTABLE_VA(get_cpu())) + vector_slot);
 
   for (int i = 0; i < 32; i++) {
     *(vbar + i) = ptr[i];

@@ -7,6 +7,6 @@
 void init_driver(void);
 
 /** write 1 byte to stdout */
-void write_stdout(uint8_t);
+void write_stdout(u8);
 
 #endif /* DRIVER_H */

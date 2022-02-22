@@ -11,10 +11,10 @@ static int matches(test_result_t* result, test_ctx_t* ctx, run_idx_t run) {
 
 
 static int matches_interesting(test_hist_t* res, test_ctx_t* ctx, test_result_t* r) {
-  uint64_t no_interesting = ctx->cfg->no_interesting_results;
+  u64 no_interesting = ctx->cfg->no_interesting_results;
 
-  uint64_t** relaxed = ctx->cfg->interesting_results;
-  uint64_t* _spare[1] = { ctx->cfg->interesting_result };
+  u64** relaxed = ctx->cfg->interesting_results;
+  u64* _spare[1] = { ctx->cfg->interesting_result };
   if (relaxed == NULL) {
     relaxed = &_spare[0];
     if (ctx->cfg->interesting_result != NULL) {
@@ -23,7 +23,7 @@ static int matches_interesting(test_hist_t* res, test_ctx_t* ctx, test_result_t*
   }
 
   for (int i = 0; i < no_interesting; i++) {
-    uint64_t* regs = relaxed[i];
+    u64* regs = relaxed[i];
     int was_interesting = 1;
 
      for (int reg = 0; reg < ctx->cfg->no_regs; reg++) {
@@ -42,7 +42,7 @@ static int matches_interesting(test_hist_t* res, test_ctx_t* ctx, test_result_t*
 static int ix_from_values(test_ctx_t* ctx, run_idx_t run) {
   int val = 0;
   for (reg_idx_t reg = 0; reg < ctx->cfg->no_regs; reg++) {
-    uint64_t v = ctx->out_regs[reg][run];
+    u64 v = ctx->out_regs[reg][run];
     if (v < 4) {
       val *= 4;
       val += (int)(v % 4); /* must be less than 4 so fine ... */

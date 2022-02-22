@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 
@@ -52,7 +51,7 @@ static void P2(litmus_test_run* data) {
   : "memory", "x0", "x1", "x2", "x3"
   );
 
-  uint64_t* reg_va = out_reg(data, "p2:x0");
+  u64* reg_va = out_reg(data, "p2:x0");
   if (*reg_va == 0) {
     *reg_va = 1;
   } else {
@@ -103,14 +102,14 @@ litmus_test_t BBM1_dmblddsbtlbiisdsbisbdsbisb_dsbisb = {
     INIT_VAR(z, 1)
   ),
   .no_interesting_results=2,
-  .interesting_results = (uint64_t*[]){
-    (uint64_t[]){
+  .interesting_results = (u64*[]){
+    (u64[]){
       /* p0:x7 =*/1,
       /* p1:x0 =*/1,
       /* p1:x2 =*/0,  /* stale translation */
       /* p2:x0 =*/1,
     },
-    (uint64_t[]){
+    (u64[]){
       /* p0:x7 =*/1,
       /* p1:x0 =*/1,
       /* p1:x2 =*/2,  /* spurious abort */
@@ -119,10 +118,10 @@ litmus_test_t BBM1_dmblddsbtlbiisdsbisbdsbisb_dsbisb = {
   },
   .start_els=(int[]){1,0,0},
   .thread_sync_handlers =
-    (uint32_t**[]){
-     (uint32_t*[]){NULL, NULL},
-     (uint32_t*[]){(uint32_t*)sync_handler, NULL},
-     (uint32_t*[]){NULL, NULL},
+    (u32**[]){
+     (u32*[]){NULL, NULL},
+     (u32*[]){(u32*)sync_handler, NULL},
+     (u32*[]){NULL, NULL},
     },
   .requires_pgtable=1,
   .no_sc_results = 16,

@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 #include "testlib.h"
@@ -6,11 +5,11 @@
 UNIT_TEST(test_valloc_memset_dc_zvz)
 void test_valloc_memset_dc_zvz(void) {
  for (int k = 0; k < 1000; k++) {
-    uint64_t count = randrange(10, 1024);
-    uint8_t* vars = ALLOC_MANY(uint8_t, count);
-    uint64_t lower = randrange(0, count);
-    uint64_t size = randrange(0, count - lower);
-    uint64_t upper = lower + size;
+    u64 count = randrange(10, 1024);
+    u8* vars = ALLOC_MANY(u8, count);
+    u64 lower = randrange(0, count);
+    u64 size = randrange(0, count - lower);
+    u64 upper = lower + size;
 
     ASSERT(lower < count, "lower was >= count");
     ASSERT(size < count - lower + 1, "size >= count - lower");

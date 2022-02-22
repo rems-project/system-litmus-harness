@@ -11,17 +11,17 @@ typedef struct {
 } pin_st_t;
 
 typedef struct {
-  uint8_t picked;
-  uint64_t va;
+  u8 picked;
+  u64 va;
   pin_st_t pins[NUM_PIN_LEVELS];
 } var_st_t;
 
 typedef struct {
-  uint64_t _;
+  u64 _;
   var_st_t var_sts[];
 } concretization_st_t;
 
-uint8_t overlaps_owned_region(concretization_st_t* st, var_info_t* var, var_info_t* with) {
+u8 overlaps_owned_region(concretization_st_t* st, var_info_t* var, var_info_t* with) {
   if (! with->init_owns_region) {
     return 0;
   }
@@ -35,12 +35,12 @@ uint8_t overlaps_owned_region(concretization_st_t* st, var_info_t* var, var_info
     }
   }
 
-  uint64_t va = st->var_sts[var->varidx].va;
-  uint64_t otherva = st->var_sts[with->varidx].va;
-  uint64_t level = with->init_owned_region_size;
+  u64 va = st->var_sts[var->varidx].va;
+  u64 otherva = st->var_sts[with->varidx].va;
+  u64 level = with->init_owned_region_size;
 
-  uint64_t lo = otherva & ~BITMASK(LEVEL_SHIFTS[level]);
-  uint64_t hi = lo + LEVEL_SIZES[level];
+  u64 lo = otherva & ~BITMASK(LEVEL_SHIFTS[level]);
+  u64 hi = lo + LEVEL_SIZES[level];
 
   if (lo <= va && va < hi) {
     return 1;
@@ -49,14 +49,14 @@ uint8_t overlaps_owned_region(concretization_st_t* st, var_info_t* var, var_info
   return 0;
 }
 
-uint8_t has_same_va(concretization_st_t* st, var_info_t* var, var_info_t* with) {
-  uint64_t va = st->var_sts[var->varidx].va;
-  uint64_t otherva = st->var_sts[with->varidx].va;
+u8 has_same_va(concretization_st_t* st, var_info_t* var, var_info_t* with) {
+  u64 va = st->var_sts[var->varidx].va;
+  u64 otherva = st->var_sts[with->varidx].va;
 
   return (va == otherva);
 }
 
-uint8_t validate_selection(test_ctx_t* ctx, concretization_st_t* st, var_info_t* thisvar) {
+u8 validate_selection(test_ctx_t* ctx, concretization_st_t* st, var_info_t* thisvar) {
   var_info_t* var;
   FOREACH_HEAP_VAR(ctx, var) {
     if (var->varidx == thisvar->varidx)
@@ -73,8 +73,8 @@ uint8_t validate_selection(test_ctx_t* ctx, concretization_st_t* st, var_info_t*
 }
 
 region_idx_t rand_idx(region_idx_t start, region_idx_t end) {
-  uint64_t reg = randrange(start.reg_ix, end.reg_ix);
-  uint64_t offs = randrange(start.reg_offs, MIN(end.reg_offs, NR_DIRS_PER_REGION*DIR_SIZE));
+  u64 reg = randrange(start.reg_ix, end.reg_ix);
+  u64 offs = randrange(start.reg_offs, MIN(end.reg_offs, NR_DIRS_PER_REGION*DIR_SIZE));
   offs = ALIGN_TO(offs, 4);  /* always allocated 64-bit aligned values */
   return (region_idx_t){.reg_ix=reg, .reg_offs=offs};
 }
@@ -86,10 +86,10 @@ void pick_pin(test_ctx_t* ctx, concretization_st_t* st, var_info_t* rootvar, reg
   region_idx_t va_idx = rand_idx(va_begin, va_end);
 
   if (pinnedvar->init_region_offset) {
-    uint64_t othervaridx = pinnedvar->offset_var;
+    u64 othervaridx = pinnedvar->offset_var;
     if (st->var_sts[othervaridx].picked) {
-      uint64_t othershift = LEVEL_SHIFTS[pinnedvar->offset_level];
-      uint64_t otherva = st->var_sts[othervaridx].va;
+      u64 othershift = LEVEL_SHIFTS[pinnedvar->offset_level];
+      u64 otherva = st->var_sts[othervaridx].va;
 
       /* we assume we stay in the pin and check later */
       va_idx.reg_offs &= ~BITMASK(othershift);
@@ -114,10 +114,10 @@ void pick_one(test_ctx_t* ctx, concretization_st_t* st, var_info_t* var, own_lev
   DEBUG(DEBUG_CONCRETIZATION, "for var=%s,  between [%o, %o) = %o\n", var->name, TOSTR(region_idx_t, &va_begin), TOSTR(region_idx_t, &va_top), TOSTR(region_idx_t, &va_idx));
 
   if (var->init_region_offset) {
-    uint64_t othervaridx = var->offset_var;
+    u64 othervaridx = var->offset_var;
     if (st->var_sts[othervaridx].picked) {
-      uint64_t othershift = LEVEL_SHIFTS[var->offset_level];
-      uint64_t otherva = st->var_sts[othervaridx].va;
+      u64 othershift = LEVEL_SHIFTS[var->offset_level];
+      u64 otherva = st->var_sts[othervaridx].va;
 
       va_idx.reg_offs &= ~BITMASK(othershift);
       va_idx.reg_offs |= otherva & BITMASK(othershift);
@@ -203,7 +203,7 @@ void concretize_random_one(test_ctx_t* ctx, const litmus_test_t* cfg, concretiza
   }
 
   FOREACH_HEAP_VAR(ctx, var) {
-    var->values[run] = (uint64_t*)st->var_sts[var->varidx].va;
+    var->values[run] = (u64*)st->var_sts[var->varidx].va;
   }
 
   if (DEBUG_CONCRETIZATION) {
@@ -216,7 +216,7 @@ void concretize_random_one(test_ctx_t* ctx, const litmus_test_t* cfg, concretiza
 }
 
 void concretize_random_all(test_ctx_t* ctx, const litmus_test_t* cfg, concretization_st_t* st, int no_runs) {
-  for (uint64_t i = 0; i < ctx->no_runs; i++) {
+  for (u64 i = 0; i < ctx->no_runs; i++) {
     concretize_random_one(ctx, cfg, st, i);
   }
 }

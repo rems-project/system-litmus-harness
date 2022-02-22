@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 #include "testlib.h"
@@ -20,7 +19,7 @@ static litmus_test_t big_test = {
 UNIT_TEST(test_free_test_ctx_empty)
 void test_free_test_ctx_empty(void) {
   test_ctx_t ctx;
-  uint64_t space = valloc_free_size();
+  u64 space = valloc_free_size();
 
   init_test_ctx(&ctx, &small_test, 0, 1);
   free_test_ctx(&ctx);
@@ -32,7 +31,7 @@ void test_free_test_ctx_empty(void) {
 UNIT_TEST(test_free_test_ctx_reuse)
 void test_free_test_ctx_reuse(void) {
   test_ctx_t ctx;
-  uint64_t space = valloc_free_size();
+  u64 space = valloc_free_size();
 
   init_test_ctx(&ctx, &big_test, 5000, 1);
   char* p = alloc(64);
@@ -49,10 +48,10 @@ void test_free_test_ctx_reuse(void) {
 UNIT_TEST(test_free_test_ctx_and_page)
 void test_free_test_ctx_and_page(void) {
   test_ctx_t ctx;
-  uint64_t space = valloc_free_size();
+  u64 space = valloc_free_size();
 
   init_test_ctx(&ctx, &big_test, 500000UL, 1);
-  uint64_t* p = vmm_alloc_new_4k_pgtable();
+  u64* p = vmm_alloc_new_4k_pgtable();
   vmm_ensure_level(p, 3, 0x4008000UL);
   free_test_ctx(&ctx);
   vmm_free_generic_pgtable(p);

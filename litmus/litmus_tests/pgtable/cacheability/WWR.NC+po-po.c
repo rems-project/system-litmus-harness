@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 
@@ -40,11 +39,11 @@ litmus_test_t WWRNC_popo = {
     INIT_ALIAS(y, x),
     INIT_PERMISSIONS(y, PROT_ATTRIDX, PROT_ATTR_NORMAL_NC),
   ),
-  .interesting_results = (uint64_t*[]){
-    (uint64_t[]){
+  .interesting_results = (u64*[]){
+    (u64[]){
       /* p1:x4 =*/0,
     },
-    (uint64_t[]){
+    (u64[]){
       /* p1:x4 =*/1,
     },
   },

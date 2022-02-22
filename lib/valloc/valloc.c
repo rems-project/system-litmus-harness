@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 
@@ -18,7 +17,7 @@ void init_valloc(void) {
   };
 
   /* we fill chunk_unalloc_list */
-  for (uint64_t i = 0; i < NUM_ALLOC_CHUNKS; i++) {
+  for (u64 i = 0; i < NUM_ALLOC_CHUNKS; i++) {
     if (i == 0)
       mem.chunks[i].prev = NULL;
     else
@@ -33,15 +32,15 @@ void init_valloc(void) {
   mem.chunk_unalloc_list = &mem.chunks[0];
 }
 
-void* realloc(void* p, uint64_t new_size) {
+void* realloc(void* p, u64 new_size) {
   char* new_p = alloc(new_size);
-  valloc_alloc_chunk* chk = valloc_alloclist_find_alloc_chunk(&mem, (uint64_t)p);
+  valloc_alloc_chunk* chk = valloc_alloclist_find_alloc_chunk(&mem, (u64)p);
   valloc_memcpy(new_p, p, chk->size);
   free(p);
   return new_p;
 }
 
-static int is_pow2(uint64_t i) {
+static int is_pow2(u64 i) {
   while (i > 0) {
     if ((i % 2) == 1) {
       return (i == 1);
@@ -53,7 +52,7 @@ static int is_pow2(uint64_t i) {
   return 0;
 }
 
-static uint64_t next_largest_pow2(uint64_t i) {
+static u64 next_largest_pow2(u64 i) {
   int hi=0;
   while (i > 0) {
     hi++;
@@ -63,12 +62,12 @@ static uint64_t next_largest_pow2(uint64_t i) {
   return (1UL << hi);
 }
 
-static void* __alloc_with_alignment(uint64_t size, uint64_t alignment) {
+static void* __alloc_with_alignment(u64 size, u64 alignment) {
   valloc_free_chunk* free_chunk = valloc_freelist_find_best(size, alignment);
   if (free_chunk != NULL) {
     DEBUG(DEBUG_ALLOC_META, "for alloc size=%ld with alignment=0x%lx,best free chunk = %p\n", size, alignment, free_chunk);
     free_chunk = valloc_freelist_split_alignment(free_chunk, size, alignment);
-    valloc_alloclist_alloc(&mem, (uint64_t)free_chunk, size);
+    valloc_alloclist_alloc(&mem, (u64)free_chunk, size);
     valloc_freelist_remove_chunk(free_chunk);
     return free_chunk;
   }
@@ -78,8 +77,8 @@ static void* __alloc_with_alignment(uint64_t size, uint64_t alignment) {
   }
 
   /* move 'top' down and align to size */
-  uint64_t allocated_space_vaddr = ALIGN_POW2(mem.top - size, alignment);
-  uint64_t new_top = allocated_space_vaddr;
+  u64 allocated_space_vaddr = ALIGN_POW2(mem.top - size, alignment);
+  u64 new_top = allocated_space_vaddr;
 
   if (new_top < BOT_OF_HEAP) {
     puts("!! alloc_with_alignment: no free space\n");
@@ -92,7 +91,7 @@ static void* __alloc_with_alignment(uint64_t size, uint64_t alignment) {
   return (void*)allocated_space_vaddr;
 }
 
-void* alloc_with_alignment(uint64_t size, uint64_t alignment) {
+void* alloc_with_alignment(u64 size, u64 alignment) {
   LOCK(&__valloc_lock);
 
   /* minimum allocation */
@@ -109,8 +108,8 @@ void* alloc_with_alignment(uint64_t size, uint64_t alignment) {
   return ptr;
 }
 
-void* alloc(uint64_t size) {
-  uint64_t alignment;
+void* alloc(u64 size) {
+  u64 alignment;
 
   if (! is_pow2(size))
     size = next_largest_pow2(size);
@@ -138,14 +137,14 @@ void* alloc(uint64_t size) {
 
 void free(void* p) {
   LOCK(&__valloc_lock);
-  valloc_alloc_chunk* chk = valloc_alloclist_find_alloc_chunk(&mem, (uint64_t)p);
+  valloc_alloc_chunk* chk = valloc_alloclist_find_alloc_chunk(&mem, (u64)p);
   if (! chk) {
     fail("! err: free %p (double free?)\n", p);
   }
-  uint64_t size = chk->size;
+  u64 size = chk->size;
 
-  valloc_alloclist_dealloc(&mem, (uint64_t)p);
-  valloc_freelist_allocate_free_chunk((uint64_t)p, size);
+  valloc_alloclist_dealloc(&mem, (u64)p);
+  valloc_freelist_allocate_free_chunk((u64)p, size);
   valloc_freelist_compact_chunk(mem.freelist);
   UNLOCK(&__valloc_lock);
 }
@@ -154,12 +153,12 @@ void free_all(void) {
   init_valloc(); /* can just re-init the mem struct to get back all memory */
 }
 
-static void __zero_all(void* p, uint64_t size) {
+static void __zero_all(void* p, u64 size) {
   char* ptr = (char* )p;
 
-  uint64_t step = DCZVA_BLOCK_WIDTH;
+  u64 step = DCZVA_BLOCK_WIDTH;
 
-  while (! IS_ALIGNED_TO((uint64_t)ptr, step)) {
+  while (! IS_ALIGNED_TO((u64)ptr, step)) {
     if (size <= 0)
       return;
 
@@ -184,21 +183,21 @@ static void __zero_all(void* p, uint64_t size) {
   }
 }
 
-void valloc_memset(void* p, uint8_t value, uint64_t size) {
+void valloc_memset(void* p, u8 value, u64 size) {
   if (value == 0 && DCZVA_ALLOW && MMU_ON && 0) {
     __zero_all(p, size);
     return;
   }
 
   char* ptr = p;
-  uint64_t end = (uint64_t)ptr + size;
-  for (; (uint64_t)ptr < end; ptr++) {
+  u64 end = (u64)ptr + size;
+  for (; (u64)ptr < end; ptr++) {
     *ptr = value;
   }
 }
 
 int valloc_is_free(void* p) {
-  uint64_t va = (uint64_t)p;
+  u64 va = (u64)p;
 
   if (va < mem.top) {
     return 1;
@@ -206,8 +205,8 @@ int valloc_is_free(void* p) {
 
   valloc_free_chunk* fblk = mem.freelist;
   while (fblk != NULL) {
-    uint64_t fblk_start = (uint64_t)fblk;
-    uint64_t fblk_end = fblk_start + fblk->size;
+    u64 fblk_start = (u64)fblk;
+    u64 fblk_end = fblk_start + fblk->size;
     if (fblk_start <= va && va <= fblk_end) {
       return 1;
     }
@@ -218,13 +217,13 @@ int valloc_is_free(void* p) {
 }
 
 void memset(void* p, int val, size_t n) {
-  valloc_memset(p, (uint64_t)val, (uint64_t)n);
+  valloc_memset(p, (u64)val, (u64)n);
 }
 
-uint64_t valloc_free_size(void) {
-  uint64_t top = mem.top;
+u64 valloc_free_size(void) {
+  u64 top = mem.top;
 
-  uint64_t used_space = 0;
+  u64 used_space = 0;
   valloc_alloc_chunk* chk = mem.chunk_alloc_list;
   while (chk != NULL) {
     used_space += chk->size;
@@ -234,24 +233,24 @@ uint64_t valloc_free_size(void) {
   return (top - BOT_OF_HEAP) - used_space;
 }
 
-void valloc_memcpy(void* dest, void* src, uint64_t size) {
+void valloc_memcpy(void* dest, void* src, u64 size) {
   char* p = (char*)src;
   char* q = (char*)dest;
-  for (uint64_t i = 0; i < size; i++) {
+  for (u64 i = 0; i < size; i++) {
     *(q + i) = *(p + i);
   }
 }
 
 void memcpy(void* dest, void* src, size_t size) {
-  valloc_memcpy(dest, src, (uint64_t)size);
+  valloc_memcpy(dest, src, (u64)size);
 }
 
 
 /* debugging functions */
-uint64_t valloc_alloclist_count_chunks(void) {
+u64 valloc_alloclist_count_chunks(void) {
   valloc_mempool* pool = &mem;
 
-  uint64_t counter = 0;
+  u64 counter = 0;
   valloc_alloc_chunk* chunk = pool->chunk_alloc_list;
   while (chunk != NULL) {
     counter += 1;

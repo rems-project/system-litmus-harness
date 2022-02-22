@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 
@@ -42,7 +41,7 @@ litmus_test_t CoWTL23_dsbisb = {
     INIT_REGION_OWN(x, REGION_OWN_PMD),
     INIT_REGION_OFFSET(y, x, REGION_SAME_PMD_OFFSET),
   ),
-  .interesting_result = (uint64_t[]){
+  .interesting_result = (u64[]){
       /* p0:x2 =*/0,
   },
   .requires_pgtable = 1,

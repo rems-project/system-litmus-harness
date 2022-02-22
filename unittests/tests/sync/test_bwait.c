@@ -1,11 +1,10 @@
-#include <stdint.h>
 
 #include "lib.h"
 #include "testlib.h"
 
 typedef struct {
   bar_t* bar;
-  uint64_t sz;
+  u64 sz;
 } bar_test_t;
 
 void test_bwaits_cpu(int cpu, void* arg) {

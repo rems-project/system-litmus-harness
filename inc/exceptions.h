@@ -1,8 +1,10 @@
 #ifndef EXCEPTIONS_H
 #define EXCEPTIONS_H
 
+#include "types.h"
+
 /* defined in vector_table.S */
-extern uint64_t el1_exception_vector_table_p0;
+extern u64 el1_exception_vector_table_p0;
 
 /* Enum of vector table entries
  * Stored in order, aligned at 0x20 boundries
@@ -35,8 +37,8 @@ enum vec_entries {
 #define EC_DABT_EL1  0x25  /* Data Abort */
 
 typedef struct {
-    uint64_t gpr[31];
-    uint64_t sp;
+    u64 gpr[31];
+    u64 sp;
 } regvals_t;
 
 /* Exception Vectors
@@ -49,18 +51,18 @@ typedef struct {
  *  Other handlers can be installed with set_svc_handler(svc_no, ptr_to_func)
  */
 
-void* default_handler(uint64_t vec, uint64_t esr, regvals_t* regs);
-typedef void* exception_vector_fn(uint64_t esr, regvals_t* regs);
+void* default_handler(u64 vec, u64 esr, regvals_t* regs);
+typedef void* exception_vector_fn(u64 esr, regvals_t* regs);
 
-void set_handler(uint64_t vec, uint64_t ec,  exception_vector_fn* fn);
-void reset_handler(uint64_t vec, uint64_t ec);
-void* handle_exception(uint64_t vec, uint64_t esr, regvals_t* regs);
+void set_handler(u64 vec, u64 ec,  exception_vector_fn* fn);
+void reset_handler(u64 vec, u64 ec);
+void* handle_exception(u64 vec, u64 esr, regvals_t* regs);
 
-void set_svc_handler(uint64_t svc_no, exception_vector_fn* fn);
-void reset_svc_handler(uint64_t svc_no);
+void set_svc_handler(u64 svc_no, exception_vector_fn* fn);
+void reset_svc_handler(u64 svc_no);
 
-void set_pgfault_handler(uint64_t va, exception_vector_fn* fn);
-void reset_pgfault_handler(uint64_t va);
+void set_pgfault_handler(u64 va, exception_vector_fn* fn);
+void reset_pgfault_handler(u64 va);
 
 /* not sure if these are a good idea or whether should just have boundaries at function calls */
 
@@ -73,13 +75,13 @@ void raise_to_el1(void);
  * during a litmus test we will want to replace the vector table entry with
  * some literal assembly without synchronization
  *
- * uint32_t* old = hotswap_exception(0x200, (uint32_t){ ... }) will replace
+ * u32* old = hotswap_exception(0x200, (u32){ ... }) will replace
  *  VBAR+0x200[0:31] with the contents of the ... array
  * and return a pointer to an array storing the old contents of VBAR+0x200
  *
  * restore_hotswapped_exception(0x200, old) will then restore the vector table back
  * to its original state.
  */
-uint32_t* hotswap_exception(uint64_t vector_slot, uint32_t data[32]);
-void restore_hotswapped_exception(uint64_t vector_slot, uint32_t* ptr);
+u32* hotswap_exception(u64 vector_slot, u32 data[32]);
+void restore_hotswapped_exception(u64 vector_slot, u32* ptr);
 #endif /* EXCEPTIONS_H */

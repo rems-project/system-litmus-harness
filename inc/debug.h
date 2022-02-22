@@ -1,6 +1,5 @@
 #ifndef DEBUG_H
 #define DEBUG_H
-#include <stdint.h>
 
 #include "debugging/debug_flags.h"
 #include "debugging/tostr.h"
@@ -23,7 +22,7 @@
 
 
 void debug_show_valloc_mem(void);
-void debug_vmm_show_walk(uint64_t* pgtable, uint64_t va);
+void debug_vmm_show_walk(u64* pgtable, u64 va);
 void debug_valloc_status(void);
 
 void dump_hex(char* dest, char* src, int len);

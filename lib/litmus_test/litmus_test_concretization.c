@@ -33,7 +33,7 @@
 
 #include "lib.h"
 
-uint64_t LEVEL_SIZES[6] = {
+u64 LEVEL_SIZES[6] = {
   [REGION_VAR] = 0x1,
   [REGION_CACHE_LINE] = 0x0,  /* filled at runtime */
   [REGION_PAGE] = PAGE_SIZE,
@@ -42,7 +42,7 @@ uint64_t LEVEL_SIZES[6] = {
   [REGION_PGD] = PGD_SIZE,
 };
 
-uint64_t LEVEL_SHIFTS[6] = {
+u64 LEVEL_SHIFTS[6] = {
   [REGION_VAR] = 0x1,
   [REGION_CACHE_LINE] = 0x0,  /* filled at runtime */
   [REGION_PAGE] = PAGE_SHIFT,
@@ -73,9 +73,9 @@ void set_init_pte(test_ctx_t* ctx, var_idx_t varidx, run_idx_t run) {
     return;
 
   var_info_t* vinfo = &ctx->heap_vars[varidx];
-  uint64_t* va = vinfo->values[run];
-  uint64_t* ptable = ptable_from_run(ctx, run);
-  uint64_t* pte = vmm_pte(ptable, (uint64_t)vinfo->values[run]);
+  u64* va = vinfo->values[run];
+  u64* ptable = ptable_from_run(ctx, run);
+  u64* pte = vmm_pte(ptable, (u64)vinfo->values[run]);
 
   DEBUG(DEBUG_CONCRETIZATION, "initialising PTE for var '%s' with va=%p at pte=%p for pagetable rooted at %p\n", vinfo->name, va, pte, ptable);
 
@@ -87,8 +87,8 @@ void set_init_pte(test_ctx_t* ctx, var_idx_t varidx, run_idx_t run) {
   } else {
   /* otherwise we write the level3 descriptor for this VA
    */
-    uint64_t pg = SAFE_TESTDATA_PA((uint64_t)va) & ~BITMASK(PAGE_SHIFT);
-    uint64_t default_desc = vmm_make_desc(pg, PROT_DEFAULT_HEAP, 3);
+    u64 pg = SAFE_TESTDATA_PA((u64)va) & ~BITMASK(PAGE_SHIFT);
+    u64 default_desc = vmm_make_desc(pg, PROT_DEFAULT_HEAP, 3);
     *pte = default_desc;
 
     /* if the initial state specified access permissions
@@ -114,8 +114,8 @@ void set_init_pte(test_ctx_t* ctx, var_idx_t varidx, run_idx_t run) {
   */
   if (vinfo->is_alias) {
     var_idx_t otheridx = vinfo->alias;
-    uint64_t otherva = (uint64_t )ctx->heap_vars[otheridx].values[run];
-    uint64_t otherpa = TESTDATA_MMAP_VIRT_TO_PHYS(otherva);
+    u64 otherva = (u64 )ctx->heap_vars[otheridx].values[run];
+    u64 otherpa = TESTDATA_MMAP_VIRT_TO_PHYS(otherva);
 
     /* do not copy attrs of otherpte */
     desc_t desc = read_desc(*pte, 3);
@@ -135,10 +135,10 @@ void set_init_pte(test_ctx_t* ctx, var_idx_t varidx, run_idx_t run) {
     /* do nothing
      * ASIDs get cleaned up on batch creation */
   } else if (LITMUS_SYNC_TYPE == SYNC_VA) {
-    vmm_flush_tlb_vaddr((uint64_t)va);
+    vmm_flush_tlb_vaddr((u64)va);
   }
 
-  attrs_t attrs = vmm_read_attrs(ptable, (uint64_t)va);
+  attrs_t attrs = vmm_read_attrs(ptable, (u64)va);
 
   /* TODO: this definitely cannot be here if using SYNC_ASID !
    */
@@ -151,7 +151,7 @@ void set_init_pte(test_ctx_t* ctx, var_idx_t varidx, run_idx_t run) {
     *
     * TODO BS: is this true ?
     */
-    dc_civac((uint64_t)va);
+    dc_civac((u64)va);
 
     dsb();
   }
@@ -170,7 +170,7 @@ void set_init_pte(test_ctx_t* ctx, var_idx_t varidx, run_idx_t run) {
 void set_init_var(test_ctx_t* ctx, var_idx_t varidx, run_idx_t run) {
   var_info_t* vinfo = &ctx->heap_vars[varidx];
 
-  uint64_t* va = vinfo->values[run];
+  u64* va = vinfo->values[run];
   DEBUG(DEBUG_CONCRETIZATION, "set_init_var for run %ld for var '%s' with va = %p\n", run, vinfo->name, vinfo->values[run]);
   set_init_pte(ctx, varidx, run);
 
@@ -179,7 +179,7 @@ void set_init_var(test_ctx_t* ctx, var_idx_t varidx, run_idx_t run) {
     * then convert the PA to its location
     * in the HARNESS MMAP to get reliable R/W mapping
     */
-    uint64_t* safe_va = (uint64_t*)SAFE_TESTDATA_VA((uint64_t)va);
+    u64* safe_va = (u64*)SAFE_TESTDATA_VA((u64)va);
     *safe_va = vinfo->init_value;
   } else {
     *va = vinfo->init_value;
@@ -261,13 +261,13 @@ repeat_loop:
       var_info_t* v2;
       FOREACH_HEAP_VAR(ctx, v1) {
         /* foreach VA we just allocated */
-        uint64_t va1 = (uint64_t)ctx_heap_var_va(ctx, v1->varidx, i);
-        uint64_t pa1 = SAFE_TESTDATA_PA(va1);
+        u64 va1 = (u64)ctx_heap_var_va(ctx, v1->varidx, i);
+        u64 pa1 = SAFE_TESTDATA_PA(va1);
 
         FOREACH_HEAP_VAR(ctx, v2) {
           /* foreach VA we allocated in previous run r0 */
-          uint64_t va2 = (uint64_t)ctx_heap_var_va(ctx, v2->varidx, i0);
-          uint64_t pa2 = SAFE_TESTDATA_PA(va2);
+          u64 va2 = (u64)ctx_heap_var_va(ctx, v2->varidx, i0);
+          u64 pa2 = SAFE_TESTDATA_PA(va2);
 
           /* if they overlap, try allocate the last VAs again */
           if (pa1 == pa2) {

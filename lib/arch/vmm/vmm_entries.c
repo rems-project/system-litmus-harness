@@ -2,7 +2,7 @@
 #include "lib.h"
 
 /* stage 1 attrs */
-attrs_t read_attrs(uint64_t desc) {
+attrs_t read_attrs(u64 desc) {
   attrs_t attr = { 0 };
   attr.XN = BIT(desc, 54);
   attr.XN = BIT(desc, 53);
@@ -14,7 +14,7 @@ attrs_t read_attrs(uint64_t desc) {
   return attr;
 }
 
-desc_t read_desc(uint64_t entry, int level) {
+desc_t read_desc(u64 entry, int level) {
   desc_t desc;
 
   desc.level = level;
@@ -57,12 +57,12 @@ desc_t read_desc(uint64_t entry, int level) {
   return desc;
 }
 
-uint64_t write_attrs(attrs_t attrs) {
-  return ((uint64_t)attrs.XN << 54) | ((uint64_t)attrs.PXN << 53) | (attrs.AF << 10) | (attrs.SH << 8) | (attrs.AP << 6) | (attrs.NS << 5) | (attrs.attr << 2);
+u64 write_attrs(attrs_t attrs) {
+  return ((u64)attrs.XN << 54) | ((u64)attrs.PXN << 53) | (attrs.AF << 10) | (attrs.SH << 8) | (attrs.AP << 6) | (attrs.NS << 5) | (attrs.attr << 2);
 }
 
-uint64_t write_desc(desc_t desc) {
-  uint64_t out = 0;
+u64 write_desc(desc_t desc) {
+  u64 out = 0;
   switch (desc.type) {
     case Invalid:
       return 0;

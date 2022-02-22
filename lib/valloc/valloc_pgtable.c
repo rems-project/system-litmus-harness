@@ -32,7 +32,7 @@ void valloc_ptable_restore(valloc_ptable_mem checkpoint) {
  */
 void* zalloc_ptable(void) {
   LOCK(&__valloc_pgtable_lock);
-  uint64_t cur = ptable_mem.bot;
+  u64 cur = ptable_mem.bot;
   ptable_mem.bot += PAGE_SIZE;
   UNLOCK(&__valloc_pgtable_lock);
 

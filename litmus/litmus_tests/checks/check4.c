@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 
@@ -28,7 +27,7 @@ litmus_test_t check4 = {
     INIT_VAR(x, 0)
   ),
   .interesting_result =
-    (uint64_t[]){
+    (u64[]){
       /* p0:x0 =*/ 4,
     },
 };

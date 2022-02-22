@@ -5,7 +5,7 @@
 
 /** whether to actually run the tests or just display output
  */
-extern uint8_t dry_run;
+extern u8 dry_run;
 
 /** given some input, try print close matches for the user to see
  */
@@ -22,8 +22,8 @@ void match_and_run(const litmus_test_group* grp, re_t* arg);
 void show_matches_only(const litmus_test_group* grp, re_t* arg);
 
 
-uint64_t grp_num_tests(const litmus_test_group* grp);
-uint64_t grp_num_groups(const litmus_test_group* grp);
-uint64_t grp_num_total(const litmus_test_group* grp);
+u64 grp_num_tests(const litmus_test_group* grp);
+u64 grp_num_groups(const litmus_test_group* grp);
+u64 grp_num_total(const litmus_test_group* grp);
 
 #endif /* FRONTEND_H */

@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 
@@ -68,14 +67,14 @@ litmus_test_t MPRT_svcdsbtlbiisdsb_dsbisb = {
     INIT_VAR(y, 0),
     INIT_VAR(z, 1)
   ),
-  .interesting_result = (uint64_t[]){
+  .interesting_result = (u64[]){
       /* p1:x0 =*/1,
       /* p1:x2 =*/0,
   },
   .thread_sync_handlers =
-    (uint32_t**[]){
-     (uint32_t*[]){(uint32_t*)svc_handler, NULL},
-     (uint32_t*[]){NULL, NULL},
+    (u32**[]){
+     (u32*[]){(u32*)svc_handler, NULL},
+     (u32*[]){NULL, NULL},
   },
   .requires_pgtable=1,
   .no_sc_results = 3,

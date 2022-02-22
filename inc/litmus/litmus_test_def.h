@@ -1,7 +1,6 @@
 #ifndef LITMUS_TEST_DEF_H
 #define LITMUS_TEST_DEF_H
 
-#include <stdint.h>
 
 #include "litmus_prot.h"
 #include "litmus_idxs.h"
@@ -61,11 +60,11 @@ typedef struct {
   const char* varname;
   init_type_t type;
   union {
-    uint64_t value;                     /* TYPE_HEAP, TYPE_PTE, TYPE_MAIR */
+    u64 value;                     /* TYPE_HEAP, TYPE_PTE, TYPE_MAIR */
     const char* aliasname;              /* TYPE_ALIAS */
     struct {                            /* TYPE_ATTRS */
       prot_type_t prot_type;
-      uint64_t attr_value;
+      u64 attr_value;
     };
     struct {                            /* TYPE_REGION_PIN */
       const char* pinned_var_name;
@@ -86,33 +85,33 @@ typedef struct test_ctx test_ctx_t;
 
 typedef struct {
   test_ctx_t* ctx;
-  uint64_t i;
-  uint64_t** va;
-  uint64_t** out_reg;
-  uint64_t* pa;
+  u64 i;
+  u64** va;
+  u64** out_reg;
+  u64* pa;
 
-  uint64_t*** tt_entries;
-  uint64_t** tt_descs;
+  u64*** tt_entries;
+  u64** tt_descs;
 } litmus_test_run;
 
 typedef void th_f(litmus_test_run* data);
 
-uint64_t* var_va(litmus_test_run* data, const char* name);
-uint64_t var_pa(litmus_test_run* data, const char* name);
-uint64_t* var_pte(litmus_test_run* data, const char* name);
-uint64_t* var_pte_level(litmus_test_run* data, const char* name, int level);
-uint64_t* var_pmd(litmus_test_run* data, const char* name);
-uint64_t* var_pud(litmus_test_run* data, const char* name);
-uint64_t* var_pgd(litmus_test_run* data, const char* name);
+u64* var_va(litmus_test_run* data, const char* name);
+u64 var_pa(litmus_test_run* data, const char* name);
+u64* var_pte(litmus_test_run* data, const char* name);
+u64* var_pte_level(litmus_test_run* data, const char* name, int level);
+u64* var_pmd(litmus_test_run* data, const char* name);
+u64* var_pud(litmus_test_run* data, const char* name);
+u64* var_pgd(litmus_test_run* data, const char* name);
 
-uint64_t var_desc(litmus_test_run* data, const char* name);
-uint64_t var_desc_level(litmus_test_run* data, const char* name, int leve);
-uint64_t var_ptedesc(litmus_test_run* data, const char* name);
-uint64_t var_pmddesc(litmus_test_run* data, const char* name);
-uint64_t var_puddesc(litmus_test_run* data, const char* name);
-uint64_t var_pgddesc(litmus_test_run* data, const char* name);
-uint64_t var_page(litmus_test_run* data, const char* name);
-uint64_t* out_reg(litmus_test_run* data, const char* name);
+u64 var_desc(litmus_test_run* data, const char* name);
+u64 var_desc_level(litmus_test_run* data, const char* name, int leve);
+u64 var_ptedesc(litmus_test_run* data, const char* name);
+u64 var_pmddesc(litmus_test_run* data, const char* name);
+u64 var_puddesc(litmus_test_run* data, const char* name);
+u64 var_pgddesc(litmus_test_run* data, const char* name);
+u64 var_page(litmus_test_run* data, const char* name);
+u64* out_reg(litmus_test_run* data, const char* name);
 
 /* for annotating the outcome of a test
  * whether it's allowed under certain models or not
@@ -144,11 +143,11 @@ typedef struct {
   reg_idx_t no_regs;
   const char** reg_names;
 
-  uint64_t* interesting_result;    /* interesting (relaxed) result to highlight */
-  uint64_t no_interesting_results;
-  uint64_t** interesting_results;  /* same as above, but plural */
+  u64* interesting_result;    /* interesting (relaxed) result to highlight */
+  u64 no_interesting_results;
+  u64** interesting_results;  /* same as above, but plural */
 
-  uint64_t no_sc_results;  /* a count of SC results, used in sanity-checking output */
+  u64 no_sc_results;  /* a count of SC results, used in sanity-checking output */
   th_f** setup_fns;
   th_f** teardown_fns;
 
@@ -156,12 +155,12 @@ typedef struct {
   init_varstate_t** init_states;   /* initial state array */
 
   int* start_els;
-  uint32_t*** thread_sync_handlers;
+  u32*** thread_sync_handlers;
 
   /** whether the test requires any special options to be enabled */
-  uint8_t requires_pgtable;  /* requires --pgtable */
-  uint8_t requires_perf;     /* requires --perf */
-  uint8_t requires_debug;    /* requires -d */
+  u8 requires_pgtable;  /* requires --pgtable */
+  u8 requires_perf;     /* requires --perf */
+  u8 requires_debug;    /* requires -d */
 
   /* annotate the test with whether it's allowed for certain models or not
    * e.g.

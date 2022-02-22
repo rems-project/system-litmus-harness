@@ -26,8 +26,8 @@ static void concretize_postcheck_no_overlap_owned(test_ctx_t* ctx, const litmus_
         if (var->varidx == othervar->varidx)
           continue;
 
-        uint64_t va1 = (uint64_t)var->values[run];
-        uint64_t va2 = (uint64_t)othervar->values[run];
+        u64 va1 = (u64)var->values[run];
+        u64 va2 = (u64)othervar->values[run];
         if (in_same_region(va1, va2, var->init_owned_region_size)
             && (  !othervar->init_pinned_region
                 || othervar->pin_region_var != var->varidx)
@@ -45,13 +45,13 @@ static void concretize_postcheck_related_same_bits(test_ctx_t* ctx, const litmus
   var_info_t* var;
   FOREACH_HEAP_VAR(ctx, var) {
     if (var->init_region_offset) {
-      uint64_t offsvaridx = var->offset_var;
+      u64 offsvaridx = var->offset_var;
       var_info_t* othervar = &ctx->heap_vars[offsvaridx];
 
-      uint64_t va1 = (uint64_t)var->values[run];
-      uint64_t va2 = (uint64_t)othervar->values[run];
+      u64 va1 = (u64)var->values[run];
+      u64 va2 = (u64)othervar->values[run];
 
-      uint64_t lvl = LEVEL_SHIFTS[var->offset_level];
+      u64 lvl = LEVEL_SHIFTS[var->offset_level];
 
       if ( (va1 & BITMASK(lvl)) != (va2 & BITMASK(lvl)) ) {
         fail_postcheck(ctx, cfg, run, "%s (%p) and %s (%p) are supposed to have the same %s but do not\n",
@@ -71,7 +71,7 @@ static void concretize_postcheck_related_same_bits(test_ctx_t* ctx, const litmus
 static void concretize_postcheck_aligned(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, run_idx_t run) {
   var_info_t* var;
   FOREACH_HEAP_VAR(ctx, var) {
-    uint64_t va = (uint64_t)var->values[run];
+    u64 va = (u64)var->values[run];
 
     if ( (va & BITMASK(3)) != 0) {
       fail_postcheck(ctx, cfg, run, "%s (%p) is supposed to be 64-bit aligned but is not.\n",

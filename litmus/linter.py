@@ -4,12 +4,12 @@ import pathlib
 import argparse
 import collections
 
-HANDLER_PATTERN = r"\s*\(uint32_t\*\[\]\)\{(\(uint32_t\*\))?(?P<name0>.+?),\s*(\(uint32_t\*\))?(?P<name1>.+?)\}"
+HANDLER_PATTERN = r"\s*\(u32\*\[\]\)\{(\(u32\*\))?(?P<name0>.+?),\s*(\(u32\*\))?(?P<name1>.+?)\}"
 LITMUS_FIELDS = {
     'handlers': (
         r"\.thread_sync_handlers\s*="
-        r"\s*\(uint32_t\*\*\[\]\)\{"
-        r"(?P<handlers>\s*(\s*\(uint32_t\*\[\]\)\{.+?\},?)+)"
+        r"\s*\(u32\*\*\[\]\)\{"
+        r"(?P<handlers>\s*(\s*\(u32\*\[\]\)\{.+?\},?)+)"
         r"\s*\},"
     ),
 }

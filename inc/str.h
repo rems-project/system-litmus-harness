@@ -1,8 +1,10 @@
 #ifndef STR_H
 #define STR_H
 
-uint64_t atoi(char* s);
-int strcmp(const char* s, const char* t);
-int strlen(const char* s);
+#include "types.h"
+
+u64 atoi(char* s);
+u64 strcmp(char* s, char* t);
+u64 strlen(char* s);
 
 #endif /* STR_H */

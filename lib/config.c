@@ -1,27 +1,26 @@
-#include <stdint.h>
 
 #include "lib.h"
 #include "argdef.h"
 
 /* global configuration options + default values */
-uint64_t NUMBER_OF_RUNS = 10000UL;
-uint64_t RUNS_IN_BATCH = 1;
-uint8_t ENABLE_PGTABLE = 1;  /* start enabled */
-uint8_t ENABLE_PERF_COUNTS = 0;
-uint8_t RUN_FOREVER = 0;
+u64 NUMBER_OF_RUNS = 10000UL;
+u64 RUNS_IN_BATCH = 1;
+u8 ENABLE_PGTABLE = 1;  /* start enabled */
+u8 ENABLE_PERF_COUNTS = 0;
+u8 RUN_FOREVER = 0;
 
-uint8_t ENABLE_RESULTS_HIST = 1;
-uint8_t ENABLE_RESULTS_OUTREG_PRINT = 1;
-uint8_t ENABLE_RESULTS_MISSING_SC_WARNING = 1;
+u8 ENABLE_RESULTS_HIST = 1;
+u8 ENABLE_RESULTS_OUTREG_PRINT = 1;
+u8 ENABLE_RESULTS_MISSING_SC_WARNING = 1;
 
-uint8_t VERBOSE = 1;  /* start verbose */
-uint8_t TRACE = 0;
-uint8_t DEBUG = 0;
+u8 VERBOSE = 1;  /* start verbose */
+u8 TRACE = 0;
+u8 DEBUG = 0;
 
-uint8_t ONLY_SHOW_MATCHES = 0;
+u8 ONLY_SHOW_MATCHES = 0;
 
 char* collected_tests[100] = { NULL };
-uint64_t collected_tests_count = 0;
+u64 collected_tests_count = 0;
 
 sync_type_t LITMUS_SYNC_TYPE = SYNC_ASID;
 aff_type_t LITMUS_AFF_TYPE = AFF_RAND;
@@ -152,11 +151,11 @@ static void __print_id_cpu(int cpu, void* arg) {
 }
 
 static void device_ident_and_quit(char* opt) {
-  uint64_t midr = read_sysreg(midr_el1);
-  uint64_t rev = midr & BITMASK(1 + 3 - 0);
-  uint64_t partnum = (midr >> 4) & BITMASK(1 + 15 - 4);
-  uint64_t variant = (midr >> 20) & BITMASK(1 + 23 - 20);
-  uint64_t impl = (midr >> 24) & BITMASK(1 + 31 - 24);
+  u64 midr = read_sysreg(midr_el1);
+  u64 rev = midr & BITMASK(1 + 3 - 0);
+  u64 partnum = (midr >> 4) & BITMASK(1 + 15 - 4);
+  u64 variant = (midr >> 20) & BITMASK(1 + 23 - 20);
+  u64 impl = (midr >> 24) & BITMASK(1 + 31 - 24);
 
   const char* impl_names[0x100] = {
     [0x00] = "Reserved for software use Ampere Computing",

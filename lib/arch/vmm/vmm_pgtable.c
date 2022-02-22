@@ -87,7 +87,7 @@
 
 #define TRACE_PTABLE(...) DEBUG(DEBUG_PTABLE, __VA_ARGS__)
 
-uint64_t vmm_make_desc(uint64_t pa, uint64_t prot, int level) {
+u64 vmm_make_desc(u64 pa, u64 prot, int level) {
   desc_t final;
   final.type = Block;
   final.oa = pa;
@@ -100,7 +100,7 @@ uint64_t vmm_make_desc(uint64_t pa, uint64_t prot, int level) {
   return write_desc(final);
 }
 
-static void set_block_or_page(uint64_t* root, uint64_t va, uint64_t pa, uint8_t unmap, uint64_t prot, uint64_t desired_level) {
+static void set_block_or_page(u64* root, u64 va, u64 pa, u8 unmap, u64 prot, u64 desired_level) {
   vmm_ensure_level(root, desired_level, va);
 
   desc_t desc = vmm_translation_walk(root, va);
@@ -112,14 +112,14 @@ static void set_block_or_page(uint64_t* root, uint64_t va, uint64_t pa, uint8_t 
 }
 
 
-static void __ptable_set_range(uint64_t* root,
-                      uint64_t pa_start,
-                      uint64_t va_start, uint64_t va_end,
-                      uint8_t unmap,
-                      uint64_t prot) {
-  uint64_t level1 = 30, level2 = 21, level3 = 12;
+static void __ptable_set_range(u64* root,
+                      u64 pa_start,
+                      u64 va_start, u64 va_end,
+                      u8 unmap,
+                      u64 prot) {
+  u64 level1 = 30, level2 = 21, level3 = 12;
 
-  uint64_t c = 0;
+  u64 c = 0;
 
   if (unmap) {
     TRACE_PTABLE("unmap from %p -> %p\n", va_start, va_end);
@@ -135,8 +135,8 @@ static void __ptable_set_range(uint64_t* root,
     fail("! error: __ptable_set_range: got unaligned va_end\n");
   }
 
-  uint64_t va = va_start;
-  uint64_t pa = pa_start;
+  u64 va = va_start;
+  u64 pa = pa_start;
 
 #define BOTH_ALIGNED(va, pa, level) \
   (IS_ALIGNED((va), (level)) && IS_ALIGNED((pa), (level)))
@@ -201,24 +201,24 @@ static void __ptable_set_range(uint64_t* root,
   TRACE_PTABLE("allocated %ld lvl3 entries up to %p\n", c, va);
 }
 
-static void ptable_map_range(uint64_t* root,
-                      uint64_t pa_start,
-                      uint64_t va_start, uint64_t va_end,
-                      uint64_t prot) {
+static void ptable_map_range(u64* root,
+                      u64 pa_start,
+                      u64 va_start, u64 va_end,
+                      u64 prot) {
     TRACE_PTABLE("mapping from %p -> %p with translation to %p\n", va_start, va_end, pa_start);
     __ptable_set_range(root, pa_start, va_start, va_end, 0, prot);
 }
 
-void vmm_ptable_map(uint64_t* pgtable, VMRegion reg) {
-  uint64_t size = reg.va_end - reg.va_start;
-  uint64_t pa_start = reg.pa_start != 0 ? reg.pa_start : reg.va_start;
+void vmm_ptable_map(u64* pgtable, VMRegion reg) {
+  u64 size = reg.va_end - reg.va_start;
+  u64 pa_start = reg.pa_start != 0 ? reg.pa_start : reg.va_start;
   debug("map 0x%lx bytes for region %p -> %p with translation at %p\n", size, reg.va_start, reg.va_end, pa_start);
   ptable_map_range(pgtable, pa_start, reg.va_start, reg.va_end, reg.memattr | reg.prot);
 }
 
-void vmm_ptable_unmap(uint64_t* pgtable, VMRegion reg) {
-  uint64_t level;
-  uint64_t size = reg.va_end - reg.va_start;
+void vmm_ptable_unmap(u64* pgtable, VMRegion reg) {
+  u64 level;
+  u64 size = reg.va_end - reg.va_start;
   debug("unmap 0x%lx bytes at %p\n", size, reg.va_start);
   switch (size) {
     case PAGE_SIZE:
@@ -255,7 +255,7 @@ const char* VMRegionTag_names[] = {
   "VM_MMAP_VTABLE",
 };
 
-static void update_table_from_vmregion_map(uint64_t* table, VMRegions regs) {
+static void update_table_from_vmregion_map(u64* table, VMRegions regs) {
   VMRegion* map = regs.regions;
 
   VMRegion r_prev = {0};
@@ -280,7 +280,7 @@ static void update_table_from_vmregion_map(uint64_t* table, VMRegions regs) {
  * which is the 1G block that maps the IO region 0x0000'0000 -> 0x4000'0000
  * and the 1G table that maps 0x4000'0000 -> TOP_OF_HEAP
  */
-static void __vm_alloc_shared_2g_region(uint64_t* root_pgtable) {
+static void __vm_alloc_shared_2g_region(u64* root_pgtable) {
   VMRegions map = {{
     /* virt Memory Mapped I/O
      * 0x00000000 -> 0x08000000  == Boot ROM
@@ -327,8 +327,8 @@ static void __vm_alloc_shared_2g_region(uint64_t* root_pgtable) {
   TRACE_PTABLE("allocated map for %p\n", root_pgtable);
 }
 
-static uint64_t* __vm_alloc_base_map(void) {
-  uint64_t* root_ptable = zalloc_ptable();
+static u64* __vm_alloc_base_map(void) {
+  u64* root_ptable = zalloc_ptable();
   __vm_alloc_shared_2g_region(root_ptable);
   TRACE_PTABLE("allocated shared 2g @ %p\n", root_ptable);
 
@@ -344,8 +344,8 @@ static uint64_t* __vm_alloc_base_map(void) {
   return root_ptable;
 }
 
-static uint64_t* __vmm_alloc_table(uint8_t is_test) {
-  uint64_t* root_ptable = __vm_alloc_base_map();
+static u64* __vmm_alloc_table(u8 is_test) {
+  u64* root_ptable = __vm_alloc_base_map();
   TRACE_PTABLE("allocated base @ %p\n", root_ptable);
   int cpu = get_cpu();
 
@@ -364,10 +364,10 @@ static uint64_t* __vmm_alloc_table(uint8_t is_test) {
     update_table_from_vmregion_map(root_ptable, test);
     TRACE_PTABLE("updated test @ %p\n", root_ptable);
   } else {
-    uint64_t vtable_bot, vtable_top, vtable_pa;
-    vtable_bot = (uint64_t)THR_VTABLE_VA(cpu);
-    vtable_top = (uint64_t)THR_VTABLE_VA(cpu) + PAGE_SIZE;
-    vtable_pa = (uint64_t)THR_VTABLE_PA(cpu);
+    u64 vtable_bot, vtable_top, vtable_pa;
+    vtable_bot = (u64)THR_VTABLE_VA(cpu);
+    vtable_top = (u64)THR_VTABLE_VA(cpu) + PAGE_SIZE;
+    vtable_pa = (u64)THR_VTABLE_PA(cpu);
 
     /* ideally EL0 would be R_RW permissions but AArch64 doesn't allow W at EL0 without W at EL1 */
     VMRegions per_thread_data = {{
@@ -407,8 +407,8 @@ static uint64_t* __vmm_alloc_table(uint8_t is_test) {
    */
 #if 0
   for (int i = 0 ; i < NR_REGIONS; i++) {
-    uint64_t start_va = TESTDATA_MMAP_8M_VA_FROM_INDEX(i);
-    uint64_t start_pa = TESTDATA_MMAP_8M_PA_FROM_INDEX(i);
+    u64 start_va = TESTDATA_MMAP_8M_VA_FROM_INDEX(i);
+    u64 start_pa = TESTDATA_MMAP_8M_PA_FROM_INDEX(i);
     ptable_map_range(root_ptable, start_pa, start_va, start_va + REGION_SIZE, PROT_MEMTYPE_NORMAL | PROT_RW_RWX);
   }
 #endif
@@ -416,22 +416,22 @@ static uint64_t* __vmm_alloc_table(uint8_t is_test) {
   return root_ptable;
 }
 
-uint64_t* vmm_alloc_new_4k_pgtable(void) {
-  uint64_t* ptable = __vmm_alloc_table(0);
+u64* vmm_alloc_new_4k_pgtable(void) {
+  u64* ptable = __vmm_alloc_table(0);
   debug("allocated new generic 4k pgtable rooted at %p\n", ptable);
   DEBUG(DEBUG_PTABLE, "ptable @ %p has %ld nested tables\n", ptable, vmm_count_subtables(ptable));
   DEBUG(DEBUG_PTABLE && DEBUG_ALLOCS, "and is now using %ld/%ld alloc chunks\n", valloc_alloclist_count_chunks(), NUM_ALLOC_CHUNKS);
   return ptable;
 }
 
-uint64_t* vmm_alloc_new_test_pgtable(void) {
-  uint64_t* ptable = __vmm_alloc_table(1);
+u64* vmm_alloc_new_test_pgtable(void) {
+  u64* ptable = __vmm_alloc_table(1);
   debug("allocated new test pgtable rooted at %p\n", ptable);
   DEBUG(DEBUG_PTABLE, "ptable @ %p has %ld nested tables\n", ptable, vmm_count_subtables(ptable));
   return ptable;
 }
 
-static void set_new_ttable(uint64_t ttbr, uint64_t tcr, uint64_t mair) {
+static void set_new_ttable(u64 ttbr, u64 tcr, u64 mair) {
   /* no printf happens here, so need to worry about disabling locking during them */
   if ((read_sysreg(sctlr_el1) & 1) == 1) {
     printf("! err: set_new_ttable:  MMU already on!\n");
@@ -445,17 +445,17 @@ static void set_new_ttable(uint64_t ttbr, uint64_t tcr, uint64_t mair) {
   vmm_mmu_on();
 }
 
-void vmm_set_id_translation(uint64_t* pgtable) {
+void vmm_set_id_translation(u64* pgtable) {
   if (pgtable == NULL) {
     vmm_mmu_off();
     return;
   }
 
   /* now set the new TTBR and TCR */
-  uint64_t asid = 0;
-  uint64_t ttbr = TTBR0(pgtable, asid);
+  u64 asid = 0;
+  u64 ttbr = TTBR0(pgtable, asid);
 
-  uint64_t tcr = \
+  u64 tcr = \
     0          |
     (0L << 39) |  /* HA, software access flag */
     (1L << 37) |  /* TBI, top byte ignored. */
@@ -469,7 +469,7 @@ void vmm_set_id_translation(uint64_t* pgtable) {
 
 
   #define MAIR_ATTR(idx, attr)  ((attr) << (idx*8))
-  uint64_t mair = \
+  u64 mair = \
     MAIR_ATTR(PROT_ATTR_DEVICE_nGnRnE, MAIR_DEVICE_nGnRnE)  |
     MAIR_ATTR(PROT_ATTR_DEVICE_GRE, MAIR_DEVICE_GRE)        |
     MAIR_ATTR(PROT_ATTR_NORMAL_NC, MAIR_NORMAL_NC)          |
@@ -479,30 +479,30 @@ void vmm_set_id_translation(uint64_t* pgtable) {
   set_new_ttable(ttbr, tcr, mair);
 }
 
-void vmm_switch_ttable(uint64_t* new_table) {
+void vmm_switch_ttable(u64* new_table) {
   write_sysreg(TTBR0(new_table, 0), ttbr0_el1);
   dsb();
   isb();
   vmm_flush_tlb();
 }
 
-void vmm_switch_asid(uint64_t asid) {
-  uint64_t ttbr = read_sysreg(ttbr0_el1);
+void vmm_switch_asid(u64 asid) {
+  u64 ttbr = read_sysreg(ttbr0_el1);
   write_sysreg(TTBR0(ttbr, asid), ttbr0_el1);
   isb();  /* is this needed? */
 }
 
-void vmm_switch_ttable_asid(uint64_t* new_table, uint64_t asid) {
+void vmm_switch_ttable_asid(u64* new_table, u64 asid) {
   write_sysreg(TTBR0(new_table, asid), ttbr0_el1);
   isb();
 }
 
-static void _vmm_walk_table(uint64_t* pgtable, int level, uint64_t va_start, walker_cb_t* cb_f, void *data) {
+static void _vmm_walk_table(u64* pgtable, int level, u64 va_start, walker_cb_t* cb_f, void *data) {
   for (int i = 0; i < 512; i++) {
-    uint64_t va_start_i = va_start+i*LEVEL_SIZES[level];
+    u64 va_start_i = va_start+i*LEVEL_SIZES[level];
     desc_t d = read_desc(pgtable[i], level);
     if (d.type == Table) {
-      _vmm_walk_table((uint64_t*)d.table_addr, level+1, va_start_i, cb_f, data);
+      _vmm_walk_table((u64*)d.table_addr, level+1, va_start_i, cb_f, data);
     }
 
     int is_leaf = d.type == Table ? 0 : 1;
@@ -511,27 +511,27 @@ static void _vmm_walk_table(uint64_t* pgtable, int level, uint64_t va_start, wal
   }
 }
 
-void vmm_walk_table(uint64_t* root, walker_cb_t* cb_f, void* data) {
+void vmm_walk_table(u64* root, walker_cb_t* cb_f, void* data) {
   _vmm_walk_table(root, 0, 0, cb_f, data);
 }
 
-static void __free_pgtable_entry_cb(uint64_t* parent_table, int level, int index, uint64_t* entry, desc_t desc, int is_leaf, va_range range, void* data) {
+static void __free_pgtable_entry_cb(u64* parent_table, int level, int index, u64* entry, desc_t desc, int is_leaf, va_range range, void* data) {
   if (! is_leaf) {
-    FREE((uint64_t*)desc.table_addr);
+    FREE((u64*)desc.table_addr);
   }
 }
 
-static void __vmm_free_pgtable(uint64_t* pgtable, int level) {
+static void __vmm_free_pgtable(u64* pgtable, int level) {
   vmm_walk_table(pgtable, __free_pgtable_entry_cb, NULL);
   FREE(pgtable);
 }
 
-void vmm_free_generic_pgtable(uint64_t* pgtable) {
+void vmm_free_generic_pgtable(u64* pgtable) {
   debug("free generic pgtable @ %p\n", pgtable);
   __vmm_free_pgtable(pgtable, 0);
 }
 
-void vmm_free_test_pgtable(uint64_t* pgtable) {
+void vmm_free_test_pgtable(u64* pgtable) {
   debug("free test pgtable @ %p\n", pgtable);
   __vmm_free_pgtable(pgtable, 0);
 }

@@ -8,11 +8,11 @@
  * *test* translation table stored in the test_ctx_t
  */
 
-uint64_t** vmm_pgtables;
+u64** vmm_pgtables;
 
 lock_t _vmm_lock;
 
-void vmm_ensure_level(uint64_t* root, int desired_level, uint64_t va) {
+void vmm_ensure_level(u64* root, int desired_level, u64 va) {
   desc_t block_desc = { .level = 0 };
 
   /** since multiple threads might want to vmm_ensure_level
@@ -22,20 +22,20 @@ void vmm_ensure_level(uint64_t* root, int desired_level, uint64_t va) {
 
   DEBUG(DEBUG_TRACE_VMM_ENSURES, "ensuring va=%p to level %d for pgtable %p\n", va, desired_level, root);
 
-  uint64_t* current = root;
+  u64* current = root;
 
   for (int level = 0; level <= desired_level - 1; level++) {
-    uint64_t* p = current + OFFS(va, level);
+    u64* p = current + OFFS(va, level);
     desc_t desc = read_desc(*p, level);
     DEBUG(DEBUG_TRACE_VMM_ENSURES, ".. at level %d, entry=%p desc=0x%lx\n", level, p, *p);
     desc_t new_desc;
 
     if (desc.type == Table) {
-      current = (uint64_t*)desc.table_addr;
+      current = (u64*)desc.table_addr;
       continue;
     }
 
-    uint64_t* pg = zalloc_ptable();
+    u64* pg = zalloc_ptable();
 
     if (level == desired_level - 1) {
       debug("ensuring new entry for %p at level %d in pagetable rooted at %p\n", va, desired_level, root);
@@ -69,7 +69,7 @@ void vmm_ensure_level(uint64_t* root, int desired_level, uint64_t va) {
 
     new_desc.type = Table;
     new_desc.level = level;
-    new_desc.table_addr = (uint64_t)pg;
+    new_desc.table_addr = (u64)pg;
     new_desc.attrs = (attrs_t){0};
     DEBUG(DEBUG_TRACE_VMM_ENSURES, "writeback table %p = 0x%lx\n", p, write_desc(new_desc));
     *p = write_desc(new_desc);
@@ -79,30 +79,30 @@ void vmm_ensure_level(uint64_t* root, int desired_level, uint64_t va) {
   UNLOCK(&_vmm_lock);
 }
 
-desc_t read_descptr(uint64_t* desc, int level) {
+desc_t read_descptr(u64* desc, int level) {
   return read_desc(*desc, level);
 }
 
-desc_t vmm_translation_walk_to_level(uint64_t* root, uint64_t va, int max_level) {
+desc_t vmm_translation_walk_to_level(u64* root, u64 va, int max_level) {
   desc_t desc;
 
-  uint64_t* parent = NULL;
+  u64* parent = NULL;
 
   for (int level = 0; level <= max_level; level++) {
-    uint64_t* p = root + OFFS(va, level);
-    uint64_t* parents[4];
-    valloc_memcpy(parents, desc.parents, 4*sizeof(uint64_t*));
+    u64* p = root + OFFS(va, level);
+    u64* parents[4];
+    valloc_memcpy(parents, desc.parents, 4*sizeof(u64*));
 
     desc = read_desc(*p, level);
     desc.src = p;
-    valloc_memcpy(desc.parents, parents, 4*sizeof(uint64_t*));
+    valloc_memcpy(desc.parents, parents, 4*sizeof(u64*));
     desc.parents[level] = parent;
 
     if ((desc.type == Invalid) || (desc.type == Block)) {
       goto vmm_translation_walk_end;
     }
 
-    root = (uint64_t*)desc.table_addr;
+    root = (u64*)desc.table_addr;
     parent = p;
   }
 
@@ -110,41 +110,41 @@ vmm_translation_walk_end:
   return desc;
 }
 
-desc_t vmm_translation_walk(uint64_t* root, uint64_t va) {
+desc_t vmm_translation_walk(u64* root, u64 va) {
   return vmm_translation_walk_to_level(root, va, 3);
 }
 
-uint64_t* vmm_block(uint64_t* root, uint64_t va) {
+u64* vmm_block(u64* root, u64 va) {
   desc_t desc = vmm_translation_walk(root, va);
   return desc.src;
 }
 
-int vmm_level(uint64_t* root, uint64_t va) {
+int vmm_level(u64* root, u64 va) {
   desc_t desc = vmm_translation_walk(root, va);
   return desc.level;
 }
 
-uint64_t* vmm_desc_at_level(uint64_t* root, uint64_t va, int ensure_level, int desc_level) {
+u64* vmm_desc_at_level(u64* root, u64 va, int ensure_level, int desc_level) {
   vmm_ensure_level(root, ensure_level, va);
   desc_t desc = vmm_translation_walk_to_level(root, va, desc_level);
   return desc.src;
 }
 
-uint64_t* vmm_pte_at_level(uint64_t* root, uint64_t va, int level) {
+u64* vmm_pte_at_level(u64* root, u64 va, int level) {
   return vmm_desc_at_level(root, va, 3, level);
 }
 
-uint64_t* vmm_pte(uint64_t* root, uint64_t va) {
+u64* vmm_pte(u64* root, u64 va) {
   return vmm_pte_at_level(root, va, 3);
 }
 
-attrs_t vmm_read_attrs(uint64_t* root, uint64_t va) {
+attrs_t vmm_read_attrs(u64* root, u64 va) {
   /* TODO: collect from all levels not just level 3 */
-  uint64_t* pte = vmm_pte(root, va);
+  u64* pte = vmm_pte(root, va);
   return read_attrs(*pte);
 }
 
-uint64_t* vmm_pa(uint64_t* root, uint64_t va) {
+u64* vmm_pa(u64* root, u64 va) {
   desc_t desc = vmm_translation_walk(root, va);
 
   switch (desc.type) {
@@ -152,7 +152,7 @@ uint64_t* vmm_pa(uint64_t* root, uint64_t va) {
       return NULL;
 
     case Block:
-      return (uint64_t*)(desc.oa | BIT_SLICE(va, OFFSBOT(desc.level), 0));
+      return (u64*)(desc.oa | BIT_SLICE(va, OFFSBOT(desc.level), 0));
 
     case Table:
       unreachable();
@@ -161,11 +161,11 @@ uint64_t* vmm_pa(uint64_t* root, uint64_t va) {
   return NULL;
 }
 
-int vmm_pte_valid(uint64_t* root, uint64_t* addr) {
+int vmm_pte_valid(u64* root, u64* addr) {
   if (root == NULL)
     return 1;
 
-  uint64_t* pte = vmm_pte(root, (uint64_t)addr);
+  u64* pte = vmm_pte(root, (u64)addr);
   if ((*pte & 1) == 0) {
     return 0;
   }

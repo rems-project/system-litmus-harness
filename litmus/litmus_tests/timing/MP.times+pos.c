@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 
@@ -38,8 +37,8 @@ static void P0(litmus_test_run* data) {
 }
 
 static void P1(litmus_test_run* data) {
-  uint64_t* x0 = data->out_reg[0];
-  uint64_t* x2 = data->out_reg[1];
+  u64* x0 = data->out_reg[0];
+  u64* x2 = data->out_reg[1];
   asm volatile (
     "mrs x5, pmccntr_el0\n\t"
     "ldr %[x0], [%[y]]\n\t"

@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 
@@ -76,7 +75,7 @@ litmus_test_t WRCtrt1_dsbtlbiisdsb_dsbisb = {
   ),
   .start_els=(int[]){0,1,0},
   .interesting_result =
-    (uint64_t[]){
+    (u64[]){
       /* p1:x2 =*/ 1,
       /* p2:x0 =*/ 1,
       /* p2:x2 =*/ 0,

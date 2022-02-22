@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 
@@ -62,7 +61,7 @@ litmus_test_t CoTR1_dsbdcdsbtlbidsbisb = {
     INIT_VAR(x, 0),
     INIT_VAR(y, 1)
   ),
-  .interesting_result = (uint64_t[]){
+  .interesting_result = (u64[]){
       /* p0:x0 =*/1,
       /* p0:x2 =*/0,
   },

@@ -6,6 +6,6 @@ void init_driver(void) {
   /* nop */
 }
 
-void write_stdout(uint8_t c) {
+void write_stdout(u8 c) {
     writeb(c, UART0_BASE);
 }

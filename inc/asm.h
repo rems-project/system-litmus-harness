@@ -30,7 +30,6 @@
 #define SPSR_FIELD(field, val) ((val) << (field))
 
 #ifndef __ASSEMBLY__
-#include <stdint.h>
 
 /* barriers and wrappers */
 #if DEBUG_DISABLE_WFE
@@ -47,15 +46,15 @@
 #define eret() do { asm volatile ("eret" ::: "memory"); } while (0)
 
 /* stores and loads */
-void writeb(uint8_t byte, uint64_t addr);
-void writew(uint32_t word, uint64_t addr);
+void writeb(u8 byte, u64 addr);
+void writew(u32 word, u64 addr);
 
-uint8_t  readb(uint64_t addr);
-uint32_t readw(uint64_t addr);
+u8  readb(u64 addr);
+u32 readw(u64 addr);
 
 /* register read/write */
 #define read_sysreg(r) ({  \
-    uint64_t reg;  \
+    u64 reg;  \
     asm volatile("mrs %[reg], " #r : [reg] "=r" (reg));  \
     reg;  \
 })
@@ -65,7 +64,7 @@ uint32_t readw(uint64_t addr);
 } while (0)
 
 #define read_reg(r) ({  \
-    uint64_t reg;  \
+    u64 reg;  \
     asm volatile("mov %[reg], " #r : [reg] "=r" (reg));  \
     reg;  \
 })
@@ -76,11 +75,11 @@ uint32_t readw(uint64_t addr);
 
 
 /** read the clock register */
-uint64_t read_clk(void);
-uint64_t read_clk_freq(void);
+u64 read_clk(void);
+u64 read_clk_freq(void);
 
-extern uint64_t INIT_CLOCK;
-extern uint64_t TICKS_PER_SEC;
+extern u64 INIT_CLOCK;
+extern u64 TICKS_PER_SEC;
 
 #endif
 #endif /* ASM_H */

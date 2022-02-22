@@ -1,6 +1,5 @@
 #ifndef VMM_TYPES_H
 #define VMM_TYPES_H
-#include <stdint.h>
 
 enum DescType {
   Table,
@@ -26,18 +25,18 @@ typedef struct {
 
 typedef struct {
   union {
-    uint64_t oa;
-    uint64_t table_addr;
+    u64 oa;
+    u64 table_addr;
   };
 
   /* src/dest of this desc (if applicable) */
   union {
-    uint64_t* src;
-    uint64_t* dest;
+    u64* src;
+    u64* dest;
   };
 
   /* parent srcs (if applicable) */
-  uint64_t* parents[4];
+  u64* parents[4];
 
   enum DescType type;
   int level;
@@ -45,11 +44,11 @@ typedef struct {
 } desc_t;
 
 
-attrs_t read_attrs(uint64_t desc);
-desc_t read_desc(uint64_t desc, int level);
+attrs_t read_attrs(u64 desc);
+desc_t read_desc(u64 desc, int level);
 
-uint64_t write_attrs(attrs_t attrs);
-uint64_t write_desc(desc_t desc);
+u64 write_attrs(attrs_t attrs);
+u64 write_desc(desc_t desc);
 
 
 /* for debug */

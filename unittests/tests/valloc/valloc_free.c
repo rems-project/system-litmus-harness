@@ -1,4 +1,3 @@
-#include <stdint.h>
 
 #include "lib.h"
 #include "testlib.h"
@@ -9,7 +8,7 @@ void test_valloc_free_reuse(void) {
   free(p);
   char* q = alloc(64);
   free(q);
-  ASSERT((uint64_t)p == (uint64_t)q);
+  ASSERT((u64)p == (u64)q);
 }
 
 UNIT_TEST(test_valloc_freelist)
@@ -44,7 +43,7 @@ void test_valloc_free_compact_reuse(void) {
 
 UNIT_TEST(test_valloc_free_compact_all)
 void test_valloc_free_compact_all(void) {
-  uint64_t space = valloc_free_size();
+  u64 space = valloc_free_size();
   char* p = alloc(64);
   free(p);
   ASSERT(space == valloc_free_size());
@@ -52,8 +51,8 @@ void test_valloc_free_compact_all(void) {
 
 UNIT_TEST(test_valloc_free_pgtable)
 void test_valloc_free_pgtable(void) {
-  uint64_t space = valloc_free_size();
-  uint64_t* p = vmm_alloc_new_4k_pgtable();
+  u64 space = valloc_free_size();
+  u64* p = vmm_alloc_new_4k_pgtable();
   vmm_free_generic_pgtable(p);
   ASSERT(space == valloc_free_size());
 }

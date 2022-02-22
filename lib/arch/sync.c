@@ -71,7 +71,7 @@ void lamport_unlock(volatile lamport_lock_t* lock) {
 /** arm64 atomic lock
  */
 
-void __atomic_cas(volatile uint64_t* va, uint64_t old, uint64_t new) {
+void __atomic_cas(volatile u64* va, u64 old, u64 new) {
   /* atomic test and update
    * equivalent to an atomic:
    * <while (*va != old); *va = new>;
@@ -131,7 +131,7 @@ void mutex_unlock(volatile mutex_t* mut) {
 
 lock_t bwait_lock;
 
-void __atomic_dec(volatile uint64_t* va) {
+void __atomic_dec(volatile u64* va) {
   /* atomic decrement
    */
   asm volatile(
@@ -199,7 +199,7 @@ void bwait(int vcpu, bar_t* bar, int sz) {
   UNLOCK(&bwait_lock);
 
   /* wait for the last one to arrive and flip the current state */
-  uint64_t iter = bar->iteration;
+  u64 iter = bar->iteration;
   while (bar->current_state == 0) wfe();
   __atomic_dec(&bar->waiting);
 

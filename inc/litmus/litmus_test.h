@@ -1,6 +1,5 @@
 #ifndef LITMUS_TEST_H
 #define LITMUS_TEST_H
-#include <stdint.h>
 
 #include "litmus_idxs.h"
 #include "litmus_test_def.h"

@@ -1,7 +1,6 @@
 #ifndef LITMUS_REGIONS_H
 #define LITMUS_REGIONS_H
 
-#include <stdint.h>
 
 #include "litmus_test_def.h"
 
@@ -14,12 +13,12 @@ typedef enum {
   REGION_PGD,
 } region_names_t;
 
-extern uint64_t LEVEL_SIZES[6];
-extern uint64_t LEVEL_SHIFTS[6];
+extern u64 LEVEL_SIZES[6];
+extern u64 LEVEL_SHIFTS[6];
 
 #define NR_ENTRIES_PER_PAGE 512
 typedef struct {
-  uint64_t values[NR_ENTRIES_PER_PAGE];
+  u64 values[NR_ENTRIES_PER_PAGE];
 } page_t;
 
 #define NR_PAGES_PER_DIR 512
@@ -70,6 +69,6 @@ typedef struct {
  */
 void initialize_regions(regions_t* r);
 
-uint8_t in_same_region(uint64_t va1, uint64_t va2, own_level_t size);
+u8 in_same_region(u64 va1, u64 va2, own_level_t size);
 
 #endif /* LITMUS_REGIONS_H */

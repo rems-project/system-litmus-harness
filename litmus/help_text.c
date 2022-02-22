@@ -1,7 +1,7 @@
 #include "lib.h"
 
-uint64_t grp_num_tests(const litmus_test_group* grp) {
-  uint64_t i = 0;
+u64 grp_num_tests(const litmus_test_group* grp) {
+  u64 i = 0;
   if (grp->tests != NULL) {
     for (;;i++) {
       if (grp->tests[i] == NULL)
@@ -11,8 +11,8 @@ uint64_t grp_num_tests(const litmus_test_group* grp) {
   return i;
 }
 
-uint64_t grp_num_groups(const litmus_test_group* grp) {
-  uint64_t i = 0;
+u64 grp_num_groups(const litmus_test_group* grp) {
+  u64 i = 0;
   if (grp->groups != NULL) {
     for (;;i++) {
       if (grp->groups[i] == NULL)
@@ -22,8 +22,8 @@ uint64_t grp_num_groups(const litmus_test_group* grp) {
   return i;
 }
 
-uint64_t grp_num_total(const litmus_test_group* grp) {
-  uint64_t tot = grp_num_tests(grp);
+u64 grp_num_total(const litmus_test_group* grp) {
+  u64 tot = grp_num_tests(grp);
   for (int i = 0; i < grp_num_groups(grp); i++) {
     tot += grp_num_total(grp->groups[i]);
   }

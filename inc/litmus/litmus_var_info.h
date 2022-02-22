@@ -10,18 +10,18 @@
 typedef struct {
   var_idx_t varidx;
   const char* name;
-  uint64_t init_value;
+  u64 init_value;
 
-  uint8_t init_set_ap;
-  uint64_t init_ap;
+  u8 init_set_ap;
+  u64 init_ap;
 
-  uint8_t init_set_attridx;
-  uint64_t init_attridx;
+  u8 init_set_attridx;
+  u64 init_attridx;
 
-  uint8_t init_unmapped;
+  u8 init_unmapped;
 
-  uint8_t init_pinned_region;
-  uint8_t init_owns_region;
+  u8 init_pinned_region;
+  u8 init_owns_region;
   union {
     /** if not pinned, then this var owns a region */
     own_level_t init_owned_region_size;
@@ -34,7 +34,7 @@ typedef struct {
   };
 
   /* optionally each var may have a fixed offset in relation to 1 other var */
-  uint8_t init_region_offset;
+  u8 init_region_offset;
   struct {
     var_idx_t offset_var;
     rel_offset_t offset_level;
@@ -42,19 +42,19 @@ typedef struct {
 
   /** if aliased, the name of the variable this one aliases
    */
-  uint8_t is_alias;
+  u8 is_alias;
   var_idx_t alias;
 
   /* whether this variable is mapped by an identity mapping
    * in the pagetable
    */
-  uint8_t id_mapped;
+  u8 id_mapped;
 
   /** array of pointers into memory region for each run
    *
    * this is what actually defines the concrete tests
    */
-  uint64_t** values;
+  u64** values;
 } var_info_t;
 
 #endif /* LITMUS_VAR_INFO_H */
