@@ -16,6 +16,36 @@ extern char* __ld_end_sections;
 extern char* __ld_begin_data;
 extern char* __ld_end_data;
 
+/* See device.h for explanation of the variables */
+u64 NO_CPUS;
+
+u64 TOP_OF_MEM;
+u64 BOT_OF_MEM;
+u64 TOTAL_MEM;
+u64 TOTAL_HEAP;
+u64 TOTAL_TABLE_SPACE;
+u64 BOT_OF_HEAP;
+u64 TOP_OF_HEAP;
+u64 BOT_OF_PTABLES;
+u64 TOP_OF_PTABLES;
+u64 BOT_OF_IO;
+u64 TOP_OF_IO;
+u64 TOP_OF_STACK_PA;
+u64 BOT_OF_STACK_PA;
+u64 BOT_OF_DATA;
+u64 TOP_OF_DATA;
+u64 TOP_OF_TEXT;
+u64 BOT_OF_TEXT;
+u64 TOP_OF_DATA;
+
+u64 *HARNESS_MMAP;
+u64 *TESTDATA_MMAP;
+
+u64 BOT_OF_TESTDATA;
+u64 TOP_OF_TESTDATA;
+
+u64 vector_base_pa;
+
 boot_data_t boot_data;
 
 void init_device(void* fdt) {

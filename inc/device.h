@@ -45,43 +45,43 @@ extern u64 __asid_size;
 #define MAX_CPUS 4
 
 /** number of physical hardware threads */
-u64 NO_CPUS;
+extern u64 NO_CPUS;
 
 /* top and bottom of physical memory */
-u64 TOP_OF_MEM;
+extern u64 TOP_OF_MEM;
 
 /* bottom of RAM, note: this does not include any IO or bootloader sections
  */
-u64 BOT_OF_MEM;
+extern u64 BOT_OF_MEM;
 
 /* total amount of memory */
-u64 TOTAL_MEM;
+extern u64 TOTAL_MEM;
 
 /* total allocated heap space */
-u64 TOTAL_HEAP;
+extern u64 TOTAL_HEAP;
 
 /* total allocated space for pagetables */
-u64 TOTAL_TABLE_SPACE;
+extern u64 TOTAL_TABLE_SPACE;
 
 /* bottom and top of heap space
  * used for non-test data
  */
-u64 BOT_OF_HEAP;
-u64 TOP_OF_HEAP;
+extern u64 BOT_OF_HEAP;
+extern u64 TOP_OF_HEAP;
 
 /* bottom and top of pagetable space
  * used for test pagetables
  */
-u64 BOT_OF_PTABLES;
-u64 TOP_OF_PTABLES;
+extern u64 BOT_OF_PTABLES;
+extern u64 TOP_OF_PTABLES;
 
 /* bot and top of memory mapped I/O section
  *
  * in practice this is just the physical page the memory-mapped serial
  * controls are located in
  */
-u64 BOT_OF_IO;
-u64 TOP_OF_IO;
+extern u64 BOT_OF_IO;
+extern u64 TOP_OF_IO;
 
 /** per-thread stack size
  */
@@ -90,8 +90,8 @@ u64 TOP_OF_IO;
 /**
  * Top and Bottom of thread stack PA space
  */
-u64 TOP_OF_STACK_PA;
-u64 BOT_OF_STACK_PA;
+extern u64 TOP_OF_STACK_PA;
+extern u64 BOT_OF_STACK_PA;
 
 /** each thread gets 2 2M regions for its stack
  * the first for EL0 and the second for EL1
@@ -112,27 +112,27 @@ u64 BOT_OF_STACK_PA;
 /**
  * Sections from linker
  */
-u64 BOT_OF_DATA;
-u64 TOP_OF_DATA;
-u64 TOP_OF_TEXT;
-u64 BOT_OF_TEXT;
-u64 TOP_OF_DATA;
+extern u64 BOT_OF_DATA;
+extern u64 TOP_OF_DATA;
+extern u64 TOP_OF_TEXT;
+extern u64 BOT_OF_TEXT;
+extern u64 TOP_OF_DATA;
 
 /** the harness maps all of memory starting at 64G
  */
-u64* HARNESS_MMAP;
+extern u64* HARNESS_MMAP;
 
 /** the tests themselves have a chunk of virtual address space allocated at
  * 128G
  *
  * which may be fragmented over physical address space TOP_OF_HEAP -> TOP_OF_MEM
  */
-u64* TESTDATA_MMAP;
+extern u64* TESTDATA_MMAP;
 
 /* top and bottom of physical regions for the testdata
  */
-u64 BOT_OF_TESTDATA;
-u64 TOP_OF_TESTDATA;
+extern u64 BOT_OF_TESTDATA;
+extern u64 TOP_OF_TESTDATA;
 
 /**
  * physical adddress the vector tables are located at
@@ -141,7 +141,7 @@ u64 TOP_OF_TESTDATA;
  * where each VTABLE_SIZE (aka PAGE_SIZE) space is
  * one thread's exception vector table
  */
-u64 vector_base_pa;
+extern u64 vector_base_pa;
 
 /**
  * from dtb
