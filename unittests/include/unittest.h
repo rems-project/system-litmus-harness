@@ -24,6 +24,6 @@ typedef struct {
     unit_test_t** fns;
 } test_file_t;
 
-unit_test_t* current_test;
+extern unit_test_t* current_test;
 
 #endif /* UNITTEST_H */

@@ -9,6 +9,8 @@ test_file_t tests[] = {
   #include "tests.cstruct"
 };
 
+unit_test_t* current_test;
+
 void main(void) {
   unsigned int total_count = 0;
   unsigned int total_failure = 0;
