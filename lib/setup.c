@@ -5,6 +5,9 @@
 extern u64 __argc;
 extern char*    __argv[100];
 
+/* per-thread boot data */
+cpu_data_t cpu_data[4];
+
 /** setup is called very early
  * before the UART is enabled
  */

@@ -60,7 +60,7 @@ typedef struct {
     volatile int finished;
 } cpu_data_t;
 
-cpu_data_t cpu_data[4];
+extern cpu_data_t cpu_data[4];
 
 void cpu_data_init(void);
 void cpu_boot(u64 cpu);
