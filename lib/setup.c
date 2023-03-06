@@ -16,7 +16,7 @@ void setup(char* fdtloc) {
    * if the first word is not the magic constant
    * then this is not a valid dtb
    */
-  if (*(u32*)fdtloc != 0xd00dfeed) {
+  if (read_be(fdtloc) != 0xd00dfeed) {
     printf("INVALID fdt :: fdtloc *%p = 0x%lx\n", fdtloc, *(u32*)fdtloc);
     fdtloc = NULL;
   }
