@@ -170,7 +170,7 @@ _VERSION = $(_DATE_VERSION).$(_MINOR_VERSION)
 CFLAGS = -O0 -nostdlib \
 		$(foreach DIR,$(INC_DIRS),-I $(DIR)) \
 		$(foreach DIR,$(OTHER_INCLUDES),-I $(DIR)) \
-		-ffreestanding -fomit-frame-pointer -fno-pie -fno-pic \
+		-ffreestanding -fno-omit-frame-pointer -fno-pie -fno-pic \
 		-Wall $(addprefix -Wno-,$(CCNOWARN)) $(addprefix -Werror=,$(CCERRORS)) \
 		-Wshadow \
 		-D__VERSION_STR__="\"$(_VERSION)\"" \
