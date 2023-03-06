@@ -11,13 +11,13 @@ int argparse_check_name_exact(char* argv, char* short_name, char* long_name) {
     s += 3;
   }
 
-  if (short_name && strcmp(s, short_name)) {
+  if (short_name && strcmp(s, 1 + short_name)) {
     return 1;
   } else {
     switch (*s) {
       case '-':
         s++;
-        if (long_name && strcmp(s, long_name)) {
+        if (long_name && strcmp(s, 2 + long_name)) {
           if (flipped)
             return 2;
           else
@@ -38,16 +38,16 @@ int argdef_try_split(char* lhs, char* rhs, char* argv, char* short_name, char* l
   switch (*s) {
     case '-':
       s++;
-      if (long_name && strstartswith(s, long_name)) {
+      if (long_name && strstartswith(s, 2 + long_name)) {
         if (! strpartition(lhs, rhs, argv, '=')) {
           *rhs = '\0';
-          // fail("argument mismatch: %s expected argument.  See Usage or --help=%s for more info.\n", lhs, lhs);
+          fail("argument mismatch: %s expected argument.  See Usage or --help=%s for more info.\n", lhs, lhs);
         }
         return 1;
       }
       break;
     default:
-      if (short_name && (*s == *short_name)) {
+      if (short_name && (*s == *(1 + short_name))) {
         *lhs = *s;
         valloc_memcpy(rhs, s+1, sizeof(char)*(1+strlen(s+1)));
         return 1;
@@ -59,7 +59,7 @@ int argdef_try_split(char* lhs, char* rhs, char* argv, char* short_name, char* l
 }
 
 int argparse_check_flag_arg(argdef_t* argdefr, char* argv, const argdef_flag_t* arg) {
-  int match = argparse_check_name_exact(argv, 1+arg->short_name, 2+arg->long_name);
+  int match = argparse_check_name_exact(argv, arg->short_name, arg->long_name);
   if (match == 0) {
     return 0;
   } else if (match == 1) {
@@ -74,9 +74,9 @@ int argparse_check_flag_arg(argdef_t* argdefr, char* argv, const argdef_flag_t* 
 }
 
 int argparse_check_option_arg(argdef_t* argdefr, char* argv, const argdef_option_t* arg) {
-  char lhs[100];
-  char rhs[100];
-  int match = argdef_try_split((char*)&lhs[0], (char*)&rhs, argv, 1+arg->short_name, 2+arg->long_name);
+  char lhs[100] = {0};
+  char rhs[100] = {0};
+  int match = argdef_try_split((char*)&lhs[0], (char*)&rhs, argv, arg->short_name, arg->long_name);
 
   if (match == 0) {
     return 0;
@@ -96,9 +96,9 @@ int argparse_check_option_arg(argdef_t* argdefr, char* argv, const argdef_option
 }
 
 int argparse_check_enum_arg(argdef_t* argdefr, char* argv, const argdef_enum_t* arg) {
-  char lhs[100];
-  char rhs[100];
-  int match = argdef_try_split((char*)&lhs[0], (char*)&rhs, argv, NULL, 2+arg->long_name);
+  char lhs[100] = {0};
+  char rhs[100] = {0};
+  int match = argdef_try_split((char*)&lhs[0], (char*)&rhs, argv, NULL, arg->long_name);
 
   if (match == 0) {
     return 0;
