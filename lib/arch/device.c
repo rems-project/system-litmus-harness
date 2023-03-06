@@ -648,20 +648,33 @@ dtb_mem_t dtb_read_memory(void* fdt) {
     fdt_debug_print_all(fdt);
 #endif
 
-    /* find the first node with device_type: "memory" */
-    fdt_structure_piece piece = fdt_find_node_with_prop_with_index(fdt, NULL, "device_type", "memory");
-    fdt_structure_begin_node_header* node = (fdt_structure_begin_node_header*)piece.current;
-    fdt_structure_property_header* prop = fdt_read_prop(fdt, node, "reg");
+    /* find the first node with device_type: "memory" with name memory@XXXXYYYY */
+    fdt_structure_piece memory_piece;
+    fdt_structure_begin_node_header *memory_node;
+    fdt_structure_property_header *memory_prop;
 
-    /* check no other memory nodes (unsupported for now ...) */
-    piece = fdt_find_node_with_prop_with_index(fdt, piece.next, "device_type", "memory");
-    if (piece.current != NULL) {
-        fail("! dtb_read_memory: only expected 1 memory region in dtb, got '%s' too\n",
-            ((fdt_structure_begin_node_header*)piece.current)->name
-        );
+    memory_piece = fdt_find_node_with_prop_with_index(fdt, NULL, "device_type", "memory");
+
+    if (memory_piece.current == NULL) {
+      fail("! dtb_read_memory: could not find a memory@XXXXYYYY node\n");
     }
 
-    u32 len = read_be((char*)&prop->len);
+    while (1) {
+      memory_node = (fdt_structure_begin_node_header *)memory_piece.current;
+      memory_prop = fdt_read_prop(fdt, memory_node, "reg");
+
+      if (strstartswith(memory_node->name, "memory@")) {
+        break;
+      }
+
+      memory_piece = fdt_find_node_with_prop_with_index(fdt, memory_piece.next, "device_type", "memory");
+
+      if (memory_piece.current == NULL) {
+        fail("! dtb_read_memory: could not find a 'memory@XXXXYYYY' node\n");
+      }
+    }
+
+    u32 len = read_be((char*)&memory_prop->len);
     u64 base;
     u64 size;
 
@@ -669,7 +682,7 @@ dtb_mem_t dtb_read_memory(void* fdt) {
     if (len == 16) {
       u32 blocks[4];
       for (int i = 0; i < 4; i++) {
-        blocks[i] = read_be(prop->data + i*4);
+        blocks[i] = read_be(memory_prop->data + i*4);
       }
       base = (u64)blocks[0] << 32 | blocks[1];
       size = (u64)blocks[2] << 32 | blocks[3];
@@ -677,13 +690,13 @@ dtb_mem_t dtb_read_memory(void* fdt) {
       /* stored as {u32_base, u32_size} */
       u32 blocks[2];
       for (int i = 0; i < 2; i++) {
-        blocks[i] = read_be(prop->data + i*4);
+        blocks[i] = read_be(memory_prop->data + i * 4);
       }
 
       base = (u64)blocks[0];
       size = (u64)blocks[1];
     } else {
-      fail("! dtb_read_memory: unsupported size (%d) for memory node reg\n", prop->len);
+      fail("! dtb_read_memory: unsupported size (%d) for memory node reg\n", memory_prop->len);
     }
 
     return (dtb_mem_t){base, size, base+size};
