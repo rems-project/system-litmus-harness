@@ -96,7 +96,7 @@ help:
 	@: # do nothing and do not echo
 
 # possible combinations of targets
-PREFIXES = kvm qemu
+PREFIXES = kvm qemu qemu_rpi3
 BINTARGETS = litmus unittests
 
 # Compiler and tools options
@@ -286,14 +286,25 @@ bin/$(call exe_prefix,$(1))$(p)_$(t).exe: $(d)
 # so we can make sure they get the right options
 $(foreach t,$(BINTARGETS),\
 bin/$(call exe_prefix,$(1))qemu_$(t).exe: OUT_NAME=$$$$tmp
+bin/$(call exe_prefix,$(1))qemu_$(t).exe: DRIVER=qemu
 bin/$(call exe_prefix,$(1))qemu_$(t).exe: bin/$(t).bin
 	$$(call run_cmd,BUILD_EXE,$$@, \
-		$$(call make_exe,$$(RUN_CMD_LOCAL) $$$${QEMU_ARGS}) \
+		$$(call make_exe,$$(RUN_CMD_LOCAL_VIRT) $$$${QEMU_ARGS}) \
+	)
+)
+
+$(foreach t,$(BINTARGETS),\
+bin/$(call exe_prefix,$(1))qemu_rpi3_$(t).exe: OUT_NAME=$$$$tmp
+bin/$(call exe_prefix,$(1))qemu_rpi3_$(t).exe: DRIVER=bcm2837
+bin/$(call exe_prefix,$(1))qemu_rpi3_$(t).exe: bin/$(t).bin
+	$$(call run_cmd,BUILD_EXE,$$@, \
+		$$(call make_exe,$$(RUN_CMD_LOCAL_RPI3) $$$${QEMU_ARGS}) \
 	)
 )
 
 $(foreach t,$(BINTARGETS),\
 bin/$(call exe_prefix,$(1))kvm_$(t).exe: OUT_NAME=$$$$tmp
+bin/$(call exe_prefix,$(1))kvm_$(t).exe: DRIVER=qemu
 bin/$(call exe_prefix,$(1))kvm_$(t).exe: bin/$(t).bin
 	$$(call run_cmd,BUILD_EXE,$$@,\
 		$$(call make_exe,$$(RUN_CMD_HOST) $$$${QEMU_ARGS}) \

@@ -99,5 +99,5 @@ bin/asm_debug.o:  asm_debug.S
 bin/debug_%.exe: OUT_NAME=$$tmp
 bin/debug_%.exe: bin/%.bin
 	$(call run_cmd,BUILD_EXE,$@,\
-		$(call make_exe,$(RUN_CMD_LOCAL) -S -s)\
+		$(call make_exe,$(RUN_CMD_LOCAL_VIRT) -S -s)\
 	)

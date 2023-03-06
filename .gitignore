@@ -2,10 +2,8 @@
 /bin/
 
 # built executables
-/*qemu_litmus
-/*qemu_unittests
-/*kvm_litmus
-/*kvm_unittests
+/*qemu_*
+/*kvm_*
 
 # persistent state of the build
 /litmus/groups.c

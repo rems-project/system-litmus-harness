@@ -33,7 +33,6 @@ RUN_CMD_LOCAL_VIRT = 	\
 		-device virtio-serial-device \
 		-display none -serial stdio \
 		-m $(QEMU_MEM) \
-		-bios BL1 -d unimp -semihosting-config enable,target=native \
 		-kernel $(OUT_NAME) -smp 4 -append "$$*"
 
 RUN_CMD_LOCAL_RPI3 = 	\
@@ -43,5 +42,3 @@ RUN_CMD_LOCAL_RPI3 = 	\
 		-serial null -serial mon:stdio \
 		-m $(QEMU_MEM) \
 		-kernel $(OUT_NAME) -smp 4 -append "$$*"
-
-RUN_CMD_LOCAL = $(RUN_CMD_LOCAL_RPI3)
