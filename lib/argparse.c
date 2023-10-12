@@ -32,14 +32,18 @@ int argparse_check_name_exact(char* argv, char* short_name, char* long_name) {
   return 0;
 }
 
-int argdef_try_split(char* lhs, char* rhs, char* argv, char* short_name, char* long_name) {
+int argdef_try_split(char* lhs, char* rhs, char* argv, char* short_name, char* long_name, u8 only_action) {
   /* check for -short_nameNNNN or --long_name= */
   char* s = argv + 1;
   switch (*s) {
     case '-':
       s++;
       if (long_name && strstartswith(s, 2 + long_name)) {
-        if (! strpartition(lhs, rhs, argv, '=')) {
+        if (only_action) {
+          *lhs = *s;
+          return 1;
+        }
+        if (!strpartition(lhs, rhs, argv, '=')) {
           *rhs = '\0';
           fail("argument mismatch: %s expected argument.  See Usage or --help=%s for more info.\n", lhs, lhs);
         }
@@ -76,7 +80,7 @@ int argparse_check_flag_arg(argdef_t* argdefr, char* argv, const argdef_flag_t* 
 int argparse_check_option_arg(argdef_t* argdefr, char* argv, const argdef_option_t* arg) {
   char lhs[100] = {0};
   char rhs[100] = {0};
-  int match = argdef_try_split((char*)&lhs[0], (char*)&rhs, argv, arg->short_name, arg->long_name);
+  int match = argdef_try_split((char*)&lhs[0], (char*)&rhs, argv, arg->short_name, arg->long_name, arg->only_action);
 
   if (match == 0) {
     return 0;
@@ -98,7 +102,7 @@ int argparse_check_option_arg(argdef_t* argdefr, char* argv, const argdef_option
 int argparse_check_enum_arg(argdef_t* argdefr, char* argv, const argdef_enum_t* arg) {
   char lhs[100] = {0};
   char rhs[100] = {0};
-  int match = argdef_try_split((char*)&lhs[0], (char*)&rhs, argv, NULL, arg->long_name);
+  int match = argdef_try_split((char*)&lhs[0], (char*)&rhs, argv, NULL, arg->long_name, 0);
 
   if (match == 0) {
     return 0;
