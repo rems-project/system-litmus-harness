@@ -15,6 +15,9 @@
 *.pyc
 __pycache__/
 
+# clangd compile commands
+/compile_commands.json
+
 # specifically un-ignore the interesting dirs
 # to overrule any global .gitignores
 !/lib/
