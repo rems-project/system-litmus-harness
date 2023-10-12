@@ -11,6 +11,10 @@
 /litmus/group_list.txt
 /litmus/linter.log
 
+# cached scripts .pyc files
+*.pyc
+__pycache__/
+
 # specifically un-ignore the interesting dirs
 # to overrule any global .gitignores
 !/lib/
