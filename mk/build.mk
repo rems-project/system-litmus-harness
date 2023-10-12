@@ -35,6 +35,7 @@ ifeq ($(SHOW_PREPROCESSED_OUTPUT),1)
 	@mkdir -p $(dir $@)
 	$(call run_cmd,CC,$<,\
 		$(CC) $(CFLAGS) -c -o $@ $< \
+		; echo $(CC) $(CFLAGS) -c -o $@ $< > $@.cmd \
 		; $(CC) $(CFLAGS) -E -o $(patsubst %.o,%.pp,$@) $<  \
 	)
   endef
@@ -43,6 +44,7 @@ else
 	@mkdir -p $(dir $@)
 	$(call run_cmd,CC,$<,\
 		$(CC) $(CFLAGS) -c -o $@ $< \
+		; echo $(CC) $(CFLAGS) -c -o $@ $< > $@.cmd \
 	)
   endef
 endif
