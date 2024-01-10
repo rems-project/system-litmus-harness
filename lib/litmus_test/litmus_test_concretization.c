@@ -87,7 +87,13 @@ void set_init_pte(test_ctx_t* ctx, var_idx_t varidx, run_idx_t run) {
   } else {
   /* otherwise we write the level3 descriptor for this VA
    */
-    u64 pg = SAFE_TESTDATA_PA((u64)va) & ~BITMASK(PAGE_SHIFT);
+    u64 pg;
+    if (vinfo->is_fixed) {
+      pg = vinfo->fixed_pa & ~BITMASK(PAGE_SHIFT);
+    } else {
+      pg = SAFE_TESTDATA_PA((u64)va) & ~BITMASK(PAGE_SHIFT);
+    }
+
     u64 default_desc = vmm_make_desc(pg, PROT_DEFAULT_HEAP, 3);
     *pte = default_desc;
 
@@ -174,15 +180,17 @@ void set_init_var(test_ctx_t* ctx, var_idx_t varidx, run_idx_t run) {
   DEBUG(DEBUG_CONCRETIZATION, "set_init_var for run %ld for var '%s' with va = %p\n", run, vinfo->name, vinfo->values[run]);
   set_init_pte(ctx, varidx, run);
 
-  if (ENABLE_PGTABLE) {
-    /* convert the VA to the PA
-    * then convert the PA to its location
-    * in the HARNESS MMAP to get reliable R/W mapping
-    */
-    u64* safe_va = (u64*)SAFE_TESTDATA_VA((u64)va);
-    *safe_va = vinfo->init_value;
-  } else {
-    *va = vinfo->init_value;
+  if (vinfo->has_init_value) {
+    if (ENABLE_PGTABLE) {
+      /* convert the VA to the PA
+      * then convert the PA to its location
+      * in the HARNESS MMAP to get reliable R/W mapping
+      */
+      u64* safe_va = (u64*)SAFE_TESTDATA_VA((u64)va);
+      *safe_va = vinfo->init_value;
+    } else {
+      *va = vinfo->init_value;
+    }
   }
 }
 

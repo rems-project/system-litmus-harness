@@ -10,6 +10,8 @@
 typedef struct {
   var_idx_t varidx;
   const char* name;
+
+  u8 has_init_value;
   u64 init_value;
 
   u8 init_set_ap;
@@ -44,6 +46,11 @@ typedef struct {
    */
   u8 is_alias;
   var_idx_t alias;
+
+  /** if fixed, the phyiscal addr
+   */
+  u8 is_fixed;
+  u64 fixed_pa;
 
   /* whether this variable is mapped by an identity mapping
    * in the pagetable

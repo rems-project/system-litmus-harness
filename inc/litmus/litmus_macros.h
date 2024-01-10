@@ -30,6 +30,7 @@
 /* for defining the initial state */
 #define INIT_STATE(N, ...) .no_init_states=N,.init_states=(init_varstate_t*[]){__VA_ARGS__}
 #define INIT_VAR(var, value) &(init_varstate_t){#var, TYPE_HEAP, {value}}
+#define INIT_FIX(var, pa) &(init_varstate_t){#var, TYPE_FIX, {pa}}
 #define INIT_PGT(var, value) &(init_varstate_t){#var, TYPE_PTE, {value}}
 #define INIT_ALIAS(var, othervar) &(init_varstate_t){#var, TYPE_ALIAS, {.aliasname=(const char*)#othervar}}
 #define INIT_PERMISSIONS(var, prot, value) &(init_varstate_t){#var, TYPE_ATTRS, {.prot_type=prot, .attr_value=value}}

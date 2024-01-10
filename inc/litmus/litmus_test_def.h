@@ -12,6 +12,7 @@
 typedef enum {
   TYPE_HEAP,
   TYPE_PTE,
+  TYPE_FIX,
   TYPE_UNMAPPED,
   TYPE_IDENTITY_MAP,
   TYPE_ALIAS,
@@ -60,7 +61,7 @@ typedef struct {
   const char* varname;
   init_type_t type;
   union {
-    u64 value;                     /* TYPE_HEAP, TYPE_PTE, TYPE_MAIR */
+    u64 value;                          /* TYPE_HEAP, TYPE_PTE, TYPE_MAIR, TYPE_FIX */
     const char* aliasname;              /* TYPE_ALIAS */
     struct {                            /* TYPE_ATTRS */
       prot_type_t prot_type;

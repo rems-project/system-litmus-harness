@@ -7,6 +7,7 @@ void read_init_region_offs(const litmus_test_t* cfg, var_info_t* infos, const ch
 void read_init_alias(const litmus_test_t* cfg, var_info_t* infos, const char* varname, const char* aliasname);
 void read_init_ap(const litmus_test_t* cfg, var_info_t* infos, const char* varname, prot_type_t prot_type, u64 attr);
 void read_init_pte(const litmus_test_t* cfg, var_info_t* infos, const char* varname, u64 pte);
+void read_init_fix(const litmus_test_t* cfg, var_info_t* infos, const char* varname, u64 pa);
 void read_init_heap(const litmus_test_t* cfg, var_info_t* infos, const char* varname, u64 value);
 void read_init_mair(init_system_state_t* st, u64 mair_attr7);
 void read_init_idmap(const litmus_test_t* cfg, var_info_t* infos, const char* varname);
@@ -26,6 +27,9 @@ void read_var_infos(const litmus_test_t* cfg, init_system_state_t* sys_st, var_i
         break;
       case (TYPE_PTE):
         read_init_pte(cfg, infos, name, var->value);
+        break;
+      case (TYPE_FIX):
+        read_init_fix(cfg, infos, name, var->value);
         break;
       case (TYPE_UNMAPPED):
         read_init_unmapped(cfg, infos, name);
@@ -134,6 +138,9 @@ void read_var_infos(const litmus_test_t* cfg, init_system_state_t* sys_st, var_i
     if (vinfo->is_alias) {
       debug(" .alias=\"%s\"\n", infos[vinfo->alias].name);
     }
+    if (vinfo->is_fixed) {
+      debug(" .fixed_pa=%p\n", vinfo->fixed_pa);
+    }
     debug("}\n");
   }
 }
@@ -145,6 +152,7 @@ void read_init_mair(init_system_state_t* st, u64 mair_attr7) {
 
 void read_init_unmapped(const litmus_test_t* cfg, var_info_t* infos, const char* varname) {
   var_idx_t idx = idx_from_varname_infos(cfg, infos, varname);
+  infos[idx].has_init_value = 0;
   infos[idx].init_unmapped = 1;
 }
 
@@ -201,7 +209,14 @@ void read_init_pte(const litmus_test_t* cfg, var_info_t* infos, const char* varn
   fail("INIT_PTE unsupported, use INIT_UNMAPPED or INIT_AP\n");
 }
 
+void read_init_fix(const litmus_test_t* cfg, var_info_t* infos, const char* varname, uint64_t pa) {
+  var_idx_t idx = idx_from_varname_infos(cfg, infos, varname);
+  infos[idx].is_fixed = 1;
+  infos[idx].fixed_pa = pa;
+}
+
 void read_init_heap(const litmus_test_t* cfg, var_info_t* infos, const char* varname, u64 value) {
   var_idx_t idx = idx_from_varname_infos(cfg, infos, varname);
+  infos[idx].has_init_value = 1;
   infos[idx].init_value = value;
 }
