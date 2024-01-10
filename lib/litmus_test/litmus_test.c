@@ -432,9 +432,10 @@ static void prefetch(test_ctx_t* ctx, run_idx_t i, run_count_t r) {
     u64* va = ctx_heap_var_va(ctx, v, i);
     u64 is_valid = vmm_pte_valid(ptable_from_run(ctx, i), va);
     u64* safe_va = (u64*)SAFE_TESTDATA_VA((u64)va);
+    u8 has_init_value = ctx->heap_vars[v].has_init_value;
 
     UNLOCK(&__harness_lock);
-    if (randn() % 2 && is_valid && *safe_va != ctx_initial_heap_value(ctx, v)) {
+    if (randn() % 2 && is_valid && has_init_value && *safe_va != ctx_initial_heap_value(ctx, v)) {
       fail(
           "! fatal: initial state for heap var \"%s\" on run %d was %ld not %ld\n",
           varname_from_idx(ctx, v), r, *safe_va, ctx_initial_heap_value(ctx, v));
