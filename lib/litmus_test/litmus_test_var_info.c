@@ -1,5 +1,6 @@
 #include "lib.h"
 
+void reset_var_info(var_info_t *vinfo, var_idx_t idx, const char *varname);
 void read_init_unmapped(const litmus_test_t* cfg, var_info_t* infos, const char* varname);
 void read_init_region(const litmus_test_t* cfg, var_info_t* infos, const char* varname, const char* pinned_var_name, pin_level_t pin_level);
 void read_init_region_own(const litmus_test_t* cfg, var_info_t* infos, const char* varname, own_level_t region);
@@ -14,8 +15,7 @@ void read_init_idmap(const litmus_test_t* cfg, var_info_t* infos, const char* va
 
 void read_var_infos(const litmus_test_t* cfg, init_system_state_t* sys_st, var_info_t* infos, int no_runs) {
   for (var_idx_t v = 0; v < cfg->no_heap_vars; v++) {
-    infos[v].varidx = v;
-    infos[v].name = cfg->heap_var_names[v];
+    reset_var_info(&infos[v], v, cfg->heap_var_names[v]);
   }
 
   for (int i = 0; i < cfg->no_init_states; i++) {
@@ -58,19 +58,13 @@ void read_var_infos(const litmus_test_t* cfg, init_system_state_t* sys_st, var_i
     }
   }
 
-  /* fill defaults:
-  * if a var does not specify a pinned offset from another var
-   * then assume they're pinned to the page offset of the first var
+  /* check that at least one of the symbolic variables owns some memory
+   * otherwise the constraints are just cyclic and we can't concretize
    */
   var_info_t* first = NULL;
   for (var_idx_t v = 0; v < cfg->no_heap_vars; v++) {
     var_info_t* vinfo = &infos[v];
     if (vinfo->init_owns_region && !vinfo->init_pinned_region) {
-      first = vinfo;
-      break;
-    } else if (! vinfo->init_pinned_region && ! vinfo->init_owns_region) {
-      vinfo->init_owns_region = 1;
-      vinfo->init_owned_region_size = REGION_OWN_PAGE;
       first = vinfo;
       break;
     }
@@ -96,12 +90,8 @@ void read_var_infos(const litmus_test_t* cfg, init_system_state_t* sys_st, var_i
     if (vinfo->varidx == first->varidx)
       continue;
 
-    if ((! vinfo->init_pinned_region) && (! vinfo->init_owns_region)) {
-      vinfo->init_owns_region = 1;
-      vinfo->init_pinned_region = 0;
-      vinfo->init_owned_region_size = REGION_OWN_PAGE;
-
-      /* if the var DID have a INIT_REGION_OFFSET then keep that
+    if (vinfo->init_owns_region) {
+      /* ensure all vars with no explicit INIT_REGION_OFFSET have the same offset in the owned region
        */
       if (! vinfo->init_region_offset) {
         vinfo->init_region_offset = 1;
@@ -145,6 +135,31 @@ void read_var_infos(const litmus_test_t* cfg, init_system_state_t* sys_st, var_i
   }
 }
 
+void reset_var_info(var_info_t *vinfo, var_idx_t idx, const char* name) {
+    vinfo->varidx = idx;
+    vinfo->name = name;
+
+    /* symbolic vars start unmapped */
+    vinfo->init_unmapped = 1;
+
+    /* by default: no initial value unless it gets mapped etc */
+    vinfo->has_init_value = 0;
+
+    /* by default: not aliased, fixed or anything. */
+    vinfo->is_alias = 0;
+    vinfo->is_fixed = 0;
+    vinfo->id_mapped = 0;
+
+    /* by default: no attributes or pins or anything */
+    vinfo->init_set_ap = 0;
+    vinfo->init_set_attridx = 0;
+    vinfo->init_pinned_region = 0;
+
+    /* by default: each symbolic var gets its own page in the virtual space */
+    vinfo->init_owns_region = 1;
+    vinfo->init_owned_region_size = REGION_OWN_PAGE;
+}
+
 void read_init_mair(init_system_state_t* st, u64 mair_attr7) {
   st->enable_mair = 1;
   st->mair_attr7 = mair_attr7;
@@ -152,12 +167,15 @@ void read_init_mair(init_system_state_t* st, u64 mair_attr7) {
 
 void read_init_unmapped(const litmus_test_t* cfg, var_info_t* infos, const char* varname) {
   var_idx_t idx = idx_from_varname_infos(cfg, infos, varname);
+
   infos[idx].has_init_value = 0;
   infos[idx].init_unmapped = 1;
 }
 
 void read_init_idmap(const litmus_test_t* cfg, var_info_t* infos, const char* varname) {
   var_idx_t idx = idx_from_varname_infos(cfg, infos, varname);
+
+  infos[idx].init_unmapped = 0;
   infos[idx].id_mapped = 1;
 }
 
@@ -165,6 +183,7 @@ void read_init_region_offs(const litmus_test_t* cfg, var_info_t* infos, const ch
   var_idx_t idx = idx_from_varname_infos(cfg, infos, varname);
   var_idx_t offsvaridx = idx_from_varname_infos(cfg, infos, offsvarname);
 
+  infos[idx].init_unmapped = 0;
   infos[idx].init_region_offset = 1;
   infos[idx].offset_var = offsvaridx;
   infos[idx].offset_level = offs;
@@ -172,6 +191,8 @@ void read_init_region_offs(const litmus_test_t* cfg, var_info_t* infos, const ch
 
 void read_init_region_own(const litmus_test_t* cfg, var_info_t* infos, const char* varname, own_level_t region) {
   var_idx_t idx = idx_from_varname_infos(cfg, infos, varname);
+
+  infos[idx].init_unmapped = 0;
   infos[idx].init_owns_region = 1;
   infos[idx].init_owned_region_size = region;
 }
@@ -179,6 +200,8 @@ void read_init_region_own(const litmus_test_t* cfg, var_info_t* infos, const cha
 void read_init_region(const litmus_test_t* cfg, var_info_t* infos, const char* varname, const char* pinned_var_name, pin_level_t pin_level) {
   var_idx_t idx = idx_from_varname_infos(cfg, infos, varname);
 
+  infos[idx].init_unmapped = 0;
+  infos[idx].init_owns_region = 0;
   infos[idx].init_pinned_region = 1;
   infos[idx].pin_region_var = idx_from_varname_infos(cfg, infos, pinned_var_name);
   infos[idx].pin_region_level = pin_level;
@@ -186,6 +209,11 @@ void read_init_region(const litmus_test_t* cfg, var_info_t* infos, const char* v
 
 void read_init_alias(const litmus_test_t* cfg, var_info_t* infos, const char* varname, const char* aliasname) {
   var_idx_t idx = idx_from_varname_infos(cfg, infos, varname);
+
+  infos[idx].init_owns_region = 0;
+  /* it might be that this is an alias for an unmapped location
+   * and later on we need to fix this up. */
+  infos[idx].init_unmapped = 0;
   infos[idx].is_alias = 1;
   infos[idx].alias = idx_from_varname_infos(cfg, infos, aliasname);
 }
@@ -211,12 +239,14 @@ void read_init_pte(const litmus_test_t* cfg, var_info_t* infos, const char* varn
 
 void read_init_fix(const litmus_test_t* cfg, var_info_t* infos, const char* varname, uint64_t pa) {
   var_idx_t idx = idx_from_varname_infos(cfg, infos, varname);
+  infos[idx].init_unmapped = 0;
   infos[idx].is_fixed = 1;
   infos[idx].fixed_pa = pa;
 }
 
 void read_init_heap(const litmus_test_t* cfg, var_info_t* infos, const char* varname, u64 value) {
   var_idx_t idx = idx_from_varname_infos(cfg, infos, varname);
+  infos[idx].init_unmapped = 0;
   infos[idx].has_init_value = 1;
   infos[idx].init_value = value;
 }
