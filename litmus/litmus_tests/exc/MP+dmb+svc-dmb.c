@@ -21,6 +21,7 @@ static void P0(litmus_test_run* data) {
 static void svc_handler(void) {
   asm volatile(
       /* x3 = X */
+      "dmb sy\n\t"
       "ldr x2, [x3]\n\t"
       "eret\n\t"
   );
@@ -47,8 +48,8 @@ static void P1(litmus_test_run* data) {
 
 
 
-litmus_test_t MP_dmb_svc = {
-  "MP+dmb+svc",
+litmus_test_t MP_dmb_svcdmb = {
+  "MP+dmb+svc-dmb",
   MAKE_THREADS(2),
   MAKE_VARS(VARS),
   MAKE_REGS(REGS),

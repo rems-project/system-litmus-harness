@@ -20,6 +20,7 @@ static void P0(litmus_test_run* data) {
 
 static void svc_handler(void) {
   asm volatile(
+      /* x3 = X */
       "ldr x2, [x3]\n\t"
       "eret\n\t"
   );
