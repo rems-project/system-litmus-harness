@@ -27,7 +27,7 @@ static void sync_handler(void) {
       "cmp x0, #0b100100\n"
       "b.ne 0f\n"
 
-      /* if ISS[6:0]==0010000 (WnR==0, DFSC=10000
+      /* if ISS[6:0]==0010000 (WnR==0, DFSC=010000
                                Read-induced, Sync SError) */
       "mrs x0, esr_el1\n"
       "ubfx x0, x0, #0, #7\n"
