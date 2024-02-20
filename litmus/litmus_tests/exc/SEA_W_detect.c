@@ -3,7 +3,7 @@
 #include "lib.h"
 
 #define VARS x
-#define REGS p1x0
+#define REGS p0x0
 
 static void P0(litmus_test_run* data) {
   asm volatile (
@@ -11,7 +11,7 @@ static void P0(litmus_test_run* data) {
       "str x0, [%[x]]\n\t"
 
       /* out */
-      "str x0, [%[outp1r0]]\n\t"
+      "str x0, [%[outp0r0]]\n\t"
   :
   : ASM_VARS(data, VARS),
     ASM_REGS(data, REGS)
@@ -27,10 +27,11 @@ static void sync_handler(void) {
       "cmp x0, #0b100100\n"
       "b.ne 0f\n"
 
-      /* if ISS==10000 (Sync SError) */
+      /* if ISS[6:0]==1010000 (WnR==1 , DFSC==010000
+                               Write-induced, Sync SError) */
       "mrs x0, esr_el1\n"
-      "ubfx x0, x0, #0, #12\n"
-      "cmp x0, #0b10000\n"
+      "ubfx x0, x0, #0, #7\n"
+      "cmp x0, #0b1010000\n"
       "b.ne 0f\n"
 
       /* return 1 */
@@ -59,9 +60,9 @@ litmus_test_t SEA_W_detect = {
      (u32*[]){(u32*)sync_handler, NULL},
     },
   .interesting_result = (uint64_t[]){
-      /* if p1:x0 was 1, then saw a Synchronous SError on the Load
-       * hence SEA_R must be True.
+      /* if p0:x0 was 1, then saw a Synchronous SError on the Store
+       * hence SEA_W must be True.
        */
-      /* p1:x0 =*/1,
+      /* p0:x0 =*/1,
   },
 };
