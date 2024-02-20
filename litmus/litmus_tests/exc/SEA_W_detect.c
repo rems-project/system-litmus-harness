@@ -60,8 +60,8 @@ litmus_test_t SEA_W_detect = {
      (u32*[]){(u32*)sync_handler, NULL},
     },
   .interesting_result = (uint64_t[]){
-      /* if p1:x0 was 1, then saw a Synchronous SError on the Load
-       * hence SEA_R must be True.
+      /* if p1:x0 was 1, then saw a Synchronous SError on the Store
+       * hence SEA_W must be True.
        */
       /* p1:x0 =*/1,
   },
