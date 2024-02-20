@@ -7,7 +7,6 @@
 
 static void P0(litmus_test_run* data) {
   asm volatile (
-      "mov x0, #0\n\t"
       "ldr x0, [%[x]]\n\t"
 
       /* out */
