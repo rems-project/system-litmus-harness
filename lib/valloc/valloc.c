@@ -85,8 +85,9 @@ static void* __alloc_with_alignment(u64 size, u64 alignment) {
     abort();
   }
 
+  u64 allocated_size = mem.top - new_top;
   mem.top = new_top;
-  valloc_alloclist_alloc(&mem, allocated_space_vaddr, size);
+  valloc_alloclist_alloc(&mem, allocated_space_vaddr, allocated_size);
 
   return (void*)allocated_space_vaddr;
 }
