@@ -25,6 +25,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--color", choices=["auto", "on", "none"], default="auto")
 parser.add_argument("--lma", default=0x4008_0000, type=integer)
 parser.add_argument("--hide-header", action="store_true", default=False)
+parser.add_argument("--unittests", action="store_true", default=False, help="Process logs from unittest run")
 args = parser.parse_args()
 
 if args.color == "none":
@@ -33,6 +34,7 @@ elif args.color == "auto":
     if not sys.stdout.isatty():
         colorama = None
 
+ELF_NAME = "litmus.elf" if not args.unittests else "unittests.elf"
 
 def overlaps(r1, r2):
     return (r1.start <= r2.start < r1.stop) or (r2.start <= r1.start < r2.stop)
@@ -130,7 +132,7 @@ class FuncTree:
 
 
 def read_func_addrs(root: pathlib.Path):
-    elf_out = root / "bin" / "litmus.elf.S"
+    elf_out = (root / "bin" / ELF_NAME).with_suffix(".elf.S")
 
     if not elf_out.exists():
         raise ValueError(f"{elf_out} does not exist")
