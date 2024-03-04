@@ -386,8 +386,11 @@ $(eval $(call build-target,-rpi3,HOST=no-gic QEMU_MEM=512M))
 $(eval $(call build-target,-rpi4,HOST=gic QEMU_MEM=1G))
 $(eval $(call build-target,-graviton2,HOST=gic QEMU_MEM=1G))
 
+compile_commands.json: $(BINTARGETS)
+	$(call run_cmd,CLANGD,./utilities/generate_compile_commands.py)
+
 .PHONY: build
-build: build-default
+build: build-default compile_commands.json
 LITMUS_TARGETS += build
 
 test: ./qemu_unittests
