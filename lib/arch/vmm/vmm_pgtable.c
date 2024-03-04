@@ -515,15 +515,8 @@ void vmm_walk_table(u64* root, walker_cb_t* cb_f, void* data) {
   _vmm_walk_table(root, 0, 0, cb_f, data);
 }
 
-static void __free_pgtable_entry_cb(u64* parent_table, int level, int index, u64* entry, desc_t desc, int is_leaf, va_range range, void* data) {
-  if (! is_leaf) {
-    FREE((u64*)desc.table_addr);
-  }
-}
-
 static void __vmm_free_pgtable(u64* pgtable, int level) {
-  vmm_walk_table(pgtable, __free_pgtable_entry_cb, NULL);
-  FREE(pgtable);
+  fail("cannot free a pgtable, must restore valloc_ptable_restore back to an old state.\n");
 }
 
 void vmm_free_generic_pgtable(u64* pgtable) {

@@ -44,20 +44,3 @@ void test_free_test_ctx_reuse(void) {
   ASSERT(valloc_free_size() == space, "did not free all space");
   ASSERT(mem.freelist == NULL, "non-null freelist");
 }
-
-UNIT_TEST(test_free_test_ctx_and_page)
-void test_free_test_ctx_and_page(void) {
-  test_ctx_t ctx;
-  u64 space = valloc_free_size();
-
-  init_test_ctx(&ctx, &big_test, 500000UL, 1);
-  u64* p = vmm_alloc_new_4k_pgtable();
-  vmm_ensure_level(p, 3, 0x4008000UL);
-  free_test_ctx(&ctx);
-  vmm_free_generic_pgtable(p);
-
-  debug_valloc_status();
-
-  ASSERT(valloc_free_size() == space, "did not free all space");
-  ASSERT(mem.freelist == NULL, "non-null freelist");
-}
