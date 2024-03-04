@@ -11,7 +11,11 @@ static lock_t __valloc_pgtable_lock;
  * back to this state
  */
 valloc_ptable_mem valloc_ptable_checkpoint(void) {
-  return ptable_mem;
+  valloc_ptable_mem copy;
+  LOCK(&__valloc_pgtable_lock);
+  copy = ptable_mem;
+  UNLOCK(&__valloc_pgtable_lock);
+  return copy;
 }
 
 void init_valloc_ptable(void) {
