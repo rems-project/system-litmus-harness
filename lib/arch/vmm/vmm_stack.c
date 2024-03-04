@@ -22,3 +22,10 @@ void switch_to_pys_stack(void) {
   u64 new_sp = sp - STACK_MMAP_THREAD_BOT_EL0(cpu) + STACK_PYS_THREAD_BOT_EL0(cpu);
   write_reg(new_sp, sp);
 }
+
+bool is_using_vm_stack(void) {
+  u64 cpu = get_cpu();
+  u64 sp = read_reg(sp);
+
+  return (STACK_MMAP_THREAD_BOT_EL0(cpu) <= sp && sp < STACK_MMAP_THREAD_TOP_EL0(cpu));
+}

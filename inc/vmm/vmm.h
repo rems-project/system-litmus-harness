@@ -168,9 +168,11 @@ void vmm_walk_table(u64* root, walker_cb_t* cb_f, void* data);
 /* MMU control */
 void vmm_mmu_off(void);
 void vmm_mmu_on(void);
+void vmm_ensure_in_harness_pgtable_ctx(void);
 
 /* switch between virtual stack space and physical stack space
  * for this current CPU */
+bool is_using_vm_stack(void);
 void switch_to_vm_stack(void);
 void switch_to_pys_stack(void);
 

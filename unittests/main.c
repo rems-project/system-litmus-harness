@@ -28,8 +28,7 @@ void main(void) {
       trace("# %s\n", fn->name);
       fn->fn();
       if (ENABLE_PGTABLE) {
-        vmm_switch_ttable(vmm_pgtables[0]);
-        vmm_mmu_on(); /* ensure mmu is on */
+        vmm_ensure_in_harness_pgtable_ctx(); /* ensure mmu is on, incase the test fn switched it off */
       }
       mem = pool;
       total_count++;
