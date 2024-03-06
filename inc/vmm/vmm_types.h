@@ -47,12 +47,12 @@ typedef struct {
 attrs_t read_attrs(u64 desc);
 desc_t read_desc(u64 desc, int level);
 
-u64 write_attrs(attrs_t attrs);
+u64 write_attrs(attrs_t *attrs);
 u64 write_desc(desc_t desc);
 
 
 /* for debug */
-void show_attrs(attrs_t attrs);
+void show_attrs(attrs_t *attrs);
 void show_desc(desc_t desc);
 /* end for debug */
 

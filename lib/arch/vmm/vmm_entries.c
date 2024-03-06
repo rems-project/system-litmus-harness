@@ -57,8 +57,8 @@ desc_t read_desc(u64 entry, int level) {
   return desc;
 }
 
-u64 write_attrs(attrs_t attrs) {
-  return ((u64)attrs.XN << 54) | ((u64)attrs.PXN << 53) | (attrs.AF << 10) | (attrs.SH << 8) | (attrs.AP << 6) | (attrs.NS << 5) | (attrs.attr << 2);
+u64 write_attrs(attrs_t *attrs) {
+  return ((u64)attrs->XN << 54) | ((u64)attrs->PXN << 53) | (attrs->AF << 10) | (attrs->SH << 8) | (attrs->AP << 6) | (attrs->NS << 5) | (attrs->attr << 2);
 }
 
 u64 write_desc(desc_t desc) {
@@ -79,14 +79,14 @@ u64 write_desc(desc_t desc) {
       break;
   }
 
-  out |= write_attrs(desc.attrs);
+  out |= write_attrs(&desc.attrs);
   out |= 1;  /* valid */
   return out;
 }
 
 
-void show_attrs(attrs_t attrs) {
-  printf("{AF=%d,SH=%p,AP=%p,attr=%p}", attrs.AF, attrs.SH, attrs.AP, attrs.attr);
+void show_attrs(attrs_t *attrs) {
+  printf("{AF=%d,SH=%p,AP=%p,attr=%p}", attrs->AF, attrs->SH, attrs->AP, attrs->attr);
 }
 
 void show_desc(desc_t desc) {
@@ -105,5 +105,5 @@ void show_desc(desc_t desc) {
   }
 
   printf(",level=%d", desc.level);
-  printf(",attrs="); show_attrs(desc.attrs); printf(">");
+  printf(",attrs="); show_attrs(&desc.attrs); printf(">");
 }

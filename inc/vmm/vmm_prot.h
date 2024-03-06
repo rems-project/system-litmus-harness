@@ -55,16 +55,16 @@
 
 /** Shorthand attributes
  */
-#define PROT_RX_X (write_attrs((attrs_t){.AP=PROT_AP_RX_X}))
-#define PROT_RX_RX (write_attrs((attrs_t){.AP=PROT_AP_RX_RX}))
-#define PROT_RW_RWX (write_attrs((attrs_t){.AP=PROT_AP_RW_RWX}))
-#define PROT_RW_RW (write_attrs((attrs_t){.XN=1, .AP=PROT_AP_RW_RWX}))
-#define PROT_RW_U (write_attrs((attrs_t){.XN=1, .PXN=1, .AP=PROT_AP_RWX_X}))
+#define PROT_RX_X (write_attrs(&(attrs_t){.AP=PROT_AP_RX_X}))
+#define PROT_RX_RX (write_attrs(&(attrs_t){.AP=PROT_AP_RX_RX}))
+#define PROT_RW_RWX (write_attrs(&(attrs_t){.AP=PROT_AP_RW_RWX}))
+#define PROT_RW_RW (write_attrs(&(attrs_t){.XN=1, .AP=PROT_AP_RW_RWX}))
+#define PROT_RW_U (write_attrs(&(attrs_t){.XN=1, .PXN=1, .AP=PROT_AP_RWX_X}))
 #define PROT_RWX_X (write_attrs((attrs_t){.AP=PROT_AP_RWX_X}))
-#define PROT_MEMTYPE_DEVICE (write_attrs((attrs_t){.attr=PROT_ATTR_DEVICE_nGnRnE}))
-#define PROT_MEMTYPE_NORMAL (write_attrs((attrs_t){.attr=PROT_ATTR_NORMAL_RA_WA}))
-#define PROT_MEMTYPE_NONCACHING (write_attrs((attrs_t){.attr=PROT_ATTR_NORMAL_NC}))
-#define PROT_MEMTYPE_TESTATTRS (write_attrs((attrs_t){.attr=PROT_ATTR_TEST_ATTR}))
+#define PROT_MEMTYPE_DEVICE (write_attrs(&(attrs_t){.attr=PROT_ATTR_DEVICE_nGnRnE}))
+#define PROT_MEMTYPE_NORMAL (write_attrs(&(attrs_t){.attr=PROT_ATTR_NORMAL_RA_WA}))
+#define PROT_MEMTYPE_NONCACHING (write_attrs(&(attrs_t){.attr=PROT_ATTR_NORMAL_NC}))
+#define PROT_MEMTYPE_TESTATTRS (write_attrs(&(attrs_t){.attr=PROT_ATTR_TEST_ATTR}))
 #define PROT_PGTABLE ( PROT_MEMTYPE_NORMAL | PROT_RW_RWX )
 
 /* masks for combining */
