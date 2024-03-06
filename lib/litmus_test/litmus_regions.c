@@ -39,7 +39,7 @@ u64 va_from_region_idx(test_ctx_t* ctx, var_info_t* var, region_idx_t idx) {
   u64 reg_start = (u64)ctx->heap_memory.regions[idx.reg_ix];
   u64 va = reg_start + idx.reg_offs;
 
-  if (var->id_mapped) {
+  if (is_backed_var(var) && var_backing(var)->is_identity_mapped) {
     va = TESTDATA_MMAP_VIRT_TO_PHYS(va);
   }
 

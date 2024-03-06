@@ -6,9 +6,9 @@ var_idx_t count_pinned_to(var_info_t** out_vinfos, test_ctx_t* ctx, var_info_t* 
 
   FOREACH_HEAP_VAR(ctx, othervar) {
     if ( (var->varidx != othervar->varidx)
-         && ! othervar->init_owns_region
-         && othervar->pin_region_var == var->varidx
-         && othervar->pin_region_level == lvl
+         && othervar->ty == VAR_PINNED
+         && othervar->pin.pin_region_var == var->varidx
+         && othervar->pin.pin_region_level == lvl
     ) {
       out_vinfos[count] = othervar;
       count += 1;

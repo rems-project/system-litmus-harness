@@ -82,14 +82,14 @@ void set_init_pte(test_ctx_t* ctx, var_idx_t varidx, run_idx_t run) {
   /* now if it was unmapped we can reset the last-level entry
   * to be invalid
   */
-  if (vinfo->init_unmapped) {
+  if (vinfo->ty == VAR_UNMAPPED) {
     *pte = 0;
   } else {
   /* otherwise we write the level3 descriptor for this VA
    */
     u64 pg;
-    if (vinfo->is_fixed) {
-      pg = vinfo->fixed_pa & ~BITMASK(PAGE_SHIFT);
+    if (vinfo->ty == VAR_FIXED) {
+      pg = vinfo->fixed.phys & ~BITMASK(PAGE_SHIFT);
     } else {
       pg = SAFE_TESTDATA_PA((u64)va) & ~BITMASK(PAGE_SHIFT);
     }
@@ -100,16 +100,16 @@ void set_init_pte(test_ctx_t* ctx, var_idx_t varidx, run_idx_t run) {
     /* if the initial state specified access permissions
      * overwrite the default ones
      */
-    if (vinfo->init_set_ap) {
+    if (vinfo->init_attrs.has_ap) {
       desc_t desc = read_desc(*pte, 3);
-      desc.attrs.AP = vinfo->init_ap;
+      desc.attrs.AP = vinfo->init_attrs.ap;
       *pte = write_desc(desc);
     }
 
     /* also set the AttrIdx if it was set */
-    if (vinfo->init_set_attridx) {
+    if (vinfo->init_attrs.has_attridx) {
       desc_t desc = read_desc(*pte, 3);
-      desc.attrs.attr = vinfo->init_attridx;
+      desc.attrs.attr = vinfo->init_attrs.attridx;
       *pte = write_desc(desc);
     }
   }
@@ -118,8 +118,8 @@ void set_init_pte(test_ctx_t* ctx, var_idx_t varidx, run_idx_t run) {
   * this means we must ensure that all VAs for this idx are chosen
   * before attempting to set_init_var
   */
-  if (vinfo->is_alias) {
-    var_idx_t otheridx = vinfo->alias;
+  if (vinfo->ty == VAR_ALIAS) {
+    var_idx_t otheridx = vinfo->alias.aliased_with;
     u64 otherva = (u64 )ctx->heap_vars[otheridx].values[run];
     u64 otherpa = TESTDATA_MMAP_VIRT_TO_PHYS(otherva);
 
@@ -180,16 +180,16 @@ void set_init_var(test_ctx_t* ctx, var_idx_t varidx, run_idx_t run) {
   DEBUG(DEBUG_CONCRETIZATION, "set_init_var for run %ld for var '%s' with va = %p\n", run, vinfo->name, vinfo->values[run]);
   set_init_pte(ctx, varidx, run);
 
-  if (vinfo->has_init_value) {
+  if (is_backed_var(vinfo)) {
     if (ENABLE_PGTABLE) {
       /* convert the VA to the PA
       * then convert the PA to its location
       * in the HARNESS MMAP to get reliable R/W mapping
       */
       u64* safe_va = (u64*)SAFE_TESTDATA_VA((u64)va);
-      *safe_va = vinfo->init_value;
+      *safe_va = var_backing(vinfo)->val;
     } else {
-      *va = vinfo->init_value;
+      *va = var_backing(vinfo)->val;
     }
   }
 }
@@ -252,10 +252,13 @@ void concretize(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cf
 }
 
 void concretize_batch(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, run_count_t batch_start_idx, run_count_t batch_end_idx) {
+    debug("concretizing batch=%ld..%ld...\n", batch_start_idx, batch_end_idx);
   for (run_count_t r = batch_start_idx; r < batch_end_idx; r++) {
     run_idx_t i = count_to_run_index(ctx, r);
 repeat_loop:
+    debug("attempting concretizing batch run#%ld\n", r);
     concretize_one(type, ctx, ctx->cfg, ctx->concretization_st, i);
+    debug("got concretization for #%ld, checking for overlap...\n", r);
 
     /* we can assume that for a single concretizate_one it doesn't overlap
       * but we cannot assume that different calls don't overlap
@@ -264,6 +267,7 @@ repeat_loop:
       * and if it does, we try again.
       */
     for (run_count_t r0 = batch_start_idx; r0 < r; r0++) {
+      debug("concretizing batch=%ld..%ld\n", batch_start_idx, batch_end_idx);
       run_idx_t i0 = count_to_run_index(ctx, r0);
       var_info_t* v1;
       var_info_t* v2;
@@ -279,11 +283,14 @@ repeat_loop:
 
           /* if they overlap, try allocate the last VAs again */
           if (pa1 == pa2) {
+          debug("got overlap on #%ld, trying again...\n", r);
             goto repeat_loop;
           }
         }
       }
     }
+
+    debug("concretized batch=%ld..%ld\n", batch_start_idx, batch_end_idx);
   }
 }
 

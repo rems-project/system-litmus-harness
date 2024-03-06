@@ -16,11 +16,10 @@
   __FOREACH_HEAP_VAR(FRESH_VAR, ctx, el)
 
 /* asks if var_info_t* v owns a own_level_t r */
-#define OWNS_REGION(v, r) ((v)->init_owns_region && (v)->init_owned_region_size == (r))
-
-/* is v1 pinned to v2 ? */
-#define PINNED_TO(ctx, v1, v2) (idx_from_varname((ctx), (v1)->pin_region_var) == (v2)->varidx)
-
+// #define OWNS_REGION(v, r) ((v)->init_owns_region && (v)->init_owned_region_size == (r))
+static inline u8 owns_region(var_info_t *vinfo, own_level_t r) {
+  return (vinfo->ty == VAR_HEAP && vinfo->heap.owned_region_size == r);
+}
 
 /** this region ticker keeps track
  * of the current directory and page in that directory

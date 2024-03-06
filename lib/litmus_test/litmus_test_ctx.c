@@ -166,7 +166,9 @@ u64* ctx_heap_var_va(test_ctx_t* ctx, u64 varidx, run_idx_t i) {
 }
 
 u64 ctx_initial_heap_value(test_ctx_t* ctx, run_idx_t idx) {
-  return ctx->heap_vars[idx].init_value;
+  var_info_t *var = &ctx->heap_vars[idx];
+  fail_on(! is_backed_var(var), "cannot get initial heap value from unbacked var \"s\"\n", var->name);
+  return var_backing(var)->val;
 }
 
 u64 asid_from_run_count(test_ctx_t* ctx, run_count_t r) {

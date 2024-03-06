@@ -22,22 +22,22 @@ typedef struct {
 } concretization_st_t;
 
 u8 overlaps_owned_region(concretization_st_t* st, var_info_t* var, var_info_t* with) {
-  if (! with->init_owns_region) {
+  if (with->ty != VAR_HEAP) {
     return 0;
   }
 
   /* if var overlaps, but is pinned to with
    * then it doesn't count as overlapping
    */
-  if (var->init_pinned_region && var->pin_region_var == with->varidx) {
-    if ((int)var->pin_region_level <= (int)with->init_owned_region_size) {
+  if (var->ty == VAR_PINNED && var->pin.pin_region_var == with->varidx) {
+    if ((int)var->pin.pin_region_level <= (int)with->heap.owned_region_size) {
       return 0;
     }
   }
 
   u64 va = st->var_sts[var->varidx].va;
   u64 otherva = st->var_sts[with->varidx].va;
-  u64 level = with->init_owned_region_size;
+  u64 level = with->heap.owned_region_size;
 
   u64 lo = otherva & ~BITMASK(LEVEL_SHIFTS[level]);
   u64 hi = lo + LEVEL_SIZES[level];
@@ -65,6 +65,7 @@ u8 validate_selection(test_ctx_t* ctx, concretization_st_t* st, var_info_t* this
     if (  has_same_va(st, thisvar, var)
        || overlaps_owned_region(st, thisvar, var)
     ) {
+      debug("OVERLAPS between %s and %s\n", thisvar->name, var->name);
       return 0;
     }
   }
@@ -80,15 +81,15 @@ region_idx_t rand_idx(region_idx_t start, region_idx_t end) {
 }
 
 void pick_pin(test_ctx_t* ctx, concretization_st_t* st, var_info_t* rootvar, region_idx_t rootidx, var_info_t* pinnedvar) {
-  pin_level_t lvl = pinnedvar->pin_region_level;
+  pin_level_t lvl = pinnedvar->pin.pin_region_level;
   region_idx_t va_begin = align_down_region_idx(rootidx, lvl);
   region_idx_t va_end = align_up_region_idx(rootidx, lvl);
   region_idx_t va_idx = rand_idx(va_begin, va_end);
 
-  if (pinnedvar->init_region_offset) {
-    u64 othervaridx = pinnedvar->offset_var;
+  if (pinnedvar->init_attrs.has_region_offset) {
+    u64 othervaridx = pinnedvar->init_attrs.region_offset.offset_var;
     if (st->var_sts[othervaridx].picked) {
-      u64 othershift = LEVEL_SHIFTS[pinnedvar->offset_level];
+      u64 othershift = LEVEL_SHIFTS[pinnedvar->init_attrs.region_offset.offset_level];
       u64 otherva = st->var_sts[othervaridx].va;
 
       /* we assume we stay in the pin and check later */
@@ -113,10 +114,10 @@ void pick_one(test_ctx_t* ctx, concretization_st_t* st, var_info_t* var, own_lev
 
   DEBUG(DEBUG_CONCRETIZATION, "for var=%s,  between [%o, %o) = %o\n", var->name, TOSTR(region_idx_t, &va_begin), TOSTR(region_idx_t, &va_top), TOSTR(region_idx_t, &va_idx));
 
-  if (var->init_region_offset) {
-    u64 othervaridx = var->offset_var;
+  if (var->init_attrs.has_region_offset) {
+    u64 othervaridx = var->init_attrs.region_offset.offset_var;
     if (st->var_sts[othervaridx].picked) {
-      u64 othershift = LEVEL_SHIFTS[var->offset_level];
+      u64 othershift = LEVEL_SHIFTS[var->init_attrs.region_offset.offset_level];
       u64 otherva = st->var_sts[othervaridx].va;
 
       va_idx.reg_offs &= ~BITMASK(othershift);
@@ -187,7 +188,7 @@ void concretize_random_one(test_ctx_t* ctx, const litmus_test_t* cfg, concretiza
 
     for (own_level_t lvl = REGION_OWN_PGD; lvl > REGION_OWN_VAR; lvl--) {
       FOREACH_HEAP_VAR(ctx, var) {
-        if (OWNS_REGION(var, lvl)) {
+        if (owns_region(var, lvl)) {
           pick_one(ctx, st, var, lvl);
         }
       }
@@ -195,6 +196,7 @@ void concretize_random_one(test_ctx_t* ctx, const litmus_test_t* cfg, concretiza
 
     FOREACH_HEAP_VAR(ctx, var) {
       if (! validate_selection(ctx, st, var)) {
+        debug("for run #%ld failed to validate the picks, trying again...\n", run);
         count++;
         tryagain = 1;
         break;
