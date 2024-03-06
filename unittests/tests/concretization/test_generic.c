@@ -18,8 +18,9 @@ void __test_concretization_default_diff_pages(concretize_type_t conc_type) {
   litmus_test_t test = {
     "test",
     0,NULL,
-    3,(const char*[]){"x","y","z","a"},
+    4,(const char*[]){"x","y","z","a"},
     3,(const char*[]){"r", "s", "t"},
+    INIT_STATE(4, INIT_UNMAPPED(x), INIT_UNMAPPED(y), INIT_UNMAPPED(z), INIT_UNMAPPED(a)),
   };
 
   test_ctx_t ctx;
@@ -56,7 +57,9 @@ void __test_concretization_own_pmd(concretize_type_t conc_type) {
     2,(const char*[]){"x","y"},
     0,(const char*[]){},
     INIT_STATE(
-      2,
+      4,
+      INIT_VAR(x, 0),
+      INIT_VAR(y, 0),
       INIT_REGION_OWN(x, REGION_OWN_PMD),
       INIT_REGION_OWN(y, REGION_OWN_PMD),
     )
@@ -98,7 +101,9 @@ void __test_concretization_same_page(concretize_type_t conc_type) {
     2,(const char*[]){"x","y"},
     0,NULL,
     INIT_STATE(
-      2,
+      4,
+      INIT_VAR(x, 0),
+      INIT_VAR(y, 0),
       INIT_REGION_OWN(x, REGION_OWN_PAGE),
       INIT_REGION_PIN(y, x, REGION_SAME_PAGE),
     )
@@ -135,7 +140,11 @@ void __test_concretization_separate_roots(concretize_type_t conc_type) {
     4,(const char*[]){"x","y","a","b"},
     0,NULL,
     INIT_STATE(
-      4,
+      8,
+      INIT_VAR(x, 0),
+      INIT_VAR(y, 0),
+      INIT_VAR(a, 0),
+      INIT_VAR(b, 0),
       INIT_REGION_OWN(x, REGION_OWN_PAGE),
       INIT_REGION_PIN(a, x, REGION_SAME_PAGE_OFFSET),
       INIT_REGION_OWN(y, REGION_OWN_PAGE),
@@ -174,7 +183,8 @@ void __test_concretization_aliased(concretize_type_t conc_type) {
     2,(const char*[]){"x","y"},
     0,NULL,
     INIT_STATE(
-      2,
+      3,
+      INIT_VAR(x, 0),
       INIT_REGION_OWN(x, REGION_OWN_PAGE),
       INIT_ALIAS(y, x),
     )
@@ -300,7 +310,11 @@ void __test_concretization_twopage(concretize_type_t conc_type) {
     4,(const char*[]){"a1", "a2", "b1", "b2"},
     0,NULL,
     INIT_STATE(
-      4,
+      8,
+      INIT_VAR(a1, 0),
+      INIT_VAR(a2, 0),
+      INIT_VAR(b1, 0),
+      INIT_VAR(b2, 0),
       INIT_REGION_OWN(a1, REGION_OWN_PAGE),
       INIT_REGION_OWN(b1, REGION_OWN_PAGE),
       INIT_REGION_PIN(a2, a1, REGION_SAME_PAGE),
@@ -347,7 +361,9 @@ void __test_concretization_relpmdoverlap(concretize_type_t conc_type) {
     2,(const char*[]){"x", "y"},
     0,NULL,
     INIT_STATE(
-      2,
+      4,
+      INIT_VAR(x, 0),
+      INIT_VAR(y, 0),
       INIT_REGION_OWN(x, REGION_OWN_PMD),
       INIT_REGION_OFFSET(y, x, REGION_SAME_PMD_OFFSET),
     ),
