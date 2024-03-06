@@ -117,6 +117,24 @@ static inline u8 is_backed_var(var_info_t *vinfo) {
   return (vinfo->ty == VAR_HEAP) || (vinfo->ty == VAR_PINNED);
 }
 
+/**
+ * Whether this var_info_t owns a chunk of the address space,
+ * in which other vars should not be allocated in
+ * (except when explicitly pinned)
+ */
+static inline u8 var_owns_region(var_info_t *vinfo) {
+  return (
+       (vinfo->ty == VAR_HEAP)
+    || (vinfo->ty == VAR_UNMAPPED)
+    || (vinfo->ty == VAR_FIXED)
+  );
+}
+
+static inline own_level_t var_owned_region_size(var_info_t *vinfo) {
+  fail_on(!var_owns_region(vinfo), "cannot get owned region size of \"%s\"", vinfo->name);
+  return vinfo->ty == VAR_HEAP ? vinfo->heap.owned_region_size : REGION_OWN_PAGE;
+}
+
 static inline var_info_backing_t *var_backing(var_info_t *vinfo) {
   fail_on(!is_backed_var(vinfo), "can't get backing of unbacked var");
   return vinfo->ty == VAR_HEAP ? &vinfo->heap.back : &vinfo->pin.back;

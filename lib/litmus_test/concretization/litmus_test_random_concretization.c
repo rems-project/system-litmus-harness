@@ -186,9 +186,31 @@ void concretize_random_one(test_ctx_t* ctx, const litmus_test_t* cfg, concretiza
 
     reset_st(ctx, cfg, st);
 
+    /* first, pick all the unconstrained heap variables */
+    FOREACH_HEAP_VAR(ctx, var) {
+      if (var_owns_region(var) && !var->init_attrs.has_region_offset) {
+        pick_one(ctx, st, var, var_owned_region_size(var));
+      }
+    }
+
+    /* pick the heap vars that are constrained */
+    FOREACH_HEAP_VAR(ctx, var) {
+      if (var_owns_region(var) && var->init_attrs.has_region_offset) {
+        pick_one(ctx, st, var, var_owned_region_size(var));
+      }
+    }
+
+    /* pick the vars pinned to the same region as another */
+    FOREACH_HEAP_VAR(ctx, var) {
+      if (var->ty == VAR_PINNED) {
+        pick_one(ctx, st, var, var->heap.owned_region_size);
+      }
+    }
+
+    /* finally, pick any that remain */
     for (own_level_t lvl = REGION_OWN_PGD; lvl > REGION_OWN_VAR; lvl--) {
       FOREACH_HEAP_VAR(ctx, var) {
-        if (owns_region(var, lvl)) {
+        if (! st->var_sts[var->varidx].picked) {
           pick_one(ctx, st, var, lvl);
         }
       }
