@@ -26,6 +26,7 @@ jobs:
 
     - name: System dependencies (ubuntu)
       run: |
+        sudo apt update
         sudo apt install build-essential gcc-aarch64-linux-gnu qemu-system-aarch64
 
     - name: Build harness
