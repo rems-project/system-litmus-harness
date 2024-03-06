@@ -61,6 +61,7 @@
 #define HUMAN(r) USER_##r
 
 /* for defining MAKE_THREADS(n) */
+#define BUILD_THREADS_0 NULL
 #define BUILD_THREADS_1 (th_f*)P0
 #define BUILD_THREADS_2 BUILD_THREADS_1, (th_f*)P1
 #define BUILD_THREADS_3 BUILD_THREADS_2, (th_f*)P2
