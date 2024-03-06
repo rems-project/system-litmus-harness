@@ -98,6 +98,12 @@ void* alloc_with_alignment(u64 size, u64 alignment) {
   /* minimum allocation */
   if (size < sizeof(valloc_free_chunk)) {
     size = next_largest_pow2(sizeof(valloc_free_chunk));
+    alignment = 8;
+  }
+
+  /* minimum alignment */
+  if (alignment < sizeof(valloc_alloc_chunk)) {
+    alignment = next_largest_pow2(sizeof(valloc_alloc_chunk));
   }
 
   void* ptr = __alloc_with_alignment(size, alignment);
@@ -115,19 +121,19 @@ void* alloc(u64 size) {
   if (! is_pow2(size))
     size = next_largest_pow2(size);
 
-  /* minimum allocation */
-  if (size < sizeof(valloc_free_chunk)) {
-    size = next_largest_pow2(sizeof(valloc_free_chunk));
-    alignment = size;
-  }
-
   /* no point aligning on anything bigger than a 64-bit pointer
    * for more explicit alignments use alloc_with_alignment
    */
-  alignment = alignment <= 8 ? alignment : 8;
+  alignment = size <= 8 ? size : 8;
+
+  /* minimum allocation */
+  if (size < sizeof(valloc_free_chunk)) {
+    size = next_largest_pow2(sizeof(valloc_free_chunk));
+    alignment = 8;
+  }
 
   LOCK(&__valloc_lock);
-  void* ptr = __alloc_with_alignment(size, size);
+  void* ptr = __alloc_with_alignment(size, alignment);
 
   /* always zero */
   valloc_memset(ptr, 0, size);
