@@ -1,8 +1,9 @@
 
 #include "types.h"
+#include "str.h"
 #include "abort.h"
 
-u64 strlen(char* s) {
+u64 strlen(const char* s) {
   u64 i = 0;
 
   while (*s != '\0') {
@@ -48,7 +49,7 @@ int strpartition(char* outL, char* outR, char* s, char sep) {
   }
 }
 
-u64 strcmp(char* s1, char* s2) {
+u64 strcmp(const char* s1, const char* s2) {
   if (*s1 == '\0')
     return *s2 == '\0';
 
