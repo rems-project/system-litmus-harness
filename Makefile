@@ -172,6 +172,7 @@ CFLAGS = -O0 -nostdlib \
 		$(foreach DIR,$(OTHER_INCLUDES),-I $(DIR)) \
 		-ffreestanding -fno-omit-frame-pointer -fno-pie -fno-pic \
 		-mstrict-align \
+		-march=armv8-a+nofp \
 		-Wall $(addprefix -Wno-,$(CCNOWARN)) $(addprefix -Werror=,$(CCERRORS)) \
 		-Wshadow \
 		-D__VERSION_STR__="\"$(_VERSION)\"" \
