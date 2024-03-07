@@ -127,6 +127,7 @@ static inline u8 var_owns_region(var_info_t *vinfo) {
        (vinfo->ty == VAR_HEAP)
     || (vinfo->ty == VAR_UNMAPPED)
     || (vinfo->ty == VAR_FIXED)
+    || (vinfo->ty == VAR_ALIAS)
   );
 }
 
