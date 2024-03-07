@@ -167,9 +167,12 @@ _HEAD_COMMIT_HASH = $(_HEAD_COMMIT_SHA)$(if $(_HEAD_STATUS),!,)
 _DATE_VERSION = $(shell date '+%y.%m')
 _MINOR_VERSION = $(shell git log HEAD --since=`date '+%Y-%m'`-01 --pretty=format:%ci | wc -l)
 _VERSION = $(_DATE_VERSION).$(_MINOR_VERSION)
+
+CFLAGS_DEPS = -MMD -MP -MF $@.d
 CFLAGS = -O0 -nostdlib \
 		$(foreach DIR,$(INC_DIRS),-I $(DIR)) \
 		$(foreach DIR,$(OTHER_INCLUDES),-I $(DIR)) \
+		$(CFLAGS_DEPS) \
 		-ffreestanding -fno-omit-frame-pointer -fno-pie -fno-pic \
 		-mstrict-align \
 		-march=armv8-a+nofp \

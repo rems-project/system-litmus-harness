@@ -103,3 +103,6 @@ bin/debug_%.exe: bin/%.bin
 	$(call run_cmd,BUILD_EXE,$@,\
 		$(call make_exe,$(RUN_CMD_LOCAL_VIRT) -S -s)\
 	)
+
+DEPFILES := $(wildcard bin/**/*.d)
+include $(DEPFILES)
