@@ -8,7 +8,7 @@ void abort(void);
 
 #define fail(...) \
   do { \
-    printf_with_fileloc("abort", 1, __FILE__, __LINE__, __FUNCTION__, __VA_ARGS__); \
+    printf_with_fileloc("abort", 1, __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__); \
     raise_to_el1(); \
     abort(); \
   } while (0)
