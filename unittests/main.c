@@ -13,6 +13,22 @@ unit_test_t* current_test;
 
 argdef_t *THIS_ARGS = &UNITTEST_ARGS;
 
+bool should_skip(unit_test_t *test) {
+  if (test->cond && !*test->cond)
+    return true;
+
+  if (collected_tests_count == 0)
+    return false;
+
+  for (int i = 0; i < collected_tests_count; i++) {
+    if (strcmp(test->name, collected_tests[i]) != 0) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 void main(void) {
   unsigned int total_count = 0;
   unsigned int total_failure = 0;
@@ -31,9 +47,11 @@ void main(void) {
       trace("# %s\n", fn->name);
 
       /* if condition not set */
-      if (fn->cond && !*fn->cond) {
+      if (should_skip(fn)) {
         total_skipped++;
-        trace("skipped\n");
+        printf("s");
+        if (TRACE)
+          printf("\n");
         continue;
       }
 
@@ -48,7 +66,7 @@ void main(void) {
         fn->result = 1;
       } else {
         total_failure++;
-        printf("F");
+        printf("f");
       }
       if (TRACE)
         printf("\n");
@@ -65,7 +83,7 @@ void main(void) {
       test_file_t* f = &tests[fidx];
       for (int tidx = 0; tidx < f->no_tests; tidx++) {
         unit_test_t* fn = f->fns[tidx];
-        if (fn->cond && !*fn->cond) {
+        if (should_skip(fn)) {
           /* skipped */
           continue;
         }
