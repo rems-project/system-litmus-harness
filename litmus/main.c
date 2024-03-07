@@ -7,6 +7,8 @@ extern litmus_test_group grp_all;
 /** if 1 then don't run just check */
 u8 dry_run = 0;
 
+argdef_t *THIS_ARGS = &LITMUS_ARGS;
+
 int main(int argc, char** argv) {
   if (ONLY_SHOW_MATCHES) {
     for (int i = 0; i < collected_tests_count; i++) {

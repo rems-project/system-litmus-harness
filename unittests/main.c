@@ -11,6 +11,8 @@ test_file_t tests[] = {
 
 unit_test_t* current_test;
 
+argdef_t *THIS_ARGS = &UNITTEST_ARGS;
+
 void main(void) {
   unsigned int total_count = 0;
   unsigned int total_failure = 0;

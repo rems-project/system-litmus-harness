@@ -30,6 +30,9 @@ extern char*    collected_tests[100];
 extern u64 collected_tests_count;
 extern u8  ONLY_SHOW_MATCHES;
 
+extern u8 ENABLE_UNITTESTS_CONCRETIZATION_TEST_RANDOM;
+extern u8 ENABLE_UNITTESTS_CONCRETIZATION_TEST_LINEAR;
+
 /* litmus-specific options */
 typedef enum {
     SYNC_NONE,
@@ -78,7 +81,7 @@ char* concretize_type_to_str(concretize_type_t ty);
 char* runner_type_to_str(litmus_runner_type_t ty);
 
 /* helper functions for displaying help */
-void display_help_and_quit(argdef_t* args);
+void display_help_and_quit(void);
 void display_help_for_and_quit(argdef_t* args, char* opt);
 void display_help_show_tests(void);
 void display_test_help(void);

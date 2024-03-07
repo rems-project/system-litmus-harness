@@ -29,6 +29,9 @@ concretize_type_t LITMUS_CONCRETIZATION_TYPE = CONCRETE_RANDOM;
 char LITMUS_CONCRETIZATION_CFG[1024] = { '\0' };
 litmus_runner_type_t LITMUS_RUNNER_TYPE = RUNNER_EPHEMERAL;
 
+u8 ENABLE_UNITTESTS_CONCRETIZATION_TEST_RANDOM = 1;
+u8 ENABLE_UNITTESTS_CONCRETIZATION_TEST_LINEAR = 1;
+
 char* sync_type_to_str(sync_type_t ty) {
   switch (ty) {
     case SYNC_NONE:
@@ -93,13 +96,17 @@ char* runner_type_to_str(litmus_runner_type_t ty) {
 }
 
 static void help(char* opt) {
-  if (opt == NULL || *opt == '\0')
-    display_help_and_quit(&ARGS);
-  else
-    display_help_for_and_quit(&ARGS, opt);
+  if (opt == NULL || *opt == '\0') {
+    display_help_and_quit();
+  } else {
+    display_help_for_and_quit(&COMMON_ARGS, opt);
+    display_help_for_and_quit(THIS_ARGS, opt);
+  }
+
+  fail("unknown argument '%s'\n", opt);
 }
 
-static void version(char* opt) {
+static void version(void) {
   printf("%s\n", version_string());
   abort();
 }
@@ -150,7 +157,7 @@ static void __print_id_cpu(int cpu, void* arg) {
   __IDREG(REVIDR_EL1);
 }
 
-static void device_ident_and_quit(char* opt) {
+static void device_ident_and_quit(void) {
   u64 midr = read_sysreg(midr_el1);
   u64 rev = midr & BITMASK(1 + 3 - 0);
   u64 partnum = (midr >> 4) & BITMASK(1 + 15 - 4);
@@ -306,7 +313,7 @@ void init_cfg_state(void) {
   }
 }
 
-argdef_t ARGS = (argdef_t){
+argdef_t COMMON_ARGS = (argdef_t){
   .args=(const argdef_arg_t*[]){
     OPT(
       "-h",
@@ -314,78 +321,34 @@ argdef_t ARGS = (argdef_t){
       help,
       "display this help text and quit\n"
       "\n"
-      "displays help text.\n"
-      "--help=foo will display detailed help for foo.",
-      .show_help_both=1
+      "display detailed help for OPTION.",
+      .show_help_both=1,
+      .arg=OPT_ARG_OPTIONAL,
+      .metavar="OPTION",
     ),
-    OPT(
+    FLAG_ACTION(
       "-V",
       "--version",
       version,
       "display version information and quit\n"
       "\n"
-      "displays full version info\n"
+      "displays full version info\n",
+      .no_negation=true,
     ),
-    OPT(
+    FLAG_ACTION(
       NULL,
       "--id",
       device_ident_and_quit,
       "display device identification information and quit\n"
       "\n"
-      "shows the information for the current device, and all ID registers."
-    ),
-    OPT(
-      NULL,
-      "--show",
-      show,
-      "show list of tests and quit\n"
-      "\n"
-      "displays the complete list of the compiled tests and their groups, then quits.",
-      .only_action=1
-    ),
-    FLAG(
-      NULL,
-      "--run-forever",
-      RUN_FOREVER,
-      "repeat test runs indefinitely\n"
-    ),
-    OPT(
-      "-n",
-      NULL,
-      n,
-      "number of runs per test\n"
-      "\n"
-      "sets the number of runs per test\n"
-      "X must be an integer (default: 10k).\n"
-      "Examples: \n"
-      " ./litmus.exe -n300\n"
-      " ./litmus.exe -n10k\n"
-      " ./litmus.exe -n1M\n"
-      "\n"
-      "Note that currently 1M is likely to fail due to over-allocation of results.\n"
-    ),
-    OPT(
-      "-b",
-      "--batch-size",
-      b,
-      "number of runs per batch\n"
-      "\n"
-      "sets the number of runs per batch\n"
-      "X must be an integer (default: 1).\n"
-      "up to maximum number of ASIDs (e.g. 2^8).\n"
-      "If not using --tlbsync=ASID then this must be 1\n"
+      "shows the information for the current device, and all ID registers.",
+      .no_negation=true,
     ),
     FLAG(
       "-p",
       "--pgtable",
       ENABLE_PGTABLE,
-      "enable/disable pagetable tests\n"
-    ),
-    FLAG(
-      NULL,
-      "--perf",
-      ENABLE_PERF_COUNTS,
-      "enable/disable performance tests\n"
+      "enable/disable pagetable\n"
     ),
     FLAG(
       "-t",
@@ -412,7 +375,74 @@ argdef_t ARGS = (argdef_t){
       "quiet mode\n"
       "\n"
       "disables verbose/trace and debug output.\n",
-      .only_action=1
+      .arg=OPT_ARG_NONE,
+    ),
+    OPT(
+      "-s",
+      "--seed",
+      s,
+      "initial seed\n"
+      "\n"
+      "at the beginning of each test, a random seed is selected.\n"
+      "this seed can be forced with --seed=12345 which ensures some level of determinism.",
+      .arg=OPT_ARG_REQUIRED,
+    ),
+    NULL,
+  }
+};
+
+
+argdef_t LITMUS_ARGS = (argdef_t){
+  .exe_name="litmus",
+  .short_usage="[OPTION]... [TEST]...",
+  .description="Run EL1/EL0 litmus tests",
+  .args=(const argdef_arg_t*[]){
+    OPT(
+      NULL,
+      "--show",
+      show,
+      "show list of tests and quit\n"
+      "\n"
+      "displays the complete list of the compiled tests and their groups, then quits.",
+      .arg=OPT_ARG_NONE,
+    ),
+    FLAG(
+      NULL,
+      "--run-forever",
+      RUN_FOREVER,
+      "repeat test runs indefinitely\n"
+    ),
+    FLAG(
+      NULL,
+      "--perf",
+      ENABLE_PERF_COUNTS,
+      "enable/disable performance tests\n"
+    ),
+    OPT(
+      "-n",
+      NULL,
+      n,
+      "number of runs per test\n"
+      "\n"
+      "sets the number of runs per test\n"
+      "X must be an integer (default: 10k).\n"
+      "Examples: \n"
+      " ./litmus.exe -n300\n"
+      " ./litmus.exe -n10k\n"
+      " ./litmus.exe -n1M\n"
+      "\n"
+      "Note that currently 1M is likely to fail due to over-allocation of results.\n"
+    ),
+    OPT(
+      "-b",
+      "--batch-size",
+      b,
+      "number of runs per batch\n"
+      "\n"
+      "sets the number of runs per batch\n"
+      "X must be an integer (default: 1).\n"
+      "up to maximum number of ASIDs (e.g. 2^8).\n"
+      "If not using --tlbsync=ASID then this must be 1"
     ),
     FLAG(
       NULL,
@@ -432,15 +462,6 @@ argdef_t ARGS = (argdef_t){
       ENABLE_RESULTS_MISSING_SC_WARNING,
       "prints a warning if an expected outcome is not observed (default: on)\n"
     ),
-    OPT(
-      "-s",
-      "--seed",
-      s,
-      "initial seed\n"
-      "\n"
-      "at the beginning of each test, a random seed is selected.\n"
-      "this seed can be forced with --seed=12345 which ensures some level of determinism."
-    ),
     ENUMERATE(
       "--tlbsync",
       LITMUS_SYNC_TYPE,
@@ -453,7 +474,7 @@ argdef_t ARGS = (argdef_t){
       "none:  no synchronization of the TLB (incompatible with --pgtable).\n"
       "all: always flush the entire TLB in-between tests.\n"
       "va: (EXPERIMENTAL) only flush test data VAs\n"
-      "asid: assign each test run an ASID and run in batches \n"
+      "asid: assign each test run an ASID and run in batches"
     ),
     ENUMERATE(
       "--aff",
@@ -466,7 +487,7 @@ argdef_t ARGS = (argdef_t){
       "\n"
       "none: Thread 0 is pinned to CPU0, Thread 1 to CPU1 etc.\n"
       "rand: Thread 0 is pinned to vCPU0, etc.  vCPUs may migrate between CPUs"
-      " in-between tests.\n"
+      " in-between tests."
     ),
     ENUMERATE(
       "--shuffle",
@@ -481,7 +502,7 @@ argdef_t ARGS = (argdef_t){
       "shuffling the indexes more should lead to more interesting caching results.\n"
       "\n"
       "none: access pages in-order\n"
-      "rand: access pages in random order\n"
+      "rand: access pages in random order"
     ),
     ENUMERATE(
       "--concretize",
@@ -496,7 +517,7 @@ argdef_t ARGS = (argdef_t){
       "\n"
       "linear: allocate each var as a fixed shape and walk linearly over memory\n"
       "random: allocate randomly\n"
-      "fixed: always use the same address, random or can be manually picked via --config-concretize\n"
+      "fixed: always use the same address, random or can be manually picked via --config-concretize"
     ),
     OPT(
       NULL,
@@ -510,12 +531,33 @@ argdef_t ARGS = (argdef_t){
       "format:  [<var>=<value]*\n"
       "example: \n"
       "  --config-concretize=\"x=0x1234,y=0x5678,c=0x9abc\"\n"
-      "  places x at 0x1234, y at 0x5678 and z at 0x9abc.\n"
+      "  places x at 0x1234, y at 0x5678 and z at 0x9abc."
     ),
     NULL
   }
 };
 
+argdef_t UNITTEST_ARGS = (argdef_t){
+  .exe_name="unittests",
+  .short_usage="[OPTION]...",
+  .description="Run system-litmus-harness unittests",
+  .args=(const argdef_arg_t*[]){
+    FLAG(
+      NULL,
+      "--test-linear-concretization",
+      ENABLE_UNITTESTS_CONCRETIZATION_TEST_LINEAR,
+      "include linear concretization tests (default: on)\n"
+    ),
+    FLAG(
+      NULL,
+      "--test-random-concretization",
+      ENABLE_UNITTESTS_CONCRETIZATION_TEST_RANDOM,
+      "include random concretization tests (default: on)\n"
+    ),
+    NULL,
+  }
+};
+
 void read_args(int argc, char** argv) {
-  argparse_read_args(&ARGS, argc, argv);
+  argparse_read_args(argc, argv);
 }

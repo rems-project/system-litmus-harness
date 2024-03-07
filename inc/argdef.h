@@ -8,17 +8,28 @@
 typedef struct {
     char* short_name;
     char* long_name;
-    u8* flag;
+    u8 has_action;
+    union {
+      u8* flag;
+      void (*action)(void);
+    };
     char* desc;
     u8 no_negation;  /* disables --no-foo for option --foo */
 } argdef_flag_t;
+
+typedef enum {
+  OPT_ARG_OPTIONAL,
+  OPT_ARG_REQUIRED,
+  OPT_ARG_NONE,
+} argdef_option_action_kind_t;
 
 typedef struct {
     char* short_name;
     char* long_name;
     void (*action)(char* value);
     char* desc;
-    u8 only_action;
+    char *metavar;
+    argdef_option_action_kind_t arg;
     u8 show_help_both;
 } argdef_option_t;
 
@@ -48,12 +59,16 @@ typedef struct {
 } argdef_arg_t;
 
 typedef struct {
+    const char *exe_name;
+    const char *short_usage;
+    const char *description;
     const argdef_arg_t** args;
 } argdef_t;
 
-/* globally defined argdef_t object
- * as set by DEFINE_ARGS */
-extern argdef_t ARGS;
+extern argdef_t COMMON_ARGS;
+extern argdef_t LITMUS_ARGS;
+extern argdef_t UNITTEST_ARGS;
+extern argdef_t *THIS_ARGS;  /* either LITMUS_ARGS or UNITTEST_ARGS */
 
 /* helper functions over argdef_t objects */
 int argdef_countargs(argdef_t* args);
@@ -88,6 +103,19 @@ char* argdef_arg_description(const argdef_arg_t* arg);
     } \
   }
 
+#define FLAG_ACTION(short, long, action_fn, full_desc, ...) \
+  &(argdef_arg_t){ \
+    .kind=ARGPARSE_FLAG, \
+    .flag=&(argdef_flag_t){ \
+      .short_name=short, \
+      .long_name=long, \
+      .has_action=1, \
+      .action=action_fn, \
+      .desc=full_desc, \
+      __VA_ARGS__ \
+    } \
+  }
+
 #define ARR(...) __VA_ARGS__
 
 #define ENUMERATE(long, enumvar, enumty, no_of_opts, optnames, enums, full_desc, ...) \
@@ -105,14 +133,27 @@ char* argdef_arg_description(const argdef_arg_t* arg);
     } \
   }
 
-#define DEFINE_ARGS(...) \
-  argdef_t ARGS = (argdef_t){ \
-    .version=VERSION, \
-    .args=(const argdef_arg_t*[]){ \
-      __VA_ARGS__ NULL \
-    } \
-  };
+void argparse_read_args(int argc, char** argv);
 
-void argparse_read_args(argdef_t* def, int argc, char** argv);
+static inline bool option_requires_arg(const argdef_arg_t *arg) {
+    return (
+         (arg->kind == ARGPARSE_ENUM)
+      || (arg->kind == ARGPARSE_OPTION && arg->option->arg == OPT_ARG_REQUIRED)
+    );
+}
+
+static inline bool option_takes_arg(const argdef_arg_t *arg) {
+    return (
+         (arg->kind == ARGPARSE_ENUM)
+      || (arg->kind == ARGPARSE_OPTION && arg->option->arg != OPT_ARG_NONE)
+    );
+}
+
+static inline char* option_metavar(const argdef_arg_t *arg) {
+  if (arg->kind == ARGPARSE_OPTION && arg->option->metavar)
+    return arg->option->metavar;
+
+  return "X";
+}
 
 #endif /* ARGPARSE_H */
