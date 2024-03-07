@@ -21,6 +21,7 @@ jobs:
 
     runs-on: ubuntu-22.04
 
+    timeout-minutes: 5
     steps:
     - uses: actions/checkout@v3
 
@@ -30,6 +31,10 @@ jobs:
         sudo apt install build-essential gcc-aarch64-linux-gnu qemu-system-aarch64
 
     - name: Build harness
-      timeout-minutes: 5
       run: |
         make build
+
+    - name: Run unittests
+      run: |
+        ./qemu_unittests --no-test-linear-concretization | tee log
+        test $(tail -c -2 log) == 0
