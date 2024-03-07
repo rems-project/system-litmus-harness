@@ -80,4 +80,6 @@ void main(void) {
       }
     }
   }
+
+  printf("exit_status: %d\n", (total_failure > 0) ? 1 : 0);
 }
