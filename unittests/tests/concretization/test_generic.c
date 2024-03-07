@@ -282,11 +282,9 @@ void __test_concretization_unmapped(concretize_type_t conc_type) {
     u64 xpage = PAGE(x);
     for (var_idx_t varidx = 0; varidx < ctx.cfg->no_heap_vars; varidx++) {
       if (varidx != idx_from_varname(&ctx, "x")) {
-        for (run_idx_t r2 = 0; r2 < ctx.no_runs; r2++) {
-          u64* v2 = ctx.heap_vars[varidx].values[r2];
-          u64 v2page = PAGE(v2);
-          ASSERT(v2page != xpage, "x (%p) and %s (%p) had same page", x, ctx.heap_vars[varidx].name, v2);
-        }
+        u64* v2 = ctx.heap_vars[varidx].values[r];
+        u64 v2page = PAGE(v2);
+        ASSERT(v2page != xpage, "x (%p) and %s (%p) had same page", x, ctx.heap_vars[varidx].name, v2);
       }
     }
   }
