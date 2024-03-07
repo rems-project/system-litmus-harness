@@ -37,4 +37,4 @@ jobs:
     - name: Run unittests
       run: |
         ./qemu_unittests --no-test-linear-concretization | tee log
-        test $(tail -c -2 log) == 0
+        [ $(tail -c -2 log) -eq 0 ]
