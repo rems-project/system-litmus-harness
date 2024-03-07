@@ -90,19 +90,23 @@ void read_var_infos(const litmus_test_t* cfg, init_system_state_t* sys_st, var_i
     }
   }
 
-  /* for all variables without an explicit offset, make them offset from the primary var
-   * at the same page offset */
+  /* for all variables without an explicit offset,
+   * and which aren't pinned to another,
+   * make them offset from the primary var
+   * at the same page offset
+   */
   for (var_idx_t v = 0; v < cfg->no_heap_vars; v++) {
     var_info_t* vinfo = &infos[v];
 
     if (vinfo->varidx == first->varidx)
       continue;
 
+    if (vinfo->ty == VAR_PINNED)
+      continue;
+
     if (vinfo->init_attrs.has_region_offset)
       continue;
 
-    /* ensure all vars with no explicit INIT_REGION_OFFSET have the same offset in the owned region
-      */
     vinfo->init_attrs.has_region_offset = 1;
     vinfo->init_attrs.region_offset.offset_var = first->varidx;
     vinfo->init_attrs.region_offset.offset_level = REGION_SAME_PAGE_OFFSET;

@@ -21,26 +21,17 @@ typedef struct {
   var_st_t var_sts[];
 } concretization_st_t;
 
-u8 overlaps_owned_region(concretization_st_t* st, var_info_t* var, var_info_t* with) {
-  if (with->ty != VAR_HEAP) {
+u8 overlaps_owned_regions(concretization_st_t* st, var_info_t* var, var_info_t* with) {
+  if (!var_owns_region(var) || !var_owns_region(with))
     return 0;
-  }
 
-  /* if var overlaps, but is pinned to with
-   * then it doesn't count as overlapping
-   */
-  if (var->ty == VAR_PINNED && var->pin.pin_region_var == with->varidx) {
-    if ((int)var->pin.pin_region_level <= (int)with->heap.owned_region_size) {
-      return 0;
-    }
-  }
+  own_level_t with_region = var_owned_region_size(with);
 
   u64 va = st->var_sts[var->varidx].va;
   u64 otherva = st->var_sts[with->varidx].va;
-  u64 level = with->heap.owned_region_size;
 
-  u64 lo = otherva & ~BITMASK(LEVEL_SHIFTS[level]);
-  u64 hi = lo + LEVEL_SIZES[level];
+  u64 lo = otherva & ~BITMASK(LEVEL_SHIFTS[with_region]);
+  u64 hi = lo + LEVEL_SIZES[with_region];
 
   if (lo <= va && va < hi) {
     return 1;
@@ -56,14 +47,26 @@ u8 has_same_va(concretization_st_t* st, var_info_t* var, var_info_t* with) {
   return (va == otherva);
 }
 
+u8 __can_virtually_alias_with(concretization_st_t* st, var_info_t* var, var_info_t* with) {
+  return (
+       (var->ty == VAR_PINNED)
+    && (var->pin.pin_region_var == with->varidx)
+    && (var->pin.pin_region_level == REGION_SAME_VAR)
+  );
+}
+
+u8 can_virtually_alias(concretization_st_t* st, var_info_t* var, var_info_t* with) {
+  return __can_virtually_alias_with(st, var, with) || __can_virtually_alias_with(st, with, var);
+}
+
 u8 validate_selection(test_ctx_t* ctx, concretization_st_t* st, var_info_t* thisvar) {
   var_info_t* var;
   FOREACH_HEAP_VAR(ctx, var) {
     if (var->varidx == thisvar->varidx)
       continue;
 
-    if (  has_same_va(st, thisvar, var)
-       || overlaps_owned_region(st, thisvar, var)
+    if (  (has_same_va(st, thisvar, var) && !can_virtually_alias(st, thisvar, var))
+       || overlaps_owned_regions(st, thisvar, var)
     ) {
       debug("OVERLAPS between %s and %s\n", thisvar->name, var->name);
       return 0;
@@ -102,7 +105,7 @@ void pick_pin(test_ctx_t* ctx, concretization_st_t* st, var_info_t* rootvar, reg
   st->var_sts[pinnedvar->varidx].picked = 1;
 
 
-  DEBUG(DEBUG_CONCRETIZATION, "picked! %s => %p\n", pinnedvar->name, st->var_sts[pinnedvar->varidx].va);
+  DEBUG(DEBUG_CONCRETIZATION, "picked pin! %s => %p\n", pinnedvar->name, st->var_sts[pinnedvar->varidx].va);
 }
 
 /** select the VA for a var that OWNs a region
@@ -193,29 +196,34 @@ void concretize_random_one(test_ctx_t* ctx, const litmus_test_t* cfg, concretiza
       }
     }
 
-    /* pick the heap vars that are constrained */
+    /* pick the heap vars that are constrained
+     * and any that are pinned to those
+     * this should pick any HEAP,UNMAPPED or FIXED regions
+     * and any PINNED vars within those regions
+     */
     FOREACH_HEAP_VAR(ctx, var) {
       if (var_owns_region(var) && var->init_attrs.has_region_offset) {
         pick_one(ctx, st, var, var_owned_region_size(var));
       }
     }
 
-    /* pick the vars pinned to the same region as another */
+    /* now pick any aliased ones */
     FOREACH_HEAP_VAR(ctx, var) {
-      if (var->ty == VAR_PINNED) {
-        pick_one(ctx, st, var, var->heap.owned_region_size);
+      if (var->ty == VAR_ALIAS) {
+        /* TODO: BS: the alias is only a single page right now
+         * maybe in future we want it to be the same size as the .aliased_with var */
+        pick_one(ctx, st, var, REGION_OWN_PAGE);
       }
     }
 
-    /* finally, pick any that remain */
-    for (own_level_t lvl = REGION_OWN_PGD; lvl > REGION_OWN_VAR; lvl--) {
-      FOREACH_HEAP_VAR(ctx, var) {
-        if (! st->var_sts[var->varidx].picked) {
-          pick_one(ctx, st, var, lvl);
-        }
-      }
+    /* should be none left over */
+    FOREACH_HEAP_VAR(ctx, var) {
+      fail_on (!st->var_sts[var->varidx].picked, "failed to pick a VA for \"%s\"\n", var->name);
     }
 
+    /* because we pick the owned regions at random, they may overlap
+     * so check for overlaps and explicitly discard if so.
+     */
     FOREACH_HEAP_VAR(ctx, var) {
       if (! validate_selection(ctx, st, var)) {
         debug("for run #%ld failed to validate the picks, trying again...\n", run);
