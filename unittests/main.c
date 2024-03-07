@@ -16,6 +16,7 @@ argdef_t *THIS_ARGS = &UNITTEST_ARGS;
 void main(void) {
   unsigned int total_count = 0;
   unsigned int total_failure = 0;
+  unsigned int total_skipped = 0;
 
   for (int fidx = 0; fidx < NO_TEST_FILES; fidx++) {
     test_file_t* f = &tests[fidx];
@@ -28,6 +29,14 @@ void main(void) {
       unit_test_t* fn = f->fns[tidx];
       current_test = fn;
       trace("# %s\n", fn->name);
+
+      /* if condition not set */
+      if (fn->cond && !*fn->cond) {
+        total_skipped++;
+        trace("skipped\n");
+        continue;
+      }
+
       fn->fn();
       if (ENABLE_PGTABLE) {
         vmm_ensure_in_harness_pgtable_ctx(); /* ensure mmu is on, incase the test fn switched it off */
@@ -48,7 +57,7 @@ void main(void) {
     printf("\n");
   }
 
-  printf("total: %d failures of %d runs\n", total_failure, total_count);
+  printf("total: %d failures of %d runs (%d skipped)\n", total_failure, total_count, total_skipped);
 
   if (total_failure > 0) {
     printf("Failures: \n");
@@ -56,6 +65,10 @@ void main(void) {
       test_file_t* f = &tests[fidx];
       for (int tidx = 0; tidx < f->no_tests; tidx++) {
         unit_test_t* fn = f->fns[tidx];
+        if (fn->cond && !*fn->cond) {
+          /* skipped */
+          continue;
+        }
         if (fn->result == 0) {
           if (fn->msg) {
             printf("* [%s] %s : %s\n", f->name, fn->name, fn->msg);

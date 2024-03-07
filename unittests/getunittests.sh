@@ -3,20 +3,22 @@ test_files=0
 
 testpairs=`find unittests -name '*.c'  | while read f; do
     tests=$(grep $f -e "^UNIT_TEST([a-zA-Z0-9\_]*)$" | sed 's/UNIT_TEST(\([a-zA-Z0-9\_]*\))/\1/')
-    echo $f $tests
+    cond_tests=$(grep $f -e "^UNIT_TEST_IF([a-zA-Z0-9\_]*,.*)$" | sed 's/UNIT_TEST_IF(\([a-zA-Z0-9\_]*\),.*)/\1/')
+    echo $f $tests $cond_tests
 done`
 
 echo "$testpairs" | while read line; do
     for t in `echo $line | awk '{$1=""; print $0}'`; do
-        echo $t | sed 's/\([a-zA-Z0-9\_]*\)/extern unit_test_fn \1;/'
+        echo $t | sed 's/\([a-zA-Z0-9\_]*\)/extern unit_test_t __UT_\1;/'
     done
 done > unittests/tests.externs
 
 filter=$(echo $filtertests | sed 's/ /\|/g')
 filteredtestpairs=`find unittests -name '*.c'  | while read f; do
     tests="$(grep $f -e '^UNIT_TEST([a-zA-Z0-9\_]*)$' | grep -e "$filter" | sed 's/UNIT_TEST(\([a-zA-Z0-9\_]*\))/\1/')"
-    if [ ! -z "$tests" ]; then
-        echo $f $tests
+    cond_tests=$(grep $f -e "^UNIT_TEST_IF([a-zA-Z0-9\_]*,.*)$" | grep -e "$filter" | sed 's/UNIT_TEST_IF(\([a-zA-Z0-9\_]*\),.*)/\1/')
+    if [ ! -z "$tests $cond_tests" ]; then
+        echo $f $tests $cond_tests
     fi
 done`
 
@@ -38,7 +40,8 @@ echo "$filteredtestpairs" | while read line; do
     printf "  (test_file_t){\n    .name = \"$fname\",\n    .no_tests=$no_tests,\n    .fns = (unit_test_t*[]){";
     for t in $tests
     do
-        printf "      &(unit_test_t){\n        .name=\"$t\",\n        .fn=$t,\n        .result=0\n      },\n"
+        printf "&__UT_$t, "
+        # printf "      &(unit_test_t){\n        .name=\"$t\",\n        .fn=$t,\n        .result=0\n      },\n"
     done;
     printf "    }\n";
     printf "  },\n"

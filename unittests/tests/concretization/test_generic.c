@@ -12,8 +12,8 @@ u64* __var(test_ctx_t* ctx, run_idx_t r, const char* varname) {
 
 #define VAR(ctx, r, var) __var(ctx, r, var)
 
-UNIT_TEST(test_concretization_linear_default_diff_pages)
-UNIT_TEST(test_concretization_random_default_diff_pages)
+UNIT_TEST_IF(test_concretization_linear_default_diff_pages, ENABLE_UNITTESTS_CONCRETIZATION_TEST_LINEAR)
+UNIT_TEST_IF(test_concretization_random_default_diff_pages, ENABLE_UNITTESTS_CONCRETIZATION_TEST_RANDOM)
 void __test_concretization_default_diff_pages(concretize_type_t conc_type) {
   litmus_test_t test = {
     "test",
@@ -48,8 +48,8 @@ void test_concretization_random_default_diff_pages(void) {
   __test_concretization_default_diff_pages(CONCRETE_RANDOM);
 }
 
-UNIT_TEST(test_concretization_linear_own_pmd)
-UNIT_TEST(test_concretization_random_own_pmd)
+UNIT_TEST_IF(test_concretization_linear_own_pmd, ENABLE_UNITTESTS_CONCRETIZATION_TEST_LINEAR)
+UNIT_TEST_IF(test_concretization_random_own_pmd, ENABLE_UNITTESTS_CONCRETIZATION_TEST_RANDOM)
 void __test_concretization_own_pmd(concretize_type_t conc_type) {
   litmus_test_t test = {
     "test",
@@ -92,8 +92,8 @@ void test_concretization_random_own_pmd(void) {
 }
 
 
-UNIT_TEST(test_concretization_linear_same_page)
-UNIT_TEST(test_concretization_random_same_page)
+UNIT_TEST_IF(test_concretization_linear_same_page, ENABLE_UNITTESTS_CONCRETIZATION_TEST_LINEAR)
+UNIT_TEST_IF(test_concretization_random_same_page, ENABLE_UNITTESTS_CONCRETIZATION_TEST_RANDOM)
 void __test_concretization_same_page(concretize_type_t conc_type) {
   litmus_test_t test = {
     "test",
@@ -131,8 +131,8 @@ void test_concretization_random_same_page(void) {
 }
 
 
-UNIT_TEST(test_concretization_linear_separate_roots)
-UNIT_TEST(test_concretization_random_separate_roots)
+UNIT_TEST_IF(test_concretization_linear_separate_roots, ENABLE_UNITTESTS_CONCRETIZATION_TEST_LINEAR)
+UNIT_TEST_IF(test_concretization_random_separate_roots, ENABLE_UNITTESTS_CONCRETIZATION_TEST_RANDOM)
 void __test_concretization_separate_roots(concretize_type_t conc_type) {
   litmus_test_t test = {
     "test",
@@ -174,8 +174,8 @@ void test_concretization_random_separate_roots(void) {
   __test_concretization_separate_roots(CONCRETE_RANDOM);
 }
 
-UNIT_TEST(test_concretization_linear_aliased)
-UNIT_TEST(test_concretization_random_aliased)
+UNIT_TEST_IF(test_concretization_linear_aliased, ENABLE_UNITTESTS_CONCRETIZATION_TEST_LINEAR)
+UNIT_TEST_IF(test_concretization_random_aliased, ENABLE_UNITTESTS_CONCRETIZATION_TEST_RANDOM)
 void __test_concretization_aliased(concretize_type_t conc_type) {
   litmus_test_t test = {
     "test",
@@ -212,8 +212,8 @@ void test_concretization_random_aliased(void) {
   __test_concretization_aliased(CONCRETE_RANDOM);
 }
 
-UNIT_TEST(test_concretization_linear_unrelated_aliased)
-UNIT_TEST(test_concretization_random_unrelated_aliased)
+UNIT_TEST_IF(test_concretization_linear_unrelated_aliased, ENABLE_UNITTESTS_CONCRETIZATION_TEST_LINEAR)
+UNIT_TEST_IF(test_concretization_random_unrelated_aliased, ENABLE_UNITTESTS_CONCRETIZATION_TEST_RANDOM)
 void __test_concretization_unrelated_aliased(concretize_type_t conc_type) {
   litmus_test_t test = {
     "test",
@@ -253,8 +253,8 @@ void test_concretization_random_unrelated_aliased(void) {
 }
 
 
-UNIT_TEST(test_concretization_linear_unmapped)
-UNIT_TEST(test_concretization_random_unmapped)
+UNIT_TEST_IF(test_concretization_linear_unmapped, ENABLE_UNITTESTS_CONCRETIZATION_TEST_LINEAR)
+UNIT_TEST_IF(test_concretization_random_unmapped, ENABLE_UNITTESTS_CONCRETIZATION_TEST_RANDOM)
 void __test_concretization_unmapped(concretize_type_t conc_type) {
   litmus_test_t test = {
     "test",
@@ -301,8 +301,8 @@ void test_concretization_random_unmapped(void) {
 }
 
 
-UNIT_TEST(test_concretization_linear_twopage)
-UNIT_TEST(test_concretization_random_twopage)
+UNIT_TEST_IF(test_concretization_linear_twopage, ENABLE_UNITTESTS_CONCRETIZATION_TEST_LINEAR)
+UNIT_TEST_IF(test_concretization_random_twopage, ENABLE_UNITTESTS_CONCRETIZATION_TEST_RANDOM)
 void __test_concretization_twopage(concretize_type_t conc_type) {
   litmus_test_t test = {
     "test",
@@ -352,8 +352,8 @@ void test_concretization_random_twopage(void) {
 
 
 
-UNIT_TEST(test_concretization_linear_relpmdoverlap)
-UNIT_TEST(test_concretization_random_relpmdoverlap)
+UNIT_TEST_IF(test_concretization_linear_relpmdoverlap, ENABLE_UNITTESTS_CONCRETIZATION_TEST_LINEAR)
+UNIT_TEST_IF(test_concretization_random_relpmdoverlap, ENABLE_UNITTESTS_CONCRETIZATION_TEST_RANDOM)
 void __test_concretization_relpmdoverlap(concretize_type_t conc_type) {
   litmus_test_t test = {
     "test",
@@ -398,8 +398,8 @@ void test_concretization_random_relpmdoverlap(void) {
 }
 
 
-UNIT_TEST(test_concretization_linear_multi_pmd_pin)
-UNIT_TEST(test_concretization_random_multi_pmd_pin)
+UNIT_TEST_IF(test_concretization_linear_multi_pmd_pin, ENABLE_UNITTESTS_CONCRETIZATION_TEST_LINEAR)
+UNIT_TEST_IF(test_concretization_random_multi_pmd_pin, ENABLE_UNITTESTS_CONCRETIZATION_TEST_RANDOM)
 void __test_concretization_multi_pmd_pin(concretize_type_t conc_type) {
   litmus_test_t test = {
     "test",
