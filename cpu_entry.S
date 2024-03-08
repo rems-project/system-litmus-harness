@@ -72,10 +72,7 @@ _start:
     cbnz x9, cpu_entry
     */
 
-	/* setup CPU0 */
-	mov x29, #0    /* init frame pointer to NULL */
-	bl init_cpu
-	bl setup
+    bl fixup_stack
 
 	/* call main */
 	adrp	x0, __argc
@@ -154,6 +151,43 @@ init_cpu:
     msr vbar_el1, x14
 	isb
 	ret
+
+.globl fixup_stack
+fixup_stack:
+    /* we may have to fix up the `sp` register
+     * to point to the MMAP'd region */
+    mrs x0, sctlr_el1
+    tbz x0, #0, 2f
+1:
+    mov x0, sp
+
+    adrp x14, BOT_OF_STACK_PA
+    add x14, x14, :lo12:BOT_OF_STACK_PA
+    ldr x1, [x14]
+
+    adrp x14, TOP_OF_STACK_PA
+    add x14, x14, :lo12:TOP_OF_STACK_PA
+    ldr x2, [x14]
+
+    /* if SP < phys_bot then definitely some kind of error */
+    cmp x0, x1
+    b.ls abort
+
+    /* if SP > phys_top then using VM stack, so just return */
+    cmp x0, x2
+    b.hi 2f
+
+    /* x3 := STACK_MMAP_BASE */
+    mov x3, 16
+    lsl x3, x3, #30
+
+    sub x0, x0, x1
+    add x0, x0, x3
+    mov sp, x0
+    fallthrough
+2:
+    ret
+
 
 .globl halt
 halt:

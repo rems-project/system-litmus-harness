@@ -29,7 +29,12 @@
 
 #define SPSR_FIELD(field, val) ((val) << (field))
 
-#ifndef __ASSEMBLY__
+#ifdef __ASSEMBLY__
+
+/* hint to reader that fallthrough is deliberate */
+#define fallthrough nop
+
+#else
 
 /* barriers and wrappers */
 #if DEBUG_DISABLE_WFE
