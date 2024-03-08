@@ -18,7 +18,12 @@ typedef struct {
   stack_frame_t frames[];
 } stack_t;
 
-void walk_stack_from(u64* fp, stack_t* buf);
-void walk_stack(stack_t* buf);
+typedef void (stack_cb_fn)(void* arg, u64* fp, u64 ret_addr);
+
+void collect_stack_from(u64* fp, stack_t* buf);
+void collect_stack(stack_t* buf);
+
+void walk_stack(stack_cb_fn cb, void* arg);
+void walk_stack_from(u64* fp, stack_cb_fn cb, void* arg);
 
 #endif /* STACK_H */

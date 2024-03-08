@@ -75,7 +75,7 @@ static lock_t _EXC_PRINT_LOCK;
 
 static void _print_stack_trace(int el, u64 fp) {
   stack_t* stack = (stack_t*)__exc_stack_buf;
-  walk_stack_from((u64*)fp, stack);
+  collect_stack_from((u64*)fp, stack);
 
   char* out = __exc_buffer;
   out = sprintf(out, "  [ STRACE SP_%d] ", el, stack->no_frames);

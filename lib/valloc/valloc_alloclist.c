@@ -76,7 +76,7 @@ valloc_alloc_chunk* valloc_alloclist_alloc(valloc_mempool* pool, u64 addr, u64 s
 
 #if DEBUG_ALLOC_META
   stack_t* stack_buf = (stack_t*)__valloc_alloclist_stack_buf;
-  walk_stack(stack_buf);
+  collect_stack(stack_buf);
   head->meta.where = stack_buf->frames[3].ret;
   head->meta.ts = read_clk();
 #endif

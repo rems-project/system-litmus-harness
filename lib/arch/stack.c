@@ -1,12 +1,35 @@
 #include "lib.h"
 
-void walk_stack(stack_t* buf) {
+/*
+ * Generic stack walker
+ */
+void walk_stack(stack_cb_fn cb, void *arg) {
   /* with -fno-omit-frame-pointer the frame pointer gets put
    * in register x29 */
   u64 init_fp = read_reg(x29);
   u64* fp = (u64*)init_fp;
 
-  walk_stack_from(fp, buf);
+  walk_stack_from(fp, cb, arg);
+}
+
+static void collect_stack_frame(void* arg, u64* fp, u64 ret_addr) {
+  stack_t* buf  = (stack_t*)arg;
+
+  buf->frames[buf->no_frames].next = (u64)fp;
+  buf->frames[buf->no_frames].ret = ret_addr;
+  buf->no_frames++;
+}
+
+void collect_stack_from(u64* fp, stack_t* buf) {
+  walk_stack_from(fp, collect_stack_frame, (void*)buf);
+}
+
+void collect_stack(stack_t* buf) {
+  /* with -fno-omit-frame-pointer the frame pointer gets put
+   * in register x29 */
+  u64 init_fp = read_reg(x29);
+  u64* fp = (u64*)init_fp;
+  walk_stack_from(fp, collect_stack_frame, (void*)buf);
 }
 
 static u64 _stack_range_top(u64 fp) {
@@ -35,9 +58,7 @@ u8 stack_in_range(u64 fp, u64 stack_top) {
   return (stack_top - STACK_SIZE) <= fp && fp < stack_top;
 }
 
-void walk_stack_from(u64* fp, stack_t* buf) {
-  int i = 0;
-
+void walk_stack_from(u64* fp, stack_cb_fn cb, void* arg) {
   u64 init_fp = (u64)fp;
   u64 stack_top = _stack_range_top(init_fp);
 
@@ -55,8 +76,7 @@ void walk_stack_from(u64* fp, stack_t* buf) {
     u64* prev_fp  = (u64*)*fp;
     u64 ret       = *(fp+1);
     fp = prev_fp;
-    buf->frames[i  ].next = (u64)fp;
-    buf->frames[i++].ret  = ret;
+    cb(arg, fp, ret);
 
     /* the frame pointer is initialised to 0
      * for all entry points */
@@ -64,6 +84,4 @@ void walk_stack_from(u64* fp, stack_t* buf) {
       break;
     }
   }
-
-  buf->no_frames = i;
 }
