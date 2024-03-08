@@ -15,13 +15,14 @@ void test_bwaits_cpu(int cpu, void* arg) {
 
 UNIT_TEST(test_bwaits_nodeadlock)
 void test_bwaits_nodeadlock(void) {
-  bar_t bar = EMPTY_BAR;
+  static bar_t bar = EMPTY_BAR;
+  static bar_test_t test = {
+    .bar = &bar,
+    .sz = 0,
+  };
 
   for (int i = 0; i < 1000UL; i++) {
-    bar_test_t test = {
-      .bar = &bar,
-      .sz = randrange(0,5),
-    };
+    test.sz = randrange(0, 5);
     run_on_cpus((async_fn_t*)test_bwaits_cpu, (void*)&test);
   }
 
