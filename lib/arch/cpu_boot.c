@@ -56,6 +56,8 @@ void run_on_cpu(u64 cpu, async_fn_t* fn, void* arg) {
 void run_on_cpus(async_fn_t* fn, void* arg) {
   u64 cur_cpu = get_cpu();
 
+  fail_on(IN_STACK_MMAP_SPACE((u64)arg), "cannot pass run_on_cpus a stack-local arg.");
+
   for (int i = 0; i < 4; i++)
     while (!cpu_data[i].started) wfe();
 
