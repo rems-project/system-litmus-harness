@@ -451,7 +451,7 @@ static void resetsp(void) {
   if (currentsp == 0b1) { /* if not already using SP_EL0 */
     asm volatile(
         "mov x18, sp\n"
-        "msr spsel, x18\n"
+        "msr spsel, #0\n"
         "dsb nsh\n"
         "isb\n"
         "mov sp, x18\n"
