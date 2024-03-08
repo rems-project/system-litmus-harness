@@ -90,7 +90,7 @@ void read_var_infos(const litmus_test_t* cfg, init_system_state_t* sys_st, var_i
   }
 
   /* for all variables without an explicit offset,
-   * and which aren't pinned to another,
+   * and which aren't aliased or pinned to another,
    * make them offset from the primary var
    * at the same page offset
    */
@@ -100,7 +100,10 @@ void read_var_infos(const litmus_test_t* cfg, init_system_state_t* sys_st, var_i
     if (vinfo->varidx == first->varidx)
       continue;
 
-    if (vinfo->ty == VAR_PINNED)
+    if (! var_owns_region(vinfo))
+      continue;
+
+    if (vinfo->ty == VAR_ALIAS)
       continue;
 
     if (vinfo->init_attrs.has_region_offset)
@@ -108,6 +111,24 @@ void read_var_infos(const litmus_test_t* cfg, init_system_state_t* sys_st, var_i
 
     vinfo->init_attrs.has_region_offset = 1;
     vinfo->init_attrs.region_offset.offset_var = first->varidx;
+    vinfo->init_attrs.region_offset.offset_level = REGION_SAME_PAGE_OFFSET;
+  }
+
+  /* all aliased variables must be at the same offset as the parent */
+  for (var_idx_t v = 0; v < cfg->no_heap_vars; v++) {
+    var_info_t* vinfo = &infos[v];
+
+    if (vinfo->varidx == first->varidx)
+      continue;
+
+    if (vinfo->ty != VAR_ALIAS)
+      continue;
+
+    fail_on(vinfo->init_attrs.has_region_offset, "alias variable already has an offset");
+
+    vinfo->init_attrs.has_region_offset = 1;
+    vinfo->init_attrs.region_offset.offset_var = vinfo->alias.aliased_with;
+    /* TODO: BS: for now alias vars are only aliased in the first page */
     vinfo->init_attrs.region_offset.offset_level = REGION_SAME_PAGE_OFFSET;
   }
 

@@ -11,7 +11,9 @@ typedef struct {
 } pin_st_t;
 
 typedef struct {
-  u8 picked;
+  u8 picked_region;
+  u8 picked_offset;
+  region_idx_t partial_va;
   u64 va;
   pin_st_t pins[NUM_PIN_LEVELS];
 } var_st_t;
@@ -83,55 +85,55 @@ region_idx_t rand_idx(region_idx_t start, region_idx_t end) {
   return (region_idx_t){.reg_ix=reg, .reg_offs=offs};
 }
 
-void pick_pin(test_ctx_t* ctx, concretization_st_t* st, var_info_t* rootvar, region_idx_t rootidx, var_info_t* pinnedvar) {
+/** select the VA for a var that OWNs a region
+ */
+static bool try_pick_one_offset(test_ctx_t* ctx, concretization_st_t* st, var_info_t* var) {
+  region_idx_t va_idx = st->var_sts[var->varidx].partial_va;
+
+  if (var->init_attrs.has_region_offset) {
+    u64 othervaridx = var->init_attrs.region_offset.offset_var;
+    if (st->var_sts[othervaridx].picked_offset) {
+      u64 othershift = LEVEL_SHIFTS[var->init_attrs.region_offset.offset_level];
+      u64 otherva = st->var_sts[othervaridx].va;
+
+      va_idx.reg_offs &= ~BITMASK(othershift);
+      va_idx.reg_offs |= otherva & BITMASK(othershift);
+    } else {
+      return false;
+    }
+  }
+
+  st->var_sts[var->varidx].partial_va = va_idx;
+  st->var_sts[var->varidx].va = va_from_region_idx(ctx, var, va_idx);
+  st->var_sts[var->varidx].picked_offset = 1;
+
+  DEBUG(DEBUG_CONCRETIZATION, "picked (offset)! %s => %p\n", var->name, st->var_sts[var->varidx].va);
+  return true;
+}
+
+static void pick_pin_region(test_ctx_t* ctx, concretization_st_t* st, var_info_t* rootvar, region_idx_t rootidx, var_info_t* pinnedvar) {
   pin_level_t lvl = pinnedvar->pin.pin_region_level;
   region_idx_t va_begin = align_down_region_idx(rootidx, lvl);
   region_idx_t va_end = align_up_region_idx(rootidx, lvl);
   region_idx_t va_idx = rand_idx(va_begin, va_end);
 
-  if (pinnedvar->init_attrs.has_region_offset) {
-    u64 othervaridx = pinnedvar->init_attrs.region_offset.offset_var;
-    if (st->var_sts[othervaridx].picked) {
-      u64 othershift = LEVEL_SHIFTS[pinnedvar->init_attrs.region_offset.offset_level];
-      u64 otherva = st->var_sts[othervaridx].va;
+  st->var_sts[pinnedvar->varidx].partial_va = va_idx;
+  st->var_sts[pinnedvar->varidx].picked_region = 1;
 
-      /* we assume we stay in the pin and check later */
-      va_idx.reg_offs &= ~BITMASK(othershift);
-      va_idx.reg_offs |= otherva & BITMASK(othershift);
-    }
-  }
-
-  st->var_sts[pinnedvar->varidx].va = va_from_region_idx(ctx, pinnedvar, va_idx);
-  st->var_sts[pinnedvar->varidx].picked = 1;
-
-
-  DEBUG(DEBUG_CONCRETIZATION, "picked pin! %s => %p\n", pinnedvar->name, st->var_sts[pinnedvar->varidx].va);
+  DEBUG(DEBUG_CONCRETIZATION, "picked pin (region)! %s => %p\n", pinnedvar->name, st->var_sts[pinnedvar->varidx].partial_va.reg_ix);
 }
 
-/** select the VA for a var that OWNs a region
- */
-void pick_one(test_ctx_t* ctx, concretization_st_t* st, var_info_t* var, own_level_t lvl) {
+static void pick_one_region(test_ctx_t* ctx, concretization_st_t* st, var_info_t* var, own_level_t lvl) {
   region_idx_t va_begin = region_idx_bottom();
   region_idx_t va_top = region_idx_top();
   region_idx_t va_idx = rand_idx(va_begin, va_top);
 
   DEBUG(DEBUG_CONCRETIZATION, "for var=%s,  between [%o, %o) = %o\n", var->name, TOSTR(region_idx_t, &va_begin), TOSTR(region_idx_t, &va_top), TOSTR(region_idx_t, &va_idx));
 
-  if (var->init_attrs.has_region_offset) {
-    u64 othervaridx = var->init_attrs.region_offset.offset_var;
-    if (st->var_sts[othervaridx].picked) {
-      u64 othershift = LEVEL_SHIFTS[var->init_attrs.region_offset.offset_level];
-      u64 otherva = st->var_sts[othervaridx].va;
+  st->var_sts[var->varidx].partial_va = va_idx;
+  st->var_sts[var->varidx].picked_region = 1;
 
-      va_idx.reg_offs &= ~BITMASK(othershift);
-      va_idx.reg_offs |= otherva & BITMASK(othershift);
-    }
-  }
-
-  st->var_sts[var->varidx].va = va_from_region_idx(ctx, var, va_idx);
-  st->var_sts[var->varidx].picked = 1;
-
-  DEBUG(DEBUG_CONCRETIZATION, "picked! %s => %p\n", var->name, st->var_sts[var->varidx].va);
+  DEBUG(DEBUG_CONCRETIZATION, "picked (region)! %s => %p\n", var->name, st->var_sts[var->varidx].partial_va.reg_ix);
 
 
   /* for each pinned var, pick a VA for it too */
@@ -141,7 +143,7 @@ void pick_one(test_ctx_t* ctx, concretization_st_t* st, var_info_t* var, own_lev
     var_info_t** pinned_vars = varpin->vars;
     for (int pidx = 0; pidx < varpin->no_pins; pidx++) {
       var_info_t* pinnedvar = pinned_vars[pidx];
-      pick_pin(ctx, st, var, va_idx, pinnedvar);
+      pick_pin_region(ctx, st, var, va_idx, pinnedvar);
     }
   }
 }
@@ -175,7 +177,8 @@ void* concretize_random_init(test_ctx_t* ctx, const litmus_test_t* cfg) {
 static void reset_st(test_ctx_t* ctx, const litmus_test_t* cfg, concretization_st_t* st) {
   for (int i = 0; i < cfg->no_heap_vars; i++) {
     var_st_t* vst = &st->var_sts[i];
-    vst->picked = 0;
+    vst->picked_region = 0;
+    vst->picked_offset = 0;
   }
 }
 
@@ -192,7 +195,7 @@ void concretize_random_one(test_ctx_t* ctx, const litmus_test_t* cfg, concretiza
     /* first, pick all the unconstrained heap variables */
     FOREACH_HEAP_VAR(ctx, var) {
       if (var_owns_region(var) && !var->init_attrs.has_region_offset) {
-        pick_one(ctx, st, var, var_owned_region_size(var));
+        pick_one_region(ctx, st, var, var_owned_region_size(var));
       }
     }
 
@@ -203,22 +206,32 @@ void concretize_random_one(test_ctx_t* ctx, const litmus_test_t* cfg, concretiza
      */
     FOREACH_HEAP_VAR(ctx, var) {
       if (var_owns_region(var) && var->init_attrs.has_region_offset) {
-        pick_one(ctx, st, var, var_owned_region_size(var));
-      }
-    }
-
-    /* now pick any aliased ones */
-    FOREACH_HEAP_VAR(ctx, var) {
-      if (var->ty == VAR_ALIAS) {
-        /* TODO: BS: the alias is only a single page right now
-         * maybe in future we want it to be the same size as the .aliased_with var */
-        pick_one(ctx, st, var, REGION_OWN_PAGE);
+        pick_one_region(ctx, st, var, var_owned_region_size(var));
       }
     }
 
     /* should be none left over */
     FOREACH_HEAP_VAR(ctx, var) {
-      fail_on (!st->var_sts[var->varidx].picked, "failed to pick a VA for \"%s\"\n", var->name);
+      fail_on (!st->var_sts[var->varidx].picked_region, "failed to pick a VA (region) for \"%s\"\n", var->name);
+    }
+
+    /* now try pick the offsets */
+    bool picked_offset = true;
+    while (picked_offset) {
+      picked_offset = false;
+      FOREACH_HEAP_VAR(ctx, var) {
+        if (! st->var_sts[var->varidx].picked_offset) {
+          picked_offset = try_pick_one_offset(ctx, st, var);
+
+          if (picked_offset)
+            break;
+        }
+      }
+    }
+
+    /* should be none left over */
+    FOREACH_HEAP_VAR(ctx, var) {
+      fail_on (!st->var_sts[var->varidx].picked_offset, "failed to pick a VA (offset) for \"%s\"\n", var->name);
     }
 
     /* because we pick the owned regions at random, they may overlap
