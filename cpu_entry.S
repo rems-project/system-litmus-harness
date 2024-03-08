@@ -142,9 +142,8 @@ init_cpu:
   mov x4, #0
   msr spsel, x4  /* and use SP_EL0 outside of exception handlers */
 
-  /* enable FP/ASIMD (for printf/varargs) */
-  mov	x4, #(3 << 20)
-  msr	cpacr_el1, x4
+  /* force disable FP/ASIMD */
+  msr	cpacr_el1, xzr
 
   /* set VBAR */
   adrp x14, el1_exception_vector_table_p0
