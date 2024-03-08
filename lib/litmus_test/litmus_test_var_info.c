@@ -65,8 +65,7 @@ void read_var_infos(const litmus_test_t* cfg, init_system_state_t* sys_st, var_i
   for (var_idx_t v = 0; v < cfg->no_heap_vars; v++) {
     var_info_t* vinfo = &infos[v];
     if (
-         (vinfo->ty == VAR_HEAP && !vinfo->init_attrs.has_region_offset)
-      || (vinfo->ty == VAR_UNMAPPED && !vinfo->init_attrs.has_region_offset)
+         (var_owns_region(vinfo) && !vinfo->init_attrs.has_region_offset)
       /* we allow NOTSET, purely for unit testing purposes.
        * Trying to run a real litmus test with a NOTSET variable will cause an error. */
       || (vinfo->ty == VAR_NOTSET && !vinfo->init_attrs.has_region_offset)
