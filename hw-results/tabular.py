@@ -2,13 +2,33 @@
 Given 1 or more files containing the output of litmus.exe cat them together and build a LaTeX tabular
 environment to embed into documents.
 
-Usage:
-    python tabular.py -d device1/  -d device2/
+Usage: tabular.py
+  [-h]
+  [--standalone] [--standalone-file STANDALONE_FILE]
+  [--all-file ALL_FILE]
+  [--macros]
+  [--file FILE | --device DEVICE]
+  [--excludes EXCLUDES] [--includes INCLUDES]
 
-Example:
-> ./litmus.exe @all -p -n1000 > out.log
-> python3 tabular.py -f out.log --standalone
-> cat top.tex
+options:
+  -h, --help            show this help message and exit
+  --standalone
+  --standalone-file STANDALONE_FILE, -o STANDALONE_FILE
+  --all-file ALL_FILE
+  --macros
+  --file FILE, -f FILE
+  --device DEVICE, -d DEVICE
+  --excludes EXCLUDES   Comma-separated list of excluded groups, e.g. --excludes=@grp1,@grp2
+  --includes INCLUDES   Comma-separated list of included groups, e.g. --includes=@grp1,@grp2
+
+Examples:
+    # basic collect a single log file
+    ./litmus.exe @all -p -n1000 > out.log
+    python3 tabular.py -f out.log --standalone
+    cat top.tex  # see generated standalone table
+
+    # for collecting refs from multiple devices in separate directories
+    python tabular.py -d device1/  -d device2/
 """
 
 import io
