@@ -613,7 +613,8 @@ def main(args):
             d = Device(device_dir_path.stem, device_dir_path)
             devices[d] = list(collect_all(d, logs))
     elif args.file:
-        devices["all"] = list(collect_all(Device("all", "."), args.file))
+        d = Device("all", ".")
+        devices[d] = list(collect_all(d, args.file))
 
     with open(root.parent / "litmus" / "test_list.txt", "r") as f:
         group_list = []
