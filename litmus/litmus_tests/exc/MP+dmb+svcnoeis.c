@@ -39,12 +39,12 @@ static void svc_handler(void) {
       "b out\n\t"
       "2:\n\t"
       // reset back to SCTLR_EL1.EIS = 1
-      "svc #0\n\t"
       "mrs x5,sctlr_el1\n\t"
       "mov x6, #1\n\t"
       "bfi x5, x6, 22, 1\n\t"
       "msr sctlr_el1,x5\n\t"
       "out:\n\t"
+      "add x4,x4,#1\n\t"
       "eret\n\t"
   );
 }
