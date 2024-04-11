@@ -499,7 +499,7 @@ def write_combo_table(grp_list, f, devices: "Mapping[Device, List[LogFileResult]
 
         for d in devices:
             # hack: insert zero'd entry
-            if test_name not in filtered_tests[test_name].results:
+            if d not in filtered_tests[test_name].results:
                 filtered_tests[test_name].results[d] = FilteredLog(d, test_name)
 
             flog = filtered_tests[test_name].results[d]
