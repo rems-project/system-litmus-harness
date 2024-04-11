@@ -623,12 +623,15 @@ def main(args):
             group_list.append((test_name, groups))
 
     with open(root / args.all_file, "w") as f:
+        print(f"-- Writing combo {root/args.all_file}")
         write_combo_table(group_list, f, devices, includes=includes, excludes=excludes)
 
     with open(root / "results-breakdown.txt", "w") as f:
+        print(f"-- Writing breakdown {root / 'results-breakdown.txt'}")
         write_explicit_table(group_list, f, devices, includes=includes, excludes=excludes)
 
     if args.standalone:
+        print(f"-- Writing standalone {args.standalone_file}")
         with open(args.standalone_file, "w") as f:
             f.write("\\documentclass{standalone}\n")
             f.write("\\begin{document}\n")
