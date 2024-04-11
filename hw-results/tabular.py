@@ -539,7 +539,7 @@ def write_combo_table(grp_list, f, devices: "Mapping[Device, List[LogFileResult]
         "\\multicolumn{3}{l}{\\textbf{%s}}".ljust(
             3 + sum(maxcolrows[2 + 3 * i : 2 + 3 * i + 3])
         )
-        % d
+        % d.name
         for i, d in enumerate(devices)
     ]
     device_cols_heads = []
