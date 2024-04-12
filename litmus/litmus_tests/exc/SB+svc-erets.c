@@ -1,10 +1,9 @@
-
 #include "lib.h"
 
 #define VARS x, y
 #define REGS p0x2, p1x2
 
-static void svc_handler(void) {
+static void svc_handler0(void) {
   asm volatile (
     "eret\n\t"
   );
@@ -29,6 +28,12 @@ static void P0(litmus_test_run* data) {
   : ASM_VARS(data, VARS),
     ASM_REGS(data, REGS)
   : "cc", "memory", "x0", "x1", "x2", "x3"
+  );
+}
+
+static void svc_handler1(void) {
+  asm volatile (
+    "eret\n\t"
   );
 }
 
@@ -64,8 +69,8 @@ litmus_test_t SB_svcerets = {
     INIT_VAR(y, 0)
   ),
   .thread_sync_handlers = (u32**[]){
-     (u32*[]){(u32*)svc_handler, NULL},
-     (u32*[]){(u32*)svc_handler, NULL},
+     (u32*[]){(u32*)svc_handler0, NULL},
+     (u32*[]){(u32*)svc_handler1, NULL},
   },
   .interesting_result = (u64[]){
       /* p0:x2 =*/0,

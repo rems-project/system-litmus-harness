@@ -35,8 +35,7 @@ static void P0(litmus_test_run* data) {
 
 static void svc_handler1(void) {
   asm volatile(
-      /* x3 = X */
-      "ldr x0, [x1]\n\t"
+      "dmb sy\n\t"
       "eret\n\t");
 }
 
@@ -48,6 +47,8 @@ static void P1(litmus_test_run* data) {
       "mov x3, %[x]\n\t"
 
       /* test */
+      /* x3 = X */
+      "ldr x0, [x1]\n\t"
       "svc #0\n\t"
       "str x2, [x3]\n\t"
 
