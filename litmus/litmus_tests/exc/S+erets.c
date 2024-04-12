@@ -5,8 +5,8 @@
 
 static void svc_handler0(void) {
   asm volatile(
-      "mov x2, #1\n\t"
-      "str x2, [x6]\n\t"
+      "mov x0, #2\n\t"
+      "str x0, [x4]\n\t"
       "eret\n\t"
   );
 }
@@ -18,9 +18,9 @@ static void P0(litmus_test_run* data) {
       "mov x6, %[y]\n\t"
 
       /* test */
-      "mov x0, #2\n\t"
-      "str x0, [x4]\n\t"
       "svc #0\n\t"
+      "mov x2, #1\n\t"
+      "str x2, [x6]\n\t"
   :
   : ASM_VARS(data, VARS),
     ASM_REGS(data, REGS)
