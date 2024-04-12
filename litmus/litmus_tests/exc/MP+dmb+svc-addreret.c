@@ -59,9 +59,10 @@ litmus_test_t MP_dmb_svcaddreret = {
   MAKE_VARS(VARS),
   MAKE_REGS(REGS),
   INIT_STATE(
-    2,
+    3,
     INIT_VAR(x, 0),
-    INIT_VAR(y, 0)
+    INIT_VAR(y, 0),
+    INIT_VAR(z, 0),
   ),
   .thread_sync_handlers =
     (u32**[]){
