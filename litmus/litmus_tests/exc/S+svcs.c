@@ -1,7 +1,7 @@
 #include "lib.h"
 
 #define VARS x, y
-#define REGS p1x0, p1x2
+#define REGS p1x0, p2x0, p2x2
 
 static void svc_handler0(void) {
   asm volatile(
@@ -46,6 +46,9 @@ static void P1(litmus_test_run* data) {
       /* test  */
       "ldr x0, [x1]\n\t"
       "svc #0\n\t"
+
+      /* extract values */
+      "str x0, [%[outp1r0]]\n\t"
   :
   : ASM_VARS(data, VARS),
     ASM_REGS(data, REGS)
@@ -68,7 +71,6 @@ static void P2(litmus_test_run* data) {
       /* extract values */
       "str x0, [%[outp2r0]]\n\t"
       "str x2, [%[outp2r2]]\n\t"
-      "dmb st\n\t"
   :
   : ASM_VARS(data, VARS),
     ASM_REGS(data, REGS)
@@ -95,6 +97,7 @@ litmus_test_t S_svcs = {
       (u32*[]){NULL, NULL},
     },
   .interesting_result = (u64[]){
+      /* p1:x0 =*/1,
       /* p2:x0 =*/1,
       /* p2:x2 =*/2,
   },
