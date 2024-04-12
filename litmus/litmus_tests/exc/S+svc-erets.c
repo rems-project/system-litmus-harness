@@ -80,8 +80,8 @@ static void P2(litmus_test_run* data) {
 }
 
 
-litmus_test_t S_svcserets = {
-  "S+svcs-erets",
+litmus_test_t S_svcerets = {
+  "S+svc-erets",
   MAKE_THREADS(3),
   MAKE_VARS(VARS),
   MAKE_REGS(REGS),
