@@ -82,4 +82,5 @@ litmus_test_t LB_svcerets = {
       /* p0:x2 =*/1,
       /* p1:x2 =*/1,
   },
+  .no_sc_results = 3,
 };

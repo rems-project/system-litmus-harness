@@ -67,4 +67,5 @@ litmus_test_t MP_dmb_svcdmberet = {
       /* p1:x0 =*/1,
       /* p1:x2 =*/0,
   },
+  .no_sc_results = 3,
 };
