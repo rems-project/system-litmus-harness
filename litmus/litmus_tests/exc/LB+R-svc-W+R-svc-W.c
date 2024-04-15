@@ -21,6 +21,7 @@ static void P0(litmus_test_run* data) {
 
       "ldr x0, [x1]\n\t"
       "svc #0\n\t"
+
       /* extract values */
       "str x0, [%[outp0r0]]\n\t"
   :
@@ -44,8 +45,11 @@ static void P1(litmus_test_run* data) {
       "mov x1, %[y]\n\t"
       "mov x3, %[x]\n\t"
 
+      /* test */
       "ldr x0, [x1]\n\t"
       "svc #0\n\t"
+
+      /* extract values */
       "str x0, [%[outp1r0]]\n\t"
   :
   : ASM_VARS(data, VARS),
