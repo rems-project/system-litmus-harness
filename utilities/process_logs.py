@@ -197,13 +197,12 @@ def build_strace(m, labels):
 def forever(root):
     labels = read_func_addrs(root)
 
-    data = sys.stdin.buffer.read()
-    data = data.decode("utf-8", errors="replace")
-    lines = iter(data.splitlines(keepends=True))
+    data = iter(sys.stdin.buffer.readline, b"")
 
     while True:
         try:
-            line = next(lines)
+            line = next(data)
+            line = line.decode("utf-8", errors="replace")
         except StopIteration:
             break
 
