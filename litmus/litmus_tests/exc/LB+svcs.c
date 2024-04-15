@@ -1,4 +1,3 @@
-// deprecated: use LB+svcs.c instead
 #include "lib.h"
 
 #define VARS x, y
@@ -19,6 +18,7 @@ static void P0(litmus_test_run* data) {
       "mov x1, %[x]\n\t"
       "mov x3, %[y]\n\t"
 
+      /* test */
       "ldr x0, [x1]\n\t"
       "svc #0\n\t"
 
@@ -49,7 +49,7 @@ static void P1(litmus_test_run* data) {
       "ldr x0, [x1]\n\t"
       "svc #0\n\t"
 
-      /* extract values */
+      /* extract values  */
       "str x0, [%[outp1r0]]\n\t"
   :
   : ASM_VARS(data, VARS),
@@ -61,8 +61,8 @@ static void P1(litmus_test_run* data) {
 
 
 
-litmus_test_t LB_RsvcW_RsvcW = {
-  "LB+R-svc-W+R-svc-W",
+litmus_test_t LB_svcs = {
+  "LB+svcs",
   MAKE_THREADS(2),
   MAKE_VARS(VARS),
   MAKE_REGS(REGS),

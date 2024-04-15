@@ -3,14 +3,6 @@
 #define VARS x, y
 #define REGS p0x2, p1x2
 
-static void svc_handler0(void) {
-  asm volatile (
-    "dmb sy\n\t"
-    "eret\n\t"
-  );
-}
-
-
 static void P0(litmus_test_run* data) {
   asm volatile (
     /* initial registers */
@@ -20,7 +12,7 @@ static void P0(litmus_test_run* data) {
 
     /* test */
     "str x0, [x1]\n\t"
-    "svc #0\n\t"
+    "dmb sy\n\t"
     "ldr x2, [x3]\n\t"
 
     /* extract values */
@@ -34,11 +26,10 @@ static void P0(litmus_test_run* data) {
 
 static void svc_handler1(void) {
   asm volatile (
-    "dmb sy\n\t"
+    "ldr x2, [x3]\n\t"
     "eret\n\t"
   );
 }
-
 
 static void P1(litmus_test_run* data) {
   asm volatile (
@@ -49,20 +40,22 @@ static void P1(litmus_test_run* data) {
 
     /* test */
     "str x0, [x1]\n\t"
+    "ldr x4, [x1]\n\t"
+    "cbz x4, .lc\n\t"
+    ".lc:\n\t"
     "svc #0\n\t"
-    "ldr x2, [x3]\n\t"
 
     /* extract values */
     "str x2, [%[outp1r2]]\n\t"
   :
   : ASM_VARS(data, VARS),
     ASM_REGS(data, REGS)
-  : "cc", "memory", "x0", "x1", "x2", "x3"
+    : "cc", "memory", "x0", "x1", "x2", "x3", "x4"
   );
 }
 
-litmus_test_t SB_svcdmberets = {
-  "SB+svc-dmb-erets", /* aka SB+W-svc-eret-R+W-svc-eret-R */
+litmus_test_t SB_dmb_rfictrlsvc = {
+  "SB+dmb+rfi-ctrl-svc",
   MAKE_THREADS(2),
   MAKE_VARS(VARS),
   MAKE_REGS(REGS),
@@ -72,7 +65,7 @@ litmus_test_t SB_svcdmberets = {
     INIT_VAR(y, 0)
   ),
   .thread_sync_handlers = (u32**[]){
-     (u32*[]){(u32*)svc_handler0, NULL},
+     (u32*[]){NULL, NULL},
      (u32*[]){(u32*)svc_handler1, NULL},
   },
   .interesting_result = (u64[]){

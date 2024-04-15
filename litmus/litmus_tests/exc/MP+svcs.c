@@ -1,56 +1,54 @@
-// deprecated: use LB+svcs.c instead
 #include "lib.h"
 
 #define VARS x, y
-#define REGS p0x0, p1x0
+#define REGS p1x0, p1x2
 
 static void svc_handler0(void) {
   asm volatile(
-      /* x3 = Y */
-      "str x2, [x3]\n\t"
-      "eret\n\t");
+      "mov x2, #1\n\t"
+      "str x2, [x6]\n\t"
+      "eret\n\t"
+  );
 }
-
 
 static void P0(litmus_test_run* data) {
   asm volatile (
-    /*initial registers */
-      "mov x2, #1\n\t"
-      "mov x1, %[x]\n\t"
-      "mov x3, %[y]\n\t"
+      /* initialise registers */
+      "mov x4, %[x]\n\t"
+      "mov x6, %[y]\n\t"
 
-      "ldr x0, [x1]\n\t"
+      /* test */
+      "mov x0, #1\n\t"
+      "str x0, [x4]\n\t"
       "svc #0\n\t"
-
-      /* extract values */
-      "str x0, [%[outp0r0]]\n\t"
   :
   : ASM_VARS(data, VARS),
     ASM_REGS(data, REGS)
-  : "cc", "memory", "x0", "x1", "x2", "x3"
+  : "cc", "memory", "x0", "x2", "x4", "x6"
   );
 }
 
 static void svc_handler1(void) {
   asm volatile(
       /* x3 = X */
-      "str x2, [x3]\n\t"
-      "eret\n\t");
+      "ldr x2, [x3]\n\t"
+      "eret\n\t"
+  );
 }
 
 static void P1(litmus_test_run* data) {
   asm volatile (
-    /* initial registers */
-      "mov x2, #1\n\t"
+    /* load variables into machine registers */
       "mov x1, %[y]\n\t"
       "mov x3, %[x]\n\t"
 
-      /* test */
+      /* test  */
       "ldr x0, [x1]\n\t"
       "svc #0\n\t"
 
       /* extract values */
       "str x0, [%[outp1r0]]\n\t"
+      "str x2, [%[outp1r2]]\n\t"
   :
   : ASM_VARS(data, VARS),
     ASM_REGS(data, REGS)
@@ -61,8 +59,8 @@ static void P1(litmus_test_run* data) {
 
 
 
-litmus_test_t LB_RsvcW_RsvcW = {
-  "LB+R-svc-W+R-svc-W",
+litmus_test_t MP_svcs = {
+  "MP+svcs",
   MAKE_THREADS(2),
   MAKE_VARS(VARS),
   MAKE_REGS(REGS),
@@ -73,12 +71,12 @@ litmus_test_t LB_RsvcW_RsvcW = {
   ),
   .thread_sync_handlers =
     (u32**[]){
-     (u32*[]){(u32*)svc_handler0, NULL},
-     (u32*[]){(u32*)svc_handler1, NULL},
+      (u32*[]){(u32*)svc_handler0, NULL},
+      (u32*[]){(u32*)svc_handler1, NULL},
     },
   .interesting_result = (u64[]){
-      /* p0:x2 =*/1,
-      /* p1:x2 =*/1,
+      /* p1:x0 =*/1,
+      /* p1:x2 =*/0,
   },
   .no_sc_results = 3,
 };
