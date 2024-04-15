@@ -61,7 +61,6 @@ static void P1(litmus_test_run* data) {
 static void P2(litmus_test_run* data) {
   asm volatile (
     /* load variables into machine registers */
-      "mov x1, %[y]\n\t"
       "mov x3, %[x]\n\t"
 
       /* observe  */
