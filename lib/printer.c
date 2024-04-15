@@ -266,6 +266,7 @@ static char __debug_time_buf[1024];
 
 void __print_frame_unwind(char* out, int skip) {
   stack_t* stack = (stack_t*)__debug_stack_buf;
+  clear_stack(stack);
   collect_stack(stack);
 
   for (int i = skip; i < stack->no_frames; i++) {

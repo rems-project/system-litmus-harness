@@ -32,6 +32,10 @@ void collect_stack(stack_t* buf) {
   walk_stack_from(fp, collect_stack_frame, (void*)buf);
 }
 
+void clear_stack(stack_t* buf) {
+  buf->no_frames = 0;
+}
+
 static u64 _stack_range_top(u64 fp) {
   u64 init_fp = STACK_SAFE_PA(fp);
 

@@ -26,4 +26,6 @@ void collect_stack(stack_t* buf);
 void walk_stack(stack_cb_fn cb, void* arg);
 void walk_stack_from(u64* fp, stack_cb_fn cb, void* arg);
 
+void clear_stack(stack_t* buf);
+
 #endif /* STACK_H */
