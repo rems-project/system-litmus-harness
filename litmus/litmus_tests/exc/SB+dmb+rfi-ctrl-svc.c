@@ -12,7 +12,7 @@ static void P0(litmus_test_run* data) {
 
     /* test */
     "str x0, [x1]\n\t"
-    "dmb st\n\t"
+    "dmb sy\n\t"
     "ldr x2, [x3]\n\t"
 
     /* extract values */
