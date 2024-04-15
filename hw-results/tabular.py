@@ -256,11 +256,13 @@ def accumulate(l: FilteredLog, h: Hist) -> None:
     assert sum(r.count for r in h.results) <= 500_000
     l.results += [h]
     c, t = l.total
+    marks = 0
     for r in h.results:
         if r.is_marked:
             c += r.count
-            l.running += [r.count]
+            marks += r.count
         t += r.count
+    l.running += [marks]
     l.total = (c, t)
     l.batch_size = 500_000
 
