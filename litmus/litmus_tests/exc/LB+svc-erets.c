@@ -24,7 +24,6 @@ static void P0(litmus_test_run* data) {
 
       /* extract values */
       "str x0, [%[outp0r0]]\n\t"
-      "dmb st\n\t"
   :
   : ASM_VARS(data, VARS),
     ASM_REGS(data, REGS)
@@ -52,7 +51,6 @@ static void P1(litmus_test_run* data) {
 
       /* extract values  */
       "str x0, [%[outp1r0]]\n\t"
-      "dmb st\n\t"
   :
   : ASM_VARS(data, VARS),
     ASM_REGS(data, REGS)
