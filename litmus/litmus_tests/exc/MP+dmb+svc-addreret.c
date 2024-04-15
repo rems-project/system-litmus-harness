@@ -22,7 +22,7 @@ static void svc_handler(void) {
       "ldr x4, [x5]\n\t"
       "mrs x6, elr_el1\n\t"
       "eor x8, x4, x4\n\t"
-      "add x10, x6, x4\n\t"
+      "add x10, x6, x8\n\t"
       "msr elr_el1, x10\n\t"
       "eret\n\t");
 }
