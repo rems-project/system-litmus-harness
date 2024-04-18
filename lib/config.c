@@ -165,24 +165,61 @@ static void device_ident_and_quit(void) {
   u64 impl = (midr >> 24) & BITMASK(1 + 31 - 24);
 
   const char* impl_names[0x100] = {
-    [0x00] = "Reserved for software use Ampere Computing",
-    [0xC0] = "Arm Limited",
-    [0x41] = "Broadcom Corporation Cavium Inc.",
-    [0x42] = "Digital Equipment Corporation",
-    [0x43] = "Fujitsu Ltd.",
-    [0x44] = "Infineon Technologies AG",
-    [0x46] = "Motorola or Freescale Semiconductor Inc.",
-    [0x49] = "NVIDIA Corporation",
-    [0x4D] = "Applied Micro Circuits Corporation",
-    [0x4E] = "Qualcomm Inc.",
-    [0x50] = "Marvell International Ltd.",
-    [0x51] = "Intel Corporation",
+    [0x00] = "Reserved for software use",
+    [0x41] = "Arm Limited",
+    [0x42] = "Broadcom Corporation",
+    [0x43] = "Cavium Inc",
+    [0x44] = "Digital Equipment Corporation",
+    [0x46] = "Fujitsu Ltd",
+    [0x49] = "Infineon Technologies AG",
+    [0x4D] = "Motorola or Freescale Semiconductor Inc",
+    [0x4E] = "NVIDIA Corporation",
+    [0x50] = "Applied Micro Circuits Corporation",
+    [0x51] = "Qualcomm Inc",
+    [0x56] = "Marvell International Ltd",
+    [0x69] = "Intel Corporation",
+    [0xC0] = "Ampere Computing",
   };
 
-  printf("Implementor: %s\n", impl_names[impl]);
-  printf("Variant: %p\n", variant);
-  printf("Revision: %p\n", rev);
-  printf("PartNum: %p\n", partnum);
+  // all arm Cortex part names are of the form 0xDXY
+  // see respective cores TRM, look for "MIDR_EL1, Main ID Register"
+  // sadly each TRM puts the information in some random different place
+  const char *arm_part_names[0x100] = {
+    [0x01] = "Cortex-A32",
+    [0x02] = "Cortex-A34",
+    [0x03] = "Cortex-A53",
+    [0x04] = "Cortex-A35",
+    [0x05] = "Cortex-A56",
+    [0x07] = "Cortex-A57",
+    [0x08] = "Cortex-A72",
+    [0x09] = "Cortex-A73",
+    [0x0A] = "Cortex-A75",
+    [0x0B] = "Cortex-A76",
+    [0x0D] = "Cortex-A77",
+    [0x41] = "Cortex-A78",
+    [0x44] = "Cortex-X1",
+    [0x48] = "Cortex-X2",
+    [0x4E] = "Cortex-X3",
+    [0x82] = "Cortex-X4",
+  };
+
+  const char *part_name = "unknown, refer to Implementor documentation.";
+
+  // Arm
+  if (impl == 'A') {
+    // check it's a cortex-y thing
+    if ((partnum & 0xD00) == 0xD00) {
+      int arm_part = partnum - 0xD00;
+      if (arm_part < 0x100 && arm_part_names[arm_part]) {
+        part_name = arm_part_names[arm_part];
+      }
+    }
+  }
+
+  printf("Implementor: '%c' (%s)\n", impl, impl_names[impl]);
+  printf("Part: 0x%lx (%s)\n", partnum, part_name);
+  printf("Variant: %ld\n", variant);
+  printf("Revision: %ld\n", rev);
 
   char** cpu_outs[4];
   for (int i = 0; i < 4; i++) {
