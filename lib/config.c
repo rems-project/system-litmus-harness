@@ -195,11 +195,15 @@ static void device_ident_and_quit(void) {
     [0x09] = "Cortex-A73",
     [0x0A] = "Cortex-A75",
     [0x0B] = "Cortex-A76",
+    [0x0C] = "Neoverse N1",
     [0x0D] = "Cortex-A77",
+    [0x40] = "Neoverse V1",
     [0x41] = "Cortex-A78",
     [0x44] = "Cortex-X1",
     [0x48] = "Cortex-X2",
+    [0x49] = "Neoverse N2",
     [0x4E] = "Cortex-X3",
+    [0x4F] = "Neoverse V2",
     [0x82] = "Cortex-X4",
   };
 
