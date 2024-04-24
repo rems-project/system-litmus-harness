@@ -2,7 +2,7 @@
 
 static void sanity_check_test(const litmus_test_t* cfg, int no_runs, int runs_in_batch) {
   /* we have 1+MAX_ASID ASIDs */
-  if (runs_in_batch > 1+MAX_ASID)
+  if (cfg->requires_pgtable && runs_in_batch > 1+MAX_ASID)
     fail("cannot have more than the number of possible ASIDs (%ld) as runs in a batch with --pgtable.\n", 1+MAX_ASID);
 }
 
@@ -183,7 +183,12 @@ u64 ctx_initial_heap_value(test_ctx_t* ctx, run_idx_t idx) {
 
 u64 asid_from_run_count(test_ctx_t* ctx, run_count_t r) {
   /* reserve ASID 0 for harness */
-  return 1 + (r % ctx->batch_size);
+  if (ctx->cfg->requires_pgtable)
+    return 1 + (r % ctx->batch_size);
+  else
+    /* if pgtables are enabled, but the test does not require editing them
+     * allocate one test pagetable as ASID #1 */
+    return 1;
 }
 
 u64* ptable_from_run(test_ctx_t* ctx, run_idx_t i) {
