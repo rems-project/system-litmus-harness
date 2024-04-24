@@ -136,26 +136,49 @@ static void allocate_data_for_batch(test_ctx_t* ctx, u64 vcpu, run_count_t batch
   }
 }
 
+static u64 run_data_size(test_ctx_t* ctx) {
+  u64 actual_size = (
+    /* the VAs of the variables themselves */
+    sizeof(u64*)*ctx->cfg->no_heap_vars
+    /* ... and the PAs */
+    + sizeof(u64)*ctx->cfg->no_heap_vars
+    /* each of the output registers */
+    + sizeof(u64*)*ctx->cfg->no_regs
+    /* and per-variable, each level of the pagetable,
+     * the entry pointer and initial descriptor */
+    + sizeof(u64)*ctx->cfg->no_heap_vars*4
+    + sizeof(u64*)*ctx->cfg->no_heap_vars*4
+    /* ... plus spare for pointers to each */
+    + sizeof(u64*)*ctx->cfg->no_heap_vars*2
+  );
+
+  /* align up to the next power of 2 */
+  u64 bits = log2(actual_size);
+  return ALIGN_UP(actual_size, bits+1);
+}
+
 /** initialise the litmus_test_run datas to pass as arguments
  */
-static void setup_run_data(test_ctx_t* ctx, u64 vcpu, run_count_t batch_start_idx, run_count_t batch_end_idx, litmus_test_run* runs) {
+static void setup_run_data(test_ctx_t* ctx, u64 vcpu, run_count_t batch_start_idx, run_count_t batch_end_idx, valloc_arena *arena, litmus_test_run* runs) {
   int idx;
   run_count_t r;
 
   for (idx = 0, r = batch_start_idx; r < batch_end_idx; r++, idx++) {
+    debug("setting up run %d in batch (%ld overall)\n", idx, r);
     run_idx_t i = count_to_run_index(ctx, r);
 
     runs[idx].ctx = ctx;
     runs[idx].i = i;
-    runs[idx].va = ALLOC_MANY(u64*, ctx->cfg->no_heap_vars);
-    runs[idx].pa = ALLOC_MANY(u64, ctx->cfg->no_heap_vars);
-    runs[idx].out_reg = ALLOC_MANY(u64*, ctx->cfg->no_regs);
-    runs[idx].tt_descs = ALLOC_MANY(u64*, ctx->cfg->no_heap_vars);
-    runs[idx].tt_entries = ALLOC_MANY(u64**, ctx->cfg->no_heap_vars);
+    runs[idx].va = ALLOC_ARENA_MANY(arena, u64*, ctx->cfg->no_heap_vars);
+    runs[idx].pa = ALLOC_ARENA_MANY(arena, u64, ctx->cfg->no_heap_vars);
+    runs[idx].out_reg = ALLOC_ARENA_MANY(arena, u64*, ctx->cfg->no_regs);
+
+    runs[idx].tt_descs = ALLOC_ARENA_MANY(arena, u64*, ctx->cfg->no_heap_vars);
+    runs[idx].tt_entries = ALLOC_ARENA_MANY(arena, u64**, ctx->cfg->no_heap_vars);
 
     for (var_idx_t v = 0; v < ctx->cfg->no_heap_vars; v++) {
-      runs[idx].tt_descs[v] = ALLOC_MANY(u64, 4);
-      runs[idx].tt_entries[v] = ALLOC_MANY(u64*, 4);
+      runs[idx].tt_descs[v] = ALLOC_ARENA_MANY(arena, u64, 4);
+      runs[idx].tt_entries[v] = ALLOC_ARENA_MANY(arena, u64*, 4);
     }
   }
 
@@ -182,7 +205,7 @@ static void setup_run_data(test_ctx_t* ctx, u64 vcpu, run_count_t batch_start_id
   }
 }
 
-static void clean_run_data(test_ctx_t* ctx, u64 vcpu, run_count_t batch_start_idx, run_count_t batch_end_idx, litmus_test_run* runs) {
+static void clean_run_data(test_ctx_t* ctx, u64 vcpu, run_count_t batch_start_idx, run_count_t batch_end_idx, valloc_arena *arena, litmus_test_run* runs) {
   int idx;
   run_count_t r;
 
@@ -203,17 +226,7 @@ static void clean_run_data(test_ctx_t* ctx, u64 vcpu, run_count_t batch_start_id
     }
   }
 
-  for (idx = 0, r = batch_start_idx; r < batch_end_idx; r++, idx++) {
-    for (var_idx_t v = 0; v < ctx->cfg->no_heap_vars; v++) {
-      FREE(runs[idx].tt_descs[v]);
-      FREE(runs[idx].tt_entries[v]);
-    }
-    FREE(runs[idx].va);
-    FREE(runs[idx].pa);
-    FREE(runs[idx].out_reg);
-    FREE(runs[idx].tt_descs);
-    FREE(runs[idx].tt_entries);
-  }
+  FREE(arena);
 }
 
 /** invalidate all the ASIDs being used for the next batch
@@ -379,7 +392,9 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     BWAIT(cpu, ctx->generic_cpu_barrier, NO_CPUS);
 
     litmus_test_run runs[ctx->batch_size];
-    setup_run_data(ctx, vcpu, batch_start_idx, batch_end_idx, &runs[0]);
+    valloc_arena *arena = ALLOC_SIZED(sizeof(valloc_arena) + run_data_size(ctx)*ctx->batch_size);
+    arena_init(arena, run_data_size(ctx)*ctx->batch_size);
+    setup_run_data(ctx, vcpu, batch_start_idx, batch_end_idx, arena, runs);
 
     exception_handlers_refs_t handlers = {NULL, NULL, NULL};
 
@@ -421,7 +436,7 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
 run_thread_after_execution:
       BWAIT(cpu, ctx->generic_cpu_barrier, NO_CPUS);
     }
-    clean_run_data(ctx, vcpu, batch_start_idx, batch_end_idx, runs);
+    clean_run_data(ctx, vcpu, batch_start_idx, batch_end_idx, arena, runs);
   }
 }
 

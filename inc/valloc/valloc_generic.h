@@ -1,6 +1,8 @@
 #ifndef VALLOC_H
 #define VALLOC_H
 
+#include "valloc/valloc_arena.h"
+
 /* generic allocator
  *
  * used for allocating non-pagetable data during execution of the harness
