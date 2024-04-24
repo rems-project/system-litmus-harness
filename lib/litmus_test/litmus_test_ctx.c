@@ -1,6 +1,14 @@
 #include "lib.h"
 
+static void sanity_check_test(const litmus_test_t* cfg, int no_runs, int runs_in_batch) {
+  /* we have 1+MAX_ASID ASIDs */
+  if (runs_in_batch > 1+MAX_ASID)
+    fail("cannot have more than the number of possible ASIDs (%ld) as runs in a batch with --pgtable.\n", 1+MAX_ASID);
+}
+
 void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, int runs_in_batch) {
+  sanity_check_test(cfg, no_runs, runs_in_batch);
+
   var_info_t* var_infos = ALLOC_MANY(var_info_t, cfg->no_heap_vars);
   u64** out_regs = ALLOC_MANY(u64*, cfg->no_regs);
   init_system_state_t* sys_st = ALLOC_ONE(init_system_state_t);
