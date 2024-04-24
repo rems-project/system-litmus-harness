@@ -16,6 +16,12 @@
  * as well as a reference to the static test configuration (the litmus_test_t)
  */
 struct test_ctx {
+  /** time at the start of the run. */
+  u64 start_clock;
+
+  /** time computed at the end,
+   * not actually needed on the context object but here for completeness */
+  u64 end_clock;
 
   /* _total_ number of test executions per run
    */

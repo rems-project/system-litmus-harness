@@ -33,6 +33,36 @@ extern u8  ONLY_SHOW_MATCHES;
 extern u8 ENABLE_UNITTESTS_CONCRETIZATION_TEST_RANDOM;
 extern u8 ENABLE_UNITTESTS_CONCRETIZATION_TEST_LINEAR;
 
+/**
+ *
+ * Example output in `original` style:
+ * > Test MP+dmbs:
+ * >  p1:x0=1  p1:x2=1  : 190
+ * >  p1:x0=0  p1:x2=0  : 160
+ * >  p1:x0=0  p1:x2=1  : 650
+ * > Observation MP+dmbs: 0 (of 1000)
+ * > #duration: 00:00:00
+ * > #time: 00:00:00
+ *
+ * Example output in `herdtools` style:
+ * > Test MP+dmbs
+ * > States 3
+ * > 20:>1:X0=1;1:X2=1;
+ * > 22:>1:X0=0;1:X2=0;
+ * > 58:>1:X0=0;1:X2=1;
+ * > No
+ * > Witnesses
+ * > Positive: 0 Negative: 100
+ * > Observation MP+dmbs Never 0 100
+ * > Time MP+dmbs 0.63
+ */
+typedef enum {
+    STYLE_HERDTOOLS,
+    STYLE_ORIGINAL,
+} output_style_t;
+
+extern output_style_t OUTPUT_FORMAT;
+
 /* litmus-specific options */
 typedef enum {
     SYNC_NONE,
@@ -74,6 +104,7 @@ typedef enum {
 
 extern litmus_runner_type_t LITMUS_RUNNER_TYPE;
 
+char* output_style_to_str(output_style_t ty);
 char* sync_type_to_str(sync_type_t ty);
 char* aff_type_to_str(aff_type_t ty);
 char* shuff_type_to_str(shuffle_type_t ty);

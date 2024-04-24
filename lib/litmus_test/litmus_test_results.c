@@ -127,7 +127,7 @@ void handle_new_result(test_ctx_t* ctx, run_idx_t idx, run_count_t r) {
 
 /** at the end of the test print out the results histogram
  */
-void print_results(test_hist_t* res, test_ctx_t* ctx) {
+static void print_results_original(test_hist_t* res, test_ctx_t* ctx) {
   int marked = 0;
   int no_sc_results_seen = 0;
   for (int r = 0; r < res->allocated; r++) {
@@ -152,5 +152,75 @@ void print_results(test_hist_t* res, test_ctx_t* ctx) {
   printf("Observation %s: %d (of %d)\n", ctx->cfg->name, marked, ctx->no_runs);
   if (ctx->cfg->no_sc_results > 0 && no_sc_results_seen != ctx->cfg->no_sc_results && ENABLE_RESULTS_MISSING_SC_WARNING) {
     printf("Warning on %s: saw %d SC results but expected %d\n", ctx->cfg->name, no_sc_results_seen, ctx->cfg->no_sc_results);
+  }
+}
+
+static void print_results_herd(test_hist_t* res, test_ctx_t* ctx) {
+  u64 marked = 0;
+  u64 no_sc_results_seen = 0;
+  u64 total_count = 0;
+
+  printf("States %d\n", res->allocated);
+
+  for (int r = 0; r < res->allocated; r++) {
+    int was_interesting = res->results[r]->is_relaxed;
+    total_count += res->results[r]->counter;
+
+    if (ENABLE_RESULTS_OUTREG_PRINT) {
+      printf("%ld:>", res->results[r]->counter);
+      for (reg_idx_t reg = 0; reg < ctx->cfg->no_regs; reg++) {
+        char herd_reg_name[10];
+        sprint_reg(herd_reg_name, ctx->cfg->reg_names[reg], STYLE_HERDTOOLS);
+        printf("%s=%d;", herd_reg_name, res->results[r]->values[reg]);
+      }
+      printf("\n");
+    }
+
+    if (was_interesting) {
+      marked += res->results[r]->counter;
+    } else {
+      no_sc_results_seen++;
+    }
+  }
+
+  if (marked)
+    printf("Ok\n");
+  else
+    printf("No\n");
+
+  printf("Witnesses\n");
+  printf("Positive: %ld Negative: %ld\n", marked, total_count - marked);
+
+  printf("Observation %s ", ctx->cfg->name);
+  if (marked == 0) {
+    printf("Never");
+  } else if (marked == total_count) {
+    printf("Always");
+  } else {
+    printf("Sometimes");
+  }
+  printf(" %ld %ld\n", marked, total_count - marked);
+
+  char time_str[100];
+  sprint_time(time_str, ctx->end_clock - ctx->start_clock, SPRINT_TIME_SSDOTMS);
+  printf("Time %s %s\n", ctx->cfg->name, time_str);
+
+
+  if (ctx->cfg->no_sc_results > 0 && no_sc_results_seen != ctx->cfg->no_sc_results && ENABLE_RESULTS_MISSING_SC_WARNING) {
+    printf("#warning on %s: saw %d SC results but expected %d\n", ctx->cfg->name, no_sc_results_seen, ctx->cfg->no_sc_results);
+  }
+}
+
+
+void print_results(test_hist_t* res, test_ctx_t* ctx) {
+  switch (OUTPUT_FORMAT) {
+    case STYLE_HERDTOOLS:
+      print_results_herd(res, ctx);
+      break;
+    case STYLE_ORIGINAL:
+      print_results_original(res, ctx);
+      break;
+    default:
+      unreachable();
   }
 }

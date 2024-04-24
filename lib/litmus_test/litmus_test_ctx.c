@@ -9,6 +9,8 @@ static void sanity_check_test(const litmus_test_t* cfg, int no_runs, int runs_in
 void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, int runs_in_batch) {
   sanity_check_test(cfg, no_runs, runs_in_batch);
 
+  ctx->start_clock = read_clk();
+
   var_info_t* var_infos = ALLOC_MANY(var_info_t, cfg->no_heap_vars);
   u64** out_regs = ALLOC_MANY(u64*, cfg->no_regs);
   init_system_state_t* sys_st = ALLOC_ONE(init_system_state_t);

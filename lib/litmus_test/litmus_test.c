@@ -17,9 +17,6 @@ static void start_of_run(test_ctx_t* ctx, int cpu, int vcpu, run_idx_t i, run_co
 
 /* entry point */
 void run_test(const litmus_test_t* cfg) {
-  printf("\n");
-  printf("Test %s:\n", cfg->name);
-
   /* create test context obj
    * make sure it's on the heap
    * if we're passing to another thread
@@ -534,6 +531,21 @@ static void end_of_thread(test_ctx_t* ctx, int cpu) {
   trace("CPU%d: end of test\n", cpu);
 }
 
+static void print_test_header(const litmus_test_t *cfg) {
+  printf("\n");
+
+  switch (OUTPUT_FORMAT) {
+    case STYLE_HERDTOOLS:
+      printf("Test %s Allowed\n", cfg->name);
+      break;
+    case STYLE_ORIGINAL:
+      printf("Test %s:\n", cfg->name);
+      break;
+    default:
+      unreachable();
+  }
+}
+
 static void start_of_test(test_ctx_t* ctx) {
   ctx->concretization_st = concretize_init(LITMUS_CONCRETIZATION_TYPE, ctx, ctx->cfg, ctx->no_runs);
   if (LITMUS_RUNNER_TYPE == RUNNER_ARRAY) {
@@ -541,10 +553,13 @@ static void start_of_test(test_ctx_t* ctx) {
     write_init_states(ctx, ctx->cfg, ctx->no_runs);
   }
 
+  print_test_header(ctx->cfg);
   trace("====== %s ======\n", ctx->cfg->name);
 }
 
 static void end_of_test(test_ctx_t* ctx) {
+  ctx->end_clock = read_clk();
+
   if (ENABLE_RESULTS_HIST) {
     trace("%s\n", "Printing Results...");
     print_results(ctx->hist, ctx);

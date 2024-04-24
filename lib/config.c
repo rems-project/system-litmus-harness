@@ -32,6 +32,19 @@ litmus_runner_type_t LITMUS_RUNNER_TYPE = RUNNER_EPHEMERAL;
 u8 ENABLE_UNITTESTS_CONCRETIZATION_TEST_RANDOM = 1;
 u8 ENABLE_UNITTESTS_CONCRETIZATION_TEST_LINEAR = 1;
 
+output_style_t OUTPUT_FORMAT = STYLE_HERDTOOLS;
+
+char* output_style_to_str(output_style_t ty) {
+  switch (ty) {
+    case STYLE_HERDTOOLS:
+      return "herdtools";
+    case STYLE_ORIGINAL:
+      return "orig";
+    default:
+      return "unknown";
+  }
+}
+
 char* sync_type_to_str(sync_type_t ty) {
   switch (ty) {
     case SYNC_NONE:
@@ -489,6 +502,20 @@ argdef_t LITMUS_ARGS = (argdef_t){
       "X must be an integer (default: 1).\n"
       "up to maximum number of ASIDs (e.g. 2^8).\n"
       "If not using --tlbsync=ASID then this must be 1"
+    ),
+    ENUMERATE(
+      "--format",
+      OUTPUT_FORMAT,
+      output_style_t,
+      2,
+      ARR((const char*[]){"herdtools", "original"}),
+      ARR((shuffle_type_t[]){STYLE_HERDTOOLS, STYLE_ORIGINAL}),
+      "format to print output\n"
+      "\n"
+      "controls the format of the output\n"
+      "\n"
+      "herdtools: output compatible with herdtools7 suite\n"
+      "original: original style of output"
     ),
     FLAG(
       NULL,

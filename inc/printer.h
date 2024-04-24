@@ -4,6 +4,9 @@
 #include <stdarg.h>
 #include "types.h"
 
+/* some printing are config-dependent */
+#include "config.h"
+
 /* printf support */
 void putc(char c);
 void puts(const char *s);
@@ -19,11 +22,20 @@ void trace(const char* fmt, ...);
 void verbose(const char* fmt, ...);
 /* debug() declared in debug.h */
 
+/* atoi variant for single char
+ * nowhere to put this really */
+int ctoi(char c);
 
-#define SPRINT_TIME_HHMMSS 0
-#define SPRINT_TIME_HHMMSSCLK 1
+typedef enum {
+  SPRINT_TIME_SSDOTMS,
+  SPRINT_TIME_SS,
+  SPRINT_TIME_HHMMSS,
+  SPRINT_TIME_HHMMSSCLK,
+} time_format_t;
 
-char* sprint_time(char* out, u64 clk, int mode);
+char* sprint_time(char* out, u64 clk, time_format_t mode);
+
+char* sprint_reg(char* out, const char *reg_name, output_style_t style);
 
 /* print macros */
 #define PRu64 "%lx"

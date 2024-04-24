@@ -327,7 +327,7 @@ void _fail(const char* filename, const int line, const char* func, const char* f
 }
 
 /** printing times */
-char* sprint_time(char* out, u64 clk, int mode) {
+char* sprint_time(char* out, u64 clk, time_format_t mode) {
   /* clk is absolute */
   /* theoretically INIT_CLOCK is ~0, but we cannot be sure */
   clk = clk - INIT_CLOCK;
@@ -339,6 +339,13 @@ char* sprint_time(char* out, u64 clk, int mode) {
   rem_secs = rem_secs % (60 * 60);
   u64 rem_mins = rem_secs / 60;
   rem_secs = rem_secs % 60;
+
+  if (mode == SPRINT_TIME_SS) {
+    return sprintf(out, "%ld", tot_secs);
+  } else if (mode == SPRINT_TIME_SSDOTMS) {
+    u64 rem_ms = rem_ticks / (TICKS_PER_SEC / 1000);
+    return sprintf(out, "%ld.%ld", tot_secs, rem_ms);
+  }
 
   if (rem_hours < 10) {
     out = sprintf(out, "0%d", rem_hours);
@@ -362,9 +369,34 @@ char* sprint_time(char* out, u64 clk, int mode) {
     out = sprintf(out, "%d", rem_secs);
   }
 
-  if ((mode & 1) == 1) {
+  if (mode == SPRINT_TIME_HHMMSSCLK) {
     out = sprintf(out, ":%ld", rem_ticks);
   }
 
   return out;
+}
+
+/** printing registers */
+int extract_tid(const char *reg_name) {
+  if (reg_name[0] != 'p') {
+    fail("unknown register %s\n", reg_name);
+  }
+  return ctoi(reg_name[1]);
+}
+
+int extract_gprid(const char *reg_name) {
+  if (reg_name[0] != 'p' || reg_name[2] != ':') {
+    fail("unknown register %s\n", reg_name);
+  }
+  return atoi((char *)reg_name+4);
+}
+char *sprint_reg(char *out, const char *reg_name, output_style_t style) {
+  switch (style) {
+  case STYLE_ORIGINAL:
+    return sprintf(out, "%s", reg_name);
+  case STYLE_HERDTOOLS:
+    return sprintf(out, "%d:X%d", extract_tid(reg_name), extract_gprid(reg_name));
+  default:
+    unreachable();
+  }
 }
