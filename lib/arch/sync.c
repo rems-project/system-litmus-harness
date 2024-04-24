@@ -48,12 +48,15 @@ int lex_less(volatile lamport_lock_t* lock, int tid1, int tid2) {
 void lamport_lock(volatile lamport_lock_t* lock) {
   int i = get_cpu();
   lock->entering[i] = 1;
+  dmb();
   lock->number[i] = get_ticket(lock);
+  dmb();
   lock->entering[i] = 0;
   for (int j = 0; j < NO_CPUS; j++) {
     while (lock->entering[j]) {
       /* nothing */
     }
+    dmb();
     while ((lock->number[j] != 0) &&
            lex_less(lock, j, i)) {
       /* nothing */
