@@ -61,7 +61,7 @@
  */
 #define TOSTR(ty, v) \
   ({ ty* x = (v); \
-    char* s = alloc(1024); \
+    char* s = ALLOC_SIZED(1024); \
     sprintf(s, _MAKE_REPR_SPRINTF(ty, REPR_ARGS_##ty), _MAKE_REPR_SPRINTF_ARGS(REPR_ARGS_##ty)); \
     if (strlen(s) > 1024) { \
       fail("! TOSTR(" STR_LITERAL(ty) ") failed, overrun string buffer."); \

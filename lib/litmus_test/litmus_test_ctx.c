@@ -57,7 +57,7 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, int r
     affinity[i] = i;
   }
 
-  test_hist_t* hist = alloc(sizeof(test_hist_t) + sizeof(test_result_t) * 200);
+  test_hist_t* hist = ALLOC_SIZED(sizeof(test_hist_t) + sizeof(test_result_t) * 200);
   hist->allocated = 0;
   hist->limit = 200;
   test_result_t** lut = ALLOC_MANY(test_result_t*, hist->limit);
@@ -65,7 +65,7 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, int r
 
   for (int t = 0; t < hist->limit; t++) {
     test_result_t* new_res =
-        alloc(sizeof(test_result_t) + sizeof(u64) * cfg->no_regs);
+        ALLOC_SIZED(sizeof(test_result_t) + sizeof(u64) * cfg->no_regs);
     hist->results[t] = new_res;
     lut[t] = NULL;
   }

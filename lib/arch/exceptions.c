@@ -347,7 +347,8 @@ static void flush_icache_vector_entries(void) {
 }
 
 u32* hotswap_exception(u64 vector_slot, u32 data[32]) {
-  u32* p = alloc(sizeof(u32) * 32);
+  /* each slot contains 32 instructions, each 32-bit wide */
+  u32* p = ALLOC_MANY(u32, 32);
   u32* vbar = (u32*)(((u64)THR_VTABLE_VA(get_cpu())) + vector_slot);
   debug("hotswap exception for vbar=%p slot 0x%lx : %p\n", vbar, vector_slot, &data[0]);
   for (int i = 0; i < 32; i++) {

@@ -73,7 +73,7 @@ void init_valloc(void);
 
 #define __ALLOC_MANY(var, ty, count) ({ \
   void* var = alloc_with_alignment((sizeof(ty)*(count)), sizeof(ty)); \
-  DEBUG(DEBUG_ALLOCS, "alloc %ldx %s @ %p (%ld B)\n", (count), #ty, var, ALLOC_SIZE(var)); \
+  DEBUG(DEBUG_ALLOCS, "alloc %ldx %s @ %p\n", (count), #ty, var); \
   var; \
 })
 
@@ -82,8 +82,17 @@ void init_valloc(void);
 
 #define ALLOC_ONE(ty) ALLOC_MANY(ty, 1)
 
+#define __ALLOC_SIZED(var, size) ({ \
+  void* var = alloc((size)); \
+  DEBUG(DEBUG_ALLOCS, "alloc %ld B @ %p\n", (size), var); \
+  var; \
+})
+
+#define ALLOC_SIZED(size) \
+  __ALLOC_SIZED(FRESH_VAR, size)
+
 #define FREE(p) ({ \
-  DEBUG(DEBUG_ALLOCS, "free %p (chk @ %p)\n", (p), valloc_alloclist_find_alloc_chunk(&mem, (u64)(p))); \
+  DEBUG(DEBUG_ALLOCS, "free %p\n", (p)); \
   free((p)); \
 })
 

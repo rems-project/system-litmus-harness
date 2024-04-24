@@ -149,7 +149,7 @@ static void pick_one_region(test_ctx_t* ctx, concretization_st_t* st, var_info_t
 }
 
 void* concretize_random_init(test_ctx_t* ctx, const litmus_test_t* cfg) {
-  concretization_st_t* st = alloc(sizeof(concretization_st_t) + sizeof(var_st_t)*cfg->no_heap_vars);
+  concretization_st_t* st = ALLOC_SIZED(sizeof(concretization_st_t) + sizeof(var_st_t)*cfg->no_heap_vars);
 
   for (int varidx = 0; varidx < cfg->no_heap_vars; varidx++) {
     for (int i = 0; i < NUM_PIN_LEVELS; i++) {

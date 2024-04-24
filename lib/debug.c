@@ -35,12 +35,23 @@ u64 __total_alloc(void) {
   return s;
 }
 
+u64 __remaining_unalloc_chunks(void) {
+  u64 c = 0;
+  valloc_alloc_chunk* next = mem.chunk_unalloc_list;
+  while (next != NULL) {
+    c++;
+    next = next->next;
+  }
+  return c;
+}
+
 void debug_valloc_status(void) {
   if (DEBUG) {
     u64 free_chunks = __count_free_chunks();
     u64 free_mem = __total_free();
+    u64 unalloc_count = __remaining_unalloc_chunks();
     u64 total_alloc = __total_alloc();
-    printf("(valloc)  top=0x%lx, #total_used=0x%lx B #free_chunks=0x%lx (with %p B)\n", mem.top, total_alloc, free_chunks, free_mem);
+    printf("(valloc)  top=0x%lx, #total_used=0x%lx B #remaining_chunks=%ld #free_chunks=0x%lx (with %p B)\n", mem.top, total_alloc, unalloc_count, free_chunks, free_mem);
   }
 }
 
