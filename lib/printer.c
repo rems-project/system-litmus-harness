@@ -294,7 +294,7 @@ void printf_with_fileloc(const char* level, int mode, const char* filename, cons
   }
 
   sprint_time(__debug_time_buf, read_clk(), SPRINT_TIME_HHMMSSCLK);
-  sprintf(__verbose_print_buf, "(%s) CPU%d:%s:[%s:%s:%d (%s)] %s", __debug_time_buf, cpu, level, __debug_frame_buf, filename, line, func, fmt);
+  sprintf(__verbose_print_buf, "(%s) CPU%d:%s:[%s %s:%d (%s)] %s", __debug_time_buf, cpu, level, __debug_frame_buf, filename, line, func, fmt);
 
   if (strlen(__verbose_print_buf) > 1024) {
     /* can't use fail() here

@@ -217,7 +217,7 @@ def forever(root):
             r"(?P<level>.+?)"
             r":"
             r"\["
-            r"(?P<stack>(0x(.+?):)+)"
+            r"(?P<stack>(0x(.+?):?)+\s)"
             r"(?P<loc>.+?)"
             r"\]"
             r" "
