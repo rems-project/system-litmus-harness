@@ -78,6 +78,31 @@ u8 validate_selection(test_ctx_t* ctx, concretization_st_t* st, var_info_t* this
   return 1;
 }
 
+/** given a var, and a run index, return the physical address associated with the data.
+ *
+ * NOTE: this returns the physical memory allocated
+ */
+u64 var_testdata_pa(var_info_t* vinfo, u64 va) {
+  if (! var_owns_phys_region(vinfo))
+    fail("cannot get the physical address of a location that does not own some physical memory\n");
+
+  u64 pg;
+  if (vinfo->ty == VAR_FIXED) {
+    pg = vinfo->fixed.phys & ~BITMASK(PAGE_SHIFT);
+  } else if (ENABLE_PGTABLE) {
+    pg = SAFE_TESTDATA_PA((u64)va) & ~BITMASK(PAGE_SHIFT);
+  } else {
+    /* if no pgtables, the va is the owned phys */
+    pg = (u64)va & ~BITMASK(PAGE_SHIFT);
+  }
+
+  /* offset within the page */
+  u64 offset = (u64)va & BITMASK(PAGE_SHIFT);
+
+  return pg | offset;
+}
+
+
 region_idx_t rand_idx(region_idx_t start, region_idx_t end) {
   u64 reg = randrange(start.reg_ix, end.reg_ix);
   u64 offs = randrange(start.reg_offs, MIN(end.reg_offs, NR_DIRS_PER_REGION*DIR_SIZE));
@@ -248,6 +273,13 @@ void concretize_random_one(test_ctx_t* ctx, const litmus_test_t* cfg, concretiza
   }
 
   FOREACH_HEAP_VAR(ctx, var) {
+    /* if pgtable is off, pick the right phys addr */
+    if (! ENABLE_PGTABLE) {
+      u64 pa = var_testdata_pa(var, st->var_sts[var->varidx].va);
+      DEBUG(DEBUG_CONCRETIZATION, "for \"%s\" on run #%ld, redirect va %p to pa %p\n", var->name, run, st->var_sts[var->varidx].va, pa);
+      st->var_sts[var->varidx].va = pa;
+    }
+
     var->values[run] = (u64*)st->var_sts[var->varidx].va;
   }
 

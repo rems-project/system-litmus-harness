@@ -11,7 +11,13 @@ void initialize_regions(regions_t* r) {
    */
 
   for (int i = 0 ; i < NR_REGIONS; i++) {
-    u64 start_va = TESTDATA_MMAP_8M_VA_FROM_INDEX(i);
+    u64 start_va;
+
+    if (ENABLE_PGTABLE)
+      start_va = TESTDATA_MMAP_8M_VA_FROM_INDEX(i);
+    else
+      start_va = TESTDATA_MMAP_8M_PA_FROM_INDEX(i);
+
     debug("r->regions[%d] = %p\n", i, start_va);
     r->regions[i] = (region_t*)start_va;
   }
@@ -39,7 +45,7 @@ u64 va_from_region_idx(test_ctx_t* ctx, var_info_t* var, region_idx_t idx) {
   u64 reg_start = (u64)ctx->heap_memory.regions[idx.reg_ix];
   u64 va = reg_start + idx.reg_offs;
 
-  if (is_backed_var(var) && var_backing(var)->is_identity_mapped) {
+  if (ENABLE_PGTABLE && is_backed_var(var) && var_backing(var)->is_identity_mapped) {
     va = TESTDATA_MMAP_VIRT_TO_PHYS(va);
   }
 

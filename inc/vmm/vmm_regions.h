@@ -34,12 +34,15 @@
  *
  * VTABLE_MMAP_BASE + get_cpu()*PAGE_SIZE ==
  *  R/W Mapping to TTBR for this thread
+ *
+ * If no ENABLE_PGTABLE then VA and PA are the same.
  */
 #define VTABLE_MMAP_BASE (17 * GiB)
 #define VTABLE_MMAP_SIZE (16 * KiB)
 
-#define THR_VTABLE_VA(t) ((u64*)(VTABLE_MMAP_BASE + PAGE_SIZE*t))
 #define THR_VTABLE_PA(t) ((u64*)(vector_base_pa + PAGE_SIZE*t))
+#define THR_VTABLE_VA(t) \
+    (ENABLE_PGTABLE ? (u64*)(VTABLE_MMAP_BASE + PAGE_SIZE*t) : THR_VTABLE_PA(t))
 
 /* size of TESTDATA VA space */
 #define TESTDATA_MMAP_SIZE (64 * GiB)

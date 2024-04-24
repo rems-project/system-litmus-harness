@@ -189,6 +189,7 @@ void set_init_var(test_ctx_t* ctx, var_idx_t varidx, run_idx_t run) {
       u64* safe_va = (u64*)SAFE_TESTDATA_VA((u64)va);
       *safe_va = var_backing(vinfo)->val;
     } else {
+      DEBUG(DEBUG_CONCRETIZATION, "set va=%p to %ld\n", va, var_backing(vinfo)->val);
       *va = var_backing(vinfo)->val;
     }
   }

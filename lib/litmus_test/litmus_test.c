@@ -218,10 +218,12 @@ static void clean_run_data(test_ctx_t* ctx, u64 vcpu, run_count_t batch_start_id
    * -- the refreshed tables will still contain level3 entries for the
    * allocated pages.
    */
-  for (idx = 0, r = batch_start_idx; r < batch_end_idx; r++, idx++) {
-    for (var_idx_t v = 0; v < ctx->cfg->no_heap_vars; v++) {
-      for (int l = 0; l < 4; l++) {
-        *runs[idx].tt_entries[v][l] = runs[idx].tt_descs[v][l];
+  if (ENABLE_PGTABLE) {
+    for (idx = 0, r = batch_start_idx; r < batch_end_idx; r++, idx++) {
+      for (var_idx_t v = 0; v < ctx->cfg->no_heap_vars; v++) {
+        for (int l = 0; l < 4; l++) {
+          *runs[idx].tt_entries[v][l] = runs[idx].tt_descs[v][l];
+        }
       }
     }
   }
@@ -294,7 +296,7 @@ static void switch_to_test_context(test_ctx_t* ctx, int vcpu, run_count_t r, exc
    */
   _init_sys_state(ctx);
 
-  if (LITMUS_SYNC_TYPE == SYNC_ASID) {
+  if (ENABLE_PGTABLE && LITMUS_SYNC_TYPE == SYNC_ASID) {
     u64 asid = asid_from_run_count(ctx, r);
     u64* ptable = ctx->ptables[asid];
     debug("switching to ASID %ld, with ptable = %p\n", asid, ptable);
@@ -322,7 +324,7 @@ static void return_to_harness_context(test_ctx_t* ctx, u64 cpu, u64 vcpu, except
     raise_to_el1();
   }
 
-  if (LITMUS_SYNC_TYPE == SYNC_ASID) {
+  if (ENABLE_PGTABLE && LITMUS_SYNC_TYPE == SYNC_ASID) {
     vmm_switch_ttable_asid(vmm_pgtables[cpu], 0);
   }
 }
@@ -446,7 +448,13 @@ static void prefetch(test_ctx_t* ctx, run_idx_t i, run_count_t r) {
     LOCK(&__harness_lock);
     u64* va = ctx_heap_var_va(ctx, v, i);
     u64 is_valid = vmm_pte_valid(ptable_from_run(ctx, i), va);
-    u64* safe_va = (u64*)SAFE_TESTDATA_VA((u64)va);
+
+    /* careful! with --pgtable the va might not actually be mapped
+     * so we access the underlying pa instead via a safe MMAP'd region
+     * which hopefully hits the caches in an interesting way too */
+    u64* safe_va =
+      ENABLE_PGTABLE ? (u64*)SAFE_TESTDATA_VA((u64)va) : va;
+
     u8 has_init_value = is_backed_var(&ctx->heap_vars[v]);
 
     UNLOCK(&__harness_lock);
