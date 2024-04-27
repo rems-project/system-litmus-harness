@@ -65,7 +65,7 @@ static void P1(litmus_test_run* data) {
 
 
 litmus_test_t MP_eret_svc = {
-  "MP+svc+eret",
+  "MP+eret+svc",
   MAKE_THREADS(2),
   MAKE_VARS(VARS),
   MAKE_REGS(REGS),
