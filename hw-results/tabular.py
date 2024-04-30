@@ -28,7 +28,9 @@ Examples:
     cat top.tex  # see generated standalone table
 
     # for collecting refs from multiple devices in separate directories
-    python tabular.py -d device1/  -d device2/
+    # where each device is a dir containing (potentially many) .log files from
+    # running the harness
+    python tabular.py -d path/to/device1/  -d path/to/device2/
 """
 
 import io
@@ -43,7 +45,7 @@ import contextlib
 import collections
 import dataclasses
 
-root = pathlib.Path(__file__).parent.absolute()
+root = pathlib.Path(__file__).parent.absolute().resolve()
 
 parser = argparse.ArgumentParser()
 
@@ -54,7 +56,7 @@ parser.add_argument("--macros", action="store_true")
 
 group = parser.add_mutually_exclusive_group()
 group.add_argument("--file", "-f", action="append")
-group.add_argument("--device", "-d", action="append")
+group.add_argument("--device", "-d", action="append", type=pathlib.Path)
 
 parser.add_argument(
     "--excludes",
@@ -624,8 +626,7 @@ def main(args):
 
     devices = {}
     if args.device:
-        for device_dir in args.device:
-            device_dir_path = root / "raw" / device_dir
+        for device_dir_path in args.device:
             if not device_dir_path.is_dir():
                 raise ValueError(
                     "-d accepts directories not files: {}".format(device_dir_path)
@@ -670,12 +671,12 @@ def main(args):
                 f.write(f"   {line}\n")
             f.write("\\end{document}\n")
     else:
-        for d, (results, running) in devices.items():
-                with open(root / f"results-{d!s}.tex", "w") as f:
+        for d, r in devices.items():
+                with open(root / f"results-{d.name}.tex", "w") as f:
                     write_combo_table(
                         group_list,
                         f,
-                        {d: (results, running)},
+                        {d: r},
                         includes=includes,
                         excludes=excludes,
                     )
