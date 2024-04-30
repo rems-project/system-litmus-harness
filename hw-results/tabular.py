@@ -16,6 +16,7 @@ options:
   --standalone-file STANDALONE_FILE, -o STANDALONE_FILE
   --all-file ALL_FILE
   --macros
+  --herdtools
   --file FILE, -f FILE
   --device DEVICE, -d DEVICE
   --excludes EXCLUDES   Comma-separated list of excluded groups, e.g. --excludes=@grp1,@grp2
@@ -53,6 +54,7 @@ parser.add_argument("--standalone", action="store_true")
 parser.add_argument("--standalone-file", "-o", default="top.tex")
 parser.add_argument("--all-file", default="results-all.tex")
 parser.add_argument("--macros", action="store_true")
+parser.add_argument("--herdtools", action="store_true", help="Use herdtools format")
 
 group = parser.add_mutually_exclusive_group()
 group.add_argument("--file", "-f", action="append")
@@ -88,6 +90,7 @@ class RunResult:
 class Hist:
     test_name: str
     results: "List[RunResult]"
+    number_marked: int
 
     def merge(self) -> "Mapping[str, int]":
         rs = collections.defaultdict(int)
@@ -102,6 +105,7 @@ class Hist:
             raise ValueError(f"not same test name, self={self.test_name}, other={other.test_name}")
 
         self.results.extend(other.results)
+        self.number_marked += other.number_marked
 
 TestName = str
 
@@ -130,7 +134,7 @@ class FilteredLog:
     def merge(self):
         """take all of the Hists and merge them into one Hist
         """
-        return Hist(self.test_name, [rr for r in self.results for rr in r.results]).merge()
+        return Hist(self.test_name, [rr for r in self.results for rr in r.results], sum(r.number_marked for r in self.results)).merge()
 
 @dataclasses.dataclass
 class FilteredTest:
@@ -140,8 +144,7 @@ class FilteredTest:
     groups: "List[str]"
     results: "Mapping[Device, FilteredLog]"
 
-
-def read_test_file(device: Device, fname: str) -> LogFileResult:
+def read_test_file_herd(device: Device, fname: str) -> LogFileResult:
     with open(fname, "r") as f:
         total = {}
         lfr = LogFileResult(device, [], total)
@@ -150,19 +153,100 @@ def read_test_file(device: Device, fname: str) -> LogFileResult:
         current_test = None
 
         # Assume entry looks like:
+        # Test MP+dmb+eret Allowed
+        # States 3
+        # 115066:>1:X0=1;1:X2=1;
+        # 163172:>1:X0=0;1:X2=0;
+        # 221762:>1:X0=0;1:X2=1;
+        # No
+        # Witnesses
+        # Positive: 0 Negative: 500000
+        # Observation MP+dmb+eret Never 0 500000
+        # Time MP+dmb+eret 3711.813
+
+        def _next():
+            while True:
+                n = next(f).strip()
+
+                if n.startswith("#"):
+                    continue
+
+                if not n:
+                    continue
+
+                yield n
+
+        lines = _next()
+
+        def _read_test():
+            header = next(lines)
+            if not header.startswith("Test "):
+                return False
+
+            test_name = header.split()[1]
+            states_header = next(lines)
+            states = int(states_header.partition(" ")[2])
+
+            recorded = []
+            for _ in range(states):
+                state = next(lines)
+                count, _, regstates = state.partition(">")
+                count, mark = count[:-1], count[-1]
+                count = int(count)
+                rr = RunResult(regstates, count, False)
+                recorded.append(rr)
+
+            next(lines)  # "Yes/No"
+            next(lines)  # "Witnesses"
+            next(lines)  # "Positive: N, Negative: M"
+
+            obs_header = next(lines)
+            obs = obs_header.split()
+            assert obs[0] == "Observation"
+            assert obs[1] == test_name
+
+            marks = int(obs[3])
+            h = Hist(test_name, recorded, marks)
+
+            lfr.results += [h]
+            if test_name not in lfr.total:
+                lfr.total[test_name] = Hist(test_name, [], 0)
+            lfr.total[test_name].update(h)
+
+            next(lines)  # Times
+            return True
+
+        while True:
+            try:
+                _read_test()
+            except RuntimeError:
+                break
+
+        return lfr
+
+
+def read_test_file_orig(device: Device, fname: str) -> LogFileResult:
+    with open(fname, "r") as f:
+        total = {}
+        lfr = LogFileResult(device, [], total)
+
+        recorded_test = []
+        current_test = None
+        marks = 0
+
+        # Assume entry looks like:
         # Test MP+dmb+svc-R-svc-R:
         #  p1:x0=0  p1:x2=1  : 35620
         #  p1:x0=0  p1:x2=0  : 919
         #  p1:x0=1  p1:x2=1  : 463461
         # Observation MP+dmb+svc-R-svc-R: 0 (of 500000)
-
         for line in f:
             line = line.strip()
 
-            # first "Test ....:" line
+            # first "Test ...." line
             _, prefix, name = line.partition("Test ")
             if prefix:
-                name, _, _ = name.partition(":")
+                [name, *_] = name.split()
                 current_test = name
                 continue
 
@@ -176,6 +260,8 @@ def read_test_file(device: Device, fname: str) -> LogFileResult:
                 regpairs, _, count = line.rpartition(":")
                 count, is_marked, _ = count.partition("*")
                 rr = RunResult(regpairs.strip(), int(count), bool(is_marked))
+                if bool(is_marked):
+                    marks += 1
                 recorded_test.append(rr)
                 continue
 
@@ -185,12 +271,13 @@ def read_test_file(device: Device, fname: str) -> LogFileResult:
             )
             if m:
                 test_name = m.group("tname")
-                h = Hist(test_name, recorded_test)
+                h = Hist(test_name, recorded_test, marks)
                 lfr.results += [h]
                 if test_name not in lfr.total:
-                    lfr.total[test_name] = Hist(test_name, [])
+                    lfr.total[test_name] = Hist(test_name, [], 0)
                 lfr.total[test_name].update(h)
                 recorded_test = []
+                marks = 0
                 continue
 
             # catch Exception as special outcome
@@ -202,12 +289,13 @@ def read_test_file(device: Device, fname: str) -> LogFileResult:
             if m:
                 rr = RunResult("*exception*:1", 1)
                 test_name = current_test
-                h = Hist(test_name, recorded_test + [rr])
+                h = Hist(test_name, recorded_test + [rr], marks)
                 lfr.results += [h]
                 if test_name not in lfr.total:
-                    lfr.total[test_name] = Hist(test_name, [])
+                    lfr.total[test_name] = Hist(test_name, [], 0)
                 lfr.total[test_name].update(h)
                 recorded_test = []
+                marks = 0
 
     return lfr
 
@@ -216,7 +304,10 @@ def collect_all(d: Device, fnames) -> 'Mapping[TestName, TestLog]':
     for fname in fnames:
         print(f"-- Collecting {fname}")
 
-        yield read_test_file(d, fname)
+        if args.herdtools:
+            yield read_test_file_herd(d, fname)
+        else:
+            yield read_test_file_orig(d, fname)
 
 
 def vari(xs):
@@ -258,14 +349,11 @@ def accumulate(l: FilteredLog, h: Hist) -> None:
     assert sum(r.count for r in h.results) <= 500_000
     l.results += [h]
     c, t = l.total
-    marks = 0
     for r in h.results:
-        if r.is_marked:
-            c += r.count
-            marks += r.count
         t += r.count
+    marks = h.number_marked
     l.running += [marks]
-    l.total = (c, t)
+    l.total = (c+marks, t)
     l.batch_size = 500_000
 
 def filter_devices(grp_list, devices: "Mapping[Device, List[LogFileResult]]", includes=[], excludes=[], print_skips=False):
