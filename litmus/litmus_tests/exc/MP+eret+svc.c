@@ -34,7 +34,7 @@ static void P0(litmus_test_run* data) {
 static void svc_handler1(void) {
   asm volatile(
     /* read data */
-    "ldr x0, [x1]\n\t"
+    "ldr x2, [x3]\n\t"
 
     /* go back collect results */
     "eret\n\t"
@@ -48,7 +48,7 @@ static void P1(litmus_test_run* data) {
     "mov x3, %[x]\n\t"
 
     /* read flag */
-    "ldr x2, [x3]\n\t"
+    "ldr x0, [x1]\n\t"
     /* try to synchronise with svc */
     "svc #0\n\t"
 
