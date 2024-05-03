@@ -13,7 +13,7 @@ typedef struct st {
 } re_st_t;
 
 typedef struct {
-    char* original_expr;
+    const char* original_expr;
     re_st_t* start;
 
     int no_states;

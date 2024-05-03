@@ -3,7 +3,7 @@
 
 #include "re_types.h"
 
-re_t* re_compile(char* expr);
+re_t* re_compile(const char* expr);
 int re_matches(re_t* re, const char* input);
 void re_free(re_t* re);
 

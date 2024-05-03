@@ -20,7 +20,7 @@ re_st_t _mk_st(char c, re_st_t* prev) {
     return st;
 }
 
-re_t* re_compile(char* s) {
+re_t* re_compile(const char* s) {
     int idx = 0;
     re_t* r = alloc(sizeof(re_t) + sizeof(re_st_t)*strlen(s));
     r->original_expr = s;

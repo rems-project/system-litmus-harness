@@ -8,7 +8,7 @@
  *
  * This is optimized for litmus test names, which are often the same jumble of letters but in slightly different orders
  */
-static int strdiff(char* w1, char* w2) {
+static int strdiff(const char* w1, const char* w2) {
   int sw1 = strlen(w1);
   int sw2 = strlen(w2);
   int diff = 0;
@@ -45,7 +45,7 @@ static int strdiff(char* w1, char* w2) {
 /** if a test cannot be found
  * find a nearby one and say that instead
  */
-static const char* __find_closest_str(const litmus_test_group* grp, char* arg) {
+static const char* __find_closest_str(const litmus_test_group* grp, const char* arg) {
   char const* smallest = NULL;
   int small_diff = 0;
 
