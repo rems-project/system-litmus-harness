@@ -8,8 +8,8 @@ HANDLER_PATTERN = r"\s*\(u32\*\[\]\)\{(\(u32\*\))?(?P<name0>.+?),\s*(\(u32\*\))?
 LITMUS_FIELDS = {
     'handlers': (
         r"\.thread_sync_handlers\s*="
-        r"\s*\(u32\*\*\[\]\)\{"
-        r"(?P<handlers>\s*(\s*\(u32\*\[\]\)\{.+?\},?)+)"
+        r"\s*\(u32\s*\*\s*\*\s*\[\s*\]\s*\)\s*\{"
+        r"(?P<handlers>\s*(\s*\(\s*u32\*\[\s*\]\s*\)\s*\{.+?\},?)+)"
         r"\s*\},"
     ),
 }
