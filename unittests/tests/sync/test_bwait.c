@@ -2,7 +2,8 @@
 #include "lib.h"
 #include "testlib.h"
 
-typedef struct {
+typedef struct
+{
   bar_t* bar;
   u64 sz;
 } bar_test_t;
@@ -26,5 +27,5 @@ void test_bwaits_nodeadlock(void) {
     run_on_cpus((async_fn_t*)test_bwaits_cpu, (void*)&test);
   }
 
-  ASSERT(1);  /* assert we reach the end */
+  ASSERT(1); /* assert we reach the end */
 }

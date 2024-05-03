@@ -3,12 +3,12 @@
 
 void tlbi_va(u64 va) {
   u64 page = va >> 12;
-  asm volatile("tlbi vaae1is, %[va]\n" : : [va] "r" (page) : "memory");
+  asm volatile("tlbi vaae1is, %[va]\n" : : [va] "r"(page) : "memory");
 }
 
 void tlbi_asid(u64 asid) {
   u64 reg = (asid & 0xff) << 48;
-  asm volatile("tlbi aside1is, %[asid]\n" : : [asid] "r" (reg) : "memory");
+  asm volatile("tlbi aside1is, %[asid]\n" : : [asid] "r"(reg) : "memory");
 }
 
 void tlbi_all(void) {
@@ -30,8 +30,8 @@ void vmm_flush_tlb_asid(u64 asid) {
 }
 
 void vmm_flush_tlb(void) {
-  dsb();  // wait for memory actions to complete
+  dsb(); // wait for memory actions to complete
   tlbi_all();
-  dsb();  // wait for TLB invalidate to complete
-  isb();  // synchronize this hardware thread's translations.
+  dsb(); // wait for TLB invalidate to complete
+  isb(); // synchronize this hardware thread's translations.
 }

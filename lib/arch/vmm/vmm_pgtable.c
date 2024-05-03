@@ -105,18 +105,13 @@ static void set_block_or_page(u64* root, u64 va, u64 pa, u8 unmap, u64 prot, u64
 
   desc_t desc = vmm_translation_walk(root, va);
 
-  if (! unmap)
+  if (!unmap)
     *desc.src = vmm_make_desc(pa, prot, desc.level);
   else
     *desc.src = 0;
 }
 
-
-static void __ptable_set_range(u64* root,
-                      u64 pa_start,
-                      u64 va_start, u64 va_end,
-                      u8 unmap,
-                      u64 prot) {
+static void __ptable_set_range(u64* root, u64 pa_start, u64 va_start, u64 va_end, u8 unmap, u64 prot) {
   u64 level1 = 30, level2 = 21, level3 = 12;
 
   u64 c = 0;
@@ -138,22 +133,18 @@ static void __ptable_set_range(u64* root,
   u64 va = va_start;
   u64 pa = pa_start;
 
-#define BOTH_ALIGNED(va, pa, level) \
-  (IS_ALIGNED((va), (level)) && IS_ALIGNED((pa), (level)))
+#define BOTH_ALIGNED(va, pa, level) (IS_ALIGNED((va), (level)) && IS_ALIGNED((pa), (level)))
 
-#define END_OF_REGION(va, level) \
-  (((va)+(1UL << (level))) > va_end)
+#define END_OF_REGION(va, level) (((va) + (1UL << (level))) > va_end)
 
 #define INCREMENT(va, pa, level) va += (1UL << (level)), pa += (1UL << (level))
 
   /* allocate level3 entry until *both* va and pa
    * are aligned on a level2, or until we've allocated everything
    */
-  for (c=0; !BOTH_ALIGNED(va, pa, level2) && !END_OF_REGION(va, level3);
-        INCREMENT(va, pa, level3),  c++)
-    set_block_or_page(
-        root, va, pa, unmap, prot,
-        3);  // allocate 4k regions up to the first 2M region
+  for (c = 0; !BOTH_ALIGNED(va, pa, level2) && !END_OF_REGION(va, level3); INCREMENT(va, pa, level3), c++)
+    set_block_or_page(root, va, pa, unmap, prot,
+                      3); // allocate 4k regions up to the first 2M region
 
   TRACE_PTABLE("allocated %ld lvl3 entries up to %p\n", c, va);
 
@@ -170,43 +161,34 @@ static void __ptable_set_range(u64* root,
     fail("translation entry misalignment, va=%p, pa=%p. See above comment.\n", va, pa);
   }
 
-  for (c=0; !BOTH_ALIGNED(va, pa, level1) && !END_OF_REGION(va, level2);
-        INCREMENT(va, pa, level2),  c++)
-    set_block_or_page(
-        root, va, pa, unmap, prot,
-        2);  // allocate 2M regions up to the first 1G region
+  for (c = 0; !BOTH_ALIGNED(va, pa, level1) && !END_OF_REGION(va, level2); INCREMENT(va, pa, level2), c++)
+    set_block_or_page(root, va, pa, unmap, prot,
+                      2); // allocate 2M regions up to the first 1G region
 
   TRACE_PTABLE("allocated %ld lvl2 entries up to %p\n", c, va);
 
-  for (c=0; va < ALIGN_TO(va_end, level1) && !END_OF_REGION(va, level1);
-        INCREMENT(va, pa, level1), c++)
+  for (c = 0; va < ALIGN_TO(va_end, level1) && !END_OF_REGION(va, level1); INCREMENT(va, pa, level1), c++)
     set_block_or_page(root, va, pa, unmap, prot,
-                                1);  // Alloc as many 1G regions as possible
+                      1); // Alloc as many 1G regions as possible
 
   TRACE_PTABLE("allocated %ld lvl1 entries up to %p\n", c, va);
 
-  for (c=0; va < ALIGN_TO(va_end, level2) && !END_OF_REGION(va, level2);
-        INCREMENT(va, pa, level2), c++)
-    set_block_or_page(
-        root, va, pa, unmap, prot,
-        2);  // allocate as much of what's left as 2MB regions
+  for (c = 0; va < ALIGN_TO(va_end, level2) && !END_OF_REGION(va, level2); INCREMENT(va, pa, level2), c++)
+    set_block_or_page(root, va, pa, unmap, prot,
+                      2); // allocate as much of what's left as 2MB regions
 
   TRACE_PTABLE("allocated %ld lvl2 entries up to %p\n", c, va);
 
-  for (c=0; va < va_end;
-        INCREMENT(va, pa, level3), c++)
+  for (c = 0; va < va_end; INCREMENT(va, pa, level3), c++)
     set_block_or_page(root, va, pa, unmap, prot,
-                                3);  // allocate whatever remains as 4k pages.
+                      3); // allocate whatever remains as 4k pages.
 
   TRACE_PTABLE("allocated %ld lvl3 entries up to %p\n", c, va);
 }
 
-static void ptable_map_range(u64* root,
-                      u64 pa_start,
-                      u64 va_start, u64 va_end,
-                      u64 prot) {
-    TRACE_PTABLE("mapping from %p -> %p with translation to %p\n", va_start, va_end, pa_start);
-    __ptable_set_range(root, pa_start, va_start, va_end, 0, prot);
+static void ptable_map_range(u64* root, u64 pa_start, u64 va_start, u64 va_end, u64 prot) {
+  TRACE_PTABLE("mapping from %p -> %p with translation to %p\n", va_start, va_end, pa_start);
+  __ptable_set_range(root, pa_start, va_start, va_end, 0, prot);
 }
 
 void vmm_ptable_map(u64* pgtable, VMRegion reg) {
@@ -221,48 +203,39 @@ void vmm_ptable_unmap(u64* pgtable, VMRegion reg) {
   u64 size = reg.va_end - reg.va_start;
   debug("unmap 0x%lx bytes at %p\n", size, reg.va_start);
   switch (size) {
-    case PAGE_SIZE:
-      level = 3;
-      break;
-    case PMD_SIZE:
-      level = 2;
-      break;
-    case PUD_SIZE:
-      level = 1;
-      break;
-    default:
-      fail(
-        "! vmm_ptable_unmap can only unmap PAGE/PMD/PUD size chunk (0x%lx, 0x%lx, 0x%lx respectively)\n",
-        PAGE_SIZE,
-        PMD_SIZE,
-        PUD_SIZE
-      );
+  case PAGE_SIZE:
+    level = 3;
+    break;
+  case PMD_SIZE:
+    level = 2;
+    break;
+  case PUD_SIZE:
+    level = 1;
+    break;
+  default:
+    fail(
+      "! vmm_ptable_unmap can only unmap PAGE/PMD/PUD size chunk (0x%lx, 0x%lx, 0x%lx respectively)\n",
+      PAGE_SIZE,
+      PMD_SIZE,
+      PUD_SIZE
+    );
   }
   set_block_or_page(pgtable, reg.va_start, 0, 1, 0, level);
 }
 
 const char* VMRegionTag_names[] = {
-  "VM_MMAP_IO",
-  "VM_TEXT",
-  "VM_DATA",
-  "VM_STACK",
-  "VM_HEAP",
-  "VM_PTABLES",
-  "VM_TESTDATA",
-  "VM_MMAP_HARNESS",
-  "VM_MMAP_STACK_EL0",
-  "VM_MMAP_STACK_EL1",
-  "VM_MMAP_VTABLE",
+  "VM_MMAP_IO",  "VM_TEXT",         "VM_DATA",           "VM_STACK",          "VM_HEAP",        "VM_PTABLES",
+  "VM_TESTDATA", "VM_MMAP_HARNESS", "VM_MMAP_STACK_EL0", "VM_MMAP_STACK_EL1", "VM_MMAP_VTABLE",
 };
 
 static void update_table_from_vmregion_map(u64* table, VMRegions regs) {
   VMRegion* map = regs.regions;
 
-  VMRegion r_prev = {0};
+  VMRegion r_prev = { 0 };
   for (int i = VM_MMAP_IO; i <= VM_MMAP_VTABLE; i++) {
     VMRegion r = map[i];
 
-    if (! r.valid)
+    if (!r.valid)
       continue;
 
     /* sanity check for overlaps */
@@ -281,47 +254,49 @@ static void update_table_from_vmregion_map(u64* table, VMRegions regs) {
  * and the 1G table that maps 0x4000'0000 -> TOP_OF_HEAP
  */
 static void __vm_alloc_shared_2g_region(u64* root_pgtable) {
-  VMRegions map = {{
-    /* virt Memory Mapped I/O
-     * 0x00000000 -> 0x08000000  == Boot ROM
-     * 0x08000000 -> 0x09000000  == GIC
-     * 0x09000000 -> 0x09001000  == UART
-     * ....       -> 0x40000000  == MMIO/PCIE/etc
-     *
-     * see https://github.com/qemu/qemu/blob/master/hw/arm/virt.c
-     *
-     * RPi 3 (BCM2837) Mapped I/O
-     * 0x00000000 -> 0x3F000000   == ???
-     * 0x3F000000 -> 0x40000000   == peripherals
-     * ...
-     *
-     * Actual RAM is from
-     * 0x40000000 -> RAM_END
-     *  where RAM_END is defined by the dtb
-     */
-    [VM_MMAP_IO] = {VMREGION_VALID, BOT_OF_IO, TOP_OF_IO, PROT_MEMTYPE_DEVICE, PROT_RW_RW},
-    /* linker .text section
-     * this contains the harness, litmus and unittest code segments as well
-     * as the initial boot segment that occurs before BOT_OF_TEXT
-     * executable code must be non-writable at EL0 if executable at EL1
-     */
-    [VM_TEXT] =  {VMREGION_VALID, BOT_OF_TEXT, TOP_OF_TEXT, PROT_MEMTYPE_NORMAL, PROT_RX_RX},
-    /* data sections contain all static storage duration constants
-     */
-    [VM_DATA] = {VMREGION_VALID, BOT_OF_DATA, TOP_OF_DATA, PROT_MEMTYPE_NORMAL, PROT_RW_RWX},
-    /* physical stack space is mapped by all threads -- but at runtime should use the virtual addr instead
-     * if we're allocating a pagetable to be shared between test threads then we map the entire 2M stack space
-     */
-    [VM_STACK] = {VMREGION_VALID, BOT_OF_STACK_PA, TOP_OF_STACK_PA, PROT_MEMTYPE_NORMAL, PROT_RW_RWX},
-    /* for pagetable allocations at runtime
-     * they get contiguously allocated in this region
-     */
-    [VM_PTABLES] = {VMREGION_VALID, BOT_OF_PTABLES, TOP_OF_PTABLES, PROT_MEMTYPE_NORMAL, PROT_RW_RWX},
-    /* for various non-pagetable run-time allocations
-     * we have a heap that ALLOC() makes use of
-     */
-    [VM_HEAP] = {VMREGION_VALID, BOT_OF_HEAP, TOP_OF_HEAP, PROT_MEMTYPE_NORMAL, PROT_RW_RWX},
-  }};
+  VMRegions map = {
+    .regions = {
+      /* virt Memory Mapped I/O
+      * 0x00000000 -> 0x08000000  == Boot ROM
+      * 0x08000000 -> 0x09000000  == GIC
+      * 0x09000000 -> 0x09001000  == UART
+      * ....       -> 0x40000000  == MMIO/PCIE/etc
+      *
+      * see https://github.com/qemu/qemu/blob/master/hw/arm/virt.c
+      *
+      * RPi 3 (BCM2837) Mapped I/O
+      * 0x00000000 -> 0x3F000000   == ???
+      * 0x3F000000 -> 0x40000000   == peripherals
+      * ...
+      *
+      * Actual RAM is from
+      * 0x40000000 -> RAM_END
+      *  where RAM_END is defined by the dtb
+      */
+      [VM_MMAP_IO] = { VMREGION_VALID, BOT_OF_IO, TOP_OF_IO, PROT_MEMTYPE_DEVICE, PROT_RW_RW, },
+      /* linker .text section
+      * this contains the harness, litmus and unittest code segments as well
+      * as the initial boot segment that occurs before BOT_OF_TEXT
+      * executable code must be non-writable at EL0 if executable at EL1
+      */
+      [VM_TEXT] = { VMREGION_VALID, BOT_OF_TEXT, TOP_OF_TEXT, PROT_MEMTYPE_NORMAL, PROT_RX_RX, },
+      /* data sections contain all static storage duration constants
+      */
+      [VM_DATA] = { VMREGION_VALID, BOT_OF_DATA, TOP_OF_DATA, PROT_MEMTYPE_NORMAL, PROT_RW_RWX, },
+      /* physical stack space is mapped by all threads -- but at runtime should use the virtual addr instead
+      * if we're allocating a pagetable to be shared between test threads then we map the entire 2M stack space
+      */
+      [VM_STACK] = { VMREGION_VALID, BOT_OF_STACK_PA, TOP_OF_STACK_PA, PROT_MEMTYPE_NORMAL, PROT_RW_RWX, },
+      /* for pagetable allocations at runtime
+      * they get contiguously allocated in this region
+      */
+      [VM_PTABLES] = { VMREGION_VALID, BOT_OF_PTABLES, TOP_OF_PTABLES, PROT_MEMTYPE_NORMAL, PROT_RW_RWX, },
+      /* for various non-pagetable run-time allocations
+      * we have a heap that ALLOC() makes use of
+      */
+      [VM_HEAP] = { VMREGION_VALID, BOT_OF_HEAP, TOP_OF_HEAP, PROT_MEMTYPE_NORMAL, PROT_RW_RWX, },
+    },
+  };
 
   update_table_from_vmregion_map(root_pgtable, map);
   TRACE_PTABLE("allocated map for %p\n", root_pgtable);
@@ -332,12 +307,12 @@ static u64* __vm_alloc_base_map(void) {
   __vm_alloc_shared_2g_region(root_ptable);
   TRACE_PTABLE("allocated shared 2g @ %p\n", root_ptable);
 
-  VMRegions extra_universal = {{
+  VMRegions extra_universal = { {
     /* each map also contains the testdata physical address space itself is mapped in the virtual space
     * this is for tests that might want to have a INIT_IDENTITY_MAP(x)
     */
-    [VM_TESTDATA] = {VMREGION_VALID, BOT_OF_TESTDATA, TOP_OF_TESTDATA, PROT_MEMTYPE_NORMAL, PROT_RW_RWX},
-  }};
+    [VM_TESTDATA] = { VMREGION_VALID, BOT_OF_TESTDATA, TOP_OF_TESTDATA, PROT_MEMTYPE_NORMAL, PROT_RW_RWX, },
+  } };
 
   update_table_from_vmregion_map(root_ptable, extra_universal);
 
@@ -353,13 +328,29 @@ static u64* __vmm_alloc_table(u8 is_test) {
     /* if in a test, then all threads share the same translations
      * so we must map the entire stack and vtable region
      */
-    VMRegions test = {{
-      /* this is for EL0 and EL1 for all threads */
-      [VM_MMAP_STACK_EL0] = {VMREGION_VALID, STACK_MMAP_BASE, STACK_MMAP_BASE + 1*GiB, PROT_MEMTYPE_NORMAL, PROT_RW_RW, BOT_OF_STACK_PA},
+    VMRegions test = {
+      .regions={
+        /* this is for EL0 and EL1 for all threads */
+        [VM_MMAP_STACK_EL0] = {
+          VMREGION_VALID,
+          STACK_MMAP_BASE,
+          STACK_MMAP_BASE + 1 * GiB,
+          PROT_MEMTYPE_NORMAL,
+          PROT_RW_RW,
+          BOT_OF_STACK_PA,
+        },
 
-      /* VTABLE W+R mapping for all threads */
-      [VM_MMAP_VTABLE]    = {VMREGION_VALID, VTABLE_MMAP_BASE, VTABLE_MMAP_BASE + 4*NO_CPUS*KiB, PROT_MEMTYPE_NORMAL, PROT_RW_RW, vector_base_pa},
-    }};
+        /* VTABLE W+R mapping for all threads */
+        [VM_MMAP_VTABLE] = {
+          VMREGION_VALID,
+          VTABLE_MMAP_BASE,
+          VTABLE_MMAP_BASE + 4 * NO_CPUS * KiB,
+          PROT_MEMTYPE_NORMAL,
+          PROT_RW_RW,
+          vector_base_pa,
+        },
+      },
+    };
 
     update_table_from_vmregion_map(root_ptable, test);
     TRACE_PTABLE("updated test @ %p\n", root_ptable);
@@ -370,21 +361,48 @@ static u64* __vmm_alloc_table(u8 is_test) {
     vtable_pa = (u64)THR_VTABLE_PA(cpu);
 
     /* ideally EL0 would be R_RW permissions but AArch64 doesn't allow W at EL0 without W at EL1 */
-    VMRegions per_thread_data = {{
-      [VM_MMAP_STACK_EL0] = {VMREGION_VALID, STACK_MMAP_THREAD_BOT_EL0(cpu), STACK_MMAP_THREAD_TOP_EL0(cpu), PROT_MEMTYPE_NORMAL, PROT_RW_RW, STACK_PYS_THREAD_BOT_EL0(cpu)},
-      [VM_MMAP_STACK_EL1] = {VMREGION_VALID, STACK_MMAP_THREAD_BOT_EL1(cpu), STACK_MMAP_THREAD_TOP_EL1(cpu), PROT_MEMTYPE_NORMAL, PROT_RW_U , STACK_PYS_THREAD_BOT_EL1(cpu)},
-      [VM_MMAP_VTABLE]    = {VMREGION_VALID, vtable_bot                    , vtable_top                    , PROT_MEMTYPE_NORMAL, PROT_RW_RW, vtable_pa},
-    }};
+    VMRegions per_thread_data = {
+      .regions={
+        [VM_MMAP_STACK_EL0] = {
+          VMREGION_VALID,
+          STACK_MMAP_THREAD_BOT_EL0(cpu),
+          STACK_MMAP_THREAD_TOP_EL0(cpu),
+          PROT_MEMTYPE_NORMAL,
+          PROT_RW_RW,
+          STACK_PYS_THREAD_BOT_EL0(cpu),
+        },
+        [VM_MMAP_STACK_EL1] = {
+          VMREGION_VALID,
+          STACK_MMAP_THREAD_BOT_EL1(cpu),
+          STACK_MMAP_THREAD_TOP_EL1(cpu),
+          PROT_MEMTYPE_NORMAL,
+          PROT_RW_U,
+          STACK_PYS_THREAD_BOT_EL1(cpu),
+        },
+        [VM_MMAP_VTABLE] = {
+          VMREGION_VALID, vtable_bot, vtable_top, PROT_MEMTYPE_NORMAL, PROT_RW_RW, vtable_pa,
+        },
+      },
+    };
 
     update_table_from_vmregion_map(root_ptable, per_thread_data);
     TRACE_PTABLE("updated per_thread_data @ %p\n", root_ptable);
   }
 
-  VMRegions harness = {{
-    /* the harness itself maps all of memory starting @ 64G
-     */
-    [VM_MMAP_HARNESS] = {VMREGION_VALID, HARNESS_MMAP_BASE, HARNESS_MMAP_BASE+TOTAL_MEM, PROT_MEMTYPE_NORMAL, PROT_RW_RWX, BOT_OF_MEM},
-  }};
+  VMRegions harness = {
+    .regions={
+      /* the harness itself maps all of memory starting @ 64G
+      */
+      [VM_MMAP_HARNESS] = {
+        VMREGION_VALID,
+        HARNESS_MMAP_BASE,
+        HARNESS_MMAP_BASE + TOTAL_MEM,
+        PROT_MEMTYPE_NORMAL,
+        PROT_RW_RWX,
+        BOT_OF_MEM,
+        },
+    },
+  };
 
   update_table_from_vmregion_map(root_ptable, harness);
   TRACE_PTABLE("updated harness @ %p\n", root_ptable);
@@ -420,7 +438,12 @@ u64* vmm_alloc_new_4k_pgtable(void) {
   u64* ptable = __vmm_alloc_table(0);
   debug("allocated new generic 4k pgtable rooted at %p\n", ptable);
   DEBUG(DEBUG_PTABLE, "ptable @ %p has %ld nested tables\n", ptable, vmm_count_subtables(ptable));
-  DEBUG(DEBUG_PTABLE && DEBUG_ALLOCS, "and is now using %ld/%ld alloc chunks\n", valloc_alloclist_count_chunks(), NUM_ALLOC_CHUNKS);
+  DEBUG(
+    DEBUG_PTABLE && DEBUG_ALLOCS,
+    "and is now using %ld/%ld alloc chunks\n",
+    valloc_alloclist_count_chunks(),
+    NUM_ALLOC_CHUNKS
+  );
   return ptable;
 }
 
@@ -455,6 +478,7 @@ void vmm_set_id_translation(u64* pgtable) {
   u64 asid = 0;
   u64 ttbr = TTBR0(pgtable, asid);
 
+  /* clang-format off */
   u64 tcr = \
     0          |
     (0L << 39) |  /* HA, software access flag */
@@ -475,6 +499,7 @@ void vmm_set_id_translation(u64* pgtable) {
     MAIR_ATTR(PROT_ATTR_NORMAL_NC, MAIR_NORMAL_NC)          |
     MAIR_ATTR(PROT_ATTR_NORMAL_RA_WA, MAIR_NORMAL_RA_WA)    |
     0;
+  /* clang-format on */
 
   set_new_ttable(ttbr, tcr, mair);
 }
@@ -489,7 +514,7 @@ void vmm_switch_ttable(u64* new_table) {
 void vmm_switch_asid(u64 asid) {
   u64 ttbr = read_sysreg(ttbr0_el1);
   write_sysreg(TTBR0(ttbr, asid), ttbr0_el1);
-  isb();  /* is this needed? */
+  isb(); /* is this needed? */
 }
 
 void vmm_switch_ttable_asid(u64* new_table, u64 asid) {
@@ -497,16 +522,16 @@ void vmm_switch_ttable_asid(u64* new_table, u64 asid) {
   isb();
 }
 
-static void _vmm_walk_table(u64* pgtable, int level, u64 va_start, walker_cb_t* cb_f, void *data) {
+static void _vmm_walk_table(u64* pgtable, int level, u64 va_start, walker_cb_t* cb_f, void* data) {
   for (int i = 0; i < 512; i++) {
-    u64 va_start_i = va_start+i*LEVEL_SIZES[level];
+    u64 va_start_i = va_start + i * LEVEL_SIZES[level];
     desc_t d = read_desc(pgtable[i], level);
     if (d.type == Table) {
-      _vmm_walk_table((u64*)d.table_addr, level+1, va_start_i, cb_f, data);
+      _vmm_walk_table((u64*)d.table_addr, level + 1, va_start_i, cb_f, data);
     }
 
     int is_leaf = d.type == Table ? 0 : 1;
-    va_range r = {va_start_i,va_start_i+LEVEL_SIZES[level]};
+    va_range r = { va_start_i, va_start_i + LEVEL_SIZES[level] };
     cb_f(pgtable, level, i, &pgtable[i], d, is_leaf, r, data);
   }
 }

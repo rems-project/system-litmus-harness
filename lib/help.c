@@ -28,9 +28,9 @@ static void splitdesc(char* short_desc, char* long_desc, char* full) {
   *long_desc = '\0';
 }
 
-static char *sprint_metavar(char *out, bool for_short_name, const argdef_arg_t *arg) {
-  char *metavar = option_metavar(arg);
-  char *prefix = for_short_name ? "" : "=";
+static char* sprint_metavar(char* out, bool for_short_name, const argdef_arg_t* arg) {
+  char* metavar = option_metavar(arg);
+  char* prefix = for_short_name ? "" : "=";
 
   if (option_requires_arg(arg)) {
     out = sprintf(out, "%s%s", prefix, metavar);
@@ -67,7 +67,7 @@ static int line_prefix(char* out, const argdef_arg_t* arg) {
     out = sprint_metavar(out, false, arg);
 
     if (arg->kind == ARGPARSE_FLAG && !arg->flag->no_negation)
-      out = sprintf(out, "/--no-%s", 2+long_name);
+      out = sprintf(out, "/--no-%s", 2 + long_name);
   }
 
   return strlen(start);
@@ -124,7 +124,7 @@ static void display_line_help_for_arg(const argdef_arg_t* arg, int prefix_pad_to
 
   int prefix_len = line_prefix(&prefix[0], arg);
   printf("%s", prefix);
-  for (int p = 0; p < prefix_pad_to-prefix_len; p++) {
+  for (int p = 0; p < prefix_pad_to - prefix_len; p++) {
     printf(" ");
   }
   printf("\t");
@@ -156,7 +156,7 @@ void display_help_and_quit(void) {
 
   int common_prefix_length = max_prefix_len(&COMMON_ARGS, no_common_opts);
   int this_prefix_length = max_prefix_len(THIS_ARGS, no_this_opts);
-  int prefix_length = this_prefix_length < common_prefix_length ? common_prefix_length  : this_prefix_length;
+  int prefix_length = this_prefix_length < common_prefix_length ? common_prefix_length : this_prefix_length;
 
   printf("Common Options:\n");
   for (int i = 0; i < no_common_opts; i++) {
@@ -184,10 +184,9 @@ static void display_help_for_arg(const argdef_arg_t* arg) {
 
   char* short_name = argdef_arg_shortname(arg);
   char* long_name = argdef_arg_longname(arg);
-  char *metavar = option_metavar(arg);
+  char* metavar = option_metavar(arg);
 
   printf("Usage:\n");
-
 
   /* -s */
   if (short_name && !option_requires_arg(arg))
@@ -199,7 +198,7 @@ static void display_help_for_arg(const argdef_arg_t* arg) {
 
   /* --no-long */
   if (long_name && arg->kind == ARGPARSE_FLAG && !arg->flag->no_negation)
-    printf(" --no-%s\n", long_name+2);
+    printf(" --no-%s\n", long_name + 2);
 
   /* -sX */
   if (short_name && option_takes_arg(arg))
@@ -219,15 +218,15 @@ static void display_help_for_arg(const argdef_arg_t* arg) {
   }
 
   switch (arg->kind) {
-    case ARGPARSE_FLAG:
-      if (! arg->flag->has_action) {
-        printf("Default: ");
-        display_flag_default(arg->flag);
-        printf("\n");
-      }
-      break;
-    default:
-      break;
+  case ARGPARSE_FLAG:
+    if (!arg->flag->has_action) {
+      printf("Default: ");
+      display_flag_default(arg->flag);
+      printf("\n");
+    }
+    break;
+  default:
+    break;
   }
 
   if (*long_desc) {
@@ -242,10 +241,9 @@ void display_help_for_and_quit(argdef_t* args, char* opt) {
     char* short_name = argdef_arg_shortname(args->args[i]);
     char* long_name = argdef_arg_longname(args->args[i]);
 
-    if ((short_name && strcmp(1+short_name, opt))
-      || (long_name && strcmp(2+long_name, opt))) {
-        display_help_for_arg(args->args[i]);
-        abort();
+    if ((short_name && strcmp(1 + short_name, opt)) || (long_name && strcmp(2 + long_name, opt))) {
+      display_help_for_arg(args->args[i]);
+      abort();
     }
   }
 }

@@ -1,7 +1,6 @@
 #ifndef LITMUS_REGIONS_H
 #define LITMUS_REGIONS_H
 
-
 #include "litmus_test_def.h"
 
 typedef enum {
@@ -17,13 +16,15 @@ extern u64 LEVEL_SIZES[6];
 extern u64 LEVEL_SHIFTS[6];
 
 #define NR_ENTRIES_PER_PAGE 512
-typedef struct {
+typedef struct
+{
   u64 values[NR_ENTRIES_PER_PAGE];
 } page_t;
 
 #define NR_PAGES_PER_DIR 512
 #define DIR_SIZE (NR_PAGES_PER_DIR * PAGE_SIZE)
-typedef struct {
+typedef struct
+{
   page_t pages[NR_PAGES_PER_DIR];
 } dir_t;
 
@@ -43,7 +44,8 @@ typedef struct {
 #define NR_DIRS_PER_REGION 4
 #define REGION_SHIFT (2 + PMD_SHIFT)
 #define REGION_SIZE (NR_DIRS_PER_REGION * NR_PAGES_PER_DIR * PAGE_SIZE)
-typedef struct {
+typedef struct
+{
   dir_t dirs[NR_DIRS_PER_REGION];
 } region_t;
 
@@ -59,7 +61,8 @@ typedef struct {
  */
 #define NR_REGIONS 16
 #define NR_REGIONS_SHIFT 4
-typedef struct {
+typedef struct
+{
   region_t* regions[NR_REGIONS];
 } regions_t;
 

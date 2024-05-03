@@ -21,7 +21,7 @@ int strstartswith(char* s1, char* prefix) {
   if (*s1 != *prefix)
     return 0;
 
-  return strstartswith(s1+1, prefix+1);
+  return strstartswith(s1 + 1, prefix + 1);
 }
 
 int strpartition(char* outL, char* outR, char* s, char sep) {
@@ -44,7 +44,7 @@ int strpartition(char* outL, char* outR, char* s, char sep) {
     s++;
     outR++;
 
-    if (*(s-1) == '\0')
+    if (*(s - 1) == '\0')
       return 1;
   }
 }
@@ -56,7 +56,7 @@ u64 strcmp(const char* s1, const char* s2) {
   if (*s1 != *s2)
     return 0;
 
-  return strcmp(s1+1, s2+1);
+  return strcmp(s1 + 1, s2 + 1);
 }
 
 int ctoi_hex(char c) {
@@ -82,7 +82,7 @@ int ctoi(char c) {
 u64 __atoi_hex(char* s) {
   u64 x = 0;
   /* skip 0x */
-  s = s+2;
+  s = s + 2;
 
   while (*s) {
     char c = *s;
@@ -132,7 +132,7 @@ u64 __atoi_dec(char* s) {
 }
 
 u64 atoi(char* s) {
-  if (*s == '0' && *(s+1) == 'x')
+  if (*s == '0' && *(s + 1) == 'x')
     return __atoi_hex(s);
 
   return __atoi_dec(s);

@@ -26,9 +26,9 @@ extern u8 VERBOSE;
 extern u8 TRACE;
 extern u8 DEBUG;
 
-extern char*    collected_tests[100];
+extern char* collected_tests[100];
 extern u64 collected_tests_count;
-extern u8  ONLY_SHOW_MATCHES;
+extern u8 ONLY_SHOW_MATCHES;
 
 extern u8 ENABLE_UNITTESTS_CONCRETIZATION_TEST_RANDOM;
 extern u8 ENABLE_UNITTESTS_CONCRETIZATION_TEST_LINEAR;
@@ -57,49 +57,49 @@ extern u8 ENABLE_UNITTESTS_CONCRETIZATION_TEST_LINEAR;
  * > Time MP+dmbs 0.63
  */
 typedef enum {
-    STYLE_HERDTOOLS,
-    STYLE_ORIGINAL,
+  STYLE_HERDTOOLS,
+  STYLE_ORIGINAL,
 } output_style_t;
 
 extern output_style_t OUTPUT_FORMAT;
 
 /* litmus-specific options */
 typedef enum {
-    SYNC_NONE,
-    SYNC_ALL,
-    SYNC_VA,
-    SYNC_ASID,
+  SYNC_NONE,
+  SYNC_ALL,
+  SYNC_VA,
+  SYNC_ASID,
 } sync_type_t;
 
 extern sync_type_t LITMUS_SYNC_TYPE;
 
 typedef enum {
-    AFF_NONE,
-    AFF_RAND,
+  AFF_NONE,
+  AFF_RAND,
 } aff_type_t;
 
 extern aff_type_t LITMUS_AFF_TYPE;
 
 typedef enum {
-    SHUF_NONE,
-    SHUF_RAND,
+  SHUF_NONE,
+  SHUF_RAND,
 } shuffle_type_t;
 
 extern shuffle_type_t LITMUS_SHUFFLE_TYPE;
 
 typedef enum {
-    CONCRETE_LINEAR,
-    CONCRETE_RANDOM,
-    CONCRETE_FIXED,
+  CONCRETE_LINEAR,
+  CONCRETE_RANDOM,
+  CONCRETE_FIXED,
 } concretize_type_t;
 
 extern concretize_type_t LITMUS_CONCRETIZATION_TYPE;
 extern char LITMUS_CONCRETIZATION_CFG[1024];
 
 typedef enum {
-    RUNNER_ARRAY,
-    RUNNER_SEMI_ARRAY,
-    RUNNER_EPHEMERAL,
+  RUNNER_ARRAY,
+  RUNNER_SEMI_ARRAY,
+  RUNNER_EPHEMERAL,
 } litmus_runner_type_t;
 
 extern litmus_runner_type_t LITMUS_RUNNER_TYPE;

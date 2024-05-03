@@ -9,5 +9,5 @@
 #define BUILD_STRING "build " VERSION "/" COMMITHASH
 
 const char* version_string(void) {
-  return BUILD_STRING ;
+  return BUILD_STRING;
 }

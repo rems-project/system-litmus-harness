@@ -37,7 +37,7 @@ valloc_free_chunk* valloc_freelist_find_best(u64 size, u64 alignment) {
     u64 start_of_chunk = valloc_freelist_start_of_chunk(cur);
     u64 space_in_chunk = valloc_freelist_chunk_size(cur);
     u64 align = ALIGN_UP_TO(start_of_chunk, alignment) - start_of_chunk;
-    if ((space_in_chunk > size + align)  && space_in_chunk < smallest_space) {
+    if ((space_in_chunk > size + align) && space_in_chunk < smallest_space) {
       smallest_space = space_in_chunk;
       best = cur;
     }
@@ -72,14 +72,14 @@ valloc_free_chunk* valloc_freelist_split_alignment(valloc_free_chunk* chunk, u64
   u64 chunk2_size = size;
   u64 chunk3_size = chunk->size - chunk1_size - chunk2_size;
 
-  valloc_freelist_allocate_free_chunk(chunk_start+chunk_alignment, size);
+  valloc_freelist_allocate_free_chunk(chunk_start + chunk_alignment, size);
 
   if (chunk1_size > sizeof(valloc_free_chunk)) {
     valloc_freelist_allocate_free_chunk(chunk_start, chunk1_size);
   }
 
   if (chunk3_size > sizeof(valloc_free_chunk)) {
-    valloc_freelist_allocate_free_chunk(chunk_start+chunk1_size+chunk2_size, chunk3_size);
+    valloc_freelist_allocate_free_chunk(chunk_start + chunk1_size + chunk2_size, chunk3_size);
   }
 
   return ((valloc_free_chunk*)(chunk_start + chunk1_size));
@@ -113,7 +113,7 @@ static int __valloc_freelist_compact_chunk_possibility(valloc_free_chunk* chunk1
     valloc_freelist_remove_chunk(chunk2);
     __compact_together(chunk1);
     return 1;
-  } else if (! valloc_is_region_allocated(&mem, chunk1_end, chunk2_start)) {
+  } else if (!valloc_is_region_allocated(&mem, chunk1_end, chunk2_start)) {
     /* or the entire space between is also free */
     chunk1->size += (chunk2_start - chunk1_end) + chunk2->size;
     valloc_freelist_remove_chunk(chunk2);
@@ -146,7 +146,7 @@ static valloc_free_chunk* __next_free_chunk(void) {
 
   valloc_free_chunk* best = NULL;
   while (cur) {
-    if ((! best) || ((u64)best > (u64)cur)) {
+    if ((!best) || ((u64)best > (u64)cur)) {
       best = cur;
     }
     cur = cur->next;
@@ -155,14 +155,13 @@ static valloc_free_chunk* __next_free_chunk(void) {
   return best;
 }
 
-
 /** try move mem.top up until the next allocated chunk
  */
 static void __shift_top(void) {
   while (1) {
     valloc_free_chunk* next = __next_free_chunk();
 
-    if (! next)
+    if (!next)
       break;
 
     u64 chunk_start = valloc_freelist_start_of_chunk(next);

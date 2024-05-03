@@ -32,17 +32,23 @@
 
 const char* version_string(void);
 
-#define unreachable() do {printf("! unreachable: [%s] %s %d\n", __FILE__, __FUNCTION__, __LINE__); raise_to_el1(); abort();} while (1);
+#define unreachable()                                                        \
+  do {                                                                       \
+    printf("! unreachable: [%s] %s %d\n", __FILE__, __FUNCTION__, __LINE__); \
+    raise_to_el1();                                                          \
+    abort();                                                                 \
+  } while (1);
 
 /* some str functions not in <string.h> */
 extern int strstartswith(char* s1, char* prefix);
 extern int strpartition(char* outL, char* outR, char* s, char sep);
 
 /** for configuration in main.c */
-typedef struct grp {
-    const char* name;
-    const litmus_test_t** tests;
-    const struct grp** groups;
+typedef struct grp
+{
+  const char* name;
+  const litmus_test_t** tests;
+  const struct grp** groups;
 } litmus_test_group;
 
 /** one-time setup */
@@ -53,11 +59,12 @@ extern void per_cpu_setup(int cpu);
 /* secondary entry data */
 typedef void async_fn_t(int cpu, void* arg);
 
-typedef struct {
-    async_fn_t* to_execute;
-    void* arg;
-    u64 started;
-    volatile int finished;
+typedef struct
+{
+  async_fn_t* to_execute;
+  void* arg;
+  u64 started;
+  volatile int finished;
 } cpu_data_t;
 
 extern cpu_data_t cpu_data[4];
@@ -69,7 +76,7 @@ extern void run_on_cpus(async_fn_t* fn, void* arg);
 
 /* assorted numeric functions */
 extern int log2(u64 n);
-extern u32 read_be(char *p);
-extern u64 read_be64(char *p);
+extern u32 read_be(char* p);
+extern u64 read_be64(char* p);
 
 #endif /* LIB_H */

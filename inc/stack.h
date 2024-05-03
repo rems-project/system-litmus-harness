@@ -8,17 +8,19 @@
 
 #include "lib.h"
 
-typedef struct {
+typedef struct
+{
   u64 next;
   u64 ret;
 } stack_frame_t;
 
-typedef struct {
+typedef struct
+{
   int no_frames;
   stack_frame_t frames[];
 } stack_t;
 
-typedef void (stack_cb_fn)(void* arg, u64* fp, u64 ret_addr);
+typedef void(stack_cb_fn)(void* arg, u64* fp, u64 ret_addr);
 
 void collect_stack_from(u64* fp, stack_t* buf);
 void collect_stack(stack_t* buf);

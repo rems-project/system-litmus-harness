@@ -15,7 +15,8 @@
  * collected output histogram that the test is actually using
  * as well as a reference to the static test configuration (the litmus_test_t)
  */
-struct test_ctx {
+struct test_ctx
+{
   /** time at the start of the run. */
   u64 start_clock;
 
@@ -32,22 +33,22 @@ struct test_ctx {
    */
   run_count_t batch_size;
 
-  regions_t heap_memory;        /* pointers to set of regions */
-  var_info_t* heap_vars;        /* set of heap variables: x, y, z etc */
+  regions_t heap_memory; /* pointers to set of regions */
+  var_info_t* heap_vars; /* set of heap variables: x, y, z etc */
   init_system_state_t* system_state;
-  u64** out_regs;          /* set of output register values: P1:x1,  P2:x3 etc */
-  bar_t* generic_cpu_barrier;   /* generic wait-for-all-cpus */
-  bar_t* generic_vcpu_barrier;  /* generic wait-for-all-vcpus */
-  bar_t* start_barriers;        /* per-run barrier for start */
+  u64** out_regs;              /* set of output register values: P1:x1,  P2:x3 etc */
+  bar_t* generic_cpu_barrier;  /* generic wait-for-all-cpus */
+  bar_t* generic_vcpu_barrier; /* generic wait-for-all-vcpus */
+  bar_t* start_barriers;       /* per-run barrier for start */
   run_idx_t* shuffled_ixs;
-  run_count_t* shuffled_ixs_inverse;  /* the inverse lookup of shuffled_ixs */
+  run_count_t* shuffled_ixs_inverse; /* the inverse lookup of shuffled_ixs */
   volatile int* affinity;
   test_hist_t* hist;
   run_idx_t current_run;
   u64** ptables;
   u64 current_EL;
   u64 privileged_harness;  /* require harness to run at EL1 between runs ? */
-  u64 last_tick; /* clock ticks since last verbose print */
+  u64 last_tick;           /* clock ticks since last verbose print */
   void* concretization_st; /* current state of the concretizer */
 
   /** checkpoint to restore the ptable allocator back to at the end

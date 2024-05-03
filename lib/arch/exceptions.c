@@ -2,33 +2,14 @@
 #include "lib.h"
 
 static const char* vec_names[16] = {
-  "VEC_EL1T_SYNC",
-  "VEC_EL1T_IRQ",
-  "VEC_EL1T_FIQ",
-  "VEC_EL1T_ERROR",
-  "VEC_EL1H_SYNC",
-  "VEC_EL1H_IRQ",
-  "VEC_EL1H_FIQ",
-  "VEC_EL1H_ERROR",
-  "VEC_EL0_SYNC_64",
-  "VEC_EL0_IRQ_64",
-  "VEC_EL0_FIQ_64",
-  "VEC_EL0_ERROR_64",
-  "VEC_EL0_SYNC_32",
-  "VEC_EL0_IRQ_32",
-  "VEC_EL0_FIQ_32",
-  "VEC_EL0_ERROR_32",
+  "VEC_EL1T_SYNC",   "VEC_EL1T_IRQ",   "VEC_EL1T_FIQ",    "VEC_EL1T_ERROR",   "VEC_EL1H_SYNC",  "VEC_EL1H_IRQ",
+  "VEC_EL1H_FIQ",    "VEC_EL1H_ERROR", "VEC_EL0_SYNC_64", "VEC_EL0_IRQ_64",   "VEC_EL0_FIQ_64", "VEC_EL0_ERROR_64",
+  "VEC_EL0_SYNC_32", "VEC_EL0_IRQ_32", "VEC_EL0_FIQ_32",  "VEC_EL0_ERROR_32",
 };
 
-
 static const char* ec_names[0x26] = {
-  [0x15] = "EC_SVC64",
-  [0x18] = "EC_MRS_TRAP",
-  [0x20] = "EC_IABT_EL0",
-  [0x21] = "EC_IABT_EL1",
-  [0x22] = "EC_PC_ALIGN",
-  [0x24] = "EC_DABT_EL0",
-  [0x25] = "EC_DABT_EL1",
+  [0x15] = "EC_SVC64",    [0x18] = "EC_MRS_TRAP", [0x20] = "EC_IABT_EL0", [0x21] = "EC_IABT_EL1",
+  [0x22] = "EC_PC_ALIGN", [0x24] = "EC_DABT_EL0", [0x25] = "EC_DABT_EL1",
 };
 
 static const char* dabt_iss_dfsc[0x40] = {
@@ -60,7 +41,7 @@ static const char* dabt_iss_dfsc[0x40] = {
  * vtable[cpu][vector][EC] = *fn
  */
 exception_vector_fn* vtable[4][4][64] = { NULL };
-exception_vector_fn* vtable_svc[4][64] = { NULL };  /* 64 SVC handlers */
+exception_vector_fn* vtable_svc[4][64] = { NULL }; /* 64 SVC handlers */
 exception_vector_fn* vtable_pgfault[4][128] = { NULL };
 
 /* a buffer to write exception messages into
@@ -174,8 +155,7 @@ void drop_to_el0(void) {
   asm volatile("svc #10\n\t"
                :
                :
-               : "x0", "x1", "x2", "x3", "x4", "x5", "x6",
-                 "x7" /* dont touch parameter registers */
+               : "x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7" /* dont touch parameter registers */
   );
 }
 
@@ -183,8 +163,7 @@ void raise_to_el1(void) {
   asm volatile("svc #11\n\t"
                :
                :
-               : "x0", "x1", "x2", "x3", "x4", "x5", "x6",
-                 "x7" /* dont touch parameter registers */
+               : "x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7" /* dont touch parameter registers */
   );
 }
 
@@ -202,41 +181,42 @@ static void* default_svc_drop_el0(u64 vec, u64 esr, regvals_t* regs) {
     "isb\n"
     :
     :
-    : "memory", "x18");
+    : "memory", "x18"
+  );
 
   return NULL;
 }
 
-static void* default_svc_raise_el1(u64 vec, u64 esr,
-                                   regvals_t* regs) {
+static void* default_svc_raise_el1(u64 vec, u64 esr, regvals_t* regs) {
   /* raise to EL1h */
   asm volatile(
-      "mrs x18, spsr_el1\n"
+    "mrs x18, spsr_el1\n"
 
-      /* zero SPSR_EL1[0:3] */
-      "lsr x18, x18, #4\n"
-      "lsl x18, x18, #4\n"
+    /* zero SPSR_EL1[0:3] */
+    "lsr x18, x18, #4\n"
+    "lsl x18, x18, #4\n"
 
-      /* add targetEL and writeback */
-      "add x18, x18, #4\n" /* EL1 */
-      "add x18, x18, #0\n" /* h */
-      "msr spsr_el1, x18\n"
-      "dsb nsh\n"
-      "isb\n"
-      :
-      :
-      : "memory", "x18");
+    /* add targetEL and writeback */
+    "add x18, x18, #4\n" /* EL1 */
+    "add x18, x18, #0\n" /* h */
+    "msr spsr_el1, x18\n"
+    "dsb nsh\n"
+    "isb\n"
+    :
+    :
+    : "memory", "x18"
+  );
   return NULL;
 }
 
-static void* default_svc_read_currentel(u64 vec, u64 esr,
-                                        regvals_t* regs) {
+static void* default_svc_read_currentel(u64 vec, u64 esr, regvals_t* regs) {
   /* read CurrentEL via SPSPR */
   u64 cel;
   asm volatile(
-      "mrs %[cel], SPSR_EL1\n"
-      "and %[cel], %[cel], #12\n"
-      : [cel] "=r"(cel));
+    "mrs %[cel], SPSR_EL1\n"
+    "and %[cel], %[cel], #12\n"
+    : [cel] "=r"(cel)
+  );
   return (void*)cel;
 }
 
@@ -256,8 +236,7 @@ static void* default_svc_handler(u64 vec, u64 esr, regvals_t* regs) {
     return (void*)vtable_svc[cpu][imm](esr, regs);
 }
 
-static void* default_pgfault_handler(u64 vec, u64 esr,
-                                     regvals_t* regs) {
+static void* default_pgfault_handler(u64 vec, u64 esr, regvals_t* regs) {
   u64 far = read_sysreg(far_el1);
   int cpu = get_cpu();
   u64 imm = far % 127;
@@ -322,24 +301,14 @@ static void flush_icache_vector_entries(void) {
   u64 iline = 1 << BIT_SLICE(read_sysreg(ctr_el0), 3, 0);
   u64 dline = 1 << BIT_SLICE(read_sysreg(ctr_el0), 19, 16);
 
-  for (u64 vbar_va = vbar_start; vbar_va < vbar_start+4096; vbar_va += 4*dline) {
-    asm volatile (
-      "dc cvau, %[va]\n\t"
-    :
-    : [va] "r" (vbar_va)
-    : "memory"
-    );
+  for (u64 vbar_va = vbar_start; vbar_va < vbar_start + 4096; vbar_va += 4 * dline) {
+    asm volatile("dc cvau, %[va]\n\t" : : [va] "r"(vbar_va) : "memory");
   }
 
   dsb();
 
-  for (u64 vbar_pa = vbar_pa_start; vbar_pa < vbar_pa_start+4096; vbar_pa += 4*iline) {
-    asm volatile (
-      "ic ivau, %[pa]\n\t"
-    :
-    : [pa] "r" (vbar_pa)
-    : "memory"
-    );
+  for (u64 vbar_pa = vbar_pa_start; vbar_pa < vbar_pa_start + 4096; vbar_pa += 4 * iline) {
+    asm volatile("ic ivau, %[pa]\n\t" : : [pa] "r"(vbar_pa) : "memory");
   }
 
   dsb();

@@ -1,12 +1,10 @@
 #ifndef BOOT_H
 #define BOOT_H
 
-typedef enum {
-  BOOT_KIND_PSCI,
-  BOOT_KIND_SPIN
-} boot_kind_t;
+typedef enum { BOOT_KIND_PSCI, BOOT_KIND_SPIN } boot_kind_t;
 
-typedef struct {
+typedef struct
+{
   boot_kind_t kind;
   union {
     u64 psci_base;

@@ -6,7 +6,7 @@
   ASSERT(re_matches(re_compile(REGEX), INPUT), "r<%s> did not match '%s'", (REGEX), (INPUT))
 
 #define ASSERT_NOT_MATCHES(REGEX, INPUT) \
-  ASSERT(! re_matches(re_compile(REGEX), INPUT), "r<%s> (incorrectly) matched '%s'", (REGEX), (INPUT))
+  ASSERT(!re_matches(re_compile(REGEX), INPUT), "r<%s> (incorrectly) matched '%s'", (REGEX), (INPUT))
 
 UNIT_TEST(test_re_empty)
 void test_re_empty(void) {

@@ -30,13 +30,20 @@
 #define __REPR_SPRINTF_ARGS_10(ty, name, ...) __REPR_SPRINTF_ARGS_1(ty, name), __REPR_SPRINTF_ARGS_9(__VA_ARGS__)
 
 /* define up to 20 fields */
-#define __REPR_SPRINTF_FMT(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16, a17, a18, a19, a20, len, ...) \
+#define __REPR_SPRINTF_FMT(                                                                           \
+  a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16, a17, a18, a19, a20, len, ... \
+)                                                                                                     \
   __REPR_SPRINTF_FMT_##len(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16, a17, a18, a19, a20)
-#define __REPR_SPRINTF_ARGS(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16, a17, a18, a19, a20, len, ...) \
+#define __REPR_SPRINTF_ARGS(                                                                          \
+  a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16, a17, a18, a19, a20, len, ... \
+)                                                                                                     \
   __REPR_SPRINTF_ARGS_##len(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16, a17, a18, a19, a20)
 
-#define __MAKE_REPR_SPRINTF(ty, ...) ("(" STR_LITERAL(ty) "){" __REPR_SPRINTF_FMT(__VA_ARGS__, 10, 10, 9, 9, 8, 8, 7, 7, 6, 6, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1) "}")
-#define __MAKE_REPR_SPRINTF_ARGS(...) __REPR_SPRINTF_ARGS(__VA_ARGS__, 10, 10, 9, 9, 8, 8, 7, 7, 6, 6, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1)
+#define __MAKE_REPR_SPRINTF(ty, ...) \
+  ("(" STR_LITERAL(ty                \
+  ) "){" __REPR_SPRINTF_FMT(__VA_ARGS__, 10, 10, 9, 9, 8, 8, 7, 7, 6, 6, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1) "}")
+#define __MAKE_REPR_SPRINTF_ARGS(...) \
+  __REPR_SPRINTF_ARGS(__VA_ARGS__, 10, 10, 9, 9, 8, 8, 7, 7, 6, 6, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1)
 
 #define _MAKE_REPR_SPRINTF(ty, a) __MAKE_REPR_SPRINTF(ty, a)
 #define _MAKE_REPR_SPRINTF_ARGS(a) __MAKE_REPR_SPRINTF_ARGS(a)
@@ -59,13 +66,15 @@
  * then in the source file:
  * printf("t = %o\n", TOSTR(tyname_t, p));
  */
-#define TOSTR(ty, v) \
-  ({ ty* x = (v); \
-    char* s = ALLOC_SIZED(1024); \
+#define TOSTR(ty, v)                                                                             \
+  ({                                                                                             \
+    ty* x = (v);                                                                                 \
+    char* s = ALLOC_SIZED(1024);                                                                 \
     sprintf(s, _MAKE_REPR_SPRINTF(ty, REPR_ARGS_##ty), _MAKE_REPR_SPRINTF_ARGS(REPR_ARGS_##ty)); \
-    if (strlen(s) > 1024) { \
-      fail("! TOSTR(" STR_LITERAL(ty) ") failed, overrun string buffer."); \
-    } \
-    s; })
+    if (strlen(s) > 1024) {                                                                      \
+      fail("! TOSTR(" STR_LITERAL(ty) ") failed, overrun string buffer.");                       \
+    }                                                                                            \
+    s;                                                                                           \
+  })
 
 #endif /* TOSTR_H */

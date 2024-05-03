@@ -1,4 +1,6 @@
 #pragma once
+/* clang-format off */
+/* ... manual layout of addresses for readability */
 
 #define bus_to_reg32(p) ((p) - 0x3f000000ULL)
 
@@ -120,3 +122,4 @@
 #define GPPUD_OFF       0
 #define GPPUD_PULL_DOWN 1
 #define GPPUD_PULL_UP   2
+/* clang-format on */

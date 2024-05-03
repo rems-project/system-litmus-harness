@@ -52,7 +52,7 @@ valloc_alloc_chunk* valloc_alloclist_find_alloc_chunk(valloc_mempool* pool, u64 
 
 void valloc_alloclist_dealloc(valloc_mempool* pool, u64 addr) {
   valloc_alloc_chunk* alloced_chunk = valloc_alloclist_find_alloc_chunk(pool, addr);
-  if (! alloced_chunk) {
+  if (!alloced_chunk) {
     fail("! err: valloc_alloclist_dealloc no alloc at %p (double free?)\n", addr);
   }
   move_to_dealloc(pool, alloced_chunk);

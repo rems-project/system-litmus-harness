@@ -56,11 +56,12 @@ void concretized_fixed_init(test_ctx_t* ctx, const litmus_test_t* cfg) {
     var_info_t* var;
     FOREACH_HEAP_VAR(ctx, var) {
       if (var->values[0] == NULL) {
-        fail("! concretized_fixed_init: cannot run test, --concretization=fixed"
-             " with --config-concretization passed, but missing value for variable %s"
-             " in test %s\n",
-             var->name,
-             cfg->name
+        fail(
+          "! concretized_fixed_init: cannot run test, --concretization=fixed"
+          " with --config-concretization passed, but missing value for variable %s"
+          " in test %s\n",
+          var->name,
+          cfg->name
         );
       }
     }

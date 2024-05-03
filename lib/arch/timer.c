@@ -10,11 +10,10 @@ u64 TICKS_PER_SEC;
 
 /** read the clock */
 u64 read_clk(void) {
-    return read_sysreg(cntvct_el0);
+  return read_sysreg(cntvct_el0);
 }
-
 
 /** read the clock frequency in Hz */
 u64 read_clk_freq(void) {
-    return read_sysreg(cntfrq_el0);
+  return read_sysreg(cntfrq_el0);
 }

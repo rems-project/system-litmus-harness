@@ -58,8 +58,8 @@ void shuffle(void* p, u64 szof, u64 n) {
     u64 x = (randn() % n) * szof;
     u64 y = (randn() % n) * szof;
 
-    valloc_memcpy(datum, arr+x, szof);
-    valloc_memcpy(arr+x, arr+y, szof);
-    valloc_memcpy(arr+y, datum, szof);
+    valloc_memcpy(datum, arr + x, szof);
+    valloc_memcpy(arr + x, arr + y, szof);
+    valloc_memcpy(arr + y, datum, szof);
   }
 }

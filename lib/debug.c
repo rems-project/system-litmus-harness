@@ -51,7 +51,14 @@ void debug_valloc_status(void) {
     u64 free_mem = __total_free();
     u64 unalloc_count = __remaining_unalloc_chunks();
     u64 total_alloc = __total_alloc();
-    printf("(valloc)  top=0x%lx, #total_used=0x%lx B #remaining_chunks=%ld #free_chunks=0x%lx (with %p B)\n", mem.top, total_alloc, unalloc_count, free_chunks, free_mem);
+    printf(
+      "(valloc)  top=0x%lx, #total_used=0x%lx B #remaining_chunks=%ld #free_chunks=0x%lx (with %p B)\n",
+      mem.top,
+      total_alloc,
+      unalloc_count,
+      free_chunks,
+      free_mem
+    );
   }
 }
 
@@ -76,12 +83,11 @@ int __free_idx(u64 va) {
   return -1;
 }
 
-
 void __print_heap_flat(void) {
   for (u64 i = mem.top; i < TOP_OF_MEM; i++) {
     if (valloc_is_free((void*)i)) {
       int idx = __free_idx((u64)i);
-      printf("[%d]",idx);
+      printf("[%d]", idx);
     } else {
       printf("[x]");
     }
@@ -155,25 +161,23 @@ void __print_freelist(void) {
   valloc_free_chunk* fblk = mem.freelist;
   printf("[%p]\n", fblk);
   while (fblk != NULL) {
-    printf(" [%p -> %p (%ld B)]\n", (u64)fblk, (u64)fblk+fblk->size, fblk->size);
+    printf(" [%p -> %p (%ld B)]\n", (u64)fblk, (u64)fblk + fblk->size, fblk->size);
     fblk = fblk->next;
   }
   printf("[end of freelist]\n");
   printf("\n");
 }
 
-
-void debug_show_valloc_mem(void)  {
+void debug_show_valloc_mem(void) {
   printf("* HEAP:\n");
   __print_heap_pages();
   printf("**FREELIST:\n");
   __print_freelist();
 }
 
-
 /* vmm debug */
 
-void debug_vmm_show_walk(u64* pgtable, u64 va){
+void debug_vmm_show_walk(u64* pgtable, u64 va) {
   u64* root = pgtable;
   for (int level = 0; level <= 3; level++) {
     u64* p = root + OFFS(va, level);
@@ -195,7 +199,7 @@ void dump_hex(char* dest, char* src, int len) {
   int cur = 0;
   dest[cur++] = '\'';
   for (int i = 0; i < len; i += 1) {
-    u8 c = *(src+i);
+    u8 c = *(src + i);
     u8 hi = (c & 0xf0) >> 4;
     u8 lo = (c & 0x0f);
 

@@ -1,16 +1,16 @@
 #ifndef THREAD_INFO_H
 #define THREAD_INFO_H
 
+typedef struct
+{
+  /** which physical CPU this is on */
+  u64 cpu_no;
 
-typedef struct {
-    /** which physical CPU this is on */
-    u64 cpu_no;
+  /** which virtual CPU (thread no) this currently is (P0, P1, etc) */
+  u64 vcpu_no;
 
-    /** which virtual CPU (thread no) this currently is (P0, P1, etc) */
-    u64 vcpu_no;
-
-    u8 mmu_enabled;
-    u8 locking_enabled;
+  u8 mmu_enabled;
+  u8 locking_enabled;
 } thread_info_t;
 
 extern thread_info_t thread_infos[4];

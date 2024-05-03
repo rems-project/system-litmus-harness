@@ -5,10 +5,10 @@
 #include "litmus_asm_reg_macros.h"
 
 /* for ASM_VARS and ASM_REGS */
-#define VA_COUNT_(a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,n,...) n
+#define VA_COUNT_(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, n, ...) n
 #define VA_COUNT(...) VA_COUNT_(__VA_ARGS__, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1)
 
-#define VAR_FNs_1(fn, data, suffix, a, ...) [a##suffix] "r" (fn(data,#a))
+#define VAR_FNs_1(fn, data, suffix, a, ...) [a##suffix] "r"(fn(data, #a))
 #define VAR_FNs_2(fn, data, suffix, a, ...) VAR_FNs_1(fn, data, suffix, a), VAR_FNs_1(fn, data, suffix, __VA_ARGS__)
 #define VAR_FNs_3(fn, data, suffix, a, ...) VAR_FNs_1(fn, data, suffix, a), VAR_FNs_2(fn, data, suffix, __VA_ARGS__)
 #define VAR_FNs_4(fn, data, suffix, a, ...) VAR_FNs_1(fn, data, suffix, a), VAR_FNs_3(fn, data, suffix, __VA_ARGS__)
@@ -17,19 +17,19 @@
 #define VAR_FNs_(fn, data, suffix, a, b, c, d, e, f, n, ...) VAR_FNs_##n(fn, data, suffix, a, b, c, d, e, f)
 #define VAR_FNs_UNKNOWN(fn, data, suffix, ...) VAR_FNs_(fn, data, suffix, __VA_ARGS__, 6, 5, 4, 3, 2, 1)
 
-#define VAR_VAs(data, ...) VAR_FNs_UNKNOWN(var_va, data,, __VA_ARGS__)
-#define VAR_PAs(data, ...) VAR_FNs_UNKNOWN(var_pa, data,, __VA_ARGS__)
-#define VAR_PTEs(data, ...) VAR_FNs_UNKNOWN(var_pte, data,pte, __VA_ARGS__)
-#define VAR_PTE_LEVEL(data, level, ...) VAR_FNs_UNKNOWN(var_pte_level##level, data,pte##level, __VA_ARGS__)
-#define VAR_DESCs(data, ...) VAR_FNs_UNKNOWN(var_desc, data,desc, __VA_ARGS__)
-#define VAR_PAGEs(data, ...) VAR_FNs_UNKNOWN(var_page, data,page, __VA_ARGS__)
+#define VAR_VAs(data, ...) VAR_FNs_UNKNOWN(var_va, data, , __VA_ARGS__)
+#define VAR_PAs(data, ...) VAR_FNs_UNKNOWN(var_pa, data, , __VA_ARGS__)
+#define VAR_PTEs(data, ...) VAR_FNs_UNKNOWN(var_pte, data, pte, __VA_ARGS__)
+#define VAR_PTE_LEVEL(data, level, ...) VAR_FNs_UNKNOWN(var_pte_level##level, data, pte##level, __VA_ARGS__)
+#define VAR_DESCs(data, ...) VAR_FNs_UNKNOWN(var_desc, data, desc, __VA_ARGS__)
+#define VAR_PAGEs(data, ...) VAR_FNs_UNKNOWN(var_page, data, page, __VA_ARGS__)
 
-#define VAR_PMDs(data, ...) VAR_FNs_UNKNOWN(var_pmd, data,pmd, __VA_ARGS__)
-#define VAR_PUDs(data, ...) VAR_FNs_UNKNOWN(var_pud, data,pud, __VA_ARGS__)
-#define VAR_PMDDESCs(data, ...) VAR_FNs_UNKNOWN(var_pmddesc, data,pmddesc, __VA_ARGS__)
-#define VAR_PUDDESCs(data, ...) VAR_FNs_UNKNOWN(var_puddesc, data,puddesc, __VA_ARGS__)
+#define VAR_PMDs(data, ...) VAR_FNs_UNKNOWN(var_pmd, data, pmd, __VA_ARGS__)
+#define VAR_PUDs(data, ...) VAR_FNs_UNKNOWN(var_pud, data, pud, __VA_ARGS__)
+#define VAR_PMDDESCs(data, ...) VAR_FNs_UNKNOWN(var_pmddesc, data, pmddesc, __VA_ARGS__)
+#define VAR_PUDDESCs(data, ...) VAR_FNs_UNKNOWN(var_puddesc, data, puddesc, __VA_ARGS__)
 
-#define REG_FNs_1(data, a, ...) [IDENT(a)] "r" (out_reg(data,HUMAN(a)))
+#define REG_FNs_1(data, a, ...) [IDENT(a)] "r"(out_reg(data, HUMAN(a)))
 #define REG_FNs_2(data, a, ...) REG_FNs_1(data, a), REG_FNs_1(data, __VA_ARGS__)
 #define REG_FNs_3(data, a, ...) REG_FNs_1(data, a), REG_FNs_2(data, __VA_ARGS__)
 #define REG_FNs_4(data, a, ...) REG_FNs_1(data, a), REG_FNs_3(data, __VA_ARGS__)

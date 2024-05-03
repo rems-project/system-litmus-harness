@@ -11,7 +11,7 @@ static void fail_postcheck(test_ctx_t* ctx, const litmus_test_t* cfg, run_idx_t 
 
 /** check for nonsensical (bad) configurations */
 void concretization_precheck(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos) {
-  var_info_t *var;
+  var_info_t* var;
   FOREACH_HEAP_VAR(ctx, var) {
     fail_on(var->ty == VAR_NOTSET, "cannot concretize a NOTSET variable\n");
   }
@@ -20,7 +20,8 @@ void concretization_precheck(test_ctx_t* ctx, const litmus_test_t* cfg, var_info
 /* if var A owns a region R, and var B is not pinned to A but is also in region R
  * then fail
  */
-static void concretize_postcheck_no_overlap_owned(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, run_idx_t run) {
+static void
+concretize_postcheck_no_overlap_owned(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, run_idx_t run) {
   var_info_t* var;
   FOREACH_HEAP_VAR(ctx, var) {
     if (var->ty == VAR_HEAP) {
@@ -35,7 +36,16 @@ static void concretize_postcheck_no_overlap_owned(test_ctx_t* ctx, const litmus_
             && (   othervar->ty != VAR_PINNED
                 || othervar->pin.pin_region_var != var->varidx)
         ) {
-          fail_postcheck(ctx, cfg, run, "%s (%p) and %s (%p) overlap but one is not pinned to the other\n", var->name, va1, othervar->name, va2);
+          fail_postcheck(
+            ctx,
+            cfg,
+            run,
+            "%s (%p) and %s (%p) overlap but one is not pinned to the other\n",
+            var->name,
+            va1,
+            othervar->name,
+            va2
+          );
         }
       }
     }
@@ -44,7 +54,8 @@ static void concretize_postcheck_no_overlap_owned(test_ctx_t* ctx, const litmus_
 
 /* if var A states an offset from var B,  check that the last N bits of the VAs actually match!
  */
-static void concretize_postcheck_related_same_bits(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, run_idx_t run) {
+static void
+concretize_postcheck_related_same_bits(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, run_idx_t run) {
   var_info_t* var;
   FOREACH_HEAP_VAR(ctx, var) {
     if (var->init_attrs.has_region_offset) {
@@ -56,8 +67,12 @@ static void concretize_postcheck_related_same_bits(test_ctx_t* ctx, const litmus
 
       u64 lvl = LEVEL_SHIFTS[var->init_attrs.region_offset.offset_level];
 
-      if ( (va1 & BITMASK(lvl)) != (va2 & BITMASK(lvl)) ) {
-        fail_postcheck(ctx, cfg, run, "%s (%p) and %s (%p) are supposed to have the same %s but do not\n",
+      if ((va1 & BITMASK(lvl)) != (va2 & BITMASK(lvl))) {
+        fail_postcheck(
+          ctx,
+          cfg,
+          run,
+          "%s (%p) and %s (%p) are supposed to have the same %s but do not\n",
           var->name,
           va1,
           othervar->name,
@@ -76,11 +91,8 @@ static void concretize_postcheck_aligned(test_ctx_t* ctx, const litmus_test_t* c
   FOREACH_HEAP_VAR(ctx, var) {
     u64 va = (u64)var->values[run];
 
-    if ( (va & BITMASK(3)) != 0) {
-      fail_postcheck(ctx, cfg, run, "%s (%p) is supposed to be 64-bit aligned but is not.\n",
-        var->name,
-        va
-      );
+    if ((va & BITMASK(3)) != 0) {
+      fail_postcheck(ctx, cfg, run, "%s (%p) is supposed to be 64-bit aligned but is not.\n", var->name, va);
     }
   }
 }

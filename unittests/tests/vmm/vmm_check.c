@@ -14,22 +14,22 @@ u64 translate4k(u64* root, u64 vaddr) {
   while (1) {
     u64 valid, table;
     switch (level) {
-      case 0:
-        top = 48;
-        bot = 39;
-        break;
-      case 1:
-        top = 38;
-        bot = 30;
-        break;
-      case 2:
-        top = 29;
-        bot = 21;
-        break;
-      case 3:
-        top = 20;
-        bot = 12;
-        break;
+    case 0:
+      top = 48;
+      bot = 39;
+      break;
+    case 1:
+      top = 38;
+      bot = 30;
+      break;
+    case 2:
+      top = 29;
+      bot = 21;
+      break;
+    case 3:
+      top = 20;
+      bot = 12;
+      break;
     }
 
     offs = BIT_SLICE(vaddr, top, bot);

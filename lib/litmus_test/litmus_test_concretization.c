@@ -34,21 +34,13 @@
 #include "lib.h"
 
 u64 LEVEL_SIZES[6] = {
-  [REGION_VAR] = 0x1,
-  [REGION_CACHE_LINE] = 0x0,  /* filled at runtime */
-  [REGION_PAGE] = PAGE_SIZE,
-  [REGION_PMD] = PMD_SIZE,
-  [REGION_PUD] = PUD_SIZE,
-  [REGION_PGD] = PGD_SIZE,
+  [REGION_VAR] = 0x1,        [REGION_CACHE_LINE] = 0x0, /* filled at runtime */
+  [REGION_PAGE] = PAGE_SIZE, [REGION_PMD] = PMD_SIZE,   [REGION_PUD] = PUD_SIZE, [REGION_PGD] = PGD_SIZE,
 };
 
 u64 LEVEL_SHIFTS[6] = {
-  [REGION_VAR] = 0x1,
-  [REGION_CACHE_LINE] = 0x0,  /* filled at runtime */
-  [REGION_PAGE] = PAGE_SHIFT,
-  [REGION_PMD] = PMD_SHIFT,
-  [REGION_PUD] = PUD_SHIFT,
-  [REGION_PGD] = PGD_SHIFT,
+  [REGION_VAR] = 0x1,         [REGION_CACHE_LINE] = 0x0, /* filled at runtime */
+  [REGION_PAGE] = PAGE_SHIFT, [REGION_PMD] = PMD_SHIFT,  [REGION_PUD] = PUD_SHIFT, [REGION_PGD] = PGD_SHIFT,
 };
 
 /* random */
@@ -69,7 +61,7 @@ extern void concretize_linear_all(test_ctx_t* ctx, const litmus_test_t* cfg, voi
  * initial pagetable entries for all tests have been created
  */
 void set_init_pte(test_ctx_t* ctx, var_idx_t varidx, run_idx_t run) {
-  if (! ENABLE_PGTABLE)
+  if (!ENABLE_PGTABLE)
     return;
 
   var_info_t* vinfo = &ctx->heap_vars[varidx];
@@ -77,7 +69,14 @@ void set_init_pte(test_ctx_t* ctx, var_idx_t varidx, run_idx_t run) {
   u64* ptable = ptable_from_run(ctx, run);
   u64* pte = vmm_pte(ptable, (u64)vinfo->values[run]);
 
-  DEBUG(DEBUG_CONCRETIZATION, "initialising PTE for var '%s' with va=%p at pte=%p for pagetable rooted at %p\n", vinfo->name, va, pte, ptable);
+  DEBUG(
+    DEBUG_CONCRETIZATION,
+    "initialising PTE for var '%s' with va=%p at pte=%p for pagetable rooted at %p\n",
+    vinfo->name,
+    va,
+    pte,
+    ptable
+  );
 
   /* now if it was unmapped we can reset the last-level entry
   * to be invalid
@@ -85,7 +84,7 @@ void set_init_pte(test_ctx_t* ctx, var_idx_t varidx, run_idx_t run) {
   if (vinfo->ty == VAR_UNMAPPED) {
     *pte = 0;
   } else {
-  /* otherwise we write the level3 descriptor for this VA
+    /* otherwise we write the level3 descriptor for this VA
    */
     u64 pg;
     if (vinfo->ty == VAR_FIXED) {
@@ -120,7 +119,7 @@ void set_init_pte(test_ctx_t* ctx, var_idx_t varidx, run_idx_t run) {
   */
   if (vinfo->ty == VAR_ALIAS) {
     var_idx_t otheridx = vinfo->alias.aliased_with;
-    u64 otherva = (u64 )ctx->heap_vars[otheridx].values[run];
+    u64 otherva = (u64)ctx->heap_vars[otheridx].values[run];
     u64 otherpa = TESTDATA_MMAP_VIRT_TO_PHYS(otherva);
 
     /* do not copy attrs of otherpte */
@@ -162,7 +161,14 @@ void set_init_pte(test_ctx_t* ctx, var_idx_t varidx, run_idx_t run) {
     dsb();
   }
 
-  DEBUG(DEBUG_CONCRETIZATION, "init pte' for var '%s' on run %ld, va=%p on pgtable %p\n", vinfo->name, run, vinfo->values[run], ptable);
+  DEBUG(
+    DEBUG_CONCRETIZATION,
+    "init pte' for var '%s' on run %ld, va=%p on pgtable %p\n",
+    vinfo->name,
+    run,
+    vinfo->values[run],
+    ptable
+  );
 }
 
 /** given a var and an index perform the necessary initialization
@@ -177,7 +183,9 @@ void set_init_var(test_ctx_t* ctx, var_idx_t varidx, run_idx_t run) {
   var_info_t* vinfo = &ctx->heap_vars[varidx];
 
   u64* va = vinfo->values[run];
-  DEBUG(DEBUG_CONCRETIZATION, "set_init_var for run %ld for var '%s' with va = %p\n", run, vinfo->name, vinfo->values[run]);
+  DEBUG(
+    DEBUG_CONCRETIZATION, "set_init_var for run %ld for var '%s' with va = %p\n", run, vinfo->name, vinfo->values[run]
+  );
   set_init_pte(ctx, varidx, run);
 
   if (is_backed_var(vinfo)) {
@@ -216,18 +224,22 @@ void concretize_one(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t
   concretization_precheck(ctx, cfg, ctx->heap_vars);
 
   switch (type) {
-    case CONCRETE_LINEAR:
-      fail("! concretize: cannot concretize_one with concretization=linear\n");
-      break;
-    case CONCRETE_RANDOM:
-      concretize_random_one(ctx, cfg, st, run);
-      break;
-    case CONCRETE_FIXED:
-      concretize_fixed_one(ctx, cfg, run);
-      break;
-    default:
-      fail("! concretize_one: got unexpected concretization type: %s (%s)\n", LITMUS_CONCRETIZATION_TYPE, (LITMUS_CONCRETIZATION_TYPE));
-      break;
+  case CONCRETE_LINEAR:
+    fail("! concretize: cannot concretize_one with concretization=linear\n");
+    break;
+  case CONCRETE_RANDOM:
+    concretize_random_one(ctx, cfg, st, run);
+    break;
+  case CONCRETE_FIXED:
+    concretize_fixed_one(ctx, cfg, run);
+    break;
+  default:
+    fail(
+      "! concretize_one: got unexpected concretization type: %s (%s)\n",
+      LITMUS_CONCRETIZATION_TYPE,
+      (LITMUS_CONCRETIZATION_TYPE)
+    );
+    break;
   }
 }
 
@@ -237,23 +249,30 @@ void concretize(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cf
   concretization_precheck(ctx, cfg, ctx->heap_vars);
 
   switch (type) {
-    case CONCRETE_LINEAR:
-      concretize_linear_all(ctx, cfg, st, no_runs);
-      break;
-    case CONCRETE_RANDOM:
-      concretize_random_all(ctx, cfg, st, no_runs);
-      break;
-    case CONCRETE_FIXED:
-      concretize_fixed_all(ctx, cfg, no_runs);
-      break;
-    default:
-      fail("! concretize: got unexpected concretization type: %s (%s)\n", LITMUS_CONCRETIZATION_TYPE, (LITMUS_CONCRETIZATION_TYPE));
-      break;
+  case CONCRETE_LINEAR:
+    concretize_linear_all(ctx, cfg, st, no_runs);
+    break;
+  case CONCRETE_RANDOM:
+    concretize_random_all(ctx, cfg, st, no_runs);
+    break;
+  case CONCRETE_FIXED:
+    concretize_fixed_all(ctx, cfg, no_runs);
+    break;
+  default:
+    fail(
+      "! concretize: got unexpected concretization type: %s (%s)\n",
+      LITMUS_CONCRETIZATION_TYPE,
+      (LITMUS_CONCRETIZATION_TYPE)
+    );
+    break;
   }
 }
 
-void concretize_batch(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, run_count_t batch_start_idx, run_count_t batch_end_idx) {
-    debug("concretizing batch=%ld..%ld...\n", batch_start_idx, batch_end_idx);
+void concretize_batch(
+  concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, run_count_t batch_start_idx,
+  run_count_t batch_end_idx
+) {
+  debug("concretizing batch=%ld..%ld...\n", batch_start_idx, batch_end_idx);
   for (run_count_t r = batch_start_idx; r < batch_end_idx; r++) {
     run_idx_t i = count_to_run_index(ctx, r);
 repeat_loop:
@@ -284,7 +303,7 @@ repeat_loop:
 
           /* if they overlap, try allocate the last VAs again */
           if (pa1 == pa2) {
-          debug("got overlap on #%ld, trying again...\n", r);
+            debug("got overlap on #%ld, trying again...\n", r);
             goto repeat_loop;
           }
         }
@@ -304,16 +323,20 @@ void* concretize_linear_init(test_ctx_t* ctx, const litmus_test_t* cfg, run_idx_
  */
 void* concretize_init(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, run_idx_t no_runs) {
   switch (type) {
-    case CONCRETE_LINEAR:
-      return concretize_linear_init(ctx, cfg, no_runs);
-    case CONCRETE_RANDOM:
-      return concretize_random_init(ctx, cfg);
-    case CONCRETE_FIXED:
-      concretized_fixed_init(ctx, cfg);
-      break;
-    default:
-      fail("! concretize_allocate_st: got unexpected concretization type: %s (%s)\n", LITMUS_CONCRETIZATION_TYPE, (LITMUS_CONCRETIZATION_TYPE));
-      break;
+  case CONCRETE_LINEAR:
+    return concretize_linear_init(ctx, cfg, no_runs);
+  case CONCRETE_RANDOM:
+    return concretize_random_init(ctx, cfg);
+  case CONCRETE_FIXED:
+    concretized_fixed_init(ctx, cfg);
+    break;
+  default:
+    fail(
+      "! concretize_allocate_st: got unexpected concretization type: %s (%s)\n",
+      LITMUS_CONCRETIZATION_TYPE,
+      (LITMUS_CONCRETIZATION_TYPE)
+    );
+    break;
   }
 
   return NULL;
@@ -326,18 +349,24 @@ void concretize_random_finalize(test_ctx_t* ctx, const litmus_test_t* cfg, void*
  *
  * and optionally free any allocated state
  */
-void concretize_finalize(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, run_idx_t no_runs, void* st) {
+void concretize_finalize(
+  concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, run_idx_t no_runs, void* st
+) {
   switch (type) {
-    case CONCRETE_LINEAR:
-      concretize_linear_finalize(ctx, cfg, st);
-      break;
-    case CONCRETE_RANDOM:
-      concretize_random_finalize(ctx, cfg, st);
-      break;
-    case CONCRETE_FIXED:
-      break;
-    default:
-      fail("! concretize_free_st: got unexpected concretization type: %s (%s)\n", LITMUS_CONCRETIZATION_TYPE, (LITMUS_CONCRETIZATION_TYPE));
-      break;
+  case CONCRETE_LINEAR:
+    concretize_linear_finalize(ctx, cfg, st);
+    break;
+  case CONCRETE_RANDOM:
+    concretize_random_finalize(ctx, cfg, st);
+    break;
+  case CONCRETE_FIXED:
+    break;
+  default:
+    fail(
+      "! concretize_free_st: got unexpected concretization type: %s (%s)\n",
+      LITMUS_CONCRETIZATION_TYPE,
+      (LITMUS_CONCRETIZATION_TYPE)
+    );
+    break;
   }
 }

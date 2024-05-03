@@ -6,14 +6,14 @@
 /* this needs to be here as it may be > stack size
  */
 test_file_t tests[] = {
-  #include "tests.cstruct"
+#include "tests.cstruct"
 };
 
 unit_test_t* current_test;
 
-argdef_t *THIS_ARGS = &UNITTEST_ARGS;
+argdef_t* THIS_ARGS = &UNITTEST_ARGS;
 
-bool should_skip(unit_test_t *test) {
+bool should_skip(unit_test_t* test) {
   if (test->cond && !*test->cond)
     return true;
 
@@ -93,7 +93,6 @@ void main(void) {
           } else {
             printf("* [%s] %s\n", f->name, fn->name);
           }
-
         }
       }
     }

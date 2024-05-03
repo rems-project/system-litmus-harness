@@ -3,7 +3,7 @@
 /*
  * Generic stack walker
  */
-void walk_stack(stack_cb_fn cb, void *arg) {
+void walk_stack(stack_cb_fn cb, void* arg) {
   /* with -fno-omit-frame-pointer the frame pointer gets put
    * in register x29 */
   u64 init_fp = read_reg(x29);
@@ -13,7 +13,7 @@ void walk_stack(stack_cb_fn cb, void *arg) {
 }
 
 static void collect_stack_frame(void* arg, u64* fp, u64 ret_addr) {
-  stack_t* buf  = (stack_t*)arg;
+  stack_t* buf = (stack_t*)arg;
 
   buf->frames[buf->no_frames].next = (u64)fp;
   buf->frames[buf->no_frames].ret = ret_addr;
@@ -73,12 +73,12 @@ void walk_stack_from(u64* fp, stack_cb_fn cb, void* arg) {
     * u64: ret
     */
 
-    if (! stack_in_range((u64)fp, stack_top)) {
+    if (!stack_in_range((u64)fp, stack_top)) {
       break;
     }
 
-    u64* prev_fp  = (u64*)*fp;
-    u64 ret       = *(fp+1);
+    u64* prev_fp = (u64*)*fp;
+    u64 ret = *(fp + 1);
     fp = prev_fp;
     cb(arg, fp, ret);
 

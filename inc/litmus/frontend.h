@@ -16,11 +16,9 @@ void print_closest(const litmus_test_group* grp, re_t* arg);
  */
 void match_and_run(const litmus_test_group* grp, re_t* arg);
 
-
 /** try print all tests that match the given regex
  */
 void show_matches_only(const litmus_test_group* grp, re_t* arg);
-
 
 u64 grp_num_tests(const litmus_test_group* grp);
 u64 grp_num_groups(const litmus_test_group* grp);

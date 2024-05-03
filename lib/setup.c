@@ -3,7 +3,7 @@
 #include "vmm.h"
 
 extern u64 __argc;
-extern char*    __argv[100];
+extern char* __argv[100];
 
 /* per-thread boot data */
 cpu_data_t cpu_data[4];
@@ -59,39 +59,41 @@ void setup(char* fdtloc) {
 
   debug("memory layout:\n");
   debug("--------------------------------\n");
-  typedef struct {
+  typedef struct
+  {
     const char* name;
     u64 bottom;
     u64 top;
   } bar_region_t;
 
-  typedef struct {
+  typedef struct
+  {
     const char* name;
-    u8  is_top;
+    u8 is_top;
     u64 data;
   } region_border_t;
 
   bar_region_t regs[] = {
-    {"DRAM", BOT_OF_MEM, TOP_OF_MEM},
-    {"TESTDATA", BOT_OF_TESTDATA, TOP_OF_TESTDATA},
-    {"TEXT", BOT_OF_TEXT, TOP_OF_TEXT},
-    {"PTABLES", BOT_OF_PTABLES, TOP_OF_PTABLES},
-    {"STACK", BOT_OF_STACK_PA, TOP_OF_STACK_PA},
-    {"DATA", BOT_OF_DATA, TOP_OF_DATA},
-    {"HEAP", BOT_OF_HEAP, TOP_OF_HEAP},
-    {"IO", BOT_OF_IO, TOP_OF_IO},
+    { "DRAM", BOT_OF_MEM, TOP_OF_MEM },
+    { "TESTDATA", BOT_OF_TESTDATA, TOP_OF_TESTDATA },
+    { "TEXT", BOT_OF_TEXT, TOP_OF_TEXT },
+    { "PTABLES", BOT_OF_PTABLES, TOP_OF_PTABLES },
+    { "STACK", BOT_OF_STACK_PA, TOP_OF_STACK_PA },
+    { "DATA", BOT_OF_DATA, TOP_OF_DATA },
+    { "HEAP", BOT_OF_HEAP, TOP_OF_HEAP },
+    { "IO", BOT_OF_IO, TOP_OF_IO },
   };
 
-  const u64 reg_count = sizeof(regs)/sizeof(bar_region_t);
-  region_border_t bars[2*reg_count] ;
+  const u64 reg_count = sizeof(regs) / sizeof(bar_region_t);
+  region_border_t bars[2 * reg_count];
   for (int i = 0; i < reg_count; i++) {
     bar_region_t* r = &regs[i];
-    bars[2*i + 0] = (region_border_t){r->name, 0, r->bottom};
-    bars[2*i + 1] = (region_border_t){r->name, 1, r->top};
+    bars[2 * i + 0] = (region_border_t){ r->name, 0, r->bottom };
+    bars[2 * i + 1] = (region_border_t){ r->name, 1, r->top };
   }
 
   /* sort */
-  int no_bars = sizeof(bars)/sizeof(region_border_t);
+  int no_bars = sizeof(bars) / sizeof(region_border_t);
   for (int i = 0; i < no_bars; i++) {
     for (int j = i; j < no_bars; j++) {
       if (bars[i].data < bars[j].data) {
@@ -111,19 +113,33 @@ void setup(char* fdtloc) {
   }
   debug("--------------------------------\n");
   for (int i = 0; i < NO_CPUS; i++) {
-    debug("CPU%d STACK EL1 : [%p -> %p => %p -> %p]\n", i, STACK_MMAP_THREAD_TOP_EL1(i), STACK_MMAP_THREAD_BOT_EL1(i), STACK_PYS_THREAD_TOP_EL1(i), STACK_PYS_THREAD_BOT_EL1(i));
-    debug("CPU%d STACK EL0 : [%p -> %p => %p -> %p]\n", i, STACK_MMAP_THREAD_TOP_EL0(i), STACK_MMAP_THREAD_BOT_EL0(i), STACK_PYS_THREAD_TOP_EL0(i), STACK_PYS_THREAD_BOT_EL0(i));
+    debug(
+      "CPU%d STACK EL1 : [%p -> %p => %p -> %p]\n",
+      i,
+      STACK_MMAP_THREAD_TOP_EL1(i),
+      STACK_MMAP_THREAD_BOT_EL1(i),
+      STACK_PYS_THREAD_TOP_EL1(i),
+      STACK_PYS_THREAD_BOT_EL1(i)
+    );
+    debug(
+      "CPU%d STACK EL0 : [%p -> %p => %p -> %p]\n",
+      i,
+      STACK_MMAP_THREAD_TOP_EL0(i),
+      STACK_MMAP_THREAD_BOT_EL0(i),
+      STACK_PYS_THREAD_TOP_EL0(i),
+      STACK_PYS_THREAD_BOT_EL0(i)
+    );
   }
 
   vector_base_pa = (u64)&el1_exception_vector_table_p0;
 
   for (int i = 0; i < NO_CPUS; i++) {
-    debug("CPU%d VTABLE : %p\n", i, vector_base_pa+4096*i);
+    debug("CPU%d VTABLE : %p\n", i, vector_base_pa + 4096 * i);
   }
 
   /* create pgtable */
   if (ENABLE_PGTABLE) {
-    vmm_pgtables = alloc(sizeof(u64*)*NO_CPUS);
+    vmm_pgtables = alloc(sizeof(u64*) * NO_CPUS);
   }
 
   printf("#build: (%s)\n", version_string());
@@ -171,7 +187,8 @@ void ensure_cpus_on(void) {
   debug("started boot.\n");
 
   for (int i = 0; i < 4; i++) {
-    while (! cpu_data[i].started) wfe();
+    while (!cpu_data[i].started)
+      wfe();
   }
 
   debug("booted all CPUs\n");
@@ -184,11 +201,10 @@ void per_cpu_setup(int cpu) {
   u64 el = read_sysreg(currentel) >> 2;
 
   if (el == 2) {
-    u64 spsr = \
-      SPSR_FIELD(SPSR_EL, 1) | /* drop to EL1 */
-      SPSR_FIELD(SPSR_SP, 0) | /* using SP_EL0 */
-      0 ;
-    u64 elr = (u64)&&begin_el1; /* and 'return' to begin_el1 */
+    u64 spsr = SPSR_FIELD(SPSR_EL, 1) | /* drop to EL1 */
+               SPSR_FIELD(SPSR_SP, 0) | /* using SP_EL0 */
+               0;
+    u64 elr = (u64) && begin_el1; /* and 'return' to begin_el1 */
 
     write_sysreg(spsr, spsr_el2);
     write_sysreg(elr, elr_el2);
@@ -213,7 +229,7 @@ begin_el1:
 
   /* enable PMU cycle counter */
   write_sysreg((1UL << 27), pmccfiltr_el0);
-  write_sysreg((1UL << 6) | (1UL << 0), pmcr_el0);  /* reset to 0 */
+  write_sysreg((1UL << 6) | (1UL << 0), pmcr_el0); /* reset to 0 */
   write_sysreg((1 << 31), pmcntenset_el0);
   write_sysreg((1 << 0), pmuserenr_el0);
 

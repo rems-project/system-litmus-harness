@@ -5,7 +5,8 @@
 #include "config.h"
 #include "abort.h"
 
-typedef struct {
+typedef struct
+{
   u8 has_attridx;
   u64 attridx;
 
@@ -13,17 +14,18 @@ typedef struct {
   u64 ap;
 
   u8 has_region_offset;
-  struct {
+  struct
+  {
     var_idx_t offset_var;
     rel_offset_t offset_level;
   } region_offset;
 } var_info_attrs_t;
 
-typedef struct {
+typedef struct
+{
   u64 val;
   u8 is_identity_mapped;
 } var_info_backing_t;
-
 
 /** heap var info
  *
@@ -59,16 +61,17 @@ typedef struct {
  * can be set to be identity mapped.
  */
 typedef enum {
-  VAR_NOTSET,  /* unused */
+  VAR_NOTSET, /* unused */
   VAR_HEAP,
   VAR_ALIAS,
   VAR_PINNED,
   VAR_FIXED,
   VAR_UNMAPPED,
 } var_info_type_t;
-const char *var_info_type_to_str(var_info_type_t ty);
+const char* var_info_type_to_str(var_info_type_t ty);
 
-typedef struct {
+typedef struct
+{
   var_idx_t varidx;
   const char* name;
 
@@ -80,22 +83,26 @@ typedef struct {
 
   var_info_type_t ty;
   union {
-    struct {
+    struct
+    {
       var_info_backing_t back;
       own_level_t owned_region_size;
     } heap;
 
-    struct {
+    struct
+    {
       var_idx_t aliased_with;
     } alias;
 
-    struct {
+    struct
+    {
       var_info_backing_t back;
       var_idx_t pin_region_var;
       pin_level_t pin_region_level;
     } pin;
 
-    struct {
+    struct
+    {
       u64 phys;
     } fixed;
   };
@@ -111,9 +118,9 @@ typedef struct {
  * debug print a single varinfo
  * given the array of all the vars to lookup indexes in
  */
-void debug_print_var_info(var_info_t *vinfo, var_info_t *infos);
+void debug_print_var_info(var_info_t* vinfo, var_info_t* infos);
 
-static inline u8 is_backed_var(var_info_t *vinfo) {
+static inline u8 is_backed_var(var_info_t* vinfo) {
   return (vinfo->ty == VAR_HEAP) || (vinfo->ty == VAR_PINNED);
 }
 
@@ -122,12 +129,9 @@ static inline u8 is_backed_var(var_info_t *vinfo) {
  * in which other vars should not be allocated in
  * (except when explicitly pinned)
  */
-static inline u8 var_owns_region(var_info_t *vinfo) {
+static inline u8 var_owns_region(var_info_t* vinfo) {
   return (
-       (vinfo->ty == VAR_HEAP)
-    || (vinfo->ty == VAR_UNMAPPED)
-    || (vinfo->ty == VAR_FIXED)
-    || (vinfo->ty == VAR_ALIAS)
+    (vinfo->ty == VAR_HEAP) || (vinfo->ty == VAR_UNMAPPED) || (vinfo->ty == VAR_FIXED) || (vinfo->ty == VAR_ALIAS)
   );
 }
 
@@ -136,18 +140,15 @@ static inline u8 var_owns_region(var_info_t *vinfo) {
  * in which other vars should not be allocated in
  * (except when explicitly pinned)
  */
-static inline u8 var_owns_phys_region(var_info_t *vinfo) {
-  return (
-       (vinfo->ty == VAR_HEAP)
-    || (vinfo->ty == VAR_FIXED)
-  );
+static inline u8 var_owns_phys_region(var_info_t* vinfo) {
+  return ((vinfo->ty == VAR_HEAP) || (vinfo->ty == VAR_FIXED));
 }
-static inline own_level_t var_owned_region_size(var_info_t *vinfo) {
+static inline own_level_t var_owned_region_size(var_info_t* vinfo) {
   fail_on(!var_owns_region(vinfo), "cannot get owned region size of \"%s\"", vinfo->name);
   return vinfo->ty == VAR_HEAP ? vinfo->heap.owned_region_size : REGION_OWN_PAGE;
 }
 
-static inline var_info_backing_t *var_backing(var_info_t *vinfo) {
+static inline var_info_backing_t* var_backing(var_info_t* vinfo) {
   fail_on(!is_backed_var(vinfo), "can't get backing of unbacked var");
   return vinfo->ty == VAR_HEAP ? &vinfo->heap.back : &vinfo->pin.back;
 }

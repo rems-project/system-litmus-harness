@@ -4,16 +4,16 @@
 #include "drivers/bcm2837/gpio.h"
 
 static void __delay(int count) {
-  asm (
+  asm(
     "mov x0, %[c]\n"
     "cbz x0, 1f\n"
     "0:\n"
     "sub x0, x0, #1\n"
     "cbnz x0, 0b\n"
     "1:\n"
-  :
-  : [c] "r" (count)
-  : "memory"
+    :
+    : [c] "r"(count)
+    : "memory"
   );
 }
 
@@ -23,12 +23,7 @@ void init_uart(void) {
   sel &= ~(BITMASK(3) << GPFSEL1_FSEL_14);
   sel &= ~(BITMASK(3) << GPFSEL1_FSEL_15);
 
-  writew(
-    sel
-      | (GPFSEL_ALT5 << GPFSEL1_FSEL_14)
-      | (GPFSEL_ALT5 << GPFSEL1_FSEL_15),
-    GPFSEL1
-  );
+  writew(sel | (GPFSEL_ALT5 << GPFSEL1_FSEL_14) | (GPFSEL_ALT5 << GPFSEL1_FSEL_15), GPFSEL1);
 
   /* according to page 101 of the datasheet for BCM2837
    * we are recommended to add a sleep of 150 cycles
@@ -57,7 +52,7 @@ void write_stdout(u8 c) {
   /* block until the transmit pin is empty
    * and able to accept another byte.
    */
-  while(1) {
+  while (1) {
     if (readw(AUX_MU_LSR_REG) & AUX_MU_LSR_TX_EMPTY)
       break;
   }

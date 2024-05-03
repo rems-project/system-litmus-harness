@@ -14,7 +14,7 @@
 void init_device(void* fdt);
 
 extern u64 __cache_line_size;  /* cache line of minimum size */
-extern u64 __cache_line_shift;  /* cache line of minimum size */
+extern u64 __cache_line_shift; /* cache line of minimum size */
 #define CACHE_LINE_SIZE __cache_line_size
 #define CACHE_LINE_SHIFT __cache_line_shift
 #define PAGE_SIZE 4096L
@@ -26,8 +26,8 @@ extern u64 __cache_line_shift;  /* cache line of minimum size */
 #define PGD_SIZE (PUD_SIZE * 512)
 #define PGD_SHIFT 39
 
-extern u8 __dc_zero_allow;  /* DC ZVA allow ? */
-extern u64 __dc_zero_block_width;  /* size of DC ZVA block */
+extern u8 __dc_zero_allow;        /* DC ZVA allow ? */
+extern u64 __dc_zero_block_width; /* size of DC ZVA block */
 
 #define DCZVA_ALLOW __dc_zero_allow
 #define DCZVA_BLOCK_WIDTH __dc_zero_block_width
@@ -39,7 +39,7 @@ extern u64 __asid_size;
  * While these are defined in the psci node of the dtb
  * they are architecturally hard-coded to the following values in PSCIv0.2 */
 #define PSCI_SYSTEM_OFF 0x84000008UL
-#define PSCI_CPU_ON 0xC4000003UL  /* SMC64 starts at 0xC4... */
+#define PSCI_CPU_ON 0xC4000003UL /* SMC64 starts at 0xC4... */
 #define PSCI_CPU_OFF 0x84000002UL
 
 #define MAX_CPUS 4
@@ -100,8 +100,8 @@ extern u64 BOT_OF_STACK_PA;
  *  EL0 is from [0x1200_0000 -> 0x1000_0000]
  *  EL1 is from [0x1400_0000 -> 0x1200_0000]
  */
-#define STACK_PYS_THREAD_TOP_ELx(cpu,el) (BOT_OF_STACK_PA + (1+cpu)*2*STACK_SIZE - STACK_SIZE*(1-el))
-#define STACK_PYS_THREAD_BOT_ELx(cpu,el) (STACK_PYS_THREAD_TOP_ELx(cpu,el) - STACK_SIZE)
+#define STACK_PYS_THREAD_TOP_ELx(cpu, el) (BOT_OF_STACK_PA + (1 + cpu) * 2 * STACK_SIZE - STACK_SIZE * (1 - el))
+#define STACK_PYS_THREAD_BOT_ELx(cpu, el) (STACK_PYS_THREAD_TOP_ELx(cpu, el) - STACK_SIZE)
 
 #define STACK_PYS_THREAD_TOP_EL0(cpu) STACK_PYS_THREAD_TOP_ELx(cpu, 0)
 #define STACK_PYS_THREAD_TOP_EL1(cpu) STACK_PYS_THREAD_TOP_ELx(cpu, 1)
@@ -151,40 +151,45 @@ extern char* fdt_load_addr;
 /**
  * see https://github.com/devicetree-org/devicetree-specification/blob/master/source/flattened-format.rst
  */
-typedef struct  {
-    u32 fdt_magic;
-    u32 fdt_totalsize;
-    u32 fdt_off_dt_struct;
-    u32 fdt_off_dt_strings;
-    u32 fdt_off_mem_rsvmap;
-    u32 fdt_version;
-    u32 fdt_last_comp_version;
-    u32 fdt_boot_cpuid_phys;
-    u32 fdt_size_dt_strings;
-    u32 fdt_size_dt_struct;
+typedef struct
+{
+  u32 fdt_magic;
+  u32 fdt_totalsize;
+  u32 fdt_off_dt_struct;
+  u32 fdt_off_dt_strings;
+  u32 fdt_off_mem_rsvmap;
+  u32 fdt_version;
+  u32 fdt_last_comp_version;
+  u32 fdt_boot_cpuid_phys;
+  u32 fdt_size_dt_strings;
+  u32 fdt_size_dt_struct;
 } fdt_header;
 
-typedef struct {
-    u32 token;
-    u32 nameoff;
+typedef struct
+{
+  u32 token;
+  u32 nameoff;
 } fdt_structure_piece_with_name;
 
-typedef struct {
-    char* current;
-    u32 token;
-    char* next;
+typedef struct
+{
+  char* current;
+  u32 token;
+  char* next;
 } fdt_structure_piece;
 
-typedef struct {
-    u32 token;
-    u32 len;
-    u32 nameoff;
-    char data[0];
+typedef struct
+{
+  u32 token;
+  u32 len;
+  u32 nameoff;
+  char data[0];
 } fdt_structure_property_header;
 
-typedef struct {
-    u32 token;
-    char name[0];
+typedef struct
+{
+  u32 token;
+  char name[0];
 } fdt_structure_begin_node_header;
 
 fdt_structure_piece fdt_find_node_with_prop_with_index(char* fdt, char* index, char* prop_name, char* expected_value);
@@ -195,10 +200,11 @@ fdt_structure_property_header* fdt_find_prop(char* fdt, char* node_name, char* p
 
 char* dtb_bootargs(void* fdt);
 
-typedef struct {
+typedef struct
+{
   u64 base;
   u64 size;
-  u64 top;  /* base+size */
+  u64 top; /* base+size */
 } dtb_mem_t;
 
 dtb_mem_t dtb_read_memory(void* fdt);

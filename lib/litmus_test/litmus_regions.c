@@ -10,7 +10,7 @@ void initialize_regions(regions_t* r) {
    * see vmm_pgtable.c
    */
 
-  for (int i = 0 ; i < NR_REGIONS; i++) {
+  for (int i = 0; i < NR_REGIONS; i++) {
     u64 start_va;
 
     if (ENABLE_PGTABLE)
@@ -23,22 +23,17 @@ void initialize_regions(regions_t* r) {
   }
 }
 
-
 region_idx_t align_down_region_idx(region_idx_t idx, pin_level_t alignment) {
-  return (region_idx_t){.reg_ix=idx.reg_ix, .reg_offs=ALIGN_TO(idx.reg_offs, LEVEL_SHIFTS[alignment])};
+  return (region_idx_t){ .reg_ix = idx.reg_ix, .reg_offs = ALIGN_TO(idx.reg_offs, LEVEL_SHIFTS[alignment]) };
 }
 
 region_idx_t align_up_region_idx(region_idx_t idx, pin_level_t alignment) {
-  return (region_idx_t){
-    .reg_ix=idx.reg_ix,
-    /* note that we do not map a whole region
+  return (region_idx_t
+  ){ .reg_ix = idx.reg_ix,
+     /* note that we do not map a whole region
      * so we cut off at NR_DIRS_PER_REGION*DIR_SIZE
      */
-    .reg_offs=MIN(
-      ALIGN_UP_TO(idx.reg_offs, LEVEL_SHIFTS[alignment]),
-      NR_DIRS_PER_REGION*DIR_SIZE
-    )
-  };
+     .reg_offs = MIN(ALIGN_UP_TO(idx.reg_offs, LEVEL_SHIFTS[alignment]), NR_DIRS_PER_REGION * DIR_SIZE) };
 }
 
 u64 va_from_region_idx(test_ctx_t* ctx, var_info_t* var, region_idx_t idx) {
@@ -53,11 +48,11 @@ u64 va_from_region_idx(test_ctx_t* ctx, var_info_t* var, region_idx_t idx) {
 }
 
 region_idx_t region_idx_bottom() {
-  return (region_idx_t){.reg_ix=0, .reg_offs=0};
+  return (region_idx_t){ .reg_ix = 0, .reg_offs = 0 };
 }
 
 region_idx_t region_idx_top() {
-  return (region_idx_t){.reg_ix=NR_REGIONS-1, .reg_offs=BITMASK(REGION_SHIFT)};
+  return (region_idx_t){ .reg_ix = NR_REGIONS - 1, .reg_offs = BITMASK(REGION_SHIFT) };
 }
 
 inline char* region_idx_to_str(region_idx_t ix) {

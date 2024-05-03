@@ -8,7 +8,7 @@
  */
 
 void lock(volatile lock_t* lock) {
-  if (! current_thread_info()->locking_enabled)
+  if (!current_thread_info()->locking_enabled)
     return;
 
   if (ENABLE_PGTABLE)
@@ -18,7 +18,7 @@ void lock(volatile lock_t* lock) {
 }
 
 void unlock(volatile lock_t* lock) {
-  if (! current_thread_info()->locking_enabled)
+  if (!current_thread_info()->locking_enabled)
     return;
 
   if (ENABLE_PGTABLE)
@@ -37,12 +37,11 @@ int get_ticket(volatile lamport_lock_t* lock) {
     }
   }
 
-  return 1+max_ticket;
+  return 1 + max_ticket;
 }
 
 int lex_less(volatile lamport_lock_t* lock, int tid1, int tid2) {
-  return ((lock->number[tid1] < lock->number[tid2]) || ((lock->number[tid1] == lock->number[tid2])
-                                                        && tid1 < tid2));
+  return ((lock->number[tid1] < lock->number[tid2]) || ((lock->number[tid1] == lock->number[tid2]) && tid1 < tid2));
 }
 
 void lamport_lock(volatile lamport_lock_t* lock) {
@@ -57,8 +56,7 @@ void lamport_lock(volatile lamport_lock_t* lock) {
       /* nothing */
     }
     dmb();
-    while ((lock->number[j] != 0) &&
-           lex_less(lock, j, i)) {
+    while ((lock->number[j] != 0) && lex_less(lock, j, i)) {
       /* nothing */
     }
   }
@@ -103,7 +101,7 @@ void __atomic_cas(volatile u64* va, u64 old, u64 new) {
     "1:\n"
     "sev\n"
     :
-    : [va] "r" (va), [val] "r" (new), [old] "r" (old)
+    : [va] "r"(va), [val] "r"(new), [old] "r"(old)
     : "memory", "x0", "x1"
   );
 }
@@ -156,13 +154,13 @@ void __atomic_dec(volatile u64* va) {
     /* decremented */
     "sev\n"
     :
-    : [va] "r" (va)
+    : [va] "r"(va)
     : "memory", "x0", "x1"
   );
 }
 
 void bwait(int vcpu, bar_t* bar, int sz) {
-  if (! current_thread_info()->locking_enabled) {
+  if (!current_thread_info()->locking_enabled) {
     fail("bwait needs locking enabled\n");
   }
 
@@ -189,7 +187,6 @@ void bwait(int vcpu, bar_t* bar, int sz) {
 
   bar->waiting++;
 
-
   if (bar->waiting == sz) {
     /* release them all */
     bar->current_state = 1;
@@ -203,7 +200,8 @@ void bwait(int vcpu, bar_t* bar, int sz) {
 
   /* wait for the last one to arrive and flip the current state */
   u64 iter = bar->iteration;
-  while (bar->current_state == 0) wfe();
+  while (bar->current_state == 0)
+    wfe();
   __atomic_dec(&bar->waiting);
 
   /** a slow bwait release section
@@ -213,5 +211,6 @@ void bwait(int vcpu, bar_t* bar, int sz) {
    *
    * vcpus are labelled 0..N for N <= sz
    */
-  while (bar->iteration == iter && bar->waiting != 0) dmb();
+  while (bar->iteration == iter && bar->waiting != 0)
+    dmb();
 }

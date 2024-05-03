@@ -7,5 +7,5 @@ void init_driver(void) {
 }
 
 void write_stdout(u8 c) {
-    writeb(c, UART0_BASE);
+  writeb(c, UART0_BASE);
 }

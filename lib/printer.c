@@ -280,7 +280,9 @@ void __print_frame_unwind(char* out, int skip) {
   out = sprintf(out, ""); /* put a NUL at the end always, even if no frames */
 }
 
-void printf_with_fileloc(const char* level, int mode, const char* filename, const int line, const char* func, const char* fmt, ...) {
+void printf_with_fileloc(
+  const char* level, int mode, const char* filename, const int line, const char* func, const char* fmt, ...
+) {
   int cpu = get_cpu();
   lock(&__PR_VERB_LOCK);
   __print_frame_unwind(__debug_frame_buf, 2);
@@ -294,7 +296,18 @@ void printf_with_fileloc(const char* level, int mode, const char* filename, cons
   }
 
   sprint_time(__debug_time_buf, read_clk(), SPRINT_TIME_HHMMSSCLK);
-  sprintf(__verbose_print_buf, "(%s) CPU%d:%s:[%s %s:%d (%s)] %s", __debug_time_buf, cpu, level, __debug_frame_buf, filename, line, func, fmt);
+  sprintf(
+    __verbose_print_buf,
+    "(%s) CPU%d:%s:[%s %s:%d (%s)] %s",
+    __debug_time_buf,
+    cpu,
+    level,
+    __debug_frame_buf,
+    filename,
+    line,
+    func,
+    fmt
+  );
 
   if (strlen(__verbose_print_buf) > 1024) {
     /* can't use fail() here
@@ -377,20 +390,20 @@ char* sprint_time(char* out, u64 clk, time_format_t mode) {
 }
 
 /** printing registers */
-int extract_tid(const char *reg_name) {
+int extract_tid(const char* reg_name) {
   if (reg_name[0] != 'p') {
     fail("unknown register %s\n", reg_name);
   }
   return ctoi(reg_name[1]);
 }
 
-int extract_gprid(const char *reg_name) {
+int extract_gprid(const char* reg_name) {
   if (reg_name[0] != 'p' || reg_name[2] != ':') {
     fail("unknown register %s\n", reg_name);
   }
-  return atoi((char *)reg_name+4);
+  return atoi((char*)reg_name + 4);
 }
-char *sprint_reg(char *out, const char *reg_name, output_style_t style) {
+char* sprint_reg(char* out, const char* reg_name, output_style_t style) {
   switch (style) {
   case STYLE_ORIGINAL:
     return sprintf(out, "%s", reg_name);

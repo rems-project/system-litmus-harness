@@ -18,22 +18,24 @@ void cpu_data_init(void) {
 void cpu_boot(u64 cpu) {
   debug("boot CPU%d ...\n", cpu);
   switch (boot_data.kind) {
-    case BOOT_KIND_PSCI:
-      psci_cpu_on(cpu);
-      break;
-    case BOOT_KIND_SPIN:
-      spin_cpu_on(cpu);
-      break;
-    default:
-      fail("cannot boot CPU%d : unknown boot kind '%ld'\n", cpu, boot_data.kind);
+  case BOOT_KIND_PSCI:
+    psci_cpu_on(cpu);
+    break;
+  case BOOT_KIND_SPIN:
+    spin_cpu_on(cpu);
+    break;
+  default:
+    fail("cannot boot CPU%d : unknown boot kind '%ld'\n", cpu, boot_data.kind);
   }
 
-  while (!cpu_data[cpu].started) wfe();
+  while (!cpu_data[cpu].started)
+    wfe();
   debug("... booted CPU%d.\n", cpu);
 }
 
 void run_on_cpu_async(u64 cpu, async_fn_t* fn, void* arg) {
-  while (!cpu_data[cpu].started) wfe();
+  while (!cpu_data[cpu].started)
+    wfe();
 
   cpu_data[cpu].finished = 0;
   cpu_data[cpu].arg = arg;
@@ -49,7 +51,8 @@ void run_on_cpu(u64 cpu, async_fn_t* fn, void* arg) {
     fn(cpu, arg);
   } else {
     run_on_cpu_async(cpu, fn, arg);
-    while (! cpu_data[cpu].finished) wfe();
+    while (!cpu_data[cpu].finished)
+      wfe();
   }
 }
 
@@ -59,7 +62,8 @@ void run_on_cpus(async_fn_t* fn, void* arg) {
   fail_on(IN_STACK_MMAP_SPACE((u64)arg), "cannot pass run_on_cpus a stack-local arg.");
 
   for (int i = 0; i < 4; i++)
-    while (!cpu_data[i].started) wfe();
+    while (!cpu_data[i].started)
+      wfe();
 
   for (int i = 0; i < 4; i++) {
     if (i != cur_cpu) {
@@ -72,7 +76,8 @@ void run_on_cpus(async_fn_t* fn, void* arg) {
   sev();
   sevl();
   for (int i = 0; i < 4; i++) {
-    while (! cpu_data[i].finished) wfe();
+    while (!cpu_data[i].finished)
+      wfe();
   }
 }
 

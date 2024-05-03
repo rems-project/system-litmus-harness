@@ -39,7 +39,7 @@ void run_test(const litmus_test_t* cfg) {
   /* run it */
   trace("%s\n", "Running Tests ...");
   if (TRACE) {
-    for(int i = 0; i < 4; i++) {
+    for (int i = 0; i < 4; i++) {
       printf("P%d\t\t\t", i);
     }
     printf("\n");
@@ -76,13 +76,13 @@ static void _init_sys_state(test_ctx_t* ctx) {
  */
 run_idx_t count_to_run_index(test_ctx_t* ctx, run_count_t i) {
   switch (LITMUS_SHUFFLE_TYPE) {
-    case SHUF_NONE:
-      return (run_idx_t)i;
-    case SHUF_RAND:
-      return ctx->shuffled_ixs[i];
-    default:
-      fail("! unknown LITMUS_SHUFFLE_TYPE: %d/%s\n", LITMUS_SHUFFLE_TYPE, shuff_type_to_str(LITMUS_SHUFFLE_TYPE));
-      return 0;
+  case SHUF_NONE:
+    return (run_idx_t)i;
+  case SHUF_RAND:
+    return ctx->shuffled_ixs[i];
+  default:
+    fail("! unknown LITMUS_SHUFFLE_TYPE: %d/%s\n", LITMUS_SHUFFLE_TYPE, shuff_type_to_str(LITMUS_SHUFFLE_TYPE));
+    return 0;
   }
 }
 
@@ -136,27 +136,30 @@ static void allocate_data_for_batch(test_ctx_t* ctx, u64 vcpu, run_count_t batch
 static u64 run_data_size(test_ctx_t* ctx) {
   u64 actual_size = (
     /* the VAs of the variables themselves */
-    sizeof(u64*)*ctx->cfg->no_heap_vars
+    sizeof(u64*) * ctx->cfg->no_heap_vars
     /* ... and the PAs */
-    + sizeof(u64)*ctx->cfg->no_heap_vars
+    + sizeof(u64) * ctx->cfg->no_heap_vars
     /* each of the output registers */
-    + sizeof(u64*)*ctx->cfg->no_regs
+    + sizeof(u64*) * ctx->cfg->no_regs
     /* and per-variable, each level of the pagetable,
      * the entry pointer and initial descriptor */
-    + sizeof(u64)*ctx->cfg->no_heap_vars*4
-    + sizeof(u64*)*ctx->cfg->no_heap_vars*4
+    + sizeof(u64) * ctx->cfg->no_heap_vars * 4 +
+    sizeof(u64*) * ctx->cfg->no_heap_vars * 4
     /* ... plus spare for pointers to each */
-    + sizeof(u64*)*ctx->cfg->no_heap_vars*2
+    + sizeof(u64*) * ctx->cfg->no_heap_vars * 2
   );
 
   /* align up to the next power of 2 */
   u64 bits = log2(actual_size);
-  return ALIGN_UP(actual_size, bits+1);
+  return ALIGN_UP(actual_size, bits + 1);
 }
 
 /** initialise the litmus_test_run datas to pass as arguments
  */
-static void setup_run_data(test_ctx_t* ctx, u64 vcpu, run_count_t batch_start_idx, run_count_t batch_end_idx, valloc_arena *arena, litmus_test_run* runs) {
+static void setup_run_data(
+  test_ctx_t* ctx, u64 vcpu, run_count_t batch_start_idx, run_count_t batch_end_idx, valloc_arena* arena,
+  litmus_test_run* runs
+) {
   int idx;
   run_count_t r;
 
@@ -202,7 +205,10 @@ static void setup_run_data(test_ctx_t* ctx, u64 vcpu, run_count_t batch_start_id
   }
 }
 
-static void clean_run_data(test_ctx_t* ctx, u64 vcpu, run_count_t batch_start_idx, run_count_t batch_end_idx, valloc_arena *arena, litmus_test_run* runs) {
+static void clean_run_data(
+  test_ctx_t* ctx, u64 vcpu, run_count_t batch_start_idx, run_count_t batch_end_idx, valloc_arena* arena,
+  litmus_test_run* runs
+) {
   int idx;
   run_count_t r;
 
@@ -241,7 +247,8 @@ static void clean_tlb_for_batch(test_ctx_t* ctx, run_count_t batch_start_idx, ru
   dsb();
 }
 
-typedef struct {
+typedef struct
+{
   u32* el0;
   u32* el1_sp0;
   u32* el1_spx;
@@ -278,7 +285,9 @@ static void restore_old_sync_exception_handlers(test_ctx_t* ctx, u64 vcpu, excep
 /** prepare the state for the following tests
  * e.g. clean TLBs and install exception handler
  */
-static void prepare_test_contexts(test_ctx_t* ctx, u64 vcpu, run_count_t batch_start_idx, run_count_t batch_end_idx, exception_handlers_refs_t* handlers) {
+static void prepare_test_contexts(
+  test_ctx_t* ctx, u64 vcpu, run_count_t batch_start_idx, run_count_t batch_end_idx, exception_handlers_refs_t* handlers
+) {
   clean_tlb_for_batch(ctx, batch_start_idx, batch_end_idx);
 }
 
@@ -300,7 +309,7 @@ static void switch_to_test_context(test_ctx_t* ctx, int vcpu, run_count_t r, exc
     vmm_switch_ttable_asid(ptable, asid);
   }
 
-  if (! ctx->cfg->start_els || ctx->cfg->start_els[vcpu] == 0) {
+  if (!ctx->cfg->start_els || ctx->cfg->start_els[vcpu] == 0) {
     drop_to_el0();
   }
 
@@ -317,7 +326,7 @@ static void return_to_harness_context(test_ctx_t* ctx, u64 cpu, u64 vcpu, except
    */
   restore_old_sync_exception_handlers(ctx, vcpu, handlers);
 
-  if (! ctx->cfg->start_els || ctx->cfg->start_els[vcpu] == 0) {
+  if (!ctx->cfg->start_els || ctx->cfg->start_els[vcpu] == 0) {
     raise_to_el1();
   }
 
@@ -366,10 +375,10 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
    * then at the end of the batch, we clean all the ASIDS, free all the pagetables, flush any caches that may need flushing.
    */
   for (run_count_t j = 0; j < ctx->no_runs;) {
-    u64 vcpu;  /* the test thread this physical core will execute */
+    u64 vcpu; /* the test thread this physical core will execute */
 
     run_count_t batch_start_idx = j;
-    run_count_t batch_end_idx = MIN(batch_start_idx+ctx->batch_size, ctx->no_runs);
+    run_count_t batch_end_idx = MIN(batch_start_idx + ctx->batch_size, ctx->no_runs);
 
     if (cpu == 0)
       /* make sure we only try assign new affinities once per batch
@@ -391,11 +400,11 @@ static void run_thread(test_ctx_t* ctx, int cpu) {
     BWAIT(cpu, ctx->generic_cpu_barrier, NO_CPUS);
 
     litmus_test_run runs[ctx->batch_size];
-    valloc_arena *arena = ALLOC_SIZED(sizeof(valloc_arena) + run_data_size(ctx)*ctx->batch_size);
-    arena_init(arena, run_data_size(ctx)*ctx->batch_size);
+    valloc_arena* arena = ALLOC_SIZED(sizeof(valloc_arena) + run_data_size(ctx) * ctx->batch_size);
+    arena_init(arena, run_data_size(ctx) * ctx->batch_size);
     setup_run_data(ctx, vcpu, batch_start_idx, batch_end_idx, arena, runs);
 
-    exception_handlers_refs_t handlers = {NULL, NULL, NULL};
+    exception_handlers_refs_t handlers = { NULL, NULL, NULL };
 
     prepare_test_contexts(ctx, vcpu, batch_start_idx, batch_end_idx, &handlers);
     for (int bi = 0; j < batch_end_idx; bi++, j++) {
@@ -449,16 +458,19 @@ static void prefetch(test_ctx_t* ctx, run_idx_t i, run_count_t r) {
     /* careful! with --pgtable the va might not actually be mapped
      * so we access the underlying pa instead via a safe MMAP'd region
      * which hopefully hits the caches in an interesting way too */
-    u64* safe_va =
-      ENABLE_PGTABLE ? (u64*)SAFE_TESTDATA_VA((u64)va) : va;
+    u64* safe_va = ENABLE_PGTABLE ? (u64*)SAFE_TESTDATA_VA((u64)va) : va;
 
     u8 has_init_value = is_backed_var(&ctx->heap_vars[v]);
 
     UNLOCK(&__harness_lock);
     if (randn() % 2 && is_valid && has_init_value && *safe_va != ctx_initial_heap_value(ctx, v)) {
       fail(
-          "! fatal: initial state for heap var \"%s\" on run %d was %ld not %ld\n",
-          varname_from_idx(ctx, v), r, *safe_va, ctx_initial_heap_value(ctx, v));
+        "! fatal: initial state for heap var \"%s\" on run %d was %ld not %ld\n",
+        varname_from_idx(ctx, v),
+        r,
+        *safe_va,
+        ctx_initial_heap_value(ctx, v)
+      );
     }
   }
 }
@@ -470,14 +482,15 @@ static void resetsp(void) {
 
   if (currentsp == 0b1) { /* if not already using SP_EL0 */
     asm volatile(
-        "mov x18, sp\n"
-        "msr spsel, #0\n"
-        "dsb nsh\n"
-        "isb\n"
-        "mov sp, x18\n"
-        :
-        :
-        : "x18");
+      "mov x18, sp\n"
+      "msr spsel, #0\n"
+      "dsb nsh\n"
+      "isb\n"
+      "mov sp, x18\n"
+      :
+      :
+      : "x18"
+    );
   }
 }
 
@@ -489,7 +502,7 @@ static void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, run_idx_t i, run_coun
   /* only 1 thread should collect the results, else they will be duplicated */
   if (vcpu == 0) {
     u64 time = read_clk();
-    if (time - ctx->last_tick > 10*TICKS_PER_SEC || ctx->last_tick == 0) {
+    if (time - ctx->last_tick > 10 * TICKS_PER_SEC || ctx->last_tick == 0) {
       char time_str[100];
       sprint_time((char*)&time_str, time, SPRINT_TIME_HHMMSS);
       verbose("  [%s] %d/%d\n", time_str, r, ctx->no_runs);
@@ -531,18 +544,18 @@ static void end_of_thread(test_ctx_t* ctx, int cpu) {
   trace("CPU%d: end of test\n", cpu);
 }
 
-static void print_test_header(const litmus_test_t *cfg) {
+static void print_test_header(const litmus_test_t* cfg) {
   printf("\n");
 
   switch (OUTPUT_FORMAT) {
-    case STYLE_HERDTOOLS:
-      printf("Test %s Allowed\n", cfg->name);
-      break;
-    case STYLE_ORIGINAL:
-      printf("Test %s:\n", cfg->name);
-      break;
-    default:
-      unreachable();
+  case STYLE_HERDTOOLS:
+    printf("Test %s Allowed\n", cfg->name);
+    break;
+  case STYLE_ORIGINAL:
+    printf("Test %s:\n", cfg->name);
+    break;
+  default:
+    unreachable();
   }
 }
 

@@ -25,85 +25,87 @@ desc_t read_desc(u64 entry, int level) {
   }
 
   switch (level) {
+  case 0:
+    /* 0th level table can only be a Table */
+    desc.table_addr = BIT_SLICE(entry, 47, 12) << 12;
+    desc.type = Table;
+    break;
+
+  case 1:
+  case 2:
+    /* 1-2 could be table or block */
+    switch (BIT(entry, 1)) {
     case 0:
-      /* 0th level table can only be a Table */
+      desc.type = Block;
+      desc.oa = BIT_SLICE(entry, 47, OFFSBOT(level)) << OFFSBOT(level);
+      break;
+    case 1:
       desc.table_addr = BIT_SLICE(entry, 47, 12) << 12;
       desc.type = Table;
       break;
+    }
+    break;
 
-    case 1:
-    case 2:
-      /* 1-2 could be table or block */
-      switch (BIT(entry, 1)) {
-        case 0:
-          desc.type = Block;
-          desc.oa = BIT_SLICE(entry, 47, OFFSBOT(level)) << OFFSBOT(level);
-          break;
-        case 1:
-          desc.table_addr = BIT_SLICE(entry, 47, 12) << 12;
-          desc.type = Table;
-          break;
-      }
-      break;
-
-    case 3:
-      /* level3 entry must be a block */
-      desc.type = Block;
-      desc.oa = BIT_SLICE(entry, 47, 12) << 12;
-      break;
+  case 3:
+    /* level3 entry must be a block */
+    desc.type = Block;
+    desc.oa = BIT_SLICE(entry, 47, 12) << 12;
+    break;
   }
 
   desc.attrs = read_attrs(entry);
   return desc;
 }
 
-u64 write_attrs(attrs_t *attrs) {
-  return ((u64)attrs->XN << 54) | ((u64)attrs->PXN << 53) | (attrs->AF << 10) | (attrs->SH << 8) | (attrs->AP << 6) | (attrs->NS << 5) | (attrs->attr << 2);
+u64 write_attrs(attrs_t* attrs) {
+  return ((u64)attrs->XN << 54) | ((u64)attrs->PXN << 53) | (attrs->AF << 10) | (attrs->SH << 8) | (attrs->AP << 6) |
+         (attrs->NS << 5) | (attrs->attr << 2);
 }
 
 u64 write_desc(desc_t desc) {
   u64 out = 0;
   switch (desc.type) {
-    case Invalid:
-      return 0;
-    case Table:
-      out = desc.table_addr;
-      out |= 2;
-      break;
-    case Block:
-      out = desc.oa;
+  case Invalid:
+    return 0;
+  case Table:
+    out = desc.table_addr;
+    out |= 2;
+    break;
+  case Block:
+    out = desc.oa;
 
-      if (desc.level == 3) {
-        out |= 2;
-      }
-      break;
+    if (desc.level == 3) {
+      out |= 2;
+    }
+    break;
   }
 
   out |= write_attrs(&desc.attrs);
-  out |= 1;  /* valid */
+  out |= 1; /* valid */
   return out;
 }
 
-
-void show_attrs(attrs_t *attrs) {
+void show_attrs(attrs_t* attrs) {
   printf("{AF=%d,SH=%p,AP=%p,attr=%p}", attrs->AF, attrs->SH, attrs->AP, attrs->attr);
 }
 
 void show_desc(desc_t desc) {
   switch (desc.type) {
-    case Invalid:
-      printf("<Invalid>");
-      return;
+  case Invalid:
+    printf("<Invalid>");
+    return;
 
-    case Block:
-      printf("<Block oa=%p", desc.oa);
-      break;
+  case Block:
+    printf("<Block oa=%p", desc.oa);
+    break;
 
-    case Table:
-      printf("<Table table_addr=%p", desc.table_addr);
-      break;
+  case Table:
+    printf("<Table table_addr=%p", desc.table_addr);
+    break;
   }
 
   printf(",level=%d", desc.level);
-  printf(",attrs="); show_attrs(&desc.attrs); printf(">");
+  printf(",attrs=");
+  show_attrs(&desc.attrs);
+  printf(">");
 }

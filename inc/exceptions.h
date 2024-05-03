@@ -29,16 +29,17 @@ enum vec_entries {
 };
 
 /* useful ECs */
-#define EC_SVC64     0x15  /* SVC from AArch64 */
-#define EC_IABT_EL0  0x20  /* Instruction Abort */
-#define EC_IABT_EL1  0x21  /* Instruction Abort */
-#define EC_PC_ALIGN  0x22  /* PC Alignment Fault */
-#define EC_DABT_EL0  0x24  /* Data Abort */
-#define EC_DABT_EL1  0x25  /* Data Abort */
+#define EC_SVC64 0x15    /* SVC from AArch64 */
+#define EC_IABT_EL0 0x20 /* Instruction Abort */
+#define EC_IABT_EL1 0x21 /* Instruction Abort */
+#define EC_PC_ALIGN 0x22 /* PC Alignment Fault */
+#define EC_DABT_EL0 0x24 /* Data Abort */
+#define EC_DABT_EL1 0x25 /* Data Abort */
 
-typedef struct {
-    u64 gpr[31];
-    u64 sp;
+typedef struct
+{
+  u64 gpr[31];
+  u64 sp;
 } regvals_t;
 
 /* Exception Vectors
@@ -54,7 +55,7 @@ typedef struct {
 void* default_handler(u64 vec, u64 esr, regvals_t* regs);
 typedef void* exception_vector_fn(u64 esr, regvals_t* regs);
 
-void set_handler(u64 vec, u64 ec,  exception_vector_fn* fn);
+void set_handler(u64 vec, u64 ec, exception_vector_fn* fn);
 void reset_handler(u64 vec, u64 ec);
 void* handle_exception(u64 vec, u64 esr, regvals_t* regs);
 

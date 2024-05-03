@@ -452,5 +452,4 @@
 #define IDENT_p6x31 outp6r31
 #define USER_p6x31 "p6:x31"
 
-
 #endif /* LITMUS_ASM_REG_MACROS_H */

@@ -9,7 +9,6 @@ static int matches(test_result_t* result, test_ctx_t* ctx, run_idx_t run) {
   return 1;
 }
 
-
 static int matches_interesting(test_hist_t* res, test_ctx_t* ctx, test_result_t* r) {
   u64 no_interesting = ctx->cfg->no_interesting_results;
 
@@ -26,7 +25,7 @@ static int matches_interesting(test_hist_t* res, test_ctx_t* ctx, test_result_t*
     u64* regs = relaxed[i];
     int was_interesting = 1;
 
-     for (int reg = 0; reg < ctx->cfg->no_regs; reg++) {
+    for (int reg = 0; reg < ctx->cfg->no_regs; reg++) {
       if (relaxed != NULL)
         if (r->values[reg] != regs[reg])
           was_interesting = 0;
@@ -52,7 +51,6 @@ static int ix_from_values(test_ctx_t* ctx, run_idx_t run) {
   }
   return val;
 }
-
 
 static void add_results(test_hist_t* res, test_ctx_t* ctx, run_idx_t run) {
   /* fast case: check lut */
@@ -101,7 +99,6 @@ static void add_results(test_hist_t* res, test_ctx_t* ctx, run_idx_t run) {
   }
 }
 
-
 static void print_single_result(test_ctx_t* ctx, run_count_t i) {
   printf("* ");
   for (reg_idx_t r = 0; r < ctx->cfg->no_regs; r++) {
@@ -111,19 +108,17 @@ static void print_single_result(test_ctx_t* ctx, run_count_t i) {
   printf(" : 1\n");
 }
 
-
 /** store or print the result from the previous run
  */
 void handle_new_result(test_ctx_t* ctx, run_idx_t idx, run_count_t r) {
-    if (ENABLE_RESULTS_HIST) {
-      test_hist_t* res = ctx->hist;
-      add_results(res, ctx, idx);
-    } else {
-      /* TODO: why does this use a run_count_t rather than the run_idx_t ? */
-      print_single_result(ctx, r);
-    }
+  if (ENABLE_RESULTS_HIST) {
+    test_hist_t* res = ctx->hist;
+    add_results(res, ctx, idx);
+  } else {
+    /* TODO: why does this use a run_count_t rather than the run_idx_t ? */
+    print_single_result(ctx, r);
+  }
 }
-
 
 /** at the end of the test print out the results histogram
  */
@@ -151,7 +146,9 @@ static void print_results_original(test_hist_t* res, test_ctx_t* ctx) {
   }
   printf("Observation %s: %d (of %d)\n", ctx->cfg->name, marked, ctx->no_runs);
   if (ctx->cfg->no_sc_results > 0 && no_sc_results_seen != ctx->cfg->no_sc_results && ENABLE_RESULTS_MISSING_SC_WARNING) {
-    printf("Warning on %s: saw %d SC results but expected %d\n", ctx->cfg->name, no_sc_results_seen, ctx->cfg->no_sc_results);
+    printf(
+      "Warning on %s: saw %d SC results but expected %d\n", ctx->cfg->name, no_sc_results_seen, ctx->cfg->no_sc_results
+    );
   }
 }
 
@@ -206,22 +203,22 @@ static void print_results_herd(test_hist_t* res, test_ctx_t* ctx) {
   sprint_time(time_str, ctx->end_clock - ctx->start_clock, SPRINT_TIME_SSDOTMS);
   printf("Time %s %s\n", ctx->cfg->name, time_str);
 
-
   if (ctx->cfg->no_sc_results > 0 && no_sc_results_seen != ctx->cfg->no_sc_results && ENABLE_RESULTS_MISSING_SC_WARNING) {
-    printf("#warning on %s: saw %d SC results but expected %d\n", ctx->cfg->name, no_sc_results_seen, ctx->cfg->no_sc_results);
+    printf(
+      "#warning on %s: saw %d SC results but expected %d\n", ctx->cfg->name, no_sc_results_seen, ctx->cfg->no_sc_results
+    );
   }
 }
 
-
 void print_results(test_hist_t* res, test_ctx_t* ctx) {
   switch (OUTPUT_FORMAT) {
-    case STYLE_HERDTOOLS:
-      print_results_herd(res, ctx);
-      break;
-    case STYLE_ORIGINAL:
-      print_results_original(res, ctx);
-      break;
-    default:
-      unreachable();
+  case STYLE_HERDTOOLS:
+    print_results_herd(res, ctx);
+    break;
+  case STYLE_ORIGINAL:
+    print_results_original(res, ctx);
+    break;
+  default:
+    unreachable();
   }
 }

@@ -1,7 +1,7 @@
 #include "lib.h"
 #include "frontend.h"
 
-#define LOWER(c) (((c) < 90 && (c) > 65 ? (c)+32 : (c)))
+#define LOWER(c) (((c) < 90 && (c) > 65 ? (c) + 32 : (c)))
 
 /** estimate a numeric difference between two strings
  * horribly inefficient but who cares
@@ -16,10 +16,10 @@ static int strdiff(const char* w1, const char* w2) {
     char c, d, e;
 
     if (w2[i] == '\0') {
-      return diff + 10*(sw1 - sw2);
+      return diff + 10 * (sw1 - sw2);
     }
 
-    c = d  = e = w2[i];
+    c = d = e = w2[i];
     if (0 < (i - 1) && (i - 1) < sw2) {
       c = w2[i - 1];
     }
@@ -28,15 +28,14 @@ static int strdiff(const char* w1, const char* w2) {
       e = w2[i + 1];
     }
 
-    #define CMPCHR(a,b) \
-        (a==b ? 0 : \
-          (LOWER(a)==LOWER(b) ? 1 : \
-            ((a == '+' || b == '+') ? 2 : \
-              (MAX(LOWER(a),LOWER(b))-MIN(LOWER(a),LOWER(b))))))
+#define CMPCHR(a, b) \
+  (a == b ?          \
+     0 :             \
+     (LOWER(a) == LOWER(b) ? 1 : ((a == '+' || b == '+') ? 2 : (MAX(LOWER(a), LOWER(b)) - MIN(LOWER(a), LOWER(b))))))
 
     d = w2[i];
     char x = w1[i];
-    diff += MIN(CMPCHR(x,d), MIN(1+CMPCHR(x,c), 1+CMPCHR(x,e)));
+    diff += MIN(CMPCHR(x, d), MIN(1 + CMPCHR(x, c), 1 + CMPCHR(x, e)));
   }
 
   return diff + sw2 - sw1;

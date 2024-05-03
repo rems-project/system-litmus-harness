@@ -2,8 +2,8 @@
 
 static void sanity_check_test(const litmus_test_t* cfg, int no_runs, int runs_in_batch) {
   /* we have 1+MAX_ASID ASIDs */
-  if (cfg->requires_pgtable && runs_in_batch > 1+MAX_ASID)
-    fail("cannot have more than the number of possible ASIDs (%ld) as runs in a batch with --pgtable.\n", 1+MAX_ASID);
+  if (cfg->requires_pgtable && runs_in_batch > 1 + MAX_ASID)
+    fail("cannot have more than the number of possible ASIDs (%ld) as runs in a batch with --pgtable.\n", 1 + MAX_ASID);
 }
 
 void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, int runs_in_batch) {
@@ -22,7 +22,7 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, int r
   run_idx_t* shuffled = ALLOC_MANY(run_idx_t, no_runs);
   run_count_t* rev_lookup = ALLOC_MANY(run_count_t, no_runs);
   int* affinity = ALLOC_MANY(int, NO_CPUS);
-  u64** ptables = ALLOC_MANY(u64*, 1+runs_in_batch);
+  u64** ptables = ALLOC_MANY(u64*, 1 + runs_in_batch);
 
   for (int v = 0; v < cfg->no_heap_vars; v++) {
     var_infos[v].values = ALLOC_MANY(u64*, no_runs);
@@ -74,8 +74,7 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, int r
   hist->lut = lut;
 
   for (int t = 0; t < hist->limit; t++) {
-    test_result_t* new_res =
-        ALLOC_SIZED(sizeof(test_result_t) + sizeof(u64) * cfg->no_regs);
+    test_result_t* new_res = ALLOC_SIZED(sizeof(test_result_t) + sizeof(u64) * cfg->no_regs);
     hist->results[t] = new_res;
     lut[t] = NULL;
   }
@@ -113,7 +112,6 @@ u64* ctx_pte(test_ctx_t* ctx, run_idx_t run, u64 va) {
    * iteration */
   return vmm_pte(ptable_from_run(ctx, run), va);
 }
-
 
 const char* varname_from_idx(test_ctx_t* ctx, var_idx_t idx) {
   for (var_idx_t i = 0; i < ctx->cfg->no_heap_vars; i++) {
@@ -176,8 +174,8 @@ u64* ctx_heap_var_va(test_ctx_t* ctx, u64 varidx, run_idx_t i) {
 }
 
 u64 ctx_initial_heap_value(test_ctx_t* ctx, run_idx_t idx) {
-  var_info_t *var = &ctx->heap_vars[idx];
-  fail_on(! is_backed_var(var), "cannot get initial heap value from unbacked var \"s\"\n", var->name);
+  var_info_t* var = &ctx->heap_vars[idx];
+  fail_on(!is_backed_var(var), "cannot get initial heap value from unbacked var \"s\"\n", var->name);
   return var_backing(var)->val;
 }
 

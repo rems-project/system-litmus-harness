@@ -9,7 +9,7 @@
 
 /* printf support */
 void putc(char c);
-void puts(const char *s);
+void puts(const char* s);
 void puthex(u64 n);
 void putdec(u64 n);
 
@@ -17,7 +17,9 @@ void vprintf(int mode, const char* fmt, va_list ap);
 char* sprintf(char* out, const char* fmt, ...);
 char* vsprintf(char* out, int mode, const char* fmt, va_list ap);
 void printf(const char* fmt, ...);
-void printf_with_fileloc(const char* level_name, int mode, const char* filename, const int line, const char* func, const char* fmt, ...);
+void printf_with_fileloc(
+  const char* level_name, int mode, const char* filename, const int line, const char* func, const char* fmt, ...
+);
 void trace(const char* fmt, ...);
 void verbose(const char* fmt, ...);
 /* debug() declared in debug.h */
@@ -35,7 +37,7 @@ typedef enum {
 
 char* sprint_time(char* out, u64 clk, time_format_t mode);
 
-char* sprint_reg(char* out, const char *reg_name, output_style_t style);
+char* sprint_reg(char* out, const char* reg_name, output_style_t style);
 
 /* print macros */
 #define PRu64 "%lx"

@@ -71,12 +71,10 @@ typedef enum {
   VM_MMAP_VTABLE,
 } VMRegionTag;
 
-typedef enum {
-  VMREGION_NOT_SET = 0,
-  VMREGION_VALID = 1
-} VMRegionValid;
+typedef enum { VMREGION_NOT_SET = 0, VMREGION_VALID = 1 } VMRegionValid;
 
-typedef struct {
+typedef struct
+{
   u8 valid;
   u64 va_start;
   u64 va_end;
@@ -85,40 +83,36 @@ typedef struct {
   u64 pa_start;
 } VMRegion;
 
-typedef struct {
-  VMRegion regions[1+VM_MMAP_VTABLE];
+typedef struct
+{
+  VMRegion regions[1 + VM_MMAP_VTABLE];
 } VMRegions;
 
-
 #define __CHECK(str_start, start, str_end, end, str_expected, expected) \
-  ({ \
-    if (end - start != expected) { \
-      fail( \
-        "! __CHECK: from %s=%p to %s=%p was not %s=0x%lx bytes !\n", \
-        str_start, \
-        start, \
-        str_end, \
-        end, \
-        str_expected , \
-        expected \
-      ); \
-    } \
-    start; \
-  }) \
+  ({                                                                    \
+    if (end - start != expected) {                                      \
+      fail(                                                             \
+        "! __CHECK: from %s=%p to %s=%p was not %s=0x%lx bytes !\n",    \
+        str_start,                                                      \
+        start,                                                          \
+        str_end,                                                        \
+        end,                                                            \
+        str_expected,                                                   \
+        expected                                                        \
+      );                                                                \
+    }                                                                   \
+    start;                                                              \
+  })
 
-#define __CHECK_WITHALIGN(str_start, start, str_end, end, str_expected, expected) \
-  ({ \
-    if (! IS_ALIGNED_TO(start, expected)) { \
-      fail( \
-        "! __CHECK_WITHALIGN: %s=%p was not aligned to %s=0x%lx bytes !\n", \
-        str_start, \
-        start, \
-        str_expected , \
-        expected \
-      ); \
-    } \
-    __CHECK(str_start, start, str_end, end, str_expected, expected); \
-  }) \
+#define __CHECK_WITHALIGN(str_start, start, str_end, end, str_expected, expected)                                    \
+  ({                                                                                                                 \
+    if (!IS_ALIGNED_TO(start, expected)) {                                                                           \
+      fail(                                                                                                          \
+        "! __CHECK_WITHALIGN: %s=%p was not aligned to %s=0x%lx bytes !\n", str_start, start, str_expected, expected \
+      );                                                                                                             \
+    }                                                                                                                \
+    __CHECK(str_start, start, str_end, end, str_expected, expected);                                                 \
+  })
 
 #define FIXED_ID_REGION(expected_size, start, end, memattr, prot) \
   { __CHECK(#start, start, #end, end, #expected_size, expected_size), end, memattr, prot }
@@ -157,12 +151,14 @@ u64* vmm_alloc_new_test_pgtable(void);
 void vmm_free_generic_pgtable(u64* root);
 void vmm_free_test_pgtable(u64* root);
 
-typedef struct {
+typedef struct
+{
   u64 start;
   u64 end;
 } va_range;
 
-typedef void walker_cb_t(u64* parent_table, int level, int index, u64* entry, desc_t desc, int is_leaf, va_range range, void* data);
+typedef void
+walker_cb_t(u64* parent_table, int level, int index, u64* entry, desc_t desc, int is_leaf, va_range range, void* data);
 void vmm_walk_table(u64* root, walker_cb_t* cb_f, void* data);
 
 /* MMU control */
@@ -193,7 +189,6 @@ void tlbi_all(void);
 void vmm_flush_tlb_vaddr(u64 va);
 void vmm_flush_tlb(void);
 void vmm_flush_tlb_asid(u64 asid);
-
 
 /* for debugging and serializing */
 

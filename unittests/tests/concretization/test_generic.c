@@ -4,7 +4,6 @@
 
 #define SIZE_OF_TEST 100
 
-
 u64* __var(test_ctx_t* ctx, run_idx_t r, const char* varname) {
   var_idx_t idx = idx_from_varname(ctx, varname);
   return ctx->heap_vars[idx].values[r];
@@ -17,9 +16,12 @@ UNIT_TEST_IF(test_concretization_random_default_diff_pages, ENABLE_UNITTESTS_CON
 void __test_concretization_default_diff_pages(concretize_type_t conc_type) {
   litmus_test_t test = {
     "test",
-    0,NULL,
-    4,(const char*[]){"x","y","z","a"},
-    3,(const char*[]){"r", "s", "t"},
+    0,
+    NULL,
+    4,
+    (const char*[]){ "x", "y", "z", "a" },
+    3,
+    (const char*[]){ "r", "s", "t" },
     INIT_STATE(4, INIT_UNMAPPED(x), INIT_UNMAPPED(y), INIT_UNMAPPED(z), INIT_UNMAPPED(a)),
   };
 
@@ -33,7 +35,7 @@ void __test_concretization_default_diff_pages(concretize_type_t conc_type) {
   /* each var must be in its own page */
   for (int r = 0; r < ctx.no_runs; r++) {
     for (int v = 0; v < ctx.cfg->no_heap_vars; v++) {
-      for (int v2 = v+1; v2 < ctx.cfg->no_heap_vars; v2++) {
+      for (int v2 = v + 1; v2 < ctx.cfg->no_heap_vars; v2++) {
         ASSERT(PAGE(ctx.heap_vars[v].values[r]) != PAGE(ctx.heap_vars[v2].values[r]), "page == page");
       }
     }
@@ -53,15 +55,14 @@ UNIT_TEST_IF(test_concretization_random_own_pmd, ENABLE_UNITTESTS_CONCRETIZATION
 void __test_concretization_own_pmd(concretize_type_t conc_type) {
   litmus_test_t test = {
     "test",
-    0,NULL,
-    2,(const char*[]){"x","y"},
-    0,(const char*[]){},
+    0,
+    NULL,
+    2,
+    (const char*[]){ "x", "y" },
+    0,
+    (const char*[]){},
     INIT_STATE(
-      4,
-      INIT_VAR(x, 0),
-      INIT_VAR(y, 0),
-      INIT_REGION_OWN(x, REGION_OWN_PMD),
-      INIT_REGION_OWN(y, REGION_OWN_PMD),
+      4, INIT_VAR(x, 0), INIT_VAR(y, 0), INIT_REGION_OWN(x, REGION_OWN_PMD), INIT_REGION_OWN(y, REGION_OWN_PMD),
     )
   };
 
@@ -91,21 +92,19 @@ void test_concretization_random_own_pmd(void) {
   __test_concretization_own_pmd(CONCRETE_RANDOM);
 }
 
-
 UNIT_TEST_IF(test_concretization_linear_same_page, ENABLE_UNITTESTS_CONCRETIZATION_TEST_LINEAR)
 UNIT_TEST_IF(test_concretization_random_same_page, ENABLE_UNITTESTS_CONCRETIZATION_TEST_RANDOM)
 void __test_concretization_same_page(concretize_type_t conc_type) {
   litmus_test_t test = {
     "test",
-    0,NULL,
-    2,(const char*[]){"x","y"},
-    0,NULL,
+    0,
+    NULL,
+    2,
+    (const char*[]){ "x", "y" },
+    0,
+    NULL,
     INIT_STATE(
-      4,
-      INIT_VAR(x, 0),
-      INIT_VAR(y, 0),
-      INIT_REGION_OWN(x, REGION_OWN_PAGE),
-      INIT_REGION_PIN(y, x, REGION_SAME_PAGE),
+      4, INIT_VAR(x, 0), INIT_VAR(y, 0), INIT_REGION_OWN(x, REGION_OWN_PAGE), INIT_REGION_PIN(y, x, REGION_SAME_PAGE),
     )
   };
 
@@ -130,27 +129,27 @@ void test_concretization_random_same_page(void) {
   __test_concretization_same_page(CONCRETE_RANDOM);
 }
 
-
 UNIT_TEST_IF(test_concretization_linear_separate_roots, ENABLE_UNITTESTS_CONCRETIZATION_TEST_LINEAR)
 UNIT_TEST_IF(test_concretization_random_separate_roots, ENABLE_UNITTESTS_CONCRETIZATION_TEST_RANDOM)
 void __test_concretization_separate_roots(concretize_type_t conc_type) {
-  litmus_test_t test = {
-    "test",
-    0,NULL,
-    4,(const char*[]){"x","y","a","b"},
-    0,NULL,
-    INIT_STATE(
-      8,
-      INIT_VAR(x, 0),
-      INIT_VAR(y, 0),
-      INIT_VAR(a, 0),
-      INIT_VAR(b, 0),
-      INIT_REGION_OWN(x, REGION_OWN_PAGE),
-      INIT_REGION_PIN(a, x, REGION_SAME_PAGE_OFFSET),
-      INIT_REGION_OWN(y, REGION_OWN_PAGE),
-      INIT_REGION_PIN(b, y, REGION_SAME_PAGE_OFFSET),
-    )
-  };
+  litmus_test_t test = { "test",
+                         0,
+                         NULL,
+                         4,
+                         (const char*[]){ "x", "y", "a", "b" },
+                         0,
+                         NULL,
+                         INIT_STATE(
+                           8,
+                           INIT_VAR(x, 0),
+                           INIT_VAR(y, 0),
+                           INIT_VAR(a, 0),
+                           INIT_VAR(b, 0),
+                           INIT_REGION_OWN(x, REGION_OWN_PAGE),
+                           INIT_REGION_PIN(a, x, REGION_SAME_PAGE_OFFSET),
+                           INIT_REGION_OWN(y, REGION_OWN_PAGE),
+                           INIT_REGION_PIN(b, y, REGION_SAME_PAGE_OFFSET),
+                         ) };
 
   test_ctx_t ctx;
 
@@ -177,18 +176,14 @@ void test_concretization_random_separate_roots(void) {
 UNIT_TEST_IF(test_concretization_linear_aliased, ENABLE_UNITTESTS_CONCRETIZATION_TEST_LINEAR)
 UNIT_TEST_IF(test_concretization_random_aliased, ENABLE_UNITTESTS_CONCRETIZATION_TEST_RANDOM)
 void __test_concretization_aliased(concretize_type_t conc_type) {
-  litmus_test_t test = {
-    "test",
-    0,NULL,
-    2,(const char*[]){"x","y"},
-    0,NULL,
-    INIT_STATE(
-      3,
-      INIT_VAR(x, 0),
-      INIT_REGION_OWN(x, REGION_OWN_PAGE),
-      INIT_ALIAS(y, x),
-    )
-  };
+  litmus_test_t test = { "test",
+                         0,
+                         NULL,
+                         2,
+                         (const char*[]){ "x", "y" },
+                         0,
+                         NULL,
+                         INIT_STATE(3, INIT_VAR(x, 0), INIT_REGION_OWN(x, REGION_OWN_PAGE), INIT_ALIAS(y, x), ) };
 
   test_ctx_t ctx;
 
@@ -215,18 +210,14 @@ void test_concretization_random_aliased(void) {
 UNIT_TEST_IF(test_concretization_linear_unrelated_aliased, ENABLE_UNITTESTS_CONCRETIZATION_TEST_LINEAR)
 UNIT_TEST_IF(test_concretization_random_unrelated_aliased, ENABLE_UNITTESTS_CONCRETIZATION_TEST_RANDOM)
 void __test_concretization_unrelated_aliased(concretize_type_t conc_type) {
-  litmus_test_t test = {
-    "test",
-    0,NULL,
-    3,(const char*[]){"x","y","z"},
-    0,NULL,
-    INIT_STATE(
-      3,
-      INIT_VAR(x, 0),
-      INIT_VAR(y, 0),
-      INIT_ALIAS(z, x),
-    )
-  };
+  litmus_test_t test = { "test",
+                         0,
+                         NULL,
+                         3,
+                         (const char*[]){ "x", "y", "z" },
+                         0,
+                         NULL,
+                         INIT_STATE(3, INIT_VAR(x, 0), INIT_VAR(y, 0), INIT_ALIAS(z, x), ) };
 
   test_ctx_t ctx;
 
@@ -252,21 +243,18 @@ void test_concretization_random_unrelated_aliased(void) {
   __test_concretization_unrelated_aliased(CONCRETE_RANDOM);
 }
 
-
 UNIT_TEST_IF(test_concretization_linear_unmapped, ENABLE_UNITTESTS_CONCRETIZATION_TEST_LINEAR)
 UNIT_TEST_IF(test_concretization_random_unmapped, ENABLE_UNITTESTS_CONCRETIZATION_TEST_RANDOM)
 void __test_concretization_unmapped(concretize_type_t conc_type) {
   litmus_test_t test = {
     "test",
-    0,NULL,
-    3,(const char*[]){"x","y","z"},
-    0,NULL,
-    INIT_STATE(
-      3,
-      INIT_UNMAPPED(x),
-      INIT_VAR(y, 0),
-      INIT_VAR(z, 1)
-    ),
+    0,
+    NULL,
+    3,
+    (const char*[]){ "x", "y", "z" },
+    0,
+    NULL,
+    INIT_STATE(3, INIT_UNMAPPED(x), INIT_VAR(y, 0), INIT_VAR(z, 1)),
   };
 
   test_ctx_t ctx;
@@ -298,15 +286,17 @@ void test_concretization_random_unmapped(void) {
   __test_concretization_unmapped(CONCRETE_RANDOM);
 }
 
-
 UNIT_TEST_IF(test_concretization_linear_twopage, ENABLE_UNITTESTS_CONCRETIZATION_TEST_LINEAR)
 UNIT_TEST_IF(test_concretization_random_twopage, ENABLE_UNITTESTS_CONCRETIZATION_TEST_RANDOM)
 void __test_concretization_twopage(concretize_type_t conc_type) {
   litmus_test_t test = {
     "test",
-    0,NULL,
-    4,(const char*[]){"a1", "a2", "b1", "b2"},
-    0,NULL,
+    0,
+    NULL,
+    4,
+    (const char*[]){ "a1", "a2", "b1", "b2" },
+    0,
+    NULL,
     INIT_STATE(
       8,
       INIT_VAR(a1, 0),
@@ -334,9 +324,9 @@ void __test_concretization_twopage(concretize_type_t conc_type) {
     u64 b1page = PAGE(VAR(&ctx, r, "b1"));
     u64 b2page = PAGE(VAR(&ctx, r, "b2"));
 
-    ASSERT(a1page==a2page, "a1 and a2 weren't same page");
-    ASSERT(b1page==b2page, "b1 and b2 weren't same page");
-    ASSERT(a1page!=b1page, "b1 and a1 were same page");
+    ASSERT(a1page == a2page, "a1 and a2 weren't same page");
+    ASSERT(b1page == b2page, "b1 and b2 weren't same page");
+    ASSERT(a1page != b1page, "b1 and a1 were same page");
   }
 }
 
@@ -348,16 +338,17 @@ void test_concretization_random_twopage(void) {
   __test_concretization_twopage(CONCRETE_RANDOM);
 }
 
-
-
 UNIT_TEST_IF(test_concretization_linear_relpmdoverlap, ENABLE_UNITTESTS_CONCRETIZATION_TEST_LINEAR)
 UNIT_TEST_IF(test_concretization_random_relpmdoverlap, ENABLE_UNITTESTS_CONCRETIZATION_TEST_RANDOM)
 void __test_concretization_relpmdoverlap(concretize_type_t conc_type) {
   litmus_test_t test = {
     "test",
-    0,NULL,
-    2,(const char*[]){"x", "y"},
-    0,NULL,
+    0,
+    NULL,
+    2,
+    (const char*[]){ "x", "y" },
+    0,
+    NULL,
     INIT_STATE(
       4,
       INIT_VAR(x, 0),
@@ -395,15 +386,17 @@ void test_concretization_random_relpmdoverlap(void) {
   __test_concretization_relpmdoverlap(CONCRETE_RANDOM);
 }
 
-
 UNIT_TEST_IF(test_concretization_linear_multi_pmd_pin, ENABLE_UNITTESTS_CONCRETIZATION_TEST_LINEAR)
 UNIT_TEST_IF(test_concretization_random_multi_pmd_pin, ENABLE_UNITTESTS_CONCRETIZATION_TEST_RANDOM)
 void __test_concretization_multi_pmd_pin(concretize_type_t conc_type) {
   litmus_test_t test = {
     "test",
-    0,NULL,
-    3,(const char*[]){"x", "y", "z"},
-    0,NULL,
+    0,
+    NULL,
+    3,
+    (const char*[]){ "x", "y", "z" },
+    0,
+    NULL,
     INIT_STATE(
       8,
       INIT_VAR(x, 0),

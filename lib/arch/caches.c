@@ -6,12 +6,14 @@
  * to the point of coherence.
  */
 void dc_civac(u64 addr) {
+  /* clang-format off */
   asm volatile (
     "dc civac, %[va]\n\t"
   :
   : [va] "r" (addr)
   :
   );
+  /* clang-format on */
 }
 
 /** perform an IC ALLUIS
@@ -19,14 +21,15 @@ void dc_civac(u64 addr) {
  * invalidating all entries in all instruction caches
  */
 void ic_ialluis(void) {
+  /* clang-format off */
   asm volatile (
     "ic ialluis\n"
   :
   :
   : "memory"
   );
+  /* clang-format on */
 }
-
 
 /** flush data caches for an entire range
  */

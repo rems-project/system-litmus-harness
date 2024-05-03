@@ -44,33 +44,33 @@ void vmm_ensure_level(u64* root, int desired_level, u64 va) {
     DEBUG(DEBUG_TRACE_VMM_ENSURES, "ensure %p to level%d alloc new level%d @ %p\n", va, desired_level, level, pg);
     for (int i = 0; i < 512; i++) {
       switch (desc.type) {
-        case Invalid:
-          DEBUG(DEBUG_TRACE_VMM_ENSURES, "writeback invalid %p = 0x%lx\n", &pg[i], write_desc(new_desc));
-          pg[i] = write_desc(desc);
-          break;
+      case Invalid:
+        DEBUG(DEBUG_TRACE_VMM_ENSURES, "writeback invalid %p = 0x%lx\n", &pg[i], write_desc(new_desc));
+        pg[i] = write_desc(desc);
+        break;
 
-        case Block:
-          if (block_desc.level == 0)
-            block_desc = desc;
+      case Block:
+        if (block_desc.level == 0)
+          block_desc = desc;
 
-          new_desc.type = Block;
-          new_desc.oa = desc.oa + (i << OFFSBOT(level+1));
-          new_desc.level = level+1;
-          new_desc.attrs = block_desc.attrs;
-          DEBUG(DEBUG_TRACE_VMM_ENSURES, "writeback block %p = 0x%lx\n", &pg[i], write_desc(new_desc));
+        new_desc.type = Block;
+        new_desc.oa = desc.oa + (i << OFFSBOT(level + 1));
+        new_desc.level = level + 1;
+        new_desc.attrs = block_desc.attrs;
+        DEBUG(DEBUG_TRACE_VMM_ENSURES, "writeback block %p = 0x%lx\n", &pg[i], write_desc(new_desc));
 
-          pg[i] = write_desc(new_desc);
-          break;
+        pg[i] = write_desc(new_desc);
+        break;
 
-        case Table:
-          unreachable();
+      case Table:
+        unreachable();
       }
     }
 
     new_desc.type = Table;
     new_desc.level = level;
     new_desc.table_addr = (u64)pg;
-    new_desc.attrs = (attrs_t){0};
+    new_desc.attrs = (attrs_t){ 0 };
     DEBUG(DEBUG_TRACE_VMM_ENSURES, "writeback table %p = 0x%lx\n", p, write_desc(new_desc));
     *p = write_desc(new_desc);
     current = pg;
@@ -91,11 +91,11 @@ desc_t vmm_translation_walk_to_level(u64* root, u64 va, int max_level) {
   for (int level = 0; level <= max_level; level++) {
     u64* p = root + OFFS(va, level);
     u64* parents[4];
-    valloc_memcpy(parents, desc.parents, 4*sizeof(u64*));
+    valloc_memcpy(parents, desc.parents, 4 * sizeof(u64*));
 
     desc = read_desc(*p, level);
     desc.src = p;
-    valloc_memcpy(desc.parents, parents, 4*sizeof(u64*));
+    valloc_memcpy(desc.parents, parents, 4 * sizeof(u64*));
     desc.parents[level] = parent;
 
     if ((desc.type == Invalid) || (desc.type == Block)) {
@@ -148,14 +148,14 @@ u64* vmm_pa(u64* root, u64 va) {
   desc_t desc = vmm_translation_walk(root, va);
 
   switch (desc.type) {
-    case Invalid:
-      return NULL;
+  case Invalid:
+    return NULL;
 
-    case Block:
-      return (u64*)(desc.oa | BIT_SLICE(va, OFFSBOT(desc.level), 0));
+  case Block:
+    return (u64*)(desc.oa | BIT_SLICE(va, OFFSBOT(desc.level), 0));
 
-    case Table:
-      unreachable();
+  case Table:
+    unreachable();
   }
 
   return NULL;

@@ -18,7 +18,7 @@
  * print out BWAIT() calls
  */
 #ifndef DEBUG_BWAITS
-   #define DEBUG_BWAITS 0
+#define DEBUG_BWAITS 0
 #endif
 
 /**
@@ -28,7 +28,7 @@
  * this is enabled by default
  */
 #ifndef DEBUG_ALLOCS
-   #define DEBUG_ALLOCS 1
+#define DEBUG_ALLOCS 1
 #endif
 
 /**
@@ -37,7 +37,7 @@
  * for debugging errors during concretization
  */
 #ifndef DEBUG_CONCRETIZATION
-   #define DEBUG_CONCRETIZATION 0
+#define DEBUG_CONCRETIZATION 0
 #endif
 
 /**
@@ -45,14 +45,14 @@
  * will output information when taking a lock
  */
 #ifndef DEBUG_LOCKS
-   #define DEBUG_LOCKS 0
+#define DEBUG_LOCKS 0
 #endif
 
 /**
  * if -DDEBUG_DISABLE_WFE=1 then nop wfe/sev
  */
 #ifndef DEBUG_DISABLE_WFE
-   #define DEBUG_DISABLE_WFE 0
+#define DEBUG_DISABLE_WFE 0
 #endif
 
 /**
@@ -61,7 +61,7 @@
  * dump more information
  */
 #ifndef DEBUG_PTABLE
-   #define DEBUG_PTABLE 0
+#define DEBUG_PTABLE 0
 #endif
 
 /**
@@ -70,7 +70,7 @@
  * in a human-readable format
  */
 #ifndef DEBUG_PTABLE_DUMP_TABLES
-   #define DEBUG_PTABLE_DUMP_TABLES 0
+#define DEBUG_PTABLE_DUMP_TABLES 0
 #endif
 
 /**
@@ -78,7 +78,7 @@
  * each step of the main run loop will be traced
  */
 #ifndef DEBUG_TRACE_RUN_LOOP
-   #define DEBUG_TRACE_RUN_LOOP 0
+#define DEBUG_TRACE_RUN_LOOP 0
 #endif
 
 /**
@@ -86,7 +86,7 @@
  * each ALLOC() stores some metadata about time/place of allocation
  */
 #ifndef DEBUG_ALLOC_META
-   #define DEBUG_ALLOC_META 0
+#define DEBUG_ALLOC_META 0
 #endif
 
 /**
@@ -95,7 +95,7 @@
  * (Warning: lots of output!)
  */
 #ifndef DEBUG_TRACE_VMM_ENSURES
-   #define DEBUG_TRACE_VMM_ENSURES 0
+#define DEBUG_TRACE_VMM_ENSURES 0
 #endif
 
 /**
@@ -103,7 +103,7 @@
  * trace through the initial boot sequence in detail
  */
 #ifndef DEBUG_TRACE_BOOT
-   #define DEBUG_TRACE_BOOT 1
+#define DEBUG_TRACE_BOOT 1
 #endif
 
 #endif /* DEBUG_FLAGS_H */

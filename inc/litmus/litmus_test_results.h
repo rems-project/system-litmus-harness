@@ -4,19 +4,20 @@
 #include "lib.h"
 
 /* test data */
-typedef struct {
-    u64 is_relaxed;
-    u64 counter;
-    u64 values[];
+typedef struct
+{
+  u64 is_relaxed;
+  u64 counter;
+  u64 values[];
 } test_result_t;
 
-typedef struct {
-    u64 allocated;
-    u64 limit;
-    test_result_t** lut;
-    test_result_t* results[];
+typedef struct
+{
+  u64 allocated;
+  u64 limit;
+  test_result_t** lut;
+  test_result_t* results[];
 } test_hist_t;
-
 
 /* print the collected results out */
 void print_results(test_hist_t* results, test_ctx_t* ctx);

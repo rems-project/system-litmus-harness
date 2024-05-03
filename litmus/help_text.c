@@ -3,7 +3,7 @@
 u64 grp_num_tests(const litmus_test_group* grp) {
   u64 i = 0;
   if (grp->tests != NULL) {
-    for (;;i++) {
+    for (;; i++) {
       if (grp->tests[i] == NULL)
         break;
     }
@@ -14,7 +14,7 @@ u64 grp_num_tests(const litmus_test_group* grp) {
 u64 grp_num_groups(const litmus_test_group* grp) {
   u64 i = 0;
   if (grp->groups != NULL) {
-    for (;;i++) {
+    for (;; i++) {
       if (grp->groups[i] == NULL)
         break;
     }

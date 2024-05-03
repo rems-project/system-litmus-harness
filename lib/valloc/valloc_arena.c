@@ -5,14 +5,14 @@
  */
 lock_t __valloc_arena_lock;
 
-void arena_init(valloc_arena *arena, u64 size) {
+void arena_init(valloc_arena* arena, u64 size) {
   LOCK(&__valloc_arena_lock);
   arena->top = (u64)(&arena->data[0]);
   arena->size = size;
   UNLOCK(&__valloc_arena_lock);
 }
 
-void *__alloc_arena(valloc_arena *arena, u64 size) {
+void* __alloc_arena(valloc_arena* arena, u64 size) {
   LOCK(&__valloc_arena_lock);
   u64 cur = arena->top;
 
@@ -26,5 +26,5 @@ void *__alloc_arena(valloc_arena *arena, u64 size) {
     fail("! over-allocated arena\n");
 
   UNLOCK(&__valloc_arena_lock);
-  return (void *)cur;
+  return (void*)cur;
 }

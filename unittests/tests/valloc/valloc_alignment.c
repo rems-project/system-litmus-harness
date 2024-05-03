@@ -2,7 +2,6 @@
 #include "lib.h"
 #include "testlib.h"
 
-
 UNIT_TEST(test_valloc_alloc_aligned)
 void test_valloc_alloc_aligned(void) {
   /* using just alloc() the argument might not be fully-aligned */

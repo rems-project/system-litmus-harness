@@ -3,17 +3,11 @@
 #include "testlib.h"
 
 static litmus_test_t small_test = {
-  "small test",
-  0,NULL,
-  0,NULL,
-  0,NULL,
+  "small test", 0, NULL, 0, NULL, 0, NULL,
 };
 
 static litmus_test_t big_test = {
-  "big test",
-  0,NULL,
-  3,(const char*[]){"x","y","z"},
-  3,(const char*[]){"r", "s", "t"},
+  "big test", 0, NULL, 3, (const char*[]){ "x", "y", "z" }, 3, (const char*[]){ "r", "s", "t" },
 };
 
 UNIT_TEST(test_free_test_ctx_empty)

@@ -20,5 +20,5 @@ void test_vmm_qemu_uart_translated(void) {
   }
   writeb('\0', UART0_BASE);
   vmm_set_id_translation(NULL);
-  ASSERT(1);  /* assert it *reaches* end of test */
+  ASSERT(1); /* assert it *reaches* end of test */
 }

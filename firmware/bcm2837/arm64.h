@@ -5,7 +5,7 @@
 
 #define SCR_Lower_Use_AArch64 (1 << 10)
 #define SCR_Enable_HVC (1 << 8)
-#define SCR_Enable_SMC (1 << 7)  /* required for e.g. PSCI */
+#define SCR_Enable_SMC (1 << 7) /* required for e.g. PSCI */
 #define SCR_RES1 (3 << 4)
 #define SCR_NonSecure (1)
 #define SCR (SCR_Lower_Use_AArch64 | SCR_Enable_HVC | SCR_Enable_SMC | SCR_RES1 | SCR_NonSecure)

@@ -1,13 +1,13 @@
 #ifndef VALLOC_PTABLE_H
 #define VALLOC_PTABLE_H
 
-
 /* allocator for contiguous page-sized chunks
  *
  * used for allocating pagetables during a test
  */
 
-typedef struct {
+typedef struct
+{
   u64 bot;
 } valloc_ptable_mem;
 

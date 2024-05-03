@@ -1,7 +1,6 @@
 #ifndef LITMUS_IDXS_H
 #define LITMUS_IDXS_H
 
-
 /**
  * each run of a litmus test is an index into
  * various arrays of test data.
