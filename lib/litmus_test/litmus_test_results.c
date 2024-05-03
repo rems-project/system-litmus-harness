@@ -167,7 +167,8 @@ static void print_results_herd(test_hist_t* res, test_ctx_t* ctx) {
     total_count += res->results[r]->counter;
 
     if (ENABLE_RESULTS_OUTREG_PRINT) {
-      printf("%ld:>", res->results[r]->counter);
+      char marker = was_interesting ? '*' : ':';
+      printf("%ld%c>", res->results[r]->counter, marker);
       for (reg_idx_t reg = 0; reg < ctx->cfg->no_regs; reg++) {
         char herd_reg_name[10];
         sprint_reg(herd_reg_name, ctx->cfg->reg_names[reg], STYLE_HERDTOOLS);
