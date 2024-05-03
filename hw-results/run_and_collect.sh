@@ -14,4 +14,4 @@ TS=$(date -I)
 RESULTS_DIR=${HERE}/hw-refs/$(hostname)
 mkdir -p ${RESULTS_DIR}/logs
 ${KVM_LITMUS} --id > ${RESULTS_DIR}/id.txt
-nohup ${KVM_LITMUS} -q -n500k -b2k $@ > ${RESULTS_DIR}/logs/${TS}.log &
+nohup ${KVM_LITMUS} -q -n500k -b2k $@ >> ${RESULTS_DIR}/logs/${TS}.log &
