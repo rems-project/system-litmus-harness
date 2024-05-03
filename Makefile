@@ -1,6 +1,7 @@
 define USAGE
 Simple Usage:
    make	build		builds qemu and kvm targets
+   make	check		runs the compiler warning checks but doesn't compile
    make docker		builds docker container and runs the unittests
    make clean		remove built files in bin/
    make deepclean	clean everything. No really.
@@ -413,3 +414,7 @@ include mk/unittests.mk
 list:
 	@echo 'Please choose from the following targets:'
 	@$(MAKE) -prRq -f $(firstword $(MAKEFILE_LIST)) : 2>/dev/null | grep -o '^build[^:]*' | grep -o '^[^$$]*$$' | sort
+
+.PHONY: check
+check: CFLAGS+=-fsyntax-only -Werror -Wextra
+check: $(COMMON_BIN_FILES)

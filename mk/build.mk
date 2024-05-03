@@ -34,17 +34,17 @@ ifeq ($(SHOW_PREPROCESSED_OUTPUT),1)
   define run_cc
 	@mkdir -p $(dir $@)
 	$(call run_cmd,CC,$<,\
-		$(CC) $(CFLAGS) -c -o $@ $< \
-		; echo $(CC) $(CFLAGS) -c -o $@ $< > $@.cmd \
+		echo $(CC) $(CFLAGS) -c -o $@ $< > $@.cmd \
 		; $(CC) $(CFLAGS) -E -o $(patsubst %.o,%.pp,$@) $<  \
+		; $(CC) $(CFLAGS) -c -o $@ $< \
 	)
   endef
 else
   define run_cc
 	@mkdir -p $(dir $@)
 	$(call run_cmd,CC,$<,\
-		$(CC) $(CFLAGS) -c -o $@ $< \
-		; echo $(CC) $(CFLAGS) -c -o $@ $< > $@.cmd \
+		echo $(CC) $(CFLAGS) -c -o $@ $< > $@.cmd \
+		; $(CC) $(CFLAGS) -c -o $@ $< \
 	)
   endef
 endif
