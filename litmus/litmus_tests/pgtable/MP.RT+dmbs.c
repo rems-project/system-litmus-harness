@@ -8,7 +8,6 @@ static void P0(litmus_test_run* data) {
   asm volatile(
     "mov x0, %[zdesc]\n\t"
     "mov x1, %[xpte]\n\t"
-    "mov x2, %[xpage]\n\t"
     "mov x3, #1\n\t"
     "mov x4, %[y]\n\t"
     /* test payload */
