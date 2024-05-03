@@ -6,40 +6,37 @@
 #define REGS p0x0
 
 static void P0(litmus_test_run* data) {
-  asm volatile (
-      "ldr x0, [%[x]]\n\t"
+  asm volatile(
+    "ldr x0, [%[x]]\n\t"
 
-      /* out */
-      "str x0, [%[outp0r0]]\n\t"
-  :
-  : ASM_VARS(data, VARS),
-    ASM_REGS(data, REGS)
-  : "cc", "memory", "x0", "x10"
+    /* out */
+    "str x0, [%[outp0r0]]\n\t"
+    :
+    : ASM_VARS(data, VARS), ASM_REGS(data, REGS)
+    : "cc", "memory", "x0", "x10"
   );
 }
 
 static void sync_handler(void) {
   asm volatile(
-      /* if EC==100100 (DataAbort) */
-      "mrs x0, esr_el1\n"
-      "ubfx x0, x0, #26, #6\n"
-      "cmp x0, #0b100100\n"
-      "b.ne 0f\n"
+    /* if EC==100100 (DataAbort) */
+    "mrs x0, esr_el1\n"
+    "ubfx x0, x0, #26, #6\n"
+    "cmp x0, #0b100100\n"
+    "b.ne 0f\n"
 
-      /* if ISS[6:0]==0010000 (WnR==0, DFSC=010000
+    /* if ISS[6:0]==0010000 (WnR==0, DFSC=010000
                                Read-induced, Sync SError) */
-      "mrs x0, esr_el1\n"
-      "ubfx x0, x0, #0, #7\n"
-      "cmp x0, #0b0010000\n"
-      "b.ne 0f\n"
+    "mrs x0, esr_el1\n"
+    "ubfx x0, x0, #0, #7\n"
+    "cmp x0, #0b0010000\n"
+    "b.ne 0f\n"
 
-      /* return 1 */
-      "1: mov x0, #1\n"
-      ERET_TO_NEXT(x10)
+    /* return 1 */
+    "1: mov x0, #1\n" ERET_TO_NEXT(x10)
 
-      /* else: return 0 */
-      "0: mov x0, #0\n"
-      ERET_TO_NEXT(x10)
+    /* else: return 0 */
+    "0: mov x0, #0\n" ERET_TO_NEXT(x10)
   );
 }
 
@@ -55,13 +52,13 @@ litmus_test_t SEA_R_detect = {
     INIT_FIX(x, 0x800000000ULL)
   ),
   .thread_sync_handlers =
-    (u32**[]){
-     (u32*[]){(u32*)sync_handler, NULL},
+    (u32 * *[]){
+      (u32*[]){ (u32*)sync_handler, NULL },
     },
   .interesting_result = (uint64_t[]){
-      /* if p0:x0 was 1, then saw a Synchronous SError on the Load
+    /* if p0:x0 was 1, then saw a Synchronous SError on the Load
        * hence SEA_R must be True.
        */
-      /* p0:x0 =*/1,
+    /* p0:x0 =*/1,
   },
 };

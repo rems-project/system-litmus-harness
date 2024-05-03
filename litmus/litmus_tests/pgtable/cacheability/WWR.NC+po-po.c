@@ -5,7 +5,7 @@
 #define REGS p0x4
 
 static void P0(litmus_test_run* data) {
-  asm volatile (
+  asm volatile(
     /* change  */
     "mov x0, #1\n\t"
     "mov x1, %[x]\n\t"
@@ -20,10 +20,9 @@ static void P0(litmus_test_run* data) {
 
     /* output */
     "str x4, [%[outp0r4]]\n\t"
-  :
-  : ASM_VARS(data, VARS),
-    ASM_REGS(data, REGS)
-  : "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x5"
+    :
+    : ASM_VARS(data, VARS), ASM_REGS(data, REGS)
+    : "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x5"
   );
 }
 
@@ -33,20 +32,19 @@ litmus_test_t WWRNC_popo = {
   MAKE_VARS(VARS),
   MAKE_REGS(REGS),
   INIT_STATE(
-    3,
-    INIT_VAR(x, 0),
+    3, INIT_VAR(x, 0),
     /* set y to be a non-cacheable alias to x */
-    INIT_ALIAS(y, x),
-    INIT_PERMISSIONS(y, PROT_ATTRIDX, PROT_ATTR_NORMAL_NC),
+    INIT_ALIAS(y, x), INIT_PERMISSIONS(y, PROT_ATTRIDX, PROT_ATTR_NORMAL_NC),
   ),
-  .interesting_results = (u64*[]){
-    (u64[]){
-      /* p1:x4 =*/0,
+  .interesting_results =
+    (u64*[]){
+      (u64[]){
+        /* p1:x4 =*/0,
+      },
+      (u64[]){
+        /* p1:x4 =*/1,
+      },
     },
-    (u64[]){
-      /* p1:x4 =*/1,
-    },
-  },
   .requires_pgtable = 1,
   .no_sc_results = 1,
 };

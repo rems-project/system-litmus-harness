@@ -5,22 +5,20 @@
 #define REGS p1x0, p1x2
 
 static void P0(litmus_test_run* data) {
-  asm volatile (
+  asm volatile(
     /* move from C vars into machine regs */
     "mov x0, %[ydesc]\n\t"
     "mov x1, %[xpte]\n\t"
     /* test */
     "str x0, [x1]\n\t"
-  : 
-  : ASM_VARS(data, VARS),
-    ASM_REGS(data, REGS)
-  : "cc", "memory", "x0", "x1"
+    :
+    : ASM_VARS(data, VARS), ASM_REGS(data, REGS)
+    : "cc", "memory", "x0", "x1"
   );
 }
 
-
 static void P1(litmus_test_run* data) {
-  asm volatile (
+  asm volatile(
     /* move from C vars into machine regs */
     "mov x1, %[x]\n\t"
     "mov x3, %[xpte]\n\t"
@@ -40,30 +38,23 @@ static void P1(litmus_test_run* data) {
     /* save results */
     "str x0, [%[outp1r0]]\n\t"
     "str x2, [%[outp1r2]]\n\t"
-  : 
-  : ASM_VARS(data, VARS),
-    ASM_REGS(data, REGS)
-  : "cc", "memory", "x0", "x1", "x2", "x3", "x4"
+    :
+    : ASM_VARS(data, VARS), ASM_REGS(data, REGS)
+    : "cc", "memory", "x0", "x1", "x2", "x3", "x4"
   );
 }
-
-
 
 litmus_test_t CoTR1tlbi_dsbdsbisb = {
   "CoTR1.tlbi+dsb-isb",
   MAKE_THREADS(2),
   MAKE_VARS(VARS),
   MAKE_REGS(REGS),
-  INIT_STATE(
-    2,
-    INIT_VAR(x, 0),
-    INIT_VAR(y, 1)
-  ),
+  INIT_STATE(2, INIT_VAR(x, 0), INIT_VAR(y, 1)),
   .interesting_result = (u64[]){
-      /* p0:x0 =*/1,
-      /* p0:x2 =*/0,
+    /* p0:x0 =*/1,
+    /* p0:x2 =*/0,
   },
-  .start_els=(int[]){0,1},
+  .start_els = (int[]){ 0, 1 },
   .requires_pgtable = 1,
   .no_sc_results = 3,
 };

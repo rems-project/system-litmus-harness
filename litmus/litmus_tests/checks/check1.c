@@ -9,21 +9,20 @@
 #define IDENT_exc exc
 
 static void P0(litmus_test_run* data) {
-  asm volatile (
+  asm volatile(
     "mov x10, %[exc]\n\t"
     "mov x0, #1\n\t"
     "mov x1, %[x]\n\t"
     /* test */
     "str x0, [x1]\n\t"
-  :
-  : ASM_VARS(data, VARS),
-    ASM_REGS(data, REGS)
-  : "cc", "memory", "x0", "x1", "x10", "x11", "x12"
+    :
+    : ASM_VARS(data, VARS), ASM_REGS(data, REGS)
+    : "cc", "memory", "x0", "x1", "x10", "x11", "x12"
   );
 }
 
 static void P1(litmus_test_run* data) {
-  asm volatile (
+  asm volatile(
     "mov x10, %[exc]\n\t"
     "mov x1, %[x]\n\t"
     "mov x2, #1\n\t"
@@ -33,16 +32,15 @@ static void P1(litmus_test_run* data) {
     "eor x4, x0, x0\n\t"
     "add x4, x4, x3\n\t"
     "str x2, [x4]\n\t"
-  :
-  : ASM_VARS(data, VARS),
-    ASM_REGS(data, REGS)
-  : "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x10", "x11", "x12"
+    :
+    : ASM_VARS(data, VARS), ASM_REGS(data, REGS)
+    : "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x10", "x11", "x12"
   );
 }
 
 static void P2(litmus_test_run* data) {
   u64 _x2;
-  asm volatile (
+  asm volatile(
     "mov x10, %[exc]\n\t"
     "mov x1, %[y]\n\t"
     "mov x3, %[x]\n\t"
@@ -51,15 +49,14 @@ static void P2(litmus_test_run* data) {
     "eor x4, x0, x0\n\t"
     "add x4, x4, x3\n\t"
     "ldr %[x2], [x4]\n\t"
-  : [x2] "=&r" (_x2)
-  : ASM_VARS(data, VARS),
-    ASM_REGS(data, REGS)
-  : "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x10", "x11", "x12"
+    : [x2] "=&r"(_x2)
+    : ASM_VARS(data, VARS), ASM_REGS(data, REGS)
+    : "cc", "memory", "x0", "x1", "x2", "x3", "x4", "x10", "x11", "x12"
   );
 }
 
 static void handler(void) {
-  asm volatile (
+  asm volatile(
     "mov x11,#1\n\t"
     "str x11,[x10]\n\t"
 
@@ -83,37 +80,33 @@ static void teardown(litmus_test_run* data) {
   }
 }
 
-
 litmus_test_t check1 = {
   "check1",
   MAKE_THREADS(3),
   MAKE_VARS(VARS),
   MAKE_REGS(REGS),
-  INIT_STATE(
-    2,
-    INIT_VAR(x, 0),
-    INIT_VAR(y, 0)
-  ),
-  .interesting_result =
-    (u64[]){
-      /* exc=*/ 1,
+  INIT_STATE(2, INIT_VAR(x, 0), INIT_VAR(y, 0)),
+  .interesting_result = (u64[]){
+    /* exc=*/1,
   },
-  .start_els=(int[]){1,1,1},
+  .start_els = (int[]){ 1, 1, 1 },
   .thread_sync_handlers =
-    (u32**[]){
-     (u32*[]){NULL, (u32*)handler},
-     (u32*[]){NULL, (u32*)handler},
-     (u32*[]){NULL, (u32*)handler},
+    (u32 * *[]){
+      (u32*[]){ NULL, (u32*)handler },
+      (u32*[]){ NULL, (u32*)handler },
+      (u32*[]){ NULL, (u32*)handler },
     },
-  .setup_fns = (th_f*[]){
-    (th_f*)p0_setup,
-    NULL,
-    NULL,
-  },
-  .teardown_fns = (th_f*[]){
-    (th_f*)teardown,
-    (th_f*)teardown,
-    (th_f*)teardown,
-  },
+  .setup_fns =
+    (th_f*[]){
+      (th_f*)p0_setup,
+      NULL,
+      NULL,
+    },
+  .teardown_fns =
+    (th_f*[]){
+      (th_f*)teardown,
+      (th_f*)teardown,
+      (th_f*)teardown,
+    },
   .requires_pgtable = 1,
 };

@@ -5,7 +5,7 @@
 #define REGS p1x0, p1x2
 
 static void P0(litmus_test_run* data) {
-  asm volatile (
+  asm volatile(
     /* move from C vars into machine regs */
     "mov x0, %[cdesc]\n\t"
     "mov x1, %[apte]\n\t"
@@ -16,16 +16,14 @@ static void P0(litmus_test_run* data) {
     "str x0, [x1]\n\t"
     "dmb sy\n\t"
     "str x2, [x3]\n\t"
-  :
-  : ASM_VARS(data, VARS),
-    ASM_REGS(data, REGS)
-  : "cc", "memory", "x0", "x1", "x2", "x3"
+    :
+    : ASM_VARS(data, VARS), ASM_REGS(data, REGS)
+    : "cc", "memory", "x0", "x1", "x2", "x3"
   );
 }
 
-
 static void P1(litmus_test_run* data) {
-  asm volatile (
+  asm volatile(
     /* move from C vars into machine regs */
     "mov x1, %[b]\n\t"
     "mov x3, %[a]\n\t"
@@ -41,43 +39,32 @@ static void P1(litmus_test_run* data) {
     /* save results */
     "str x0, [%[outp1r0]]\n\t"
     "str x2, [%[outp1r2]]\n\t"
-  :
-  : ASM_VARS(data, VARS),
-    ASM_REGS(data, REGS)
-  : "cc", "memory", "x0", "x1", "x2", "x3", "x7", "x8", "x10"
+    :
+    : ASM_VARS(data, VARS), ASM_REGS(data, REGS)
+    : "cc", "memory", "x0", "x1", "x2", "x3", "x7", "x8", "x10"
   );
 }
-
 
 static void sync_handler(void) {
-  asm volatile (
-    "mov x8, #1\n\t"
+  asm volatile("mov x8, #1\n\t"
 
-    ERET_TO_NEXT(x10)
-  );
+               ERET_TO_NEXT(x10));
 }
-
 
 litmus_test_t MPTT_WinvdmbWinv_tpo = {
   "MP.TT+Winv-dmb-Winv+tpo",
   MAKE_THREADS(2),
   MAKE_VARS(VARS),
   MAKE_REGS(REGS),
-  INIT_STATE(
-    4,
-    INIT_VAR(a, 0),
-    INIT_VAR(b, 0),
-    INIT_UNMAPPED(c),
-    INIT_UNMAPPED(d),
-  ),
+  INIT_STATE(4, INIT_VAR(a, 0), INIT_VAR(b, 0), INIT_UNMAPPED(c), INIT_UNMAPPED(d), ),
   .thread_sync_handlers =
-    (u32**[]){
-     (u32*[]){NULL, NULL},
-     (u32*[]){(u32*)sync_handler, NULL},
+    (u32 * *[]){
+      (u32*[]){ NULL, NULL },
+      (u32*[]){ (u32*)sync_handler, NULL },
     },
   .interesting_result = (u64[]){
-      /* p0:x0 =*/1,
-      /* p0:x2 =*/0,
+    /* p0:x0 =*/1,
+    /* p0:x2 =*/0,
   },
   .requires_pgtable = 1,
   .no_sc_results = 3,

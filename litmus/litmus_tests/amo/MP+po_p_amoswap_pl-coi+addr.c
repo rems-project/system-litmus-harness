@@ -4,14 +4,13 @@
  * but the RPi4 (and all previous) are ARMv8.0
  */
 
-
 #include "lib.h"
 
 #define VARS x, y
 #define REGS p1x2, p1x4
 
 static void P0(litmus_test_run* data) {
-  asm volatile (
+  asm volatile(
     "mov x0, %[x]\n\t"
     "mov x1, %[y]\n\t"
     "mov x2, #1\n\t"
@@ -21,15 +20,14 @@ static void P0(litmus_test_run* data) {
     "str x2,[x0]\n\t"
     "casl x3,x4,[x1]\n\t"
     "str x2,[x1]\n\t"
-  :
-  : ASM_VARS(data, VARS),
-    ASM_REGS(data, REGS)
-  : "cc", "memory", "x0", "x1", "x2", "x3", "x4"
+    :
+    : ASM_VARS(data, VARS), ASM_REGS(data, REGS)
+    : "cc", "memory", "x0", "x1", "x2", "x3", "x4"
   );
 }
 
 static void P1(litmus_test_run* data) {
-  asm volatile (
+  asm volatile(
     "mov x0, %[x]\n\t"
     "mov x1, %[y]\n\t"
 
@@ -39,28 +37,21 @@ static void P1(litmus_test_run* data) {
 
     "str x0, [%[outp1r2]]\n\t"
     "str x2, [%[outp1r4]]\n\t"
-  :
-  : ASM_VARS(data, VARS),
-    ASM_REGS(data, REGS)
-  : "cc", "memory", "x0", "x1", "x2", "x3", "x4"
+    :
+    : ASM_VARS(data, VARS), ASM_REGS(data, REGS)
+    : "cc", "memory", "x0", "x1", "x2", "x3", "x4"
   );
 }
-
 
 litmus_test_t MP_pos = {
   "MP+po_p_amoswap_pl-coi+addr",
   MAKE_THREADS(2),
   MAKE_VARS(VARS),
   MAKE_REGS(REGS),
-  INIT_STATE(
-    2,
-    INIT_VAR(x, 0),
-    INIT_VAR(y, 0),
-  ),
-  .interesting_result =
-    (u64[]){
-      /* p1:x2 =*/ 1,
-      /* p1:x4 =*/ 0,
+  INIT_STATE(2, INIT_VAR(x, 0), INIT_VAR(y, 0), ),
+  .interesting_result = (u64[]){
+    /* p1:x2 =*/1,
+    /* p1:x4 =*/0,
   },
   .no_sc_results = 3,
 };

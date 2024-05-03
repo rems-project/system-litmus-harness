@@ -5,7 +5,7 @@
 #define REGS p0x2
 
 static void P0(litmus_test_run* data) {
-  asm volatile (
+  asm volatile(
     /* change  */
     "mov x0, #1\n\t"
     "mov x1, %[y]\n\t"
@@ -18,10 +18,9 @@ static void P0(litmus_test_run* data) {
 
     /* output */
     "str x2, [%[outp0r2]]\n\t"
-  :
-  : ASM_VARS(data, VARS),
-    ASM_REGS(data, REGS)
-  : "cc", "memory", "x0", "x1", "x2", "x3"
+    :
+    : ASM_VARS(data, VARS), ASM_REGS(data, REGS)
+    : "cc", "memory", "x0", "x1", "x2", "x3"
   );
 }
 
@@ -31,16 +30,14 @@ litmus_test_t WRWARANC_dsb = {
   MAKE_VARS(VARS),
   MAKE_REGS(REGS),
   INIT_STATE(
-    4,
-    INIT_VAR(x, 0),
+    4, INIT_VAR(x, 0),
     /* make x be a cacheable mapping */
     INIT_PERMISSIONS(x, PROT_ATTRIDX, PROT_ATTR_NORMAL_RA_WA),
     /* set y to be a non-cacheable alias to x */
-    INIT_ALIAS(y, x),
-    INIT_PERMISSIONS(y, PROT_ATTRIDX, PROT_ATTR_NORMAL_NC),
+    INIT_ALIAS(y, x), INIT_PERMISSIONS(y, PROT_ATTRIDX, PROT_ATTR_NORMAL_NC),
   ),
   .interesting_result = (u64[]){
-      /* p0:x4 =*/0,
+    /* p0:x4 =*/0,
   },
   .requires_pgtable = 1,
   .no_sc_results = 1,
