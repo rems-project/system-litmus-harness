@@ -154,6 +154,8 @@ char* vsprintf(char* out, int mode, const char* fmt, va_list ap) {
         } else {
           out = sputdec(out, va_arg(ap, int));
         }
+      } else if (c == 'x') {
+        out = sputhex(out, va_arg(ap, u32));
       } else if (c == 'l') {
         if (*(p + 1) == 'x') {
           out = sputhex(out, va_arg(ap, long));
