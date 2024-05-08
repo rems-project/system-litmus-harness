@@ -90,6 +90,46 @@ char* pin_level_to_str(pin_level_t lvl) {
   }
 }
 
+char* init_type_to_str(init_type_t type) {
+  switch (type) {
+    case TYPE_HEAP:
+      return "TYPE_HEAP";
+    case TYPE_PTE:
+      return "TYPE_PTE";
+    case TYPE_FIX:
+      return "TYPE_FIX";
+    case TYPE_UNMAPPED:
+      return "TYPE_UNMAPPED";
+    case TYPE_IDENTITY_MAP:
+      return "TYPE_IDENTITY_MAP";
+    case TYPE_ALIAS:
+      return "TYPE_ALIAS";
+    case TYPE_ATTRS:
+      return "TYPE_ATTRS";
+    case TYPE_REGION_OWN:
+      return "TYPE_REGION_OWN";
+    case TYPE_REGION_PIN:
+      return "TYPE_REGION_PIN";
+    case TYPE_REGION_OFFSET:
+      return "TYPE_REGION_OFFSET";
+    case TYPE_MAIR:
+      return "TYPE_MAIR";
+    default:
+      return "<unknown init_type_t>";
+  }
+}
+
+char* prot_type_to_str(prot_type_t prot) {
+  switch (prot) {
+  case PROT_AP:
+    return "AP";
+  case PROT_ATTRIDX:
+    return "AttrIdx";
+  default:
+    return "<unknown prot_type_t>";
+  }
+}
+
 char* rel_offset_to_str(rel_offset_t lvl) {
   switch (lvl) {
   case REGION_SAME_VAR_OFFSET:

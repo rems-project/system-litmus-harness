@@ -5,6 +5,7 @@
 #include "litmus_idxs.h"
 
 /* litmus_macros to help the user define a litmus test */
+#include "litmus_asm.h"
 #include "litmus_macros.h"
 
 /* test configuration */
@@ -21,6 +22,8 @@ typedef enum {
   TYPE_REGION_OFFSET,
   TYPE_MAIR, /* can set the test MAIR value */
 } init_type_t;
+
+char* init_type_to_str(init_type_t type);
 
 typedef enum {
   REGION_SAME_VAR_OFFSET,        /* unused, but for completeness of type */
@@ -180,6 +183,19 @@ typedef struct
    * }
    */
   arch_allow_st* expected_allowed;
+
+  /**
+   * predefined hash (NULL if none)
+   */
+  const char* hash;
 } litmus_test_t;
+
+
+/**
+ * litmus_test_hash() - Generates a hash from a litmus test.
+ *
+ * SEE: litmus_test_hash.c for details
+ */
+digest litmus_test_hash(const litmus_test_t *test);
 
 #endif /* LITMUS_TEST_DEF_H */

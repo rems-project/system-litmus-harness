@@ -120,6 +120,22 @@ void handle_new_result(test_ctx_t* ctx, run_idx_t idx, run_count_t r) {
   }
 }
 
+static void print_hash(const litmus_test_t* test) {
+  digest d = litmus_test_hash(test);
+  char computed_hash[41];
+  hexdigest(&d, computed_hash);
+
+  if (test->hash) {
+    printf("Hash=%s\n", test->hash);
+
+    if (!strcmp(test->hash, computed_hash)) {
+      verbose("warning: computed hash %s did not match hash in test file\n", computed_hash);
+    }
+  } else {
+    printf("Hash=%s\n", computed_hash);
+  }
+}
+
 /** at the end of the test print out the results histogram
  */
 static void print_results_original(test_hist_t* res, test_ctx_t* ctx) {
@@ -144,6 +160,7 @@ static void print_results_original(test_hist_t* res, test_ctx_t* ctx) {
         printf(" : %d\n", res->results[r]->counter);
     }
   }
+  print_hash(ctx->cfg);
   printf("Observation %s: %d (of %d)\n", ctx->cfg->name, marked, ctx->no_runs);
   if (ctx->cfg->no_sc_results > 0 && no_sc_results_seen != ctx->cfg->no_sc_results && ENABLE_RESULTS_MISSING_SC_WARNING) {
     printf(
@@ -188,7 +205,7 @@ static void print_results_herd(test_hist_t* res, test_ctx_t* ctx) {
 
   printf("Witnesses\n");
   printf("Positive: %ld Negative: %ld\n", marked, total_count - marked);
-
+  print_hash(ctx->cfg);
   printf("Observation %s ", ctx->cfg->name);
   if (marked == 0) {
     printf("Never");

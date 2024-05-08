@@ -6,4 +6,6 @@ typedef enum {
   PROT_ATTRIDX,
 } prot_type_t;
 
+char* prot_type_to_str(prot_type_t prot);
+
 #endif /* LITMUS_PROT_H */
