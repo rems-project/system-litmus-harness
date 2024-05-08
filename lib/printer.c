@@ -33,6 +33,15 @@ char* sputs(char* out, char* s) {
   return out;
 }
 
+char* sputchar(char* out, char c) {
+  /* dont write NUL */
+  if (c == 0)
+    return out;
+
+  *out = c;
+  return out + 1;
+}
+
 char __get_hexchar(u64 n) {
   if (n < 10) {
     return n + 48;
@@ -170,7 +179,7 @@ char* vsprintf(char* out, int mode, const char* fmt, va_list ap) {
          * so we want to take a whole int here
          */
         int arg = va_arg(ap, int);
-        out = sputc(out, (char)arg);
+        out = sputchar(out, (char)arg);
       } else if (c == 's' || c == 'o') {
         char* sp = va_arg(ap, char*);
         out = sputs(out, sp);
