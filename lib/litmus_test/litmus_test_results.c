@@ -157,7 +157,7 @@ static void print_results_herd(test_hist_t* res, test_ctx_t* ctx) {
   u64 no_sc_results_seen = 0;
   u64 total_count = 0;
 
-  printf("States %d\n", res->allocated);
+  printf("Histogram (%d states)\n", res->allocated);
 
   for (int r = 0; r < res->allocated; r++) {
     int was_interesting = res->results[r]->is_relaxed;
