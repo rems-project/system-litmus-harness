@@ -696,10 +696,14 @@ def write_combo_table(grp_list, f, devices: "Mapping[Device, List[LogFileResult]
     f.write("\\end{tabular}\n")
 
 
-def collect_logs(d):
+def collect_logs(d: pathlib.Path):
     for fname in d.iterdir():
         if fname.suffix == ".log":
             yield str(fname.expanduser())
+
+        # recursively collect any logs/ dir
+        if fname.is_dir() and fname.name == "logs":
+            yield from collect_logs(fname)
 
 
 def main(args):
