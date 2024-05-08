@@ -12,6 +12,7 @@
 #include "argc.h"
 #include "bitwise.h"
 #include "device.h"
+#include "hashlib.h"
 #include "printer.h"
 #include "valloc/valloc_ptable.h"
 #include "valloc/valloc_generic.h"
@@ -76,7 +77,14 @@ extern void run_on_cpus(async_fn_t* fn, void* arg);
 
 /* assorted numeric functions */
 extern int log2(u64 n);
+
 extern u32 read_be(char* p);
+extern void write_be(char* p, u32 v);
+
 extern u64 read_be64(char* p);
+extern void write_be64(char* p, u64 v);
+
+/* base64 helpers */
+u64 b64decode(const char* data, u64 len, char* out);
 
 #endif /* LIB_H */

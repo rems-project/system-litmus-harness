@@ -106,4 +106,13 @@
 #define DEBUG_TRACE_BOOT 1
 #endif
 
+/**
+ * if -DDEBUG_HASHLIB=1 then
+ * dump hash states,
+ * in a format comparable to the NIST Examples with Intermediate Values
+ */
+#ifndef DEBUG_HASHLIB
+#define DEBUG_HASHLIB 1
+#endif
+
 #endif /* DEBUG_FLAGS_H */
