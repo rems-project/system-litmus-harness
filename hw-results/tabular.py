@@ -7,6 +7,7 @@ Usage: tabular.py
   [--standalone] [--standalone-file STANDALONE_FILE]
   [--all-file ALL_FILE]
   [--macros]
+  [--macros-file MACROS_FILE]
   [--file FILE | --device DEVICE]
   [--excludes EXCLUDES] [--includes INCLUDES]
 
@@ -16,6 +17,7 @@ options:
   --standalone-file STANDALONE_FILE, -o STANDALONE_FILE
   --all-file ALL_FILE
   --macros
+  --macros-file MACROS_FILE
   --herdtools
   --file FILE, -f FILE
   --device DEVICE, -d DEVICE
@@ -54,6 +56,7 @@ parser.add_argument("--standalone", action="store_true")
 parser.add_argument("--standalone-file", "-o", default="top.tex")
 parser.add_argument("--all-file", default="results-all.tex")
 parser.add_argument("--macros", action="store_true")
+parser.add_argument("--macros-file", default="results-macros.tex")
 parser.add_argument("--herdtools", action="store_true", help="Use herdtools format")
 
 group = parser.add_mutually_exclusive_group()
@@ -69,6 +72,12 @@ parser.add_argument(
     "--includes",
     action='append',
     help="Comma-separated list of included groups, e.g. --includes=@grp1,@grp2",
+)
+
+parser.add_argument(
+    "--distribution",
+    action="store_true",
+    help="Add columns with distribution of results"
 )
 
 # the results are a set of tests, each with a set of results
@@ -421,14 +430,15 @@ def filter_devices(grp_list, devices: "Mapping[Device, List[LogFileResult]]", in
 
     return tests
 
-def write_explicit_table(grp_list, f, devices, includes=[], excludes=[]):
+def macro_result_name(device, test):
+    return f"\\csname {device.name}-{test.test_name} result\\endcsname"
+
+def write_explicit_table(f, devices, tests):
     """write out an explicit table of results
     with the histogram given for each result in full
 
     for now just ascii text
     """
-
-    filtered_tests = filter_devices(grp_list, devices, includes, excludes)
 
     table = []
     widths = []
@@ -502,7 +512,7 @@ def write_explicit_table(grp_list, f, devices, includes=[], excludes=[]):
         if c:
             r(c, heading=heading, next_level_heading=next_level_heading)
 
-    for ftest in filtered_tests.values():
+    for ftest in tests.values():
         test_name = ftest.test_name
         groups = ftest.groups
 
@@ -515,10 +525,10 @@ def write_explicit_table(grp_list, f, devices, includes=[], excludes=[]):
             for d in devices:
                 with new_multicol(row, heading=f"{d.name}") as mcol:
                     # hack: insert zero'd entry
-                    if d not in filtered_tests[test_name].results:
-                        filtered_tests[test_name].results[d] = FilteredLog(d, test_name)
+                    if d not in tests[test_name].results:
+                        tests[test_name].results[d] = FilteredLog(d, test_name)
 
-                    flog = filtered_tests[test_name].results[d]
+                    flog = tests[test_name].results[d]
                     total_obs, total_runs = flog.total
                     mcol(f"{humanize(total_obs)}/{humanize(total_runs)}", heading="total")
 
@@ -570,50 +580,9 @@ def write_explicit_table(grp_list, f, devices, includes=[], excludes=[]):
 
         f.write("\n")
 
-def write_combo_table(grp_list, f, devices: "Mapping[Device, List[LogFileResult]]", includes=[], excludes=[], print_skips=True):
-    """write out a standard table of results for all the devices
-    """
-    filtered_tests = filter_devices(grp_list, devices, includes, excludes)
-    all_groups = set(g for ftest in filtered_tests.values() for g in ftest.groups if g != "all")
+def _write_combo_tablular_with_distribution(f, devices, tests, rows):
+    all_groups = set(g for ftest in tests.values() for g in ftest.groups if g != "all")
     one_group = len(all_groups) == 1
-
-    # Total/Distribution for each device
-    rows = []
-    for ftest in filtered_tests.values():
-        test_name = ftest.test_name
-        groups = ftest.groups
-
-        row = []
-        group = groups[-1]
-        # use verb to escape test and group names with symbols
-        row.append(f"\\verb|{group}|")
-        row.append(f"\\verb|{test_name}|")
-
-        for d in devices:
-            # hack: insert zero'd entry
-            if d not in filtered_tests[test_name].results:
-                filtered_tests[test_name].results[d] = FilteredLog(d, test_name)
-
-            flog = filtered_tests[test_name].results[d]
-            total_obs, total_runs = flog.total
-            avg, u = flog.distribution
-            run = flog.batch_size
-            h_total_observations = humanize(total_obs)
-            h_total_runs = humanize(total_runs)
-            h_u = humanize(u)
-            h_avg = humanize(avg)
-            h_run = humanize(run)
-
-            row.append(f"{h_total_observations}/{h_total_runs}")
-            if total_obs > 0:
-                row.append(f"{h_avg}/{h_run}")
-                row.append(f"$\\pm$ {h_u}/{h_run}")
-            else:
-                row.append("")
-                row.append("")
-
-        row.append(f"\\csname {test_name}\\endcsname")
-        rows.append(row)
 
     maxcolrows = [max(len(r[i]) for r in rows) for i in range(len(rows[0]))]
     if len("\\textbf{Type}") > maxcolrows[0]:
@@ -652,15 +621,6 @@ def write_combo_table(grp_list, f, devices: "Mapping[Device, List[LogFileResult]
         tab_shape += "l "
     tab_shape += device_cols_ls
     tab_shape += " l"
-    if args.macros:
-        tab_shape += " | \\shapemacro"
-
-    if args.macros:
-        f.write("\\input{table_macros}\n")
-        with open("table_macros.tex", "w") as g:
-            test_macros = [f"\\expandafter\\newcommand\\csname {t}\\endcsname{{}}" for (t, _) in filtered]
-            g.write(MACROS_TEX.format(tests="\n".join(test_macros)))
-
     f.write("\\begin{tabular}{%s}\n" % tab_shape)
 
     # first line
@@ -670,8 +630,6 @@ def write_combo_table(grp_list, f, devices: "Mapping[Device, List[LogFileResult]
         f.write("\\textbf{Type}".ljust(maxcolrows[0]) + " & ")
     f.write("\\textbf{Name}".ljust(maxcolrows[1]) + " & ")
     f.write("%s & " % " & ".join(device_headers))
-    if args.macros:
-        f.write("\\headermacro{} & ".ljust(maxcolrows[-1]))
     f.write("\\\\\n")
     # second line
     #               & total & distribution &   & total & distribution & ... & etc
@@ -680,8 +638,6 @@ def write_combo_table(grp_list, f, devices: "Mapping[Device, List[LogFileResult]
         f.write("".ljust(maxcolrows[0]) + " & ")
     f.write("".ljust(maxcolrows[1]) + " & ")
     f.write("%s & " % " & ".join(device_cols_heads))
-    if args.macros:
-        f.write("\\titlemacro{} & ".ljust(maxcolrows[-1]))
     f.write("\\\\\n")
 
     for row in rows:
@@ -689,11 +645,119 @@ def write_combo_table(grp_list, f, devices: "Mapping[Device, List[LogFileResult]
         for i, (c, maxlen) in enumerate(zip(row, maxcolrows)):
             if one_group and i == 0:
                 continue
-            if not args.macros and i == len(row) - 1:
+            if i == len(row) - 1:
                 continue
             f.write(f"{c!s:>{maxlen}} & ")
         f.write("\\\\ \\hline \n")
     f.write("\\end{tabular}\n")
+
+def _write_combo_tablular_simple(f, devices, tests, rows):
+    all_groups = set(g for ftest in tests.values() for g in ftest.groups if g != "all")
+    one_group = len(all_groups) == 1
+
+    device_headers = [
+        "\\textbf{%s}" % d.name
+        for d in devices
+    ]
+
+    device_cols_heads = []
+    for i, _ in enumerate(devices):
+        device_cols_heads.append("\\textbf{Total}")
+
+    device_cols_ls = " | l " * len(devices)
+    tab_shape = "l "
+    if not one_group:
+        tab_shape += "l "
+    tab_shape += device_cols_ls
+    tab_shape += " l"
+
+    f.write("\\begin{tabular}{%s}\n" % tab_shape)
+
+    # first line
+    #  Type  & Name & multicol{3}{rpi4}         &  multicol{3}{qemu} & etc
+    f.write("   ")
+    if not one_group:
+        f.write("\\textbf{Type} & ")
+    f.write("\\textbf{Name} & ")
+    f.write("%s & " % " & ".join(device_headers))
+    f.write("\\\\\n")
+
+    for row in rows:
+        f.write("   ")
+        for i, c in enumerate(row):
+            if one_group and i == 0:
+                continue
+            if i == len(row) - 1:
+                continue
+            f.write(f"{c!s} & ")
+        f.write("\\\\ \\hline \n")
+    f.write("\\end{tabular}\n")
+
+
+# def write_results_macros(f, devices, tests):
+def write_results_macros(f, devices: "Mapping[Device, List[LogFileResult]]", tests, print_skips=True):
+    for ftest in tests.values():
+        test_name = ftest.test_name
+
+        for d in devices:
+            flog = tests[test_name].results[d]
+            total_obs, total_runs = flog.total
+
+            h_obs = humanize(total_obs)
+            h_runs = humanize(total_runs)
+
+            macro_name = macro_result_name(d, ftest)
+            f.write(f"\\expandafter\\newcommand {macro_name} {{{h_obs}/{h_runs}}}\n")
+
+
+def write_combo_table(f, devices: "Mapping[Device, List[LogFileResult]]", tests, print_skips=True):
+    """write out a standard table of results for all the devices
+    """
+    rows = []
+    for ftest in tests.values():
+        test_name = ftest.test_name
+        groups = ftest.groups
+
+        row = []
+        group = groups[-1]
+        # use verb to escape test and group names with symbols
+        row.append(f"\\verb|{group}|")
+        row.append(f"\\verb|{test_name}|")
+
+        for d in devices:
+            flog = tests[test_name].results[d]
+            total_obs, total_runs = flog.total
+
+            h_total_observations = humanize(total_obs)
+            h_total_runs = humanize(total_runs)
+
+            if args.macros:
+                macro_name = macro_result_name(d, ftest)
+                row.append(macro_name)
+            else:
+                row.append(f"{h_total_observations}/{h_total_runs}")
+
+            if args.distribution:
+                avg, u = flog.distribution
+                run = flog.batch_size
+                h_u = humanize(u)
+                h_avg = humanize(avg)
+                h_run = humanize(run)
+
+                if total_obs > 0:
+                    row.append(f"{h_avg}/{h_run}")
+                    row.append(f"$\\pm$ {h_u}/{h_run}")
+                else:
+                    row.append("")
+                    row.append("")
+
+        row.append(f"\\csname {test_name}\\endcsname")
+        rows.append(row)
+
+    if args.distribution:
+        _write_combo_tablular_with_distribution(f, devices, tests, rows)
+    else:
+        _write_combo_tablular_simple(f, devices, tests, rows)
 
 
 def collect_logs(d: pathlib.Path):
@@ -737,26 +801,44 @@ def main(args):
             (_, _, _, _, test_name, *groups,) = line.split()
             group_list.append((test_name, groups))
 
+    # filter out excluded tests and produce a FilteredLog per test.
+    filtered_tests = filter_devices(group_list, devices, includes, excludes)
+    for ftest in filtered_tests.values():
+        test_name = ftest.test_name
+        groups = ftest.groups
+
+        for d in devices:
+            # hack: insert zero'd entry if there's no result for this device
+            if d not in filtered_tests[test_name].results:
+                filtered_tests[test_name].results[d] = FilteredLog(d, test_name)
+
     with open(root / args.all_file, "w") as f:
         print(f"-- Writing combo {root/args.all_file}")
-        write_combo_table(group_list, f, devices, includes=includes, excludes=excludes)
+        write_combo_table(f, devices, filtered_tests)
 
     with open(root / "results-breakdown.txt", "w") as f:
         print(f"-- Writing breakdown {root / 'results-breakdown.txt'}")
-        write_explicit_table(group_list, f, devices, includes=includes, excludes=excludes)
+        write_explicit_table(f, devices, filtered_tests)
+
+    if args.macros:
+        print(f"-- Writing macros {root / args.macros_file}")
+        with open(root / args.macros_file, "w") as f:
+            write_results_macros(f, devices, filtered_tests)
 
     if args.standalone:
         print(f"-- Writing standalone {args.standalone_file}")
         with open(args.standalone_file, "w") as f:
             f.write("\\documentclass{standalone}\n")
             f.write("\\begin{document}\n")
+
+            if args.macros:
+                write_results_macros(f, devices, filtered_tests)
+
             sio = io.StringIO()
             write_combo_table(
-                group_list,
                 sio,
                 devices,
-                includes=includes,
-                excludes=excludes,
+                filtered_tests,
                 print_skips=False,
             )
             for line in sio.getvalue().splitlines():
@@ -766,11 +848,9 @@ def main(args):
         for d, r in devices.items():
                 with open(root / f"results-{d.name}.tex", "w") as f:
                     write_combo_table(
-                        group_list,
                         f,
                         {d: r},
-                        includes=includes,
-                        excludes=excludes,
+                        filtered_tests,
                     )
 
 
