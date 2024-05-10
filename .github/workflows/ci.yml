@@ -36,7 +36,7 @@ jobs:
 
     - name: Check for compiler warnings
       run: |
-        make check
+        make -B -s check
 
     - name: Run unittests
       run: |
