@@ -178,6 +178,7 @@ CFLAGS = -O0 -nostdlib \
 		-mstrict-align \
 		-march=armv8-a+nofp \
 		-Wall $(addprefix -Wno-,$(CCNOWARN)) $(addprefix -Werror=,$(CCERRORS)) \
+		-Wextra -Wno-unused-parameter -Wno-sign-compare \
 		-Wshadow \
 		-D__VERSION_STR__="\"$(_VERSION)\"" \
 		-DCOMMITHASH="\"$(_HEAD_COMMIT_HASH)\"" \
