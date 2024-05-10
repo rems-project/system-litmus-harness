@@ -168,7 +168,7 @@ void setup(char* fdtloc) {
   printf("#batch_size: %ld\n", RUNS_IN_BATCH);
   printf("#tlbsync: %s\n", sync_type_to_str(LITMUS_SYNC_TYPE));
   printf("#aff: %s\n", aff_type_to_str(LITMUS_AFF_TYPE));
-  printf("#shuffle: %s\n", aff_type_to_str(LITMUS_SHUFFLE_TYPE));
+  printf("#shuffle: %s\n", shuff_type_to_str(LITMUS_SHUFFLE_TYPE));
   printf("#concretize: %s\n", concretize_type_to_str(LITMUS_CONCRETIZATION_TYPE));
   printf("#runner: %s\n", runner_type_to_str(LITMUS_RUNNER_TYPE));
 

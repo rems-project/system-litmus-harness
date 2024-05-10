@@ -440,7 +440,7 @@ argdef_t LITMUS_ARGS = (argdef_t){
       ),
       ENUMERATE(
         "--format", OUTPUT_FORMAT, output_style_t, 2, ARR((const char*[]){ "herdtools", "original" }),
-        ARR((shuffle_type_t[]){ STYLE_HERDTOOLS, STYLE_ORIGINAL }),
+        ARR((output_style_t[]){ STYLE_HERDTOOLS, STYLE_ORIGINAL }),
         "format to print output\n"
         "\n"
         "controls the format of the output\n"
