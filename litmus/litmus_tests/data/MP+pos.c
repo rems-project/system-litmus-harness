@@ -6,30 +6,36 @@
 
 static void P0(litmus_test_run* data) {
   asm volatile(
+    "mov x1, %[x]\n\t"
+    "mov x3, %[y]\n\t"
+
     LITMUS_START_ASM
     "mov x0, #1\n\t"
-    "str x0, [%[x]]\n\t"
+    "str x0, [x1]\n\t"
     "mov x2, #1\n\t"
-    "str x2, [%[y]]\n\t"
+    "str x2, [x3]\n\t"
     LITMUS_END_ASM
     :
     : ASM_VARS(data, VARS), ASM_REGS(data, REGS)
-    : "cc", "memory", "x0", "x2"
+    : "cc", "memory", "x0", "x1", "x2", "x3"
   );
 }
 
 static void P1(litmus_test_run* data) {
   asm volatile(
+    "mov x1, %[y]\n\t"
+    "mov x3, %[x]\n\t"
+
     LITMUS_START_ASM
-    "ldr x0, [%[y]]\n\t"
-    "ldr x2, [%[x]]\n\t"
+    "ldr x0, [x1]\n\t"
+    "ldr x2, [x3]\n\t"
     LITMUS_END_ASM
 
     "str x0, [%[outp1r0]]\n\t"
     "str x2, [%[outp1r2]]\n\t"
     :
     : ASM_VARS(data, VARS), ASM_REGS(data, REGS)
-    : "cc", "memory", "x0", "x2"
+    : "cc", "memory", "x0", "x1", "x2", "x3"
   );
 }
 
@@ -44,5 +50,5 @@ litmus_test_t MP_pos = {
     /* p1:x2 =*/0,
   },
   .no_sc_results = 3,
-  .hash="123d1aa81c7a71c5c955b7d855015e48be52ec94",
+  .hash="7b09ead834cb4ed71899e3f0470d437dd1b3c894",
 };
