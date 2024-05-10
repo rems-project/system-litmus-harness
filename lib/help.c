@@ -28,32 +28,31 @@ static void splitdesc(char* short_desc, char* long_desc, char* full) {
   *long_desc = '\0';
 }
 
-static char* sprint_metavar(char* out, bool for_short_name, const argdef_arg_t* arg) {
+static void sprint_metavar(STREAM* out, bool for_short_name, const argdef_arg_t* arg) {
   char* metavar = option_metavar(arg);
   char* prefix = for_short_name ? "" : "=";
 
   if (option_requires_arg(arg)) {
-    out = sprintf(out, "%s%s", prefix, metavar);
+    sprintf(out, "%s%s", prefix, metavar);
   } else if (option_takes_arg(arg)) {
-    out = sprintf(out, "[%s%s]", prefix, metavar);
+    sprintf(out, "[%s%s]", prefix, metavar);
   }
-
-  return out;
 }
 
-static int line_prefix(char* out, const argdef_arg_t* arg) {
+static int line_prefix(STREAM* out, const argdef_arg_t* arg) {
   bool printed_previous;
-  char* start = out;
+
+  char* start = out->__buffer;
 
   char* short_name = argdef_arg_shortname(arg);
   char* long_name = argdef_arg_longname(arg);
 
-  out = sprintf(out, "  ");
+  sprintf(out, "  ");
 
   if (short_name != NULL) {
     /* print '-s' */
-    out = sprintf(out, "%s", short_name);
-    out = sprint_metavar(out, true, arg);
+    sprintf(out, "%s", short_name);
+    sprint_metavar(out, true, arg);
     printed_previous = true;
   } else {
     printed_previous = false;
@@ -61,13 +60,13 @@ static int line_prefix(char* out, const argdef_arg_t* arg) {
 
   if (long_name != NULL) {
     if (printed_previous)
-      out = sprintf(out, ", ");
+      sprintf(out, ", ");
 
-    out = sprintf(out, "%s", long_name);
-    out = sprint_metavar(out, false, arg);
+    sprintf(out, "%s", long_name);
+    sprint_metavar(out, false, arg);
 
     if (arg->kind == ARGPARSE_FLAG && !arg->flag->no_negation)
-      out = sprintf(out, "/--no-%s", 2 + long_name);
+      sprintf(out, "/--no-%s", 2 + long_name);
   }
 
   return strlen(start);
@@ -122,7 +121,7 @@ static void display_line_help_for_arg(const argdef_arg_t* arg, int prefix_pad_to
    * ...
    */
 
-  int prefix_len = line_prefix(&prefix[0], arg);
+  int prefix_len = line_prefix(NEW_BUFFER(prefix, 1024), arg);
   printf("%s", prefix);
   for (int p = 0; p < prefix_pad_to - prefix_len; p++) {
     printf(" ");
@@ -137,7 +136,7 @@ static int max_prefix_len(argdef_t* args, int no_opts) {
 
   for (int i = 0; i < no_opts; i++) {
     char prefix[100];
-    int prefix_len = line_prefix(&prefix[0], args->args[i]);
+    int prefix_len = line_prefix(NEW_BUFFER(prefix, 1024), args->args[i]);
     if (prefix_len > maxl) {
       maxl = prefix_len;
     }

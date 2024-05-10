@@ -128,7 +128,7 @@ static void __print_id_cpu(int cpu, void* arg) {
   char** outs = arg;
   int i = 0;
 
-#define __IDREG(r) sprintf(outs[i++], #r ": %p", read_sysreg(r))
+#define __IDREG(r) sprintf(NEW_BUFFER(outs[i++], 1024), #r ": %p", read_sysreg(r))
   __IDREG(CCSIDR_EL1);
   __IDREG(CLIDR_EL1);
   __IDREG(CSSELR_EL1);

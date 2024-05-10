@@ -185,7 +185,7 @@ static void print_results_herd(test_hist_t* res, test_ctx_t* ctx) {
       printf("%ld%c>", res->results[r]->counter, marker);
       for (reg_idx_t reg = 0; reg < ctx->cfg->no_regs; reg++) {
         char herd_reg_name[10];
-        sprint_reg(herd_reg_name, ctx->cfg->reg_names[reg], STYLE_HERDTOOLS);
+        sprint_reg(NEW_BUFFER(herd_reg_name, 10), ctx->cfg->reg_names[reg], STYLE_HERDTOOLS);
         printf("%s=%d;", herd_reg_name, res->results[r]->values[reg]);
       }
       printf("\n");
@@ -217,7 +217,7 @@ static void print_results_herd(test_hist_t* res, test_ctx_t* ctx) {
   printf(" %ld %ld\n", marked, total_count - marked);
 
   char time_str[100];
-  sprint_time(time_str, ctx->end_clock - ctx->start_clock, SPRINT_TIME_SSDOTMS);
+  sprint_time(NEW_BUFFER(time_str, 100), ctx->end_clock - ctx->start_clock, SPRINT_TIME_SSDOTMS);
   printf("Time %s %s\n", ctx->cfg->name, time_str);
 
   if (ctx->cfg->no_sc_results > 0 && no_sc_results_seen != ctx->cfg->no_sc_results && ENABLE_RESULTS_MISSING_SC_WARNING) {

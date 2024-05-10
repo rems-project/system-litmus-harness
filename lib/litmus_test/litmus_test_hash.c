@@ -233,26 +233,26 @@ char* blit_threads(char* buf, const litmus_test_t* test, bool dry) {
 
 char* blit_final_cond(char* buf, const litmus_test_t* test, bool dry) {
   char final_cond[1024];
-  char* t = &final_cond[0];
+  STREAM* t = NEW_BUFFER(final_cond, 1024);
 
-#define SPRINTF_RESULT(RESULT)                              \
-  for (int i = 0; i < test->no_regs; i++) {                 \
-    if (i > 0)                                              \
-      t = sprintf(t, " /\\ ");                              \
-    t = sprint_reg(t, test->reg_names[i], STYLE_HERDTOOLS); \
-    t = sprintf(t, "=%ld", (RESULT)[i]);                    \
+#define SPRINTF_RESULT(RESULT)                          \
+  for (int i = 0; i < test->no_regs; i++) {             \
+    if (i > 0)                                          \
+      sprintf(t, " /\\ ");                              \
+    sprint_reg(t, test->reg_names[i], STYLE_HERDTOOLS); \
+    sprintf(t, "=%ld", (RESULT)[i]);                    \
   }
 
   if (test->no_interesting_results) {
     for (int r = 0; r < test->no_interesting_results; r++) {
       if (r > 0)
-        t = sprintf(t, " \\/ ");
+        sprintf(t, " \\/ ");
 
       if (test->no_interesting_results > 1)
-        t = sprintf(t, "(");
+        sprintf(t, "(");
       SPRINTF_RESULT(test->interesting_results[r]);
       if (test->no_interesting_results > 1)
-        t = sprintf(t, ")");
+        sprintf(t, ")");
     }
   } else {
     SPRINTF_RESULT(test->interesting_result);

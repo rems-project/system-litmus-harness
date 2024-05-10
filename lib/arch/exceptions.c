@@ -58,10 +58,10 @@ static void _print_stack_trace(int el, u64 fp) {
   stack_t* stack = (stack_t*)__exc_stack_buf;
   collect_stack_from((u64*)fp, stack);
 
-  char* out = __exc_buffer;
-  out = sprintf(out, "  [ STRACE SP_%d] ", el, stack->no_frames);
+  STREAM* out = NEW_BUFFER(__exc_buffer, 4096);
+  sprintf(out, "  [ STRACE SP_%d] ", el, stack->no_frames);
   for (int i = 0; i < stack->no_frames; i++) {
-    out = sprintf(out, ":%p", stack->frames[i].ret);
+    sprintf(out, ":%p", stack->frames[i].ret);
   }
   printf("%s\n", __exc_buffer);
 }

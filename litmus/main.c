@@ -50,14 +50,14 @@ int main(int argc, char** argv) {
     u64 end_time = read_clk();
 
     char time_str[100];
-    sprint_time(time_str, end_time - start_time, SPRINT_TIME_HHMMSS);
+    sprint_time(NEW_BUFFER(time_str, 100), end_time - start_time, SPRINT_TIME_HHMMSS);
     /* always show, even when not in verbose mode
       * this will make it easier to do retrospective performance
       * evaluations in future */
     printf("#duration: %s\n", time_str);
 
     char cum_time_str[100];
-    sprint_time(cum_time_str, end_time - initial_time, SPRINT_TIME_HHMMSS);
+    sprint_time(NEW_BUFFER(cum_time_str, 100), end_time - initial_time, SPRINT_TIME_HHMMSS);
     printf("#time: %s\n", cum_time_str);
   } while (RUN_FOREVER);
 

@@ -66,15 +66,13 @@
  * then in the source file:
  * printf("t = %o\n", TOSTR(tyname_t, p));
  */
-#define TOSTR(ty, v)                                                                             \
-  ({                                                                                             \
-    ty* x = (v);                                                                                 \
-    char* s = ALLOC_SIZED(1024);                                                                 \
-    sprintf(s, _MAKE_REPR_SPRINTF(ty, REPR_ARGS_##ty), _MAKE_REPR_SPRINTF_ARGS(REPR_ARGS_##ty)); \
-    if (strlen(s) > 1024) {                                                                      \
-      fail("! TOSTR(" STR_LITERAL(ty) ") failed, overrun string buffer.");                       \
-    }                                                                                            \
-    s;                                                                                           \
+#define TOSTR(ty, v)                                                                               \
+  ({                                                                                               \
+    ty* x = (v);                                                                                   \
+    char* s = ALLOC_SIZED(1024);                                                                   \
+    STREAM* out = NEW_BUFFER(s, 1024);                                                             \
+    sprintf(out, _MAKE_REPR_SPRINTF(ty, REPR_ARGS_##ty), _MAKE_REPR_SPRINTF_ARGS(REPR_ARGS_##ty)); \
+    s;                                                                                             \
   })
 
 #endif /* TOSTR_H */

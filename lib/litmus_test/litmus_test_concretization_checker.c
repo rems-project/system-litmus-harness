@@ -4,7 +4,7 @@ static void fail_postcheck(test_ctx_t* ctx, const litmus_test_t* cfg, run_idx_t 
   char* buf = ALLOC_MANY(char, 1024);
   va_list ap;
   va_start(ap, fmt);
-  vsprintf(buf, 1, fmt, ap);
+  vsprintf(NEW_BUFFER(buf, 1024), 1, fmt, ap);
   va_end(ap);
   fail("! error: concretization of test %s failed on run %d: %s\n", cfg->name, run, buf);
 }

@@ -163,10 +163,7 @@ char* own_level_to_str(own_level_t lvl) {
     return "REGION_OWN_PUD";
   case REGION_OWN_PGD:
     return "REGION_OWN_PGD";
-  default: {
-    char* s = alloc(1024);
-    sprintf(s, "<unknown own_level_t: %d>", lvl);
-    return s;
-  }
+  default:
+    return "<unknown own_level_t>";
   }
 }

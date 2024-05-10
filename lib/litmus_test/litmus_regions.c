@@ -57,6 +57,6 @@ region_idx_t region_idx_top() {
 
 inline char* region_idx_to_str(region_idx_t ix) {
   char* s = ALLOC_MANY(char, 1024);
-  sprintf(s, "(region_idx){.reg_ix=%lx, .reg_offs=%lx}", ix.reg_ix, ix.reg_offs);
+  sprintf(NEW_BUFFER(s, 1024), "(region_idx){.reg_ix=%lx, .reg_offs=%lx}", ix.reg_ix, ix.reg_offs);
   return s;
 }

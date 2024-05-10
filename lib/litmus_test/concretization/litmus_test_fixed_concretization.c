@@ -68,11 +68,11 @@ void concretized_fixed_init(test_ctx_t* ctx, const litmus_test_t* cfg) {
   }
 
   char cfg_format[1024];
-  char* out = &cfg_format[0];
+  STREAM* out = NEW_BUFFER(cfg_format, 1024);
 
   var_info_t* var;
   FOREACH_HEAP_VAR(ctx, var) {
-    out = sprintf(out, "%s=%p,", var->name, var->values[0]);
+    sprintf(out, "%s=%p,", var->name, var->values[0]);
   }
 
   printf("#vas: %s\n", &cfg_format[0]);

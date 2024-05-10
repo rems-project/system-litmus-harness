@@ -2,11 +2,9 @@
 
 #include "lib.h"
 
-/* print buffer
- * used to store results of non-(s)printf before writing
- * is protected by __PR_LOCK
+/* print buffers
+ * are protected by __PR_LOCK
  */
-static char __print_buf[1024];
 static volatile lock_t __PR_LOCK;
 
 /** print buffer used by verbose/debug/etc
@@ -16,30 +14,42 @@ static volatile lock_t __PR_LOCK;
 static char __verbose_print_buf[1024];
 static volatile lock_t __PR_VERB_LOCK;
 
-char* sputc(char* out, char c) {
-  *out = c;
-  return out + 1;
+STREAM __UART = {
+  .kind = STREAM_UART,
+};
+
+void sputc(STREAM* out, char c) {
+  switch (out->kind) {
+  case STREAM_UART:
+    putc(c);
+    break;
+  case STREAM_BUFFER:
+    if (out->rem == 0)
+      fail("empty stream");
+
+    *out->__buffer++ = c;
+    out->rem--;
+    break;
+  }
 }
 
-char* sputs(char* out, char* s) {
+void sputs(STREAM* out, char* s) {
   if (!s) {
-    return sputs(out, "NULL");
+    sputs(out, "NULL");
+    return;
   }
 
   while (*s) {
-    out = sputc(out, *s++);
+    sputc(out, *s++);
   }
-
-  return out;
 }
 
-char* sputchar(char* out, char c) {
+void sputchar(STREAM* out, char c) {
   /* dont write NUL */
   if (c == 0)
-    return out;
+    return;
 
-  *out = c;
-  return out + 1;
+  sputc(out, c);
 }
 
 char __get_hexchar(u64 n) {
@@ -54,7 +64,7 @@ char __get_hexchar(u64 n) {
   return 0;
 }
 
-char* sputdec(char* out, u64 n) {
+void sputdec(STREAM* out, u64 n) {
   char digits[64];
   int i = 0;
   if (n == 0) {
@@ -72,13 +82,11 @@ char* sputdec(char* out, u64 n) {
   }
 
   for (i--; i >= 0; i--) {
-    out = sputc(out, digits[i]);
+    sputc(out, digits[i]);
   }
-
-  return out;
 }
 
-char* sputhex(char* out, u64 n) {
+void sputhex(STREAM* out, u64 n) {
   char _hex[64];
   int i = 0;
   if (n == 0) {
@@ -95,14 +103,12 @@ char* sputhex(char* out, u64 n) {
   }
 
   for (i--; i >= 0; i--) {
-    out = sputc(out, _hex[i]);
+    sputc(out, _hex[i]);
 
     /* group 2-byte sequences */
     if (((i % 4) == 0) && (i > 0))
-      out = sputc(out, '_');
+      sputc(out, '_');
   }
-
-  return out;
 }
 
 void putc(char c) {
@@ -115,62 +121,53 @@ void puts(const char* s) {
 }
 
 void puthex(u64 n) {
-  char s[100];
-  char* q = s;
-  q = sputhex(q, n);
-  q = sputc(q, '\0');
-  puts(s);
+  sputhex(UART, n);
 }
 
 void putdec(u64 n) {
-  char s[100];
-  char* q = s;
-  q = sputdec(q, n);
-  q = sputc(q, '\0');
-  puts(s);
+  sputdec(UART, n);
 }
 
-char* sputarray(char* out, char* fmt, void* p, int count) {
-  out = sputc(out, '[');
+void sputarray(STREAM* out, char* fmt, void* p, int count) {
+  sputc(out, '[');
   char* arr = p;
   for (int i = 0; i < count; i++) {
     if (strcmp(fmt, "%d")) {
       int* x = (int*)(arr + i * sizeof(int));
-      out = sprintf(out, fmt, *x);
+      sprintf(out, fmt, *x);
     }
 
     if (i < count - 1)
-      out = sputc(out, ' ');
+      sputc(out, ' ');
   }
-  out = sputc(out, ']');
-  return out;
+  sputc(out, ']');
 }
 
-char* vsprintf(char* out, int mode, const char* fmt, va_list ap) {
+void vsprintf(STREAM* out, int mode, const char* fmt, va_list ap) {
   char* p = (char*)fmt;
   while (*p) {
     char c = *p;
     if (c != '%') {
-      out = sputc(out, c);
+      sputc(out, c);
     } else if (c == '%') {
       c = *++p;
       if (c == '%') {
-        out = sputc(out, '%');
+        sputc(out, '%');
       } else if (c == 'd') {
         if (*(p + 1) == 'x') {
-          out = sputhex(out, va_arg(ap, int));
+          sputhex(out, va_arg(ap, int));
           p++;
         } else {
-          out = sputdec(out, va_arg(ap, int));
+          sputdec(out, va_arg(ap, int));
         }
       } else if (c == 'x') {
-        out = sputhex(out, va_arg(ap, u32));
+        sputhex(out, va_arg(ap, u32));
       } else if (c == 'l') {
         if (*(p + 1) == 'x') {
-          out = sputhex(out, va_arg(ap, long));
+          sputhex(out, va_arg(ap, long));
           p++;
         } else if (*(p + 1) == 'd') {
-          out = sputdec(out, va_arg(ap, long));
+          sputdec(out, va_arg(ap, long));
           p++;
         }
       } else if (c == 'c') {
@@ -179,20 +176,20 @@ char* vsprintf(char* out, int mode, const char* fmt, va_list ap) {
          * so we want to take a whole int here
          */
         int arg = va_arg(ap, int);
-        out = sputchar(out, (char)arg);
+        sputchar(out, (char)arg);
       } else if (c == 's' || c == 'o') {
         char* sp = va_arg(ap, char*);
-        out = sputs(out, sp);
+        sputs(out, sp);
         if (c == 'o') {
           free(sp);
         }
       } else if (c == 'p') {
-        out = sputs(out, "0x");
-        out = sputhex(out, va_arg(ap, long));
+        sputs(out, "0x");
+        sputhex(out, va_arg(ap, long));
       } else if (c == 'A') {
         char arr_item_fmt[10];
-        sprintf(arr_item_fmt, "%%%c", *(p + 1));
-        out = sputarray(out, arr_item_fmt, va_arg(ap, void*), va_arg(ap, int));
+        sprintf(NEW_BUFFER(arr_item_fmt, 10), "%%%c", *(p + 1));
+        sputarray(out, arr_item_fmt, va_arg(ap, void*), va_arg(ap, int));
         p++;
       } else {
         puts("!! printf: unknown symbol: ");
@@ -204,36 +201,32 @@ char* vsprintf(char* out, int mode, const char* fmt, va_list ap) {
 
     p++;
   }
-  sputc(out, '\0');
-  return out; /* return reference to the NUL, not to after it
-               * to make chaining vsprintf() calls easier */
+
+  /* revert stream back to NUL
+   * so we can overwrite it by successive calls to sprintf */
+  if (out->kind == STREAM_BUFFER) {
+    sputc(out, '\0');
+    out->__buffer--;
+    out->rem++;
+  }
 }
 
 void vprintf(int mode, const char* fmt, va_list ap) {
   lock(&__PR_LOCK);
-  char* out = &__print_buf[0];
-
   if (mode == 0) {
     for (int i = 0; i < get_cpu(); i++) {
-      out = sputs(out, "\t\t\t");
+      sputs(UART, "\t\t\t");
     }
   }
-
-  vsprintf(out, mode, fmt, ap);
-  if (strlen(__print_buf) > 1024) {
-    fail("! vprintf: overflow, format string too large.\n");
-  }
-
-  puts(__print_buf);
+  vsprintf(UART, mode, fmt, ap);
   unlock(&__PR_LOCK);
 }
 
-char* sprintf(char* out, const char* fmt, ...) {
+void sprintf(STREAM* out, const char* fmt, ...) {
   va_list ap;
   va_start(ap, fmt);
-  out = vsprintf(out, 0, fmt, ap);
+  vsprintf(out, 0, fmt, ap);
   va_end(ap);
-  return out;
 }
 
 void printf(const char* fmt, ...) {
@@ -255,14 +248,11 @@ void trace(const char* fmt, ...) {
 void verbose(const char* fmt, ...) {
   if (VERBOSE) {
     lock(&__PR_VERB_LOCK);
-    sprintf(__verbose_print_buf, "#%s", fmt);
-    if (strlen(__verbose_print_buf) > 100) {
-      fail("! verbose: overflow, format string too large.\n");
-    }
 
     va_list ap;
     va_start(ap, fmt);
-    vprintf(1, __verbose_print_buf, ap);
+    sputc(UART, '#');
+    vprintf(1, fmt, ap);
     va_end(ap);
     unlock(&__PR_VERB_LOCK);
   }
@@ -275,20 +265,20 @@ static char __debug_frame_buf[1024];
 static char __debug_stack_buf[1024];
 static char __debug_time_buf[1024];
 
-void __print_frame_unwind(char* out, int skip) {
+void __print_frame_unwind(STREAM* out, int skip) {
   stack_t* stack = (stack_t*)__debug_stack_buf;
   clear_stack(stack);
   collect_stack(stack);
 
   for (int i = skip; i < stack->no_frames; i++) {
     stack_frame_t* frame = &stack->frames[i];
-    out = sprintf(out, "%p", frame->ret);
+    sprintf(out, "%p", frame->ret);
     if (i < stack->no_frames - 1) {
-      out = sprintf(out, ":");
+      sprintf(out, ":");
     }
   }
 
-  out = sprintf(out, ""); /* put a NUL at the end always, even if no frames */
+  sprintf(out, ""); /* put a NUL at the end always, even if no frames */
 }
 
 void printf_with_fileloc(
@@ -296,19 +286,13 @@ void printf_with_fileloc(
 ) {
   int cpu = get_cpu();
   lock(&__PR_VERB_LOCK);
-  __print_frame_unwind(__debug_frame_buf, 2);
 
-  if (strlen(__debug_frame_buf) > 1024) {
-    /* can't use fail() here
-     * so call abort() manually */
-    printf("! printf_with_fileloc: overflow, unwound frame string too large.\n");
-    raise_to_el1();
-    abort();
-  }
-
-  sprint_time(__debug_time_buf, read_clk(), SPRINT_TIME_HHMMSSCLK);
+  /* construct format string dynamically
+   * by prepending stack trace */
+  __print_frame_unwind(NEW_BUFFER(__debug_frame_buf, 1024), 2);
+  sprint_time(NEW_BUFFER(__debug_time_buf, 1024), read_clk(), SPRINT_TIME_HHMMSSCLK);
   sprintf(
-    __verbose_print_buf,
+    NEW_BUFFER(__verbose_print_buf, 1024),
     "(%s) CPU%d:%s:[%s %s:%d (%s)] %s",
     __debug_time_buf,
     cpu,
@@ -320,14 +304,6 @@ void printf_with_fileloc(
     fmt
   );
 
-  if (strlen(__verbose_print_buf) > 1024) {
-    /* can't use fail() here
-     * so call abort() manually */
-    printf("! printf_with_fileloc: overflow, format string too large.\n");
-    raise_to_el1();
-    abort();
-  }
-
   va_list ap;
   va_start(ap, fmt);
   vprintf(mode, __verbose_print_buf, ap);
@@ -338,10 +314,8 @@ void printf_with_fileloc(
 void _fail(const char* filename, const int line, const char* func, const char* fmt, ...) {
   int cpu = get_cpu();
   lock(&__PR_VERB_LOCK);
-  sprintf(__verbose_print_buf, "[%s:%d %s (CPU%d)] %s", filename, line, func, cpu, fmt);
-  if (strlen(__verbose_print_buf) > 1024) {
-    fail("! debug: overflow, format string too large.\n");
-  }
+
+  sprintf(NEW_BUFFER(__verbose_print_buf, 1024), "[%s:%d %s (CPU%d)] %s", filename, line, func, cpu, fmt);
 
   va_list ap;
   va_start(ap, fmt);
@@ -351,7 +325,7 @@ void _fail(const char* filename, const int line, const char* func, const char* f
 }
 
 /** printing times */
-char* sprint_time(char* out, u64 clk, time_format_t mode) {
+void sprint_time(STREAM* out, u64 clk, time_format_t mode) {
   /* clk is absolute */
   /* theoretically INIT_CLOCK is ~0, but we cannot be sure */
   clk = clk - INIT_CLOCK;
@@ -365,39 +339,39 @@ char* sprint_time(char* out, u64 clk, time_format_t mode) {
   rem_secs = rem_secs % 60;
 
   if (mode == SPRINT_TIME_SS) {
-    return sprintf(out, "%ld", tot_secs);
+    sprintf(out, "%ld", tot_secs);
+    return;
   } else if (mode == SPRINT_TIME_SSDOTMS) {
     u64 rem_ms = rem_ticks / (TICKS_PER_SEC / 1000);
-    return sprintf(out, "%ld.%ld", tot_secs, rem_ms);
+    sprintf(out, "%ld.%ld", tot_secs, rem_ms);
+    return;
   }
 
   if (rem_hours < 10) {
-    out = sprintf(out, "0%d", rem_hours);
+    sprintf(out, "0%d", rem_hours);
   } else {
-    out = sprintf(out, "%d", rem_hours);
+    sprintf(out, "%d", rem_hours);
   }
 
-  out = sprintf(out, ":");
+  sprintf(out, ":");
 
   if (rem_mins < 10) {
-    out = sprintf(out, "0%d", rem_mins);
+    sprintf(out, "0%d", rem_mins);
   } else {
-    out = sprintf(out, "%d", rem_mins);
+    sprintf(out, "%d", rem_mins);
   }
 
-  out = sprintf(out, ":");
+  sprintf(out, ":");
 
   if (rem_secs < 10) {
-    out = sprintf(out, "0%d", rem_secs);
+    sprintf(out, "0%d", rem_secs);
   } else {
-    out = sprintf(out, "%d", rem_secs);
+    sprintf(out, "%d", rem_secs);
   }
 
   if (mode == SPRINT_TIME_HHMMSSCLK) {
-    out = sprintf(out, ":%ld", rem_ticks);
+    sprintf(out, ":%ld", rem_ticks);
   }
-
-  return out;
 }
 
 /** printing registers */
@@ -414,12 +388,15 @@ int extract_gprid(const char* reg_name) {
   }
   return atoi((char*)reg_name + 4);
 }
-char* sprint_reg(char* out, const char* reg_name, output_style_t style) {
+
+void sprint_reg(STREAM* out, const char* reg_name, output_style_t style) {
   switch (style) {
   case STYLE_ORIGINAL:
-    return sprintf(out, "%s", reg_name);
+    sprintf(out, "%s", reg_name);
+    return;
   case STYLE_HERDTOOLS:
-    return sprintf(out, "%d:X%d", extract_tid(reg_name), extract_gprid(reg_name));
+    sprintf(out, "%d:X%d", extract_tid(reg_name), extract_gprid(reg_name));
+    return;
   default:
     unreachable();
   }

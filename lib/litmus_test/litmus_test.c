@@ -504,7 +504,7 @@ static void end_of_run(test_ctx_t* ctx, int cpu, int vcpu, run_idx_t i, run_coun
     u64 time = read_clk();
     if (time - ctx->last_tick > 10 * TICKS_PER_SEC || ctx->last_tick == 0) {
       char time_str[100];
-      sprint_time((char*)&time_str, time, SPRINT_TIME_HHMMSS);
+      sprint_time(NEW_BUFFER(&time_str[0], 100), time, SPRINT_TIME_HHMMSS);
       verbose("  [%s] %d/%d\n", time_str, r, ctx->no_runs);
       ctx->last_tick = time;
     }
