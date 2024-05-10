@@ -68,7 +68,7 @@ endif
 ifdef litmus_run_linter
 bin/litmus/%.o: \
    __linter_success := \
-      $(if $(shell $(LINTER) $(LITMUS_TEST_FILES) &> litmus/linter.log || echo FAIL), \
+      $(if $(shell $(LINTER) $(LITMUS_TEST_FILES) $(LINTER_ARGS) &> litmus/linter.log || echo FAIL), \
            $(warning $$(LINTER) invokation failed) \
 		   $(warning Skipping LINT step for remaining litmus files...) \
 		   $(if $(filter 1,$(firstword $(DEBUG))),\

@@ -4,7 +4,7 @@ import pathlib
 import argparse
 import collections
 
-HANDLER_PATTERN = r"\s*\(u32\*\[\]\)\{(\(u32\*\))?(?P<name0>.+?),\s*(\(u32\*\))?(?P<name1>.+?)\}"
+HANDLER_PATTERN = r"\s*\(u32\s*\*\s*\[\]\)\{\s*(\(u32\*\))?(?P<name0>.+?)\s*,\s*(\(u32\s*\*\))?(?P<name1>.+?)\s*\}"
 LITMUS_FIELDS = {
     'handlers': (
         r"\.thread_sync_handlers\s*="
@@ -198,6 +198,25 @@ def check_register_use(l):
                     continue
                 warn(l, 'register {r} in Thread {i} appears to be unused'.format(r=r, i=i))
 
+def _check_asm_start_end(l, name, block):
+    if block is None:
+        return
+
+    if (   "LITMUS_START_ASM" not in block["code"]
+        or "LITMUS_END_ASM"   not in block["code"]
+    ):
+        warn(l, "asm block in {} missing LITMUS_START_ASM/LITMUS_END_ASM markers.".format(name))
+
+def check_asm_start_end(l):
+    (count, threads) = l['threads']
+    for i, thr, (el0, el1) in threads:
+        el0_asm = l['handlers'][el0]
+        el1_asm = l['handlers'][el1]
+        _check_asm_start_end(l, "Thread {}".format(i), thr)
+        _check_asm_start_end(l, "Thread {} EL0 Handler".format(i), el0_asm)
+        _check_asm_start_end(l, "Thread {} EL1 Handler".format(i), el1_asm)
+
+
 def check_init_count(lit):
     init = lit['init']
     count = int(init['no_init_states'])
@@ -240,6 +259,9 @@ def check_requires_pgtable(lit):
         warn(lit, 'missing requires_pgtable=1?')
 
 def run_lint(linter, litmus):
+    if linter.__name__ in args.excl:
+        return
+
     try:
         linter(litmus)
     except Exception:
@@ -251,6 +273,7 @@ def _lint(lit):
     run_lint(check_thread_count, lit)
     run_lint(check_clobber_registers, lit)
     run_lint(check_register_use, lit)
+    run_lint(check_asm_start_end, lit)
     run_lint(check_init_count, lit)
     run_lint(check_requires_pgtable, lit)
 
@@ -280,6 +303,7 @@ if __name__ == "__main__":
     p.add_argument('--warn-old-style', action='store_true')
     p.add_argument('-d', '--debug', action='store_true')
     p.add_argument('-v', '--verbose', action='store_true')
+    p.add_argument('-e', '--excl', action='append', default=[])
     args = p.parse_args()
 
     try:

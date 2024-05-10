@@ -196,6 +196,9 @@ TEST_DISCOVER = 1
 MAKE_TEST_LIST_CMD = python3 litmus/makegroups.py
 
 LINTER = python3 litmus/linter.py
+LINTER_EXCLUDES = check_asm_start_end
+LINTER_ARGS = $(foreach e,$(LINTER_EXCLUDES),-e $(e))
+
 NO_LINT = 0
 
 ifneq ($(findstring help,$(filter-out --%,$(MAKECMDGOALS))),)
