@@ -146,9 +146,9 @@ void __test_concretization_separate_roots(concretize_type_t conc_type) {
                            INIT_VAR(a, 0),
                            INIT_VAR(b, 0),
                            INIT_REGION_OWN(x, REGION_OWN_PAGE),
-                           INIT_REGION_PIN(a, x, REGION_SAME_PAGE_OFFSET),
+                           INIT_REGION_PIN(a, x, REGION_SAME_PAGE),
                            INIT_REGION_OWN(y, REGION_OWN_PAGE),
-                           INIT_REGION_PIN(b, y, REGION_SAME_PAGE_OFFSET),
+                           INIT_REGION_PIN(b, y, REGION_SAME_PAGE),
                          ) };
 
   test_ctx_t ctx;
