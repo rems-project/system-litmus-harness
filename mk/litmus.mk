@@ -4,7 +4,7 @@
 .PHONY: collect-litmus
 .PHONY: count-litmus-tests
 
-LITMUS_TARGETS += lint collect-litmus debug-litmus count-litmus-tests
+LITMUS_TARGETS += lint collect-litmus debug-litmus count-litmus-tests check
 
 ifneq ($(strip $(foreach lt,$(LITMUS_TARGETS),$(foreach g,$(MAKECMDGOALS),$(filter $(lt),$(g))))),)
 # or any target that mentions the litmus/ dir

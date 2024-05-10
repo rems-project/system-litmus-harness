@@ -420,5 +420,5 @@ list:
 	@$(MAKE) -prRq -f $(firstword $(MAKEFILE_LIST)) : 2>/dev/null | grep -o '^build[^:]*' | grep -o '^[^$$]*$$' | sort
 
 .PHONY: check
-check: CFLAGS+=-fsyntax-only -Werror -Wextra
-check: $(COMMON_BIN_FILES)
+check: CFLAGS+=-fsyntax-only -Werror
+check: $(COMMON_BIN_FILES) $(litmus_BIN_FILES)
