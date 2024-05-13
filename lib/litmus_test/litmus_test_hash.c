@@ -131,11 +131,12 @@ char* __blit_thread_code_nohint(char* buf, u32* thread_code, bool dry) {
   return buf;
 }
 
-bool __thread_code_has_hint(const litmus_test_t* test, u32* thread_code) {
+bool __thread_code_has_hint(const litmus_test_t* test, u32* thread_code, const int n, const char* name) {
   if (thread_code == NULL)
     return true;
 
-  for (int i = 0; i < 100; i++) {
+  /* sanity: code fits in one page, if spills over, then complain malformed. */
+  for (int i = 0; i < 1024; i++) {
     u32 instr = thread_code[i];
     if (instr == OPCODE_LITMUS_HINT)
       return true;
@@ -143,14 +144,14 @@ bool __thread_code_has_hint(const litmus_test_t* test, u32* thread_code) {
       return false;
   }
 
-  fail("Hashing test '%s' failed: malformed code.\n", test->name);
+  fail("Hashing test '%s' failed: Thread %d %s had malformed code.\n", test->name, n, name);
 }
 
-char* blit_thread_code(char* buf, const litmus_test_t* test, u32* thread_code, bool dry) {
+char* blit_thread_code(char* buf, const litmus_test_t* test, u32* thread_code, const int n, const char* name, bool dry) {
   if (thread_code == NULL)
     return blit_int(buf, 0, dry);
 
-  if (__thread_code_has_hint(test, thread_code))
+  if (__thread_code_has_hint(test, thread_code, n, name))
     return __blit_thread_code_hint(buf, thread_code, dry);
   else
     return __blit_thread_code_nohint(buf, thread_code, dry);
@@ -161,13 +162,13 @@ char* blit_thread_handlers(char* buf, const litmus_test_t* test, int t, bool dry
     return blit_int(buf, 0, dry);
 
   buf = blit_int(buf, 2, dry);
-  buf = blit_thread_code(buf, test, test->thread_sync_handlers[t][0], dry);
-  buf = blit_thread_code(buf, test, test->thread_sync_handlers[t][1], dry);
+  buf = blit_thread_code(buf, test, test->thread_sync_handlers[t][0], t, "EL0 handler", dry);
+  buf = blit_thread_code(buf, test, test->thread_sync_handlers[t][1], t, "EL1 handler", dry);
   return buf;
 }
 
 char* blit_thread(char* buf, const litmus_test_t* test, int t, bool dry) {
-  buf = blit_thread_code(buf, test, (u32*)test->threads[t], dry);
+  buf = blit_thread_code(buf, test, (u32*)test->threads[t], t, "code", dry);
   buf = blit_thread_handlers(buf, test, t, dry);
   return buf;
 }
@@ -264,7 +265,7 @@ char* blit_final_cond(char* buf, const litmus_test_t* test, bool dry) {
 
 void __warn_on_bad_hash(const litmus_test_t* test) {
   for (int i = 0; i < test->no_threads; i++) {
-    if (!__thread_code_has_hint(test, (u32*)test->threads[i])) {
+    if (!__thread_code_has_hint(test, (u32*)test->threads[i], i, "code")) {
       verbose(
         "warning: no LITMUS_START_ASM/LITMUS_END_ASM in Thread %d"
         ", reverting to unstable hash.\n",
@@ -276,7 +277,7 @@ void __warn_on_bad_hash(const litmus_test_t* test) {
       continue;
 
     for (int h = 0; h < 2; h++) {
-      if (!__thread_code_has_hint(test, (u32*)test->thread_sync_handlers[i][h])) {
+      if (!__thread_code_has_hint(test, (u32*)test->thread_sync_handlers[i][h], i, "handler")) {
         verbose(
           "warning: no LITMUS_START_ASM/LITMUS_END_ASM in Thread %d sync handler #%d"
           ", reverting to unstable hash.\n",
