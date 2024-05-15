@@ -45,8 +45,8 @@ static void P1(litmus_test_run* data) {
   );
 }
 
-litmus_test_t MP_dmb_svc = {
-  "MP+dmb+svc",
+litmus_test_t MPEL1_dmb_svc = {
+  "MP.EL1+dmb+svc",
   MAKE_THREADS(2),
   MAKE_VARS(VARS),
   MAKE_REGS(REGS),
@@ -54,10 +54,11 @@ litmus_test_t MP_dmb_svc = {
   .thread_sync_handlers =
     (u32 * *[]){
       (u32*[]){ NULL, NULL },
-      (u32*[]){ (u32*)svc_handler, NULL },
+      (u32*[]){ NULL, (u32*)svc_handler },
     },
   .interesting_result = (u64[]){
     /* p1:x0 =*/1,
     /* p1:x2 =*/0,
   },
+  .start_els = (int[]){ 0, 1 },
 };
