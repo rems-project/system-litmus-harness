@@ -124,11 +124,67 @@ static void version(void) {
   abort();
 }
 
+const char* impl_names[0x100] = {
+  [0x00] = "Reserved for software use",
+  [0x41] = "Arm Limited",
+  [0x42] = "Broadcom Corporation",
+  [0x43] = "Cavium Inc",
+  [0x44] = "Digital Equipment Corporation",
+  [0x46] = "Fujitsu Ltd",
+  [0x49] = "Infineon Technologies AG",
+  [0x4D] = "Motorola or Freescale Semiconductor Inc",
+  [0x4E] = "NVIDIA Corporation",
+  [0x50] = "Applied Micro Circuits Corporation",
+  [0x51] = "Qualcomm Inc",
+  [0x56] = "Marvell International Ltd",
+  [0x69] = "Intel Corporation",
+  [0xC0] = "Ampere Computing",
+};
+
+// all arm Cortex part names are of the form 0xDXY
+// see respective cores TRM, look for "MIDR_EL1, Main ID Register"
+// sadly each TRM puts the information in some random different place
+const char* arm_part_names[0x100] = {
+  [0x01] = "Cortex-A32",  [0x02] = "Cortex-A34",  [0x03] = "Cortex-A53",  [0x04] = "Cortex-A35",
+  [0x05] = "Cortex-A56",  [0x07] = "Cortex-A57",  [0x08] = "Cortex-A72",  [0x09] = "Cortex-A73",
+  [0x0A] = "Cortex-A75",  [0x0B] = "Cortex-A76",  [0x0C] = "Neoverse N1", [0x0D] = "Cortex-A77",
+  [0x40] = "Neoverse V1", [0x41] = "Cortex-A78",  [0x44] = "Cortex-X1",   [0x46] = "Cortex-A510",
+  [0x47] = "Cortex-A710", [0x48] = "Cortex-X2",   [0x49] = "Neoverse N2", [0x4D] = "Cortex-A715",
+  [0x4E] = "Cortex-X3",   [0x4F] = "Neoverse V2", [0x80] = "Cortex-A520", [0x81] = "Cortex-A720",
+  [0x82] = "Cortex-X4",
+};
+
 static void __print_id_cpu(int cpu, void* arg) {
   char** outs = arg;
   int i = 0;
 
-#define __IDREG(r) sprintf(NEW_BUFFER(outs[i++], 1024), #r ": %p", read_sysreg(r))
+  u64 midr = read_sysreg(midr_el1);
+  u64 rev = midr & BITMASK(1 + 3 - 0);
+  u64 partnum = (midr >> 4) & BITMASK(1 + 15 - 4);
+  u64 variant = (midr >> 20) & BITMASK(1 + 23 - 20);
+  u64 impl = (midr >> 24) & BITMASK(1 + 31 - 24);
+  const char* part_name = "unknown, refer to Implementor documentation.";
+
+  // Arm
+  if (impl == 'A') {
+    // check it's a cortex-y thing
+    if ((partnum & 0xD00) == 0xD00) {
+      int arm_part = partnum - 0xD00;
+      if (arm_part < 0x100 && arm_part_names[arm_part]) {
+        part_name = arm_part_names[arm_part];
+      }
+    }
+  }
+
+  #define __IDREG(r) sprintf(NEW_BUFFER(outs[i++], 1024), #r ": %p", read_sysreg(r))
+  sprintf(NEW_BUFFER(outs[i++], 1024), "Implementor: '%c' (%s)", impl, impl_names[impl]);
+  sprintf(NEW_BUFFER(outs[i++], 1024), "Part: 0x%lx (%s)", partnum, part_name);
+  sprintf(NEW_BUFFER(outs[i++], 1024), "Variant: %ld", variant);
+  sprintf(NEW_BUFFER(outs[i++], 1024), "Revision: %ld", rev);
+
+  /* break header/id registers with empty line */
+  sprintf(NEW_BUFFER(outs[i++], 1024), " ");
+
   __IDREG(CCSIDR_EL1);
   __IDREG(CLIDR_EL1);
   __IDREG(CSSELR_EL1);
@@ -171,62 +227,8 @@ static void __print_id_cpu(int cpu, void* arg) {
 }
 
 static void device_ident_and_quit(void) {
-  u64 midr = read_sysreg(midr_el1);
-  u64 rev = midr & BITMASK(1 + 3 - 0);
-  u64 partnum = (midr >> 4) & BITMASK(1 + 15 - 4);
-  u64 variant = (midr >> 20) & BITMASK(1 + 23 - 20);
-  u64 impl = (midr >> 24) & BITMASK(1 + 31 - 24);
-
-  const char* impl_names[0x100] = {
-    [0x00] = "Reserved for software use",
-    [0x41] = "Arm Limited",
-    [0x42] = "Broadcom Corporation",
-    [0x43] = "Cavium Inc",
-    [0x44] = "Digital Equipment Corporation",
-    [0x46] = "Fujitsu Ltd",
-    [0x49] = "Infineon Technologies AG",
-    [0x4D] = "Motorola or Freescale Semiconductor Inc",
-    [0x4E] = "NVIDIA Corporation",
-    [0x50] = "Applied Micro Circuits Corporation",
-    [0x51] = "Qualcomm Inc",
-    [0x56] = "Marvell International Ltd",
-    [0x69] = "Intel Corporation",
-    [0xC0] = "Ampere Computing",
-  };
-
-  // all arm Cortex part names are of the form 0xDXY
-  // see respective cores TRM, look for "MIDR_EL1, Main ID Register"
-  // sadly each TRM puts the information in some random different place
-  const char* arm_part_names[0x100] = {
-    [0x01] = "Cortex-A32",  [0x02] = "Cortex-A34",  [0x03] = "Cortex-A53",  [0x04] = "Cortex-A35",
-    [0x05] = "Cortex-A56",  [0x07] = "Cortex-A57",  [0x08] = "Cortex-A72",  [0x09] = "Cortex-A73",
-    [0x0A] = "Cortex-A75",  [0x0B] = "Cortex-A76",  [0x0C] = "Neoverse N1", [0x0D] = "Cortex-A77",
-    [0x40] = "Neoverse V1", [0x41] = "Cortex-A78",  [0x44] = "Cortex-X1",   [0x46] = "Cortex-A510",
-    [0x47] = "Cortex-A710", [0x48] = "Cortex-X2",   [0x49] = "Neoverse N2", [0x4D] = "Cortex-A715",
-    [0x4E] = "Cortex-X3",   [0x4F] = "Neoverse V2", [0x80] = "Cortex-A520", [0x81] = "Cortex-A720",
-    [0x82] = "Cortex-X4",
-  };
-
-  const char* part_name = "unknown, refer to Implementor documentation.";
-
-  // Arm
-  if (impl == 'A') {
-    // check it's a cortex-y thing
-    if ((partnum & 0xD00) == 0xD00) {
-      int arm_part = partnum - 0xD00;
-      if (arm_part < 0x100 && arm_part_names[arm_part]) {
-        part_name = arm_part_names[arm_part];
-      }
-    }
-  }
-
-  printf("Implementor: '%c' (%s)\n", impl, impl_names[impl]);
-  printf("Part: 0x%lx (%s)\n", partnum, part_name);
-  printf("Variant: %ld\n", variant);
-  printf("Revision: %ld\n", rev);
-
-  char** cpu_outs[4];
-  for (int i = 0; i < 4; i++) {
+  char** cpu_outs[MAX_CPUS];
+  for (int i = 0; i < NO_CPUS; i++) {
     cpu_outs[i] = ALLOC_MANY(char*, 100);
 
     for (int j = 0; j < 100; j++) {
@@ -238,14 +240,14 @@ static void device_ident_and_quit(void) {
   ENABLE_PGTABLE = 0; /* pgtable may not be setup yet, so dont try use it on the other booted CPUs */
   ensure_cpus_on();
   for (int cpu = 0; cpu < NO_CPUS; cpu++)
-    run_on_cpu(cpu, __print_id_cpu, &cpu_outs[cpu][0]);
+    run_on_cpu(cpu, __print_id_cpu, cpu_outs[cpu]);
 
   /* each line from each CPU is of the form "ID_REG_NAME: 0x000ABC" */
 
   /* first calculate the maximum length of the ID lines */
   int maxlinelen = 0;
   for (int i = 0; i < 100; i++) {
-    for (int cpu = 0; cpu < 4; cpu++) {
+    for (int cpu = 0; cpu < NO_CPUS; cpu++) {
       maxlinelen = MAX(maxlinelen, strlen(cpu_outs[cpu][i]));
     }
   }
