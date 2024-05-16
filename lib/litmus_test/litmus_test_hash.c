@@ -298,6 +298,8 @@ char* blit_test(char* buf, const litmus_test_t* test, bool dry) {
 }
 
 digest litmus_test_hash(const litmus_test_t* test) {
+  digest r;
+
   /* give a warning if the hash computation will be unstable */
   __warn_on_bad_hash(test);
 
@@ -307,5 +309,8 @@ digest litmus_test_hash(const litmus_test_t* test) {
   /* now do it for real */
   char* buf = ALLOC_SIZED(size);
   blit_test(buf, test, false);
-  return hash_sha1(buf, size);
+  r = hash_sha1(buf, size);
+
+  FREE(buf);
+  return r;
 }
