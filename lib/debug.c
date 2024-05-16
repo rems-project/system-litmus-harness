@@ -127,7 +127,7 @@ void __print_heap_page(u64 pg) {
 #if DEBUG_ALLOC_META
       char* time_str = __debug_print_heap_page_time_buf;
       valloc_alloc_chunk_debug_metadata* meta = &chk->meta;
-      sprint_time(&time_str[0], meta->ts, SPRINT_TIME_HHMMSSCLK);
+      sprint_time(NEW_BUFFER(time_str, 1024), meta->ts, SPRINT_TIME_HHMMSSCLK);
 
       printf("   ");
 
