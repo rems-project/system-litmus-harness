@@ -172,6 +172,14 @@ void setup(char* fdtloc) {
   printf("#concretize: %s\n", concretize_type_to_str(LITMUS_CONCRETIZATION_TYPE));
   printf("#runner: %s\n", runner_type_to_str(LITMUS_RUNNER_TYPE));
 
+  /* sanity check */
+  if (ENABLE_PERF_COUNTS && !arch_has_feature(FEAT_PMUv3)) {
+    fail(
+      "[--perf] Cannot do performance measurement without FEAT_PMU, "
+      "suggest removing --perf"
+    );
+  }
+
   ensure_cpus_on();
 }
 
@@ -228,10 +236,12 @@ begin_el1:
   write_sysreg((1 << 0) | (1 << 1), cntkctl_el1);
 
   /* enable PMU cycle counter */
-  write_sysreg((1UL << 27), pmccfiltr_el0);
-  write_sysreg((1UL << 6) | (1UL << 0), pmcr_el0); /* reset to 0 */
-  write_sysreg((1 << 31), pmcntenset_el0);
-  write_sysreg((1 << 0), pmuserenr_el0);
+  if (arch_has_feature(FEAT_PMUv3)) {
+    write_sysreg((1UL << 27), pmccfiltr_el0);
+    write_sysreg((1UL << 6) | (1UL << 0), pmcr_el0); /* reset to 0 */
+    write_sysreg((1 << 31), pmcntenset_el0);
+    write_sysreg((1 << 0), pmuserenr_el0);
+  }
 
   current_thread_info()->locking_enabled = 1;
 

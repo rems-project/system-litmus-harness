@@ -12,6 +12,7 @@
 #include "argc.h"
 #include "bitwise.h"
 #include "device.h"
+#include "arm_features.h"
 #include "hashlib.h"
 #include "printer.h"
 #include "valloc/valloc_ptable.h"
