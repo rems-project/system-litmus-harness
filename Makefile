@@ -45,6 +45,8 @@ Options:
     Do not perform existence checks of cross-compilation tools.
    make kvm [...] HOST="no-gic"
    	Use KVM with virtualized interrupt controller
+   make kvm [...] AFFINITY=
+   	Build KVM executable without `taskset` affinity control
    make [...] SHOW_PREPROCESSED_OUTPUT=1
    	For each .o file generate .pp containing pre-processor output
    make [...] TEST_DISCOVER=0
@@ -109,6 +111,17 @@ OBJCOPY = $(PREFIX)objcopy
 OBJDUMP = $(PREFIX)objdump
 QEMU = qemu-system-aarch64
 GDB = $(PREFIX)gdb
+
+# use `taskset` to force QEMU to exist only on some cores
+# e.g. for big.LITTLE implementations
+#
+# Can run e.g. `AFFINITY=0xf ./kvm_litmus` to pin to hardware threads 0-3.
+# or `make build AFFINITY=` to turn off affinity-aware kvm_litmus entirely
+#     (e.g. for systems without `taskset`)
+AFFINITY = 0xff
+ifneq ($(AFFINITY),)
+  QEMU := taskset $${AFFINITY:-$(AFFINITY)} $(QEMU)
+endif
 
 # set to 1 to do a second CC pass with -E
 # this will generate not only bin/**/f.o files but bin/**/f.pp files that are the output
