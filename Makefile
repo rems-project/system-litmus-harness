@@ -180,7 +180,7 @@ _HEAD_STATUS = $(shell git status -s)
 _HEAD_COMMIT_HASH = $(_HEAD_COMMIT_SHA)$(if $(_HEAD_STATUS),!,)
 _DATE_VERSION = $(shell date '+%y.%m')
 _MINOR_VERSION = $(shell git log HEAD --since=`date '+%Y-%m'`-01 --pretty=format:%ci | wc -l)
-_VERSION = $(_DATE_VERSION).$(_MINOR_VERSION)
+_VERSION = $(_DATE_VERSION)+$(_MINOR_VERSION)
 
 CFLAGS_DEPS = -MMD -MP -MF $@.d
 CFLAGS = -O0 -nostdlib \
