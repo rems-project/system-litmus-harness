@@ -83,7 +83,9 @@ valloc_alloc_chunk* valloc_alloclist_alloc(valloc_mempool* pool, u64 addr, u64 s
 #endif
 
   move_to_alloc(pool, head);
-  DEBUG(DEBUG_ALLOC_META, "alloc new chunk for %p with size = %ld (chunk @ %p)\n", addr, size, head);
+#if DEBUG_ALLOC_META
+  DEBUG(DEBUG_ALLOC_META, "alloc new chunk for %p with size = %ld (chunk @ %p) from %p\n", addr, size, head, head->meta.where);
+#endif
   return head;
 }
 
