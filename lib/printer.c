@@ -211,8 +211,29 @@ void vsprintf(STREAM* out, int mode, const char* fmt, va_list ap) {
   }
 }
 
+static void __vprint_colour_prefix(int mode) {
+  if (mode & PRINT_MODE_ERROR) {
+    sputs(UART, COLOR_RED);
+  } else if (mode & PRINT_MODE_WARNING) {
+    sputs(UART, COLOR_YELLOW);
+  } else if (mode & PRINT_MODE_TRACE) {
+    sputs(UART, COLOR_GRAY);
+  }
+}
+
+static void __vprint_colour_suffix(int mode) {
+  if (mode & (PRINT_MODE_ERROR | PRINT_MODE_WARNING | PRINT_MODE_TRACE)) {
+    sputs(UART, COLOR_RESET);
+  }
+}
+
 void vprintf(int mode, const char* fmt, va_list ap) {
   lock(&__PR_LOCK);
+
+  if (ENABLE_COLOUR) {
+    __vprint_colour_prefix(mode);
+  }
+
   if (mode & PRINT_MODE_TRACE) {
     sputs(UART, "#");
   }
@@ -228,6 +249,10 @@ void vprintf(int mode, const char* fmt, va_list ap) {
   }
 
   vsprintf(UART, mode, fmt, ap);
+
+  if (ENABLE_COLOUR) {
+    __vprint_colour_suffix(mode);
+  }
   unlock(&__PR_LOCK);
 }
 
@@ -267,10 +292,14 @@ void verbose(const char* fmt, ...) {
 }
 
 void warning(const warnings_t category, const char* fmt, ...) {
-  if (! enabled_warnings[category])
+  if (!enabled_warnings[category])
     return;
 
   int mode = PRINT_MODE_NOINDENT | PRINT_MODE_TRACE | PRINT_MODE_WARNING;
+
+  if (WARNINGS_AS_ERRORS) {
+    mode |= PRINT_MODE_ERROR;
+  }
 
   va_list ap;
   va_start(ap, fmt);

@@ -30,6 +30,9 @@ extern char* collected_tests[100];
 extern u64 collected_tests_count;
 extern u8 ONLY_SHOW_MATCHES;
 
+/* coloured print logs */
+extern u8 ENABLE_COLOUR;
+
 extern u8 ENABLE_UNITTESTS_CONCRETIZATION_TEST_RANDOM;
 extern u8 ENABLE_UNITTESTS_CONCRETIZATION_TEST_LINEAR;
 

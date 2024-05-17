@@ -40,6 +40,8 @@ concretize_type_t LITMUS_CONCRETIZATION_TYPE = CONCRETE_RANDOM;
 char LITMUS_CONCRETIZATION_CFG[1024] = { '\0' };
 litmus_runner_type_t LITMUS_RUNNER_TYPE = RUNNER_EPHEMERAL;
 
+u8 ENABLE_COLOUR = 1;
+
 u8 ENABLE_UNITTESTS_CONCRETIZATION_TEST_RANDOM = 1;
 u8 ENABLE_UNITTESTS_CONCRETIZATION_TEST_LINEAR = 1;
 
@@ -505,6 +507,7 @@ argdef_t COMMON_ARGS = (argdef_t){
         " -W[no-]unreachable: warn on unreachable path in code.\n",
         .arg = OPT_ARG_REQUIRED,
       ),
+      FLAG(NULL, "--color", ENABLE_COLOUR, "coloured log output\n"),
       NULL,
     },
 };

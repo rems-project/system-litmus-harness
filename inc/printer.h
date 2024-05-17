@@ -35,6 +35,7 @@ extern STREAM __UART;
 #define PRINT_MODE_TRACE 1
 #define PRINT_MODE_NOINDENT 2
 #define PRINT_MODE_WARNING 4
+#define PRINT_MODE_ERROR 8
 
 void vprintf(int mode, const char* fmt, va_list ap);
 void sprintf(STREAM* out, const char* fmt, ...);
@@ -87,5 +88,20 @@ void sprint_reg(STREAM* out, const char* reg_name, output_style_t style);
  * be free'd. Usually from a call to REPR(t) */
 #define PRobj "%o"
 #define PRTyobj obj
+
+/* ANSI */
+#define ANSI_ESC "\033"
+#define ANSI_CSI "["
+#define ANSI_FG_RESET "0"
+#define ANSI_FG_RED "31"
+#define ANSI_FG_YELLOW "33"
+#define ANSI_FG_GRAY "90"
+#define ANSI_SEQ ";"
+
+#define ANSI_COLOR(c) ANSI_ESC ANSI_CSI c "m"
+#define COLOR_RESET ANSI_COLOR(ANSI_FG_RESET)
+#define COLOR_YELLOW ANSI_COLOR(ANSI_FG_RESET ANSI_SEQ ANSI_FG_YELLOW)
+#define COLOR_RED ANSI_COLOR(ANSI_FG_RESET ANSI_SEQ ANSI_FG_RED)
+#define COLOR_GRAY ANSI_COLOR(ANSI_FG_RESET ANSI_SEQ ANSI_FG_GRAY)
 
 #endif /* PRINTER_H */
