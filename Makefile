@@ -415,6 +415,14 @@ compile_commands.json: $(BINTARGETS)
 build: build-default compile_commands.json
 LITMUS_TARGETS += build
 
+.PHONY: kvm
+kvm: build-kvm-default compile_commands.json
+LITMUS_TARGETS += kvm
+
+.PHONY: qemu
+qemu: build-qemu-default compile_commands.json
+LITMUS_TARGETS += qemu
+
 test: ./qemu_unittests
 test:
 	./qemu_unittests $(BIN_ARGS)
