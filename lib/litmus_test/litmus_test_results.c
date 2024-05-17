@@ -122,7 +122,12 @@ void handle_new_result(test_ctx_t* ctx, run_idx_t idx, run_count_t r) {
 }
 
 static void print_test_header(const litmus_test_t* cfg) {
-  printf("\n");
+  static bool first_result = true;
+
+  if (! first_result)
+    printf("\n");
+  else
+    first_result = false;
 
   switch (OUTPUT_FORMAT) {
   case STYLE_HERDTOOLS:
