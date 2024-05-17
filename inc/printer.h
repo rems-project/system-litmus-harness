@@ -31,6 +31,11 @@ extern STREAM __UART;
 #define UART &__UART
 #define NEW_BUFFER(B,N) (&(STREAM){.kind=STREAM_BUFFER,.__buffer=(B),.rem=(N)})
 
+#define PRINT_MODE_NORM  0
+#define PRINT_MODE_TRACE 1
+#define PRINT_MODE_NOINDENT 2
+#define PRINT_MODE_WARNING 4
+
 void vprintf(int mode, const char* fmt, va_list ap);
 void sprintf(STREAM* out, const char* fmt, ...);
 void vsprintf(STREAM* out, int mode, const char* fmt, va_list ap);
@@ -40,6 +45,9 @@ void printf_with_fileloc(
 );
 void trace(const char* fmt, ...);
 void verbose(const char* fmt, ...);
+void warning(const warnings_t category, const char* fmt, ...);
+
+
 /* debug() declared in debug.h */
 
 /* atoi variant for single char

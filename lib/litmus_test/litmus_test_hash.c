@@ -266,8 +266,9 @@ char* blit_final_cond(char* buf, const litmus_test_t* test, bool dry) {
 void __warn_on_bad_hash(const litmus_test_t* test) {
   for (int i = 0; i < test->no_threads; i++) {
     if (!__thread_code_has_hint(test, (u32*)test->threads[i], i, "code")) {
-      verbose(
-        "warning: no LITMUS_START_ASM/LITMUS_END_ASM in Thread %d"
+      warning(
+        WARN_LITMUS_START_ASM,
+        "no LITMUS_START_ASM/LITMUS_END_ASM in Thread %d"
         ", reverting to unstable hash.\n",
         i
       );
@@ -278,7 +279,8 @@ void __warn_on_bad_hash(const litmus_test_t* test) {
 
     for (int h = 0; h < 2; h++) {
       if (!__thread_code_has_hint(test, (u32*)test->thread_sync_handlers[i][h], i, "handler")) {
-        verbose(
+        warning(
+          WARN_LITMUS_START_ASM,
           "warning: no LITMUS_START_ASM/LITMUS_END_ASM in Thread %d sync handler #%d"
           ", reverting to unstable hash.\n",
           i,

@@ -54,6 +54,8 @@ static char __exc_buffer[4096];
 static char __exc_stack_buf[1024];
 static lock_t _EXC_PRINT_LOCK;
 
+#define W(...) warning(WARN_UNEXPECTED_EXCEPTION, __VA_ARGS__)
+
 static void _print_stack_trace(int el, u64 fp) {
   stack_t* stack = (stack_t*)__exc_stack_buf;
   collect_stack_from((u64*)fp, stack);
@@ -63,7 +65,7 @@ static void _print_stack_trace(int el, u64 fp) {
   for (int i = 0; i < stack->no_frames; i++) {
     sprintf(out, ":%p", stack->frames[i].ret);
   }
-  printf("%s\n", __exc_buffer);
+  W("%s\n", __exc_buffer);
 }
 
 void* default_handler(u64 vec, u64 esr, regvals_t* regs) {
@@ -73,24 +75,24 @@ void* default_handler(u64 vec, u64 esr, regvals_t* regs) {
   u64 cpu = get_cpu();
   LOCK(&_EXC_PRINT_LOCK);
 
-  printf("Unhandled Exception (CPU%d): \n", cpu);
-  printf("  [VBAR: 0x%lx]\n", read_sysreg(VBAR_EL1));
-  printf("  [Vector: 0x%lx (%s)]\n", vec, vec_names[vec]);
-  printf("  [FROM: EL%d]\n", BIT_SLICE(spsr, 3, 2));
-  printf("  [EC: 0x%lx (%s)]\n", ec, ec_names[ec]);
-  printf("  [ESR_EL1: 0x%lx]\n", esr);
-  printf("  [FAR_EL1: 0x%lx]\n", read_sysreg(far_el1));
-  printf("  [ELR_EL1: 0x%lx]\n", read_sysreg(elr_el1));
+  W("Unhandled Exception (CPU%d): \n", cpu);
+  W("  [VBAR: 0x%lx]\n", read_sysreg(VBAR_EL1));
+  W("  [Vector: 0x%lx (%s)]\n", vec, vec_names[vec]);
+  W("  [FROM: EL%d]\n", BIT_SLICE(spsr, 3, 2));
+  W("  [EC: 0x%lx (%s)]\n", ec, ec_names[ec]);
+  W("  [ESR_EL1: 0x%lx]\n", esr);
+  W("  [FAR_EL1: 0x%lx]\n", read_sysreg(far_el1));
+  W("  [ELR_EL1: 0x%lx]\n", read_sysreg(elr_el1));
   if (ec == 0x24 || ec == 0x25) {
-    printf("  [DATA ABORT ISS]\n");
-    printf("  [  FnV] %d\n", (iss >> 10) & 1);
-    printf("  [  WnR] %d\n", (iss >> 6) & 1);
+    W("  [DATA ABORT ISS]\n");
+    W("  [  FnV] %d\n", (iss >> 10) & 1);
+    W("  [  WnR] %d\n", (iss >> 6) & 1);
     u64 dfsc = iss & BITMASK(6);
-    printf("  [  DFSC] 0x%lx (%s)\n", dfsc, dabt_iss_dfsc[dfsc]);
+    W("  [  DFSC] 0x%lx (%s)\n", dfsc, dabt_iss_dfsc[dfsc]);
   }
-  printf("  [REGISTERS]\n");
+  W("  [REGISTERS]\n");
   for (int i = 0; i < 31; i++) {
-    printf("  [  x%d] 0x%lx\n", i, regs->gpr[i]);
+    W("  [  x%d] 0x%lx\n", i, regs->gpr[i]);
   }
 
   /* the stack that was previously in-use may have been different
@@ -99,20 +101,20 @@ void* default_handler(u64 vec, u64 esr, regvals_t* regs) {
    * typically it would be SP_EL0 but if we took an exception during a handler
    * then it might've been SP_EL1
    */
-  printf("  [STACK TRACE]\n");
+  W("  [STACK TRACE]\n");
   if (BIT(spsr, 0) == 0) {
     /* came from code using SP_EL0
      * and we are not using SP_EL0
      * so we can access it:
      */
-    printf("  [ SP_EL0] 0x%lx\n", read_sysreg(sp_el0));
+    W("  [ SP_EL0] 0x%lx\n", read_sysreg(sp_el0));
   } else {
     /* otherwise we are using SP_EL1
      * but we cannot access via sp_el1 register
      * we must use the sp register...
      * but as it was when we took the exception
      */
-    printf("  [ SP_EL1] 0x%lx\n", regs->sp);
+    W("  [ SP_EL1] 0x%lx\n", regs->sp);
   }
 
   /* we check x29, which, if we were executing C code
@@ -133,7 +135,7 @@ void* default_handler(u64 vec, u64 esr, regvals_t* regs) {
     _print_stack_trace(0, read_sysreg(sp_el0));
   }
 
-  printf("  \n");
+  W("  \n");
   abort();
 
   /* unreachable */

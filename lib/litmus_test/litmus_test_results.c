@@ -79,9 +79,10 @@ static void add_results(test_hist_t* res, test_ctx_t* ctx, run_idx_t run) {
   if (missing) {
     if (res->allocated >= res->limit) {
       raise_to_el1(); /* can only abort at EL1 */
-      printf("! fatal:  overallocated results\n");
-      printf("this probably means the test had too many outcomes\n");
-      abort();
+      fail(
+        "overallocated results\n"
+         "this probably means the test had too many outcomes\n"
+      );
     }
     test_result_t* new_res = res->results[res->allocated];
 
@@ -120,6 +121,21 @@ void handle_new_result(test_ctx_t* ctx, run_idx_t idx, run_count_t r) {
   }
 }
 
+static void print_test_header(const litmus_test_t* cfg) {
+  printf("\n");
+
+  switch (OUTPUT_FORMAT) {
+  case STYLE_HERDTOOLS:
+    printf("Test %s Allowed\n", cfg->name);
+    break;
+  case STYLE_ORIGINAL:
+    printf("Test %s:\n", cfg->name);
+    break;
+  default:
+    unreachable();
+  }
+}
+
 static void print_hash(const litmus_test_t* test) {
   digest d = litmus_test_hash(test);
   char computed_hash[41];
@@ -129,7 +145,7 @@ static void print_hash(const litmus_test_t* test) {
     printf("Hash=%s\n", test->hash);
 
     if (!strcmp(test->hash, computed_hash)) {
-      verbose("warning: computed hash %s did not match hash in test file\n", computed_hash);
+      warning(WARN_HASH_MISMATCH, "computed hash %s did not match hash in test file\n", computed_hash);
     }
   } else {
     printf("Hash=%s\n", computed_hash);
@@ -163,8 +179,9 @@ static void print_results_original(test_hist_t* res, test_ctx_t* ctx) {
   print_hash(ctx->cfg);
   printf("Observation %s: %d (of %d)\n", ctx->cfg->name, marked, ctx->no_runs);
   if (ctx->cfg->no_sc_results > 0 && no_sc_results_seen != ctx->cfg->no_sc_results && ENABLE_RESULTS_MISSING_SC_WARNING) {
-    printf(
-      "Warning on %s: saw %d SC results but expected %d\n", ctx->cfg->name, no_sc_results_seen, ctx->cfg->no_sc_results
+    warning(
+      WARN_MISSING_SC_RESULTS,
+      "on %s: saw %d SC results but expected %d\n", ctx->cfg->name, no_sc_results_seen, ctx->cfg->no_sc_results
     );
   }
 }
@@ -174,6 +191,7 @@ static void print_results_herd(test_hist_t* res, test_ctx_t* ctx) {
   u64 no_sc_results_seen = 0;
   u64 total_count = 0;
 
+  print_test_header(ctx->cfg);
   printf("Histogram (%d states)\n", res->allocated);
 
   for (int r = 0; r < res->allocated; r++) {
@@ -221,8 +239,9 @@ static void print_results_herd(test_hist_t* res, test_ctx_t* ctx) {
   printf("Time %s %s\n", ctx->cfg->name, time_str);
 
   if (ctx->cfg->no_sc_results > 0 && no_sc_results_seen != ctx->cfg->no_sc_results && ENABLE_RESULTS_MISSING_SC_WARNING) {
-    printf(
-      "#warning on %s: saw %d SC results but expected %d\n", ctx->cfg->name, no_sc_results_seen, ctx->cfg->no_sc_results
+    warning(
+      WARN_MISSING_SC_RESULTS,
+      "on %s: saw %d SC results but expected %d\n", ctx->cfg->name, no_sc_results_seen, ctx->cfg->no_sc_results
     );
   }
 }

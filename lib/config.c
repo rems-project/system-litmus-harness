@@ -19,6 +19,17 @@ u8 DEBUG = 0;
 
 u8 ONLY_SHOW_MATCHES = 0;
 
+u8 WARNINGS_AS_ERRORS = 0;
+u8 enabled_warnings[] = {
+  [WARN_UNEXPECTED_EXCEPTION] = 1,
+  [WARN_LITMUS_START_ASM] = 0,
+  [WARN_HASH_MISMATCH] = 0,
+  [WARN_MISSING_SC_RESULTS] = 1,
+  [WARN_SKIP_TEST] = 1,
+  [WARN_UNREACHABLE] = 1,
+  [WARN_ALWAYS] = 1,
+};
+
 char* collected_tests[100] = { NULL };
 u64 collected_tests_count = 0;
 
@@ -331,6 +342,84 @@ static void q(char* x) {
   TRACE = 0;
 }
 
+static warnings_t _read_warning_name(char *w) {
+  if (strcmp(w, "unexpected-exception"))
+    return WARN_UNEXPECTED_EXCEPTION;
+  else if (strcmp(w, "litmus-start-asm"))
+    return WARN_LITMUS_START_ASM;
+  else if (strcmp(w, "hash-mismatch"))
+    return WARN_HASH_MISMATCH;
+  else if (strcmp(w, "skip-test"))
+    return WARN_SKIP_TEST;
+  else if (strcmp(w, "unreachable"))
+    return WARN_UNREACHABLE;
+
+  /* return out-of-band to signal error */
+  return MAX_WARN;
+}
+
+static void _set_all_warnings(u8 v) {
+  for (int i = 0; i < MAX_WARN; i++) {
+    enabled_warnings[i] = v;
+  }
+}
+
+static void _parse_warning_flag(char *w) {
+  /* first check for -Wall and -Wnone */
+  if (strcmp(w, "all")) {
+    _set_all_warnings(1);
+    return;
+  } else if (strcmp(w, "none")) {
+    _set_all_warnings(0);
+    return;
+  }
+
+  u8 set = true;
+  if (strstartswith(w, "no-")) {
+    set = false;
+    w += 3;
+  }
+
+  /* first check for magic -Werror */
+  if (strcmp(w, "error")) {
+    WARNINGS_AS_ERRORS = set;
+    return;
+  }
+
+  warnings_t warn = _read_warning_name(w);
+  if (warn == MAX_WARN)
+    fail("Unknown -W flag '%s'.\n", w);
+
+  enabled_warnings[warn] = set;
+}
+
+static void w(char* x) {
+  // comma-separated-values
+
+  char *w = x;
+  char *w_end = NULL;
+  bool more = false;
+
+  do {
+    for (int i = 0;;i++) {
+      if (w[i] == '\0')
+        more = false;
+      else if (w[i] == ',')
+        more = true;
+      else
+        continue;
+
+      w[i] = '\0';
+      w_end = &w[i];
+      break;
+    }
+
+    _parse_warning_flag(w);
+
+    w = w_end+1;
+  } while (more);
+}
+
 static void conc_cfg(char* x) {
   valloc_memcpy(LITMUS_CONCRETIZATION_CFG, x, strlen(x));
 }
@@ -397,6 +486,23 @@ argdef_t COMMON_ARGS = (argdef_t){
         "\n"
         "at the beginning of each test, a random seed is selected.\n"
         "this seed can be forced with --seed=12345 which ensures some level of determinism.",
+        .arg = OPT_ARG_REQUIRED,
+      ),
+      OPT(
+        "-W", NULL, w,
+        "Control warnings\n"
+        "\n"
+        "enables or disables warnings.\n",
+        "\n"
+        "accepts a comma-separated list of warning flags.\n"
+        " -Wall: enable all warnings\n"
+        " -Wnone: disable all warnings\n"
+        " -Werror: promote all warnings to errors\n"
+        " -W[no-]unexpected-exceptions: warn on caught exception.\n"
+        " -W[no-]litmus-start-asm: warn on missing LITMUS_START_ASM macros in tests.\n"
+        " -W[no-]hash-mismatch: warn on mismatched harness hashes in tests.\n"
+        " -W[no-]skip-test: warn when skipping a test.\n"
+        " -W[no-]unreachable: warn on unreachable path in code.\n",
         .arg = OPT_ARG_REQUIRED,
       ),
       NULL,

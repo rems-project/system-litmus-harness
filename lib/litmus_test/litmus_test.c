@@ -37,8 +37,8 @@ void run_test(const litmus_test_t* cfg) {
   start_of_test(ctx);
 
   /* run it */
-  trace("%s\n", "Running Tests ...");
   if (TRACE) {
+    printf("#");
     for (int i = 0; i < 4; i++) {
       printf("P%d\t\t\t", i);
     }
@@ -544,21 +544,6 @@ static void end_of_thread(test_ctx_t* ctx, int cpu) {
   trace("CPU%d: end of test\n", cpu);
 }
 
-static void print_test_header(const litmus_test_t* cfg) {
-  printf("\n");
-
-  switch (OUTPUT_FORMAT) {
-  case STYLE_HERDTOOLS:
-    printf("Test %s Allowed\n", cfg->name);
-    break;
-  case STYLE_ORIGINAL:
-    printf("Test %s:\n", cfg->name);
-    break;
-  default:
-    unreachable();
-  }
-}
-
 static void start_of_test(test_ctx_t* ctx) {
   ctx->concretization_st = concretize_init(LITMUS_CONCRETIZATION_TYPE, ctx, ctx->cfg, ctx->no_runs);
   if (LITMUS_RUNNER_TYPE == RUNNER_ARRAY) {
@@ -566,7 +551,7 @@ static void start_of_test(test_ctx_t* ctx) {
     write_init_states(ctx, ctx->cfg, ctx->no_runs);
   }
 
-  print_test_header(ctx->cfg);
+  verbose("running test: %s\n", ctx->cfg->name);
   trace("====== %s ======\n", ctx->cfg->name);
 }
 

@@ -245,7 +245,7 @@ fdt_structure_begin_node_header* fdt_find_node(char* fdt, char* node_name) {
     struct_block = piece.next;
   }
 
-  printf("! fdt_find_node, reached end of unreachable function ?\n");
+  warning(WARN_ALWAYS, "! fdt_find_node, reached end of unreachable function ?\n");
   abort();
   return NULL;
 }

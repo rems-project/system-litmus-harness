@@ -33,6 +33,23 @@ extern u8 ONLY_SHOW_MATCHES;
 extern u8 ENABLE_UNITTESTS_CONCRETIZATION_TEST_RANDOM;
 extern u8 ENABLE_UNITTESTS_CONCRETIZATION_TEST_LINEAR;
 
+typedef enum {
+  WARN_UNEXPECTED_EXCEPTION,
+  WARN_LITMUS_START_ASM,
+  WARN_HASH_MISMATCH,
+  WARN_MISSING_SC_RESULTS,
+  WARN_SKIP_TEST,
+  WARN_UNREACHABLE,
+
+  /* unmaskable warning: always show. */
+  WARN_ALWAYS,
+
+  MAX_WARN,
+} warnings_t;
+
+extern u8 WARNINGS_AS_ERRORS;
+extern u8 enabled_warnings[MAX_WARN];
+
 /**
  *
  * Example output in `original` style:

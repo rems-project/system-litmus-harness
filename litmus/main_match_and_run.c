@@ -4,19 +4,19 @@
 static void run_test_fn(const litmus_test_t* tst, u8 report_skip) {
   if (tst->requires_perf && (!ENABLE_PERF_COUNTS)) {
     if (report_skip)
-      printf("! skipping \"%s\":  requires --perf\n", tst->name);
+      warning(WARN_SKIP_TEST, "skipping \"%s\":  requires --perf\n", tst->name);
     return;
   }
 
   if (tst->requires_pgtable && (!ENABLE_PGTABLE)) {
     if (report_skip)
-      printf("! skipping \"%s\": requires --pgtable\n", tst->name);
+      warning(WARN_SKIP_TEST, "skipping \"%s\": requires --pgtable\n", tst->name);
     return;
   }
 
   if (tst->requires_debug && (!DEBUG)) {
     if (report_skip)
-      printf("! skipping \"%s\": requires -d\n", tst->name);
+      warning(WARN_SKIP_TEST, "skipping \"%s\": requires -d\n", tst->name);
     return;
   }
 
@@ -80,7 +80,7 @@ void match_and_run(const litmus_test_group* grp, re_t* arg) {
   }
 
   if (!found) {
-    printf("! err: no test matches: \"%s\"\n", arg->original_expr);
+    warning(WARN_ALWAYS, "no test matches: \"%s\"\n", arg->original_expr);
     print_closest(grp, arg);
     abort();
   }

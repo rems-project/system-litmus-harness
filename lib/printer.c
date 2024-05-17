@@ -213,11 +213,20 @@ void vsprintf(STREAM* out, int mode, const char* fmt, va_list ap) {
 
 void vprintf(int mode, const char* fmt, va_list ap) {
   lock(&__PR_LOCK);
-  if (mode == 0) {
+  if (mode & PRINT_MODE_TRACE) {
+    sputs(UART, "#");
+  }
+
+  if (mode & PRINT_MODE_WARNING) {
+    sputs(UART, "!");
+  }
+
+  if ((mode & PRINT_MODE_NOINDENT) == 0) {
     for (int i = 0; i < get_cpu(); i++) {
       sputs(UART, "\t\t\t");
     }
   }
+
   vsprintf(UART, mode, fmt, ap);
   unlock(&__PR_LOCK);
 }
@@ -225,14 +234,14 @@ void vprintf(int mode, const char* fmt, va_list ap) {
 void sprintf(STREAM* out, const char* fmt, ...) {
   va_list ap;
   va_start(ap, fmt);
-  vsprintf(out, 0, fmt, ap);
+  vsprintf(out, PRINT_MODE_NORM, fmt, ap);
   va_end(ap);
 }
 
 void printf(const char* fmt, ...) {
   va_list ap;
   va_start(ap, fmt);
-  vprintf(0, fmt, ap);
+  vprintf(PRINT_MODE_NORM, fmt, ap);
   va_end(ap);
 }
 
@@ -240,7 +249,7 @@ void trace(const char* fmt, ...) {
   if (TRACE) {
     va_list ap;
     va_start(ap, fmt);
-    vprintf(0, fmt, ap);
+    vprintf(PRINT_MODE_TRACE, fmt, ap);
     va_end(ap);
   }
 }
@@ -251,10 +260,26 @@ void verbose(const char* fmt, ...) {
 
     va_list ap;
     va_start(ap, fmt);
-    sputc(UART, '#');
-    vprintf(1, fmt, ap);
+    vprintf(PRINT_MODE_NOINDENT | PRINT_MODE_TRACE, fmt, ap);
     va_end(ap);
     unlock(&__PR_VERB_LOCK);
+  }
+}
+
+void warning(const warnings_t category, const char* fmt, ...) {
+  if (! enabled_warnings[category])
+    return;
+
+  int mode = PRINT_MODE_NOINDENT | PRINT_MODE_TRACE | PRINT_MODE_WARNING;
+
+  va_list ap;
+  va_start(ap, fmt);
+  vprintf(mode, fmt, ap);
+  va_end(ap);
+
+  if (WARNINGS_AS_ERRORS) {
+    vprintf(mode, "erroring out due to -Werror\n", /* unused */ ap);
+    abort();
   }
 }
 

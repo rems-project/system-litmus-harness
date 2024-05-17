@@ -7,14 +7,14 @@
 #define debug(...)                                                                    \
   do {                                                                                \
     if (DEBUG) {                                                                      \
-      printf_with_fileloc("DEBUG", 1, __FILE__, __LINE__, __FUNCTION__, __VA_ARGS__); \
+      printf_with_fileloc("DEBUG", PRINT_MODE_TRACE, __FILE__, __LINE__, __FUNCTION__, __VA_ARGS__); \
     }                                                                                 \
   } while (0)
 
 #define DEBUG(flag, ...)                                                            \
   do {                                                                              \
     if (DEBUG && flag) {                                                            \
-      printf_with_fileloc(#flag, 1, __FILE__, __LINE__, __FUNCTION__, __VA_ARGS__); \
+      printf_with_fileloc(#flag, PRINT_MODE_TRACE, __FILE__, __LINE__, __FUNCTION__, __VA_ARGS__); \
     }                                                                               \
   } while (0)
 

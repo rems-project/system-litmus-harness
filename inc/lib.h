@@ -36,7 +36,7 @@ const char* version_string(void);
 
 #define unreachable()                                                        \
   do {                                                                       \
-    printf("! unreachable: [%s] %s %d\n", __FILE__, __FUNCTION__, __LINE__); \
+    warning(WARN_UNREACHABLE, "unreachable: [%s] %s %d\n", __FILE__, __FUNCTION__, __LINE__); \
     raise_to_el1();                                                          \
     abort();                                                                 \
   } while (1);

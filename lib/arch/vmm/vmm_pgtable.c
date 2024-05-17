@@ -457,8 +457,7 @@ u64* vmm_alloc_new_test_pgtable(void) {
 static void set_new_ttable(u64 ttbr, u64 tcr, u64 mair) {
   /* no printf happens here, so need to worry about disabling locking during them */
   if ((read_sysreg(sctlr_el1) & 1) == 1) {
-    printf("! err: set_new_ttable:  MMU already on!\n");
-    abort();
+    fail("set_new_ttable:  MMU already on!\n");
   }
   write_sysreg(ttbr, ttbr0_el1);
   write_sysreg(tcr, tcr_el1);
