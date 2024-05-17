@@ -203,15 +203,18 @@ static void print_results_herd(test_hist_t* res, test_ctx_t* ctx) {
     int was_interesting = res->results[r]->is_relaxed;
     total_count += res->results[r]->counter;
 
+    char line[1024];
+    STREAM* buf = NEW_BUFFER(line, 1024);
+
     if (ENABLE_RESULTS_OUTREG_PRINT) {
       char marker = was_interesting ? '*' : ':';
-      printf("%ld%c>", res->results[r]->counter, marker);
+      sprintf(buf, "%ld%c>", res->results[r]->counter, marker);
       for (reg_idx_t reg = 0; reg < ctx->cfg->no_regs; reg++) {
         char herd_reg_name[10];
-        sprint_reg(NEW_BUFFER(herd_reg_name, 10), ctx->cfg->reg_names[reg], STYLE_HERDTOOLS);
-        printf("%s=%d;", herd_reg_name, res->results[r]->values[reg]);
+        sprint_reg(buf, ctx->cfg->reg_names[reg], STYLE_HERDTOOLS);
+        sprintf(buf, "=%d;", herd_reg_name, res->results[r]->values[reg]);
       }
-      printf("\n");
+      printf("%s\n", line);
     }
 
     if (was_interesting) {

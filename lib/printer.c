@@ -429,18 +429,14 @@ void sprint_time(STREAM* out, u64 clk, time_format_t mode) {
 }
 
 /** printing registers */
-int extract_tid(const char* reg_name) {
-  if (reg_name[0] != 'p') {
-    fail("unknown register %s\n", reg_name);
-  }
-  return ctoi(reg_name[1]);
-}
-
-int extract_gprid(const char* reg_name) {
+int extract_gpr(const char *reg_name, int* tid, int* gprid) {
   if (reg_name[0] != 'p' || reg_name[2] != ':') {
-    fail("unknown register %s\n", reg_name);
+    return 0;
   }
-  return atoi((char*)reg_name + 4);
+
+  *tid = ctoi(reg_name[1]);
+  *gprid = atoi((char*)reg_name + 4);
+  return 1;
 }
 
 void sprint_reg(STREAM* out, const char* reg_name, output_style_t style) {
@@ -448,9 +444,16 @@ void sprint_reg(STREAM* out, const char* reg_name, output_style_t style) {
   case STYLE_ORIGINAL:
     sprintf(out, "%s", reg_name);
     return;
-  case STYLE_HERDTOOLS:
-    sprintf(out, "%d:X%d", extract_tid(reg_name), extract_gprid(reg_name));
+  case STYLE_HERDTOOLS: {
+    int tid, gprid;
+    if (extract_gpr(reg_name, &tid, &gprid)) {
+      sprintf(out, "%d:X%d", tid, gprid);
+    } else {
+      warning(WARN_UNKNONW_REGISTER, "unknown register '%s'\n", reg_name);
+      sprintf(out, "%s", reg_name);
+    }
     return;
+  }
   default:
     unreachable();
   }

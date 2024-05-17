@@ -27,6 +27,7 @@ u8 enabled_warnings[] = {
   [WARN_MISSING_SC_RESULTS] = 1,
   [WARN_SKIP_TEST] = 1,
   [WARN_UNREACHABLE] = 1,
+  [WARN_UNKNONW_REGISTER] = 0,
   [WARN_ALWAYS] = 1,
 };
 
@@ -355,6 +356,8 @@ static warnings_t _read_warning_name(char *w) {
     return WARN_SKIP_TEST;
   else if (strcmp(w, "unreachable"))
     return WARN_UNREACHABLE;
+  else if (strcmp(w, "unknown-register"))
+    return WARN_UNKNONW_REGISTER;
 
   /* return out-of-band to signal error */
   return MAX_WARN;
@@ -504,7 +507,8 @@ argdef_t COMMON_ARGS = (argdef_t){
         " -W[no-]litmus-start-asm: warn on missing LITMUS_START_ASM macros in tests.\n"
         " -W[no-]hash-mismatch: warn on mismatched harness hashes in tests.\n"
         " -W[no-]skip-test: warn when skipping a test.\n"
-        " -W[no-]unreachable: warn on unreachable path in code.\n",
+        " -W[no-]unreachable: warn on unreachable path in code.\n"
+        " -W[no-]unknown-register: warn on unknown register name in final state.\n",
         .arg = OPT_ARG_REQUIRED,
       ),
       FLAG(NULL, "--color", ENABLE_COLOUR, "coloured log output\n"),

@@ -43,6 +43,7 @@ typedef enum {
   WARN_MISSING_SC_RESULTS,
   WARN_SKIP_TEST,
   WARN_UNREACHABLE,
+  WARN_UNKNONW_REGISTER,
 
   /* unmaskable warning: always show. */
   WARN_ALWAYS,
