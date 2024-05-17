@@ -210,9 +210,8 @@ static void print_results_herd(test_hist_t* res, test_ctx_t* ctx) {
       char marker = was_interesting ? '*' : ':';
       sprintf(buf, "%ld%c>", res->results[r]->counter, marker);
       for (reg_idx_t reg = 0; reg < ctx->cfg->no_regs; reg++) {
-        char herd_reg_name[10];
         sprint_reg(buf, ctx->cfg->reg_names[reg], STYLE_HERDTOOLS);
-        sprintf(buf, "=%d;", herd_reg_name, res->results[r]->values[reg]);
+        sprintf(buf, "=%d;", res->results[r]->values[reg]);
       }
       printf("%s\n", line);
     }
