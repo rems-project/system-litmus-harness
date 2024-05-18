@@ -3,9 +3,10 @@ BSD 2-Clause License
 This system-litmus-harness tool is subject to the following BSD
 2-Clause License.
 
-Copyright (c) 2020-2021 Ben Simner
-Copyright (c) 2020-2021 Ohad Kammar
-Copyright (c) 2020-2021 Peter Sewell
+Copyright (c) 2020-2024 Ben Simner
+Copyright (c) 2020-2024 Ohad Kammar
+Copyright (c) 2020-2024 Peter Sewell
+Copyright (c) 2024-2024 Jean Pichon-Pharabod
 
 All rights reserved.
 
