@@ -189,7 +189,7 @@ CFLAGS = -O0 -nostdlib \
 		$(CFLAGS_DEPS) \
 		-ffreestanding -fno-omit-frame-pointer -fno-pie -fno-pic \
 		-mstrict-align \
-		-march=armv8-a+nofp \
+		-march=armv8.5-a+nofp \
 		-Wall $(addprefix -Wno-,$(CCNOWARN)) $(addprefix -Werror=,$(CCERRORS)) \
 		-Wextra -Wno-unused-parameter -Wno-sign-compare \
 		-Wshadow \
