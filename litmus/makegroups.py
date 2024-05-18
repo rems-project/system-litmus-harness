@@ -83,10 +83,10 @@ class TestGroups:
         self.force = force
         self.includes = includes
 
-        self.all_tests = GroupMap("all")
-        self.already_seen = GroupMap("all")
-        self.matching_tests = GroupMap("all")
-        self.updated_tests = GroupMap("all")
+        self.all_tests = GroupMap()
+        self.already_seen = GroupMap()
+        self.matching_tests = GroupMap()
+        self.updated_tests = GroupMap()
 
     def updated_groups(self):
         return not self.updated_tests.is_empty() or self.force or not (root / 'groups.c').exists()
@@ -181,7 +181,7 @@ class TestGroups:
 
 group_template = """
 const litmus_test_group grp_%s = {
-  .name="@%s",
+  .name="%s",
   .tests = (const litmus_test_t*[]){
     %s
   },
@@ -191,17 +191,37 @@ const litmus_test_group grp_%s = {
 };\
 """
 
+def build_at_name(g, prefix):
+    # special case: top-level is called just @all
+    if g.name == "":
+        assert not prefix
+        return "@all"
 
-def build_group_defs(matching):
+    return "/".join(prefix + (g.name,)) + "/@all"
+
+def build_c_name(g, prefix):
+    # special case: top-level is called just all
+    if g.name == "":
+        assert not prefix
+        return "all"
+
+    return build_at_name(g, prefix).replace("/", "_").replace("_@all", "")
+
+def build_group_defs(matching, prefix=()):
+    if matching.name:
+        next_prefix = prefix + (matching.name,)
+    else:
+        # Ugh! top-level group is "" so the prefix actually starts here.
+        next_prefix = prefix
+
     for g in matching.groups.values():
-        yield from build_group_defs(g)
+        yield from build_group_defs(g, next_prefix)
 
-    name = matching.name
     test_refs = ['&{}'.format(t.test.ident) for t in sorted(matching.tests, key=lambda t: t.test.name)]
-    grp_refs = sorted('&grp_{}'.format(grp_name) for grp_name in matching.groups)
+    grp_refs = sorted('&grp_{}'.format(build_c_name(g, next_prefix)) for g in matching.groups.values())
     test_refs.append('NULL')
     grp_refs.append('NULL')
-    yield group_template % (name, name, ',\n    '.join(test_refs), ',\n    '.join(grp_refs))
+    yield group_template % (build_c_name(matching, prefix), build_at_name(matching, prefix), ',\n    '.join(test_refs), ',\n    '.join(grp_refs))
 
 
 def build_externs(matching):

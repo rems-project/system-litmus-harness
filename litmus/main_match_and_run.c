@@ -73,10 +73,10 @@ static u8 __match_and_run_test(const litmus_test_group* grp, re_t* arg) {
 void match_and_run(const litmus_test_group* grp, re_t* arg) {
   u8 found = 0;
 
-  if (*arg->original_expr == '@') {
+  found = __match_and_run_test(grp, arg);
+
+  if (!found) {
     found = __match_and_run_group(grp, arg);
-  } else {
-    found = __match_and_run_test(grp, arg);
   }
 
   if (!found) {
