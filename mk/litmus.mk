@@ -122,7 +122,7 @@ bin/litmus.bin: bin/litmus.elf
 # technically this means if we run `make build lint` we run the linter twice
 # but that's alright I guess
 lint:
-	@$(LINTER) $(LITMUS_TEST_FILES) --verbose
+	@$(LINTER) $(LINTER_ARGS) $(LITMUS_TEST_FILES) --verbose
 
 collect-litmus:
 	$(call run_cmd,make,Collecting new tests,\
