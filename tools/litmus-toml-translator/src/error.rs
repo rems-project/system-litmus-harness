@@ -33,10 +33,12 @@ pub enum Error {
     ParseExp(String),
     #[error("parsing bits from string failed: {0}")]
     ParseBitsFromString(ParseIntError),
+    #[allow(dead_code)]
     #[error("parsing eret from sync handler: {0}")]
     ParseSyncHandlerEret(String),
     #[error("unimplemented function: {0}")]
     UnimplementedFunction(String),
+    #[allow(dead_code)]
     #[error("unable to match handler to a thread and EL: {0}")]
     UnmatchedHandler(String),
     #[error("test not supported: {0}")]
