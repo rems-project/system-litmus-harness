@@ -3,6 +3,7 @@
 .PHONY: debug-litmus
 .PHONY: collect-litmus
 .PHONY: count-litmus-tests
+.PHONY: translate-toml-tests
 
 LITMUS_TARGETS += lint collect-litmus debug-litmus count-litmus-tests check
 
@@ -142,3 +143,18 @@ debug-litmus: qemu_litmus
 count-litmus-tests:
 	@echo Found `cat litmus/test_list.txt | wc -l` tests
 	@echo With `cat litmus/test_list.txt | awk '{print gensub(/^(.+\/)+(.+)\+(.+)$$/,"\\\\2","g",$$2)}' | sort | uniq | wc -l` unique shapes
+
+TOML_TRANSLATOR_ARGS = \
+	-A $(TOML_TRANSLATOR_ISLA_ARCH) \
+	-C $(TOML_TRANSLATOR_ISLA_CONFIG) \
+	-o litmus/litmus_tests/generated
+
+ifneq ($(TOML_TRANSLATOR_IGNORE_LIST),)
+  TOML_TRANSLATOR_ARGS += -x $(TOML_TRANSLATOR_IGNORE_LIST)
+endif
+
+translate-toml-tests: $(TOML_TRANSLATOR)
+	@mkdir -p litmus/litmus_tests/generated
+	$(call run_cmd,TOML_TRANSLATE,$(TOML_TESTS),\
+		$(TOML_TRANSLATOR) $(TOML_TRANSLATOR_ARGS) $(TOML_TESTS) \
+	)
