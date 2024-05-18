@@ -27,6 +27,13 @@ ifeq ($(strip $(TEST_DISCOVER)),1)
       # if the script that generates groups.c fails
       # then if there is no groups.c copy one from the backup
       ifeq ($(out),FAIL)
+        ifneq ($(USERGROUPS),1)
+          $(error \
+			Generation of litmus/groups.c failed. \
+			No user management of groups.c file. \
+			Re-run with `make ... USERGROUPS=1` for user-managed group files. \
+		  )
+        endif
         $(warning \
 			Generation of litmus/groups.c failed. \
 		 	Expecting user management of groups.c file. \
