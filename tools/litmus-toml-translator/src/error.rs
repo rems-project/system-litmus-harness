@@ -1,4 +1,5 @@
 use std::num::ParseIntError;
+use std::path::PathBuf;
 
 use thiserror::Error;
 
@@ -10,6 +11,8 @@ pub enum Error {
     LoadArchIR(String),
     #[error("loading aarch64 archictecture config failed: {0}")]
     LoadArchConfig(String),
+    #[error("parsing at-file {0} failed: {1}")]
+    ParseAtFile(PathBuf, String),
     #[error("parsing test TOML failed: {0}")]
     ParseToml(toml::de::Error),
     #[error("parsing value from test TOML failed: {0}")]

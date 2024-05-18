@@ -12,6 +12,7 @@ mod parse;
 use std::collections::HashSet;
 use std::io::Write;
 use std::path::{Path, PathBuf};
+use std::ffi::OsStr;
 
 use isla_lib::bitvector::b64::B64;
 use isla_lib::config::ISAConfig;
@@ -69,6 +70,59 @@ fn is_toml(p: &Path) -> bool {
     p.extension().filter(|ext| ext.to_str().unwrap() == "toml").is_some()
 }
 
+/// Check if a file is an 'at-file'
+fn is_at_file(p: &Path) -> bool {
+    p.file_name().and_then(OsStr::to_str).filter(|name| name.starts_with("@")).is_some()
+}
+
+fn process_at_file<'ir>(
+    ir: &ParsedArchitecture<'ir, B64>,
+    isa: &ISAConfig<B64>,
+    at_file: &Path,
+    out_dir: &Path,
+    force: bool,
+    flatten_to: &Option<PathBuf>,
+    ignore: &HashSet<String>,
+    keep_histogram: bool,
+    results: &mut parse::TranslationResults,
+) -> error::Result<()> {
+    let content =
+        std::fs::read_to_string(at_file)
+        .map_err(|e| error::Error::ParseAtFile(PathBuf::from(at_file), format!("{}", e)))?;
+
+    for line in content.lines() {
+        // in an at-file each line is either a comment, or another file
+
+        if line.starts_with("//") {
+            continue;
+        }
+
+        let p = PathBuf::from(at_file.parent().unwrap());
+        let suffix = PathBuf::from(line);
+        let suffix_dir = &suffix.parent().unwrap();
+        let new_file = p.join(&suffix);
+
+        if !new_file.exists() {
+            return Err(error::Error::ParseAtFile(PathBuf::from(at_file), format!("{} does not exist", line)));
+        }
+
+        let new_out_dir = out_dir.join(suffix_dir);
+
+        process_path(
+            ir,
+            isa,
+            &new_file,
+            new_out_dir.as_ref(),
+            force,
+            flatten_to,
+            ignore,
+            keep_histogram,
+            results,
+        )?;
+    }
+    Ok(())
+}
+
 // Recursively translate a path, descending into directories to find all descendent toml tests.
 fn process_path<'ir>(
     ir: &ParsedArchitecture<'ir, B64>,
@@ -107,15 +161,30 @@ fn process_path<'ir>(
                 ignore,
                 keep_histogram,
                 results,
-            )
-            .unwrap();
+            )?;
         }
     } else {
         let file = file_or_dir;
-        if !is_toml(file) {
+        if !is_toml(file) && !is_at_file(file) {
             log::info!("skipping {file:?}");
             return Ok(());
         }
+
+        if is_at_file(file) {
+            return process_at_file(
+                ir,
+                isa,
+                file,
+                out_dir,
+                force,
+                flatten_to,
+                ignore,
+                keep_histogram,
+                results,
+            );
+        }
+
+
         let file_name = file.file_name().unwrap().to_string_lossy().into_owned() + ".c";
         let out_dir = flatten_to.as_deref().unwrap_or(out_dir);
         let output_path = out_dir.with_file_name(file_name);
