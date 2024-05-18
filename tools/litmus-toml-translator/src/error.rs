@@ -6,7 +6,9 @@ pub type Result<T> = std::result::Result<T, Error>;
 
 #[derive(Debug, Error)]
 pub enum Error {
-    #[error("loading aarch64 archictecture failed: {0}")]
+    #[error("loading aarch64 archictecture ir failed: {0}")]
+    LoadArchIR(String),
+    #[error("loading aarch64 archictecture config failed: {0}")]
     LoadArchConfig(String),
     #[error("parsing test TOML failed: {0}")]
     ParseToml(toml::de::Error),

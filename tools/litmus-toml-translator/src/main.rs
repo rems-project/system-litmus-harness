@@ -13,6 +13,11 @@ use std::collections::HashSet;
 use std::io::Write;
 use std::path::{Path, PathBuf};
 
+use isla_lib::bitvector::b64::B64;
+use isla_lib::config::ISAConfig;
+
+use arch::ParsedArchitecture;
+
 use clap::{CommandFactory, Parser};
 use colored::*;
 use is_terminal::IsTerminal;
@@ -37,6 +42,10 @@ struct Cli {
     input: Option<Vec<PathBuf>>,
     #[arg(short, long, help = "output file or dir (default is stdout)")]
     output: Option<PathBuf>,
+    #[arg(short = 'A', long, help = "architecture IR file")]
+    arch: PathBuf,
+    #[arg(short = 'C', long, help = "architecture config file")]
+    config: PathBuf,
     #[arg(short, long, help = "allow overwriting files with output")]
     force: bool,
     #[arg(short = 'F', long, help = "flatten output tests into single output dir")]
@@ -50,8 +59,8 @@ struct Cli {
 }
 
 /// Translate toml into `Litmus` then output string (C code).
-fn process_toml(raw_toml: String, keep_histogram: bool) -> error::Result<String> {
-    let parsed_litmus = parse::parse(&raw_toml, keep_histogram)?;
+fn process_toml<'ir>(ir: &ParsedArchitecture<'ir, B64>, isa: &ISAConfig<B64>, raw_toml: String, keep_histogram: bool) -> error::Result<String> {
+    let parsed_litmus = parse::parse(ir, isa, &raw_toml, keep_histogram)?;
     output::write_output(parsed_litmus, keep_histogram)
 }
 
@@ -61,7 +70,9 @@ fn is_toml(p: &Path) -> bool {
 }
 
 // Recursively translate a path, descending into directories to find all descendent toml tests.
-fn process_path(
+fn process_path<'ir>(
+    ir: &ParsedArchitecture<'ir, B64>,
+    isa: &ISAConfig<B64>,
     file_or_dir: &Path,
     out_dir: &Path,
     force: bool,
@@ -87,6 +98,8 @@ fn process_path(
         for input in files {
             log::info!("dir:{dir:?} input:{input:?}");
             process_path(
+                ir,
+                isa,
                 &input,
                 &out_dir.join(PathBuf::from(input.file_name().unwrap())),
                 force,
@@ -117,7 +130,7 @@ fn process_path(
             );
         } else {
             let toml = std::fs::read_to_string(file).unwrap();
-            match process_toml(toml, keep_histogram) {
+            match process_toml(ir, isa, toml, keep_histogram) {
                 Ok(output_code) => {
                     let parent = out_dir.parent().unwrap();
                     std::fs::create_dir_all(parent).unwrap();
@@ -202,6 +215,10 @@ fn main() {
     };
 
     let mut results = parse::TranslationResults::default();
+    let orig_arch: arch::Architecture<B64> = arch::load_ir(cli.arch).unwrap();
+
+    let ir = orig_arch.parse().unwrap();
+    let isa: ISAConfig<B64> = arch::load_isa_config(cli.config, &ir).unwrap();
 
     match cli.input {
         // If Some(paths), then read file(s) and output to files (or stdout).
@@ -209,27 +226,29 @@ fn main() {
             if paths.len() == 1 {
                 let path = &paths[0]; //.canonicalize().unwrap();
                 if let Some(out) = &cli.output {
-                    process_path(path, out, cli.force, &flatten_to, &ignore, cli.keep_histogram, &mut results).unwrap();
+                    process_path(&ir, &isa, path, out, cli.force, &flatten_to, &ignore, cli.keep_histogram, &mut results).unwrap();
                 } else if path.is_file() {
                     if ignore.contains(path.file_name().unwrap().to_str().unwrap()) {
                         log::warn!("skipping file as it's present in ignore list");
                     } else {
                         // print to stdout
                         let toml = std::fs::read_to_string(path).unwrap();
-                        match process_toml(toml, cli.keep_histogram) {
+                        match process_toml(&ir, &isa, toml, cli.keep_histogram) {
                             Ok(output_code) => println!("{output_code}"),
                             Err(e) => log::error!("failed to translate toml from stdin {e}"),
                         };
                     }
                 } else {
                     // let parent = PathBuf::from(path.parent().unwrap());
-                    process_path(path, path, cli.force, &flatten_to, &ignore, cli.keep_histogram, &mut results)
+                    process_path(&ir, &isa, path, path, cli.force, &flatten_to, &ignore, cli.keep_histogram, &mut results)
                         .unwrap();
                 }
             } else {
                 for path in paths {
                     if let Some(out) = &cli.output {
                         process_path(
+                            &ir,
+                            &isa,
                             &path,
                             &out.join(path.file_name().unwrap()),
                             cli.force,
@@ -241,7 +260,7 @@ fn main() {
                         .unwrap();
                     } else {
                         let parent = PathBuf::from(path.parent().unwrap());
-                        process_path(&path, &parent, cli.force, &flatten_to, &ignore, cli.keep_histogram, &mut results)
+                        process_path(&ir, &isa, &path, &parent, cli.force, &flatten_to, &ignore, cli.keep_histogram, &mut results)
                             .unwrap();
                     }
                 }
@@ -255,7 +274,7 @@ fn main() {
             } else {
                 let lines: Vec<_> = stdin.lines().map(Result::unwrap).collect();
                 let toml = lines.join("\n");
-                let output_code = process_toml(toml, cli.keep_histogram).unwrap();
+                let output_code = process_toml(&ir, &isa, toml, cli.keep_histogram).unwrap();
                 if let Some(out) = &cli.output {
                     let mut f = std::fs::File::create(out).unwrap();
                     write!(f, "{output_code}").unwrap();

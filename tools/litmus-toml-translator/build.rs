@@ -30,14 +30,7 @@
 // This is a modified version of isla/isla-lib/build.rs in order to set the ISLA_VERSION
 // env variable to its relevant value.
 
-use std::path::Path;
 use std::process::Command;
-
-use isla_lib::bitvector::b64::B64;
-use isla_lib::ir::serialize::write_serialized_architecture;
-use isla_lib::ir::*;
-use isla_lib::ir_lexer::new_ir_lexer;
-use isla_lib::ir_parser;
 
 fn git_version() -> Option<String> {
     let output = Command::new("git")
@@ -62,18 +55,7 @@ fn version() -> String {
     }
 }
 
-fn preprocess_ir(arch_name: &str) {
-    let mut symtab = Symtab::new();
-    let snapshot_path = Path::new(env!("CARGO_MANIFEST_DIR")).join(arch_name);
-    let contents = std::fs::read_to_string(snapshot_path.clone()).unwrap();
-    let arch = ir_parser::IrParser::new().parse(&mut symtab, new_ir_lexer(&contents)).unwrap();
-    write_serialized_architecture::<B64>(snapshot_path.with_extension("irx").to_str().unwrap(), arch, &symtab).unwrap();
-}
-
 fn main() {
     lalrpop::process_root().unwrap();
-
-    preprocess_ir("isla-snapshots/armv8p5.ir");
-
     println!("cargo:rustc-env=ISLA_VERSION={}", version());
 }

@@ -6,18 +6,16 @@
 
 use std::collections::{BTreeSet, HashMap};
 
-use once_cell::sync::Lazy;
-
 use isla_axiomatic::litmus::exp::{Exp, Loc};
 use isla_axiomatic::litmus::{self as axiomatic_litmus, exp_lexer, exp_parser};
 use isla_axiomatic::page_table;
 use isla_lib::bitvector::{b64::B64, BV};
-use isla_lib::ir::serialize::DeserializedArchitecture;
+use isla_lib::config::ISAConfig;
 use isla_lib::ir::Symtab;
 use isla_lib::zencode;
 use toml::Value;
 
-use crate::arch;
+use crate::arch::ParsedArchitecture;
 use crate::error::{Error, Result};
 use crate::litmus::{self, InitState, Litmus, MovSrc, Negatable, Reg, Thread, ThreadSyncHandler};
 
@@ -361,12 +359,13 @@ fn get_additional_vars_from_pts(
 
 /// Main parsing function taking a raw string and attempting to a return a [`Litmus`]
 /// representation of the same test.
-pub fn parse(contents: &str, keep_histogram: bool) -> Result<Litmus> {
+pub fn parse(ir: &ParsedArchitecture<B64>, isa: &ISAConfig<B64>, contents: &str, keep_histogram: bool) -> Result<Litmus> {
     let litmus_toml = contents.parse::<Value>().map_err(Error::ParseToml)?;
 
     let mmu_on = litmus_toml.get("page_table_setup").is_some();
-    static ARCH: Lazy<DeserializedArchitecture<B64>> = Lazy::new(|| arch::load_aarch64_config_irx().unwrap());
-    let (isa, symtab) = arch::load_aarch64_isa(&ARCH, mmu_on)?;
+    // static ARCH: Lazy<DeserializedArchitecture<B64>> = Lazy::new(|| arch::load_aarch64_config_irx().unwrap());
+    // let (isa, symtab) = arch::load_aarch64_isa(&ARCH, mmu_on)?;
+    let symtab = &ir.symtab;
 
     let arch =
         litmus_toml.get("arch").and_then(|n| n.as_str().map(str::to_string)).unwrap_or_else(|| "unknown".to_string());
