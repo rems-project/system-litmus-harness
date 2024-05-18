@@ -26,7 +26,7 @@ use is_terminal::IsTerminal;
 /// User interface (CLI) structure which specifies all operations supported by the tool.
 #[derive(Debug, Parser)]
 #[command(name = "litmus-toml-translator")]
-#[command(author = "thud <thud@thud.dev>")]
+#[command(author = "thud <thud@thud.dev>, bjs <ben.simner@cl.cam.ac.uk>")]
 #[command(about = "Translate isla TOML tests for use with system-litmus-harness.")]
 #[command(version = concat!("v", env!("CARGO_PKG_VERSION")))]
 #[command(help_template(
