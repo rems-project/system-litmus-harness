@@ -1,0 +1,18 @@
+# This file is a collection of test names which can cause problems at runtime inside of
+# system-litmus-harness after being translated into C by litmus-toml-translator.
+#
+# To use this file with litmus-toml-translator, use the `-x` flag (see `--help`).
+#
+# I include this for convenience since system-litmus-harness aborts all execution on runtime errors
+# so it's often useful to omit their translation in the first place.
+
+BBM.Tf+dsb-tlbiis-dsb.litmus.toml               # no eret in exception handler?
+CoRpteT.EL1+dsb-tlbi-dsb.litmus.toml            # EL1 exception handler address incorrect?
+Stacked2BBM.litmus.toml                         # typo in toml test
+
+MP.RTT.inv3+dmb-dmb+dsb-isb.litmus.toml         # some unhandled exception
+RWC.RTR.EL1+ctrl-isb+dsb-tlbi-dsb.litmus.toml   # some unhandled exception
+UpdateWhileUnmappedFull.litmus.toml             # some unhandled exception
+
+CoWTf.inv+svc.litmus.toml               # fails on bare metal AWS not local emulation?
+                                        # ...(idx_from_regname)] ! err: no such register "p0:x0".
