@@ -43,7 +43,7 @@ static void P1(litmus_test_run* data) {
   );
 }
 
-litmus_test_t MP_pos = {
+litmus_test_t MP_pop_amoswap_pl_coi_addr = {
   "MP+po_p_amoswap_pl-coi+addr",
   MAKE_THREADS(2),
   MAKE_VARS(VARS),
