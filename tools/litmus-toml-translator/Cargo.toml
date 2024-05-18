@@ -2,14 +2,16 @@
 name = "litmus-toml-translator"
 version = "0.1.0"
 edition = "2021"
-authors = ["thud <thud@thud.dev>"]
+authors = ["thud <thud@thud.dev>", "ben simner <ben.simner@cl.cam.ac.uk>"]
 readme = "README.md"
 
 [build-dependencies]
 lalrpop = "0.19.0"
-isla-lib = { path = "isla/isla-lib" }
+# assume isla and system-litmus-harness co-located
+isla-lib = { path = "../../../isla/isla-lib" }
 
 [dependencies]
+"bincode" = "1.2.1"
 clap = { version = "4.4.18", features = ["derive"] }
 colored = "2"
 is-terminal = "0.4.10"
@@ -21,5 +23,6 @@ thiserror = "1.0"
 toml = "0.5"
 lalrpop-util = "0.19.0"
 
-isla-axiomatic = { path = "isla/isla-axiomatic" }
-isla-lib = { path = "isla/isla-lib" }
+# assume isla and system-litmus-harness co-located
+isla-axiomatic = { path = "../../../isla/isla-axiomatic" }
+isla-lib = { path = "../../../isla/isla-lib" }

@@ -22,7 +22,7 @@ use is_terminal::IsTerminal;
 #[command(name = "litmus-toml-translator")]
 #[command(author = "thud <thud@thud.dev>")]
 #[command(about = "Translate isla TOML tests for use with system-litmus-harness.")]
-#[command(version = concat!("v", env!("CARGO_PKG_VERSION"), " isla@", env!("ISLA_VERSION")))]
+#[command(version = concat!("v", env!("CARGO_PKG_VERSION")))]
 #[command(help_template(
     "\
 {before-help}{name} {version}
