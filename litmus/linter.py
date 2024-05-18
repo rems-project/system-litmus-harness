@@ -138,7 +138,7 @@ def collect_litmuses(paths):
                 litmus = parse_litmus_code(path, f.read())
             except Exception:
                 if args.debug:
-                    raise
+                    raise SyntaxError(path)
             else:
                 yield litmus
 
