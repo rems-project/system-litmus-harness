@@ -177,6 +177,9 @@ char* blit_varstate(char* buf, init_varstate_t* st, bool dry) {
   buf = blit_str(buf, st->varname, dry);
   buf = blit_str(buf, init_type_to_str(st->type), dry);
   switch (st->type) {
+  case TYPE_UNMAPPED:
+    break;
+
   case TYPE_HEAP:
   case TYPE_PTE:
   case TYPE_MAIR:
