@@ -54,7 +54,7 @@ static char __exc_buffer[4096];
 static char __exc_stack_buf[1024];
 static lock_t _EXC_PRINT_LOCK;
 
-#define W(...) warning(WARN_UNEXPECTED_EXCEPTION, __VA_ARGS__)
+#define W(...) error(WARN_UNEXPECTED_EXCEPTION, __VA_ARGS__)
 
 static void _print_stack_trace(int el, u64 fp) {
   stack_t* stack = (stack_t*)__exc_stack_buf;

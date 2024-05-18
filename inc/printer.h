@@ -47,6 +47,7 @@ void printf_with_fileloc(
 void trace(const char* fmt, ...);
 void verbose(const char* fmt, ...);
 void warning(const warnings_t category, const char* fmt, ...);
+void error(const warnings_t category, const char* fmt, ...);
 
 
 /* debug() declared in debug.h */

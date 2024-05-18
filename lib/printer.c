@@ -312,6 +312,18 @@ void warning(const warnings_t category, const char* fmt, ...) {
   }
 }
 
+void error(const warnings_t category, const char* fmt, ...) {
+  if (!enabled_warnings[category])
+    return;
+
+  int mode = PRINT_MODE_ERROR | PRINT_MODE_NOINDENT | PRINT_MODE_TRACE | PRINT_MODE_WARNING;
+
+  va_list ap;
+  va_start(ap, fmt);
+  vprintf(mode, fmt, ap);
+  va_end(ap);
+}
+
 /** print buffer used for the stack output
  * protected by __PR_VERB_LOCK
  */
