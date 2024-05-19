@@ -1,10 +1,5 @@
 #include "lib.h"
 
-#define DFR0 read_sysreg(ID_AA64DFR0_EL1)
-#define PFR0 read_sysreg(ID_AA64PFR0_EL1)
-#define MMFR0 read_sysreg(ID_AA64MMFR0_EL1);
-#define MMFR1 read_sysreg(ID_AA64MMFR1_EL1);
-
 u8 arch_feature_version(enum arm_feature id) {
   switch (id) {
   case FEAT_SVE:
@@ -32,4 +27,20 @@ void arch_read_feature_matrix(struct arch_feature_matrix* m_out) {
 
 bool arch_has_feature(enum arm_feature id) {
   return arch_feature_version(id) > 0;
+}
+
+void arch_read_implementation(struct arm_implementation* impl_out) {
+  impl_out->implementor = BIT_SLICE(MIDR, MIDR_FIELD_Implementor);
+  impl_out->part = BIT_SLICE(MIDR, MIDR_FIELD_PartNum);
+  impl_out->revision = BIT_SLICE(MIDR, MIDR_FIELD_Revision);
+  impl_out->variant = BIT_SLICE(MIDR, MIDR_FIELD_Variant);
+}
+
+bool arch_implementation_eq(struct arm_implementation* lhs, struct arm_implementation* rhs) {
+  return (
+       lhs->implementor == rhs->implementor
+    && lhs->part == rhs->part
+    && lhs->revision == rhs->revision
+    && lhs->variant == rhs->variant
+  );
 }

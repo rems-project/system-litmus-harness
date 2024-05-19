@@ -1,6 +1,9 @@
 #ifndef THREAD_INFO_H
 #define THREAD_INFO_H
 
+#include "device.h"
+#include "arm_features.h"
+
 typedef struct
 {
   /** which physical CPU this is on */
@@ -11,6 +14,11 @@ typedef struct
 
   u8 mmu_enabled;
   u8 locking_enabled;
+
+  /* the implementation this was at setup time.
+   * we remember, and check explicitly for bad migrations on big.LITTLE machines
+   */
+  struct arm_implementation impl;
 } thread_info_t;
 
 extern thread_info_t thread_infos[4];

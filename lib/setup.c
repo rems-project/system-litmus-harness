@@ -185,6 +185,24 @@ void setup(char* fdtloc) {
   ensure_cpus_on();
 }
 
+static void check_homogenous_threads(void) {
+  /* Currently we do not support running litmus tests on heterogenous hardware
+   * so we validate that the CPUs we run on are all the same implementation.
+   *
+   * We do this by checking they all agree with CPU0
+   */
+   for (int i = 0; i < NO_CPUS; i++) {
+    if (!arch_implementation_eq(&thread_infos[i].impl, &thread_infos[0].impl)) {
+      fail(
+        "Detected unsupported heterogenous hardware configuration "
+        "(is this a big.LITTLE core?). "
+        "Use AFFINITY=... to pin KVM threads to CPUs.\n"
+      );
+    }
+   }
+}
+
+
 void ensure_cpus_on(void) {
   debug("setting up CPU0\n");
   cpu_data_init();
@@ -202,11 +220,13 @@ void ensure_cpus_on(void) {
   }
 
   debug("booted all CPUs\n");
+  check_homogenous_threads();
 }
 
 void per_cpu_setup(int cpu) {
   current_thread_info()->cpu_no = cpu;
   current_thread_info()->mmu_enabled = 0;
+  arch_read_implementation(&current_thread_info()->impl);
 
   u64 el = read_sysreg(currentel) >> 2;
 

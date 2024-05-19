@@ -34,6 +34,13 @@ struct arch_feature_matrix {
   u8 features[1+FEAT_TRBE];
 };
 
+/* Arm ID registers */
+#define DFR0 read_sysreg(ID_AA64DFR0_EL1)
+#define PFR0 read_sysreg(ID_AA64PFR0_EL1)
+#define MMFR0 read_sysreg(ID_AA64MMFR0_EL1)
+#define MMFR1 read_sysreg(ID_AA64MMFR1_EL1)
+#define MIDR read_sysreg(MIDR_EL1)
+
 /* instruction set attribute register(s) */
 #define ISAR0_FIELD_BF16 BITMASK(47, 44)
 #define ISAR0_FIELD_BF16_LSB 44
@@ -57,8 +64,25 @@ struct arch_feature_matrix {
 #define PFR0_FIELD_RAS 31, 28
 #define PFR0_FIELD_SVE 35, 32
 
+/* main id register */
+#define MIDR_FIELD_Implementor 31, 24
+#define MIDR_FIELD_Variant 23, 20
+#define MIDR_FIELD_Architecture 19, 16
+#define MIDR_FIELD_PartNum 15, 4
+#define MIDR_FIELD_Revision 3, 0
+
 void arch_read_feature_matrix(struct arch_feature_matrix *m_out);
 u8 arch_feature_version(enum arm_feature id);
 bool arch_has_feature(enum arm_feature id);
+
+struct arm_implementation {
+  char implementor;
+  u64 part;
+  u64 variant;
+  u64 revision;
+};
+
+void arch_read_implementation(struct arm_implementation* impl_out);
+bool arch_implementation_eq(struct arm_implementation* lhs, struct arm_implementation* rhs);
 
 #endif /* ARM_FEAT_H */

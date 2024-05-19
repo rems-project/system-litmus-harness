@@ -494,7 +494,31 @@ static void resetsp(void) {
   }
 }
 
+static void check_no_bad_migration(void) {
+  struct arm_implementation this_impl;
+  arch_read_implementation(&this_impl);
+
+  /* KVM does not pin VM vCPUS to cores
+   * that's up to the VMM to call vcpu_run on whichever cores it wants.
+   * But our VMM (QEMU) uses userthreads which get migrated around.
+   *
+   * On a big.LITTLE machine this migration could go from a big to a LITTLE.
+   * This would invalidate our results silently.
+   *
+   * So we see if the Arm implementation has changed out from under us since setup
+   * and just fail angrily if that happens.
+   */
+
+   if (!arch_implementation_eq(&current_thread_info()->impl, &this_impl)) {
+    fail(
+      "Caught big.LITTLE migration in the act. "
+      "Use AFFINITY=... to pin KVM threads to CPUs.\n"
+    );
+   }
+}
+
 static void start_of_run(test_ctx_t* ctx, int cpu, int vcpu, run_idx_t i, run_count_t r) {
+  check_no_bad_migration();
   prefetch(ctx, i, r);
 }
 
