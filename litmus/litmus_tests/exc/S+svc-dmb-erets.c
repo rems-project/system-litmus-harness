@@ -92,5 +92,5 @@ litmus_test_t S_svcdmberets = {
     /* p2:x0 =*/1,
     /* p2:x2 =*/2,
   },
-  .no_sc_results = 8,
+  .no_sc_results = 12,
 };
