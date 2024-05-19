@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - prepare-litmus-toml-translator
   # pull_request: {}
 
 # cancel in-progress job when a new push is performed
@@ -23,22 +24,64 @@ jobs:
 
     timeout-minutes: 5
     steps:
+    - run: mkdir -p rems-project litmus-tests
+
     - uses: actions/checkout@v3
+      with:
+        path: rems-project/system-litmus-harness
 
     - name: System dependencies (ubuntu)
       run: |
         sudo apt update
         sudo apt install build-essential gcc-aarch64-linux-gnu qemu-system-aarch64
 
+    - name: Get rust toolchain
+      uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: stable
+
+    - name: Setup rems-project dependencies
+      working-directory: rems-project
+      run: |
+        git clone https://github.com/rems-project/isla
+        git clone https://github.com/rems-project/isla-snapshots
+
+    - name: Setup litmus-tests org dependencies
+      working-directory: litmus-tests
+      run: |
+        git clone https://github.com/litmus-tests/litmus-tests-armv8a-system-vmsa/
+
     - name: Build harness
+      working-directory: rems-project/system-litmus-harness
       run: |
         make build
 
     - name: Check for compiler warnings
+      working-directory: rems-project/system-litmus-harness
       run: |
         make -B -s check
 
     - name: Run unittests
+      working-directory: rems-project/system-litmus-harness
       run: |
         ./qemu_unittests --no-test-linear-concretization | tee log
         [ $(tail -c -2 log) -eq 0 ]
+
+    - name: Build tools
+      working-directory: rems-project/system-litmus-harness
+      run: |
+        make tools
+
+    - name: Run TOML translator
+      working-directory: rems-project/system-litmus-harness
+      run: |
+        make translate-toml-tests
+
+    - name: Compile translated tests
+      working-directory: rems-project/system-litmus-harness
+      run: |
+        # should automatically discover and build new tests
+        make build
+        # validate by checking an arbitrarily-picked test was actually compiled
+        [ -f ./bin/litmus/litmus_tests/generated/pgtable/CoWinvT+po.litmus.toml.o ]
