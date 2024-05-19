@@ -357,18 +357,30 @@ void printf_with_fileloc(
    * by prepending stack trace */
   __print_frame_unwind(NEW_BUFFER(__debug_frame_buf, 1024), 2);
   sprint_time(NEW_BUFFER(__debug_time_buf, 1024), read_clk(), SPRINT_TIME_HHMMSSCLK);
+  STREAM* fmt_buf = NEW_BUFFER(__verbose_print_buf, 1024);
+
+  /* header is like "(TIMESTAMP) CPUn:log_level:[stack:stack:stack:stack]" */
   sprintf(
-    NEW_BUFFER(__verbose_print_buf, 1024),
-    "(%s) CPU%d:%s:[%s %s:%d (%s)] %s",
+    fmt_buf,
+    "(%s) CPU%d:%s:[%s %s:%d (%s)]",
     __debug_time_buf,
     cpu,
     level,
     __debug_frame_buf,
     filename,
     line,
-    func,
-    fmt
+    func
   );
+
+  if (mode & PRINT_MODE_ERROR) {
+    /* if this is an error print make sure the format appears on its own line. */
+    sprintf(fmt_buf, ":\n#  ", fmt);
+  } else {
+    sprintf(fmt_buf, " ", fmt);
+  }
+
+  /* now write the actual printf() format string */
+  sprintf(fmt_buf, "%s", fmt);
 
   va_list ap;
   va_start(ap, fmt);
