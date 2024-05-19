@@ -39,7 +39,7 @@ void run_test(const litmus_test_t* cfg) {
   /* run it */
   if (TRACE) {
     printf("#");
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < NO_CPUS; i++) {
       printf("P%d\t\t\t", i);
     }
     printf("\n");

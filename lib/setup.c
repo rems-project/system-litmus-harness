@@ -1,12 +1,13 @@
 #include <lib.h>
 
+#include "device.h"
 #include "vmm.h"
 
 extern u64 __argc;
 extern char* __argv[100];
 
 /* per-thread boot data */
-cpu_data_t cpu_data[4];
+cpu_data_t cpu_data[MAX_CPUS];
 
 /** setup is called very early
  * before the UART is enabled
@@ -209,12 +210,12 @@ void ensure_cpus_on(void) {
   per_cpu_setup(0);
 
   debug("booting all CPUs ...\n");
-  cpu_boot(1);
-  cpu_boot(2);
-  cpu_boot(3);
+  for (int i = 1; i < NO_CPUS; i++) {
+    cpu_boot(i);
+  }
   debug("started boot.\n");
 
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < NO_CPUS; i++) {
     while (!cpu_data[i].started)
       wfe();
   }

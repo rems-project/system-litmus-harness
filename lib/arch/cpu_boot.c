@@ -9,7 +9,7 @@ thread_info_t* current_thread_info() {
 }
 
 void cpu_data_init(void) {
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < MAX_CPUS; i++) {
     cpu_data[i].started = 0;
     cpu_data[i].to_execute = 0;
   }

@@ -21,7 +21,7 @@ typedef struct
   struct arm_implementation impl;
 } thread_info_t;
 
-extern thread_info_t thread_infos[4];
+extern thread_info_t thread_infos[MAX_CPUS];
 
 u64 get_cpu(void);
 u64 get_vcpu(void);
