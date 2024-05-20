@@ -86,7 +86,8 @@ parser.add_argument(
 
 @dataclasses.dataclass(frozen=True)
 class Device:
-    name: "str"
+    path: pathlib.Path
+    name: str
     dir: "str"
 
 @dataclasses.dataclass
@@ -789,10 +790,16 @@ def main(args):
                 )
 
             logs = collect_logs(device_dir_path)
-            d = Device(device_dir_path.stem, device_dir_path)
+
+            if (device_dir_path / "name.txt").exists():
+                name = (device_dir_path / "name.txt").read_text().rstrip()
+            else:
+                name = device_dir_path.stem
+
+            d = Device(device_dir_path, name, device_dir_path)
             devices[d] = list(collect_all(d, logs))
     elif args.file:
-        d = Device("all", ".")
+        d = Device(None, "all", ".")
         devices[d] = list(collect_all(d, args.file))
 
     with open(root.parent / "litmus" / "test_list.txt", "r") as f:
