@@ -174,11 +174,23 @@ def read_test_file_herd(device: Device, fname: str) -> LogFileResult:
         # Observation MP+dmb+eret Never 0 500000
         # Time MP+dmb+eret 3711.813
 
+        lineno = 0
+
         def _next():
+            nonlocal lineno
+
             while True:
-                n = next(f).strip()
+                try:
+                    n = next(f).strip()
+                    lineno += 1
+                except StopIteration:
+                    return
 
                 if n.startswith("#"):
+                    continue
+
+                # restrict down to header, histogram and observation lines
+                if n in ["Yes", "No", "Ok", "Witnesses"] or n.startswith("Time") or n.startswith("Hash") or n.startswith("Positive"):
                     continue
 
                 if not n:
@@ -188,14 +200,25 @@ def read_test_file_herd(device: Device, fname: str) -> LogFileResult:
 
         lines = _next()
 
-        def _read_test():
-            header = next(lines)
+        def _read_whole_test():
+            try:
+                header = next(lines)
+            except StopIteration:
+                # done
+                return None
+
             if not header.startswith("Test "):
-                return False
+                raise SyntaxError("bad log: should start with `Test: `")
 
             test_name = header.split()[1]
+
+            # "States N" or "Histogram (N states)"
             states_header = next(lines)
-            states = int(states_header.partition(" ")[2])
+            if (states_header.startswith("States")):
+                states = int(states_header.partition(" ")[2])
+            else:
+                assert states_header.startswith("Histogram")
+                states = int(states_header.split()[1].lstrip("("))
 
             recorded = []
             for _ in range(states):
@@ -206,31 +229,32 @@ def read_test_file_herd(device: Device, fname: str) -> LogFileResult:
                 rr = RunResult(regstates, count, False)
                 recorded.append(rr)
 
-            next(lines)  # "Yes/No"
-            next(lines)  # "Witnesses"
-            next(lines)  # "Positive: N, Negative: M"
-
             obs_header = next(lines)
             obs = obs_header.split()
             assert obs[0] == "Observation"
             assert obs[1] == test_name
-
             marks = int(obs[3])
+            return (test_name, recorded, marks)
+
+        def observations():
+            while True:
+                try:
+                    t = _read_whole_test()
+                except Exception:
+                    raise RuntimeError(f"in {fname} at line {lineno}: failed to parse log")
+
+                if not t:
+                    return
+
+                yield t
+
+        for (test_name, recorded, marks) in observations():
             h = Hist(test_name, recorded, marks)
 
             lfr.results += [h]
             if test_name not in lfr.total:
                 lfr.total[test_name] = Hist(test_name, [], 0)
             lfr.total[test_name].update(h)
-
-            next(lines)  # Times
-            return True
-
-        while True:
-            try:
-                _read_test()
-            except RuntimeError:
-                break
 
         return lfr
 
