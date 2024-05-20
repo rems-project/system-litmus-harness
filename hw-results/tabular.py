@@ -455,6 +455,14 @@ def filter_devices(grp_list, devices: "Mapping[Device, List[LogFileResult]]", in
 
     return tests
 
+def macro_test_name(test):
+    sanitized_name = (
+        test.test_name
+        .replace("_", "\\_")
+        .replace("&", "\\&")
+    )
+    return f"\\tableTestName{{{test.test_name}}}{{{sanitized_name}}}"
+
 def macro_result_name(device, test):
     return f"\\csname {device.name}-{test.test_name} result\\endcsname"
 
@@ -646,7 +654,7 @@ def _write_combo_tablular_with_distribution(f, devices, tests, rows):
         tab_shape += "l "
     tab_shape += device_cols_ls
     tab_shape += " l"
-    f.write("\\begin{tabular}{%s}\n" % tab_shape)
+    f.write("\\begin{longtable}{%s}\n" % tab_shape)
 
     # first line
     #  Type  & Name & multicol{3}{rpi4}         &  multicol{3}{qemu} & etc
@@ -674,7 +682,7 @@ def _write_combo_tablular_with_distribution(f, devices, tests, rows):
                 continue
             f.write(f"{c!s:>{maxlen}} & ")
         f.write("\\\\ \\hline \n")
-    f.write("\\end{tabular}\n")
+    f.write("\\end{longtable}\n")
 
 def _write_combo_tablular_simple(f, devices, tests, rows):
     all_groups = set(g for ftest in tests.values() for g in ftest.groups if g != "all")
@@ -696,7 +704,7 @@ def _write_combo_tablular_simple(f, devices, tests, rows):
     tab_shape += device_cols_ls
     tab_shape += " l"
 
-    f.write("\\begin{tabular}{%s}\n" % tab_shape)
+    f.write("\\begin{longtable}{%s}\n" % tab_shape)
 
     # first line
     #  Type  & Name & multicol{3}{rpi4}         &  multicol{3}{qemu} & etc
@@ -716,7 +724,7 @@ def _write_combo_tablular_simple(f, devices, tests, rows):
                 continue
             f.write(f"{c!s} & ")
         f.write("\\\\ \\hline \n")
-    f.write("\\end{tabular}\n")
+    f.write("\\end{longtable}\n")
 
 
 # def write_results_macros(f, devices, tests):
@@ -747,7 +755,10 @@ def write_combo_table(f, devices: "Mapping[Device, List[LogFileResult]]", tests,
         group = groups[-1]
         # use verb to escape test and group names with symbols
         row.append(f"\\verb|{group}|")
-        row.append(f"\\verb|{test_name}|")
+        if args.macros:
+            row.append(macro_test_name(ftest))
+        else:
+            row.append(f"\\verb|{test_name}|")
 
         for d in devices:
             flog = tests[test_name].results[d]
@@ -861,6 +872,7 @@ def main(args):
         with open(args.standalone_file, "w") as f:
             f.write("\\documentclass{standalone}\n")
             f.write("\\begin{document}\n")
+            f.write("\\usepackage{longtable}\n")
 
             if args.macros:
                 write_results_macros(f, devices, filtered_tests)
