@@ -9,6 +9,7 @@ Usage: tabular.py
   [--macros]
   [--macros-file MACROS_FILE]
   [--file FILE | --device DEVICE]
+  [--devices DEVICES]
   [--excludes EXCLUDES] [--includes INCLUDES]
 
 options:
@@ -20,7 +21,8 @@ options:
   --macros-file MACROS_FILE
   --herdtools
   --file FILE, -f FILE
-  --device DEVICE, -d DEVICE
+  --device DEVICE[ DEVICE DEVICE], -d DEVICE
+  --devices DEVICE DEVICE DEVICE
   --excludes EXCLUDES   Comma-separated list of excluded groups, e.g. --excludes=@grp1,@grp2
   --includes INCLUDES   Comma-separated list of included groups, e.g. --includes=@grp1,@grp2
 
@@ -61,16 +63,17 @@ parser.add_argument("--herdtools", action="store_true", help="Use herdtools form
 
 group = parser.add_mutually_exclusive_group()
 group.add_argument("--file", "-f", action="append")
-group.add_argument("--device", "-d", action="append", type=pathlib.Path)
+group.add_argument("--devices", nargs="+", type=pathlib.Path, default=())
+group.add_argument("--device", "-d", dest="devices", nargs="+", type=pathlib.Path)
 
 parser.add_argument(
     "--excludes",
-    action='append',
+    nargs="+",
     help="Comma-separated list of excluded groups, e.g. --excludes=@grp1,@grp2",
 )
 parser.add_argument(
     "--includes",
-    action='append',
+    nargs="+",
     help="Comma-separated list of included groups, e.g. --includes=@grp1,@grp2",
 )
 
@@ -443,7 +446,7 @@ def filter_devices(grp_list, devices: "Mapping[Device, List[LogFileResult]]", in
 
         if (includes and not any(g in includes for g in groups)) or (
             any(g in excludes for g in groups)
-        ):
+        ) or test_name in excludes:
             if print_skips:
                 print("Skip ! {}".format(test_name))
 
@@ -817,8 +820,8 @@ def main(args):
     excludes = [e for e in excludes if e]
 
     devices = {}
-    if args.device:
-        for device_dir_path in args.device:
+    if args.devices:
+        for device_dir_path in args.devices:
             if not device_dir_path.is_dir():
                 raise ValueError(
                     "-d accepts directories not files: {}".format(device_dir_path)
