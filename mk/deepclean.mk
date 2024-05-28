@@ -1,2 +1,2 @@
 .PHONY: deepclean
-deepclean: clean cleanlibs cleantests
+deepclean: clean cleanlibs cleantests cleantools

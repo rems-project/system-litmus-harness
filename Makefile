@@ -1,14 +1,15 @@
 define USAGE
 Simple Usage:
-   make	build		builds qemu and kvm targets
-   make	check		runs the compiler warning checks but doesn't compile
-   make docker		builds docker container and runs the unittests
-   make clean		remove built files in bin/
-   make deepclean	clean everything. No really.
-   make publish		publish doc/ folder to gh-pages
+   make	build     	builds qemu and kvm targets
+   make	check    	runs the compiler warning checks but doesn't compile
+   make docker   	builds docker container and runs the unittests
+   make clean    	remove built files in bin/
+   make deepclean 	clean everything. No really.
+   make publish   	publish doc/ folder to gh-pages
    make hw-results	collect hardware results from known sources
-   make test		run the unittests in QEMU
-   make run			run the litmus tests in QEMU
+   make test      	run the unittests in QEMU
+   make run       	run the litmus tests in QEMU
+   make tools      	build supporting tooling
 endef
 
 define ADV_USAGE
@@ -19,6 +20,10 @@ Advanced Usage:
    	Runs qemu_unittests.exe in the background and attaches gdb
    make build-unittests
    	Builds the unittests and generates qemu_unittests.exe
+   make tools
+   	Builds associated tooling
+   make translate-toml-tests
+   	Runs the automated TOML test translator
    make lint
    	Runs automated linter against all litmus test C files and quits
    	See LINTER option below
@@ -27,6 +32,8 @@ Advanced Usage:
    	See LITMUS_TESTS and MAKE_TEST_LIST_CMD options below
    make cleanlibs
    	remove built harness objects but leave compiled tests alone
+   make cleantools
+   	remove built tool files
    make cleantests
    	remove auto-generated test files in litmus/
    make docker-interact
@@ -112,6 +119,12 @@ OBJDUMP = $(PREFIX)objdump
 QEMU = qemu-system-aarch64
 GDB = $(PREFIX)gdb
 
+# dependency roots
+# by default we assume rems-project/ repos are siblings to this one
+# and litmus-tests/ org repos are a sibling to rems-project
+REMSORGDIR = ../
+LITMUSORGDIR = ../../litmus-tests/
+
 # use `taskset` to force QEMU to exist only on some cores
 # e.g. for big.LITTLE implementations
 #
@@ -189,7 +202,7 @@ CFLAGS = -O0 -nostdlib \
 		$(CFLAGS_DEPS) \
 		-ffreestanding -fno-omit-frame-pointer -fno-pie -fno-pic \
 		-mstrict-align \
-		-march=armv8-a+nofp \
+		-march=armv8.5-a+nofp \
 		-Wall $(addprefix -Wno-,$(CCNOWARN)) $(addprefix -Werror=,$(CCERRORS)) \
 		-Wextra -Wno-unused-parameter -Wno-sign-compare \
 		-Wshadow \
@@ -215,6 +228,16 @@ LINTER_ARGS = $(foreach e,$(LINTER_EXCLUDES),-e $(e))
 
 NO_LINT = 0
 
+# toml-translator arguments:
+# TOML_TESTS: list of tests or @all file to translate.
+# TOML_TRANSLATOR_ISLA_CONFIG: isla architecture config toml file.
+# TOML_TRANSLATOR_ISLA_ARCH: isla architecture ir (or irx) file.
+# TOML_TRANSLATOR_IGNORE_LIST: txt file with list of toml tests to ignore.
+TOML_TESTS = $(LITMUSORGDIR)/litmus-tests-armv8a-system-vmsa/tests/@all
+TOML_TRANSLATOR_ISLA_CONFIG = $(REMSORGDIR)/isla/configs/armv8p5.toml
+TOML_TRANSLATOR_ISLA_ARCH = $(REMSORGDIR)/isla-snapshots/armv8p5.ir
+TOML_TRANSLATOR_IGNORE_LIST = ./tools/litmus-toml-translator/toml-tests-ignore.txt
+
 ifneq ($(findstring help,$(filter-out --%,$(MAKECMDGOALS))),)
    TARGET_HELP = 1
 endif
@@ -231,6 +254,7 @@ include mk/docs.mk
 include mk/qemu.mk
 include mk/build.mk
 include mk/docker.mk
+include mk/tools.mk
 
 define INSTALL
 $(call run_cmd,INSTALL,./$(2),\
@@ -267,6 +291,7 @@ cleantests:
 	$(call CLEAN,-f,litmus/test_list.txt)
 	$(call CLEAN,-f,litmus/group_list.txt)
 	$(call CLEAN,-f,litmus/linter.log)
+	$(call CLEAN,-rf,litmus/litmus_tests/generated)
 
 # list of PHONY targets that will need
 # files in the litmus/litmus_tests/ dir
@@ -433,6 +458,10 @@ LITMUS_TARGETS += run
 
 include mk/litmus.mk
 include mk/unittests.mk
+
+# target populated by mk/tools.mk
+.PHONY: tools
+tools:
 
 # provide a list of all the potential build- targets
 .PHONY: list

@@ -28,7 +28,7 @@ LITMUS_TEST_T_PAT_NEW = (
     r"litmus_test_t\s+(?P<cname>.+?)\s*=\s*\{"
     r"\s*\"(?P<human_name>.+?)\"\s*,"
     r'\s*MAKE_THREADS\((?P<no_threads>\d+)\)\s*?,'
-    r'\s*MAKE_VARS\(VARS\)\s*?,'
+    r'\s*MAKE_VARS\(VARS(\s*,\s*pa\d+)*\)\s*?,'
     r'\s*MAKE_REGS\(REGS\)\s*?,'
     r'(?P<fields>[\s\S]*?)'
     r'\s*\}\s*;'
@@ -58,7 +58,7 @@ ASM_BLOCK_PAT_NO_VARS = (
 C_FUN_PAT = (
     r"void (?P<fname>.+)\(.+\)\s*\{"
     r"(?P<body>[\s\S]*?)"
-    r"\s*\}"
+    r"^}"
 )
 
 C_INIT_ST = (
@@ -73,7 +73,7 @@ C_INIT_ST = (
 def get_reg_names(asm):
     if not asm:
         return []
-    return ['x{}'.format(i) for i in re.findall(r'(?<=(?<!\%\[)[xw])\d+', asm['code'])]
+    return ['x{}'.format(i) for i in re.findall(r'(?<=(?<!.0|\%\[)[xwXW])\d+', asm['code'])]
 
 def parse_litmus_code(path, c_code):
     match = re.search(LITMUS_TEST_T_PAT_NEW, c_code, re.MULTILINE)
@@ -155,7 +155,13 @@ def check_uniq_names(litmuses):
 
 def check_human_match_path(l):
     p = pathlib.Path(l['path']).stem
-    if l['human_name'] != str(p):
+
+    # for toml-translator generated names, strip the .toml.c
+    if p.endswith(".litmus.toml"):
+        p = p[:-len(".litmus.toml")]
+        pass
+
+    if l['human_name'] != p:
         warn(l, "File name and Litmus name mismatch.")
 
 
