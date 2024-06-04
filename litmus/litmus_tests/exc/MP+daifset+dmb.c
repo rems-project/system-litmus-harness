@@ -9,7 +9,7 @@ static void P0(litmus_test_run* data) {
       "mov x0, #1\n\t"
       "str x0, [%[x]]\n\t"
 
-      "msr daifset, #5\n\t"
+      "msr daifset, #15\n\t"
 
       "mov x2, #1\n\t"
       "str x2, [%[y]]\n\t"

@@ -13,7 +13,7 @@ static void P0(litmus_test_run* data) {
     /* test */
     "str x0, [x1]\n\t"
 
-    "msr daifset, #5\n\t"
+    "msr daifset, #15\n\t"
 
     "ldr x2, [x3]\n\t"
 
