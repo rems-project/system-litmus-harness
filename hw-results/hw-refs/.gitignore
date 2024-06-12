@@ -1,2 +1,4 @@
 # hide the raw logs directories
 **/logs/
+# and any raw/ directories containing raw (non msum) logs
+**/raw/
