@@ -54,4 +54,5 @@ litmus_test_t MP_pop_amoswap_pl_coi_addr = {
     /* p1:x4 =*/0,
   },
   .no_sc_results = 3,
+  .requires = REQUIRES_ARM_AARCH64_FEAT_LSE,
 };

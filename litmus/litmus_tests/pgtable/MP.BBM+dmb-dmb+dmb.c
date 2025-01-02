@@ -71,6 +71,6 @@ litmus_test_t MPBBM_dmbdmb_dmb = {
       (u32*[]){ NULL, NULL },
       (u32*[]){ (u32*)sync_handler, NULL },
     },
-  .requires_pgtable = 1,
+  .requires=REQUIRES_PGTABLE,
   .no_sc_results = 4,
 };

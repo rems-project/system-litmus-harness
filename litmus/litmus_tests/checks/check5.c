@@ -35,5 +35,5 @@ litmus_test_t check5 = {
     (u32 * *[]){
       (u32*[]){ (u32*)handler, NULL },
     },
-  .requires_pgtable = 1,
+  .requires=REQUIRES_PGTABLE,
 };

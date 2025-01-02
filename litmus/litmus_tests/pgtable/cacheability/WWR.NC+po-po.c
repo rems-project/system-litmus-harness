@@ -45,6 +45,6 @@ litmus_test_t WWRNC_popo = {
         /* p1:x4 =*/1,
       },
     },
-  .requires_pgtable = 1,
+  .requires=REQUIRES_PGTABLE,
   .no_sc_results = 1,
 };

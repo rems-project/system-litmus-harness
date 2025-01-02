@@ -54,6 +54,6 @@ litmus_test_t MPRT1_dsbtlbiisdsb_dsbisb = {
     /* p1:x2 =*/0,
   },
   .start_els = (int[]){ 1, 0 },
-  .requires_pgtable = 1,
+  .requires=REQUIRES_PGTABLE,
   .no_sc_results = 3,
 };

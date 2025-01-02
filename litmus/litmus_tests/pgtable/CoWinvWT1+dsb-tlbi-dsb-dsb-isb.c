@@ -62,6 +62,6 @@ litmus_test_t CoWinvWT1_dsbtlbidsbdsbisb = {
     (u32 * *[]){
       (u32*[]){ NULL, (u32*)sync_handler },
     },
-  .requires_pgtable = 1,
+  .requires=REQUIRES_PGTABLE,
   .no_sc_results = 1,
 };

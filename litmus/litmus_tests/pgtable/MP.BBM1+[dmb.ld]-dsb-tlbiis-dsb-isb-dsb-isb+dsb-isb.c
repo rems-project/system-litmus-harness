@@ -111,6 +111,6 @@ litmus_test_t BBM1_dmblddsbtlbiisdsbisbdsbisb_dsbisb = {
       (u32*[]){ (u32*)sync_handler, NULL },
       (u32*[]){ NULL, NULL },
     },
-  .requires_pgtable = 1,
+  .requires=REQUIRES_PGTABLE,
   .no_sc_results = 16,
 };

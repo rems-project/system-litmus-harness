@@ -55,6 +55,6 @@ litmus_test_t CoTR1_dsbtlbidsbisb = {
     /* p0:x2 =*/0,
   },
   .start_els = (int[]){ 0, 1 },
-  .requires_pgtable = 1,
+  .requires=REQUIRES_PGTABLE,
   .no_sc_results = 3,
 };

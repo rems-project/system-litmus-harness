@@ -44,6 +44,6 @@ litmus_test_t CoWT1L23_dsbtlbidsbisb = {
     (int[]){
       1,
     }, /* start at El1 for TLBI */
-  .requires_pgtable = 1,
+  .requires=REQUIRES_PGTABLE,
   .no_sc_results = 1,
 };

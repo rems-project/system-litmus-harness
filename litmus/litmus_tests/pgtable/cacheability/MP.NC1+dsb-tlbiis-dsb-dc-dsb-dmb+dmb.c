@@ -67,6 +67,6 @@ litmus_test_t MPNC1_dsbtlbiisdsbdcdsbdmb_dmb = {
     /* p2:x0 =*/1,
     /* p2:x2 =*/0,
   },
-  .requires_pgtable = 1,
+  .requires=REQUIRES_PGTABLE,
   .no_sc_results = 3,
 };

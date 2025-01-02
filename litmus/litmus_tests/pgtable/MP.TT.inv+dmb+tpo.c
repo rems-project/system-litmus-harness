@@ -66,6 +66,6 @@ litmus_test_t MPTTinv_dmb_tpo = {
     /* p0:x0 =*/1,
     /* p0:x2 =*/0,
   },
-  .requires_pgtable = 1,
+  .requires=REQUIRES_PGTABLE,
   .no_sc_results = 3,
 };

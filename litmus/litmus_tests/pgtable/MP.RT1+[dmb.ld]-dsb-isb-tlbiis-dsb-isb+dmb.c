@@ -86,6 +86,6 @@ litmus_test_t MPRT1_dsbdmblddsbisbtlbiisdsbisb_dmb = {
     /* p2:x2 =*/0,
   },
   .start_els = (int[]){ 1, 0, 0 },
-  .requires_pgtable = 1,
+  .requires=REQUIRES_PGTABLE,
   .no_sc_results = 12,
 };

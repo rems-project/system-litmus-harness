@@ -62,6 +62,6 @@ litmus_test_t ISA2trr_dmb_po_dmb = {
     /* p2:x0 =*/1,
     /* p2:x2 =*/0,
   },
-  .requires_pgtable = 1,
+  .requires=REQUIRES_PGTABLE,
   .no_sc_results = 7,
 };

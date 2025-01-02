@@ -46,6 +46,6 @@ litmus_test_t ROT1_dsbtlbidsb = {
     /* p0:x2 =*/1,
   },
   .start_els = (int[]){ 1 },
-  .requires_pgtable = 1,
+  .requires=REQUIRES_PGTABLE,
   .no_sc_results = 2,
 };

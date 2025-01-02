@@ -60,5 +60,5 @@ litmus_test_t MPtimes_pos = {
   MAKE_REGS(REGS),
   INIT_STATE(2, INIT_VAR(x, 0), INIT_VAR(y, 0)),
   .interesting_result = NULL,
-  .requires_perf = 1,
+  .requires=REQUIRES_PERF,
 };

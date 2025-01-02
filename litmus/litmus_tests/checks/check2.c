@@ -83,5 +83,5 @@ litmus_test_t check2 = {
       (th_f*)teardown,
       (th_f*)teardown,
     },
-  .requires_pgtable = 1,
+  .requires=REQUIRES_PGTABLE,
 };

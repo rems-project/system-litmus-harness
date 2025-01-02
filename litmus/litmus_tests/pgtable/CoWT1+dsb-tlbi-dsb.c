@@ -41,6 +41,6 @@ litmus_test_t CoWT1_dsbtlbidsb = {
     (int[]){
       1,
     },
-  .requires_pgtable = 1,
+  .requires=REQUIRES_PGTABLE,
   .no_sc_results = 1,
 };

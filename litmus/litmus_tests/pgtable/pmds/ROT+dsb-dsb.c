@@ -42,6 +42,6 @@ litmus_test_t ROT_dsbdsb = {
   .interesting_result = (u64[]){
     /* p0:x2 =*/1,
   },
-  .requires_pgtable = 1,
+  .requires=REQUIRES_PGTABLE,
   .no_sc_results = 2,
 };

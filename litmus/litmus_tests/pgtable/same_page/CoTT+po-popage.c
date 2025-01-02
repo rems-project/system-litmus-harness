@@ -37,6 +37,6 @@ litmus_test_t CoTT_popopage = {
     /* p0:x2 =*/1,
     /* p0:x4 =*/0,
   },
-  .requires_pgtable = 1,
+  .requires=REQUIRES_PGTABLE,
   .no_sc_results = 3,
 };

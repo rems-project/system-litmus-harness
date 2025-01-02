@@ -52,6 +52,6 @@ litmus_test_t WRMAIR1_dsbisbpo = {
   .interesting_result = (u64[]){
     /* p0:x4 =*/0,
   },
-  .requires_pgtable = 1,
+  .requires=REQUIRES_PGTABLE,
   .no_sc_results = 1,
 };

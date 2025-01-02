@@ -36,5 +36,5 @@ litmus_test_t check6 = {
   .interesting_result = (u64[]){
     /* p0:x0 =*/1,
   },
-  .requires_pgtable = 1,
+  .requires=REQUIRES_PGTABLE,
 };

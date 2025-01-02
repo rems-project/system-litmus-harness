@@ -61,6 +61,6 @@ litmus_test_t MPinvRT_dsb_dsbisb = {
       (u32*[]){ NULL, NULL },
       (u32*[]){ (u32*)sync_handler, (u32*)sync_handler },
     },
-  .requires_pgtable = 1,
+  .requires=REQUIRES_PGTABLE,
   .no_sc_results = 3,
 };
