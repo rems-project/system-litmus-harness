@@ -168,6 +168,7 @@ void setup(char* fdtloc) {
   verbose("pgtable: %ld\n", ENABLE_PGTABLE);
   verbose("timing: %ld\n", ENABLE_PERF_COUNTS);
   verbose("no_runs: %ld\n", NUMBER_OF_RUNS);
+  verbose("context_size: %ld\n", RUNS_IN_CONTEXT);
   verbose("batch_size: %ld\n", RUNS_IN_BATCH);
   verbose("tlbsync: %s\n", sync_type_to_str(LITMUS_SYNC_TYPE));
   verbose("aff: %s\n", aff_type_to_str(LITMUS_AFF_TYPE));

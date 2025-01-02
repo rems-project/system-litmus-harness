@@ -29,7 +29,7 @@ void run_test(const litmus_test_t* cfg) {
   reset_seed();
 
   /* create the dynamic configuration (context) from the static information (cfg) */
-  init_test_ctx(ctx, cfg, NUMBER_OF_RUNS, RUNS_IN_BATCH);
+  init_test_ctx(ctx, cfg, NUMBER_OF_RUNS, RUNS_IN_CONTEXT, RUNS_IN_BATCH);
   ctx->valloc_ptable_chkpnt = valloc_ptable_checkpoint();
   initialize_regions(&ctx->heap_memory);
 

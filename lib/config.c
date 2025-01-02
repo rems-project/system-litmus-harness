@@ -3,8 +3,11 @@
 #include "argdef.h"
 
 /* global configuration options + default values */
+
 u64 NUMBER_OF_RUNS = 10000UL;
+u64 RUNS_IN_CONTEXT = 10000UL;
 u64 RUNS_IN_BATCH = 1;
+
 u8 ENABLE_PGTABLE = 1; /* start enabled */
 u8 ENABLE_PERF_COUNTS = 0;
 u8 RUN_FOREVER = 0;
@@ -321,6 +324,11 @@ static void n(char* x) {
   NUMBER_OF_RUNS = Xn;
 }
 
+static void r(char* x) {
+  int Xn = atoi(x);
+  RUNS_IN_CONTEXT = Xn;
+}
+
 static void b(char* x) {
   int Xn = atoi(x);
   RUNS_IN_BATCH = Xn;
@@ -543,6 +551,14 @@ argdef_t LITMUS_ARGS = (argdef_t){
         " ./litmus.exe -n1M\n"
         "\n"
         "Note that currently 1M is likely to fail due to over-allocation of results.\n"
+      ),
+      OPT(
+        "-r", NULL, r,
+        "size of context\n"
+        "\n"
+        "sets the size of the context\n"
+        "this is the number of variables/etc that are pre-allocated"
+        "X must be an integer (default: 1k)."
       ),
       OPT(
         "-b", "--batch-size", b,

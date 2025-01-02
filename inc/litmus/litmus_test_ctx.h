@@ -17,6 +17,36 @@
  */
 struct test_ctx
 {
+  regions_t heap_memory; /* pointers to set of regions */
+  var_info_t* heap_vars; /* set of heap variables: x, y, z etc */
+  init_system_state_t* system_state;
+  u64** out_regs;              /* set of output register values: P1:x1,  P2:x3 etc */
+  bar_t* start_barriers;       /* per-run barrier for start */
+  run_idx_t* shuffled_ixs;
+  run_count_t* shuffled_ixs_inverse; /* the inverse lookup of shuffled_ixs */
+  volatile int* affinity;
+  run_idx_t current_run;
+  u64** ptables;
+  u64 current_EL;
+  u64 privileged_harness;  /* require harness to run at EL1 between runs ? */
+  void* concretization_st; /* current state of the concretizer */
+
+  /** checkpoint to restore the ptable allocator back to at the end
+   */
+  valloc_ptable_mem valloc_ptable_chkpnt;
+
+  /* the runner this is in */
+  test_runner_t* parent_runner;
+};
+
+void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, int runs_in_context, int runs_in_batch);
+void free_test_ctx(test_ctx_t* ctx);
+
+/**
+ * struct test_runner - A runner, perhaps with multiple contexts in its lifetime.
+ */
+struct test_runner
+{
   /** time at the start of the run. */
   u64 start_clock;
 
@@ -28,39 +58,33 @@ struct test_ctx
    */
   run_idx_t no_runs;
 
+  /* size of each run context
+   */
+  run_count_t context_size;
+
   /* size of each batch
    * when not using ASIDs this must be 1
    */
   run_count_t batch_size;
 
-  regions_t heap_memory; /* pointers to set of regions */
-  var_info_t* heap_vars; /* set of heap variables: x, y, z etc */
-  init_system_state_t* system_state;
-  u64** out_regs;              /* set of output register values: P1:x1,  P2:x3 etc */
+  /* collected results over the whole run */
+  test_hist_t* hist;
+
+  u64 last_tick; /* clock ticks since last verbose print */
+
   bar_t* generic_cpu_barrier;  /* generic wait-for-all-cpus */
   bar_t* generic_vcpu_barrier; /* generic wait-for-all-vcpus */
-  bar_t* start_barriers;       /* per-run barrier for start */
-  run_idx_t* shuffled_ixs;
-  run_count_t* shuffled_ixs_inverse; /* the inverse lookup of shuffled_ixs */
-  volatile int* affinity;
-  test_hist_t* hist;
-  run_idx_t current_run;
-  u64** ptables;
-  u64 current_EL;
-  u64 privileged_harness;  /* require harness to run at EL1 between runs ? */
-  u64 last_tick;           /* clock ticks since last verbose print */
-  void* concretization_st; /* current state of the concretizer */
-
-  /** checkpoint to restore the ptable allocator back to at the end
-   */
-  valloc_ptable_mem valloc_ptable_chkpnt;
 
   /* the static configuration of the current test */
   const litmus_test_t* cfg;
+
+  /* the current test context */
+  test_ctx_t* current_ctx;
 };
 
-void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, int runs_in_batch);
-void free_test_ctx(test_ctx_t* ctx);
+void init_test_runner(
+  test_runner_t* runner, const litmus_test_t* cfg, int no_runs, int runs_in_context, int runs_in_batch
+);
 
 /* helper functions */
 u64 ctx_pa(test_ctx_t* ctx, run_idx_t run, u64 va);

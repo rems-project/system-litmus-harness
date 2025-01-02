@@ -5,6 +5,7 @@
 
 /* global configuration */
 extern u64 NUMBER_OF_RUNS;
+extern u64 RUNS_IN_CONTEXT;
 extern u64 RUNS_IN_BATCH;
 extern u8 ENABLE_PGTABLE;
 extern u8 ENABLE_PERF_COUNTS;

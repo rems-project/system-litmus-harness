@@ -1,21 +1,24 @@
 #include "lib.h"
 
-static void sanity_check_test(const litmus_test_t* cfg, int no_runs, int runs_in_batch) {
+static void sanity_check_test(const litmus_test_t* cfg, int no_runs, int runs_in_context, int runs_in_batch) {
   /* we have 1+MAX_ASID ASIDs */
   if (cfg->requires_pgtable && runs_in_batch > 1 + MAX_ASID)
     fail("cannot have more than the number of possible ASIDs (%ld) as runs in a batch with --pgtable.\n", 1 + MAX_ASID);
+
+  if (runs_in_batch > runs_in_context)
+    fail("-b cannot be larger than -r\n");
+
+  if (runs_in_batch > 1 && LITMUS_SYNC_TYPE != SYNC_ASID)
+    fail("-b cannot be over 1 without --sync=ASID\n");
 }
 
-void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, int runs_in_batch) {
-  sanity_check_test(cfg, no_runs, runs_in_batch);
-
-  ctx->start_clock = read_clk();
+void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, int runs_in_context, int runs_in_batch) {
+  sanity_check_test(cfg, no_runs, runs_in_context, runs_in_batch);
 
   var_info_t* var_infos = ALLOC_MANY(var_info_t, cfg->no_heap_vars);
   u64** out_regs = ALLOC_MANY(u64*, cfg->no_regs);
   init_system_state_t* sys_st = ALLOC_ONE(init_system_state_t);
-  bar_t* generic_cpu_bar = ALLOC_ONE(bar_t);
-  bar_t* generic_vcpu_bar = ALLOC_ONE(bar_t);
+
   /* TODO: instead of asids/runs_in_batch everywhere, have proper batch type
    */
   bar_t* bars = ALLOC_MANY(bar_t, runs_in_batch);
@@ -60,12 +63,35 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, int r
   for (int i = 0; i < runs_in_batch; i++) {
     bars[i] = EMPTY_BAR;
   }
-  *generic_cpu_bar = EMPTY_BAR;
-  *generic_vcpu_bar = EMPTY_BAR;
 
   for (int i = 0; i < NO_CPUS; i++) {
     affinity[i] = i;
   }
+
+  ctx->heap_vars = var_infos;
+  ctx->system_state = sys_st;
+  ctx->out_regs = out_regs;
+  ctx->start_barriers = bars;
+
+  ctx->shuffled_ixs = shuffled;
+  ctx->shuffled_ixs_inverse = rev_lookup;
+  ctx->affinity = affinity;
+
+  ctx->ptables = ptables;
+  ctx->current_run = 0;
+  ctx->privileged_harness = 0;
+  ctx->concretization_st = NULL;
+
+  debug("initialized test ctx @ %p\n", ctx);
+  DEBUG(DEBUG_ALLOCS, "now using %ld/%ld alloc chunks\n", valloc_alloclist_count_chunks(), NUM_ALLOC_CHUNKS);
+}
+
+void init_test_runner(test_runner_t* runner, const litmus_test_t* cfg, int no_runs, int runs_in_context, int runs_in_batch) {
+  bar_t* generic_cpu_bar = ALLOC_ONE(bar_t);
+  bar_t* generic_vcpu_bar = ALLOC_ONE(bar_t);
+
+  *generic_cpu_bar = EMPTY_BAR;
+  *generic_vcpu_bar = EMPTY_BAR;
 
   test_hist_t* hist = ALLOC_SIZED(sizeof(test_hist_t) + sizeof(test_result_t) * 200);
   hist->allocated = 0;
@@ -79,27 +105,18 @@ void init_test_ctx(test_ctx_t* ctx, const litmus_test_t* cfg, int no_runs, int r
     lut[t] = NULL;
   }
 
-  ctx->no_runs = no_runs;
-  ctx->heap_vars = var_infos;
-  ctx->system_state = sys_st;
-  ctx->out_regs = out_regs;
-  ctx->start_barriers = bars;
-  ctx->generic_cpu_barrier = generic_cpu_bar;
-  ctx->generic_vcpu_barrier = generic_vcpu_bar;
-  ctx->shuffled_ixs = shuffled;
-  ctx->shuffled_ixs_inverse = rev_lookup;
-  ctx->affinity = affinity;
-  ctx->batch_size = runs_in_batch;
-  ctx->last_tick = 0;
-  ctx->hist = hist;
-  ctx->ptables = ptables;
-  ctx->current_run = 0;
-  ctx->privileged_harness = 0;
-  ctx->cfg = cfg;
-  ctx->concretization_st = NULL;
+  runner->start_clock = read_clk();
+  runner->end_clock = 0;
+  runner->last_tick = 0;
 
-  debug("initialized test ctx @ %p\n", ctx);
-  DEBUG(DEBUG_ALLOCS, "now using %ld/%ld alloc chunks\n", valloc_alloclist_count_chunks(), NUM_ALLOC_CHUNKS);
+  runner->no_runs = no_runs;
+  runner->generic_cpu_barrier = generic_cpu_bar;
+  runner->generic_vcpu_barrier = generic_vcpu_bar;
+  runner->batch_size = runs_in_batch;
+
+  runner->hist = hist;
+  runner->cfg = cfg;
+  runner->current_ctx = NULL;
 }
 
 u64 ctx_pa(test_ctx_t* ctx, run_idx_t run, u64 va) {

@@ -90,6 +90,9 @@ typedef struct
 /* Each thread is a functon that takes pointers to a slice of heap variables and output registers */
 typedef struct test_ctx test_ctx_t;
 
+/* Each thread is a functon that takes pointers to a slice of heap variables and output registers */
+typedef struct test_runner test_runner_t;
+
 typedef struct
 {
   test_ctx_t* ctx;
