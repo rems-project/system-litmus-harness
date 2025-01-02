@@ -377,7 +377,7 @@ pub fn write_output(litmus: Litmus, keep_histogram: bool) -> Result<String> {
         format!("\n  .interesting_result = (uint64_t[]){{{v}}},")
     };
 
-    let requires_pgtable = if litmus.mmu_on { "1" } else { "0" };
+    let requires_pgtable = if litmus.mmu_on { ".requires=REQUIRES_PGTABLE," } else { "" };
 
     let out = format!(
         "\
@@ -405,7 +405,7 @@ litmus_test_t {sanitised_name} = {{
   INIT_STATE({init_state}),\
   {interesting_result}
   {thread_sync_handler_refs}
-  .requires_pgtable = {requires_pgtable},
+  {requires_pgtable}
   .start_els = (int[]){{{start_els}}},
 }};
 ",
