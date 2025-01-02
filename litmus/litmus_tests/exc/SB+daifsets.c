@@ -59,6 +59,7 @@ litmus_test_t SB_daifsets = {
     INIT_VAR(x, 0),
     INIT_VAR(y, 0)
   ),
+  .start_els=(int[]){1,1},
   .thread_sync_handlers = (u32**[]){
      (u32*[]){NULL, NULL},
      (u32*[]){NULL, NULL},

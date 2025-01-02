@@ -56,6 +56,7 @@ litmus_test_t MP_dmb_daifset = {
     INIT_VAR(x, 0),
     INIT_VAR(y, 0)
   ),
+  .start_els=(int[]){1,1},
   .thread_sync_handlers =
     (u32**[]){
      (u32*[]){NULL, NULL},
