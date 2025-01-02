@@ -252,7 +252,7 @@ An example that uses all the above features is given below, with comments:
       /** this test requires the MMU to be enabled
        * and hence requires the --pgtable option to be passed
        */
-      .requires_pgtable=1,
+      .requires=REQUIRES_PGTABLE,
 
       /** there are 14 other uninteresting results
        *
