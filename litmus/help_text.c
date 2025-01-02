@@ -38,15 +38,15 @@ void display_help_for_grp(const litmus_test_group* grp) {
     const litmus_test_t* t = grp->tests[i];
     printf(" %s", t->name);
 
-    if (t->requires_perf) {
+    if (t->requires & REQUIRES_PERF) {
       printf(" (requires --perf)");
     }
 
-    if (t->requires_pgtable) {
+    if (t->requires & REQUIRES_PGTABLE) {
       printf(" (requires --pgtable)");
     }
 
-    if (t->requires_debug) {
+    if (t->requires & REQUIRES_ARM_AARCH64_FEAT_LSE) {
       printf(" (requires -d)");
     }
 

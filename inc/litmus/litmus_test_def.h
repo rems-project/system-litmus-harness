@@ -137,6 +137,14 @@ typedef struct
   arch_model_status_t allowed;
 } arch_allow_st;
 
+enum litmus_prereq_feature
+{
+  REQUIRES_DEBUG = 1 << 1,
+  REQUIRES_PERF = 1 << 2,
+  REQUIRES_PGTABLE = 1 << 3,
+  REQUIRES_ARM_AARCH64_FEAT_LSE = 1 << 4, /* Arm atomics */
+};
+
 /**
  * definition of a litmus test
  *
@@ -168,9 +176,10 @@ typedef struct
   u32*** thread_sync_handlers;
 
   /** whether the test requires any special options to be enabled */
-  u8 requires_pgtable; /* requires --pgtable */
-  u8 requires_perf;    /* requires --perf */
-  u8 requires_debug;   /* requires -d */
+  // u8 requires_pgtable; /* requires --pgtable */
+  // u8 requires_perf;    /* requires --perf */
+  // u8 requires_debug;   /* requires -d */
+  enum litmus_prereq_feature requires;
 
   /* annotate the test with whether it's allowed for certain models or not
    * e.g.

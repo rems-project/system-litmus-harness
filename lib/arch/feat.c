@@ -12,6 +12,8 @@ u8 arch_feature_version(enum arm_feature id) {
     return BIT_SLICE(DFR0, DFR0_FIELD_PMUVer);
   case FEAT_TRBE:
     return BIT_SLICE(DFR0, DFR0_FIELD_TraceVer);
+  case FEAT_LSE:
+    return BIT_SLICE(ISAR0, ISAR0_FIELD_ATOMIC);
   default:
     unreachable();
   }
@@ -23,6 +25,7 @@ void arch_read_feature_matrix(struct arch_feature_matrix* m_out) {
   m_out->features[FEAT_RAS] = arch_feature_version(FEAT_RAS);
   m_out->features[FEAT_PMUv3] = arch_feature_version(FEAT_PMUv3);
   m_out->features[FEAT_TRBE] = arch_feature_version(FEAT_TRBE);
+  m_out->features[FEAT_LSE] = arch_feature_version(FEAT_LSE);
 }
 
 bool arch_has_feature(enum arm_feature id) {

@@ -248,7 +248,7 @@ def check_init_count(lit):
 def check_requires_pgtable(lit):
     code = lit['c_code']
 
-    req_pgtable_re = r'\.requires_pgtable\s*=\s*1'
+    req_pgtable_re = r'\.requires\s*=\s*REQUIRES_PGTABLE'
     m_req_pgtable = re.search(req_pgtable_re, code, re.MULTILINE)
 
     # look for things that look like it requires the MMU enabled:
@@ -262,7 +262,7 @@ def check_requires_pgtable(lit):
     m_mmu_enable_check = re.search(mmu_enable_check_re, code, re.MULTILINE)
 
     if m_mmu_enable_check and not m_req_pgtable:
-        warn(lit, 'missing requires_pgtable=1?')
+        warn(lit, 'missing requires=REQUIRES_PGTABLE?')
 
 def run_lint(linter, litmus):
     if linter.__name__ in args.excl:

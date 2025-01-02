@@ -23,6 +23,11 @@ enum arm_feature {
 
   /* Tracing */
   FEAT_TRBE,
+
+  /* Atomics etc */
+  FEAT_LSE,
+
+  NO_ARM_FEATURES,
 };
 
 /** struct arch_feature_matrix - Arch-specific implementation state for each feature.
@@ -31,10 +36,11 @@ enum arm_feature {
  * typically containing the implemented version.
  */
 struct arch_feature_matrix {
-  u8 features[1+FEAT_TRBE];
+  u8 features[NO_ARM_FEATURES];
 };
 
 /* Arm ID registers */
+#define ISAR0 read_sysreg(ID_AA64ISAR0_EL1)
 #define DFR0 read_sysreg(ID_AA64DFR0_EL1)
 #define PFR0 read_sysreg(ID_AA64PFR0_EL1)
 #define MMFR0 read_sysreg(ID_AA64MMFR0_EL1)
@@ -42,8 +48,8 @@ struct arch_feature_matrix {
 #define MIDR read_sysreg(MIDR_EL1)
 
 /* instruction set attribute register(s) */
-#define ISAR0_FIELD_BF16 BITMASK(47, 44)
-#define ISAR0_FIELD_BF16_LSB 44
+#define ISAR0_FIELD_ATOMIC 23, 20
+#define ISAR0_FIELD_ATOMIC_LSB 20
 
 /* memory model feature register(s) */
 #define MMFR0_FIELD_ASIDBits 7, 4
@@ -84,5 +90,10 @@ struct arm_implementation {
 
 void arch_read_implementation(struct arm_implementation* impl_out);
 bool arch_implementation_eq(struct arm_implementation* lhs, struct arm_implementation* rhs);
+
+static inline bool has_aarch64_feat_lse(void)
+{
+  return arch_has_feature(FEAT_LSE);
+}
 
 #endif /* ARM_FEAT_H */
