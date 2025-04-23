@@ -69,10 +69,11 @@ void lamport_unlock(volatile lamport_lock_t* lock) {
   dmb();
 }
 
-/** arm64 atomic lock
+
+/** arm64 atomics
  */
 
-void __atomic_cas(volatile u64* va, u64 old, u64 new) {
+static void __atomic_cas(volatile u64* va, u64 old, u64 new) {
   /* atomic test and update
    * equivalent to an atomic:
    * <while (*va != old); *va = new>;
@@ -106,33 +107,7 @@ void __atomic_cas(volatile u64* va, u64 old, u64 new) {
   );
 }
 
-void mutex_lock(volatile mutex_t* mut) {
-  /* acquire mutex */
-  __atomic_cas(&mut->locked, 0, 1);
-}
-
-void mutex_unlock(volatile mutex_t* mut) {
-  /* release the mutex */
-  /* NB: A53 errata 855872
-   * since the .data section is mapped inner/outer writeback and cacheable
-   * we must use an atomic store exclusive here rather than a plain store
-   *
-   * for simplicitly we use the helper __atomic_cas
-   * which also ensures UNLOCK() requires a LOCK()d mutex first.
-   */
-  __atomic_cas(&mut->locked, 1, 0);
-}
-
-/**
- * barriers
- *
- * bwait() is used to ensure multiple threads synchronize at the same point
- * releasing them all at roughly the same time.
- */
-
-lock_t bwait_lock;
-
-void __atomic_dec(volatile u64* va) {
+static void __atomic_dec(volatile u64* va) {
   /* atomic decrement
    */
   asm volatile(
@@ -158,6 +133,35 @@ void __atomic_dec(volatile u64* va) {
     : "memory", "x0", "x1"
   );
 }
+
+/** arm64 atomic lock
+ */
+
+void mutex_lock(volatile mutex_t* mut) {
+  /* acquire mutex */
+  __atomic_cas(&mut->locked, 0, 1);
+}
+
+void mutex_unlock(volatile mutex_t* mut) {
+  /* release the mutex */
+  /* NB: A53 errata 855872
+   * since the .data section is mapped inner/outer writeback and cacheable
+   * we must use an atomic store exclusive here rather than a plain store
+   *
+   * for simplicitly we use the helper __atomic_cas
+   * which also ensures UNLOCK() requires a LOCK()d mutex first.
+   */
+  __atomic_cas(&mut->locked, 1, 0);
+}
+
+/**
+ * barriers
+ *
+ * bwait() is used to ensure multiple threads synchronize at the same point
+ * releasing them all at roughly the same time.
+ */
+
+lock_t bwait_lock;
 
 void bwait(int vcpu, bar_t* bar, int sz) {
   if (!current_thread_info()->locking_enabled) {
