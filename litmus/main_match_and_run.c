@@ -4,25 +4,25 @@
 static void run_test_fn(const litmus_test_t* tst, u8 report_skip) {
   if ((tst->requires & REQUIRES_PERF) && (! ENABLE_PERF_COUNTS)) {
     if (report_skip)
-      printf("! skipping \"%s\":  requires --perf\n", tst->name);
+      warning(WARN_SKIP_TEST, "skipping \"%s\":  requires --perf\n", tst->name);
     return;
   }
 
   if ((tst->requires & REQUIRES_PGTABLE) && (! ENABLE_PGTABLE)) {
     if (report_skip)
-      printf("! skipping \"%s\": requires --pgtable\n", tst->name);
+      warning(WARN_SKIP_TEST, "skipping \"%s\": requires --pgtable\n", tst->name);
     return;
   }
 
   if ((tst->requires & REQUIRES_DEBUG) && (! DEBUG)) {
     if (report_skip)
-      printf("! skipping \"%s\": requires -d\n", tst->name);
+      warning(WARN_SKIP_TEST, "skipping \"%s\": requires -d\n", tst->name);
     return;
   }
 
   if ((tst->requires & REQUIRES_ARM_AARCH64_FEAT_LSE) && (! has_aarch64_feat_lse())) {
     if (report_skip)
-      printf("! skipping \"%s\": requires -d\n", tst->name);
+      warning(WARN_SKIP_TEST, "skipping \"%s\": requires -d\n", tst->name);
     return;
   }
 
