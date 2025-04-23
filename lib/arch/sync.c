@@ -206,7 +206,14 @@ void bwait(int vcpu, bar_t* bar, int sz) {
   u64 iter = bar->iteration;
   while (bar->current_state == 0)
     wfe();
-  __atomic_dec(&bar->waiting);
+
+  if (ENABLE_PGTABLE) {
+    __atomic_dec(&bar->waiting);
+  } else {
+    LOCK(&bwait_lock);
+    bar->waiting--;
+    UNLOCK(&bwait_lock);
+  }
 
   /** a slow bwait release section
    * this is to try reduce overhead and get all threads spinning at once
