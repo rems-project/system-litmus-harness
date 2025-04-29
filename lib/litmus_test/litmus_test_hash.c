@@ -81,6 +81,9 @@ done:
 }
 
 char* blit_str(char* tgt, const char* s, bool dry) {
+  if (!s)
+    return blit_str(tgt, "<NULL>", dry);
+
   u32 len = (u32)strlen(s);
   tgt = blit_int(tgt, len, dry);
   tgt = blit(tgt, s, len, dry);
