@@ -46,3 +46,10 @@
       insufficient locking around vmm_ensure_level meant that during per-thread initialization
       of the state could mean we could have returned a pointer to an entry that was subsequently
       overwritten by another vmm_ensure_level call leaving it dangling and irrelevant.
+
+-date: 2025-April-29
+  errata:
+  - test: WWR.NC+po-po
+    description: >
+      Missing .no_interesting_results meant the harness thought it had 0 interesting results,
+      so if they occured, they would not be tagged as interesting.
