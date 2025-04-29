@@ -210,6 +210,9 @@ char* blit_varstate(char* buf, init_varstate_t* st, bool dry) {
     buf = blit_str(buf, own_level_to_str(st->ownership_level), dry);
     break;
 
+  case TYPE_IDENTITY_MAP:
+    break;
+
   default:
     unreachable();
   }
