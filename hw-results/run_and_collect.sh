@@ -31,7 +31,7 @@ if ! ${KVM_LITMUS} --id > ${RESULTS_DIR}/id.txt; then
 fi
 
 mkdir -p ${RESULTS_DIR}/logs
-LOG=${RESULTS_DIR}/logs/${TS}.log
+LOG=${RESULTS_DIR}/logs/${TS}${LOG_POSTFIX:-}.log
 
 printf "${YELLOW}[run_and_collect] Storing results to ${LOG}${RESET}\n"
 nohup ${KVM_LITMUS} --no-color -q -n500k -b8 $@ 2>&1 >> ${LOG} </dev/null &
