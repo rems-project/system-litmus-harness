@@ -34,4 +34,4 @@ mkdir -p ${RESULTS_DIR}/logs
 LOG=${RESULTS_DIR}/logs/${TS}.log
 
 printf "${YELLOW}[run_and_collect] Storing results to ${LOG}${RESET}\n"
-nohup ${KVM_LITMUS} --no-color -q -n500k -b2k $@ 2>&1 >> ${LOG} </dev/null &
+nohup ${KVM_LITMUS} --no-color -q -n500k -b8 $@ 2>&1 >> ${LOG} </dev/null &
