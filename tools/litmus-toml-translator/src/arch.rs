@@ -59,7 +59,7 @@ where
     }
 
     match file.extension().and_then(OsStr::to_str) {
-        Some("irx") => read_serialized_architecture(file).map(Architecture::Deserialized).map_err(|e| Error::LoadArchIR(format!("{}", e))),
+        Some("irx") => read_serialized_architecture(file, true).map(Architecture::Deserialized).map_err(|e| Error::LoadArchIR(format!("{}", e))),
         _ => {
             let contents = fs::read_to_string(file).map_err(|e| Error::LoadArchIR(format!("{}", e)))?;
             Ok(Architecture::Unparsed(contents))
