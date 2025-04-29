@@ -10,6 +10,7 @@
 #
 # Example: ./run_and_collect.sh MP+pos --run-forever
 # Example: HWREF_NAME=myResults ./run_and_collect.sh MP+pos --run-forever
+# Example: J=4 ./run_and_collect.sh MP+pos  # runs 4 in parallel
 
 # ANSI escapes for nice coloured text
 ESC='\033'
@@ -24,6 +25,9 @@ KVM_LITMUS=${HARNESS_ROOT}/kvm_litmus
 TS=$(date -I)
 RESULTS_DIR=${HERE}/hw-refs/${HWREF_NAME:-$(hostname)}
 
+printf "${YELLOW}[run_and_collect] collecting ${RESULTS_DIR}\n"
+mkdir -p ${RESULTS_DIR}
+
 # write h/w identification
 if ! ${KVM_LITMUS} --id > ${RESULTS_DIR}/id.txt; then
   printf "${RED}[run_and_collect] Failed to generate id.txt${RESET}\n"
@@ -31,7 +35,13 @@ if ! ${KVM_LITMUS} --id > ${RESULTS_DIR}/id.txt; then
 fi
 
 mkdir -p ${RESULTS_DIR}/logs
-LOG=${RESULTS_DIR}/logs/${TS}${LOG_POSTFIX:-}.log
 
-printf "${YELLOW}[run_and_collect] Storing results to ${LOG}${RESET}\n"
-nohup ${KVM_LITMUS} --no-color -q -n500k -b8 $@ 2>&1 >> ${LOG} </dev/null &
+for i in $(seq 1 ${J:-}); do
+  par_postfix=
+  if [ "$J" != "" ]; then
+    par_postfix="-par-$i"
+  fi
+  LOG=${RESULTS_DIR}/logs/${TS}${LOG_POSTFIX:-}${par_postfix}.log
+  printf "${YELLOW}[run_and_collect] Storing results to ${LOG}${RESET}\n"
+  nohup ${KVM_LITMUS} --no-color -q -n500k -b8 $@ 2>&1 >> ${LOG} </dev/null &
+done
