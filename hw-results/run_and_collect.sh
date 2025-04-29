@@ -21,7 +21,7 @@ RED="${ESC}${CSI}0;31m"
 
 HERE=$(dirname "$0")
 HARNESS_ROOT=$(dirname ${HERE})
-KVM_LITMUS=${HARNESS_ROOT}/kvm_litmus
+KVM_LITMUS=${KVM_LITMUS:-${HARNESS_ROOT}/kvm_litmus}
 TS=$(date -I)
 RESULTS_DIR=${HERE}/hw-refs/${HWREF_NAME:-$(hostname)}
 
@@ -40,6 +40,7 @@ for i in $(seq 1 ${J:-}); do
   par_postfix=
   if [ "$J" != "" ]; then
     par_postfix="-par-$i"
+    export AFFINITY=$(python3 -c "print(hex(0xf << 4*$i))")
   fi
   LOG=${RESULTS_DIR}/logs/${TS}${LOG_POSTFIX:-}${par_postfix}.log
   printf "${YELLOW}[run_and_collect] Storing results to ${LOG}${RESET}\n"
