@@ -352,6 +352,8 @@ static warnings_t _read_warning_name(char *w) {
     return WARN_LITMUS_START_ASM;
   else if (strcmp(w, "hash-mismatch"))
     return WARN_HASH_MISMATCH;
+  else if (strcmp(w, "missing-sc-results"))
+    return WARN_MISSING_SC_RESULTS;
   else if (strcmp(w, "skip-test"))
     return WARN_SKIP_TEST;
   else if (strcmp(w, "unreachable"))
@@ -506,6 +508,7 @@ argdef_t COMMON_ARGS = (argdef_t){
         " -W[no-]unexpected-exceptions: warn on caught exception.\n"
         " -W[no-]litmus-start-asm: warn on missing LITMUS_START_ASM macros in tests.\n"
         " -W[no-]hash-mismatch: warn on mismatched harness hashes in tests.\n"
+        " -W[no-]missing-sc-results: warn when see fewer results than Test.expected_sc_results.\n"
         " -W[no-]skip-test: warn when skipping a test.\n"
         " -W[no-]unreachable: warn on unreachable path in code.\n"
         " -W[no-]unknown-register: warn on unknown register name in final state.\n",
