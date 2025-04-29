@@ -40,7 +40,7 @@ for i in $(seq 1 ${J:-}); do
   par_postfix=
   if [ "$J" != "" ]; then
     par_postfix="-par-$i"
-    export AFFINITY=$(python3 -c "print(hex(0xf << 4*$i))")
+    export AFFINITY=$(python3 -c "print(hex(0xf << 4*($i - 1)))")
   fi
   LOG=${RESULTS_DIR}/logs/${TS}${LOG_POSTFIX:-}${par_postfix}.log
   printf "${YELLOW}[run_and_collect] Storing results to ${LOG}${RESET}\n"
