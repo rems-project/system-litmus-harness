@@ -63,8 +63,8 @@ parser.add_argument("--herdtools", action="store_true", help="Use herdtools form
 
 group = parser.add_mutually_exclusive_group()
 group.add_argument("--file", "-f", action="append")
-group.add_argument("--devices", nargs="+", type=pathlib.Path, default=())
-group.add_argument("--device", "-d", dest="devices", nargs="+", type=pathlib.Path)
+group.add_argument("--devices", nargs="+", type=pathlib.Path, default=[])
+group.add_argument("--device", "-d", dest="devices", nargs="+", action="extend", type=pathlib.Path)
 
 parser.add_argument(
     "--excludes",
