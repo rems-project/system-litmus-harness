@@ -381,16 +381,18 @@ MACROS_TEX = r"""
 """
 
 def accumulate(l: FilteredLog, h: Hist) -> None:
-    # may be < 500k if test failed due to exception
-    assert sum(r.count for r in h.results) <= 500_000
     l.results += [h]
     c, t = l.total
     for r in h.results:
         t += r.count
     marks = h.number_marked
-    l.running += [marks]
     l.total = (c+marks, t)
-    l.batch_size = 500_000
+
+    if args.distribution:
+        # may be < 500k if test failed due to exception
+        assert sum(r.count for r in h.results) <= 500_000
+        l.running += [marks]
+        l.batch_size = 500_000
 
 def filter_devices(grp_list, devices: "Mapping[Device, List[LogFileResult]]", includes=[], excludes=[], print_skips=False):
     """given the collection of log results
@@ -798,14 +800,14 @@ def write_combo_table(f, devices: "Mapping[Device, List[LogFileResult]]", tests,
         _write_combo_tablular_simple(f, devices, tests, rows)
 
 
-def collect_logs(d: pathlib.Path):
+def collect_logs(d: pathlib.Path, herdtools=False):
     for fname in d.iterdir():
-        if fname.suffix == ".log":
+        if fname.suffix == ".log" or (herdtools and fname.suffix == ".msum_log"):
             yield str(fname.expanduser())
 
-        # recursively collect any logs/ dir
-        if fname.is_dir() and fname.name == "logs":
-            yield from collect_logs(fname)
+        # recursively collect any dir
+        if fname.is_dir():
+            yield from collect_logs(fname, herdtools=herdtools)
 
 
 def main(args):
@@ -826,7 +828,7 @@ def main(args):
                     "-d accepts directories not files: {}".format(device_dir_path)
                 )
 
-            logs = collect_logs(device_dir_path)
+            logs = collect_logs(device_dir_path, herdtools=args.herdtools)
 
             if (device_dir_path / "name.txt").exists():
                 name = (device_dir_path / "name.txt").read_text().rstrip()
@@ -872,9 +874,10 @@ def main(args):
     if args.standalone:
         print(f"-- Writing standalone {args.standalone_file}")
         with open(args.standalone_file, "w") as f:
-            f.write("\\documentclass{standalone}\n")
-            f.write("\\begin{document}\n")
+            f.write("\\documentclass{article}\n")
             f.write("\\usepackage{longtable}\n")
+            f.write("\\newcommand{\\tableTestName}[2]{#2}\n")
+            f.write("\\begin{document}\n")
 
             if args.macros:
                 write_results_macros(f, devices, filtered_tests)
