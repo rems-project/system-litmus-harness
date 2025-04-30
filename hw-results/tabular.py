@@ -193,7 +193,7 @@ def read_test_file_herd(device: Device, fname: str) -> LogFileResult:
                     continue
 
                 # restrict down to header, histogram and observation lines
-                if n in ["Yes", "No", "Ok", "Witnesses"] or n.startswith("Time") or n.startswith("Hash") or n.startswith("Positive"):
+                if n in ["Yes", "No", "Ok", "Witnesses"] or n.startswith("Time") or n.startswith("Hash") or n.startswith("Observation"):
                     continue
 
                 if not n:
@@ -232,11 +232,10 @@ def read_test_file_herd(device: Device, fname: str) -> LogFileResult:
                 rr = RunResult(regstates, count, False)
                 recorded.append(rr)
 
-            obs_header = next(lines)
-            obs = obs_header.split()
-            assert obs[0] == "Observation"
-            assert obs[1] == test_name
-            marks = int(obs[3])
+            pos_header = next(lines)
+            pos = pos_header.split()
+            assert pos[0] == "Positive:"
+            marks = int(pos[1])
             return (test_name, recorded, marks)
 
         def observations():
