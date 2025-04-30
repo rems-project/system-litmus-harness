@@ -11,6 +11,8 @@ Usage: tabular.py
   [--file FILE | --device DEVICE]
   [--devices DEVICES]
   [--excludes EXCLUDES] [--includes INCLUDES]
+  [--herdtools]
+  [--shortnums]
 
 options:
   -h, --help            show this help message and exit
@@ -20,6 +22,7 @@ options:
   --macros
   --macros-file MACROS_FILE
   --herdtools
+  --shortnums
   --file FILE, -f FILE
   --device DEVICE[ DEVICE DEVICE], -d DEVICE
   --devices DEVICE DEVICE DEVICE
@@ -60,6 +63,7 @@ parser.add_argument("--all-file", default="results-all.tex")
 parser.add_argument("--macros", action="store_true")
 parser.add_argument("--macros-file", default="results-macros.tex")
 parser.add_argument("--herdtools", action="store_true", help="Use herdtools format")
+parser.add_argument("--shortnums", action="store_true", help="short numbers in tables")
 
 group = parser.add_mutually_exclusive_group()
 group.add_argument("--file", "-f", action="append")
@@ -354,18 +358,23 @@ def vari(xs):
 
 def humanize(n):
     prefixes = {int(1e9): "G", int(1e6): "M", int(1e3): "K"}
+    prec = ".2f"
+
+    if args.shortnums:
+        prec = ".0f"
+
     for p, unit in sorted(prefixes.items(), reverse=True):
         if n >= p:
             d = n
             n /= p
             if d / p == d // p:
                 return f"{n:.0f}{unit}"
-            return f"{n:.2f}{unit}"
+            return f"{n:{prec}}{unit}"
 
     if isinstance(n, int):
         return str(n)
 
-    return f"{n:.2f}"
+    return f"{n:{prec}}"
 
 
 MACROS_TEX = r"""
