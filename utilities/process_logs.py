@@ -89,14 +89,15 @@ def forever(root):
 
         #  might be a debug line
         m = re.fullmatch(
-            r"(?:\#!?\s*)?"
+            r"#?!?"
+            r"\s*"
             r"(?P<time>\(\d+:\d+:\d+(:\d+)?)\)\s*"
             r"CPU(?P<cpu>\d)"
             r":"
-            r"(?P<level>.+?)"
+            r"(?P<level>[^:]+?)"
             r":"
             r"\["
-            r"(?P<stack>(0x(.+?):?)+\s)"
+            r"(?P<stack>(0x([^:]+?):?)+\s)"
             r"(?P<loc>.+?)"
             r"\]"
             r" "
