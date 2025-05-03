@@ -89,6 +89,7 @@ def forever(root):
 
         #  might be a debug line
         m = re.fullmatch(
+            r"(?:\#!?\s*)?"
             r"(?P<time>\(\d+:\d+:\d+(:\d+)?)\)\s*"
             r"CPU(?P<cpu>\d)"
             r":"
@@ -116,6 +117,7 @@ def forever(root):
 
 
         m = re.fullmatch(
+            r"(?:\#!?)?"
             r"(?P<indent>\s*)\[ STRACE (?P<el>.+?)\] (?P<addrs>.+)\s*", line
         )
 
