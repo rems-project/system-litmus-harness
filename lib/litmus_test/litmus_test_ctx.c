@@ -166,7 +166,15 @@ reg_idx_t idx_from_regname(test_ctx_t* ctx, const char* varname) {
 }
 
 run_count_t run_count_from_idx(test_ctx_t* ctx, run_idx_t idx) {
-  return ctx->shuffled_ixs_inverse[idx];
+  switch (LITMUS_SHUFFLE_TYPE) {
+    case SHUF_NONE:
+      return (run_count_t)idx;
+    case SHUF_RAND:
+      return ctx->shuffled_ixs_inverse[idx];
+    default:
+      fail("! unknown LITMUS_SHUFFLE_TYPE: %d/%s\n", LITMUS_SHUFFLE_TYPE, shuff_type_to_str(LITMUS_SHUFFLE_TYPE));
+      return 0;
+    }
 }
 
 u64* ctx_heap_var_va(test_ctx_t* ctx, u64 varidx, run_idx_t i) {
