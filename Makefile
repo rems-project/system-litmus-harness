@@ -146,6 +146,7 @@ SHOW_PREPROCESSED_OUTPUT = 0
 DEBUG = 0
 
 DEBUG_FLAGS =
+NODEBUG_FLAGS =
 DEBUG_CFLAGS =
 DEBUG_OBJDUMPFLAGS =
 
@@ -153,6 +154,7 @@ ifeq ($(DEBUG),1)
 DEBUG_CFLAGS += -g -gdwarf-4 \
 	-fno-omit-frame-pointer
 DEBUG_CFLAGS += $(patsubst %,-DDEBUG_%=1,$(DEBUG_FLAGS))
+DEBUG_CFLAGS += $(patsubst %,-DDEBUG_%=0,$(NODEBUG_FLAGS))
 DEBUG_OBJDUMPFLAGS += -g -l -r
 else ifeq ($(DEBUG),0)
 else
