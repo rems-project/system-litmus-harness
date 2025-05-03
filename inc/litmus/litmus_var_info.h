@@ -124,6 +124,18 @@ static inline u8 is_backed_var(var_info_t* vinfo) {
   return (vinfo->ty == VAR_HEAP) || (vinfo->ty == VAR_PINNED);
 }
 
+static inline u64 backed_phys_addr(var_info_t* vinfo, run_idx_t run) {
+  switch (vinfo->ty) {
+  case VAR_FIXED:
+    return vinfo->fixed.phys;
+  case VAR_HEAP:
+  case VAR_PINNED:
+    return SAFE_TESTDATA_PA((u64)vinfo->values[run]);
+  default:
+    fail("cannot get backing phys addr for var kind '%s'", var_info_type_to_str(vinfo->ty));
+  }
+}
+
 /**
  * Whether this var_info_t owns a chunk of the (virtual) address space,
  * in which other vars should not be allocated in

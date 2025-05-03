@@ -74,6 +74,7 @@ var_idx_t count_pinned_to(var_info_t** out_vinfos, test_ctx_t* ctx, var_info_t* 
 
 void concretization_precheck(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos);
 void concretization_postcheck(test_ctx_t*, const litmus_test_t* cfg, var_info_t* infos, run_idx_t run);
+void concretization_postcheck_batch(test_ctx_t*, const litmus_test_t* cfg, var_info_t* infos, run_count_t batch_start_idx, run_count_t batch_end_idx);
 void concretize_one(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, void* st, run_idx_t run);
 void concretize(concretize_type_t type, test_ctx_t* ctx, const litmus_test_t* cfg, void* st, run_idx_t no_runs);
 

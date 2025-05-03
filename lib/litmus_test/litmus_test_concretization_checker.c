@@ -106,3 +106,51 @@ void concretization_postcheck(test_ctx_t* ctx, const litmus_test_t* cfg, var_inf
   concretize_postcheck_related_same_bits(ctx, cfg, infos, run);
   concretize_postcheck_aligned(ctx, cfg, infos, run);
 }
+
+/* if one run allocates some PA, the others in the same patch should not.
+ */
+static void
+__concretize_postcheck_batch_var_overlaps_pa(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, run_count_t batch_start_idx, run_count_t this, run_count_t batch_end_idx, var_info_t* var) {
+  var_info_t* other_var;
+  run_idx_t this_idx = count_to_run_index(ctx, this);
+  u64 this_pa = backed_phys_addr(var, this_idx);
+
+  for (run_count_t other = batch_start_idx; other < this; other++) {
+    run_idx_t other_idx = count_to_run_index(ctx, other);
+
+    if (other == this)
+      continue;
+
+    FOREACH_HEAP_VAR(ctx, other_var) {
+      if (! is_backed_var(other_var))
+        continue;
+
+      u64 other_pa = backed_phys_addr(other_var, other_idx);
+
+      if (this_pa == other_pa)
+        fail_postcheck(ctx, cfg, (this < other ? this : other), "overlapping PAs in same batch (var '%s' in run %ld and '%s' in run %ld)", var->name, this, other_var->name, other);
+    }
+  }
+}
+
+static void
+concretize_postcheck_batch_overlaps_pa(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, run_count_t batch_start_idx, run_count_t this, run_count_t batch_end_idx) {
+  var_info_t* var;
+  FOREACH_HEAP_VAR(ctx, var) {
+    if (is_backed_var(var))
+      __concretize_postcheck_batch_var_overlaps_pa(ctx, cfg, infos, batch_start_idx, this, batch_end_idx, var);
+  }
+}
+
+/* post checker for batched ASID runs
+ *
+ * for batched runs with ASIDs, it's okay if there overlap between the runs in the VAs
+ * but not for the PAs.
+ */
+ void concretization_postcheck_batch(test_ctx_t* ctx, const litmus_test_t* cfg, var_info_t* infos, run_count_t batch_start_idx, run_count_t batch_end_idx) {
+  for (run_count_t r = batch_start_idx; r < batch_end_idx; r++) {
+    run_idx_t run = count_to_run_index(ctx, r);
+    concretization_postcheck(ctx, cfg, infos, run);
+    concretize_postcheck_batch_overlaps_pa(ctx, cfg, infos, batch_start_idx, r, batch_end_idx);
+  }
+}

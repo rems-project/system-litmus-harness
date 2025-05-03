@@ -129,6 +129,8 @@ static void allocate_data_for_batch(test_ctx_t* ctx, u64 vcpu, run_count_t batch
           write_init_state(ctx, ctx->cfg, i);
         }
       }
+
+      concretization_postcheck_batch(ctx, ctx->cfg, ctx->heap_vars, batch_start_idx, batch_end_idx);
     }
   }
 }
