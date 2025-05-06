@@ -33,7 +33,7 @@ jobs:
     - name: System dependencies (ubuntu)
       run: |
         sudo apt update
-        sudo apt install build-essential gcc-aarch64-linux-gnu qemu-system-aarch64
+        sudo apt install build-essential gcc-aarch64-linux-gnu clang-format-15 qemu-system-aarch64
 
     - name: Get rust toolchain
       uses: actions-rs/toolchain@v1
@@ -61,6 +61,11 @@ jobs:
       working-directory: rems-project/system-litmus-harness
       run: |
         make -B -s check
+
+    - name: Check for clang-format errors
+      working-directory: rems-project/system-litmus-harness
+      run: |
+        make fmt-check CLANG-FORMAT=clang-format-15
 
     - name: Run unittests
       working-directory: rems-project/system-litmus-harness
