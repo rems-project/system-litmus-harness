@@ -1,0 +1,51 @@
+name: bump
+
+on:
+  pull_request:
+    types:
+      - closed
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  bump-version:
+
+    runs-on: ubuntu-22.04
+
+    if: | 
+        ${{ 
+          (github.event.pull_request.merged == true)
+          && (
+            contains(github.event.pull_request.labels.*.name, 'major')
+            || contains(github.event.pull_request.labels.*.name, 'minor')
+            || contains(github.event.pull_request.labels.*.name, 'patch')
+          )
+        }}
+
+    env:
+      BUMP: |
+        ${{ 
+            (contains(github.event.pull_request.labels.*.name, 'major') && '--major')
+            || (contains(github.event.pull_request.labels.*.name, 'minor') && '--minor')
+            || (contains(github.event.pull_request.labels.*.name, 'patch') && '--patch')
+        }}
+
+    steps:
+
+    - run: mkdir -p rems-project
+
+    - uses: actions/checkout@v3
+      with:
+        path: rems-project/system-litmus-harness
+    
+    - name: Bump version
+      working-directory: rems-project/system-litmus-harness
+      run: |
+        git config user.name github-actions[bot]
+        git config user.email github-actions[bot]@users.noreply.github.com
+        make bump-version NEW_VERSION=$(./tools/bump_version.py "$(cat VERSION)" $BUMP)

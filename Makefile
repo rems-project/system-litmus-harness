@@ -476,3 +476,20 @@ list:
 .PHONY: check
 check: CFLAGS+=-fsyntax-only -Werror
 check: $(COMMON_BIN_FILES) $(litmus_BIN_FILES)
+
+# CI/CD
+
+bump-version:
+	@echo "VERSION:$(file <VERSION) NEW_VERSION:$(NEW_VERSION)"
+ifneq ($(shell git status -s),)
+	@echo error: cannot bump version with untracked changes
+	@exit 1
+endif
+	echo "$(NEW_VERSION)" > VERSION
+	git add VERSION
+	git commit -m "bump: version: $(NEW_VERSION)"
+	git fetch --tags
+	git tag v$(NEW_VERSION)
+	git push origin main
+	git push origin v$(NEW_VERSION)
+.PHONY: bump-version
