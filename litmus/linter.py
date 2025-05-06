@@ -111,7 +111,7 @@ def parse_litmus_code(path, c_code):
     }
 
     init_st = re.search(C_INIT_ST, c_code, re.MULTILINE)
-    thr_blocks = [(int(fun['fname'][1:]), fun) for fname, fun in funs.items() if re.fullmatch('P\d+', fname)]
+    thr_blocks = [(int(fun['fname'][1:]), fun) for fname, fun in funs.items() if re.fullmatch(r'P\d+', fname)]
     threads = [(i, _get_asm(m['fname']), handlers[i]) for (i, m) in thr_blocks]
 
     return {
