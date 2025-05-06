@@ -10,6 +10,8 @@ Simple Usage:
    make test      	run the unittests in QEMU
    make run       	run the litmus tests in QEMU
    make tools      	build supporting tooling
+	 make fmt       	runs clang-format
+	 make fmt-check  	dry-run of clang-format
 endef
 
 define ADV_USAGE
@@ -118,6 +120,7 @@ OBJCOPY = $(PREFIX)objcopy
 OBJDUMP = $(PREFIX)objdump
 QEMU = qemu-system-aarch64
 GDB = $(PREFIX)gdb
+CLANG-FORMAT = clang-format
 
 # dependency roots
 # by default we assume rems-project/ repos are siblings to this one
@@ -493,3 +496,21 @@ endif
 	git push origin main
 	git push origin v$(NEW_VERSION)
 .PHONY: bump-version
+
+.PHONY: fmt lint
+
+# only run clang-format on the library code
+# ... not on all the litmus tests, which have their own linter
+src-files := \
+	$(shell find lib/ inc/ unittests/ -iname '*.[ch]') \
+	$(wildcard litmus/*.[c,h])
+
+fmt:
+	$(call run_cmd,FMT,clang-format,\
+		$(CLANG-FORMAT) -i $(src-files) \
+	)
+
+lint:
+	$(call run_cmd,LINT,clang-format,\
+		$(CLANG-FORMAT) --dry-run -Werror $(src-files) \
+	)
