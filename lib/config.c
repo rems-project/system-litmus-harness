@@ -21,14 +21,9 @@ u8 ONLY_SHOW_MATCHES = 0;
 
 u8 WARNINGS_AS_ERRORS = 0;
 u8 enabled_warnings[] = {
-  [WARN_UNEXPECTED_EXCEPTION] = 1,
-  [WARN_LITMUS_START_ASM] = 0,
-  [WARN_HASH_MISMATCH] = 0,
-  [WARN_MISSING_SC_RESULTS] = 1,
-  [WARN_SKIP_TEST] = 1,
-  [WARN_UNREACHABLE] = 1,
-  [WARN_UNKNONW_REGISTER] = 0,
-  [WARN_ALWAYS] = 1,
+  [WARN_UNEXPECTED_EXCEPTION] = 1, [WARN_LITMUS_START_ASM] = 0, [WARN_HASH_MISMATCH] = 0,
+  [WARN_MISSING_SC_RESULTS] = 1,   [WARN_SKIP_TEST] = 1,        [WARN_UNREACHABLE] = 1,
+  [WARN_UNKNONW_REGISTER] = 0,     [WARN_ALWAYS] = 1,
 };
 
 char* collected_tests[100] = { NULL };
@@ -196,7 +191,7 @@ static void __print_id_cpu(int cpu, void* arg) {
     }
   }
 
-  #define __IDREG(r) sprintf(NEW_BUFFER(outs[i++], 1024), #r ": %p", read_sysreg(r))
+#define __IDREG(r) sprintf(NEW_BUFFER(outs[i++], 1024), #r ": %p", read_sysreg(r))
   sprintf(NEW_BUFFER(outs[i++], 1024), "Implementor: '%c' (%s)", impl, impl_names[impl]);
   sprintf(NEW_BUFFER(outs[i++], 1024), "Part: 0x%lx (%s)", partnum, part_name);
   sprintf(NEW_BUFFER(outs[i++], 1024), "Variant: %ld", variant);
@@ -351,7 +346,7 @@ static void q(char* x) {
   TRACE = 0;
 }
 
-static warnings_t _read_warning_name(char *w) {
+static warnings_t _read_warning_name(char* w) {
   if (strcmp(w, "unexpected-exception"))
     return WARN_UNEXPECTED_EXCEPTION;
   else if (strcmp(w, "litmus-start-asm"))
@@ -377,7 +372,7 @@ static void _set_all_warnings(u8 v) {
   }
 }
 
-static void _parse_warning_flag(char *w) {
+static void _parse_warning_flag(char* w) {
   /* first check for -Wall and -Wnone */
   if (strcmp(w, "all")) {
     _set_all_warnings(1);
@@ -409,12 +404,12 @@ static void _parse_warning_flag(char *w) {
 static void w(char* x) {
   // comma-separated-values
 
-  char *w = x;
-  char *w_end = NULL;
+  char* w = x;
+  char* w_end = NULL;
   bool more = false;
 
   do {
-    for (int i = 0;;i++) {
+    for (int i = 0;; i++) {
       if (w[i] == '\0')
         more = false;
       else if (w[i] == ',')
@@ -429,7 +424,7 @@ static void w(char* x) {
 
     _parse_warning_flag(w);
 
-    w = w_end+1;
+    w = w_end + 1;
   } while (more);
 }
 

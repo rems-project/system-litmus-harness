@@ -24,88 +24,58 @@
  *  }
  */
 #define MAKE_THREADS(n) \
-  n, (th_f*[]) {        \
-    BUILD_THREADS_##n   \
-  }
-#define MAKE_VARS(...)                     \
-  VA_COUNT(__VA_ARGS__), (const char*[]) { \
-    STRINGIFY(__VA_ARGS__)                 \
-  }
-#define MAKE_REGS(...)                     \
-  VA_COUNT(__VA_ARGS__), (const char*[]) { \
-    HUMANIZE(__VA_ARGS__)                  \
-  }
+  n, (th_f*[]) { BUILD_THREADS_##n }
+#define MAKE_VARS(...) \
+  VA_COUNT(__VA_ARGS__), (const char*[]) { STRINGIFY(__VA_ARGS__) }
+#define MAKE_REGS(...) \
+  VA_COUNT(__VA_ARGS__), (const char*[]) { HUMANIZE(__VA_ARGS__) }
 
 /* for defining the initial state */
-#define INIT_STATE(N, ...)                                   \
-  .no_init_states = N, .init_states = (init_varstate_t*[]) { \
-    __VA_ARGS__                                              \
-  }
-#define INIT_VAR(var, value) \
-  &(init_varstate_t) {       \
-    #var, TYPE_HEAP, {       \
-      value                  \
-    }                        \
-  }
-#define INIT_FIX(var, pa) \
-  &(init_varstate_t) {    \
-    #var, TYPE_FIX, {     \
-      pa                  \
-    }                     \
-  }
-#define INIT_PGT(var, value) \
-  &(init_varstate_t) {       \
-    #var, TYPE_PTE, {        \
-      value                  \
-    }                        \
-  }
-#define INIT_ALIAS(var, othervar)         \
-  &(init_varstate_t) {                    \
-    #var, TYPE_ALIAS, {                   \
-      .aliasname = (const char*)#othervar \
-    }                                     \
-  }
-#define INIT_PERMISSIONS(var, prot, value)   \
-  &(init_varstate_t) {                       \
-    #var, TYPE_ATTRS, {                      \
-      .prot_type = prot, .attr_value = value \
-    }                                        \
-  }
-#define INIT_MAIR(value) \
-  &(init_varstate_t) {   \
-    NULL, TYPE_MAIR, {   \
-      value              \
-    }                    \
-  }
-#define INIT_UNMAPPED(var) \
-  &(init_varstate_t) {     \
-    #var, TYPE_UNMAPPED, { \
-      0                    \
-    }                      \
-  }
-#define INIT_IDENTITY_MAP(var) \
+#define INIT_STATE(N, ...) \
+  .no_init_states = N, .init_states = (init_varstate_t*[]) { __VA_ARGS__ }
+#define INIT_VAR(var, value)   \
   &(init_varstate_t) {         \
-    #var, TYPE_IDENTITY_MAP, { \
-      0                        \
-    }                          \
+#var, TYPE_HEAP, { value } \
   }
-#define INIT_REGION_PIN(var, othervar, relation)                          \
-  &(init_varstate_t) {                                                    \
-    #var, TYPE_REGION_PIN, {                                              \
-      .pinned_var_name = (const char*)#othervar, .pinned_level = relation \
-    }                                                                     \
+#define INIT_FIX(var, pa)  \
+  &(init_varstate_t) {     \
+#var, TYPE_FIX, { pa } \
   }
-#define INIT_REGION_OWN(var, ownty) \
-  &(init_varstate_t) {              \
-    #var, TYPE_REGION_OWN, {        \
-      .ownership_level = ownty      \
-    }                               \
+#define INIT_PGT(var, value)  \
+  &(init_varstate_t) {        \
+#var, TYPE_PTE, { value } \
   }
-#define INIT_REGION_OFFSET(var, othervar, relation)                       \
-  &(init_varstate_t) {                                                    \
-    #var, TYPE_REGION_OFFSET, {                                           \
-      .offset_var_name = (const char*)#othervar, .offset_level = relation \
-    }                                                                     \
+#define INIT_ALIAS(var, othervar)                             \
+  &(init_varstate_t) {                                        \
+#var, TYPE_ALIAS, { .aliasname = (const char*)#othervar } \
+  }
+#define INIT_PERMISSIONS(var, prot, value)                       \
+  &(init_varstate_t) {                                           \
+#var, TYPE_ATTRS, { .prot_type = prot, .attr_value = value } \
+  }
+#define INIT_MAIR(value)       \
+  &(init_varstate_t) {         \
+    NULL, TYPE_MAIR, { value } \
+  }
+#define INIT_UNMAPPED(var)     \
+  &(init_varstate_t) {         \
+#var, TYPE_UNMAPPED, { 0 } \
+  }
+#define INIT_IDENTITY_MAP(var)     \
+  &(init_varstate_t) {             \
+#var, TYPE_IDENTITY_MAP, { 0 } \
+  }
+#define INIT_REGION_PIN(var, othervar, relation)                                                   \
+  &(init_varstate_t) {                                                                             \
+#var, TYPE_REGION_PIN, { .pinned_var_name = (const char*)#othervar, .pinned_level = relation } \
+  }
+#define INIT_REGION_OWN(var, ownty)                     \
+  &(init_varstate_t) {                                  \
+#var, TYPE_REGION_OWN, { .ownership_level = ownty } \
+  }
+#define INIT_REGION_OFFSET(var, othervar, relation)                                                   \
+  &(init_varstate_t) {                                                                                \
+#var, TYPE_REGION_OFFSET, { .offset_var_name = (const char*)#othervar, .offset_level = relation } \
   }
 
 /** these are for building the asm blocks automatically

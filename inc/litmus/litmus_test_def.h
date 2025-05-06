@@ -137,8 +137,7 @@ typedef struct
   arch_model_status_t allowed;
 } arch_allow_st;
 
-enum litmus_prereq_feature
-{
+enum litmus_prereq_feature {
   REQUIRES_DEBUG = 1 << 1,
   REQUIRES_PERF = 1 << 2,
   REQUIRES_PGTABLE = 1 << 3,
@@ -199,12 +198,11 @@ typedef struct
   const char* hash;
 } litmus_test_t;
 
-
 /**
  * litmus_test_hash() - Generates a hash from a litmus test.
  *
  * SEE: litmus_test_hash.c for details
  */
-digest litmus_test_hash(const litmus_test_t *test);
+digest litmus_test_hash(const litmus_test_t* test);
 
 #endif /* LITMUS_TEST_DEF_H */

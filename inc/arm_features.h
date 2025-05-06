@@ -35,7 +35,8 @@ enum arm_feature {
  * The Arm architecture defines a 4-bit bitvector for each feature,
  * typically containing the implemented version.
  */
-struct arch_feature_matrix {
+struct arch_feature_matrix
+{
   u8 features[NO_ARM_FEATURES];
 };
 
@@ -77,11 +78,12 @@ struct arch_feature_matrix {
 #define MIDR_FIELD_PartNum 15, 4
 #define MIDR_FIELD_Revision 3, 0
 
-void arch_read_feature_matrix(struct arch_feature_matrix *m_out);
+void arch_read_feature_matrix(struct arch_feature_matrix* m_out);
 u8 arch_feature_version(enum arm_feature id);
 bool arch_has_feature(enum arm_feature id);
 
-struct arm_implementation {
+struct arm_implementation
+{
   char implementor;
   u64 part;
   u64 variant;
@@ -91,8 +93,7 @@ struct arm_implementation {
 void arch_read_implementation(struct arm_implementation* impl_out);
 bool arch_implementation_eq(struct arm_implementation* lhs, struct arm_implementation* rhs);
 
-static inline bool has_aarch64_feat_lse(void)
-{
+static inline bool has_aarch64_feat_lse(void) {
   return arch_has_feature(FEAT_LSE);
 }
 

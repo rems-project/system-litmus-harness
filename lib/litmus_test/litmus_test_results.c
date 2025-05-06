@@ -81,7 +81,7 @@ static void add_results(test_hist_t* res, test_ctx_t* ctx, run_idx_t run) {
       raise_to_el1(); /* can only abort at EL1 */
       fail(
         "overallocated results\n"
-         "this probably means the test had too many outcomes\n"
+        "this probably means the test had too many outcomes\n"
       );
     }
     test_result_t* new_res = res->results[res->allocated];
@@ -124,7 +124,7 @@ void handle_new_result(test_ctx_t* ctx, run_idx_t idx, run_count_t r) {
 static void print_test_header(const litmus_test_t* cfg) {
   static bool first_result = true;
 
-  if (! first_result)
+  if (!first_result)
     printf("\n");
   else
     first_result = false;
@@ -186,7 +186,10 @@ static void print_results_original(test_hist_t* res, test_ctx_t* ctx) {
   if (ctx->cfg->no_sc_results > 0 && no_sc_results_seen != ctx->cfg->no_sc_results && ENABLE_RESULTS_MISSING_SC_WARNING) {
     warning(
       WARN_MISSING_SC_RESULTS,
-      "on %s: saw %d SC results but expected %d\n", ctx->cfg->name, no_sc_results_seen, ctx->cfg->no_sc_results
+      "on %s: saw %d SC results but expected %d\n",
+      ctx->cfg->name,
+      no_sc_results_seen,
+      ctx->cfg->no_sc_results
     );
   }
 }
@@ -248,7 +251,10 @@ static void print_results_herd(test_hist_t* res, test_ctx_t* ctx) {
   if (ctx->cfg->no_sc_results > 0 && no_sc_results_seen != ctx->cfg->no_sc_results && ENABLE_RESULTS_MISSING_SC_WARNING) {
     warning(
       WARN_MISSING_SC_RESULTS,
-      "on %s: saw %d SC results but expected %d\n", ctx->cfg->name, no_sc_results_seen, ctx->cfg->no_sc_results
+      "on %s: saw %d SC results but expected %d\n",
+      ctx->cfg->name,
+      no_sc_results_seen,
+      ctx->cfg->no_sc_results
     );
   }
 }

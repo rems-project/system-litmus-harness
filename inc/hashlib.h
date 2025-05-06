@@ -3,7 +3,8 @@
 
 #include "ints.h"
 
-typedef struct {
+typedef struct
+{
   u32 digest[5];
 } digest;
 

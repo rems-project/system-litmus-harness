@@ -63,9 +63,7 @@ typedef struct
 } bar_t;
 
 #define EMPTY_BAR \
-  (bar_t) {       \
-    0, 0, 0       \
-  }
+  (bar_t) { 0, 0, 0 }
 
 void bwait(int cpu, bar_t* barrier, int sz);
 

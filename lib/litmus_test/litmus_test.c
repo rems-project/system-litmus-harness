@@ -509,12 +509,12 @@ static void check_no_bad_migration(void) {
    * and just fail angrily if that happens.
    */
 
-   if (!arch_implementation_eq(&current_thread_info()->impl, &this_impl)) {
+  if (!arch_implementation_eq(&current_thread_info()->impl, &this_impl)) {
     fail(
       "Caught big.LITTLE migration in the act. "
       "Use AFFINITY=... to pin KVM threads to CPUs.\n"
     );
-   }
+  }
 }
 
 static void start_of_run(test_ctx_t* ctx, int cpu, int vcpu, run_idx_t i, run_count_t r) {

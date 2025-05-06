@@ -361,15 +361,7 @@ void printf_with_fileloc(
 
   /* header is like "(TIMESTAMP) CPUn:log_level:[stack:stack:stack:stack]" */
   sprintf(
-    fmt_buf,
-    "(%s) CPU%d:%s:[%s %s:%d (%s)]",
-    __debug_time_buf,
-    cpu,
-    level,
-    __debug_frame_buf,
-    filename,
-    line,
-    func
+    fmt_buf, "(%s) CPU%d:%s:[%s %s:%d (%s)]", __debug_time_buf, cpu, level, __debug_frame_buf, filename, line, func
   );
 
   if (mode & PRINT_MODE_ERROR) {
@@ -453,7 +445,7 @@ void sprint_time(STREAM* out, u64 clk, time_format_t mode) {
 }
 
 /** printing registers */
-int extract_gpr(const char *reg_name, int* tid, int* gprid) {
+int extract_gpr(const char* reg_name, int* tid, int* gprid) {
   if (reg_name[0] != 'p' || reg_name[2] != ':') {
     return 0;
   }

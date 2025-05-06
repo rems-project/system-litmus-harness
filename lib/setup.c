@@ -146,7 +146,7 @@ void setup(char* fdtloc) {
   verbose("version: %s\n", version_string());
   verbose("build: %s\n", build_string());
 
-  char *output = "";
+  char* output = "";
   if (DEBUG) {
     output = "verbose+trace+debug";
   } else if (TRACE) {
@@ -193,7 +193,7 @@ static void check_homogenous_threads(void) {
    *
    * We do this by checking they all agree with CPU0
    */
-   for (int i = 0; i < NO_CPUS; i++) {
+  for (int i = 0; i < NO_CPUS; i++) {
     if (!arch_implementation_eq(&thread_infos[i].impl, &thread_infos[0].impl)) {
       fail(
         "Detected unsupported heterogenous hardware configuration "
@@ -201,9 +201,8 @@ static void check_homogenous_threads(void) {
         "Use AFFINITY=... to pin KVM threads to CPUs.\n"
       );
     }
-   }
+  }
 }
-
 
 void ensure_cpus_on(void) {
   debug("setting up CPU0\n");

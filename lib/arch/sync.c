@@ -69,7 +69,6 @@ void lamport_unlock(volatile lamport_lock_t* lock) {
   dmb();
 }
 
-
 /** arm64 atomics
  */
 

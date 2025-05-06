@@ -35,11 +35,11 @@
 const char* version_string(void);
 const char* build_string(void);
 
-#define unreachable()                                                        \
-  do {                                                                       \
+#define unreachable()                                                                         \
+  do {                                                                                        \
     warning(WARN_UNREACHABLE, "unreachable: [%s] %s %d\n", __FILE__, __FUNCTION__, __LINE__); \
-    raise_to_el1();                                                          \
-    abort();                                                                 \
+    raise_to_el1();                                                                           \
+    abort();                                                                                  \
   } while (1);
 
 /* some str functions not in <string.h> */

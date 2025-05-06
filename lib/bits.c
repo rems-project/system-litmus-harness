@@ -27,7 +27,7 @@ u32 read_be(char* p) {
 
 void write_be(char* p, u32 v) {
   for (int i = 0; i < 4; i++) {
-    p[i] = (v >> (24 - (8*i))) & 0xff;
+    p[i] = (v >> (24 - (8 * i))) & 0xff;
   }
 }
 
@@ -46,6 +46,6 @@ u64 read_be64(char* p) {
 
 void write_be64(char* p, u64 v) {
   for (int i = 0; i < 8; i++) {
-    p[i] = (v >> (56 - (8*i))) & 0xff;
+    p[i] = (v >> (56 - (8 * i))) & 0xff;
   }
 }

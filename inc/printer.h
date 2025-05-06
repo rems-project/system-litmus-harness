@@ -13,12 +13,10 @@ void puts(const char* s);
 void puthex(u64 n);
 void putdec(u64 n);
 
-enum stream_kind {
-  STREAM_BUFFER,
-  STREAM_UART
-};
+enum stream_kind { STREAM_BUFFER, STREAM_UART };
 
-typedef struct {
+typedef struct
+{
   enum stream_kind kind;
   union {
     char* __buffer;
@@ -29,9 +27,9 @@ typedef struct {
 extern STREAM __UART;
 
 #define UART &__UART
-#define NEW_BUFFER(B,N) (&(STREAM){.kind=STREAM_BUFFER,.__buffer=(B),.rem=(N)})
+#define NEW_BUFFER(B, N) (&(STREAM){ .kind = STREAM_BUFFER, .__buffer = (B), .rem = (N) })
 
-#define PRINT_MODE_NORM  0
+#define PRINT_MODE_NORM 0
 #define PRINT_MODE_TRACE 1
 #define PRINT_MODE_NOINDENT 2
 #define PRINT_MODE_WARNING 4
@@ -48,7 +46,6 @@ void trace(const char* fmt, ...);
 void verbose(const char* fmt, ...);
 void warning(const warnings_t category, const char* fmt, ...);
 void error(const warnings_t category, const char* fmt, ...);
-
 
 /* debug() declared in debug.h */
 

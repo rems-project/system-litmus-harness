@@ -41,7 +41,7 @@ u64 preprocess(const char* buf, u64 bufsize, char** out) {
   return (new_l >> 9);
 }
 
-#define M(MSG, T, I) ((u32*)&(MSG)[(I) * 64])[T]
+#define M(MSG, T, I) ((u32*)&(MSG)[(I)*64])[T]
 
 #define ROTLONE(X) ((X) << 1) | ((X) >> 31)
 

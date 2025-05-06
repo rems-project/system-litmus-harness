@@ -41,9 +41,7 @@ void arch_read_implementation(struct arm_implementation* impl_out) {
 
 bool arch_implementation_eq(struct arm_implementation* lhs, struct arm_implementation* rhs) {
   return (
-       lhs->implementor == rhs->implementor
-    && lhs->part == rhs->part
-    && lhs->revision == rhs->revision
-    && lhs->variant == rhs->variant
+    lhs->implementor == rhs->implementor && lhs->part == rhs->part && lhs->revision == rhs->revision &&
+    lhs->variant == rhs->variant
   );
 }
