@@ -510,7 +510,7 @@ fmt:
 		$(CLANG-FORMAT) -i $(src-files) \
 	)
 
-lint:
+fmt-check:
 	$(call run_cmd,LINT,clang-format,\
 		$(CLANG-FORMAT) --dry-run -Werror $(src-files) \
 	)
