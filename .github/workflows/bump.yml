@@ -48,4 +48,4 @@ jobs:
       run: |
         git config user.name github-actions[bot]
         git config user.email github-actions[bot]@users.noreply.github.com
-        make bump-version NEW_VERSION=$(./tools/bump_version.py "$(cat VERSION)" $BUMP)
+        make bump-version NEW_VERSION=$(./utilities/bump_version.py "$(cat VERSION)" $BUMP)
