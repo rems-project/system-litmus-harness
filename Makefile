@@ -195,7 +195,8 @@ _HEAD_STATUS = $(shell git status -s)
 _HEAD_COMMIT_HASH = $(_HEAD_COMMIT_SHA)$(if $(_HEAD_STATUS),!,)
 _DATE_VERSION = $(shell date '+%y.%m')
 _MINOR_VERSION = $(shell git log HEAD --since=`date '+%Y-%m'`-01 --pretty=format:%ci | wc -l)
-_VERSION = $(_DATE_VERSION)+$(_MINOR_VERSION)
+_BUILD_VERSION = $(_DATE_VERSION)+$(_MINOR_VERSION)
+_SEMVER_VERSION = $(shell cat VERSION)
 
 CFLAGS_DEPS = -MMD -MP -MF $@.d
 CFLAGS = -O0 -nostdlib \
@@ -208,7 +209,8 @@ CFLAGS = -O0 -nostdlib \
 		-Wall $(addprefix -Wno-,$(CCNOWARN)) $(addprefix -Werror=,$(CCERRORS)) \
 		-Wextra -Wno-unused-parameter -Wno-sign-compare \
 		-Wshadow \
-		-D__VERSION_STR__="\"$(_VERSION)\"" \
+		-D__BUILD_STR__="\"$(_BUILD_VERSION)\"" \
+		-D__VERSION_STR__="\"$(_SEMVER_VERSION)\"" \
 		-DCOMMITHASH="\"$(_HEAD_COMMIT_HASH)\"" \
 		$(DEBUG_CFLAGS)
 

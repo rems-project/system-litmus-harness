@@ -33,6 +33,7 @@
 #include "drivers/driver.h"
 
 const char* version_string(void);
+const char* build_string(void);
 
 #define unreachable()                                                        \
   do {                                                                       \

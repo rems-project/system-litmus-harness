@@ -138,6 +138,12 @@ static void version(void) {
   abort();
 }
 
+static void full_version(void) {
+  printf("version: %s\n", version_string());
+  printf("build: %s\n", build_string());
+  abort();
+}
+
 const char* impl_names[0x100] = {
   [0x00] = "Reserved for software use",
   [0x41] = "Arm Limited",
@@ -465,6 +471,13 @@ argdef_t COMMON_ARGS = (argdef_t){
       FLAG_ACTION(
         "-V", "--version", version,
         "display version information and quit\n"
+        "\n"
+        "displays short version info\n",
+        .no_negation = true,
+      ),
+      FLAG_ACTION(
+        NULL, "--build", full_version,
+        "display version+build information and quit\n"
         "\n"
         "displays full version info\n",
         .no_negation = true,

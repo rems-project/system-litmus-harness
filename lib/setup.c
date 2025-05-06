@@ -143,7 +143,8 @@ void setup(char* fdtloc) {
     vmm_pgtables = alloc(sizeof(u64*) * NO_CPUS);
   }
 
-  verbose("build: (%s)\n", version_string());
+  verbose("version: %s\n", version_string());
+  verbose("build: %s\n", build_string());
 
   char *output = "";
   if (DEBUG) {
