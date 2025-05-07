@@ -501,9 +501,8 @@ endif
 
 # only run clang-format on the library code
 # ... not on all the litmus tests, which have their own linter
-src-files := \
-	$(shell find lib/ inc/ unittests/ -iname '*.[ch]') \
-	$(wildcard litmus/*.[c,h])
+# ... or on auto-generated files
+src-files := $(shell ./utilities/list_src_files.py --gitignore --no-include-litmus)
 
 fmt:
 	$(call run_cmd,FMT,clang-format,\
