@@ -5,7 +5,10 @@ on:
     branches:
       - master
       - prepare-litmus-toml-translator
-  # pull_request: {}
+      - wip-github-ci
+  pull_request:
+    branches:
+      - master
 
 # cancel in-progress job when a new push is performed
 concurrency:
