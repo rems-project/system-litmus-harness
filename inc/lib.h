@@ -30,6 +30,8 @@
 #include "stack.h"
 #include "boot.h"
 
+#include "atomics.h"
+
 #include "drivers/driver.h"
 
 const char* version_string(void);
