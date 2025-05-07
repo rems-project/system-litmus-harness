@@ -503,7 +503,7 @@ endif
 	git commit -m "bump: version: $(NEW_VERSION)"
 	git fetch --tags
 	git tag v$(NEW_VERSION)
-	git push origin main
+	git push origin master
 	git push origin v$(NEW_VERSION)
 .PHONY: bump-version
 
