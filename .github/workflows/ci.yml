@@ -52,6 +52,11 @@ jobs:
       run: |
         git clone https://github.com/litmus-tests/litmus-tests-armv8a-system-vmsa/
 
+    - name: Configure harness
+      working-directory: rems-project/system-litmus-harness
+      run: |
+        ./utilities/configure.py --clang-format=clang-format-15
+
     - name: Build harness
       working-directory: rems-project/system-litmus-harness
       run: |
@@ -65,7 +70,7 @@ jobs:
     - name: Check for clang-format errors
       working-directory: rems-project/system-litmus-harness
       run: |
-        make fmt-check CLANG-FORMAT=clang-format-15
+        make fmt-check
 
     - name: Run unittests
       working-directory: rems-project/system-litmus-harness
