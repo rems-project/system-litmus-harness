@@ -1,6 +1,9 @@
 # bin/ stores the intermediate built files
 /bin/
 
+# auto-generated configuration
+/config.mk
+
 # built executables
 /*qemu_*
 /*kvm_*

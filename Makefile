@@ -112,15 +112,25 @@ PREFIXES = kvm qemu qemu_rpi3
 BINTARGETS = litmus unittests
 
 # Compiler and tools options
+-include config.mk
+
+CONFIGURE_CMD ?= ./utilities/configure.py
+
+config.mk: ./utilities/configure.py
+	@echo 'Make: configuration out-of-date, please re-run ./utilities/configure.py script'
+	@echo '      last_invokation: `$(CONFIGURE_CMD)`'
+
+# if no config, or config not fully-specified
+# try guess rest
 KNOWN_PREFIXES = aarch64-linux-gnu- aarch64-none-elf-
-PREFIX = $(word 1, $(foreach PRF,$(KNOWN_PREFIXES),$(if $(shell which $(PRF)gcc),$(PRF),)))
-CC = $(PREFIX)gcc
-LD = $(PREFIX)ld
-OBJCOPY = $(PREFIX)objcopy
-OBJDUMP = $(PREFIX)objdump
-QEMU = qemu-system-aarch64
-GDB = $(PREFIX)gdb
-CLANG-FORMAT = clang-format
+PREFIX ?= $(word 1, $(foreach PRF,$(KNOWN_PREFIXES),$(if $(shell which $(PRF)gcc),$(PRF),)))
+CC ?= $(PREFIX)gcc
+LD ?= $(PREFIX)ld
+OBJCOPY ?= $(PREFIX)objcopy
+OBJDUMP ?= $(PREFIX)objdump
+QEMU ?= qemu-system-aarch64
+GDB ?= $(PREFIX)gdb
+CLANG-FORMAT ?= clang-format
 
 # dependency roots
 # by default we assume rems-project/ repos are siblings to this one
@@ -412,7 +422,7 @@ LITMUS_TARGETS += build-$(t)-$(call stem,$(1))
 # finally put them together into a build-DEVICE target
 # e.g. build-rpi3
 .PHONY: build-$(call stem,$(1))
-build-$(call stem,$(1)): $(foreach t,$(BINTARGETS),$(foreach p,$(PREFIXES),bin/$(call exe_prefix,$(1))$(p)_$(t).exe)) $(foreach t,$(BINTARGETS),$(foreach p,$(PREFIXES),build-$(p)-$(t)-$(call stem,$(1))))
+build-$(call stem,$(1)): $(foreach t,$(BINTARGETS),$(foreach p,$(PREFIXES),bin/$(call exe_prefix,$(1))$(p)_$(t).exe)) $(foreach t,$(BINTARGETS),$(foreach p,$(PREFIXES),build-$(p)-$(t)-$(call stem,$(1)))) config.mk
 LITMUS_TARGETS += build-$(call stem,$(1))
 
 # add a cleanup target
