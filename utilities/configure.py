@@ -124,22 +124,21 @@ class CommandAction(argparse.Action):
         dest = self.dest
         tool = getattr(namespace, dest, None)
         default_tool = defaults["tools"].get(dest, None)
-        prefix = defaults["cross_prefix"]
 
         if self.cross:
             dest_cross_suffix = cross_tool(dest)
             tool_cross_suffix = getattr(namespace, dest_cross_suffix, None)
             default_tool_cross_suffix = defaults["tools"].get(dest_cross_suffix, None)
 
-            if tool is None and tool_cross_suffix is None:
-                if default_tool is not None:
+            if not tool and not tool_cross_suffix:
+                if default_tool:
                     setattr(namespace, dest, default_tool)
-                elif default_tool_cross_suffix is not None:
+                elif default_tool_cross_suffix:
                     setattr(
-                        namespace, dest_cross_suffix, prefix + default_tool_cross_suffix
+                        namespace, dest_cross_suffix, default_tool_cross_suffix
                     )
         else:
-            if tool is None and default_tool is not None:
+            if not tool and default_tool:
                 setattr(namespace, dest, default_tool)
 
 
