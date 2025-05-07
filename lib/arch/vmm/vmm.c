@@ -32,6 +32,11 @@ void vmm_update_pte(u64* pte, u64 new_val, sync_type_t sync_kind, u64 asid_or_va
   }
 
   write_release(pte, new_val);
+
+  if (cpu_needs_workaround(ERRATA_WORKAROUND_ISB_AFTER_PTE_ST)) {
+    dsb();
+    isb();
+  }
 }
 
 void vmm_ensure_level(u64* root, int desired_level, u64 va) {

@@ -240,6 +240,9 @@ static void clean_run_data(
 static void clean_tlb_for_batch(test_ctx_t* ctx, run_count_t batch_start_idx, run_count_t batch_end_idx) {
   dsb();
 
+  if (cpu_needs_workaround(ERRATA_WORKAROUND_ISB_AFTER_PTE_ST))
+    isb();
+
   for (run_count_t r = batch_start_idx; r < batch_end_idx; r++) {
     u64 asid = asid_from_run_count(ctx, r);
     tlbi_asid(asid);

@@ -29,6 +29,7 @@
 #include "re.h"
 #include "stack.h"
 #include "boot.h"
+#include "cpu_errata.h"
 
 #include "atomics.h"
 
