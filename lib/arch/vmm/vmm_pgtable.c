@@ -106,9 +106,9 @@ static void set_block_or_page(u64* root, u64 va, u64 pa, u8 unmap, u64 prot, u64
   desc_t desc = vmm_translation_walk(root, va);
 
   if (!unmap)
-    *desc.src = vmm_make_desc(pa, prot, desc.level);
+    vmm_update_pte(desc.src.ptr, vmm_make_desc(pa, prot, desc.level), SYNC_ALL, 0, false);
   else
-    *desc.src = 0;
+    vmm_update_pte(desc.src.ptr, 0, SYNC_ALL, 0, false);
 }
 
 static void __ptable_set_range(u64* root, u64 pa_start, u64 va_start, u64 va_end, u8 unmap, u64 prot) {

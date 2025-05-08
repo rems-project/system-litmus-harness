@@ -12,6 +12,28 @@ u64** vmm_pgtables;
 
 lock_t _vmm_lock;
 
+void vmm_update_pte(u64* pte, u64 new_val, sync_type_t sync_kind, u64 asid_or_va, bool force) {
+  bool needs_tlb_maintenance = force;
+
+  if (*pte > 0) {
+    write_release(pte, 0);
+    needs_tlb_maintenance = true;
+  }
+
+  if (needs_tlb_maintenance) {
+    if (sync_kind == SYNC_ALL)
+      vmm_flush_tlb();
+    else if (sync_kind == SYNC_ASID)
+      vmm_flush_tlb_asid(asid_or_va);
+    else if (sync_kind == SYNC_VA)
+      vmm_flush_tlb_vaddr(asid_or_va);
+    else
+      dsb();
+  }
+
+  write_release(pte, new_val);
+}
+
 void vmm_ensure_level(u64* root, int desired_level, u64 va) {
   desc_t block_desc = { .level = 0 };
 
@@ -46,7 +68,7 @@ void vmm_ensure_level(u64* root, int desired_level, u64 va) {
       switch (desc.type) {
       case Invalid:
         DEBUG(DEBUG_TRACE_VMM_ENSURES, "writeback invalid %p = 0x%lx\n", &pg[i], write_desc(new_desc));
-        pg[i] = write_desc(desc);
+        vmm_update_pte(&pg[i], write_desc(desc), SYNC_ALL, 0, false);
         break;
 
       case Block:
@@ -59,7 +81,7 @@ void vmm_ensure_level(u64* root, int desired_level, u64 va) {
         new_desc.attrs = block_desc.attrs;
         DEBUG(DEBUG_TRACE_VMM_ENSURES, "writeback block %p = 0x%lx\n", &pg[i], write_desc(new_desc));
 
-        pg[i] = write_desc(new_desc);
+        vmm_update_pte(&pg[i], write_desc(desc), SYNC_ALL, 0, false);
         break;
 
       case Table:
@@ -72,7 +94,7 @@ void vmm_ensure_level(u64* root, int desired_level, u64 va) {
     new_desc.table_addr = (u64)pg;
     new_desc.attrs = (attrs_t){ 0 };
     DEBUG(DEBUG_TRACE_VMM_ENSURES, "writeback table %p = 0x%lx\n", p, write_desc(new_desc));
-    *p = write_desc(new_desc);
+    vmm_update_pte(p, write_desc(new_desc), SYNC_ALL, 0, false);
     current = pg;
   }
 
@@ -94,7 +116,8 @@ desc_t vmm_translation_walk_to_level(u64* root, u64 va, int max_level) {
     valloc_memcpy(parents, desc.parents, 4 * sizeof(u64*));
 
     desc = read_desc(*p, level);
-    desc.src = p;
+    desc.src.has_src = true;
+    desc.src.ptr = p;
     valloc_memcpy(desc.parents, parents, 4 * sizeof(u64*));
     desc.parents[level] = parent;
 
@@ -116,7 +139,8 @@ desc_t vmm_translation_walk(u64* root, u64 va) {
 
 u64* vmm_block(u64* root, u64 va) {
   desc_t desc = vmm_translation_walk(root, va);
-  return desc.src;
+  fail_on(!desc.src.has_src, "bug: desc should have source");
+  return desc.src.ptr;
 }
 
 int vmm_level(u64* root, u64 va) {
@@ -127,7 +151,8 @@ int vmm_level(u64* root, u64 va) {
 u64* vmm_desc_at_level(u64* root, u64 va, int ensure_level, int desc_level) {
   vmm_ensure_level(root, ensure_level, va);
   desc_t desc = vmm_translation_walk_to_level(root, va, desc_level);
-  return desc.src;
+  fail_on(!desc.src.has_src, "bug: desc should have source");
+  return desc.src.ptr;
 }
 
 u64* vmm_pte_at_level(u64* root, u64 va, int level) {
