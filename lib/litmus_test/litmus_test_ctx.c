@@ -197,6 +197,10 @@ u64 asid_from_run_count(test_ctx_t* ctx, run_count_t r) {
     return 1;
 }
 
+u64 asid_from_run(test_ctx_t* ctx, run_idx_t i) {
+  return asid_from_run_count(ctx, run_count_from_idx(ctx, i));
+}
+
 u64* ptable_from_run(test_ctx_t* ctx, run_idx_t i) {
   run_count_t r = run_count_from_idx(ctx, i);
   u64 asid = asid_from_run_count(ctx, r);
