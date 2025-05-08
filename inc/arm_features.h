@@ -82,6 +82,13 @@ void arch_read_feature_matrix(struct arch_feature_matrix* m_out);
 u8 arch_feature_version(enum arm_feature id);
 bool arch_has_feature(enum arm_feature id);
 
+/**
+ * struct arm_implementation - Arm MIDR-defined implementation data
+ * @implementor: the implementor code (e.g. 'A' for Arm, etc)
+ * @part: the primary part number (e.g. 0xD0B for Cortex-A76)
+ * @variant: the architecturally-defined variant (e.g. the x from rxpy Arm version)
+ * @revision: the implementation-defined revision (e.g. the y from rxpy Arm version)
+ */
 struct arm_implementation
 {
   char implementor;
