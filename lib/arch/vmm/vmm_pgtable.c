@@ -106,9 +106,9 @@ static void set_block_or_page(u64* root, u64 va, u64 pa, u8 unmap, u64 prot, u64
   desc_t desc = vmm_translation_walk(root, va);
 
   if (!unmap)
-    *desc.src = vmm_make_desc(pa, prot, desc.level);
+    vmm_update_pte(desc.src.ptr, vmm_make_desc(pa, prot, desc.level), SYNC_ALL, 0, false);
   else
-    *desc.src = 0;
+    vmm_update_pte(desc.src.ptr, 0, SYNC_ALL, 0, false);
 }
 
 static void __ptable_set_range(u64* root, u64 pa_start, u64 va_start, u64 va_end, u8 unmap, u64 prot) {
@@ -475,7 +475,7 @@ void vmm_set_id_translation(u64* pgtable) {
 
   /* now set the new TTBR and TCR */
   u64 asid = 0;
-  u64 ttbr = TTBR0(pgtable, asid);
+  u64 ttbr = MK_TTBR(pgtable, asid);
 
   /* clang-format off */
   u64 tcr = \
@@ -503,22 +503,32 @@ void vmm_set_id_translation(u64* pgtable) {
   set_new_ttable(ttbr, tcr, mair);
 }
 
-void vmm_switch_ttable(u64* new_table) {
-  write_sysreg(TTBR0(new_table, 0), ttbr0_el1);
+static void __vmm_switch_table(u64 new_table, u64 asid) {
+  /* any updates to the pgtables which are still pending
+   * must be done in the current context.
+   * so issue a DSB to ensure that they are complete
+   * before changing the context
+   */
   dsb();
+  if (cpu_needs_workaround(ERRATA_WORKAROUND_ISB_AFTER_PTE_ST))
+    isb();
+
+  write_sysreg(MK_TTBR(new_table, asid), ttbr0_el1);
   isb();
-  vmm_flush_tlb();
+}
+
+void vmm_switch_ttable(u64* new_table) {
+  __vmm_switch_table((u64)new_table, 0);
 }
 
 void vmm_switch_asid(u64 asid) {
   u64 ttbr = read_sysreg(ttbr0_el1);
-  write_sysreg(TTBR0(ttbr, asid), ttbr0_el1);
-  isb(); /* is this needed? */
+  u64 base_addr = ttbr & TTBR0_BADDR_MASK;
+  __vmm_switch_table(base_addr, asid);
 }
 
 void vmm_switch_ttable_asid(u64* new_table, u64 asid) {
-  write_sysreg(TTBR0(new_table, asid), ttbr0_el1);
-  isb();
+  __vmm_switch_table((u64)new_table, asid);
 }
 
 static void _vmm_walk_table(u64* pgtable, int level, u64 va_start, walker_cb_t* cb_f, void* data) {

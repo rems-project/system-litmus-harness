@@ -22,16 +22,19 @@ typedef struct
 
 typedef struct
 {
+  bool has_src;
+  u64* ptr;
+} pte_src_t;
+
+typedef struct
+{
   union {
     u64 oa;
     u64 table_addr;
   };
 
-  /* src/dest of this desc (if applicable) */
-  union {
-    u64* src;
-    u64* dest;
-  };
+  /* src of this desc (if applicable) */
+  pte_src_t src;
 
   /* parent srcs (if applicable) */
   u64* parents[4];

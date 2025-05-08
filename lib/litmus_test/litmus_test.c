@@ -191,7 +191,7 @@ static void setup_run_data(
 
       if (ENABLE_PGTABLE) {
         for (int lvl = 0; lvl < 4; lvl++) {
-          run->tt_entries[v][lvl] = vmm_pte_at_level(ctx->ptables[asid_from_run_count(ctx, r)], (u64)p, lvl);
+          run->tt_entries[v][lvl] = vmm_pte_at_level(ptable_from_run(ctx, i), (u64)p, lvl);
           run->tt_descs[v][lvl] = *run->tt_entries[v][lvl];
         }
 
@@ -223,9 +223,10 @@ static void clean_run_data(
    */
   if (ENABLE_PGTABLE) {
     for (idx = 0, r = batch_start_idx; r < batch_end_idx; r++, idx++) {
+      u64 asid = asid_from_run_count(ctx, r);
       for (var_idx_t v = 0; v < ctx->cfg->no_heap_vars; v++) {
         for (int l = 0; l < 4; l++) {
-          *runs[idx].tt_entries[v][l] = runs[idx].tt_descs[v][l];
+          vmm_update_pte(runs[idx].tt_entries[v][l], runs[idx].tt_descs[v][l], SYNC_ASID, asid, /* force */ true);
         }
       }
     }
@@ -238,6 +239,9 @@ static void clean_run_data(
  */
 static void clean_tlb_for_batch(test_ctx_t* ctx, run_count_t batch_start_idx, run_count_t batch_end_idx) {
   dsb();
+
+  if (cpu_needs_workaround(ERRATA_WORKAROUND_ISB_AFTER_PTE_ST))
+    isb();
 
   for (run_count_t r = batch_start_idx; r < batch_end_idx; r++) {
     u64 asid = asid_from_run_count(ctx, r);
@@ -294,6 +298,8 @@ static void prepare_test_contexts(
 /** switch to a particular run's ASID
  */
 static void switch_to_test_context(test_ctx_t* ctx, int vcpu, run_count_t r, exception_handlers_refs_t* handlers) {
+  run_idx_t i = count_to_run_index(ctx, r);
+
   debug("switching to test context for run %ld\n", r);
 
   /* set sysregs to what the test needs
@@ -303,8 +309,8 @@ static void switch_to_test_context(test_ctx_t* ctx, int vcpu, run_count_t r, exc
   _init_sys_state(ctx);
 
   if (ENABLE_PGTABLE && LITMUS_SYNC_TYPE == SYNC_ASID) {
-    u64 asid = asid_from_run_count(ctx, r);
-    u64* ptable = ctx->ptables[asid];
+    u64* ptable = ptable_from_run(ctx, i);
+    u64 asid = asid_from_run(ctx, i);
     debug("switching to ASID %ld, with ptable = %p\n", asid, ptable);
     vmm_switch_ttable_asid(ptable, asid);
   }

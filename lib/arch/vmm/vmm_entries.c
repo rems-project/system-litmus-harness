@@ -4,8 +4,12 @@
 /* stage 1 attrs */
 attrs_t read_attrs(u64 desc) {
   attrs_t attr = { 0 };
+  /* upper attrs */
   attr.XN = BIT(desc, 54);
-  attr.XN = BIT(desc, 53);
+  attr.PXN = BIT(desc, 53);
+  /* lower attrs */
+  attr.nT = BIT(desc, 16);
+  attr.nG = BIT(desc, 11);
   attr.AF = BIT(desc, 10);
   attr.SH = BIT_SLICE(desc, 9, 8);
   attr.AP = BIT_SLICE(desc, 7, 6);
@@ -58,8 +62,20 @@ desc_t read_desc(u64 entry, int level) {
 }
 
 u64 write_attrs(attrs_t* attrs) {
-  return ((u64)attrs->XN << 54) | ((u64)attrs->PXN << 53) | (attrs->AF << 10) | (attrs->SH << 8) | (attrs->AP << 6) |
-         (attrs->NS << 5) | (attrs->attr << 2);
+  /* clang-format off */
+  u64 enc_attrs = \
+    0                       |
+    ((u64)attrs->XN << 54)  |
+    ((u64)attrs->PXN << 53) |
+    (attrs->nT << 16)       |
+    (attrs->nG << 11)       |
+    (attrs->AF << 10)       |
+    (attrs->SH << 8)        |
+    (attrs->AP << 6)        |
+    (attrs->NS << 5)        |
+    (attrs->attr << 2)      ;
+  /* clang-format on */
+  return enc_attrs;
 }
 
 u64 write_desc(desc_t desc) {
@@ -86,7 +102,19 @@ u64 write_desc(desc_t desc) {
 }
 
 void show_attrs(attrs_t* attrs) {
-  printf("{AF=%d,SH=%p,AP=%p,attr=%p}", attrs->AF, attrs->SH, attrs->AP, attrs->attr);
+  printf(
+    "{XN:%d, PXN:%d, nT:%d, OA[51:48]:%d, nG:%d, AF:%d, SH:%d, AP:%d, NS:%d, attr:%d}",
+    attrs->XN,
+    attrs->PXN,
+    attrs->nT,
+    attrs->OA,
+    attrs->nG,
+    attrs->AF,
+    attrs->SH,
+    attrs->AP,
+    attrs->NS,
+    attrs->attr
+  );
 }
 
 void show_desc(desc_t desc) {

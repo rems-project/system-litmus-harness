@@ -68,6 +68,7 @@ void set_init_pte(test_ctx_t* ctx, var_idx_t varidx, run_idx_t run) {
   u64* va = vinfo->values[run];
   u64* ptable = ptable_from_run(ctx, run);
   u64* pte = vmm_pte(ptable, (u64)vinfo->values[run]);
+  u64 asid = asid_from_run_count(ctx, run_count_from_idx(ctx, run));
 
   DEBUG(
     DEBUG_CONCRETIZATION,
@@ -78,11 +79,13 @@ void set_init_pte(test_ctx_t* ctx, var_idx_t varidx, run_idx_t run) {
     ptable
   );
 
+  desc_t desc;
+
   /* now if it was unmapped we can reset the last-level entry
   * to be invalid
   */
   if (vinfo->ty == VAR_UNMAPPED) {
-    *pte = 0;
+    desc = read_desc(0, 3);
   } else {
     /* otherwise we write the level3 descriptor for this VA
    */
@@ -94,22 +97,18 @@ void set_init_pte(test_ctx_t* ctx, var_idx_t varidx, run_idx_t run) {
     }
 
     u64 default_desc = vmm_make_desc(pg, PROT_DEFAULT_HEAP, 3);
-    *pte = default_desc;
+    desc = read_desc(default_desc, 3);
 
     /* if the initial state specified access permissions
      * overwrite the default ones
      */
     if (vinfo->init_attrs.has_ap) {
-      desc_t desc = read_desc(*pte, 3);
       desc.attrs.AP = vinfo->init_attrs.ap;
-      *pte = write_desc(desc);
     }
 
     /* also set the AttrIdx if it was set */
     if (vinfo->init_attrs.has_attridx) {
-      desc_t desc = read_desc(*pte, 3);
       desc.attrs.attr = vinfo->init_attrs.attridx;
-      *pte = write_desc(desc);
     }
   }
 
@@ -123,31 +122,22 @@ void set_init_pte(test_ctx_t* ctx, var_idx_t varidx, run_idx_t run) {
     u64 otherpa = TESTDATA_MMAP_VIRT_TO_PHYS(otherva);
 
     /* do not copy attrs of otherpte */
-    desc_t desc = read_desc(*pte, 3);
     desc.oa = PAGE(otherpa) << PAGE_SHIFT;
-    *pte = write_desc(desc);
   }
 
-  /* flush TLB now
-   * so that the po-later writes/reads to VA succeed
-   *
-   * N.B. if we want to set MAIR_EL1 or other registers that
-   * might get TLB cached we have to ensure we did so before this point.
-   */
-  if (LITMUS_SYNC_TYPE == SYNC_ALL) {
-    vmm_flush_tlb();
-  } else if (LITMUS_SYNC_TYPE == SYNC_ASID) {
-    /* do nothing
-     * ASIDs get cleaned up on batch creation */
-  } else if (LITMUS_SYNC_TYPE == SYNC_VA) {
-    vmm_flush_tlb_vaddr((u64)va);
-  }
-
-  attrs_t attrs = vmm_read_attrs(ptable, (u64)va);
+  vmm_update_pte(
+    pte,
+    write_desc(desc),
+    LITMUS_SYNC_TYPE,
+    (LITMUS_SYNC_TYPE == SYNC_ASID) ? asid :
+    (LITMUS_SYNC_TYPE == SYNC_VA)   ? (u64)va :
+                                      0,
+    false
+  );
 
   /* TODO: this definitely cannot be here if using SYNC_ASID !
    */
-  if (attrs.AP == PROT_AP_RW_RWX && LITMUS_SYNC_TYPE != SYNC_ASID) {
+  if (desc.attrs.AP == PROT_AP_RW_RWX && LITMUS_SYNC_TYPE != SYNC_ASID) {
     /* we need to clean caches now
     * since one of the mappings might require a NC mapping
     * we have to ensure that it gets flushed out

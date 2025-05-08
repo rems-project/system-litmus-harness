@@ -247,6 +247,12 @@ begin_el1:
   debug("Running at EL = %p\n", read_sysreg(currentel) >> 2);
   debug("VBAR = %p\n", read_sysreg(vbar_el1));
 
+  /* initialise errata workarounds
+   * *before* we create any pagetables
+   * and on each CPU, producing a map of the union of all workarounds
+   */
+  initialise_errata_workarounds();
+
   if (ENABLE_PGTABLE) {
     u64* vmm_pgtable = vmm_alloc_new_4k_pgtable();
     vmm_pgtables[cpu] = vmm_pgtable;

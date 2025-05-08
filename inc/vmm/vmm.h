@@ -190,6 +190,20 @@ void vmm_flush_tlb_vaddr(u64 va);
 void vmm_flush_tlb(void);
 void vmm_flush_tlb_asid(u64 asid);
 
+/* synchronised (with BBM) pgtable updates */
+
+/**
+ * vmm_update_pte() - Write to a pagetable entry.
+ * @pte: location of pagetable entry.
+ * @new_val: new 64-bit descriptor to write to that location.
+ * @sync_kind: what kind of TLB maintenance to perform (by-ALL, by-ASID, by-VA).
+ * @asid_or_va: if sync by-ASID or -VA, the ASID or VA to invalidate for this update.
+ * @force: unconditionally perform TLB maintenance on the location.
+ *
+ * Note: VA should be the full VA, not just the page number.
+ */
+void vmm_update_pte(u64* pte, u64 new_val, sync_type_t sync_kind, u64 asid_or_va, bool force);
+
 /* for debugging and serializing */
 
 /** given a translation table

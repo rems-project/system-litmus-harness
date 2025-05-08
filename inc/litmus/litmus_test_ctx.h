@@ -74,6 +74,7 @@ const char* regname_from_idx(test_ctx_t* ctx, var_idx_t idx);
 
 run_count_t run_count_from_idx(test_ctx_t* ctx, run_idx_t idx);
 u64* ptable_from_run(test_ctx_t* ctx, run_idx_t i);
+u64 asid_from_run(test_ctx_t* ctx, run_idx_t i);
 u64 asid_from_run_count(test_ctx_t* ctx, run_count_t r);
 
 /* for loading var_info_t */
