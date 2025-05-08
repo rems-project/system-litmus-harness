@@ -504,6 +504,15 @@ void vmm_set_id_translation(u64* pgtable) {
 }
 
 static void __vmm_switch_table(u64 new_table, u64 asid) {
+  /* any updates to the pgtables which are still pending
+   * must be done in the current context.
+   * so issue a DSB to ensure that they are complete
+   * before changing the context
+   */
+  dsb();
+  if (cpu_needs_workaround(ERRATA_WORKAROUND_ISB_AFTER_PTE_ST))
+    isb();
+
   write_sysreg(MK_TTBR(new_table, asid), ttbr0_el1);
   isb();
 }
