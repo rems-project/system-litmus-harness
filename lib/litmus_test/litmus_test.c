@@ -223,9 +223,10 @@ static void clean_run_data(
    */
   if (ENABLE_PGTABLE) {
     for (idx = 0, r = batch_start_idx; r < batch_end_idx; r++, idx++) {
+      u64 asid = asid_from_run_count(ctx, r);
       for (var_idx_t v = 0; v < ctx->cfg->no_heap_vars; v++) {
         for (int l = 0; l < 4; l++) {
-          *runs[idx].tt_entries[v][l] = runs[idx].tt_descs[v][l];
+          vmm_update_pte(runs[idx].tt_entries[v][l], runs[idx].tt_descs[v][l], SYNC_ASID, asid, /* force */ true);
         }
       }
     }
