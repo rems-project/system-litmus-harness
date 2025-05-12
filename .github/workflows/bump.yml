@@ -17,7 +17,7 @@ jobs:
 
     runs-on: ubuntu-22.04
 
-    if: | 
+    if: >-
         ${{ 
           (github.event.pull_request.merged == true)
           && (
@@ -28,7 +28,7 @@ jobs:
         }}
 
     env:
-      BUMP: |
+      BUMP: >-
         ${{ 
             (contains(github.event.pull_request.labels.*.name, 'major') && '--major')
             || (contains(github.event.pull_request.labels.*.name, 'minor') && '--minor')
