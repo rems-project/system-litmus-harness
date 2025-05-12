@@ -263,6 +263,13 @@ void sprintf(STREAM* out, const char* fmt, ...) {
   va_end(ap);
 }
 
+void mprintf(int mode, const char* fmt, ...) {
+  va_list ap;
+  va_start(ap, fmt);
+  vprintf(mode, fmt, ap);
+  va_end(ap);
+}
+
 void printf(const char* fmt, ...) {
   va_list ap;
   va_start(ap, fmt);

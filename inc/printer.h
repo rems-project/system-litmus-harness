@@ -39,6 +39,7 @@ void vprintf(int mode, const char* fmt, va_list ap);
 void sprintf(STREAM* out, const char* fmt, ...);
 void vsprintf(STREAM* out, int mode, const char* fmt, va_list ap);
 void printf(const char* fmt, ...);
+void mprintf(int mode, const char* fmt, ...);
 void printf_with_fileloc(
   const char* level_name, int mode, const char* filename, const int line, const char* func, const char* fmt, ...
 );

@@ -9,6 +9,12 @@ extern char* __argv[100];
 /* per-thread boot data */
 cpu_data_t cpu_data[MAX_CPUS];
 
+#define PRINT_CFG(...) \
+  { \
+  if (VERBOSE || FORCE_VERBOSE_SETUP_PRINT) \
+    mprintf(PRINT_MODE_NOINDENT | PRINT_MODE_TRACE, __VA_ARGS__); \
+  }
+
 /** setup is called very early
  * before the UART is enabled
  */
@@ -143,8 +149,8 @@ void setup(char* fdtloc) {
     vmm_pgtables = alloc(sizeof(u64*) * NO_CPUS);
   }
 
-  verbose("version: %s\n", version_string());
-  verbose("build: %s\n", build_string());
+  PRINT_CFG("version: %s\n", version_string());
+  PRINT_CFG("build: %s\n", build_string());
 
   char* output = "";
   if (DEBUG) {
@@ -163,18 +169,18 @@ void setup(char* fdtloc) {
   for (int i = 0; i < collected_tests_count; i++) {
     sprintf(buf, "%s ", collected_tests[i]);
   }
-  verbose("test_patterns: %s\n", pattern);
+  PRINT_CFG("test_patterns: %s\n", pattern);
 
-  verbose("seed: %ld\n", INITIAL_SEED);
-  verbose("pgtable: %ld\n", ENABLE_PGTABLE);
-  verbose("timing: %ld\n", ENABLE_PERF_COUNTS);
-  verbose("no_runs: %ld\n", NUMBER_OF_RUNS);
-  verbose("batch_size: %ld\n", RUNS_IN_BATCH);
-  verbose("tlbsync: %s\n", sync_type_to_str(LITMUS_SYNC_TYPE));
-  verbose("aff: %s\n", aff_type_to_str(LITMUS_AFF_TYPE));
-  verbose("shuffle: %s\n", shuff_type_to_str(LITMUS_SHUFFLE_TYPE));
-  verbose("concretize: %s\n", concretize_type_to_str(LITMUS_CONCRETIZATION_TYPE));
-  verbose("runner: %s\n", runner_type_to_str(LITMUS_RUNNER_TYPE));
+  PRINT_CFG("seed: %ld\n", INITIAL_SEED);
+  PRINT_CFG("pgtable: %ld\n", ENABLE_PGTABLE);
+  PRINT_CFG("timing: %ld\n", ENABLE_PERF_COUNTS);
+  PRINT_CFG("no_runs: %ld\n", NUMBER_OF_RUNS);
+  PRINT_CFG("batch_size: %ld\n", RUNS_IN_BATCH);
+  PRINT_CFG("tlbsync: %s\n", sync_type_to_str(LITMUS_SYNC_TYPE));
+  PRINT_CFG("aff: %s\n", aff_type_to_str(LITMUS_AFF_TYPE));
+  PRINT_CFG("shuffle: %s\n", shuff_type_to_str(LITMUS_SHUFFLE_TYPE));
+  PRINT_CFG("concretize: %s\n", concretize_type_to_str(LITMUS_CONCRETIZATION_TYPE));
+  PRINT_CFG("runner: %s\n", runner_type_to_str(LITMUS_RUNNER_TYPE));
 
   /* sanity check */
   if (ENABLE_PERF_COUNTS && !arch_has_feature(FEAT_PMUv3)) {

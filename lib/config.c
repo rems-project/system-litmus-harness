@@ -17,6 +17,8 @@ u8 VERBOSE = 1; /* start verbose */
 u8 TRACE = 0;
 u8 DEBUG = 0;
 
+u8 FORCE_VERBOSE_SETUP_PRINT = 0;
+
 u8 ONLY_SHOW_MATCHES = 0;
 
 u8 WARNINGS_AS_ERRORS = 0;
@@ -346,6 +348,14 @@ static void q(char* x) {
   TRACE = 0;
 }
 
+static void force_print_header(char* x) {
+  if (x != NULL && *x != '\0') {
+    fail("--force-header did not expect an argument.\n");
+  }
+
+  FORCE_VERBOSE_SETUP_PRINT = 1;
+}
+
 static warnings_t _read_warning_name(char* w) {
   if (strcmp(w, "unexpected-exception"))
     return WARN_UNEXPECTED_EXCEPTION;
@@ -493,6 +503,13 @@ argdef_t COMMON_ARGS = (argdef_t){
         "quiet mode\n"
         "\n"
         "disables verbose/trace and debug output.\n",
+        .arg = OPT_ARG_NONE,
+      ),
+      OPT(
+        NULL, "--force-header", force_print_header,
+        "force initial print of configuration\n"
+        "\n"
+        "\n",
         .arg = OPT_ARG_NONE,
       ),
       OPT(

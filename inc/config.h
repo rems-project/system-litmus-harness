@@ -26,6 +26,8 @@ extern u8 VERBOSE;
 extern u8 TRACE;
 extern u8 DEBUG;
 
+extern u8 FORCE_VERBOSE_SETUP_PRINT;
+
 extern char* collected_tests[100];
 extern u64 collected_tests_count;
 extern u8 ONLY_SHOW_MATCHES;
