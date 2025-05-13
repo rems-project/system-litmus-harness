@@ -1,0 +1,104 @@
+name: build-translator
+
+on:
+  # on any push/pr to the translator tools
+  push:
+    branches:
+      - master
+      - wip-github-ci
+    paths:
+      - 'tools/litmus-toml-translator/**'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'tools/litmus-toml-translator/**'
+  # or just once a month
+  schedule:
+    - cron: '0 0 1 * *'
+
+# cancel in-progress job when a new push is performed
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    timeout-minutes: 5
+    steps:
+    - run: mkdir -p rems-project litmus-tests
+
+    - uses: actions/checkout@v3
+      with:
+        path: rems-project/system-litmus-harness
+
+    - name: System dependencies (ubuntu)
+      run: |
+        sudo apt update
+        sudo apt install -y build-essential gcc-aarch64-linux-gnu
+
+    - name: Configure harness
+      working-directory: rems-project/system-litmus-harness
+      run: |
+        ./utilities/configure.py
+
+    - name: Build harness
+      working-directory: rems-project/system-litmus-harness
+      run: |
+        make build
+
+    - name: Setup rems-project dependencies
+      working-directory: rems-project
+      run: |
+        git clone https://github.com/rems-project/isla
+        git clone https://github.com/rems-project/isla-snapshots
+
+    - name: Setup litmus-tests org dependencies
+      working-directory: litmus-tests
+      run: |
+        git clone https://github.com/litmus-tests/litmus-tests-armv8a-system-vmsa/
+
+    - name: Restore Cargo cache
+      id: cache-rust-restore
+      uses: actions/cache/restore@v4
+      with:
+        path: |
+          ~/.rustup
+          ~/.cargo
+        key: toml-translator-rust
+
+    - name: Get rust toolchain
+      if: steps.cache-rust-restore.outputs.cache-hit != 'true'
+      uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: stable
+
+    - name: Build tools
+      working-directory: rems-project/system-litmus-harness
+      run: |
+        make tools
+
+    - name: Save Cargo cache
+      uses: actions/cache/save@v4
+      if: steps.cache-rust-restore.outputs.cache-hit != 'true'
+      with:
+        path: |
+          ~/.rustup
+          ~/.cargo
+        key: toml-translator-rust
+  
+    - name: Run TOML translator
+      working-directory: rems-project/system-litmus-harness
+      run: |
+        make translate-toml-tests
+
+    - name: Compile translated tests
+      working-directory: rems-project/system-litmus-harness
+      run: |
+        # should automatically discover and build new tests
+        make build
+        # validate by checking an arbitrarily-picked test was actually compiled
+        [ -f ./bin/litmus/litmus_tests/generated/pgtable/CoWinvT+po.litmus.toml.o ]

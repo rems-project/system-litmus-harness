@@ -1,0 +1,58 @@
+name: build-harness
+
+on:
+  push:
+    branches:
+      - master
+      - wip-github-ci
+  pull_request:
+    branches:
+      - master
+
+# cancel in-progress job when a new push is performed
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    timeout-minutes: 5
+    steps:
+    - run: mkdir -p rems-project
+
+    - uses: actions/checkout@v3
+      with:
+        path: rems-project/system-litmus-harness
+
+    - name: System dependencies (ubuntu)
+      run: |
+        sudo apt update
+        sudo apt install -y build-essential gcc-aarch64-linux-gnu clang-format-15 qemu-system-aarch64
+
+    - name: Configure harness
+      working-directory: rems-project/system-litmus-harness
+      run: |
+        ./utilities/configure.py --clang-format=clang-format-15
+
+    - name: Build harness
+      working-directory: rems-project/system-litmus-harness
+      run: |
+        make build
+
+    - name: Check for compiler warnings
+      working-directory: rems-project/system-litmus-harness
+      run: |
+        make -B -s check
+
+    - name: Check for clang-format errors
+      working-directory: rems-project/system-litmus-harness
+      run: |
+        make fmt-check
+
+    - name: Run unittests
+      working-directory: rems-project/system-litmus-harness
+      run: |
+        ./qemu_unittests --no-test-linear-concretization | tee log
+        [ $(tail -c -2 log) -eq 0 ]

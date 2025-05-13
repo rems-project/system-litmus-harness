@@ -43,7 +43,7 @@ jobs:
       with:
         path: rems-project/system-litmus-harness
         ssh-key: ${{ secrets.DEPLOY_KEY }}
-    
+
     - name: Bump version
       working-directory: rems-project/system-litmus-harness
       run: |
