@@ -38,8 +38,11 @@ class VersionInfo:
         match field:
             case VersionField.MAJOR:
                 self.major += 1
+                self.minor = 0
+                self.patch = 0
             case VersionField.MINOR:
                 self.minor += 1
+                self.patch = 0
             case VersionField.PATCH:
                 self.patch += 1
             case _:
